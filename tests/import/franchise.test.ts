@@ -57,4 +57,11 @@ describe('createMediaStore', () => {
     expect((await franchiseRoot(3, store.getMedia)).id).toBe(1)
     expect(calls).toHaveLength(3)
   })
+  it('seeded media the fetcher never returns still resolves to itself', async () => {
+    const store = createMediaStore(async () => [])
+    const node = m(8)
+    store.seed([node])
+    await store.prefetch([8])
+    expect((await franchiseRoot(8, store.getMedia)).id).toBe(8)
+  })
 })

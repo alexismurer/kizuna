@@ -81,5 +81,13 @@ export function createMediaStore(fetchMedia: (ids: number[]) => Promise<Media[]>
     return ids.map((i) => map.get(i)).filter((m): m is Media => !!m)
   }
 
-  return { prefetch, getMedia }
+  /** Pre-load media nodes already in hand so they are never refetched. */
+  function seed(nodes: Media[]) {
+    for (const m of nodes) {
+      map.set(m.id, m)
+      tried.add(m.id)
+    }
+  }
+
+  return { prefetch, getMedia, seed }
 }

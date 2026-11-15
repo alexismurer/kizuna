@@ -59,9 +59,9 @@ async function main() {
   let maxNumber: number = top[0]?.number ?? 0
 
   const store = createMediaStore(fetchMedia)
-  await store.prefetch(
-    ranked.filter((c) => !existing.has(c.id)).map((c) => c.media.nodes[0].id),
-  )
+  const fresh = ranked.filter((c) => !existing.has(c.id))
+  store.seed(fresh.map((c) => c.media.nodes[0]))
+  await store.prefetch(fresh.map((c) => c.media.nodes[0].id))
   const memo = new Map<number, Media>()
   const seriesIds = new Map<number, number>()
   let inserted = 0
