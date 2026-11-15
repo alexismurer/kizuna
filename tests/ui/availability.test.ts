@@ -7,7 +7,8 @@ const pack = (kind: PackType["kind"]): PackType => ({
 });
 const status = (o: Partial<Status>): Status => ({
   freeStock: 3, nextFreeAt: null, currency: 0, untilGolden: 1, untilPity: 1,
-  dailyOpenedToday: false, rewardPacks: {}, ...o,
+  dailyOpenedToday: false, rewardPacks: {},
+  missionsClaimable: 0, dailyDone: 0, streakDay: 1, streakClaimedToday: true, ...o,
 });
 
 describe("packAvailability", () => {

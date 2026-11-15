@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Ellipsis, Gamepad2, House, Layers, Package, Store, Target } from "lucide-react";
+import { Ellipsis, Gamepad2, House, Layers, ListChecks, Package, Store } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SignOutButton } from "@/components/SignOutButton";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -12,8 +12,9 @@ const item = "flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] font-medi
 
 // Phone tab bar: Home, Collection, a raised Open button, Market, More.
 // Hidden on md and up.
-export function BottomNav() {
+export function BottomNav({ missionsClaimable }: { missionsClaimable: number }) {
   const t = useTranslations("nav");
+  const tb = useTranslations("topbar");
   const pathname = usePathname();
   const [sheet, setSheet] = useState<"boosters" | "more" | null>(null);
 
@@ -99,7 +100,23 @@ export function BottomNav() {
         <Sheet label={t("moreTitle")} onClose={() => setSheet(null)}>
           <div className="flex flex-col gap-1">
             {soon(Gamepad2, t("play"))}
-            {soon(Target, t("missions"))}
+            <Link
+              href="/missions"
+              onClick={() => setSheet(null)}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+            >
+              <ListChecks className="h-5 w-5" aria-hidden />
+              <span className="flex-1">{t("missions")}</span>
+              {missionsClaimable > 0 && (
+                <>
+                  <span data-testid="claimable-dot" aria-hidden className="h-2.5 w-2.5 rounded-full bg-accent" />
+                  <span className="sr-only">
+                    {", "}
+                    {tb("missionsClaimable", { count: missionsClaimable })}
+                  </span>
+                </>
+              )}
+            </Link>
             <div className="mt-2 overflow-hidden rounded-xl border border-border">
               <SignOutButton />
             </div>

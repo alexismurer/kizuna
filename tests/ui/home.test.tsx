@@ -6,6 +6,7 @@ import { BoosterGrid, type HomePack } from "@/components/home/BoosterGrid";
 import { Hero, type HeroSlide } from "@/components/home/Hero";
 import { PackSidePanel } from "@/components/home/PackSidePanel";
 import { StatusTiles } from "@/components/home/StatusTiles";
+import { TopBar } from "@/components/TopBar";
 import type { Status } from "@/lib/game/types";
 import messages from "../../messages/en.json";
 
@@ -17,6 +18,13 @@ vi.mock("@/i18n/navigation", () => ({
   ),
   useRouter: () => ({ refresh: vi.fn() }),
 }));
+
+const loadStatus = vi.hoisted(() => vi.fn());
+vi.mock("@/lib/supabase/boosters", () => ({ loadStatus }));
+vi.mock("next-intl/server", async () => {
+  const { createTranslator } = await import("next-intl");
+  return { getTranslations: async () => createTranslator({ locale: "en", messages }) };
+});
 
 const rpc = vi.fn();
 const inIds = vi.fn();
@@ -51,6 +59,10 @@ const status = (o: Partial<Status> = {}): Status => ({
   untilPity: 120,
   dailyOpenedToday: false,
   rewardPacks: {},
+  missionsClaimable: 0,
+  dailyDone: 0,
+  streakDay: 1,
+  streakClaimedToday: true,
   ...o,
 });
 
@@ -217,6 +229,51 @@ describe("StatusTiles", () => {
     wrap(<StatusTiles status={status({ untilPity: 7 })} />);
     expect(screen.getAllByText("7").length).toBeGreaterThan(0);
     expect(screen.queryByText(messages.home.tiles.pityNext)).toBeNull();
+  });
+});
+
+describe("StatusTiles progress", () => {
+  it("shows daily missions and the login streak linking to the missions page", () => {
+    wrap(<StatusTiles status={status({ dailyDone: 2, streakDay: 4 })} />);
+    for (const name of [/2\/3 daily missions/, /Day 4 login streak/]) {
+      expect(screen.getByRole("link", { name })).toHaveAttribute("href", "/missions");
+    }
+    // the phone tiles link too
+    expect(screen.getAllByRole("link")).toHaveLength(4);
+  });
+
+  it("orders the desktop chips: free, daily, streak, golden, pity", () => {
+    const { container } = render(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <StatusTiles status={status({ dailyDone: 1, streakDay: 2 })} />
+      </NextIntlClientProvider>,
+    );
+    const chips = container.querySelector(".md\\:flex")!.children;
+    expect([...chips].map((c) => c.textContent)).toEqual([
+      "3/10 free boosters",
+      "1/3 daily missions",
+      "Day 2 login streak",
+      "4 before the golden booster",
+      "120 until a sure Mythic",
+    ]);
+  });
+});
+
+describe("TopBar", () => {
+  it("links to the missions page with a dot and count when rewards are claimable", async () => {
+    loadStatus.mockResolvedValue(status({ missionsClaimable: 3 }));
+    wrap(await TopBar());
+    const link = screen.getByRole("link", { name: /Missions/ });
+    expect(link).toHaveAttribute("href", "/missions");
+    expect(link).toHaveTextContent("3 rewards to claim");
+    expect(within(link).getByTestId("claimable-dot")).toBeInTheDocument();
+  });
+
+  it("shows no dot when nothing is claimable", async () => {
+    loadStatus.mockResolvedValue(status());
+    wrap(await TopBar());
+    const link = screen.getByRole("link", { name: /Missions/ });
+    expect(within(link).queryByTestId("claimable-dot")).toBeNull();
   });
 });
 

@@ -30,4 +30,8 @@ export interface Status {
   untilPity: number
   dailyOpenedToday: boolean
   rewardPacks: Record<string, number>
+  missionsClaimable: number
+  dailyDone: number
+  streakDay: number
+  streakClaimedToday: boolean
 }

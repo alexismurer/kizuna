@@ -45,6 +45,10 @@ const status: Status = {
   untilPity: 120,
   dailyOpenedToday: false,
   rewardPacks: {},
+  missionsClaimable: 0,
+  dailyDone: 0,
+  streakDay: 1,
+  streakClaimedToday: true,
 };
 const PACKS = [pack("mix", "free"), pack("shonen", "free"), pack("hall_of_fame", "shop", { price: 750 })];
 
@@ -67,7 +71,7 @@ afterEach(() => {
 
 describe("BottomNav", () => {
   it("renders five items with the Open button in the middle", () => {
-    wrap(<BottomNav />);
+    wrap(<BottomNav missionsClaimable={0} />);
     const nav = screen.getByRole("navigation", { name: messages.nav.label });
     const items = within(nav).getAllByRole("listitem");
     expect(items).toHaveLength(5);
@@ -77,13 +81,31 @@ describe("BottomNav", () => {
   });
 
   it("loads the boosters only when the Open button opens the sheet", async () => {
-    wrap(<BottomNav />);
+    wrap(<BottomNav missionsClaimable={0} />);
     expect(load).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("button", { name: messages.nav.open }));
     const sheet = screen.getByRole("dialog", { name: messages.home.grid.title });
     expect(within(sheet).getByRole("status")).toHaveTextContent(messages.sheet.loading);
     expect(await within(sheet).findByRole("button", { name: /^Mix/ })).toBeInTheDocument();
     expect(load).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("More sheet", () => {
+  it("links to the missions page with the claimable dot", () => {
+    wrap(<BottomNav missionsClaimable={2} />);
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));
+    const sheet = screen.getByRole("dialog", { name: messages.nav.moreTitle });
+    const link = within(sheet).getByRole("link", { name: /Missions/ });
+    expect(link).toHaveAttribute("href", "/missions");
+    expect(within(link).getByTestId("claimable-dot")).toBeInTheDocument();
+  });
+
+  it("hides the dot when nothing is claimable", () => {
+    wrap(<BottomNav missionsClaimable={0} />);
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));
+    const link = screen.getByRole("link", { name: /Missions/ });
+    expect(within(link).queryByTestId("claimable-dot")).toBeNull();
   });
 });
 

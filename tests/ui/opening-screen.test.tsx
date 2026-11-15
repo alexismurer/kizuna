@@ -47,6 +47,10 @@ const status = (o: Partial<Status> = {}): Status => ({
   untilPity: 120,
   dailyOpenedToday: false,
   rewardPacks: {},
+  missionsClaimable: 0,
+  dailyDone: 0,
+  streakDay: 1,
+  streakClaimedToday: true,
   ...o,
 });
 

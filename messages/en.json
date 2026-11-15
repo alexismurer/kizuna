@@ -25,7 +25,12 @@
       "shortFree": "free",
       "shortGolden": "to golden",
       "shortPity": "to Mythic",
-      "shortPityNext": "Mythic next"
+      "shortPityNext": "Mythic next",
+      "daily": "daily missions",
+      "streakDay": "Day {n}",
+      "streak": "login streak",
+      "shortDaily": "missions",
+      "shortStreak": "streak"
     },
     "tabs": {
       "free": "Free",
@@ -90,7 +95,8 @@
     "currency": "Currency",
     "account": "Account menu",
     "signOut": "Sign out",
-    "notifications": "Notifications (soon)"
+    "notifications": "Notifications (soon)",
+    "missionsClaimable": "{count, plural, one {# reward} other {# rewards}} to claim"
   },
   "rarity": {
     "common": "Common",
@@ -502,5 +508,9 @@
         "desc": "Complete 25 trades"
       }
     }
+  },
+  "loginReward": {
+    "toast": "Day {day} login · +{reward, number}",
+    "golden": "Next booster is golden"
   }
 }

@@ -1,4 +1,4 @@
-import { Bell, Coins, Package, User } from "lucide-react";
+import { Bell, Coins, ListChecks, Package, User } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
@@ -9,7 +9,7 @@ export async function TopBar() {
   const t = await getTranslations();
   const status = await loadStatus();
   if (!status) return null;
-  const { freeStock, currency } = status;
+  const { freeStock, currency, missionsClaimable } = status;
 
   const disabled = ["market", "play", "more"] as const;
 
@@ -56,6 +56,26 @@ export async function TopBar() {
           {currency}
         </span>
       </div>
+      <Link
+        href="/missions"
+        className="relative flex h-8 w-8 shrink-0 items-center justify-center gap-2 rounded-full border border-border text-sm hover:text-accent md:w-auto md:px-3"
+      >
+        <ListChecks className="h-4 w-4" aria-hidden />
+        <span className="sr-only md:not-sr-only">{t("nav.missions")}</span>
+        {missionsClaimable > 0 && (
+          <>
+            <span
+              data-testid="claimable-dot"
+              aria-hidden
+              className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-panel bg-accent"
+            />
+            <span className="sr-only">
+              {", "}
+              {t("topbar.missionsClaimable", { count: missionsClaimable })}
+            </span>
+          </>
+        )}
+      </Link>
       <button
         type="button"
         disabled

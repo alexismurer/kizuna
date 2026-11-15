@@ -27,7 +27,7 @@ export type TopCardRow = {
 };
 type Pool = { name: string; series_ids: number[] } | null;
 
-// The player's status, once per request (top bar, bottom nav, home).
+// The player's status, once per request (top bar, bottom nav, login claim, home).
 export const loadStatus = cache(async () => {
   const supabase = await createServerClient();
   const { data } = await supabase.rpc("my_status");
