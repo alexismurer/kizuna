@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 import { fetchCharacterPage, fetchMedia, type CharacterNode, type Media } from './anilist'
 import { rarityForRank, statsForRank, themesFor } from './derive'
-import { franchiseRoot } from './franchise'
+import { createMediaStore, franchiseRoot } from './franchise'
 
 dotenv.config({ path: '.env.local', quiet: true })
 
@@ -58,6 +58,10 @@ async function main() {
   if (topErr) throw topErr
   let maxNumber: number = top[0]?.number ?? 0
 
+  const store = createMediaStore(fetchMedia)
+  await store.prefetch(
+    ranked.filter((c) => !existing.has(c.id)).map((c) => c.media.nodes[0].id),
+  )
   const memo = new Map<number, Media>()
   const seriesIds = new Map<number, number>()
   let inserted = 0
@@ -67,7 +71,7 @@ async function main() {
     if (existing.has(c.id)) continue
     const rank = i + 1
     const media = c.media.nodes[0]
-    const root = await franchiseRoot(media.id, fetchMedia, memo)
+    const root = await franchiseRoot(media.id, store.getMedia, memo)
 
     let seriesId = seriesIds.get(root.id)
     if (seriesId === undefined) {
