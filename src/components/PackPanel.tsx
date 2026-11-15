@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { packAvailability } from "@/lib/game/availability";
 import { packChances } from "@/lib/game/odds";
 import { RARITIES, type PackType, type Status } from "@/lib/game/types";
 import { PackArt } from "./PackArt";
@@ -36,18 +37,15 @@ export function PackPanel({
     (a, f) => (RARITIES.indexOf(f) > RARITIES.indexOf(a) ? f : a),
     pack.slotFloors[0],
   );
-  const isDaily = pack.kind === "daily" || pack.kind === "seasonal";
-  const isFree = pack.kind === "free";
-  const label = isFree
-    ? t("pack.openFree", { count: status.freeStock })
-    : isDaily
-      ? status.dailyOpenedToday
-        ? t("home.dailyDone")
-        : t("pack.openDaily")
-      : t("pack.openPrice", { price: pack.price ?? 0 });
-  const unavailable = isFree
-    ? status.freeStock <= 0
-    : isDaily && status.dailyOpenedToday;
+  const { mode, unavailable } = packAvailability(pack, status);
+  const label =
+    mode === "free"
+      ? t("pack.openFree", { count: status.freeStock })
+      : mode === "daily"
+        ? status.dailyOpenedToday
+          ? t("home.dailyDone")
+          : t("pack.openDaily")
+        : t("pack.openPrice", { price: pack.price ?? 0 });
 
   return (
     <section className="flex flex-col gap-4 rounded-xl border border-border bg-panel p-4 sm:flex-row">

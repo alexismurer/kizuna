@@ -22,10 +22,10 @@ const cards: RevealCard[] = Array.from({ length: 5 }, (_, i) => ({
   },
 }));
 
-function setup() {
+function setup(onDone = vi.fn()) {
   render(
     <NextIntlClientProvider locale="en" messages={messages}>
-      <PackOpening cards={cards} total={120} onDone={vi.fn()} onAgain={vi.fn()} />
+      <PackOpening cards={cards} total={120} onDone={onDone} onAgain={vi.fn()} />
     </NextIntlClientProvider>,
   );
 }
@@ -51,5 +51,26 @@ describe("PackOpening", () => {
     expect(revealed()).toBe(5);
     expect(screen.getByText("Done")).toBeInTheDocument();
     expect(screen.getByText("Open another")).toBeInTheDocument();
+  });
+
+  it("Space flips while unfinished but does not hijack buttons when finished", () => {
+    setup();
+    const space = () => fireEvent.keyDown(window, { key: " " });
+    expect(space()).toBe(false);
+    expect(revealed()).toBe(1);
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(space()).toBe(true);
+    expect(screen.getByText("Done")).toHaveFocus();
+  });
+
+  it("Escape after finished calls onDone; Enter flips from the stage", () => {
+    const onDone = vi.fn();
+    setup(onDone);
+    fireEvent.keyDown(screen.getByTestId("reveal-stage"), { key: "Enter" });
+    expect(revealed()).toBe(1);
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(onDone).not.toHaveBeenCalled();
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(onDone).toHaveBeenCalledTimes(1);
   });
 });

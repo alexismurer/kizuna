@@ -26,6 +26,8 @@ export function PackOpening({
   const t = useTranslations("reveal");
   const [shown, setShown] = useState(0);
   const [flash, setFlash] = useState<string | null>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const doneRef = useRef<HTMLButtonElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const finished = shown >= cards.length;
 
@@ -50,15 +52,22 @@ export function PackOpening({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setShown(cards.length);
-      else if (e.key === " ") {
+      if (e.key === "Escape") {
+        if (finished) onDone();
+        else setShown(cards.length);
+      } else if (e.key === " " && !finished) {
         e.preventDefault();
         flip();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [flip, cards.length]);
+  }, [flip, cards.length, finished, onDone]);
+
+  useEffect(() => {
+    if (finished) doneRef.current?.focus();
+    else stageRef.current?.focus();
+  }, [finished]);
 
   useEffect(() => () => clearTimeout(timer.current), []);
 
@@ -68,6 +77,7 @@ export function PackOpening({
     <div
       role="dialog"
       aria-modal="true"
+      aria-label={t("dialog")}
       className="fixed inset-0 z-50 flex flex-col bg-bg/95"
     >
       {flash && (
@@ -77,7 +87,11 @@ export function PackOpening({
         />
       )}
       <div
+        ref={stageRef}
         data-testid="reveal-stage"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") flip();
+        }}
         role="button"
         tabIndex={0}
         aria-label={t("stage")}
@@ -124,6 +138,7 @@ export function PackOpening({
               </button>
             )}
             <button
+              ref={doneRef}
               type="button"
               onClick={onDone}
               className="rounded-md border border-border px-5 py-2"
