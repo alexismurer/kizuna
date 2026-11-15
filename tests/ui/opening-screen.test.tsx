@@ -132,11 +132,14 @@ describe("OpeningScreen", () => {
 
     expect(rpc).toHaveBeenCalledTimes(1);
     expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 5, p_max_cost: 450 });
-    expect(screen.queryByTestId("reveal-placeholder")).toBeNull();
+    expect(screen.queryByTestId("reveal-flow")).toBeNull();
 
     await act(async () => resolve({ data: rows, error: null }));
-    expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
+    expect(await screen.findByTestId("reveal-flow")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
+    expect(screen.getByTestId("reveal-placeholder")).toBeInTheDocument();
     expect(screen.getByText("Placeholder Hero")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: messages.opening.done })).toHaveAttribute("href", "/");
     expect(rpc).toHaveBeenCalledTimes(1);
   });
 
@@ -146,7 +149,7 @@ describe("OpeningScreen", () => {
     fireEvent.click(openButton());
     expect(screen.queryByRole("alertdialog")).toBeNull();
     expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 1, p_max_cost: 0 });
-    expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
+    expect(await screen.findByTestId("reveal-flow")).toBeInTheDocument();
   });
 
   it("with warnPaid off a paid open calls immediately", async () => {
@@ -157,7 +160,7 @@ describe("OpeningScreen", () => {
     fireEvent.click(openButton());
     expect(screen.queryByRole("alertdialog")).toBeNull();
     expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 5, p_max_cost: 450 });
-    expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
+    expect(await screen.findByTestId("reveal-flow")).toBeInTheDocument();
   });
 
   it("shows RPC errors and no reveal", async () => {
@@ -167,7 +170,7 @@ describe("OpeningScreen", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent(
       messages.errors.insufficient_currency,
     );
-    expect(screen.queryByTestId("reveal-placeholder")).toBeNull();
+    expect(screen.queryByTestId("reveal-flow")).toBeNull();
   });
 
   it("focuses Cancel in the paid confirm, Esc cancels and focus returns to Open", () => {
@@ -246,7 +249,7 @@ describe("OpeningScreen", () => {
     hold(820);
     expect(rpc).toHaveBeenCalledTimes(1);
     expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 1, p_max_cost: 0 });
-    expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
+    expect(await screen.findByTestId("reveal-flow")).toBeInTheDocument();
     expect(rpc).toHaveBeenCalledTimes(1);
   });
 
@@ -288,12 +291,40 @@ describe("OpeningScreen", () => {
     expect(packEl()).toHaveAttribute("data-tear", "sealed");
   });
 
+  it("marks only the first copy of a new card as new", async () => {
+    rpc.mockResolvedValue({
+      data: [
+        { pack_index: 1, slot: 1, card_id: 7, rarity: "common", is_new: true },
+        { pack_index: 1, slot: 2, card_id: 7, rarity: "common", is_new: true },
+      ],
+      error: null,
+    });
+    wrap();
+    fireEvent.click(openButton());
+    await screen.findByTestId("reveal-flow");
+    fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
+    expect(screen.getAllByText(messages.reveal.new)).toHaveLength(1);
+  });
+
+  it("taps through the reveal to the result list", async () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    fireEvent.click(openButton());
+    await screen.findByTestId("reveal-flow");
+    fireEvent.keyDown(window, { key: " ", code: "Space" });
+    fireEvent.keyUp(window, { key: " ", code: "Space" });
+    expect(screen.getByText("Placeholder Hero", { selector: "h2" })).toBeInTheDocument();
+    fireEvent.keyDown(window, { key: " ", code: "Space" });
+    fireEvent.keyUp(window, { key: " ", code: "Space" });
+    expect(screen.getByTestId("reveal-placeholder")).toBeInTheDocument();
+  });
+
   it("Enter on the pack opens", async () => {
     rpc.mockResolvedValue({ data: rows, error: null });
     wrap();
     fireEvent.keyDown(packEl(), { key: "Enter" });
     expect(rpc).toHaveBeenCalledTimes(1);
-    expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
+    expect(await screen.findByTestId("reveal-flow")).toBeInTheDocument();
   });
 
   describe("with a laid-out pack (200×300)", () => {
@@ -371,9 +402,9 @@ describe("OpeningScreen", () => {
     wrap();
     hold(900);
     await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
-    expect(screen.queryByTestId("reveal-placeholder")).toBeNull();
+    expect(screen.queryByTestId("reveal-flow")).toBeNull();
     expect(
-      await screen.findByTestId("reveal-placeholder", {}, { timeout: 3000 }),
+      await screen.findByTestId("reveal-flow", {}, { timeout: 3000 }),
     ).toBeInTheDocument();
   });
 });

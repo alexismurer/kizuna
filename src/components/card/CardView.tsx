@@ -20,7 +20,7 @@ export type CardFace = {
   aura: number;
 };
 
-const COLOR: Record<Rarity, string> = {
+export const COLOR: Record<Rarity, string> = {
   common: "var(--color-common)",
   uncommon: "var(--color-uncommon)",
   rare: "var(--color-rare)",

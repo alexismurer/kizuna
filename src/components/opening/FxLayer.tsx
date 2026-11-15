@@ -10,8 +10,9 @@ const SHARD_LIFE = 1.1; // s
 type Particle = { x: number; y: number; r: number; vx: number; vy: number; phase: number; light: number };
 type Shard = { x: number; y: number; vx: number; vy: number; a: number; va: number; w: number; h: number; light: number; hue: number; age: number };
 
-// Where shards burst from: the torn top edge of the pack, in viewport pixels.
-export type Burst = { x: number; y: number; w: number; id: number };
+// Where shards burst from (the torn top edge of the pack, or a revealed card),
+// in viewport pixels; hue and count override the pack colour and SHARDS.
+export type Burst = { x: number; y: number; w: number; id: number; hue?: number; count?: number };
 
 // Slowly rising motes in the pack colour, plus confetti shards thrown out of
 // the pack when it is torn. Not rendered when animations are off; paused while
@@ -30,7 +31,8 @@ export function FxLayer({
 
   useEffect(() => {
     if (!enabled || !burst) return;
-    for (let i = 0; i < SHARDS; i++) {
+    const base = burst.hue ?? hue;
+    for (let i = 0; i < (burst.count ?? SHARDS); i++) {
       const white = Math.random() < 0.3;
       shards.current.push({
         x: burst.x + Math.random() * burst.w,
@@ -42,7 +44,7 @@ export function FxLayer({
         w: 3 + Math.random() * 5,
         h: 2 + Math.random() * 3,
         light: white ? 95 : 55 + Math.random() * 25,
-        hue: hue + (Math.random() - 0.5) * 60,
+        hue: base + (Math.random() - 0.5) * 60,
         age: 0,
       });
     }

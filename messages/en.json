@@ -93,7 +93,15 @@
     "another": "Open another",
     "done": "Done",
     "stage": "Reveal next card",
-    "dialog": "Pack opening"
+    "dialog": "Pack opening",
+    "tapToFlip": "Tap the card to flip it",
+    "next": "Swipe or tap for the next one",
+    "keys": "Space: next · hold: fast forward",
+    "revealAll": "Reveal all",
+    "booster": "Booster {n}/{count}",
+    "counter": "Card {n} of {total}",
+    "flip": "Flip the card",
+    "strip": "Revealed cards"
   },
   "opening": {
     "back": "Boosters",

@@ -9,6 +9,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { usePrefs } from "@/lib/fx/prefs";
 import { rpcErrorKey } from "@/lib/game/errors";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
+import { newFlags } from "@/lib/opening/best";
 import { paymentFor, quantityOptions } from "@/lib/opening/quantity";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { FxLayer, type Burst } from "./FxLayer";
@@ -16,6 +17,7 @@ import { OpeningHeader } from "./OpeningHeader";
 import { PackStage, type TearPhase } from "./PackStage";
 import { PaidConfirm } from "./PaidConfirm";
 import { QuantitySelect } from "./QuantitySelect";
+import { RevealFlow } from "./RevealFlow";
 
 export type OpeningPack = Pick<PackType, "id" | "kind" | "price" | "slotFloors"> & {
   fallbackPrice: number | null;
@@ -76,6 +78,8 @@ export function OpeningScreen({
   const [added, setAdded] = useState(false);
   const openRef = useRef<HTMLButtonElement>(null);
   const [opened, setOpened] = useState<OpenedCard[] | null>(null);
+  const [revealed, setRevealed] = useState(false);
+  const [packCount, setPackCount] = useState(1);
   const [tear, setTear] = useState<TearPhase>("sealed");
   const [burst, setBurst] = useState<Burst | null>(null);
   const animations = prefs.animations;
@@ -128,6 +132,7 @@ export function OpeningScreen({
       setBusy(true);
       setError(null);
       setAdded(false);
+      setRevealed(false);
       let ok = false;
       try {
         const supabase = createBrowserClient();
@@ -154,16 +159,18 @@ export function OpeningScreen({
           setAdded(true);
           return;
         }
+        const fresh = newFlags(rows);
         const byId = new Map(
           (cardRows as unknown as CardRow[]).map((c) => [c.id, c]),
         );
+        setPackCount(count);
         setOpened(
-          rows.map((r) => {
+          rows.map((r, i) => {
             const c = byId.get(r.card_id)!;
             const s = Array.isArray(c.series) ? c.series[0] : c.series;
             return {
               rarity: r.rarity,
-              isNew: r.is_new,
+              isNew: fresh[i],
               packIndex: r.pack_index,
               card: {
                 id: c.id,
@@ -206,6 +213,8 @@ export function OpeningScreen({
     setTear("torn");
     requestOpen();
   }
+
+  const onRevealed = useCallback(() => setRevealed(true), []);
 
   const closeConfirm = useCallback(() => {
     setConfirming(false);
@@ -254,7 +263,16 @@ export function OpeningScreen({
       />
 
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center gap-3 px-4 pb-6">
-        {opened && tear !== "out" ? (
+        {opened && tear !== "out" && !revealed ? (
+          <RevealFlow
+            cards={opened.map((c) => ({ ...c, card: { ...c.card, total } }))}
+            packCount={packCount}
+            onDone={onRevealed}
+            animations={animations}
+            sound={prefs.sound}
+            onBurst={setBurst}
+          />
+        ) : opened && revealed ? (
           <section
             data-testid="reveal-placeholder"
             className="flex w-full max-w-4xl flex-col items-center gap-5 py-4"
