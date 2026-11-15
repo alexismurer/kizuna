@@ -103,6 +103,42 @@ describe('open_pack', () => {
     expect((await player(userId)).pity).toBe(0)
   })
 
+  it('pity applies to the last slot of a short pack', async () => {
+    const { userId } = await newPlayer({ pity: 249, currency: 100 })
+    const { data, error } = await openAs(userId, 'mini', [0.5])
+    expect(error).toBeNull()
+    const rows = data as Row[]
+    expect(rows).toHaveLength(3)
+    expect(rows[2].rarity).toBe('mythic')
+    expect((await player(userId)).pity).toBe(0)
+  })
+
+  it('golden applies to the last slot of a short pack', async () => {
+    const { userId } = await newPlayer({ standardOpened: 9, currency: 100 })
+    const { data, error } = await openAs(userId, 'mini', [0.5, ...Array(6).fill(0)])
+    expect(error).toBeNull()
+    expect(rank((data as Row[])[2].rarity)).toBeGreaterThanOrEqual(rank('epic'))
+  })
+
+  it('divine applies to the last slot of a short pack', async () => {
+    const { userId } = await newPlayer({ currency: 100 })
+    const { data, error } = await openAs(userId, 'mini', [0.0001])
+    expect(error).toBeNull()
+    const rows = data as Row[]
+    expect(rows).toHaveLength(3)
+    expect(rows.every((r) => rank(r.rarity) >= rank('epic'))).toBe(true)
+    expect(rows[2].rarity).toBe('mythic')
+  })
+
+  it('pity applies to the last slot of a long pack', async () => {
+    const { userId } = await newPlayer({ pity: 249, currency: 550 })
+    const { data, error } = await openAs(userId, 'chest', [0.5])
+    expect(error).toBeNull()
+    const rows = data as Row[]
+    expect(rows).toHaveLength(20)
+    expect(rows[19].rarity).toBe('mythic')
+  })
+
   it('increments pity without a mythic', async () => {
     const { userId } = await newPlayer({ pity: 5 })
     const { error } = await openAs(userId, 'mix', [0.5, ...Array(10).fill(0)])

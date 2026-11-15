@@ -139,13 +139,13 @@ begin
   v_forced := array_fill(null::rarity, array[v_n]);
   if coalesce(p_rng[v_i], random()) < 1.0 / 2000 then
     v_floors := array_fill('epic'::rarity, array[v_n]);
-    v_forced[5] := 'mythic';
+    v_forced[v_n] := 'mythic';
   elsif v_standard then
-    if (v_player.standard_opened + 1) % 10 = 0 and v_floors[5] < 'epic' then
-      v_floors[5] := 'epic';
+    if (v_player.standard_opened + 1) % 10 = 0 and v_floors[v_n] < 'epic' then
+      v_floors[v_n] := 'epic';
     end if;
     if v_player.pity + 1 >= 250 then
-      v_forced[5] := 'mythic';
+      v_forced[v_n] := 'mythic';
     end if;
   end if;
   v_i := v_i + 1;
