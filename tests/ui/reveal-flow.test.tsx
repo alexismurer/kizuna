@@ -160,6 +160,46 @@ describe("RevealFlow", () => {
     expect(onDone).not.toHaveBeenCalled();
   });
 
+  it("focuses the card on mount and after each advance", () => {
+    wrap();
+    expect(card()).toHaveFocus();
+    fireEvent.click(card());
+    fireEvent.click(card());
+    expect(screen.getByTestId("reveal-counter")).toHaveTextContent("2/2");
+    expect(card()).toHaveFocus();
+  });
+
+  it("Escape reveals all", () => {
+    const onDone = wrap();
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(onDone).toHaveBeenCalledTimes(1);
+  });
+
+  it("hides the back face from assistive tech once flipped", () => {
+    wrap();
+    fireEvent.click(card());
+    expect(screen.queryByRole("img", { name: messages.card.backAlt })).toBeNull();
+  });
+
+  it("shows up to three cards left in the stack, fewer as it empties", () => {
+    wrap({ cards: [1, 2, 3, 4, 5].map((i) => make(i, "common")) });
+    expect(screen.getAllByTestId("reveal-stack")).toHaveLength(3);
+    for (let i = 0; i < 6; i++) fireEvent.click(card()); // to card 4 of 5
+    expect(screen.getByTestId("reveal-counter")).toHaveTextContent("4/5");
+    expect(screen.getAllByTestId("reveal-stack")).toHaveLength(1);
+    fireEvent.click(card());
+    fireEvent.click(card());
+    expect(screen.queryAllByTestId("reveal-stack")).toHaveLength(0);
+  });
+
+  it("shakes a wrapper, not the card that slid in", () => {
+    wrap({ cards: [make(1, "legendary")], animations: true });
+    fireEvent.click(card());
+    expect(card()).toHaveClass("reveal-in");
+    expect(card()).not.toHaveClass("reveal-shake");
+    expect(card().parentElement).toHaveClass("reveal-shake");
+  });
+
   it("groups the strip by pack and shows the pack counter for a multi-open", () => {
     wrap({
       cards: [make(1, "common", 1), make(2, "rare", 1), make(3, "common", 2)],

@@ -100,6 +100,17 @@ export function RevealFlow({
 
   useEffect(() => () => clearTimeout(shakeTimer.current), []);
 
+  // keyboard users land on the card, and stay on it as cards change
+  useEffect(() => {
+    cardRef.current?.focus({ preventScroll: true });
+  }, [state.index]);
+
+  // warm the next card's art so it is there when that card flips
+  const nextImage = cards[state.index + 1]?.card.imageUrl;
+  useEffect(() => {
+    if (nextImage) new Image().src = nextImage;
+  }, [nextImage]);
+
   useEffect(() => {
     let hold: ReturnType<typeof setTimeout> | undefined;
     let fast: ReturnType<typeof setInterval> | undefined;
@@ -125,6 +136,8 @@ export function RevealFlow({
       } else if (e.key === "Enter" || e.key === "ArrowRight") {
         e.preventDefault();
         if (!e.repeat) latest.current("tap");
+      } else if (e.key === "Escape" && !e.repeat) {
+        latest.current("revealAll");
       }
     };
     const onUp = (e: KeyboardEvent) => {
@@ -176,7 +189,7 @@ export function RevealFlow({
   return (
     <section
       data-testid="reveal-flow"
-      className="flex w-full flex-1 flex-col items-center gap-3"
+      className={`flex w-full flex-1 flex-col items-center gap-3 ${animations ? "" : "fx-still"}`}
     >
       <div
         aria-hidden
@@ -213,49 +226,53 @@ export function RevealFlow({
         className="relative flex w-full flex-1 touch-none select-none items-center justify-center"
       >
         <div className="relative" style={{ height: CARD_HEIGHT, aspectRatio: "2 / 3" }}>
-          {/* the rest of the stack, peeking out behind the current card */}
-          {[2, 1].map(
+          {/* the rest of the stack behind the current card, thinning as it empties */}
+          {[3, 2, 1].map(
             (d) =>
               left >= d && (
                 <div
                   key={d}
                   aria-hidden
-                  className="absolute inset-0 rounded-xl border border-border bg-[#0d0d14]"
-                  style={{ transform: `translate(${d * 5}px, ${d * 5}px)`, opacity: 1 - d * 0.3 }}
+                  data-testid="reveal-stack"
+                  className="absolute inset-0 rounded-xl border border-[#d9b45a]/50 bg-[#14141c] shadow-[0_6px_18px_rgb(0_0_0/0.6)]"
+                  style={{
+                    transform: `translate(${d * 7}px, ${d * -5}px) rotate(${d * 2.2}deg)`,
+                    opacity: 1 - d * 0.18,
+                  }}
                 />
               ),
           )}
-          <div
-            key={index}
-            ref={cardRef}
-            role="button"
-            tabIndex={0}
-            aria-label={up ? t("reveal.stage") : t("reveal.flip")}
-            data-testid="reveal-card"
-            data-flipped={up}
-            onClick={onCardClick}
-            className={`absolute inset-0 cursor-pointer rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white/70 ${animations ? "reveal-in" : ""} ${
-              shaking ? "reveal-shake" : ""
-            }`}
-            style={{ perspective: "1200px" }}
-          >
+          <div className={`absolute inset-0 ${shaking ? "reveal-shake" : ""}`}>
             <div
-              className="relative h-full w-full"
-              style={{
-                transformStyle: "preserve-3d",
-                transition: ease,
-                transform: up ? "rotateY(180deg)" : "none",
-              }}
+              key={index}
+              ref={cardRef}
+              role="button"
+              tabIndex={0}
+              aria-label={up ? t("reveal.stage") : t("reveal.flip")}
+              data-testid="reveal-card"
+              data-flipped={up}
+              onClick={onCardClick}
+              className={`absolute inset-0 cursor-pointer rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white/70 ${animations ? "reveal-in" : ""}`}
+              style={{ perspective: "1200px" }}
             >
-              <div className="absolute inset-0 backface-hidden *:h-full *:w-full!">
-                <CardBack size="lg" glowRarity={TEASE.has(current.rarity) ? current.rarity : null} />
-              </div>
               <div
-                aria-hidden={!up}
-                className="absolute inset-0 backface-hidden *:h-full *:w-full!"
-                style={{ transform: "rotateY(180deg)" }}
+                className="relative h-full w-full"
+                style={{
+                  transformStyle: "preserve-3d",
+                  transition: ease,
+                  transform: up ? "rotateY(180deg)" : "none",
+                }}
               >
-                <CardView card={current.card} size="lg" isNew={current.isNew} />
+                <div aria-hidden={up} className="absolute inset-0 backface-hidden *:h-full *:w-full!">
+                  <CardBack size="lg" glowRarity={TEASE.has(current.rarity) ? current.rarity : null} />
+                </div>
+                <div
+                  aria-hidden={!up}
+                  className="absolute inset-0 backface-hidden *:h-full *:w-full!"
+                  style={{ transform: "rotateY(180deg)" }}
+                >
+                  <CardView card={current.card} size="lg" isNew={current.isNew} />
+                </div>
               </div>
             </div>
           </div>
