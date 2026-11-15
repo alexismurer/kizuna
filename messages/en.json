@@ -4,15 +4,69 @@
   },
   "home": {
     "title": "Collect your favourite anime characters",
-    "dailyKicker": "Daily pack",
-    "dailyOpen": "Open the daily pack",
-    "dailyDone": "Back tomorrow",
-    "dailyNone": "No daily pack today",
+    "hero": {
+      "carousel": "Featured boosters",
+      "slide": "Show slide {n}",
+      "eyebrowDaily": "Daily pack · Free",
+      "eyebrowSeasonal": "Limited booster",
+      "taglineNone": "Come back tomorrow for a new themed selection.",
+      "openDaily": "Open the daily pack",
+      "openSeasonal": "Open the booster",
+      "done": "Back tomorrow",
+      "none": "No daily pack today",
+      "see": "See the booster"
+    },
+    "tiles": {
+      "free": "free boosters",
+      "next": "+1 in {time}",
+      "golden": "before the golden booster",
+      "pity": "until a sure Mythic",
+      "pityNext": "Next booster is a sure Mythic"
+    },
     "tabs": {
       "free": "Free",
-      "daily": "Daily",
+      "daily": "Daily & limited",
       "shop": "Shop"
+    },
+    "grid": {
+      "title": "Choose your booster",
+      "fullscreen": "Full screen",
+      "exitFullscreen": "Exit full screen",
+      "free": "Free",
+      "cards": "{count} cards",
+      "empty": "Nothing here yet."
+    },
+    "panel": {
+      "cards": "cards per booster",
+      "floor": "or better, guaranteed",
+      "pity": "until a sure Mythic",
+      "pityNext": "guaranteed on the next booster",
+      "golden": "before the golden one",
+      "characters": "See the {count} characters",
+      "chances": "Chance per booster",
+      "oddsNote": "Odds exclude golden and pity bonuses.",
+      "openFree": "Open · Free · {count} left",
+      "openPrice": "Open · {price}",
+      "noFree": "No free boosters left",
+      "nextFree": "Next free one in {time}"
+    },
+    "bigPulls": {
+      "title": "Big pulls",
+      "live": "Live",
+      "empty": "No big pulls yet. Open a booster and be the first!",
+      "justNow": "just now"
     }
+  },
+  "characters": {
+    "title": "{name} characters",
+    "count": "{count, plural, one {# character} other {# characters}}",
+    "page": "Page {page} of {pages}",
+    "prev": "Previous",
+    "next": "Next",
+    "empty": "No characters in this booster today.",
+    "back": "Boosters",
+    "copies": "×{count}",
+    "notOwned": "Not owned yet"
   },
   "nav": {
     "boosters": "Boosters",
@@ -66,34 +120,9 @@
     "cost_changed": "Your free boosters changed — check the price and try again.",
     "unknown": "Something went wrong. Please try again."
   },
-  "chips": {
-    "free": "Free boosters",
-    "next": "next in {time}",
-    "golden": "Until golden",
-    "pity": "Until sure Mythic",
-    "pityNext": "next Mythic pack"
-  },
-  "pack": {
-    "cards": "{count} cards per pack",
-    "floor": "Guaranteed {rarity} or better",
-    "golden": "{count} packs until golden",
-    "pity": "{count} packs until sure Mythic",
-    "pityNext": "Next standard pack with a Mythic pool is a sure Mythic",
-    "chances": "Chance of at least one",
-    "openFree": "Free · {count} left",
-    "openPrice": "Open · {price}",
-    "openDaily": "Open the daily pack",
-    "opening": "Opening…",
-    "oddsNote": "Odds exclude golden and pity bonuses."
-  },
   "reveal": {
-    "hint": "Tap or press Space to flip",
-    "skip": "Press Escape to reveal all",
     "new": "NEW",
-    "another": "Open another",
-    "done": "Done",
     "stage": "Reveal next card",
-    "dialog": "Pack opening",
     "tapToFlip": "Tap the card to flip it",
     "next": "Swipe or tap for the next one",
     "keys": "Space: next · hold: fast forward",
