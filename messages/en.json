@@ -4,5 +4,56 @@
   },
   "home": {
     "title": "Collect your favourite anime characters"
+  },
+  "nav": {
+    "boosters": "Boosters",
+    "collection": "Collection",
+    "market": "Market",
+    "play": "Play",
+    "more": "More",
+    "soon": "Soon"
+  },
+  "topbar": {
+    "freeBoosters": "Free boosters",
+    "currency": "Currency",
+    "account": "Account menu",
+    "signOut": "Sign out"
+  },
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary",
+    "mythic": "Mythic"
+  },
+  "login": {
+    "title": "Sign in",
+    "discord": "Continue with Discord",
+    "devHeading": "Dev login",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "failed": "Sign-in failed. Check your details and try again."
+  },
+  "invite": {
+    "title": "Join with an invite",
+    "code": "Invite code",
+    "username": "Username",
+    "submit": "Join",
+    "hint": "Username must be 3 to 20 characters."
+  },
+  "errors": {
+    "no_free_boosters": "No free boosters available right now.",
+    "insufficient_currency": "Not enough currency.",
+    "pack_unavailable": "This pack is not available.",
+    "daily_already_opened": "You already opened today's pack.",
+    "not_enough_duplicates": "Not enough duplicates.",
+    "invalid_invite": "That invite code is not valid.",
+    "username_taken": "That username is already taken.",
+    "already_player": "You have already joined.",
+    "not_a_player": "You need to join with an invite first.",
+    "unknown": "Something went wrong. Please try again."
   }
 }
