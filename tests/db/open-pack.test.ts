@@ -50,7 +50,7 @@ describe('open_pack', () => {
   it('rejects when no free boosters', async () => {
     const { client } = await newPlayer({ freeStock: 0 })
     const { error } = await client.rpc('open_pack', { p_pack: 'mix' })
-    expect(error?.message).toContain('no_free_boosters')
+    expect(error?.message).toContain('insufficient_currency')
   })
 
   it('rejects a shop pack without enough currency', async () => {
@@ -186,7 +186,7 @@ describe('open_pack', () => {
     const { userId, client } = await newPlayer({ freeStock: 2 })
     const results = await Promise.all([1, 2, 3].map(() => client.rpc('open_pack', { p_pack: 'mix' })))
     expect(results.filter((r) => r.error === null)).toHaveLength(2)
-    expect(results.filter((r) => r.error?.message.includes('no_free_boosters'))).toHaveLength(1)
+    expect(results.filter((r) => r.error?.message.includes('insufficient_currency'))).toHaveLength(1)
     expect((await player(userId)).free_stock).toBe(0)
   })
 

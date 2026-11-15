@@ -28,3 +28,6 @@ npm-debug.log*
 
 # importer cache
 scripts/import-anilist/.cache/
+
+# phone layout check output
+.phone-check/
