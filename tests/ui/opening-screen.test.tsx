@@ -72,16 +72,24 @@ const cardRows = [
   },
 ];
 
-function wrap(s: Status = status()) {
+function wrap(s: Status = status(), p: OpeningPack = pack) {
   render(
     <NextIntlClientProvider locale="en" messages={messages}>
-      <OpeningScreen pack={pack} status={s} total={100} />
+      <OpeningScreen pack={p} status={s} total={100} />
     </NextIntlClientProvider>,
   );
 }
 
+const chest: OpeningPack = {
+  id: "chest",
+  kind: "shop",
+  price: 550,
+  fallbackPrice: null,
+  slotFloors: ["common", "common", "common", "common", "rare"],
+};
+
 const openButton = () =>
-  screen.getByRole("button", { name: /^(Open ·|Open the|Free|\d+ free)/ });
+  screen.getByRole("button", { name: /^(Open ·|Open the|Free|Reward|\d+ free)/ });
 const packEl = () => screen.getByRole("button", { name: messages.opening.openBooster });
 
 let now = 0;
@@ -133,6 +141,34 @@ describe("OpeningScreen", () => {
     expect(screen.queryByRole("alertdialog")).toBeNull();
     expect(rpc).not.toHaveBeenCalled();
     expect(openButton()).toHaveTextContent("Free · 2 left");
+  });
+
+  it("a granted chest opens ×1 for free without currency", async () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap(status({ currency: 0, rewardPacks: { chest: 1 } }), chest);
+    expect(screen.getByText("Reward ×1")).toBeInTheDocument();
+    expect(openButton()).toHaveTextContent("Reward · 1 left");
+    expect(openButton()).toBeEnabled();
+    fireEvent.click(openButton());
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "chest", p_count: 1, p_max_cost: 0 });
+    expect(await screen.findByTestId("reveal-flow")).toBeInTheDocument();
+  });
+
+  it("uses reward packs first and asks only for the paid ones", () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap(status({ currency: 5000, rewardPacks: { chest: 1 } }), chest);
+    fireEvent.click(screen.getByRole("radio", { name: "×5" }));
+    expect(openButton()).toHaveTextContent("1 free + 2200");
+    fireEvent.click(openButton());
+    expect(screen.getByRole("alertdialog")).toHaveTextContent("4 boosters paid with currency");
+    fireEvent.click(screen.getByRole("button", { name: messages.opening.confirm }));
+    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "chest", p_count: 5, p_max_cost: 2200 });
+  });
+
+  it("shows no reward badge without reward packs", () => {
+    wrap(status({ rewardPacks: { chest: 1 } }));
+    expect(screen.queryByText(/Reward ×/)).toBeNull();
   });
 
   it("labels a mixed open with free count and cost", () => {

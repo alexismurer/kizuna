@@ -6,8 +6,10 @@ import { useTranslations } from "next-intl";
 import { price, TABS, tabOf, type HomePack, type Tab } from "@/components/home/BoosterGrid";
 import { PackSidePanel } from "@/components/home/PackSidePanel";
 import { EMBLEM, HUE } from "@/components/PackArt";
+import { RewardBadge } from "@/components/RewardBadge";
 import { getSheetBoosters } from "@/lib/actions/boosterSheet";
 import type { Status } from "@/lib/game/types";
+import { rewardsFor } from "@/lib/opening/quantity";
 import type { SheetBoosters } from "@/lib/supabase/boosters";
 import { Sheet } from "./Sheet";
 
@@ -102,6 +104,7 @@ export function BoosterPicker({
           {inTab.map((p) => {
             const on = selected?.id === p.id;
             const cost = price(p, status);
+            const rewards = rewardsFor(p, status);
             const Icon = EMBLEM[p.id] ?? Package;
             const hue = HUE[p.id] ?? 330;
             return (
@@ -129,7 +132,9 @@ export function BoosterPicker({
                       {t(`packs.${p.id}.tagline`)}
                     </span>
                   </span>
-                  {cost === null ? (
+                  {rewards > 0 ? (
+                    <RewardBadge count={rewards} />
+                  ) : cost === null ? (
                     <span className="text-sm font-semibold text-uncommon">{t("home.grid.free")}</span>
                   ) : (
                     <span className="flex items-center gap-1 text-sm font-semibold text-cta">

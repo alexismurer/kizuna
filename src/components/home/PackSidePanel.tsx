@@ -1,12 +1,14 @@
 "use client";
 
 import { Package } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { EMBLEM, HUE } from "@/components/PackArt";
+import { RewardBadge } from "@/components/RewardBadge";
 import { Link } from "@/i18n/navigation";
 import { packAvailability } from "@/lib/game/availability";
 import { packChances } from "@/lib/game/odds";
 import { RARITIES, type PackType, type Status } from "@/lib/game/types";
+import { rewardsFor } from "@/lib/opening/quantity";
 import { formatClock, useCountdown } from "./useCountdown";
 
 export type HomePack = PackType & {
@@ -31,11 +33,16 @@ function pct(p: number) {
 // What the Open button says, or null when it can't be used, with the reason.
 function openLabel(
   t: ReturnType<typeof useTranslations>,
+  format: ReturnType<typeof useFormatter>,
   pack: HomePack,
   status: Status,
   noPool: boolean,
 ): { label: string; disabled: boolean } {
   const { mode } = packAvailability(pack, status);
+  // reward boosters are used first (never for the daily pack)
+  const rewards = rewardsFor(pack, status);
+  if (rewards > 0)
+    return { label: t("home.panel.openReward", { count: format.number(rewards) }), disabled: false };
   if (mode === "daily") {
     if (noPool) return { label: t("home.hero.none"), disabled: true };
     if (status.dailyOpenedToday) return { label: t("home.hero.done"), disabled: true };
@@ -72,6 +79,7 @@ export function PackSidePanel({
   bare?: boolean;
 }) {
   const t = useTranslations();
+  const format = useFormatter();
   const Icon = EMBLEM[pack.id] ?? Package;
   const hue = HUE[pack.id] ?? 330;
   const chances = packChances(pack.slotFloors, pack.multipliers);
@@ -80,7 +88,8 @@ export function PackSidePanel({
     pack.slotFloors[0],
   );
   const { mode } = packAvailability(pack, status);
-  const open = openLabel(t, pack, status, noPool);
+  const open = openLabel(t, format, pack, status, noPool);
+  const rewards = rewardsFor(pack, status);
   const left = useCountdown(mode === "free" ? status.nextFreeAt : null);
   const cta = "flex w-full items-center justify-center rounded-full bg-cta px-5 py-3.5 font-semibold text-black";
 
@@ -98,6 +107,12 @@ export function PackSidePanel({
             <h3 className="break-words font-display text-2xl font-bold leading-tight">{name}</h3>
             <p className="text-sm text-common">{t(`packs.${pack.id}.tagline`)}</p>
           </div>
+        </div>
+      )}
+
+      {rewards > 0 && (
+        <div className="self-start">
+          <RewardBadge count={rewards} />
         </div>
       )}
 

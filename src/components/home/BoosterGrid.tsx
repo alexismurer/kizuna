@@ -4,9 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { Coins, Maximize2, Minimize2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PackArt } from "@/components/PackArt";
+import { RewardBadge } from "@/components/RewardBadge";
 import { usePrefs } from "@/lib/fx/prefs";
 import { packAvailability } from "@/lib/game/availability";
 import type { Status } from "@/lib/game/types";
+import { rewardsFor } from "@/lib/opening/quantity";
 import { PackSidePanel, type HomePack } from "./PackSidePanel";
 
 export type { HomePack };
@@ -114,6 +116,7 @@ export function BoosterGrid({
           <ul className="grid grid-cols-2 gap-x-5 gap-y-6 sm:grid-cols-3">
             {inTab.map((p) => {
               const cost = price(p, status);
+              const rewards = rewardsFor(p, status);
               const on = selected?.id === p.id;
               return (
                 <li key={p.id} className="flex flex-col items-center gap-3 [perspective:900px]">
@@ -126,7 +129,9 @@ export function BoosterGrid({
                   >
                     <PackArt pack={p} cards={p.slotFloors.length} selected={on} />
                   </button>
-                  {cost === null ? (
+                  {rewards > 0 ? (
+                    <RewardBadge count={rewards} />
+                  ) : cost === null ? (
                     <span className="text-sm font-semibold text-uncommon">{t("home.grid.free")}</span>
                   ) : (
                     <span className="flex items-center gap-1 text-sm font-semibold text-cta">

@@ -13,6 +13,7 @@ const CODES = [
   "not_today",
   "not_complete",
   "already_claimed",
+  "invalid_card",
 ] as const;
 
 export function rpcErrorKey(message: string): string {

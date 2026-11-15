@@ -8,6 +8,7 @@ describe("rpcErrorKey", () => {
     expect(rpcErrorKey("cost_changed")).toBe("errors.cost_changed");
     expect(rpcErrorKey("not_today")).toBe("errors.not_today");
     expect(rpcErrorKey("already_claimed")).toBe("errors.already_claimed");
+    expect(rpcErrorKey("invalid_card")).toBe("errors.invalid_card");
   });
   it("falls back to unknown", () => {
     expect(rpcErrorKey("boom")).toBe("errors.unknown");

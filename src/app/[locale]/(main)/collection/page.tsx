@@ -4,6 +4,7 @@ import { AlbumList, type Album } from "@/components/AlbumList";
 import type { CardData } from "@/components/card/CardView";
 import { CollectionGrid, type OwnedCard } from "@/components/CollectionGrid";
 import { RecycleButton } from "@/components/RecycleButton";
+import { WishlistGrid, type WishlistItem } from "@/components/WishlistGrid";
 import { Link } from "@/i18n/navigation";
 import { recycleBreakdown, recycleEstimate } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
@@ -24,6 +25,7 @@ type CardRow = {
   series: { title: string } | null;
 };
 type InvRow = { count: number; locked: number; cards: CardRow };
+type WishRow = { cards: CardRow };
 type AlbumRow = {
   series_id: number;
   title: string;
@@ -39,11 +41,12 @@ async function CollectionContent({
   searchParams: PageProps<"/[locale]/collection">["searchParams"];
 }) {
   const sp = await searchParams;
-  const view = sp.view === "albums" ? "albums" : "cards";
+  const view =
+    sp.view === "albums" || sp.view === "wishlist" ? sp.view : "cards";
   const q = typeof sp.q === "string" ? sp.q : "";
   const t = await getTranslations("collection");
   const supabase = await createServerClient();
-  const [invRows, albumRows, total] = await Promise.all([
+  const [invRows, albumRows, wishRows, total] = await Promise.all([
     fetchAll((from, to) =>
       supabase
         .from("inventory")
@@ -61,26 +64,39 @@ async function CollectionContent({
         .order("series_id")
         .range(from, to),
     ),
+    view === "wishlist"
+      ? fetchAll((from, to) =>
+          supabase
+            .from("wishlist")
+            .select(
+              "cards(id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title))",
+            )
+            .order("card_id")
+            .range(from, to),
+        )
+      : [],
     catalogTotal(supabase),
   ]);
 
   const rows = invRows as unknown as InvRow[];
-  const items: OwnedCard[] = rows.map((r) => {
-    const c = r.cards;
-    const card: CardData = {
-      id: c.id,
-      number: c.number,
-      name: c.name,
-      nativeName: c.native_name,
-      imageUrl: c.image_url,
-      seriesId: c.series_id,
-      seriesTitle: c.series?.title ?? "",
-      rarity: c.rarity,
-      pow: c.pow,
-      aura: c.aura,
-    };
-    return { card, count: r.count };
+  const toCard = (c: CardRow): CardData => ({
+    id: c.id,
+    number: c.number,
+    name: c.name,
+    nativeName: c.native_name,
+    imageUrl: c.image_url,
+    seriesId: c.series_id,
+    seriesTitle: c.series?.title ?? "",
+    rarity: c.rarity,
+    pow: c.pow,
+    aura: c.aura,
   });
+  const items: OwnedCard[] = rows.map((r) => ({ card: toCard(r.cards), count: r.count }));
+  const ownedIds = new Set(rows.map((r) => r.cards.id));
+  const wishlist: WishlistItem[] = (wishRows as unknown as WishRow[]).map((r) => ({
+    card: toCard(r.cards),
+    owned: ownedIds.has(r.cards.id),
+  }));
   const albums: Album[] = (albumRows as AlbumRow[]).map((a) => ({
     seriesId: a.series_id,
     title: a.title,
@@ -145,22 +161,32 @@ async function CollectionContent({
         >
           {t("viewAlbums")}
         </Link>
-        <form className="ml-auto flex-1 sm:max-w-xs">
-          {view === "albums" && (
-            <input type="hidden" name="view" value="albums" />
-          )}
-          <input
-            type="search"
-            name="q"
-            defaultValue={q}
-            placeholder={t("search")}
-            aria-label={t("search")}
-            className="w-full rounded-md border border-border bg-panel px-3 py-1.5 text-sm"
-          />
-        </form>
+        <Link
+          href={{ pathname: "/collection", query: { view: "wishlist" } }}
+          className={tab(view === "wishlist")}
+        >
+          {t("viewWishlist")}
+        </Link>
+        {view !== "wishlist" && (
+          <form className="ml-auto flex-1 sm:max-w-xs">
+            {view === "albums" && (
+              <input type="hidden" name="view" value="albums" />
+            )}
+            <input
+              type="search"
+              name="q"
+              defaultValue={q}
+              placeholder={t("search")}
+              aria-label={t("search")}
+              className="w-full rounded-md border border-border bg-panel px-3 py-1.5 text-sm"
+            />
+          </form>
+        )}
       </div>
       {view === "albums" ? (
         <AlbumList albums={albums} query={q} />
+      ) : view === "wishlist" ? (
+        <WishlistGrid items={wishlist} total={total} />
       ) : (
         <CollectionGrid items={items} query={q} total={total} />
       )}

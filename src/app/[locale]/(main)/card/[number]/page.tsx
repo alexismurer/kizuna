@@ -2,7 +2,9 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CardView } from "@/components/card/CardView";
+import { CardViewTracker } from "@/components/CardViewTracker";
 import { RecycleButton } from "@/components/RecycleButton";
+import { WishlistButton } from "@/components/WishlistButton";
 import { Link } from "@/i18n/navigation";
 import { recyclable, RECYCLE_VALUE } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
@@ -42,12 +44,13 @@ async function CardContent({
     .maybeSingle();
   if (!data) notFound();
   const c = data as unknown as Row;
-  const [{ data: inv }, total] = await Promise.all([
+  const [{ data: inv }, { data: wished }, total] = await Promise.all([
     supabase
       .from("inventory")
       .select("count, locked")
       .eq("card_id", c.id)
       .maybeSingle(),
+    supabase.from("wishlist").select("card_id").eq("card_id", c.id).maybeSingle(),
     catalogTotal(supabase),
   ]);
   const count = inv?.count ?? 0;
@@ -56,6 +59,7 @@ async function CardContent({
 
   return (
     <>
+      <CardViewTracker key={c.id} cardId={c.id} />
       <Link href="/collection" className="text-sm text-common">
         {t("back")}
       </Link>
@@ -74,6 +78,7 @@ async function CardContent({
             aura: c.aura,
           }}
         />
+        <WishlistButton key={c.id} cardId={c.id} initial={wished !== null} />
         <p className="text-sm">
           {t("owned")}: <span className="font-mono">{count}</span>
         </p>

@@ -55,6 +55,7 @@
       "chances": "Chance per booster",
       "oddsNote": "Odds exclude golden and pity bonuses.",
       "openFree": "Open · Free · {count} left",
+      "openReward": "Open · Reward · {count} left",
       "openPrice": "Open · {price}",
       "noFree": "No free boosters left",
       "nextFree": "Next free one in {time}"
@@ -138,6 +139,7 @@
     "not_today": "That mission is not one of today's.",
     "not_complete": "This mission is not complete yet.",
     "already_claimed": "You already claimed this reward.",
+    "invalid_card": "That card does not exist.",
     "unknown": "Something went wrong. Please try again."
   },
   "reveal": {
@@ -167,6 +169,8 @@
     "quantity": "How many boosters",
     "quantityOption": "×{count}",
     "openFree": "Free · {count} left",
+    "openReward": "Reward · {count} left",
+    "reward": "Reward ×{count}",
     "openPrice": "Open · {price}",
     "openMixed": "{free} free + {cost}",
     "openDaily": "Open the daily pack",
@@ -190,6 +194,7 @@
     "best": "Best card",
     "openAgain": "Open another · {price}",
     "free": "Free",
+    "reward": "Reward",
     "change": "Change booster",
     "collection": "See the collection",
     "copy": "Copy the link",
@@ -207,6 +212,9 @@
     "owned": "Copies owned",
     "series": "View series album",
     "back": "Back to collection"
+  },
+  "wishlist": {
+    "button": "Wishlist"
   },
   "packs": {
     "mix": {
@@ -277,8 +285,11 @@
     "duplicates": "Duplicates",
     "viewCards": "Cards",
     "viewAlbums": "Albums",
+    "viewWishlist": "Wishlist",
     "search": "Search name or series",
     "empty": "No cards found.",
+    "wishlistEmpty": "Your wishlist is empty. Tap the heart on a card to add it.",
+    "owned": "Owned",
     "filter": {
       "all": "All",
       "todo": "To complete",

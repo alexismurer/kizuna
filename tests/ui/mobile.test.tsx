@@ -133,6 +133,14 @@ describe("BoosterSheet", () => {
     expect(screen.getByRole("link", { name: "Open · 750" })).toHaveAttribute("href", "/open/hall_of_fame");
   });
 
+  it("shows reward packs in the row and on the Open link", async () => {
+    load.mockResolvedValue({ status: { ...status, rewardPacks: { hall_of_fame: 1 } }, packs: PACKS, dailyName: null });
+    wrap(<BoosterSheet initialPack="hall_of_fame" onClose={() => {}} />);
+    const row = await screen.findByRole("button", { name: /^Hall of Fame/ });
+    expect(within(row).getByText("Reward ×1")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open · Reward · 1 left" })).toHaveAttribute("href", "/open/hall_of_fame");
+  });
+
   it("Escape and the close button close it", () => {
     const onClose = vi.fn();
     wrap(<BoosterSheet onClose={onClose} />);

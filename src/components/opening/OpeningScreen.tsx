@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Package } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import type { CardData } from "@/components/card/CardView";
 import { BoosterSheet } from "@/components/mobile/BoosterSheet";
 import { EMBLEM, HUE } from "@/components/PackArt";
@@ -11,10 +11,11 @@ import { usePrefs } from "@/lib/fx/prefs";
 import { rpcErrorKey } from "@/lib/game/errors";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
 import { newFlags } from "@/lib/opening/best";
-import { paymentFor, quantityOptions } from "@/lib/opening/quantity";
+import { paymentFor, quantityOptions, rewardsFor } from "@/lib/opening/quantity";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { FxLayer, type Burst } from "./FxLayer";
 import { OpeningHeader } from "./OpeningHeader";
+import { RewardBadge } from "@/components/RewardBadge";
 import { PackStage, type TearPhase } from "./PackStage";
 import { PaidConfirm } from "./PaidConfirm";
 import { QuantitySelect } from "./QuantitySelect";
@@ -69,6 +70,7 @@ export function OpeningScreen({
   name?: string;
 }) {
   const t = useTranslations();
+  const format = useFormatter();
   const router = useRouter();
   const [prefs, updatePrefs] = usePrefs();
   const [qty, setQty] = useState(1);
@@ -101,6 +103,9 @@ export function OpeningScreen({
     ? qty
     : (options.filter((o) => o <= qty).at(-1) ?? options[0] ?? 0);
   const pay = paymentFor(pack, status, n);
+  const rewards = rewardsFor(pack, status);
+  // reward boosters are free too
+  const freeUsed = pay.reward + pay.free;
   const standard = pack.kind === "free" || pack.kind === "shop";
 
   // keep the shown price honest: stock may change in another tab or over time
@@ -213,7 +218,7 @@ export function OpeningScreen({
   function requestOpen(again = false) {
     if (!n || busyRef.current) return;
     againRef.current = again;
-    if (pay.paid > 0 && prefs.warnPaid) setConfirming(true);
+    if (pay.cost > 0 && prefs.warnPaid) setConfirming(true);
     else void open(n, pay.cost);
   }
 
@@ -241,9 +246,11 @@ export function OpeningScreen({
           ? t("opening.noFree")
           : t("opening.cantAfford");
   else if (pack.kind === "daily") label = t("opening.openDaily");
+  else if (pay.paid === 0 && pay.reward > 0)
+    label = t("opening.openReward", { count: format.number(rewards) });
   else if (pay.paid === 0) label = t("opening.openFree", { count: status.freeStock });
-  else if (pay.free === 0) label = t("opening.openPrice", { price: pay.cost });
-  else label = t("opening.openMixed", { free: pay.free, cost: pay.cost });
+  else if (freeUsed === 0) label = t("opening.openPrice", { price: pay.cost });
+  else label = t("opening.openMixed", { free: freeUsed, cost: pay.cost });
 
   const addedNotice = added && (
     <p role="alert" className="text-center text-sm text-uncommon">
@@ -307,10 +314,12 @@ export function OpeningScreen({
                   : t("summary.openAgain", {
                       price:
                         pay.paid === 0
-                          ? t("summary.free")
-                          : pay.free === 0
+                          ? pay.reward > 0
+                            ? t("summary.reward")
+                            : t("summary.free")
+                          : freeUsed === 0
                             ? pay.cost
-                            : t("opening.openMixed", { free: pay.free, cost: pay.cost }),
+                            : t("opening.openMixed", { free: freeUsed, cost: pay.cost }),
                     })
               }
               busy={busy}
@@ -343,6 +352,7 @@ export function OpeningScreen({
               onBurst={setBurst}
             />
             <p className="text-center text-sm text-white/60">{t("opening.hint")}</p>
+            {rewards > 0 && <RewardBadge count={rewards} />}
             <QuantitySelect
               options={options}
               value={n}
@@ -389,7 +399,7 @@ export function OpeningScreen({
 
       {confirming && (
         <PaidConfirm
-          free={pay.free}
+          free={freeUsed}
           paid={pay.paid}
           cost={pay.cost}
           onCancel={() => {

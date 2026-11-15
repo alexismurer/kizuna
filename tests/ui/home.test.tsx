@@ -144,6 +144,21 @@ describe("BoosterGrid", () => {
     expect(screen.getByRole("button", { name: /^Hall of Fame/ })).toBeInTheDocument();
   });
 
+  it("shows a reward badge on packs the player was granted", () => {
+    wrap(
+      <BoosterGrid
+        packs={PACKS}
+        status={status({ rewardPacks: { hall_of_fame: 2, daily: 1 } })}
+        dailyName="Test Pool"
+      />,
+    );
+    fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.shop }));
+    const hof = screen.getByRole("button", { name: /^Hall of Fame/ });
+    expect(within(hof.parentElement!).getByText("Reward ×2")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
+    expect(screen.queryByText(/Reward ×/)).toBeNull();
+  });
+
   it("disables the daily Open when there is no pool", () => {
     wrap(<BoosterGrid packs={PACKS} status={status()} dailyName={null} />);
     fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
@@ -200,6 +215,15 @@ describe("PackSidePanel", () => {
     expect(screen.getByRole("link", { name: "Open · Free · 3 left" })).toHaveAttribute(
       "href",
       "/open/mix",
+    );
+  });
+
+  it("offers reward packs first on the Open button", () => {
+    panel(PACKS[1], status({ rewardPacks: { hall_of_fame: 1 } }));
+    expect(screen.getByText("Reward ×1")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open · Reward · 1 left" })).toHaveAttribute(
+      "href",
+      "/open/hall_of_fame",
     );
   });
 
