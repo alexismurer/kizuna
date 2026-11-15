@@ -243,6 +243,15 @@ export function OpeningScreen({
   else if (pay.free === 0) label = t("opening.openPrice", { price: pay.cost });
   else label = t("opening.openMixed", { free: pay.free, cost: pay.cost });
 
+  const addedNotice = added && (
+    <p role="alert" className="text-center text-sm text-uncommon">
+      {t("opening.cardsAdded")}{" "}
+      <Link href="/collection" className="underline">
+        {t("opening.seeCollection")}
+      </Link>
+    </p>
+  );
+
   return (
     <div className="relative flex min-h-dvh flex-1 flex-col overflow-x-hidden">
       <div
@@ -313,6 +322,7 @@ export function OpeningScreen({
                 {t(error)}
               </p>
             )}
+            {addedNotice}
           </>
         ) : (
           <>
@@ -350,14 +360,7 @@ export function OpeningScreen({
                 {t(error)}
               </p>
             )}
-            {added && (
-              <p role="alert" className="text-center text-sm text-uncommon">
-                {t("opening.cardsAdded")}{" "}
-                <Link href="/collection" className="underline">
-                  {t("opening.seeCollection")}
-                </Link>
-              </p>
-            )}
+            {addedNotice}
             {standard && (
               <p className="text-center text-xs text-white/60">
                 {status.untilPity > 1

@@ -102,8 +102,6 @@ export function CardView({
               <img
                 src={card.imageUrl}
                 alt=""
-                // lets the summary export draw the art (the CDN sends CORS headers)
-                crossOrigin="anonymous"
                 loading="lazy"
                 onError={() => setBroken(true)}
                 className="h-full w-full object-cover"

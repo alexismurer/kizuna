@@ -371,6 +371,20 @@ describe("OpeningScreen", () => {
     expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
+  it("tells the player the cards were added when Open another can't load them", async () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    fireEvent.click(openButton());
+    await screen.findByTestId("reveal-flow");
+    fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
+    inFn.mockResolvedValueOnce({ data: null, error: { message: "boom" } });
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Open another · Free" }));
+    });
+    expect(screen.getByTestId("summary")).toBeInTheDocument();
+    expect(screen.getByRole("alert")).toHaveTextContent(messages.opening.cardsAdded);
+  });
+
   it("Enter on the pack opens", async () => {
     rpc.mockResolvedValue({ data: rows, error: null });
     wrap();

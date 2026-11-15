@@ -54,7 +54,7 @@ export function Summary({
   openLabel: string;
   busy: boolean;
   onOpenAgain: (n: number) => void;
-  openRef?: React.Ref<HTMLButtonElement>;
+  openRef?: React.RefObject<HTMLButtonElement | null>;
   collectionHref: string;
   animations: boolean;
 }) {
@@ -62,6 +62,13 @@ export function Summary({
   const tr = useTranslations();
   const desktop = useDesktop();
   const captureRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const openBtn = useRef<HTMLButtonElement | null>(null);
+
+  // keyboard users land on "Open another" (or the title when it is hidden)
+  useEffect(() => {
+    (openBtn.current ?? titleRef.current)?.focus({ preventScroll: true });
+  }, []);
   const [toast, setToast] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
 
@@ -120,6 +127,8 @@ export function Summary({
         pixelRatio: 2,
         backgroundColor: "#0b0b0f",
         imagePlaceholder: BLANK,
+        // the CDN only sends CORS headers when asked: never reuse a plain cached copy
+        fetchRequestInit: { cache: "no-store" },
       });
       const a = document.createElement("a");
       a.download = "anicards-pull.png";
@@ -160,7 +169,13 @@ export function Summary({
         data-testid="summary-capture"
         className="flex w-full flex-col items-center gap-2 rounded-2xl px-2 py-3"
       >
-        <h2 className="text-center font-display text-3xl leading-tight md:text-5xl">{packName}</h2>
+        <h2
+          ref={titleRef}
+          tabIndex={-1}
+          className="text-center font-display text-3xl leading-tight outline-none md:text-5xl"
+        >
+          {packName}
+        </h2>
         <p className="rounded-full border border-white/15 bg-black/40 px-3 py-0.5 text-xs font-semibold text-white/80">
           {t("newCards", { count: fresh })}
         </p>
@@ -231,7 +246,10 @@ export function Summary({
       {quantityOptions.length > 0 && (
         <button
           type="button"
-          ref={openRef}
+          ref={(el) => {
+            openBtn.current = el;
+            if (openRef) openRef.current = el;
+          }}
           disabled={busy || !quantity}
           onClick={() => onOpenAgain(quantity)}
           className="w-full max-w-xs rounded-full bg-cta px-6 py-3 font-semibold text-black shadow-[0_8px_30px_-6px_var(--color-cta)] transition hover:brightness-110 disabled:opacity-50 disabled:shadow-none"

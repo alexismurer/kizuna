@@ -103,6 +103,16 @@ describe("Summary", () => {
     expect(names).toEqual(["Hero 5", "Hero 8", "Hero 3", "Hero 4", "Hero 9", "Hero 2", "Hero 1"]);
   });
 
+  it("focuses Open another when it mounts", () => {
+    wrap();
+    expect(screen.getByRole("button", { name: "Open another · 150" })).toHaveFocus();
+  });
+
+  it("focuses the title when Open another is hidden", () => {
+    wrap({ quantityOptions: [], quantity: 0 });
+    expect(screen.getByRole("heading", { name: "Mix" })).toHaveFocus();
+  });
+
   it("opens another with the chosen quantity", () => {
     const onOpenAgain = wrap({ quantity: 5 });
     fireEvent.click(screen.getByRole("button", { name: "Open another · 150" }));
@@ -145,6 +155,8 @@ describe("Summary", () => {
     expect(node).toBe(screen.getByTestId("summary-capture"));
     expect(opts).toMatchObject({ pixelRatio: 2 });
     expect(opts.imagePlaceholder).toMatch(/^data:image\//);
+    // a plain cached copy has no CORS headers: html-to-image must refetch
+    expect(opts.fetchRequestInit).toEqual({ cache: "no-store" });
     const a = click.mock.contexts[0] as HTMLAnchorElement;
     expect(a.download).toBe("anicards-pull.png");
     expect(a.href).toBe("data:image/png;base64,AAAA");
