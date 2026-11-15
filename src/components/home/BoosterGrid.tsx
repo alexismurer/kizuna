@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Coins, Maximize2, Minimize2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PackArt } from "@/components/PackArt";
+import { usePrefs } from "@/lib/fx/prefs";
 import { packAvailability } from "@/lib/game/availability";
 import type { Status } from "@/lib/game/types";
 import { PackSidePanel, type HomePack } from "./PackSidePanel";
@@ -38,17 +39,35 @@ export function BoosterGrid({
   const [tab, setTab] = useState<Tab>("free");
   const [picked, setPicked] = useState<Partial<Record<Tab, string>>>({});
   const [full, setFull] = useState(false);
+  const [prefs] = usePrefs();
+  const wrapper = useRef<HTMLElement>(null);
 
+  // full screen: Esc exits, Tab stays inside, the page behind does not scroll
   useEffect(() => {
     if (!full) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setFull(false);
+      if (e.key !== "Tab" || !wrapper.current) return;
+      const items = wrapper.current.querySelectorAll<HTMLElement>(
+        "button:not([disabled]), a[href]",
+      );
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && (active === first || !wrapper.current.contains(active))) {
+        e.preventDefault();
+        last?.focus();
+      } else if (!e.shiftKey && (active === last || !wrapper.current.contains(active))) {
+        e.preventDefault();
+        first?.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
+    const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      document.body.style.overflow = overflow;
     };
   }, [full]);
 
@@ -97,13 +116,13 @@ export function BoosterGrid({
               const cost = price(p, status);
               const on = selected?.id === p.id;
               return (
-                <li key={p.id} className="flex flex-col items-center gap-2">
+                <li key={p.id} className="flex flex-col items-center gap-3 [perspective:900px]">
                   <button
                     type="button"
                     aria-label={t(`packs.${p.id}.name`)}
                     aria-pressed={on}
                     onClick={() => setPicked({ ...picked, [tab]: p.id })}
-                    className={`group block w-full rounded-[16px] ${on ? "ring-2 ring-cta ring-offset-4 ring-offset-bg" : ""}`}
+                    className={`block w-full max-w-[13rem] rounded-[16px] ${on ? "ring-2 ring-cta ring-offset-4 ring-offset-bg" : ""} ${prefs.animations ? `motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out ${on ? "motion-safe:[transform:translateY(-6px)]" : "motion-safe:[transform:rotateX(6deg)_rotateY(-12deg)] motion-safe:hover:[transform:translateY(-6px)]"}` : ""}`}
                   >
                     <PackArt pack={p} cards={p.slotFloors.length} selected={on} />
                   </button>
@@ -134,16 +153,16 @@ export function BoosterGrid({
     </div>
   );
 
-  return full ? (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={t("home.grid.title")}
-      className="fixed inset-0 z-50 overflow-y-auto bg-bg p-4 sm:p-8"
+  // one element in both modes so the toggle keeps focus when switching
+  return (
+    <section
+      ref={wrapper}
+      role={full ? "dialog" : undefined}
+      aria-modal={full ? true : undefined}
+      aria-label={full ? t("home.grid.title") : undefined}
+      className={full ? "fixed inset-0 z-50 overflow-y-auto bg-bg p-4 sm:p-8" : undefined}
     >
-      <div className="mx-auto max-w-7xl">{body}</div>
-    </div>
-  ) : (
-    <section>{body}</section>
+      <div className={full ? "mx-auto max-w-7xl" : undefined}>{body}</div>
+    </section>
   );
 }

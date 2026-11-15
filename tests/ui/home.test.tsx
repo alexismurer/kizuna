@@ -146,6 +146,29 @@ describe("BoosterGrid", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
     expect(document.body.style.overflow).toBe("");
   });
+
+  it("keeps focus on the toggle when entering and leaving full screen", () => {
+    document.body.style.overflow = "auto";
+    wrap(<BoosterGrid packs={PACKS} status={status()} dailyName="Test Pool" />);
+    const toggle = screen.getByRole("button", { name: messages.home.grid.fullscreen });
+    toggle.focus();
+    fireEvent.click(toggle);
+    expect(screen.getByRole("button", { name: messages.home.grid.exitFullscreen })).toHaveFocus();
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(screen.getByRole("button", { name: messages.home.grid.fullscreen })).toHaveFocus();
+    expect(document.body.style.overflow).toBe("auto");
+    document.body.style.overflow = "";
+  });
+
+  it("traps Tab inside full screen", () => {
+    wrap(<BoosterGrid packs={PACKS} status={status()} dailyName="Test Pool" />);
+    fireEvent.click(screen.getByRole("button", { name: messages.home.grid.fullscreen }));
+    const dialog = screen.getByRole("dialog");
+    const items = dialog.querySelectorAll<HTMLElement>("button:not([disabled]), a[href]");
+    items[items.length - 1].focus();
+    fireEvent.keyDown(window, { key: "Tab" });
+    expect(items[0]).toHaveFocus();
+  });
 });
 
 describe("PackSidePanel", () => {
@@ -209,6 +232,12 @@ describe("BigPulls", () => {
     expect(screen.getByText("kenji")).toBeInTheDocument();
     expect(screen.getByText("3 minutes ago")).toBeInTheDocument();
     expect(rpc).toHaveBeenCalledWith("recent_big_pulls", { p_limit: 12 });
+  });
+
+  it("shows the empty state when the first load fails", async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: "boom" } });
+    wrap(<BigPulls />);
+    expect(await screen.findByText(messages.home.bigPulls.empty)).toBeInTheDocument();
   });
 
   it("shows the empty state", async () => {

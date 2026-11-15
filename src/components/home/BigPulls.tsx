@@ -33,11 +33,18 @@ export function BigPulls() {
   useEffect(() => {
     let alive = true;
     let timer: ReturnType<typeof setInterval> | undefined;
+    let seq = 0;
     const supabase = createBrowserClient();
 
+    // a failed first load shows the empty state; a later failure keeps the last feed
+    const failed = () => setFeed((f) => f ?? { pulls: [], at: Date.now() });
+
     async function load() {
+      const mine = ++seq;
+      const current = () => alive && mine === seq;
       const { data, error } = await supabase.rpc("recent_big_pulls", { p_limit: LIMIT });
-      if (error || !alive) return;
+      if (!current()) return;
+      if (error) return failed();
       const rows = (data ?? []) as FeedRow[];
       let cards = new Map<number, CardRow>();
       if (rows.length > 0) {
@@ -45,7 +52,8 @@ export function BigPulls() {
           .from("cards")
           .select("id, name, image_url")
           .in("id", [...new Set(rows.map((r) => r.card_id))]);
-        if (res.error || !alive) return;
+        if (!current()) return;
+        if (res.error) return failed();
         cards = new Map((res.data as CardRow[]).map((c) => [c.id, c]));
       }
       setFeed({
@@ -79,7 +87,8 @@ export function BigPulls() {
   return (
     <section className="flex flex-col gap-4">
       <h2 className="flex items-center gap-3 font-display text-3xl font-extrabold sm:text-4xl">
-        <span className="relative flex h-3 w-3" aria-label={t("home.bigPulls.live")}>
+        <span className="relative flex h-3 w-3">
+          <span className="sr-only">{t("home.bigPulls.live")}</span>
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-60 motion-reduce:animate-none" />
           <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500" />
         </span>

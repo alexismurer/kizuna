@@ -70,7 +70,7 @@ export function PackArt({
   const hue = HUE[pack.id] ?? 330;
   return (
     <div
-      className={`@container relative aspect-[5/7] w-full overflow-hidden rounded-[14px] border-2 transition-transform duration-200 group-hover:-translate-y-1 ${selected ? "border-cta" : "border-white/20"}`}
+      className={`@container relative aspect-[5/7] w-full overflow-hidden rounded-[14px] border-2 ${selected ? "border-cta" : "border-white/20"}`}
       style={{
         background: `linear-gradient(160deg, hsl(${hue} 85% 66%), hsl(${hue} 75% 42%) 45%, hsl(${hue} 70% 18%))`,
         boxShadow: `inset 10px 0 18px -10px rgb(255 255 255 / 0.45), inset -14px 0 22px -10px rgb(0 0 0 / 0.55), 0 14px 28px -12px hsl(${hue} 80% 40% / 0.6)`,
