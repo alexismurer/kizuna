@@ -6,6 +6,7 @@ export async function franchiseRoot(
   mediaId: number,
   getMedia: (ids: number[]) => Promise<Media[]>,
   memo: Map<number, Media> = new Map(),
+  onVisit?: (root: Media, visited: Media[]) => void,
 ): Promise<Media> {
   const cached = memo.get(mediaId)
   if (cached) return cached
@@ -39,6 +40,7 @@ export async function franchiseRoot(
   }
   const found = root as Media
   for (const k of seen.keys()) memo.set(k, found)
+  onVisit?.(found, [...seen.values()])
   return found
 }
 
@@ -90,4 +92,14 @@ export function createMediaStore(fetchMedia: (ids: number[]) => Promise<Media[]>
   }
 
   return { prefetch, getMedia, seed }
+}
+
+/** Title and cover for an album: the most popular media among those visited for its root. */
+export function albumDisplay(root: Media, visited: Media[]): { title: string; cover_url: string | null } {
+  let best = root
+  for (const m of visited) if ((m.popularity ?? 0) > (best.popularity ?? 0)) best = m
+  return {
+    title: best.title.english ?? best.title.romaji ?? root.title.english ?? root.title.romaji ?? `#${root.id}`,
+    cover_url: best.coverImage.large ?? root.coverImage.large,
+  }
 }

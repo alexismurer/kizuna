@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { createMediaStore, franchiseRoot } from '../../scripts/import-anilist/franchise'
+import { albumDisplay, createMediaStore, franchiseRoot } from '../../scripts/import-anilist/franchise'
 import type { Media } from '../../scripts/import-anilist/anilist'
 
 const m = (id: number, rels: [string, number][] = []): Media => ({
   id,
+  popularity: 0,
   title: { english: `T${id}`, romaji: `R${id}` },
   coverImage: { large: `c${id}` },
   genres: [],
@@ -63,5 +64,16 @@ describe('createMediaStore', () => {
     store.seed([node])
     await store.prefetch([8])
     expect((await franchiseRoot(8, store.getMedia)).id).toBe(8)
+  })
+})
+
+describe('albumDisplay', () => {
+  it('keys by prequel movie id but titles by the most popular media', async () => {
+    const movie = { ...m(1), popularity: 300, title: { english: 'Movie 0', romaji: null }, coverImage: { large: 'movie.jpg' } }
+    const tv = { ...m(2, [['PREQUEL', 1]]), popularity: 900, title: { english: 'The Series', romaji: null }, coverImage: { large: 'tv.jpg' } }
+    const visitedByRoot = new Map<number, Media[]>()
+    const root = await franchiseRoot(2, fake([movie, tv]), new Map(), (r, v) => visitedByRoot.set(r.id, v))
+    expect(root.id).toBe(1)
+    expect(albumDisplay(root, visitedByRoot.get(1)!)).toEqual({ title: 'The Series', cover_url: 'tv.jpg' })
   })
 })

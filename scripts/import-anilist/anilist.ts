@@ -4,6 +4,7 @@ import path from 'node:path'
 
 export type Media = {
   id: number
+  popularity: number | null
   title: { english: string | null; romaji: string | null }
   coverImage: { large: string | null }
   genres: string[]
@@ -26,6 +27,7 @@ const CACHE_DIR = path.join(__dirname, '.cache')
 
 const MEDIA_FIELDS = `
   id
+  popularity
   title { english romaji }
   coverImage { large }
   genres

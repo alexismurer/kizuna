@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 import { fetchCharacterPage, fetchMedia, type CharacterNode, type Media } from './anilist'
 import { rarityForRank, statsForRank, themesFor } from './derive'
-import { createMediaStore, franchiseRoot } from './franchise'
+import { albumDisplay, createMediaStore, franchiseRoot } from './franchise'
 
 dotenv.config({ path: '.env.local', quiet: true })
 
@@ -64,6 +64,20 @@ async function main() {
   await store.prefetch(fresh.map((c) => c.media.nodes[0].id))
   const memo = new Map<number, Media>()
   const seriesIds = new Map<number, number>()
+  const visitedByRoot = new Map<number, Map<number, Media>>()
+  const rootOf = new Map<number, Media>()
+  for (const c of fresh) {
+    const media = c.media.nodes[0]
+    const root = await franchiseRoot(media.id, store.getMedia, memo, (r, v) => {
+      const pool = visitedByRoot.get(r.id) ?? new Map<number, Media>()
+      for (const n of v) pool.set(n.id, n)
+      visitedByRoot.set(r.id, pool)
+    })
+    rootOf.set(c.id, root)
+    const pool = visitedByRoot.get(root.id) ?? new Map<number, Media>()
+    pool.set(media.id, media)
+    visitedByRoot.set(root.id, pool)
+  }
   let inserted = 0
 
   for (let i = 0; i < ranked.length; i++) {
@@ -71,7 +85,7 @@ async function main() {
     if (existing.has(c.id)) continue
     const rank = i + 1
     const media = c.media.nodes[0]
-    const root = await franchiseRoot(media.id, store.getMedia, memo)
+    const root = rootOf.get(c.id)!
 
     let seriesId = seriesIds.get(root.id)
     if (seriesId === undefined) {
@@ -81,8 +95,7 @@ async function main() {
           {
             source: SOURCE,
             source_id: root.id,
-            title: root.title.english ?? root.title.romaji ?? `#${root.id}`,
-            cover_url: root.coverImage.large,
+            ...albumDisplay(root, [...(visitedByRoot.get(root.id)?.values() ?? [])]),
           },
           { onConflict: 'source,source_id', ignoreDuplicates: true },
         )
