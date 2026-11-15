@@ -128,6 +128,10 @@
     "already_player": "You have already joined.",
     "not_a_player": "You need to join with an invite first.",
     "cost_changed": "Your free boosters changed — check the price and try again.",
+    "unknown_mission": "That mission does not exist.",
+    "not_today": "That mission is not one of today's.",
+    "not_complete": "This mission is not complete yet.",
+    "already_claimed": "You already claimed this reward.",
     "unknown": "Something went wrong. Please try again."
   },
   "reveal": {
@@ -295,5 +299,208 @@
   "sheet": {
     "close": "Close",
     "loading": "Loading boosters…"
+  },
+  "missions": {
+    "eyebrow": "MISSIONS",
+    "title": "Missions & achievements",
+    "subtitle": "Log in every day, complete missions and unlock achievements to earn currency and free boosters.",
+    "chips": {
+      "login": "Login",
+      "first": "First steps",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "achievements": "Achievements"
+    },
+    "streak": {
+      "eyebrow": "LOGIN STREAK",
+      "title": "Daily login",
+      "day": "D{n}",
+      "golden": "Day 7: next booster is golden",
+      "logins": "{count, plural, one {# login} other {# logins}} in total",
+      "forgiveOpen": "1 missed day allowed this week",
+      "forgiveUsed": "missed day used this week"
+    },
+    "first": {
+      "eyebrow": "GETTING STARTED",
+      "title": "First steps",
+      "footer": "All done → Chest"
+    },
+    "daily": {
+      "eyebrow": "TODAY",
+      "title": "Daily missions",
+      "footer": "All 3 claimed → +1 bonus booster"
+    },
+    "weekly": {
+      "eyebrow": "THIS WEEK",
+      "title": "Weekly missions",
+      "footer": "All 3 claimed → free Chest"
+    },
+    "achievements": {
+      "eyebrow": "COLLECTION GOALS",
+      "title": "Achievements",
+      "filter": {
+        "all": "All",
+        "todo": "To do",
+        "earned": "Earned"
+      },
+      "empty": "Nothing here yet."
+    },
+    "reset": "Resets in",
+    "resetHours": "{h}h {m} min",
+    "resetDays": "{d}d {h}h",
+    "state": {
+      "claimed": "Claimed",
+      "progress": "In progress",
+      "claim": "Claim"
+    },
+    "items": {
+      "first_booster": "Open your first booster",
+      "first_recycle": "Recycle a duplicate",
+      "first_wishlist": "Add 3 characters to your wishlist",
+      "first_page": "Open a character page",
+      "first_username": "Pick your username",
+      "first_discord": "Link your Discord account",
+      "daily_pages": "View 3 character pages",
+      "daily_recycle": "Recycle 10 duplicates",
+      "daily_open": "Open 5 boosters",
+      "daily_pack": "Open the daily pack",
+      "daily_rare": "Pull 3 Rare cards or better",
+      "daily_wishlist": "Add a character to your wishlist",
+      "weekly_legendary": "Pull a Legendary or better",
+      "weekly_mythic": "Pull a Mythic",
+      "weekly_series": "Complete a series (5+ characters)",
+      "ach_open_10": {
+        "name": "Fresh Start",
+        "desc": "Open 10 boosters"
+      },
+      "ach_open_100": {
+        "name": "Pack Rat",
+        "desc": "Open 100 boosters"
+      },
+      "ach_open_1000": {
+        "name": "Foil Ripper",
+        "desc": "Open 1,000 boosters"
+      },
+      "ach_open_2500": {
+        "name": "Seal Breaker",
+        "desc": "Open 2,500 boosters"
+      },
+      "ach_open_5000": {
+        "name": "Booster Baron",
+        "desc": "Open 5,000 boosters"
+      },
+      "ach_open_10000": {
+        "name": "Endless Unboxing",
+        "desc": "Open 10,000 boosters"
+      },
+      "ach_own_50": {
+        "name": "Starter Shelf",
+        "desc": "Own 50 different characters"
+      },
+      "ach_own_250": {
+        "name": "Growing Roster",
+        "desc": "Own 250 different characters"
+      },
+      "ach_own_500": {
+        "name": "Full Binder",
+        "desc": "Own 500 different characters"
+      },
+      "ach_own_1000": {
+        "name": "Archivist",
+        "desc": "Own 1,000 different characters"
+      },
+      "ach_own_1500": {
+        "name": "Curator",
+        "desc": "Own 1,500 different characters"
+      },
+      "ach_own_2000": {
+        "name": "Grand Gallery",
+        "desc": "Own 2,000 different characters"
+      },
+      "ach_own_3000": {
+        "name": "Living Encyclopedia",
+        "desc": "Own 3,000 different characters"
+      },
+      "ach_all": {
+        "name": "Completionist",
+        "desc": "Own every character in the catalogue"
+      },
+      "ach_first_epic": {
+        "name": "Purple Haze",
+        "desc": "Pull your first Epic card or better"
+      },
+      "ach_first_legendary": {
+        "name": "Golden Hour",
+        "desc": "Pull your first Legendary card or better"
+      },
+      "ach_first_mythic": {
+        "name": "Myth Made Real",
+        "desc": "Pull your first Mythic card"
+      },
+      "ach_legendary_100": {
+        "name": "Gilded Hundred",
+        "desc": "Pull 100 Legendary cards or better"
+      },
+      "ach_mythics_10": {
+        "name": "Mythkeeper",
+        "desc": "Own 10 different Mythic characters"
+      },
+      "ach_mythics_25": {
+        "name": "Pantheon",
+        "desc": "Own 25 different Mythic characters"
+      },
+      "ach_series_1": {
+        "name": "Box Set",
+        "desc": "Complete a series (5+ characters)"
+      },
+      "ach_series_10": {
+        "name": "Marathon",
+        "desc": "Complete 10 series"
+      },
+      "ach_series_25": {
+        "name": "Season Pass",
+        "desc": "Complete 25 series"
+      },
+      "ach_series_50": {
+        "name": "Franchise Master",
+        "desc": "Complete 50 series"
+      },
+      "ach_recycle_1000": {
+        "name": "Spring Cleaning",
+        "desc": "Recycle 1,000 duplicates"
+      },
+      "ach_recycle_10000": {
+        "name": "Grand Recycler",
+        "desc": "Recycle 10,000 duplicates"
+      },
+      "ach_divine": {
+        "name": "Divine Spark",
+        "desc": "Open a divine booster"
+      },
+      "ach_sell_1": {
+        "name": "First Sale",
+        "desc": "Sell a card on the market"
+      },
+      "ach_sell_10": {
+        "name": "Stallholder",
+        "desc": "Sell 10 cards on the market"
+      },
+      "ach_sell_100": {
+        "name": "Merchant",
+        "desc": "Sell 100 cards on the market"
+      },
+      "ach_sell_1000": {
+        "name": "Market Mogul",
+        "desc": "Sell 1,000 cards on the market"
+      },
+      "ach_trade_1": {
+        "name": "Handshake",
+        "desc": "Complete a trade"
+      },
+      "ach_trade_25": {
+        "name": "Dealmaker",
+        "desc": "Complete 25 trades"
+      }
+    }
   }
 }
