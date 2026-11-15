@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { CardView, type CardData } from "@/components/card/CardView";
+import type { CardData } from "@/components/card/CardView";
 import { EMBLEM, HUE } from "@/components/PackArt";
 import { Link, useRouter } from "@/i18n/navigation";
 import { usePrefs } from "@/lib/fx/prefs";
@@ -18,6 +18,7 @@ import { PackStage, type TearPhase } from "./PackStage";
 import { PaidConfirm } from "./PaidConfirm";
 import { QuantitySelect } from "./QuantitySelect";
 import { RevealFlow } from "./RevealFlow";
+import { Summary } from "./Summary";
 
 export type OpeningPack = Pick<PackType, "id" | "kind" | "price" | "slotFloors"> & {
   fallbackPrice: number | null;
@@ -80,6 +81,10 @@ export function OpeningScreen({
   const [opened, setOpened] = useState<OpenedCard[] | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [packCount, setPackCount] = useState(1);
+  // one RevealFlow per opening
+  const [openId, setOpenId] = useState(0);
+  // "Open another" from the summary skips the pack and its tear sequence
+  const againRef = useRef(false);
   const [tear, setTear] = useState<TearPhase>("sealed");
   const [burst, setBurst] = useState<Burst | null>(null);
   const animations = prefs.animations;
@@ -132,7 +137,7 @@ export function OpeningScreen({
       setBusy(true);
       setError(null);
       setAdded(false);
-      setRevealed(false);
+      const again = againRef.current;
       let ok = false;
       try {
         const supabase = createBrowserClient();
@@ -164,6 +169,8 @@ export function OpeningScreen({
           (cardRows as unknown as CardRow[]).map((c) => [c.id, c]),
         );
         setPackCount(count);
+        setRevealed(false);
+        setOpenId((id) => id + 1);
         setOpened(
           rows.map((r, i) => {
             const c = byId.get(r.card_id)!;
@@ -192,7 +199,7 @@ export function OpeningScreen({
         setError("errors.unknown");
       } finally {
         // on failure the pack re-seals
-        setTear(ok && animations ? "out" : "sealed");
+        setTear(ok && animations && !again ? "out" : "sealed");
         busyRef.current = false;
         setBusy(false);
         router.refresh();
@@ -201,8 +208,9 @@ export function OpeningScreen({
     [pack.id, router, animations],
   );
 
-  function requestOpen() {
+  function requestOpen(again = false) {
     if (!n || busyRef.current) return;
+    againRef.current = again;
     if (pay.paid > 0 && prefs.warnPaid) setConfirming(true);
     else void open(n, pay.cost);
   }
@@ -265,6 +273,7 @@ export function OpeningScreen({
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center gap-3 px-4 pb-6">
         {opened && tear !== "out" && !revealed ? (
           <RevealFlow
+            key={openId}
             cards={opened.map((c) => ({ ...c, card: { ...c.card, total } }))}
             packCount={packCount}
             onDone={onRevealed}
@@ -273,28 +282,38 @@ export function OpeningScreen({
             onBurst={setBurst}
           />
         ) : opened && revealed ? (
-          <section
-            data-testid="reveal-placeholder"
-            className="flex w-full max-w-4xl flex-col items-center gap-5 py-4"
-          >
-            <h2 className="font-display text-2xl">{t("opening.resultTitle")}</h2>
-            <div className="flex flex-wrap justify-center gap-3">
-              {opened.map((c, i) => (
-                <CardView
-                  key={i}
-                  card={{ ...c.card, total }}
-                  size="sm"
-                  isNew={c.isNew}
-                />
-              ))}
-            </div>
-            <Link
-              href="/"
-              className="rounded-full bg-cta px-8 py-2.5 font-semibold text-black"
-            >
-              {t("opening.done")}
-            </Link>
-          </section>
+          <>
+            <Summary
+              packName={title}
+              cards={opened.map((c) => ({ ...c, card: { ...c.card, total } }))}
+              packCount={packCount}
+              quantityOptions={options}
+              quantity={n}
+              onQuantity={setQty}
+              openLabel={
+                busy
+                  ? t("opening.opening")
+                  : t("summary.openAgain", {
+                      price:
+                        pay.paid === 0
+                          ? t("summary.free")
+                          : pay.free === 0
+                            ? pay.cost
+                            : t("opening.openMixed", { free: pay.free, cost: pay.cost }),
+                    })
+              }
+              busy={busy}
+              onOpenAgain={() => requestOpen(true)}
+              openRef={openRef}
+              collectionHref="/collection"
+              animations={animations}
+            />
+            {error && (
+              <p role="alert" className="text-center text-sm text-accent">
+                {t(error)}
+              </p>
+            )}
+          </>
         ) : (
           <>
             <PackStage
@@ -321,7 +340,7 @@ export function OpeningScreen({
               ref={openRef}
               type="button"
               disabled={!n || busy}
-              onClick={requestOpen}
+              onClick={() => requestOpen()}
               className="w-full max-w-xs rounded-full bg-cta px-6 py-3 font-semibold text-black shadow-[0_8px_30px_-6px_var(--color-cta)] transition hover:brightness-110 disabled:opacity-50 disabled:shadow-none"
             >
               {label}

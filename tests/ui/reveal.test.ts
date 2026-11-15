@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { newFlags } from "@/lib/opening/best";
+import { bestCard, newFlags } from "@/lib/opening/best";
 import { revealReducer, type RevealState } from "@/lib/opening/reveal";
 
 describe("newFlags", () => {
@@ -17,6 +17,32 @@ describe("newFlags", () => {
 
   it("is empty for no rows", () => {
     expect(newFlags([])).toEqual([]);
+  });
+});
+
+describe("bestCard", () => {
+  it("prefers the highest rarity", () => {
+    expect(
+      bestCard([
+        { rarity: "rare", number: 1 },
+        { rarity: "mythic", number: 90 },
+        { rarity: "epic", number: 2 },
+      ]),
+    ).toBe(1);
+  });
+
+  it("breaks a rarity tie with the lower card number", () => {
+    expect(
+      bestCard([
+        { rarity: "rare", number: 40 },
+        { rarity: "common", number: 1 },
+        { rarity: "rare", number: 12 },
+      ]),
+    ).toBe(2);
+  });
+
+  it("is -1 for no cards", () => {
+    expect(bestCard([])).toBe(-1);
   });
 });
 

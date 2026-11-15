@@ -62,7 +62,12 @@ export function SlotStrip({
               >
                 {on && slot.imageUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={slot.imageUrl} alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={slot.imageUrl}
+                    alt=""
+                    crossOrigin="anonymous"
+                    className="h-full w-full object-cover"
+                  />
                 )}
               </div>
             );

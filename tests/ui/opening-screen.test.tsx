@@ -137,9 +137,9 @@ describe("OpeningScreen", () => {
     await act(async () => resolve({ data: rows, error: null }));
     expect(await screen.findByTestId("reveal-flow")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
-    expect(screen.getByTestId("reveal-placeholder")).toBeInTheDocument();
+    expect(screen.getByTestId("summary")).toBeInTheDocument();
     expect(screen.getByText("Placeholder Hero")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: messages.opening.done })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("heading", { level: 2, name: "Mix" })).toBeInTheDocument();
     expect(rpc).toHaveBeenCalledTimes(1);
   });
 
@@ -316,7 +316,59 @@ describe("OpeningScreen", () => {
     expect(screen.getByText("Placeholder Hero", { selector: "h2" })).toBeInTheDocument();
     fireEvent.keyDown(window, { key: " ", code: "Space" });
     fireEvent.keyUp(window, { key: " ", code: "Space" });
-    expect(screen.getByTestId("reveal-placeholder")).toBeInTheDocument();
+    expect(screen.getByTestId("summary")).toBeInTheDocument();
+  });
+
+  it("Open another from the summary goes straight into a fresh reveal", async () => {
+    localStorage.setItem(KEY, JSON.stringify({ animations: true }));
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    fireEvent.click(openButton());
+    // the first open plays the tear sequence
+    await screen.findByTestId("reveal-flow", {}, { timeout: 3000 });
+    fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
+    expect(screen.getByTestId("summary")).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Open another · Free" }));
+    });
+    expect(rpc).toHaveBeenCalledTimes(2);
+    expect(rpc).toHaveBeenLastCalledWith("open_packs", { p_pack: "mix", p_count: 1, p_max_cost: 0 });
+    expect(screen.getByTestId("reveal-flow")).toBeInTheDocument();
+    expect(screen.getByTestId("reveal-counter")).toHaveTextContent("1/1");
+    expect(screen.queryByRole("button", { name: messages.opening.openBooster })).toBeNull();
+  });
+
+  it("Open another asks before a paid booster", async () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap(status({ freeStock: 0 }));
+    fireEvent.click(openButton());
+    fireEvent.click(screen.getByRole("button", { name: messages.opening.confirm }));
+    await screen.findByTestId("reveal-flow");
+    fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
+
+    fireEvent.click(screen.getByRole("button", { name: "Open another · 150" }));
+    expect(screen.getByRole("alertdialog")).toBeInTheDocument();
+    expect(rpc).toHaveBeenCalledTimes(1);
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: messages.opening.confirm }));
+    });
+    expect(rpc).toHaveBeenLastCalledWith("open_packs", { p_pack: "mix", p_count: 1, p_max_cost: 150 });
+    expect(screen.getByTestId("reveal-flow")).toBeInTheDocument();
+  });
+
+  it("keeps the summary and shows the error when Open another fails", async () => {
+    rpc.mockResolvedValueOnce({ data: rows, error: null });
+    rpc.mockResolvedValueOnce({ data: null, error: { message: "no_stock" } });
+    wrap();
+    fireEvent.click(openButton());
+    await screen.findByTestId("reveal-flow");
+    fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Open another · Free" }));
+    });
+    expect(screen.getByTestId("summary")).toBeInTheDocument();
+    expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
   it("Enter on the pack opens", async () => {

@@ -108,7 +108,12 @@ export function RevealFlow({
   // warm the next card's art so it is there when that card flips
   const nextImage = cards[state.index + 1]?.card.imageUrl;
   useEffect(() => {
-    if (nextImage) new Image().src = nextImage;
+    // same CORS mode as CardView, or the cached copy cannot be reused (or exported)
+    if (nextImage) {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = nextImage;
+    }
   }, [nextImage]);
 
   useEffect(() => {

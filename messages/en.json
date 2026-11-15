@@ -134,9 +134,20 @@
     "confirm": "Confirm",
     "cancel": "Cancel",
     "cardsAdded": "Cards added to your collection.",
-    "seeCollection": "See the collection",
-    "resultTitle": "Your cards",
-    "done": "Done"
+    "seeCollection": "See the collection"
+  },
+  "summary": {
+    "newCards": "{count, plural, =0 {No new cards} one {# new card} other {# new cards}}",
+    "best": "Best card",
+    "openAgain": "Open another · {price}",
+    "free": "Free",
+    "change": "Change booster",
+    "collection": "See the collection",
+    "copy": "Copy the link",
+    "copied": "Link copied",
+    "image": "Image",
+    "imageError": "Couldn't make the image. Try again.",
+    "cards": "Your pull"
   },
   "card": {
     "pow": "POW",
