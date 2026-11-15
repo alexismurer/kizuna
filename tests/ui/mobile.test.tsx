@@ -44,6 +44,7 @@ const status: Status = {
   untilGolden: 4,
   untilPity: 120,
   dailyOpenedToday: false,
+  rewardPacks: {},
 };
 const PACKS = [pack("mix", "free"), pack("shonen", "free"), pack("hall_of_fame", "shop", { price: 750 })];
 

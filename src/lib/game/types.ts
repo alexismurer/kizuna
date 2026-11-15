@@ -29,4 +29,5 @@ export interface Status {
   untilGolden: number
   untilPity: number
   dailyOpenedToday: boolean
+  rewardPacks: Record<string, number>
 }

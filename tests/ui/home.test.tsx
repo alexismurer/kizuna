@@ -50,6 +50,7 @@ const status = (o: Partial<Status> = {}): Status => ({
   untilGolden: 4,
   untilPity: 120,
   dailyOpenedToday: false,
+  rewardPacks: {},
   ...o,
 });
 
