@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { TopBar } from "@/components/TopBar";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
@@ -51,9 +49,6 @@ export default async function LocaleLayout({
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
-          <Suspense fallback={null}>
-            <TopBar />
-          </Suspense>
           {children}
         </NextIntlClientProvider>
       </body>

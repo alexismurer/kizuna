@@ -107,3 +107,20 @@ body {
   .card-sheen::after { animation: none; }
   .back-glow-mythic { animation: none; }
 }
+
+@keyframes pack-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pack-shadow {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(0.8); opacity: 0.4; }
+}
+
+.pack-bob { animation: pack-bob 3.6s ease-in-out infinite; }
+.pack-shadow-bob { animation: pack-shadow 3.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pack-bob, .pack-shadow-bob { animation: none; }
+}

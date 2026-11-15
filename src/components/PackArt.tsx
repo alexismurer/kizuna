@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-const EMBLEM: Record<string, LucideIcon> = {
+export const EMBLEM: Record<string, LucideIcon> = {
   mix: Shuffle,
   shonen: Flame,
   seinen: Swords,
@@ -36,7 +36,7 @@ const EMBLEM: Record<string, LucideIcon> = {
   daily: CalendarDays,
 };
 
-const HUE: Record<string, number> = {
+export const HUE: Record<string, number> = {
   mix: 330,
   shonen: 15,
   seinen: 0,

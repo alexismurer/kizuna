@@ -51,6 +51,12 @@ describe("proxy gate", () => {
     expect(location(res)).toBe("/login");
   });
 
+  it.each(["/open/mix", "/en/open/mix"])("gates the opening page %s", async (path) => {
+    const res = await run(path);
+    expect(res.status).toBe(307);
+    expect(location(res)).toBe("/login");
+  });
+
   it("redirects signed-in users without a player row to /invite", async () => {
     state.user = { id: "u1" };
     const res = await run("/");
