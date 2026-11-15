@@ -94,7 +94,10 @@
   "card": {
     "pow": "POW",
     "aura": "AURA",
-    "noArt": "No art"
+    "noArt": "No art",
+    "owned": "Copies owned",
+    "series": "View series album",
+    "back": "Back to collection"
   },
   "packs": {
     "mix": {
@@ -157,5 +160,31 @@
       "name": "Daily",
       "tagline": "Today's themed selection"
     }
+  },
+  "collection": {
+    "title": "Collection",
+    "unique": "Unique cards",
+    "completion": "Complete",
+    "duplicates": "Duplicates",
+    "viewCards": "Cards",
+    "viewAlbums": "Albums",
+    "search": "Search name or series",
+    "empty": "No cards found.",
+    "filter": {
+      "all": "All",
+      "todo": "To complete",
+      "done": "Complete"
+    },
+    "sort": {
+      "label": "Sort",
+      "cards": "Most cards",
+      "complete": "Most complete",
+      "az": "A to Z"
+    }
+  },
+  "recycle": {
+    "all": "Recycle duplicates · ≈ +{gain}",
+    "one": "Recycle one · +{gain}",
+    "gained": "Recycled for +{gain}"
   }
 }
