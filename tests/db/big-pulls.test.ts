@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { admin, newPlayer, signedInClient } from './helpers'
 
+type BigPullRow = { username: string; card_id: number; rarity: string; pulled_at: string }
 async function openDivine(userId: string) {
   const { data, error } = await admin.rpc('_open_pack', {
     p_player: userId,
@@ -25,7 +26,7 @@ describe('recent_big_pulls', () => {
     expect(error).toBeNull()
     for (const r of data!) expect(['legendary', 'mythic']).toContain(r.rarity)
     for (const r of big) {
-      expect(data!.some((d: any) => d.username === me!.username && d.card_id === r.card_id)).toBe(true)
+      expect(data!.some((d: BigPullRow) => d.username === me!.username && d.card_id === r.card_id)).toBe(true)
     }
 
     const outsider = await signedInClient()
@@ -40,7 +41,7 @@ describe('recent_big_pulls', () => {
     await new Promise((r) => setTimeout(r, 20))
     await openDivine(a.userId)
     const { data } = await a.client.rpc('recent_big_pulls', { p_limit: 50 })
-    const times = data!.map((r: any) => Date.parse(r.pulled_at))
+    const times = data!.map((r: BigPullRow) => Date.parse(r.pulled_at))
     expect(times.length).toBeGreaterThan(1)
     expect(times).toEqual([...times].sort((x, y) => y - x))
     expect(new Set(times).size).toBeGreaterThan(1)
