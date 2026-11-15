@@ -62,8 +62,16 @@ export function PackPanel({
           {top !== "common" && (
             <li>{t("pack.floor", { rarity: t(`rarity.${top}`) })}</li>
           )}
-          <li>{t("pack.golden", { count: status.untilGolden })}</li>
-          <li>{t("pack.pity", { count: status.untilPity })}</li>
+          {mode !== "daily" && (
+            <>
+              <li>{t("pack.golden", { count: status.untilGolden })}</li>
+              <li>
+                {status.untilPity > 0
+                  ? t("pack.pity", { count: status.untilPity })
+                  : t("pack.pityNext")}
+              </li>
+            </>
+          )}
         </ul>
         <div className="space-y-1">
           <p className="text-xs text-common">{t("pack.chances")}</p>

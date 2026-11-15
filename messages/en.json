@@ -7,6 +7,7 @@
     "dailyKicker": "Daily pack",
     "dailyOpen": "Open the daily pack",
     "dailyDone": "Back tomorrow",
+    "dailyNone": "No daily pack today",
     "tabs": {
       "free": "Free",
       "daily": "Daily",
@@ -68,13 +69,15 @@
     "free": "Free boosters",
     "next": "next in {time}",
     "golden": "Until golden",
-    "pity": "Until sure Mythic"
+    "pity": "Until sure Mythic",
+    "pityNext": "next Mythic pack"
   },
   "pack": {
     "cards": "{count} cards per pack",
     "floor": "Guaranteed {rarity} or better",
     "golden": "{count} packs until golden",
-    "pity": "{count} cards until sure Mythic",
+    "pity": "{count} packs until sure Mythic",
+    "pityNext": "Next standard pack with a Mythic pool is a sure Mythic",
     "chances": "Chance of at least one",
     "openFree": "Free · {count} left",
     "openPrice": "Open · {price}",

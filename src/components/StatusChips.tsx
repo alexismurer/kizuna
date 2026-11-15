@@ -47,7 +47,12 @@ export function StatusChips({ status }: { status: Status }) {
         {t("golden")}: <span className="font-mono">{status.untilGolden}</span>
       </div>
       <div className={chip}>
-        {t("pity")}: <span className="font-mono">{status.untilPity}</span>
+        {t("pity")}:{" "}
+        {status.untilPity > 0 ? (
+          <span className="font-mono">{status.untilPity}</span>
+        ) : (
+          <span className="text-cta">{t("pityNext")}</span>
+        )}
       </div>
     </div>
   );
