@@ -19,6 +19,8 @@ export default defineConfig({
             "tests/import/**/*.test.{ts,tsx}",
           ],
           setupFiles: ["tests/setup-ui.ts"],
+          // let Vite resolve next-intl's extensionless "next/server" import
+          server: { deps: { inline: ["next-intl"] } },
         },
       },
       {

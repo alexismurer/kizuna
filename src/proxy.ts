@@ -15,8 +15,15 @@ function stripLocale(pathname: string) {
   return pathname;
 }
 
+// Route handlers outside [locale] (e.g. the OAuth callback) must not be
+// rewritten to /en/... by next-intl.
+const isAuthRoute = (pathname: string) =>
+  pathname === "/auth" || pathname.startsWith("/auth/");
+
 export default async function proxy(request: NextRequest) {
-  const response = intl(request) ?? NextResponse.next();
+  const response = isAuthRoute(request.nextUrl.pathname)
+    ? NextResponse.next()
+    : (intl(request) ?? NextResponse.next());
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
