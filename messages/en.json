@@ -185,6 +185,11 @@
   "recycle": {
     "all": "Recycle duplicates · ≈ +{gain}",
     "one": "Recycle one · +{gain}",
-    "gained": "Recycled for +{gain}"
+    "gained": "Recycled for +{gain}",
+    "confirmTitle": "Recycle these duplicates?",
+    "confirmLine": "{rarity} × {copies} · +{gain}",
+    "confirmTotal": "Total +{gain}",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   }
 }

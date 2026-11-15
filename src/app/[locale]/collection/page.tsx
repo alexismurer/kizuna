@@ -5,7 +5,7 @@ import type { CardData } from "@/components/CardView";
 import { CollectionGrid, type OwnedCard } from "@/components/CollectionGrid";
 import { RecycleButton } from "@/components/RecycleButton";
 import { Link } from "@/i18n/navigation";
-import { recycleEstimate } from "@/lib/game/recycle";
+import { recycleBreakdown, recycleEstimate } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
 import { fetchAll } from "@/lib/supabase/fetchAll";
 import { createServerClient } from "@/lib/supabase/server";
@@ -91,13 +91,13 @@ async function CollectionContent({
   const total = catalog.count ?? 0;
   const unique = items.length;
   const duplicates = items.reduce((s, i) => s + Math.max(0, i.count - 1), 0);
-  const estimate = recycleEstimate(
-    rows.map((r) => ({
-      rarity: r.cards.rarity,
-      count: r.count,
-      locked: r.locked,
-    })),
-  );
+  const recycleRows = rows.map((r) => ({
+    rarity: r.cards.rarity,
+    count: r.count,
+    locked: r.locked,
+  }));
+  const estimate = recycleEstimate(recycleRows);
+  const breakdown = recycleBreakdown(recycleRows);
 
   const tab = (active: boolean) =>
     `rounded-full border px-4 py-1.5 text-sm ${active ? "border-cta text-cta" : "border-border"}`;
@@ -123,7 +123,7 @@ async function CollectionContent({
           {t("duplicates")}: <span className="font-mono">{duplicates}</span>
         </div>
       </div>
-      <RecycleButton mode="all" estimate={estimate} />
+      <RecycleButton mode="all" estimate={estimate} breakdown={breakdown} />
       <div className="flex flex-wrap items-center gap-2">
         <Link
           href={{ pathname: "/collection", query: q ? { q } : {} }}

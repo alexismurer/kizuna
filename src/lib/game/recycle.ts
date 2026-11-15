@@ -1,4 +1,4 @@
-import type { Rarity } from "./types";
+import { RARITIES, type Rarity } from "./types";
 
 // Mirrors recycle_value() in the database.
 export const RECYCLE_VALUE: Record<Rarity, number> = {
@@ -21,4 +21,19 @@ export function recycleEstimate(
     (sum, r) => sum + recyclable(r.count, r.locked) * RECYCLE_VALUE[r.rarity],
     0,
   );
+}
+
+// Recyclable copies per rarity, rarest first (for the confirmation summary).
+export function recycleBreakdown(
+  rows: { rarity: Rarity; count: number; locked: number }[],
+): { rarity: Rarity; copies: number }[] {
+  const order = [...RARITIES].reverse();
+  return order
+    .map((rarity) => ({
+      rarity,
+      copies: rows
+        .filter((r) => r.rarity === rarity)
+        .reduce((s, r) => s + recyclable(r.count, r.locked), 0),
+    }))
+    .filter((b) => b.copies > 0);
 }
