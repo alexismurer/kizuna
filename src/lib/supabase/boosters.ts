@@ -27,34 +27,32 @@ export type TopCardRow = {
 };
 export type Pool = { name: string; series_ids: number[] } | null;
 
-const CARD_COLUMNS = "number, name, native_name, image_url, rarity, pow, aura, series(title)";
-
-// The player's status and every booster with its pool size and three most
-// popular characters. Cached per request: the home page and the bottom nav's
-// booster sheet share one load.
-export const loadBoosters = cache(async () => {
+// The player's status, once per request (top bar, bottom nav, home).
+export const loadStatus = cache(async () => {
   const supabase = await createServerClient();
-  const [statusRes, poolRes, packsRes] = await Promise.all([
-    supabase.rpc("my_status"),
+  const { data } = await supabase.rpc("my_status");
+  return (data ?? null) as Status | null;
+});
+
+// Every booster with its pool size and three most popular characters
+// (`columns` of each), one range query per pack.
+async function loadPacks<C extends { image_url: string | null }>(columns: string) {
+  const supabase = await createServerClient();
+  const [poolRes, packsRes] = await Promise.all([
     supabase.rpc("todays_pool"),
     supabase.from("pack_types").select("*").order("sort"),
   ]);
-  const status = (statusRes.data ?? null) as Status | null;
   const pool = poolRes.data as Pool;
   const rows = (packsRes.data ?? []) as PackRow[];
-  // signed out (login, invite): nothing to show
-  if (!status) return { status, pool, packs: [] as HomePack[], topCards: new Map<string, TopCardRow[]>() };
 
-  // one range query per pack
   const tops = await Promise.all(
     rows.map(async (p) => {
-      if (p.kind === "daily" && !pool) return { count: 0, cards: [] as TopCardRow[] };
-      const { data, count } = await packPool(supabase, p, pool?.series_ids ?? null, CARD_COLUMNS).range(0, 2);
-      return { count: count ?? 0, cards: (data ?? []) as unknown as TopCardRow[] };
+      if (p.kind === "daily" && !pool) return { count: 0, cards: [] as C[] };
+      const { data, count } = await packPool(supabase, p, pool?.series_ids ?? null, columns).range(0, 2);
+      return { count: count ?? 0, cards: (data ?? []) as unknown as C[] };
     }),
   );
   const topCards = new Map(rows.map((p, i) => [p.id, tops[i].cards]));
-
   const packs: HomePack[] = rows.map((p, i) => ({
     id: p.id,
     kind: p.kind,
@@ -66,6 +64,23 @@ export const loadBoosters = cache(async () => {
     characters: tops[i].count,
     thumbs: tops[i].cards.flatMap((c) => (c.image_url ? [c.image_url] : [])),
   }));
+  return { pool, packs, topCards };
+}
 
-  return { status, pool, packs, topCards };
-});
+const CARD_COLUMNS = "number, name, native_name, image_url, rarity, pow, aura, series(title)";
+
+// Home: status plus every booster with its top cards for the hero.
+export async function loadBoosters() {
+  const status = await loadStatus();
+  if (!status) return null;
+  return { status, ...(await loadPacks<TopCardRow>(CARD_COLUMNS)) };
+}
+
+// The booster sheet: the same packs, thumbnails only. Loaded on demand.
+export async function loadSheetBoosters() {
+  const status = await loadStatus();
+  if (!status) return null;
+  const { pool, packs } = await loadPacks<{ image_url: string | null }>("image_url");
+  return { status, packs, dailyName: pool?.name ?? null };
+}
+export type SheetBoosters = NonNullable<Awaited<ReturnType<typeof loadSheetBoosters>>>;

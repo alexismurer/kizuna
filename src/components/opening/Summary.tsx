@@ -43,6 +43,7 @@ export function Summary({
   onOpenAgain,
   openRef,
   collectionHref,
+  onChangeBooster,
   animations,
 }: {
   packName: string;
@@ -56,6 +57,7 @@ export function Summary({
   onOpenAgain: (n: number) => void;
   openRef?: React.RefObject<HTMLButtonElement | null>;
   collectionHref: string;
+  onChangeBooster: () => void;
   animations: boolean;
 }) {
   const t = useTranslations("summary");
@@ -258,9 +260,9 @@ export function Summary({
         </button>
       )}
       <div className="flex flex-wrap justify-center gap-2">
-        <Link href="/" className={secondary}>
+        <button type="button" aria-haspopup="dialog" onClick={onChangeBooster} className={secondary}>
           {t("change")}
-        </Link>
+        </button>
         <Link href={collectionHref} className={secondary}>
           {t("collection")}
         </Link>

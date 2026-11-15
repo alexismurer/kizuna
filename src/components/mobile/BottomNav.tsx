@@ -3,10 +3,8 @@
 import { useState } from "react";
 import { Ellipsis, Gamepad2, House, Layers, Package, Store, Target } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { HomePack } from "@/components/home/BoosterGrid";
 import { SignOutButton } from "@/components/SignOutButton";
 import { Link, usePathname } from "@/i18n/navigation";
-import type { Status } from "@/lib/game/types";
 import { BoosterSheet } from "./BoosterSheet";
 import { Sheet } from "./Sheet";
 
@@ -14,15 +12,7 @@ const item = "flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] font-medi
 
 // Phone tab bar: Home, Collection, a raised Open button, Market, More.
 // Hidden on md and up, and on the full-screen opening page.
-export function BottomNav({
-  packs,
-  status,
-  dailyName,
-}: {
-  packs: HomePack[];
-  status: Status;
-  dailyName: string | null;
-}) {
+export function BottomNav() {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const [sheet, setSheet] = useState<"boosters" | "more" | null>(null);
@@ -103,12 +93,7 @@ export function BottomNav({
       </nav>
 
       {sheet === "boosters" && (
-        <BoosterSheet
-          packs={packs}
-          status={status}
-          dailyName={dailyName}
-          onClose={() => setSheet(null)}
-        />
+        <BoosterSheet onClose={() => setSheet(null)} />
       )}
       {sheet === "more" && (
         <Sheet label={t("moreTitle")} onClose={() => setSheet(null)}>

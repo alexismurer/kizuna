@@ -293,6 +293,7 @@
     "cancel": "Cancel"
   },
   "sheet": {
-    "close": "Close"
+    "close": "Close",
+    "loading": "Loading boosters…"
   }
 }

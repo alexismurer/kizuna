@@ -57,6 +57,7 @@ function wrap(props: Partial<React.ComponentProps<typeof Summary>> = {}) {
         busy={false}
         onOpenAgain={onOpenAgain}
         collectionHref="/collection"
+        onChangeBooster={() => {}}
         animations={false}
         {...props}
       />
@@ -126,7 +127,13 @@ describe("Summary", () => {
       "href",
       "/collection",
     );
-    expect(screen.getByRole("link", { name: messages.summary.change })).toHaveAttribute("href", "/");
+  });
+
+  it("Change booster calls back instead of leaving the page", () => {
+    const onChangeBooster = vi.fn();
+    wrap({ onChangeBooster });
+    fireEvent.click(screen.getByRole("button", { name: messages.summary.change }));
+    expect(onChangeBooster).toHaveBeenCalledTimes(1);
   });
 
   it("copies the page URL", async () => {

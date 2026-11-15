@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { HomePack } from "@/components/home/BoosterGrid";
 import { BoosterSheet } from "@/components/mobile/BoosterSheet";
 import { BottomNav } from "@/components/mobile/BottomNav";
@@ -19,6 +19,8 @@ vi.mock("@/i18n/navigation", () => ({
   usePathname: () => pathname,
   useRouter: () => ({ refresh: vi.fn(), push: vi.fn() }),
 }));
+const load = vi.hoisted(() => vi.fn());
+vi.mock("@/lib/actions/boosterSheet", () => ({ getSheetBoosters: load }));
 vi.mock("@/lib/supabase/client", () => ({
   createBrowserClient: () => ({ auth: { signOut: vi.fn() }, rpc: vi.fn() }),
 }));
@@ -53,14 +55,18 @@ function wrap(ui: React.ReactNode) {
   );
 }
 
+beforeEach(() => {
+  load.mockResolvedValue({ status, packs: PACKS, dailyName: null });
+});
 afterEach(() => {
   cleanup();
   pathname = "/";
+  load.mockReset();
 });
 
 describe("BottomNav", () => {
   it("renders five items with the Open button in the middle", () => {
-    wrap(<BottomNav packs={PACKS} status={status} dailyName={null} />);
+    wrap(<BottomNav />);
     const nav = screen.getByRole("navigation", { name: messages.nav.label });
     const items = within(nav).getAllByRole("listitem");
     expect(items).toHaveLength(5);
@@ -69,23 +75,27 @@ describe("BottomNav", () => {
     expect(within(items[3]).getByRole("button", { name: new RegExp(messages.nav.market) })).toBeDisabled();
   });
 
-  it("opens the booster sheet from the Open button", () => {
-    wrap(<BottomNav packs={PACKS} status={status} dailyName={null} />);
+  it("loads the boosters only when the Open button opens the sheet", async () => {
+    wrap(<BottomNav />);
+    expect(load).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("button", { name: messages.nav.open }));
-    expect(screen.getByRole("dialog", { name: messages.home.grid.title })).toBeInTheDocument();
+    const sheet = screen.getByRole("dialog", { name: messages.home.grid.title });
+    expect(within(sheet).getByRole("status")).toHaveTextContent(messages.sheet.loading);
+    expect(await within(sheet).findByRole("button", { name: /^Mix/ })).toBeInTheDocument();
+    expect(load).toHaveBeenCalledTimes(1);
   });
 
   it("is absent on the opening page", () => {
     pathname = "/open/mix";
-    wrap(<BottomNav packs={PACKS} status={status} dailyName={null} />);
+    wrap(<BottomNav />);
     expect(screen.queryByRole("navigation")).toBeNull();
   });
 });
 
 describe("BoosterSheet", () => {
-  it("tapping a collapsed row expands it and collapses the previous one", () => {
-    wrap(<BoosterSheet packs={PACKS} status={status} dailyName={null} onClose={() => {}} />);
-    const mix = screen.getByRole("button", { name: /^Mix/ });
+  it("tapping a collapsed row expands it and collapses the previous one", async () => {
+    wrap(<BoosterSheet onClose={() => {}} />);
+    const mix = await screen.findByRole("button", { name: /^Mix/ });
     const shonen = screen.getByRole("button", { name: /^Shonen/ });
     expect(mix).toHaveAttribute("aria-expanded", "true");
     expect(shonen).toHaveAttribute("aria-expanded", "false");
@@ -94,32 +104,36 @@ describe("BoosterSheet", () => {
     expect(screen.getByRole("button", { name: /^Mix/ })).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("Open links to the expanded pack's opening page", () => {
-    wrap(<BoosterSheet packs={PACKS} status={status} dailyName={null} onClose={() => {}} />);
-    fireEvent.click(screen.getByRole("button", { name: /^Shonen/ }));
+  it("Open links to the expanded pack's opening page", async () => {
+    wrap(<BoosterSheet onClose={() => {}} />);
+    fireEvent.click(await screen.findByRole("button", { name: /^Shonen/ }));
     expect(screen.getByRole("link", { name: /^Open · Free/ })).toHaveAttribute("href", "/open/shonen");
   });
 
-  it("starts on the given pack's tab", () => {
-    wrap(
-      <BoosterSheet packs={PACKS} status={status} dailyName={null} initialPack="hall_of_fame" onClose={() => {}} />,
-    );
-    expect(screen.getByRole("tab", { name: messages.home.tabs.shop })).toHaveAttribute("aria-selected", "true");
+  it("starts on the given pack's tab", async () => {
+    wrap(<BoosterSheet initialPack="hall_of_fame" onClose={() => {}} />);
+    expect(await screen.findByRole("tab", { name: messages.home.tabs.shop })).toHaveAttribute("aria-selected", "true");
     expect(screen.getByRole("link", { name: "Open · 750" })).toHaveAttribute("href", "/open/hall_of_fame");
   });
 
   it("Escape and the close button close it", () => {
     const onClose = vi.fn();
-    wrap(<BoosterSheet packs={PACKS} status={status} dailyName={null} onClose={onClose} />);
+    wrap(<BoosterSheet onClose={onClose} />);
     fireEvent.keyDown(window, { key: "Escape" });
     expect(onClose).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByRole("button", { name: messages.sheet.close }));
     expect(onClose).toHaveBeenCalledTimes(2);
   });
 
+  it("shows an error when the boosters can't be loaded", async () => {
+    load.mockRejectedValue(new Error("offline"));
+    wrap(<BoosterSheet onClose={() => {}} />);
+    expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.unknown);
+  });
+
   it("closes when swiped down", () => {
     const onClose = vi.fn();
-    wrap(<BoosterSheet packs={PACKS} status={status} dailyName={null} onClose={onClose} />);
+    wrap(<BoosterSheet onClose={onClose} />);
     const handle = screen.getByTestId("sheet-handle");
     fireEvent.pointerDown(handle, { pointerId: 1, clientY: 100 });
     fireEvent.pointerMove(handle, { pointerId: 1, clientY: 250 });

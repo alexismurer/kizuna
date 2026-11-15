@@ -2,12 +2,11 @@ import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { BottomNav } from "@/components/mobile/BottomNav";
 import { TopBar } from "@/components/TopBar";
-import { loadBoosters } from "@/lib/supabase/boosters";
+import { loadStatus } from "@/lib/supabase/boosters";
 
+// signed-in players only; the booster sheet loads its packs when opened
 async function MobileNav() {
-  const { status, pool, packs } = await loadBoosters();
-  if (!status) return null;
-  return <BottomNav packs={packs} status={status} dailyName={pool?.name ?? null} />;
+  return (await loadStatus()) ? <BottomNav /> : null;
 }
 
 export default async function MainLayout({

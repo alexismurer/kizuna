@@ -74,7 +74,7 @@ export function StatusTiles({ status }: { status: Status }) {
   return (
     <>
       {/* missions and login streak tiles join this grid with Plan 2 */}
-      <div className="grid grid-cols-5 gap-1.5 md:hidden">
+      <div className="grid grid-cols-3 gap-1.5 md:hidden">
         <Tile
           color="var(--color-uncommon)"
           Icon={Package}

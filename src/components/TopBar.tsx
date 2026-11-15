@@ -2,18 +2,14 @@ import { Bell, Coins, Package, User } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
-import { createServerClient } from "@/lib/supabase/server";
+import { loadStatus } from "@/lib/supabase/boosters";
 import { SignOutButton } from "./SignOutButton";
 
 export async function TopBar() {
   const t = await getTranslations();
-  const supabase = await createServerClient();
-  const { data: status } = await supabase.rpc("my_status");
+  const status = await loadStatus();
   if (!status) return null;
-  const { freeStock, currency } = status as {
-    freeStock: number;
-    currency: number;
-  };
+  const { freeStock, currency } = status;
 
   const disabled = ["market", "play", "more"] as const;
 

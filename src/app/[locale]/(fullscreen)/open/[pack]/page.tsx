@@ -2,8 +2,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { OpeningScreen } from "@/components/opening/OpeningScreen";
-import type { PackType } from "@/lib/game/types";
-import { loadBoosters } from "@/lib/supabase/boosters";
+import type { PackType, Status } from "@/lib/game/types";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -23,13 +22,13 @@ async function OpeningContent({
   const { locale, pack: packId } = await params;
   setRequestLocale(locale);
   const supabase = await createServerClient();
-  const [{ data: pack }, { status, pool, packs }, total] = await Promise.all([
+  const [{ data: pack }, { data: status }, total] = await Promise.all([
     supabase
       .from("pack_types")
       .select("id, kind, price, fallback_price, slot_floors")
       .eq("id", packId)
       .maybeSingle(),
-    loadBoosters(),
+    supabase.rpc("my_status"),
     catalogTotal(supabase),
   ]);
   if (!pack) notFound();
@@ -37,7 +36,11 @@ async function OpeningContent({
   const p = pack as PackRow;
 
   // the daily pack is named after today's pool
-  const name = p.kind === "daily" ? pool?.name : undefined;
+  let name: string | undefined;
+  if (p.kind === "daily") {
+    const { data: pool } = await supabase.rpc("todays_pool");
+    name = (pool as { name: string } | null)?.name ?? undefined;
+  }
 
   return (
     <OpeningScreen
@@ -48,10 +51,9 @@ async function OpeningContent({
         fallbackPrice: p.fallback_price,
         slotFloors: p.slot_floors,
       }}
-      status={status}
+      status={status as Status}
       total={total}
       name={name}
-      boosters={{ packs, dailyName: pool?.name ?? null }}
     />
   );
 }

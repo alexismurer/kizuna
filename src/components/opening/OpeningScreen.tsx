@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { CardData } from "@/components/card/CardView";
-import type { HomePack } from "@/components/home/BoosterGrid";
 import { BoosterSheet } from "@/components/mobile/BoosterSheet";
 import { EMBLEM, HUE } from "@/components/PackArt";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -63,14 +62,11 @@ export function OpeningScreen({
   status,
   total,
   name,
-  boosters,
 }: {
   pack: OpeningPack;
   status: Status;
   total: number;
   name?: string;
-  // every booster, for the phone's "Change booster" sheet
-  boosters: { packs: HomePack[]; dailyName: string | null };
 }) {
   const t = useTranslations();
   const router = useRouter();
@@ -321,6 +317,7 @@ export function OpeningScreen({
               onOpenAgain={() => requestOpen(true)}
               openRef={openRef}
               collectionHref="/collection"
+              onChangeBooster={() => setChanging(true)}
               animations={animations}
             />
             {error && (
@@ -387,13 +384,7 @@ export function OpeningScreen({
       </main>
 
       {changing && (
-        <BoosterSheet
-          packs={boosters.packs}
-          status={status}
-          dailyName={boosters.dailyName}
-          initialPack={pack.id}
-          onClose={() => setChanging(false)}
-        />
+        <BoosterSheet initialPack={pack.id} onClose={() => setChanging(false)} />
       )}
 
       {confirming && (

@@ -16,6 +16,11 @@ vi.mock("@/lib/supabase/client", () => ({
   }),
 }));
 
+// the booster sheet's packs load on demand; empty here
+vi.mock("@/lib/actions/boosterSheet", () => ({
+  getSheetBoosters: () => new Promise(() => {}),
+}));
+
 vi.mock("@/i18n/navigation", () => ({
   useRouter: () => ({ refresh }),
   Link: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) => (
@@ -65,7 +70,7 @@ const cardRows = [
 function wrap(s: Status = status()) {
   render(
     <NextIntlClientProvider locale="en" messages={messages}>
-      <OpeningScreen pack={pack} status={s} total={100} boosters={{ packs: [], dailyName: null }} />
+      <OpeningScreen pack={pack} status={s} total={100} />
     </NextIntlClientProvider>,
   );
 }
@@ -109,6 +114,20 @@ describe("OpeningScreen", () => {
     wrap();
     fireEvent.click(screen.getByRole("button", { name: messages.opening.changeBooster }));
     expect(screen.getByRole("dialog", { name: messages.home.grid.title })).toBeInTheDocument();
+  });
+
+  it("keys inside the booster sheet don't open the pack; Esc only closes the sheet", () => {
+    wrap();
+    fireEvent.click(screen.getByRole("button", { name: messages.opening.changeBooster }));
+    const close = screen.getByRole("button", { name: messages.sheet.close });
+    expect(close).toHaveFocus();
+    fireEvent.keyDown(close, { key: "Enter" });
+    fireEvent.keyDown(close, { key: " " });
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+    expect(rpc).not.toHaveBeenCalled();
+    expect(openButton()).toHaveTextContent("Free · 2 left");
   });
 
   it("labels a mixed open with free count and cost", () => {

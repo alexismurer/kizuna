@@ -1,30 +1,70 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, Coins, Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { price, TABS, tabOf, type HomePack, type Tab } from "@/components/home/BoosterGrid";
 import { PackSidePanel } from "@/components/home/PackSidePanel";
 import { EMBLEM, HUE } from "@/components/PackArt";
+import { getSheetBoosters } from "@/lib/actions/boosterSheet";
 import type { Status } from "@/lib/game/types";
+import type { SheetBoosters } from "@/lib/supabase/boosters";
 import { Sheet } from "./Sheet";
 
-// The mobile booster picker: tabs, the selected pack expanded with its stats,
-// odds and Open link, the others as collapsed rows.
+// The mobile booster sheet. Its packs load when it opens, so the pages that
+// offer it don't pay for them up front.
 export function BoosterSheet({
+  initialPack,
+  onClose,
+}: {
+  // the pack to show expanded first (e.g. the one being opened)
+  initialPack?: string;
+  onClose: () => void;
+}) {
+  const t = useTranslations();
+  // undefined while loading, null when it failed
+  const [data, setData] = useState<SheetBoosters | null | undefined>(undefined);
+  useEffect(() => {
+    let live = true;
+    getSheetBoosters().then(
+      (d) => live && setData(d),
+      () => live && setData(null),
+    );
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  return (
+    <Sheet label={t("home.grid.title")} onClose={onClose}>
+      {data === undefined ? (
+        <p role="status" className="py-6 text-center text-common">
+          {t("sheet.loading")}
+        </p>
+      ) : data === null ? (
+        <p role="alert" className="py-6 text-center text-accent">
+          {t("errors.unknown")}
+        </p>
+      ) : (
+        <BoosterPicker {...data} initialPack={initialPack} />
+      )}
+    </Sheet>
+  );
+}
+
+// Tabs, the selected pack expanded with its stats, odds and Open link, the
+// others as collapsed rows.
+export function BoosterPicker({
   packs,
   status,
   dailyName,
   initialPack,
-  onClose,
 }: {
   packs: HomePack[];
   status: Status;
   // today's pool name; null when there is no daily pack today
   dailyName: string | null;
-  // the pack to show expanded first (e.g. the one being opened)
   initialPack?: string;
-  onClose: () => void;
 }) {
   const t = useTranslations();
   const first = packs.find((p) => p.id === initialPack);
@@ -39,7 +79,7 @@ export function BoosterSheet({
     p.kind === "daily" && dailyName ? dailyName : t(`packs.${p.id}.name`);
 
   return (
-    <Sheet label={t("home.grid.title")} onClose={onClose}>
+    <>
       <div role="tablist" className="mb-3 flex rounded-full border border-border bg-bg p-1">
         {TABS.map((k) => (
           <button
@@ -118,6 +158,6 @@ export function BoosterSheet({
           })}
         </ul>
       )}
-    </Sheet>
+    </>
   );
 }

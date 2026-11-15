@@ -36,12 +36,14 @@ async function main() {
   await page.waitForURL((u) => u.pathname === '/', { timeout: 30_000 })
   const nav = page.getByRole('navigation', { name: 'Main' })
   await nav.waitFor({ timeout: 30_000 })
+  await page.getByRole('heading', { name: 'Big pulls' }).waitFor({ timeout: 30_000 })
 
   ok = (await check(page, 'home')) && ok
 
   await nav.getByRole('button', { name: 'Open' }).click()
   await page.getByRole('dialog').waitFor()
   await page.waitForTimeout(400) // slide-up
+  await page.getByRole('dialog').getByRole('tablist').waitFor({ timeout: 30_000 }) // packs load on open
   ok = (await check(page, 'home-booster-sheet', false)) && ok
   await page.keyboard.press('Escape')
 
@@ -81,6 +83,7 @@ async function main() {
   await page.getByRole('button', { name: /Change booster/ }).click()
   await page.getByRole('dialog').waitFor()
   await page.waitForTimeout(400) // slide-up
+  await page.getByRole('dialog').getByRole('tablist').waitFor({ timeout: 30_000 }) // packs load on open
   ok = (await check(page, 'open-booster-sheet', false)) && ok
   await page.keyboard.press('Escape')
 

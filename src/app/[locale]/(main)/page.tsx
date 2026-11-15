@@ -12,11 +12,9 @@ import { createServerClient } from "@/lib/supabase/server";
 async function HomeContent() {
   const t = await getTranslations();
   const supabase = await createServerClient();
-  const [{ status, pool, packs, topCards }, total] = await Promise.all([
-    loadBoosters(),
-    catalogTotal(supabase),
-  ]);
-  if (!status) return null;
+  const [boosters, total] = await Promise.all([loadBoosters(), catalogTotal(supabase)]);
+  if (!boosters) return null;
+  const { status, pool, packs, topCards } = boosters;
 
   const face = (c: TopCardRow): CardFace => ({
     number: c.number,
