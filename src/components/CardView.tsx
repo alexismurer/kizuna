@@ -89,13 +89,16 @@ export function CardView({
             <p className="truncate text-common">{card.nativeName}</p>
           )}
           <p className="truncate text-common">{card.seriesTitle}</p>
-          <div className="flex items-center justify-between font-mono">
+          <p className="truncate font-mono">
+            #{card.number}
+            {total ? `/${total}` : ""}
+          </p>
+          <div className="flex justify-between gap-1 whitespace-nowrap font-mono">
             <span>
-              #{card.number}
-              {total ? `/${total}` : ""}
+              {t("card.pow")} {card.pow}
             </span>
             <span>
-              {t("card.pow")} {card.pow} · {t("card.aura")} {card.aura}
+              {t("card.aura")} {card.aura}
             </span>
           </div>
         </div>

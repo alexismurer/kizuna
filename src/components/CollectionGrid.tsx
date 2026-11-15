@@ -46,7 +46,7 @@ export function CollectionGrid({
       {shown.length === 0 ? (
         <p className="text-common">{t("collection.empty")}</p>
       ) : (
-        <ul className="grid grid-cols-2 justify-items-center gap-3 sm:grid-cols-3 md:grid-cols-4">
+        <ul className="grid grid-cols-[repeat(auto-fill,10rem)] justify-center gap-3 sm:justify-start">
           {shown.map(({ card, count }) => (
             <li key={card.id} className="relative">
               <Link href={`/card/${card.number}`}>
