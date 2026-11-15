@@ -3,13 +3,50 @@
 import { useEffect, useRef } from "react";
 
 const COUNT = 48;
+const SHARDS = 40;
+const GRAVITY = 900; // px/s²
+const SHARD_LIFE = 1.1; // s
 
 type Particle = { x: number; y: number; r: number; vx: number; vy: number; phase: number; light: number };
+type Shard = { x: number; y: number; vx: number; vy: number; a: number; va: number; w: number; h: number; light: number; hue: number; age: number };
 
-// Slowly rising motes in the pack colour. Not rendered when animations are off;
-// paused while the tab is hidden.
-export function FxLayer({ hue, enabled }: { hue: number; enabled: boolean }) {
+// Where shards burst from: the torn top edge of the pack, in viewport pixels.
+export type Burst = { x: number; y: number; w: number; id: number };
+
+// Slowly rising motes in the pack colour, plus confetti shards thrown out of
+// the pack when it is torn. Not rendered when animations are off; paused while
+// the tab is hidden.
+export function FxLayer({
+  hue,
+  enabled,
+  burst = null,
+}: {
+  hue: number;
+  enabled: boolean;
+  burst?: Burst | null;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
+  const shards = useRef<Shard[]>([]);
+
+  useEffect(() => {
+    if (!enabled || !burst) return;
+    for (let i = 0; i < SHARDS; i++) {
+      const white = Math.random() < 0.3;
+      shards.current.push({
+        x: burst.x + Math.random() * burst.w,
+        y: burst.y,
+        vx: (Math.random() - 0.5) * 340,
+        vy: -(260 + Math.random() * 380),
+        a: Math.random() * Math.PI,
+        va: (Math.random() - 0.5) * 14,
+        w: 3 + Math.random() * 5,
+        h: 2 + Math.random() * 3,
+        light: white ? 95 : 55 + Math.random() * 25,
+        hue: hue + (Math.random() - 0.5) * 60,
+        age: 0,
+      });
+    }
+  }, [burst, enabled, hue]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -55,6 +92,20 @@ export function FxLayer({ hue, enabled }: { hue: number; enabled: boolean }) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
+      }
+      shards.current = shards.current.filter((s) => (s.age += dt) < SHARD_LIFE);
+      for (const s of shards.current) {
+        s.vy += GRAVITY * dt;
+        s.x += s.vx * dt;
+        s.y += s.vy * dt;
+        s.a += s.va * dt;
+        ctx.save();
+        ctx.translate(s.x, s.y);
+        ctx.rotate(s.a);
+        ctx.globalAlpha = 1 - s.age / SHARD_LIFE;
+        ctx.fillStyle = `hsl(${s.hue}, 90%, ${s.light}%)`;
+        ctx.fillRect(-s.w / 2, -s.h / 2, s.w, s.h);
+        ctx.restore();
       }
       raf = requestAnimationFrame(frame);
     };

@@ -44,6 +44,14 @@ function tone(
   osc.stop(start + dur + 0.02);
 }
 
+// Resume the audio context from inside a user gesture, so a sound played a bit
+// later (e.g. when a press-and-hold completes) is allowed on strict browsers.
+export function primeAudio(enabled: boolean): void {
+  if (!enabled) return;
+  const ac = getCtx();
+  if (ac?.state === "suspended") void ac.resume().catch(() => {});
+}
+
 export function playSfx(kind: Sfx, enabled: boolean): void {
   if (!enabled) return;
   const ac = getCtx();

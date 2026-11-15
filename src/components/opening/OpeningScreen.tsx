@@ -11,13 +11,13 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
 import { paymentFor, quantityOptions } from "@/lib/opening/quantity";
 import { createBrowserClient } from "@/lib/supabase/client";
-import { FxLayer } from "./FxLayer";
+import { FxLayer, type Burst } from "./FxLayer";
 import { OpeningHeader } from "./OpeningHeader";
-import { PackStage } from "./PackStage";
+import { PackStage, type TearPhase } from "./PackStage";
 import { PaidConfirm } from "./PaidConfirm";
 import { QuantitySelect } from "./QuantitySelect";
 
-export type OpeningPack = Pick<PackType, "id" | "kind" | "price"> & {
+export type OpeningPack = Pick<PackType, "id" | "kind" | "price" | "slotFloors"> & {
   fallbackPrice: number | null;
 };
 
@@ -48,6 +48,8 @@ type CardRow = {
   series: { title: string } | { title: string }[] | null;
 };
 
+const SEQUENCE_MS = 1200; // tear sequence before the reveal
+
 const CARD_COLUMNS =
   "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title)";
 
@@ -74,6 +76,9 @@ export function OpeningScreen({
   const [added, setAdded] = useState(false);
   const openRef = useRef<HTMLButtonElement>(null);
   const [opened, setOpened] = useState<OpenedCard[] | null>(null);
+  const [tear, setTear] = useState<TearPhase>("sealed");
+  const [burst, setBurst] = useState<Burst | null>(null);
+  const animations = prefs.animations;
 
   const title = name ?? t(`packs.${pack.id}.name`);
   const hue = HUE[pack.id] ?? 330;
@@ -109,6 +114,13 @@ export function OpeningScreen({
     return () => clearTimeout(id);
   }, [status.nextFreeAt, router]);
 
+  // after a successful open the sequence plays, then the reveal shows
+  useEffect(() => {
+    if (tear !== "out") return;
+    const id = setTimeout(() => setTear("sealed"), SEQUENCE_MS);
+    return () => clearTimeout(id);
+  }, [tear]);
+
   const open = useCallback(
     async (count: number, maxCost: number) => {
       if (busyRef.current) return;
@@ -116,6 +128,7 @@ export function OpeningScreen({
       setBusy(true);
       setError(null);
       setAdded(false);
+      let ok = false;
       try {
         const supabase = createBrowserClient();
         // cards are granted server-side before any reveal UI exists
@@ -167,21 +180,31 @@ export function OpeningScreen({
             };
           }),
         );
+        ok = true;
       } catch {
         setError("errors.unknown");
       } finally {
+        // on failure the pack re-seals
+        setTear(ok && animations ? "out" : "sealed");
         busyRef.current = false;
         setBusy(false);
         router.refresh();
       }
     },
-    [pack.id, router],
+    [pack.id, router, animations],
   );
 
   function requestOpen() {
     if (!n || busyRef.current) return;
     if (pay.paid > 0 && prefs.warnPaid) setConfirming(true);
     else void open(n, pay.cost);
+  }
+
+  // the tear / hold gesture: same flow as the Open button
+  function tearOpen() {
+    if (!n || busyRef.current) return;
+    setTear("torn");
+    requestOpen();
   }
 
   const closeConfirm = useCallback(() => {
@@ -218,7 +241,7 @@ export function OpeningScreen({
         color={`hsl(${hue} 90% 80%)`}
         strokeWidth={0.5}
       />
-      <FxLayer hue={hue} enabled={prefs.animations} />
+      <FxLayer hue={hue} enabled={animations} burst={burst} />
 
       <OpeningHeader
         packId={pack.id}
@@ -230,8 +253,8 @@ export function OpeningScreen({
         onPrefs={updatePrefs}
       />
 
-      <main className="relative z-10 flex flex-1 flex-col items-center gap-3 px-4 pb-6">
-        {opened ? (
+      <main className="relative z-10 flex flex-1 flex-col items-center justify-center gap-3 px-4 pb-6">
+        {opened && tear !== "out" ? (
           <section
             data-testid="reveal-placeholder"
             className="flex w-full max-w-4xl flex-col items-center gap-5 py-4"
@@ -260,7 +283,14 @@ export function OpeningScreen({
               packId={pack.id}
               name={title}
               hue={hue}
-              animations={prefs.animations}
+              cards={pack.slotFloors.length}
+              animations={animations}
+              sound={prefs.sound}
+              phase={tear}
+              pending={busy}
+              disabled={!n || busy}
+              onOpen={tearOpen}
+              onBurst={setBurst}
             />
             <p className="text-center text-sm text-white/60">{t("opening.hint")}</p>
             <QuantitySelect
@@ -310,7 +340,10 @@ export function OpeningScreen({
           free={pay.free}
           paid={pay.paid}
           cost={pay.cost}
-          onCancel={closeConfirm}
+          onCancel={() => {
+            closeConfirm();
+            setTear("sealed");
+          }}
           onConfirm={() => {
             closeConfirm();
             void open(n, pay.cost);

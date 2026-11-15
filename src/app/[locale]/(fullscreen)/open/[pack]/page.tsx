@@ -11,6 +11,7 @@ type PackRow = {
   kind: PackType["kind"];
   price: number | null;
   fallback_price: number | null;
+  slot_floors: PackType["slotFloors"];
 };
 
 async function OpeningContent({
@@ -24,7 +25,7 @@ async function OpeningContent({
   const [{ data: pack }, { data: status }, total] = await Promise.all([
     supabase
       .from("pack_types")
-      .select("id, kind, price, fallback_price")
+      .select("id, kind, price, fallback_price, slot_floors")
       .eq("id", packId)
       .maybeSingle(),
     supabase.rpc("my_status"),
@@ -43,7 +44,13 @@ async function OpeningContent({
 
   return (
     <OpeningScreen
-      pack={{ id: p.id, kind: p.kind, price: p.price, fallbackPrice: p.fallback_price }}
+      pack={{
+        id: p.id,
+        kind: p.kind,
+        price: p.price,
+        fallbackPrice: p.fallback_price,
+        slotFloors: p.slot_floors,
+      }}
       status={status as Status}
       total={total}
       name={name}

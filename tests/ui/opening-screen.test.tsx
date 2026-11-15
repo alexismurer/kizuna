@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { OpeningScreen, type OpeningPack } from "@/components/opening/OpeningScreen";
@@ -27,7 +27,13 @@ vi.mock("@/i18n/navigation", () => ({
 
 const KEY = "anicards.prefs";
 
-const pack: OpeningPack = { id: "mix", kind: "free", price: null, fallbackPrice: 150 };
+const pack: OpeningPack = {
+  id: "mix",
+  kind: "free",
+  price: null,
+  fallbackPrice: 150,
+  slotFloors: ["common", "common", "common", "common", "rare"],
+};
 const status = (o: Partial<Status> = {}): Status => ({
   freeStock: 2,
   nextFreeAt: null,
@@ -64,10 +70,23 @@ function wrap(s: Status = status()) {
   );
 }
 
-const openButton = () => screen.getByRole("button", { name: /^(Open|Free|\d+ free)/ });
+const openButton = () =>
+  screen.getByRole("button", { name: /^(Open ·|Open the|Free|\d+ free)/ });
+const packEl = () => screen.getByRole("button", { name: messages.opening.openBooster });
+
+let now = 0;
+function hold(ms: number) {
+  now = 1000;
+  fireEvent.pointerDown(packEl(), { button: 0, pointerId: 1, clientX: 50, clientY: 100 });
+  now = 1000 + ms;
+  fireEvent.pointerUp(packEl(), { button: 0, pointerId: 1 });
+}
 
 beforeEach(() => {
   localStorage.clear();
+  // most tests check the flow, not the tear sequence
+  localStorage.setItem(KEY, JSON.stringify({ animations: false }));
+  vi.spyOn(performance, "now").mockImplementation(() => now);
   rpc.mockReset();
   refresh.mockReset();
   inFn.mockReset();
@@ -131,7 +150,7 @@ describe("OpeningScreen", () => {
   });
 
   it("with warnPaid off a paid open calls immediately", async () => {
-    localStorage.setItem(KEY, JSON.stringify({ warnPaid: false }));
+    localStorage.setItem(KEY, JSON.stringify({ animations: false, warnPaid: false }));
     rpc.mockResolvedValue({ data: rows, error: null });
     wrap();
     fireEvent.click(screen.getByRole("radio", { name: "×5" }));
@@ -213,5 +232,79 @@ describe("OpeningScreen", () => {
     wrap(status({ freeStock: 0, currency: 0 }));
     expect(screen.queryAllByRole("radio")).toHaveLength(0);
     expect(screen.getByRole("button", { name: messages.opening.cantAfford })).toBeDisabled();
+  });
+
+  it("shows the card count chip and the gesture hint", () => {
+    wrap();
+    expect(screen.getByText("5 cards")).toBeInTheDocument();
+    expect(screen.getByText(messages.opening.hint)).toBeInTheDocument();
+  });
+
+  it("a completed hold opens once", async () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    hold(820);
+    expect(rpc).toHaveBeenCalledTimes(1);
+    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 1, p_max_cost: 0 });
+    expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
+    expect(rpc).toHaveBeenCalledTimes(1);
+  });
+
+  it("a hold released early does nothing", () => {
+    wrap();
+    hold(500);
+    expect(rpc).not.toHaveBeenCalled();
+    expect(packEl()).toHaveAttribute("data-tear", "sealed");
+  });
+
+  it("ignores secondary buttons", () => {
+    wrap();
+    now = 1000;
+    fireEvent.pointerDown(packEl(), { button: 2, pointerId: 1 });
+    now = 2000;
+    fireEvent.pointerUp(packEl(), { button: 2, pointerId: 1 });
+    expect(rpc).not.toHaveBeenCalled();
+  });
+
+  it("a cancelled paid confirm after a hold re-seals the strip", () => {
+    wrap();
+    fireEvent.click(screen.getByRole("radio", { name: "×5" }));
+    hold(900);
+    expect(screen.getByRole("alertdialog")).toBeInTheDocument();
+    expect(packEl()).toHaveAttribute("data-tear", "torn");
+    fireEvent.click(screen.getByRole("button", { name: messages.opening.cancel }));
+    expect(packEl()).toHaveAttribute("data-tear", "sealed");
+    expect(rpc).not.toHaveBeenCalled();
+  });
+
+  it("re-seals the pack when the open fails", async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: "insufficient_currency" } });
+    wrap();
+    hold(900);
+    expect(packEl()).toHaveAttribute("data-tear", "torn");
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      messages.errors.insufficient_currency,
+    );
+    expect(packEl()).toHaveAttribute("data-tear", "sealed");
+  });
+
+  it("Enter on the pack opens", async () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    fireEvent.keyDown(packEl(), { key: "Enter" });
+    expect(rpc).toHaveBeenCalledTimes(1);
+    expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
+  });
+
+  it("with animations on, plays the sequence before the reveal", async () => {
+    localStorage.setItem(KEY, JSON.stringify({ animations: true }));
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    hold(900);
+    await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
+    expect(screen.queryByTestId("reveal-placeholder")).toBeNull();
+    expect(
+      await screen.findByTestId("reveal-placeholder", {}, { timeout: 3000 }),
+    ).toBeInTheDocument();
   });
 });
