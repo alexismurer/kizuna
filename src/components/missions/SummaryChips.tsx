@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { sectionCount, streakTicked, type MissionsData } from "@/lib/game/missions";
+import { Count } from "./MissionList";
 
 export function SummaryChips({ data }: { data: MissionsData }) {
   const t = useTranslations("missions.chips");
@@ -19,9 +20,11 @@ export function SummaryChips({ data }: { data: MissionsData }) {
           className="rounded-full border border-border bg-panel px-4 py-1.5 text-sm hover:border-cta"
         >
           {c.label}{" "}
-          <span className={`font-mono ${c.total > 0 && c.done === c.total ? "text-uncommon" : "text-cta"}`}>
-            {c.done}/{c.total}
-          </span>
+          <Count
+            done={c.done}
+            total={c.total}
+            className={c.total > 0 && c.done === c.total ? "text-uncommon" : "text-cta"}
+          />
         </a>
       ))}
     </nav>

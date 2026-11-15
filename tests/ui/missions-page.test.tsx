@@ -168,3 +168,30 @@ describe("AchievementGrid", () => {
     expect(screen.getByText("71/100")).toBeTruthy();
   });
 });
+
+describe("locale formatting", () => {
+  it("formats progress, targets, rewards and counts in the en locale", () => {
+    wrap(<AchievementGrid items={[item("ach_open_1000", 1000, 2500, false, 1200)]} />);
+    expect(screen.getByText("1,000/2,500")).toBeTruthy();
+    expect(screen.getByText(/\+1,200/)).toBeTruthy();
+    cleanup();
+    wrap(<StreakPanel streak={streak({ loginsTotal: 1500, rewards: [20, 30, 40, 50, 60, 80, 1000] })} />);
+    expect(screen.getByText("1,000")).toBeTruthy();
+    expect(screen.getByText(/1,500 logins in total/)).toBeTruthy();
+  });
+});
+
+describe("reset countdown", () => {
+  afterEach(() => vi.useRealTimers());
+
+  it("refreshes once when the daily reset is reached", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-11-15T22:59:58Z"));
+    wrap(<MissionList section="daily" items={data.daily!} bonus={data.bonuses.daily} resetAt="2026-11-15T23:00:00Z" />);
+    expect(refresh).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(1000));
+    expect(refresh).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(5000));
+    expect(refresh).toHaveBeenCalledTimes(1);
+  });
+});

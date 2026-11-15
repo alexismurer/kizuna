@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { rpcErrorKey } from "@/lib/game/errors";
 import { createBrowserClient } from "@/lib/supabase/client";
@@ -9,6 +9,7 @@ import { createBrowserClient } from "@/lib/supabase/client";
 export function ClaimButton({ missionKey, reward }: { missionKey: string; reward: number }) {
   const t = useTranslations("missions.state");
   const te = useTranslations();
+  const format = useFormatter();
   const router = useRouter();
   // a ref, not state: a double click lands before React re-renders the disabled button
   const pending = useRef(false);
@@ -46,7 +47,7 @@ export function ClaimButton({ missionKey, reward }: { missionKey: string; reward
         disabled={busy || done}
         className="rounded-lg bg-cta px-3 py-1 text-xs font-bold text-black disabled:opacity-60"
       >
-        {done ? <span className="font-mono">+{reward}</span> : t("claim")}
+        {done ? <span className="font-mono">+{format.number(reward)}</span> : t("claim")}
       </button>
       {error && (
         <span role="alert" className="text-right text-xs text-red-400">

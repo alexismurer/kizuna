@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Check, Coins, RotateCw } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { useCountdown } from "@/components/home/useCountdown";
+import { useRouter } from "@/i18n/navigation";
 import { itemState, type MissionItem, type SectionBonus } from "@/lib/game/missions";
 import { ClaimButton } from "./ClaimButton";
 
@@ -34,10 +36,20 @@ export function Panel({
 }
 
 export function Reward({ reward }: { reward: number }) {
+  const format = useFormatter();
   return (
     <span className="flex shrink-0 items-center gap-1 font-mono text-sm font-bold text-cta">
-      +{reward}
+      +{format.number(reward)}
       <Coins className="h-3.5 w-3.5" aria-hidden />
+    </span>
+  );
+}
+
+export function Count({ done, total, className }: { done: number; total: number; className: string }) {
+  const format = useFormatter();
+  return (
+    <span className={`font-mono ${className}`}>
+      {format.number(done)}/{format.number(total)}
     </span>
   );
 }
@@ -66,7 +78,17 @@ export function ProgressBar({ item, className }: { item: MissionItem; className:
 
 function ResetChip({ at }: { at: string }) {
   const t = useTranslations("missions");
+  const router = useRouter();
   const left = useCountdown(at);
+  const refreshedFor = useRef<string | null>(null);
+
+  // the period just reset: load the new day's (or week's) missions once
+  useEffect(() => {
+    if (left !== null && left <= 0 && refreshedFor.current !== at) {
+      refreshedFor.current = at;
+      router.refresh();
+    }
+  }, [left, router, at]);
   const min = left === null ? null : Math.max(0, Math.ceil(left / 60000));
   const h = min === null ? 0 : Math.floor(min / 60);
   const label =
@@ -117,9 +139,7 @@ export function MissionList({
               <ProgressBar item={item} className={item.claimed ? "bg-uncommon/60" : "bg-cta"} />
             </div>
             <div className="mt-2 flex items-center justify-between gap-3">
-              <span className="font-mono text-xs text-common">
-                {item.progress}/{item.target}
-              </span>
+              <Count done={item.progress} total={item.target} className="text-xs text-common" />
               <StateLabel item={item} />
             </div>
           </li>

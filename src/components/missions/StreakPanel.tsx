@@ -1,10 +1,11 @@
 import { Check, Star } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { streakTicked, type StreakState } from "@/lib/game/missions";
 import { Panel } from "./MissionList";
 
 export function StreakPanel({ streak }: { streak: StreakState }) {
   const t = useTranslations("missions.streak");
+  const format = useFormatter();
   const ticked = streakTicked(streak);
   const today = streak.claimedToday ? ticked : ticked + 1;
 
@@ -39,7 +40,7 @@ export function StreakPanel({ streak }: { streak: StreakState }) {
               <span
                 className={`font-mono text-xs font-bold sm:text-sm ${golden ? "text-legendary" : "text-cta"}`}
               >
-                {reward}
+                {format.number(reward)}
               </span>
             </li>
           );

@@ -9,7 +9,7 @@ import {
   type AchievementFilter,
   type MissionItem,
 } from "@/lib/game/missions";
-import { Panel, ProgressBar, Reward, StateLabel } from "./MissionList";
+import { Count, Panel, ProgressBar, Reward, StateLabel } from "./MissionList";
 
 const FILTERS: AchievementFilter[] = ["all", "todo", "earned"];
 
@@ -24,7 +24,7 @@ export function AchievementGrid({ items }: { items: MissionItem[] }) {
       id="achievements"
       eyebrow={t("achievements.eyebrow")}
       title={t("achievements.title")}
-      aside={<span className="shrink-0 font-mono text-sm text-common">{done}/{total}</span>}
+      aside={<Count done={done} total={total} className="shrink-0 text-sm text-common" />}
     >
       <div className="mb-4 flex flex-wrap gap-2">
         {FILTERS.map((f) => (
@@ -68,9 +68,7 @@ export function AchievementGrid({ items }: { items: MissionItem[] }) {
                 className={item.claimed ? "bg-uncommon/60" : "bg-gradient-to-r from-accent to-cta"}
               />
               <div className="flex items-center justify-between gap-3">
-                <span className="font-mono text-xs text-common">
-                  {item.progress}/{item.target}
-                </span>
+                <Count done={item.progress} total={item.target} className="text-xs text-common" />
                 <StateLabel item={item} />
               </div>
             </li>
