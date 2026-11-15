@@ -361,7 +361,7 @@ describe('regressing progress', () => {
 })
 
 describe('my_missions', () => {
-  it('counts claimable items and leaves streak null', async () => {
+  it('counts claimable items and reports the streak', async () => {
     const { userId, client } = await newPlayer()
     const [epic] = await cardIds({ rarity: 'epic' }, 1)
     await insert('pack_openings', [opening(userId, new Date().toISOString(), [epic])])
@@ -369,7 +369,7 @@ describe('my_missions', () => {
     const { data, error } = await client.rpc('my_missions')
     expect(error).toBeNull()
     const m = data as Missions
-    expect(m.streak).toBeNull()
+    expect(m.streak).toMatchObject({ day: 0, claimedToday: false, loginsTotal: 0 })
     expect(m.first).toHaveLength(6)
     expect(m.daily).toHaveLength(3)
     expect(m.weekly).toHaveLength(3)
