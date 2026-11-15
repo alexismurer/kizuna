@@ -296,6 +296,75 @@ describe("OpeningScreen", () => {
     expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
   });
 
+  describe("with a laid-out pack (200×300)", () => {
+    beforeEach(() => {
+      vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
+        left: 0, top: 0, right: 200, bottom: 300, width: 200, height: 300, x: 0, y: 0,
+        toJSON: () => ({}),
+      } as DOMRect);
+    });
+
+    const down = (x: number, y: number, pointerId = 1) =>
+      fireEvent.pointerDown(packEl(), { button: 0, pointerId, clientX: x, clientY: y });
+    const move = (x: number, y: number, pointerId = 1) =>
+      fireEvent.pointerMove(packEl(), { pointerId, clientX: x, clientY: y });
+    const up = (x: number, y: number, pointerId = 1) =>
+      fireEvent.pointerUp(packEl(), { button: 0, pointerId, clientX: x, clientY: y });
+
+    it("a hold that moves more than 10 px is cancelled", () => {
+      wrap();
+      now = 1000;
+      down(100, 150);
+      move(140, 150);
+      now = 1900;
+      up(140, 150);
+      expect(rpc).not.toHaveBeenCalled();
+      expect(packEl()).toHaveAttribute("data-tear", "sealed");
+    });
+
+    it("another pointer's release does not end the hold", () => {
+      rpc.mockResolvedValue({ data: rows, error: null });
+      wrap();
+      now = 1000;
+      down(100, 150, 1);
+      now = 1300;
+      up(10, 10, 2);
+      now = 1900;
+      up(100, 150, 1);
+      expect(rpc).toHaveBeenCalledTimes(1);
+    });
+
+    it("a tear released past 70 % opens once", () => {
+      rpc.mockResolvedValue({ data: rows, error: null });
+      wrap();
+      down(20, 20);
+      move(100, 20);
+      move(170, 22);
+      expect(rpc).not.toHaveBeenCalled();
+      up(170, 22);
+      expect(rpc).toHaveBeenCalledTimes(1);
+    });
+
+    it("a tear completes as soon as it crosses the whole pack", () => {
+      rpc.mockResolvedValue({ data: rows, error: null });
+      wrap();
+      down(195, 20);
+      move(100, 20);
+      move(-10, 20);
+      expect(rpc).toHaveBeenCalledTimes(1);
+      up(-10, 20);
+      expect(rpc).toHaveBeenCalledTimes(1);
+    });
+
+    it("a tear released at 50 % does nothing", () => {
+      wrap();
+      down(20, 20);
+      move(120, 20);
+      up(120, 20);
+      expect(rpc).not.toHaveBeenCalled();
+    });
+  });
+
   it("with animations on, plays the sequence before the reveal", async () => {
     localStorage.setItem(KEY, JSON.stringify({ animations: true }));
     rpc.mockResolvedValue({ data: rows, error: null });

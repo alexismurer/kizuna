@@ -10,6 +10,7 @@ import type { Burst } from "./FxLayer";
 
 const MAX_TILT = 12; // degrees
 const HOLD_MS = 800;
+const HOLD_SLOP = 10; // px a hold may drift before it counts as a drag
 // ~280×420 on desktop, ~220×330 on a 390×844 phone, never taller than a third of the screen
 const PACK_WIDTH = "clamp(10rem, min(56vw, 32dvh), 17.5rem)";
 const RING = 2 * Math.PI * 45;
@@ -21,8 +22,8 @@ const clamp = (v: number) => Math.max(-0.5, Math.min(0.5, v));
 export type TearPhase = "sealed" | "torn" | "out";
 
 type Gesture =
-  | { mode: "tear"; tracker: ReturnType<typeof createTearTracker>; x0: number; left: number }
-  | { mode: "hold"; tracker: ReturnType<typeof createHoldTracker> };
+  | { mode: "tear"; id: number; tracker: ReturnType<typeof createTearTracker>; x0: number; left: number }
+  | { mode: "hold"; id: number; tracker: ReturnType<typeof createHoldTracker>; x0: number; y0: number };
 
 function PackFace({ name, hue, animations, Icon, hold }: {
   name: string;
@@ -176,13 +177,13 @@ export function PackStage({
     const x = e.clientX - r.left;
     const tear = createTearTracker(r.width);
     if (tear.start(x, e.clientY - r.top, r.height * TEAR_BAND)) {
-      gesture.current = { mode: "tear", tracker: tear, x0: x, left: r.left };
+      gesture.current = { mode: "tear", id: e.pointerId, tracker: tear, x0: x, left: r.left };
       setDrag((d) => ({ ...d, active: true }));
       return;
     }
     const tracker = createHoldTracker(HOLD_MS);
     tracker.start(performance.now());
-    gesture.current = { mode: "hold", tracker };
+    gesture.current = { mode: "hold", id: e.pointerId, tracker, x0: e.clientX, y0: e.clientY };
     const loop = () => {
       const g = gesture.current;
       if (g?.mode !== "hold") return;
@@ -197,14 +198,21 @@ export function PackStage({
 
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     const g = gesture.current;
-    if (g?.mode !== "tear") return;
+    if (!g || e.pointerId !== g.id) return;
+    if (g.mode === "hold") {
+      // a drag or scroll attempt is not a hold
+      if (Math.hypot(e.clientX - g.x0, e.clientY - g.y0) > HOLD_SLOP) finish();
+      return;
+    }
     const x = e.clientX - g.left;
-    setDrag({ progress: g.tracker.move(x), dir: x >= g.x0 ? 1 : -1, active: true });
+    const progress = g.tracker.move(x);
+    if (progress >= 1) return complete();
+    setDrag({ progress, dir: x >= g.x0 ? 1 : -1, active: true });
   }
 
-  function onPointerUp() {
+  function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
     const g = gesture.current;
-    if (!g) return;
+    if (!g || e.pointerId !== g.id) return;
     const done =
       g.mode === "tear"
         ? g.tracker.end() === "torn"
@@ -213,8 +221,8 @@ export function PackStage({
     else finish();
   }
 
-  function onPointerCancel() {
-    if (gesture.current) finish();
+  function onPointerCancel(e: React.PointerEvent<HTMLDivElement>) {
+    if (gesture.current?.id === e.pointerId) finish();
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
