@@ -1,0 +1,15 @@
+# AI agent files, plans and local notes
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.claude/
+.superpowers/
+.worktrees/
+docs/superpowers/
+prompts.txt
+todo.txt
+
+# secrets and local env
+.env*
+!.env.example
+*.pem
