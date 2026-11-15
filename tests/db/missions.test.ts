@@ -393,3 +393,81 @@ describe('my_missions', () => {
     expect(claims).toEqual([])
   })
 })
+
+describe('daily_pack without a daily pool', () => {
+  it('is never picked on a day without a pool; other days keep their picks', async () => {
+    const { userId } = await newPlayer()
+    const days = Array.from({ length: 30 }, (_, i) => addDays('2026-01-01', i))
+    const withPool = await Promise.all(days.map((d) => dailyKeys(userId, d)))
+    expect(withPool.some((k) => k.includes('daily_pack'))).toBe(true)
+
+    const { data: pools, error } = await admin.from('daily_pools').select('id, series_ids')
+    if (error) throw error
+    const ids = pools!.map((p) => p.id as number)
+    // no series qualifies, so todays_pool() is null
+    const cleared = await admin.from('daily_pools').update({ series_ids: [] }).in('id', ids)
+    if (cleared.error) throw cleared.error
+    try {
+      for (let i = 0; i < days.length; i++) {
+        const keys = await dailyKeys(userId, days[i])
+        expect(keys).toHaveLength(3)
+        expect(keys).not.toContain('daily_pack')
+        if (!withPool[i].includes('daily_pack')) expect(keys).toEqual(withPool[i])
+      }
+    } finally {
+      for (const p of pools!) {
+        const restored = await admin.from('daily_pools').update({ series_ids: p.series_ids }).eq('id', p.id)
+        if (restored.error) throw restored.error
+      }
+    }
+  })
+})
+
+describe('pulled_* progress matches metric_value', () => {
+  it('for daily, weekly and achievement periods, and claims agree', async () => {
+    const { userId } = await newPlayer()
+    // a Wed..Sun day in winter (Paris = UTC+1) where daily_rare is in the player's set
+    let day = ''
+    for (let i = 0; i < 50 && !day; i++) {
+      const d = addDays('2026-01-07', i)
+      const weekday = new Date(`${d}T00:00:00Z`).getUTCDay() // 0 = Sun
+      if ((weekday === 0 || weekday >= 3) && (await dailyKeys(userId, d)).includes('daily_rare')) day = d
+    }
+    expect(day).not.toBe('')
+    const weekday = (new Date(`${day}T00:00:00Z`).getUTCDay() + 6) % 7 // 0 = Mon
+    const monday = addDays(day, -weekday)
+    const now = `${day}T12:00:00Z`
+    const daySince = `${addDays(day, -1)}T23:00:00Z`
+    const weekSince = `${addDays(monday, -1)}T23:00:00Z`
+
+    const [legendary] = await cardIds({ rarity: 'legendary' }, 1)
+    const [mythic] = await cardIds({ rarity: 'mythic' }, 1)
+    const [rare] = await cardIds({ rarity: 'rare' }, 1)
+    await insert('pack_openings', [
+      opening(userId, `${addDays(monday, -3)}T12:00:00Z`, [legendary]), // last week (Fri)
+      opening(userId, `${monday}T10:00:00Z`, [mythic]), // this week (Mon)
+      opening(userId, `${day}T09:00:00Z`, [rare]), // today
+    ])
+
+    const m = await missions(userId, now)
+    const cases: [Item, string, string | null][] = [
+      [item(m.daily, 'daily_rare'), 'pulled_rare', daySince],
+      [item(m.weekly, 'weekly_legendary'), 'pulled_legendary', weekSince],
+      [item(m.weekly, 'weekly_mythic'), 'pulled_mythic', weekSince],
+      [item(m.achievements, 'ach_first_legendary'), 'pulled_legendary', null],
+      [item(m.achievements, 'ach_legendary_100'), 'pulled_legendary', null],
+    ]
+    for (const [it_, metric, since] of cases) {
+      const { data, error } = await admin.rpc('metric_value', { p_player: userId, p_metric: metric, p_since: since })
+      if (error) throw error
+      expect(it_.progress, it_.key).toBe(Math.min(data as number, it_.target))
+    }
+    expect(cases.map(([i]) => i.progress)).toEqual([1, 1, 1, 1, 2])
+
+    expect((await claim(userId, 'daily_rare', now)).error?.message).toContain('not_complete')
+    expect((await claim(userId, 'weekly_legendary', now)).error).toBeNull()
+    expect((await claim(userId, 'weekly_mythic', now)).error).toBeNull()
+    expect((await claim(userId, 'ach_first_legendary', now)).error).toBeNull()
+    expect((await claim(userId, 'ach_legendary_100', now)).error?.message).toContain('not_complete')
+  })
+})

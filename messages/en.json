@@ -321,6 +321,7 @@
     "eyebrow": "MISSIONS",
     "title": "Missions & achievements",
     "subtitle": "Log in every day, complete missions and unlock achievements to earn currency and free boosters.",
+    "loadError": "Couldn't load your missions. Try again later.",
     "chips": {
       "login": "Login",
       "first": "First steps",

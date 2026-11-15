@@ -156,6 +156,34 @@ describe('golden_next', () => {
     expect((data as Row[])[4].rarity).toBe('rare')
     expect((await player(userId)).golden_next).toBe(true)
   })
+
+  it.each([
+    ['chest', 20],
+    ['hall_of_fame', 5],
+  ])('is kept by a %s, whose last slot is already Epic+', async (pack, slots) => {
+    const { userId } = await newPlayer({ standardOpened: 0, currency: 5000 })
+    await setPlayer(userId, { golden_next: true })
+    expect((await openAs(userId, pack, commonRolls(slots))).error).toBeNull()
+    expect((await player(userId)).golden_next).toBe(true)
+  })
+
+  it('is kept by the 10th standard pack, which is golden anyway', async () => {
+    const { userId } = await newPlayer({ standardOpened: 9 })
+    await setPlayer(userId, { golden_next: true })
+    const { data, error } = await openAs(userId, 'mix', commonRolls(5))
+    expect(error).toBeNull()
+    expect(rank((data as Row[])[4].rarity)).toBeGreaterThanOrEqual(rank('epic'))
+    expect((await player(userId)).golden_next).toBe(true)
+  })
+
+  it('is kept by a divine opening', async () => {
+    const { userId } = await newPlayer({ standardOpened: 0 })
+    await setPlayer(userId, { golden_next: true })
+    const { data, error } = await openAs(userId, 'mix', [0.0001, ...Array(10).fill(0)])
+    expect(error).toBeNull()
+    expect((data as Row[])[4].rarity).toBe('mythic')
+    expect((await player(userId)).golden_next).toBe(true)
+  })
 })
 
 describe('divine flag', () => {

@@ -15,14 +15,23 @@ vi.mock("@/lib/supabase/client", () => ({
   createBrowserClient: () => ({ rpc: (...a: unknown[]) => rpc(...a) }),
 }));
 
-function wrap(claimedToday: boolean) {
-  render(
+function tree(claimedToday: boolean) {
+  return (
     <StrictMode>
       <NextIntlClientProvider locale="en" messages={messages}>
         <LoginClaimer claimedToday={claimedToday} />
       </NextIntlClientProvider>
-    </StrictMode>,
+    </StrictMode>
   );
+}
+
+function wrap(claimedToday: boolean) {
+  return render(tree(claimedToday));
+}
+
+function becomeVisible() {
+  Object.defineProperty(document, "visibilityState", { configurable: true, value: "visible" });
+  document.dispatchEvent(new Event("visibilitychange"));
 }
 
 afterEach(() => {
@@ -68,5 +77,41 @@ describe("LoginClaimer", () => {
     expect(rpc).toHaveBeenCalledTimes(1);
     expect(screen.queryByRole("status")).toBeNull();
     expect(refresh).not.toHaveBeenCalled();
+  });
+
+  it("claims again, once, when a refresh brings a new day (claimedToday true -> false)", async () => {
+    rpc.mockResolvedValue({ data: { claimed: true, day: 4, reward: 50, goldenNext: false }, error: null });
+    const { rerender } = wrap(true);
+    await act(async () => {});
+    expect(rpc).not.toHaveBeenCalled();
+    rerender(tree(false));
+    await act(async () => {});
+    expect(rpc).toHaveBeenCalledTimes(1);
+    rerender(tree(false));
+    await act(async () => {});
+    expect(rpc).toHaveBeenCalledTimes(1);
+    rerender(tree(true));
+    rerender(tree(false));
+    await act(async () => {});
+    expect(rpc).toHaveBeenCalledTimes(2);
+  });
+
+  it("refreshes when the tab becomes visible or focused, at most once a minute", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-11-16T10:00:00Z"));
+    wrap(true);
+    await act(async () => {});
+    vi.setSystemTime(new Date("2026-11-16T10:05:00Z"));
+    act(() => becomeVisible());
+    expect(refresh).toHaveBeenCalledTimes(1);
+    act(() => {
+      window.dispatchEvent(new Event("focus"));
+    });
+    expect(refresh).toHaveBeenCalledTimes(1);
+    vi.setSystemTime(new Date("2026-11-16T10:06:01Z"));
+    act(() => {
+      window.dispatchEvent(new Event("focus"));
+    });
+    expect(refresh).toHaveBeenCalledTimes(2);
   });
 });

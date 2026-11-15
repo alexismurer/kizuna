@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AchievementGrid } from "@/components/missions/AchievementGrid";
 import { MissionList } from "@/components/missions/MissionList";
+import { MissionsContent } from "@/components/missions/MissionsContent";
 import { StreakPanel } from "@/components/missions/StreakPanel";
 import { SummaryChips } from "@/components/missions/SummaryChips";
 import type { MissionItem, MissionsData, StreakState } from "@/lib/game/missions";
@@ -17,6 +18,15 @@ const rpc = vi.fn();
 vi.mock("@/lib/supabase/client", () => ({
   createBrowserClient: () => ({ rpc: (...a: unknown[]) => rpc(...a) }),
 }));
+
+const serverRpc = vi.hoisted(() => vi.fn());
+vi.mock("@/lib/supabase/server", () => ({
+  createServerClient: async () => ({ rpc: (...a: unknown[]) => serverRpc(...a) }),
+}));
+vi.mock("next-intl/server", async () => {
+  const { createTranslator } = await import("next-intl");
+  return { getTranslations: async (namespace: "missions") => createTranslator({ locale: "en", messages, namespace }) };
+});
 
 const item = (key: string, progress: number, target: number, claimed = false, reward = 20): MissionItem => ({
   key,
@@ -193,5 +203,14 @@ describe("reset countdown", () => {
     expect(refresh).not.toHaveBeenCalled();
     act(() => vi.advanceTimersByTime(5000));
     expect(refresh).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("MissionsContent", () => {
+  it("shows an error line when my_missions fails", async () => {
+    serverRpc.mockResolvedValue({ data: null, error: { message: "boom" } });
+    wrap(await MissionsContent());
+    expect(serverRpc).toHaveBeenCalledWith("my_missions");
+    expect(screen.getByRole("alert")).toHaveTextContent(messages.missions.loadError);
   });
 });

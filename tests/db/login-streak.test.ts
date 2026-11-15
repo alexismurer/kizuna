@@ -122,6 +122,22 @@ describe('login streak', () => {
     expect((await player(userId)).streak_forgiven_week).toBe('2027-01-11')
   })
 
+  it('a missed Sunday is forgiven for its own week, not the week of the claim', async () => {
+    const { userId } = await newPlayer({ currency: 0 })
+    await claim(userId, at(9)) // Sat, day 1
+    expect(await claim(userId, at(11))).toMatchObject({ day: 2 }) // Mon, missed Sun 10
+    expect((await player(userId)).streak_forgiven_week).toBe('2027-01-04')
+    expect(await streak(userId, at(11))).toMatchObject({ forgivenThisWeek: false })
+    await claim(userId, at(12)) // Tue, day 3
+    // Thu, missed Wed 13: the week of Jan 11 has not been forgiven yet
+    expect(await streak(userId, at(14))).toMatchObject({ day: 3 })
+    expect(await claim(userId, at(14))).toMatchObject({ day: 4 })
+    expect((await player(userId)).streak_forgiven_week).toBe('2027-01-11')
+    // Sat, missed Fri 15: second miss in the same week resets
+    expect(await streak(userId, at(16))).toMatchObject({ day: 0 })
+    expect(await claim(userId, at(16))).toMatchObject({ day: 1 })
+  })
+
   it('a gap of 3 resets to day 1', async () => {
     const { userId } = await newPlayer({ currency: 0 })
     await claim(userId, at(4))

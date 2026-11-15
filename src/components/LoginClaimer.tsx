@@ -17,7 +17,12 @@ export function LoginClaimer({ claimedToday }: { claimedToday: boolean }) {
   const [toast, setToast] = useState<Claim | null>(null);
 
   useEffect(() => {
-    if (claimedToday || started.current) return;
+    if (claimedToday) {
+      // a later refresh that reports a new, unclaimed day may claim again
+      started.current = false;
+      return;
+    }
+    if (started.current) return;
     started.current = true;
     createBrowserClient()
       .rpc("claim_login")
@@ -28,6 +33,22 @@ export function LoginClaimer({ claimedToday }: { claimedToday: boolean }) {
         router.refresh();
       });
   }, [claimedToday, router]);
+
+  // a tab left open overnight picks up the new day when it is shown again
+  useEffect(() => {
+    let last = Date.now();
+    function resume() {
+      if (document.visibilityState !== "visible" || Date.now() - last < 60_000) return;
+      last = Date.now();
+      router.refresh();
+    }
+    document.addEventListener("visibilitychange", resume);
+    window.addEventListener("focus", resume);
+    return () => {
+      document.removeEventListener("visibilitychange", resume);
+      window.removeEventListener("focus", resume);
+    };
+  }, [router]);
 
   useEffect(() => {
     if (!toast) return;
