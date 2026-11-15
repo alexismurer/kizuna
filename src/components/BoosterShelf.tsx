@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { canOpenAgain, statusAfterOpen } from "@/lib/game/availability";
 import { rpcErrorKey } from "@/lib/game/errors";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
 import { createBrowserClient } from "@/lib/supabase/client";
@@ -51,13 +52,26 @@ export function BoosterShelf({
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [reveal, setReveal] = useState<{ packId: string; cards: RevealCard[] } | null>(
-    null,
-  );
+  const [reveal, setReveal] = useState<{
+    packId: string;
+    cards: RevealCard[];
+    before: Status;
+  } | null>(null);
 
   const inTab = packs.filter((p) => tabOf(p) === tab);
   const selected = inTab.find((p) => p.id === picked[tab]) ?? inTab[0];
   const dailyPack = packs.find((p) => p.kind === "daily");
+  const noDaily = dailyName === null;
+
+  // Until the refreshed status arrives, estimate it from the pre-open one.
+  const revealPack = reveal && packs.find((p) => p.id === reveal.packId);
+  const again =
+    reveal &&
+    revealPack &&
+    canOpenAgain(
+      revealPack,
+      status === reveal.before ? statusAfterOpen(revealPack, status) : status,
+    );
 
   async function open(packId: string) {
     if (busy) return;
@@ -109,7 +123,7 @@ export function BoosterShelf({
             },
           };
         });
-      setReveal({ packId, cards });
+      setReveal({ packId, cards, before: status });
       router.refresh();
     } catch {
       setError("errors.unknown");
@@ -121,22 +135,28 @@ export function BoosterShelf({
   return (
     <div className="flex flex-col gap-6">
       {dailyPack && (
-        <section className="flex items-center gap-4 rounded-xl border border-border bg-gradient-to-r from-accent/25 to-panel p-4">
+        <section className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-gradient-to-r from-accent/25 to-panel p-3 sm:gap-4 sm:p-4">
           <PackArt pack={dailyPack} small />
-          <div className="flex-1">
+          <div className="min-w-0 flex-1 basis-40">
             <p className="text-xs uppercase tracking-wide text-cta">
               {t("home.dailyKicker")}
             </p>
-            <h2 className="font-display text-2xl">{dailyName ?? t("packs.daily.name")}</h2>
+            <h2 className="font-display text-xl break-words sm:text-2xl">
+              {dailyName ?? t("packs.daily.name")}
+            </h2>
             <p className="text-sm text-common">{t("packs.daily.tagline")}</p>
           </div>
           <button
             type="button"
-            disabled={busy || status.dailyOpenedToday}
+            disabled={busy || noDaily || status.dailyOpenedToday}
             onClick={() => open(dailyPack.id)}
-            className="rounded-md bg-cta px-4 py-2 font-semibold text-black disabled:opacity-50"
+            className="w-full rounded-md bg-cta px-4 py-2 font-semibold text-black disabled:opacity-50 sm:w-auto"
           >
-            {status.dailyOpenedToday ? t("home.dailyDone") : t("home.dailyOpen")}
+            {noDaily
+              ? t("home.dailyNone")
+              : status.dailyOpenedToday
+                ? t("home.dailyDone")
+                : t("home.dailyOpen")}
           </button>
         </section>
       )}
@@ -193,10 +213,14 @@ export function BoosterShelf({
           cards={reveal.cards}
           total={total}
           onDone={() => setReveal(null)}
-          onAgain={() => {
-            setReveal(null);
-            void open(reveal.packId);
-          }}
+          onAgain={
+            again
+              ? () => {
+                  setReveal(null);
+                  void open(reveal.packId);
+                }
+              : undefined
+          }
         />
       )}
     </div>
