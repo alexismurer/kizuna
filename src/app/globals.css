@@ -26,3 +26,52 @@ body {
   color: #ededf0;
   font-family: var(--font-sans);
 }
+
+@keyframes sheen {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+@keyframes flash {
+  from { opacity: 0.9; }
+  to { opacity: 0; }
+}
+
+.holo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.35) 45%, transparent 60%);
+  background-size: 200% 100%;
+  animation: sheen 2.5s linear infinite;
+}
+
+.holo-rainbow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #ff3d7f55, #ffd23f55, #3ccf7a55, #3b82f655, #a855f755);
+  mix-blend-mode: screen;
+}
+
+.flip {
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.flip[data-revealed="true"] {
+  transform: rotateY(180deg);
+}
+
+.face {
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo::after { animation: none; }
+  .flip { transition: none; }
+}

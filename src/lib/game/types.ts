@@ -21,3 +21,12 @@ export interface PackType {
   multipliers: Partial<Record<Rarity, number>>
   themeId: string | null
 }
+
+export interface Status {
+  freeStock: number
+  nextFreeAt: string | null
+  currency: number
+  untilGolden: number
+  untilPity: number
+  dailyOpenedToday: boolean
+}

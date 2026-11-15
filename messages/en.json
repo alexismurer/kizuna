@@ -3,7 +3,15 @@
     "name": "Anicards"
   },
   "home": {
-    "title": "Collect your favourite anime characters"
+    "title": "Collect your favourite anime characters",
+    "dailyKicker": "Daily pack",
+    "dailyOpen": "Open the daily pack",
+    "dailyDone": "Back tomorrow",
+    "tabs": {
+      "free": "Free",
+      "daily": "Daily",
+      "shop": "Shop"
+    }
   },
   "nav": {
     "boosters": "Boosters",
@@ -55,5 +63,98 @@
     "already_player": "You have already joined.",
     "not_a_player": "You need to join with an invite first.",
     "unknown": "Something went wrong. Please try again."
+  },
+  "chips": {
+    "free": "Free boosters",
+    "next": "next in {time}",
+    "golden": "Until golden",
+    "pity": "Until sure Mythic"
+  },
+  "pack": {
+    "cards": "{count} cards per pack",
+    "floor": "Guaranteed {rarity} or better",
+    "golden": "{count} packs until golden",
+    "pity": "{count} cards until sure Mythic",
+    "chances": "Chance of at least one",
+    "openFree": "Free · {count} left",
+    "openPrice": "Open · {price}",
+    "openDaily": "Open the daily pack",
+    "opening": "Opening…",
+    "oddsNote": "Odds exclude golden and pity bonuses."
+  },
+  "reveal": {
+    "hint": "Tap or press Space to flip",
+    "skip": "Press Escape to reveal all",
+    "new": "NEW",
+    "another": "Open another",
+    "done": "Done",
+    "stage": "Reveal next card"
+  },
+  "card": {
+    "pow": "POW",
+    "aura": "AURA",
+    "noArt": "No art"
+  },
+  "packs": {
+    "mix": {
+      "name": "Mix",
+      "tagline": "Characters from every series"
+    },
+    "shonen": {
+      "name": "Shonen",
+      "tagline": "Fighting spirit and rivals"
+    },
+    "isekai": {
+      "name": "Isekai",
+      "tagline": "Another world awaits"
+    },
+    "seinen": {
+      "name": "Seinen",
+      "tagline": "Grit and grown-up stories"
+    },
+    "shojo": {
+      "name": "Shojo",
+      "tagline": "Romance and heart"
+    },
+    "sports": {
+      "name": "Sports",
+      "tagline": "Teams, courts and glory"
+    },
+    "mecha": {
+      "name": "Mecha",
+      "tagline": "Giant robots, bigger stakes"
+    },
+    "female": {
+      "name": "Heroines",
+      "tagline": "Leading ladies only"
+    },
+    "male": {
+      "name": "Heroes",
+      "tagline": "Leading men only"
+    },
+    "hall_of_fame": {
+      "name": "Hall of Fame",
+      "tagline": "Five Epic or better"
+    },
+    "deep_cuts": {
+      "name": "Deep Cuts",
+      "tagline": "Lesser-known characters"
+    },
+    "mini": {
+      "name": "Mini",
+      "tagline": "A small, cheap pack"
+    },
+    "chest": {
+      "name": "Chest",
+      "tagline": "Twenty cards, big haul"
+    },
+    "prestige": {
+      "name": "Prestige",
+      "tagline": "Boosted top-tier odds"
+    },
+    "daily": {
+      "name": "Daily",
+      "tagline": "Today's themed selection"
+    }
   }
 }
