@@ -11,14 +11,14 @@ import { PackSidePanel, type HomePack } from "./PackSidePanel";
 
 export type { HomePack };
 
-type Tab = "free" | "daily" | "shop";
-const TABS: Tab[] = ["free", "daily", "shop"];
+export type Tab = "free" | "daily" | "shop";
+export const TABS: Tab[] = ["free", "daily", "shop"];
 
-const tabOf = (p: HomePack): Tab =>
+export const tabOf = (p: HomePack): Tab =>
   p.kind === "free" ? "free" : p.kind === "shop" ? "shop" : "daily";
 
 // what one booster costs right now: free stock first, then the fallback price
-function price(pack: HomePack, status: Status): number | null {
+export function price(pack: HomePack, status: Status): number | null {
   const { mode } = packAvailability(pack, status);
   if (mode === "shop") return pack.price ?? 0;
   if (mode === "free" && status.freeStock <= 0) return pack.fallbackPrice;

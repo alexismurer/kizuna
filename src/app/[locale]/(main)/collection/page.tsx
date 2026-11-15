@@ -106,7 +106,7 @@ async function CollectionContent({
   return (
     <>
       <h1 className="font-display text-2xl">{t("title")}</h1>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <div className={chip}>
           {t("unique")}:{" "}
           <span className="font-mono">
@@ -122,8 +122,13 @@ async function CollectionContent({
         <div className={chip}>
           {t("duplicates")}: <span className="font-mono">{duplicates}</span>
         </div>
+        <div className="ml-auto md:hidden">
+          <RecycleButton mode="all" estimate={estimate} breakdown={breakdown} compact={{ duplicates }} />
+        </div>
       </div>
-      <RecycleButton mode="all" estimate={estimate} breakdown={breakdown} />
+      <div className="hidden md:block">
+        <RecycleButton mode="all" estimate={estimate} breakdown={breakdown} />
+      </div>
       <div className="flex flex-wrap items-center gap-2">
         <Link
           href={{ pathname: "/collection", query: q ? { q } : {} }}

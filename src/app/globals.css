@@ -44,6 +44,11 @@ body {
   to { opacity: 0; }
 }
 
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
 .holo::after {
   content: "";
   position: absolute;

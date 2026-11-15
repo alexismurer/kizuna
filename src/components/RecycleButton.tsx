@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Recycle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { rpcErrorKey } from "@/lib/game/errors";
@@ -13,6 +14,8 @@ type Props =
       mode: "all";
       estimate: number;
       breakdown: { rarity: Rarity; copies: number }[];
+      // phones: an icon button with the duplicate count as a badge
+      compact?: { duplicates: number };
     }
   | { mode: "one"; cardId: number; estimate: number };
 
@@ -96,6 +99,22 @@ export function RecycleButton(props: Props) {
             </button>
           </div>
         </div>
+      ) : props.mode === "all" && props.compact ? (
+        <button
+          type="button"
+          onClick={() => setConfirming(true)}
+          disabled={disabled}
+          aria-label={t("all", { gain: props.estimate })}
+          title={t("all", { gain: props.estimate })}
+          className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-panel disabled:opacity-50"
+        >
+          <Recycle className="h-5 w-5 text-cta" aria-hidden />
+          {props.compact.duplicates > 0 && (
+            <span className="absolute -right-1.5 -top-1.5 min-w-5 rounded-full bg-cta px-1 font-mono text-[10px] font-bold leading-5 text-black">
+              {props.compact.duplicates}
+            </span>
+          )}
+        </button>
       ) : (
         <button
           type="button"

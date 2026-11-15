@@ -41,8 +41,8 @@ The database tests need the seed catalog, so they replace the real one. Run
 `npm run catalog:dev` again afterwards to get the real catalog back (AniList
 responses are cached, so it is quick).
 
-Optional phone-width check (needs `npm run dev` and a test player in
-`DEV_TEST_EMAIL` / `DEV_TEST_PASSWORD`):
+Optional phone-width check (needs `npm run build && npm run start` and a test
+player in `DEV_TEST_EMAIL` / `DEV_TEST_PASSWORD`):
 
 ```bash
 npx tsx scripts/phone-check.ts <screenshot-dir>

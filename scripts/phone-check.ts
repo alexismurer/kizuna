@@ -1,9 +1,10 @@
 // Phone-width layout check (not part of Vitest).
-// Usage: start `npm run dev`, then
+// Usage: `npm run build && npm run start` (or `npm run dev`), then
 //   npx tsx scripts/phone-check.ts [outDir] [baseUrl]
 // Signs in with DEV_TEST_EMAIL / DEV_TEST_PASSWORD from .env.local (needs
 // NEXT_PUBLIC_DEV_LOGIN=true), screenshots key pages at 390x844 and fails if
-// any page scrolls horizontally.
+// any page scrolls horizontally. Opens one Mix booster (free stock first,
+// then currency).
 import path from 'node:path'
 import dotenv from 'dotenv'
 import { chromium, type Page } from 'playwright'
@@ -33,16 +34,22 @@ async function main() {
   await page.fill('input[type=password]', process.env.DEV_TEST_PASSWORD!)
   await page.click('button[type=submit]')
   await page.waitForURL((u) => u.pathname === '/', { timeout: 30_000 })
-  await page.getByRole('tab').first().waitFor()
+  const nav = page.getByRole('navigation', { name: 'Main' })
+  await nav.waitFor({ timeout: 30_000 })
 
   ok = (await check(page, 'home')) && ok
 
-  await page.getByRole('button', { name: /^Free · / }).click()
-  const dialog = page.getByRole('dialog')
-  await dialog.waitFor({ timeout: 30_000 })
+  await nav.getByRole('button', { name: 'Open' }).click()
+  await page.getByRole('dialog').waitFor()
+  await page.waitForTimeout(400) // slide-up
+  ok = (await check(page, 'home-booster-sheet', false)) && ok
   await page.keyboard.press('Escape')
-  await page.waitForTimeout(1500)
-  ok = (await check(page, 'reveal')) && ok
+
+  await nav.getByRole('button', { name: 'More' }).click()
+  await page.getByRole('dialog').waitFor()
+  await page.waitForTimeout(400) // slide-up
+  ok = (await check(page, 'home-more-sheet', false)) && ok
+  await page.keyboard.press('Escape')
 
   await page.goto(`${base}/collection`)
   await page.getByRole('heading', { level: 1 }).waitFor()
@@ -55,9 +62,42 @@ async function main() {
     await page.getByRole('button', { name: /cancel/i }).click()
   }
 
+  await page.getByRole('button', { name: 'Filters' }).click()
+  await page.getByRole('dialog').waitFor()
+  await page.waitForTimeout(400) // slide-up
+  ok = (await check(page, 'collection-filters', false)) && ok
+  await page.keyboard.press('Escape')
+
   await page.goto(`${base}/collection?view=albums`)
   await page.getByRole('heading', { level: 1 }).waitFor()
   ok = (await check(page, 'albums', false)) && ok // long list: viewport only
+
+  // opening page: stage, mid-reveal, summary
+  await page.goto(`${base}/open/mix`)
+  const open = page.getByRole('button', { name: /^(Free · |Open · |\d+ free \+ )/ })
+  await open.waitFor({ timeout: 30_000 })
+  ok = (await check(page, 'open-stage')) && ok
+
+  await page.getByRole('button', { name: /Change booster/ }).click()
+  await page.getByRole('dialog').waitFor()
+  await page.waitForTimeout(400) // slide-up
+  ok = (await check(page, 'open-booster-sheet', false)) && ok
+  await page.keyboard.press('Escape')
+
+  await open.click()
+  const confirm = page.getByRole('alertdialog')
+  if (await confirm.isVisible({ timeout: 1000 }).catch(() => false)) {
+    await confirm.getByRole('button', { name: 'Confirm' }).click()
+  }
+  await page.getByRole('button', { name: 'Flip the card' }).waitFor({ timeout: 30_000 })
+  await page.getByRole('button', { name: 'Flip the card' }).click()
+  await page.waitForTimeout(1200)
+  ok = (await check(page, 'open-reveal')) && ok
+
+  await page.getByRole('button', { name: 'Reveal all' }).click()
+  await page.getByText('Best card').first().waitFor({ timeout: 30_000 })
+  await page.waitForTimeout(1200)
+  ok = (await check(page, 'open-summary')) && ok
 
   await browser.close()
   if (!ok) process.exit(1)

@@ -62,11 +62,14 @@ export function PackSidePanel({
   name,
   status,
   noPool,
+  bare = false,
 }: {
   pack: HomePack;
   name: string;
   status: Status;
   noPool: boolean;
+  // inside a booster sheet row: no frame, no emblem/name header
+  bare?: boolean;
 }) {
   const t = useTranslations();
   const Icon = EMBLEM[pack.id] ?? Package;
@@ -82,19 +85,21 @@ export function PackSidePanel({
   const cta = "flex w-full items-center justify-center rounded-full bg-cta px-5 py-3.5 font-semibold text-black";
 
   return (
-    <aside className="flex flex-col gap-4 rounded-2xl border border-border bg-panel p-5">
-      <div className="flex items-center gap-3">
-        <div
-          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-white/50"
-          style={{ background: `linear-gradient(160deg, hsl(${hue} 85% 60%), hsl(${hue} 70% 25%))` }}
-        >
-          <Icon className="h-7 w-7" color="white" strokeWidth={1.75} />
+    <aside className={`flex flex-col gap-4 ${bare ? "" : "rounded-2xl border border-border bg-panel p-5"}`}>
+      {!bare && (
+        <div className="flex items-center gap-3">
+          <div
+            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-white/50"
+            style={{ background: `linear-gradient(160deg, hsl(${hue} 85% 60%), hsl(${hue} 70% 25%))` }}
+          >
+            <Icon className="h-7 w-7" color="white" strokeWidth={1.75} />
+          </div>
+          <div className="min-w-0">
+            <h3 className="break-words font-display text-2xl font-bold leading-tight">{name}</h3>
+            <p className="text-sm text-common">{t(`packs.${pack.id}.tagline`)}</p>
+          </div>
         </div>
-        <div className="min-w-0">
-          <h3 className="break-words font-display text-2xl font-bold leading-tight">{name}</h3>
-          <p className="text-sm text-common">{t(`packs.${pack.id}.tagline`)}</p>
-        </div>
-      </div>
+      )}
 
       <div className="grid grid-cols-2 gap-2">
         <Tile value={pack.slotFloors.length} label={t("home.panel.cards")} />

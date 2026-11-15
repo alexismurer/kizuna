@@ -65,7 +65,7 @@ const cardRows = [
 function wrap(s: Status = status()) {
   render(
     <NextIntlClientProvider locale="en" messages={messages}>
-      <OpeningScreen pack={pack} status={s} total={100} />
+      <OpeningScreen pack={pack} status={s} total={100} boosters={{ packs: [], dailyName: null }} />
     </NextIntlClientProvider>,
   );
 }
@@ -103,6 +103,12 @@ describe("OpeningScreen", () => {
   it("labels a free open with the stock left", () => {
     wrap();
     expect(openButton()).toHaveTextContent("Free · 2 left");
+  });
+
+  it("Change booster opens the booster sheet", () => {
+    wrap();
+    fireEvent.click(screen.getByRole("button", { name: messages.opening.changeBooster }));
+    expect(screen.getByRole("dialog", { name: messages.home.grid.title })).toBeInTheDocument();
   });
 
   it("labels a mixed open with free count and cost", () => {

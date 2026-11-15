@@ -21,7 +21,11 @@
       "next": "+1 in {time}",
       "golden": "before the golden booster",
       "pity": "until a sure Mythic",
-      "pityNext": "Next booster is a sure Mythic"
+      "pityNext": "Next booster is a sure Mythic",
+      "shortFree": "free",
+      "shortGolden": "to golden",
+      "shortPity": "to Mythic",
+      "shortPityNext": "Mythic next"
     },
     "tabs": {
       "free": "Free",
@@ -69,18 +73,24 @@
     "notOwned": "Not owned yet"
   },
   "nav": {
+    "label": "Main",
+    "home": "Home",
     "boosters": "Boosters",
     "collection": "Collection",
     "market": "Market",
     "play": "Play",
     "more": "More",
-    "soon": "Soon"
+    "soon": "Soon",
+    "open": "Open",
+    "missions": "Missions",
+    "moreTitle": "More"
   },
   "topbar": {
     "freeBoosters": "Free boosters",
     "currency": "Currency",
     "account": "Account menu",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "notifications": "Notifications (soon)"
   },
   "rarity": {
     "common": "Common",
@@ -269,7 +279,8 @@
       "cards": "Most cards",
       "complete": "Most complete",
       "az": "A to Z"
-    }
+    },
+    "filters": "Filters"
   },
   "recycle": {
     "all": "Recycle duplicates · ≈ +{gain}",
@@ -280,5 +291,8 @@
     "confirmTotal": "Total +{gain}",
     "confirm": "Confirm",
     "cancel": "Cancel"
+  },
+  "sheet": {
+    "close": "Close"
   }
 }

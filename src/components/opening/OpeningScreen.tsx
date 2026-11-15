@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { CardData } from "@/components/card/CardView";
+import type { HomePack } from "@/components/home/BoosterGrid";
+import { BoosterSheet } from "@/components/mobile/BoosterSheet";
 import { EMBLEM, HUE } from "@/components/PackArt";
 import { Link, useRouter } from "@/i18n/navigation";
 import { usePrefs } from "@/lib/fx/prefs";
@@ -61,17 +63,21 @@ export function OpeningScreen({
   status,
   total,
   name,
+  boosters,
 }: {
   pack: OpeningPack;
   status: Status;
   total: number;
   name?: string;
+  // every booster, for the phone's "Change booster" sheet
+  boosters: { packs: HomePack[]; dailyName: string | null };
 }) {
   const t = useTranslations();
   const router = useRouter();
   const [prefs, updatePrefs] = usePrefs();
   const [qty, setQty] = useState(1);
   const [confirming, setConfirming] = useState(false);
+  const [changing, setChanging] = useState(false);
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
@@ -368,12 +374,27 @@ export function OpeningScreen({
                   : t("opening.pityNext")}
               </p>
             )}
-            <Link href="/" className="text-sm text-white/70 hover:text-white md:hidden">
+            <button
+              type="button"
+              aria-haspopup="dialog"
+              onClick={() => setChanging(true)}
+              className="text-sm text-white/70 hover:text-white md:hidden"
+            >
               {t("opening.changeBooster")}
-            </Link>
+            </button>
           </>
         )}
       </main>
+
+      {changing && (
+        <BoosterSheet
+          packs={boosters.packs}
+          status={status}
+          dailyName={boosters.dailyName}
+          initialPack={pack.id}
+          onClose={() => setChanging(false)}
+        />
+      )}
 
       {confirming && (
         <PaidConfirm
