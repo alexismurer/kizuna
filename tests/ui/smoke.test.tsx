@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { APP_NAME } from "@/config/app";
 import { NextIntlClientProvider, useTranslations } from "next-intl";
 import { describe, expect, it } from "vitest";
 import messages from "../../messages/en.json";
@@ -16,5 +17,6 @@ describe("smoke", () => {
       </NextIntlClientProvider>,
     );
     expect(screen.getByText("Anicards")).toBeInTheDocument();
+    expect(APP_NAME).toBe("Anicards");
   });
 });

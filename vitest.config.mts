@@ -10,6 +10,7 @@ export default defineConfig({
     passWithNoTests: true,
     projects: [
       {
+        extends: true,
         test: {
           name: "ui",
           environment: "jsdom",
@@ -21,6 +22,7 @@ export default defineConfig({
         },
       },
       {
+        extends: true,
         test: {
           name: "db",
           environment: "node",
