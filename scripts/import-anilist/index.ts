@@ -1,7 +1,8 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 import { fetchCharacterPage, fetchMedia, type CharacterNode, type Media } from './anilist'
 import { rarityForRank, statsForRank, themesFor } from './derive'
+import { MAX_LIMIT, effectiveLimit, poolsToCreate, type SeriesStat } from './plan'
 import { albumDisplay, createMediaStore, franchiseRoot } from './franchise'
 
 dotenv.config({ path: '.env.local', quiet: true })
@@ -10,9 +11,39 @@ const SOURCE = 'anilist'
 
 function parseLimit(): number {
   const i = process.argv.indexOf('--limit')
-  const n = i >= 0 ? Number(process.argv[i + 1]) : NaN
+  const n = i >= 0 ? Number(process.argv[i + 1]) : MAX_LIMIT
   if (!Number.isInteger(n) || n < 1) throw new Error('usage: npm run import -- --limit <n>')
-  return n
+  if (n > MAX_LIMIT) console.warn(`--limit ${n} exceeds AniList's ${MAX_LIMIT} cap; using ${MAX_LIMIT}`)
+  return effectiveLimit(n)
+}
+
+async function ensureDailyPools(db: SupabaseClient) {
+  const stats = new Map<number, SeriesStat>()
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await db
+      .from('cards')
+      .select('series_id, rarity, series!inner(title, source)')
+      .eq('series.source', SOURCE)
+      .order('number')
+      .range(from, from + 999)
+    if (error) throw error
+    for (const r of data as unknown as { series_id: number; rarity: string; series: { title: string } }[]) {
+      const s = stats.get(r.series_id) ?? { id: r.series_id, title: r.series.title, cards: 0, epicOrBetter: 0 }
+      s.cards++
+      if (['epic', 'legendary', 'mythic'].includes(r.rarity)) s.epicOrBetter++
+      stats.set(r.series_id, s)
+    }
+    if (data.length < 1000) break
+  }
+  const { data: pools, error: pErr } = await db.from('daily_pools').select('series_ids')
+  if (pErr) throw pErr
+  const pooled = new Set<number>(pools.flatMap((p) => p.series_ids as number[]))
+  const create = poolsToCreate([...stats.values()], pooled)
+  if (create.length > 0) {
+    const { error } = await db.from('daily_pools').insert(create)
+    if (error) throw error
+  }
+  console.log(`created ${create.length} daily pools`)
 }
 
 async function main() {
@@ -142,6 +173,7 @@ async function main() {
     inserted++
   }
 
+  await ensureDailyPools(db)
   console.log(`inserted ${inserted} cards, ${new Set(seriesIds.values()).size} series`)
 }
 

@@ -60,7 +60,8 @@ async function request<T>(query: string, variables: Record<string, unknown>): Pr
       continue
     }
     if (!res.ok) throw new Error(`AniList ${res.status}: ${await res.text()}`)
-    const json = (await res.json()) as { data: T }
+    const json = (await res.json()) as { data: T | null; errors?: unknown }
+    if (json.errors || !json.data) throw new Error(`AniList error: ${JSON.stringify(json.errors ?? json)}`)
     mkdirSync(CACHE_DIR, { recursive: true })
     writeFileSync(file, JSON.stringify(json.data))
     return json.data
