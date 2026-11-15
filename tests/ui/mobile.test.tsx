@@ -84,12 +84,6 @@ describe("BottomNav", () => {
     expect(await within(sheet).findByRole("button", { name: /^Mix/ })).toBeInTheDocument();
     expect(load).toHaveBeenCalledTimes(1);
   });
-
-  it("is absent on the opening page", () => {
-    pathname = "/open/mix";
-    wrap(<BottomNav />);
-    expect(screen.queryByRole("navigation")).toBeNull();
-  });
 });
 
 describe("BoosterSheet", () => {

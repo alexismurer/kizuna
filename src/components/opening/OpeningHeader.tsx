@@ -39,13 +39,16 @@ export function OpeningHeader({
       if (!boxRef.current?.contains(e.target as Node)) setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key !== "Escape") return;
+      // the capture phase runs first: this Esc only closes the popover, not the reveal behind it
+      e.preventDefault();
+      setOpen(false);
     };
     document.addEventListener("pointerdown", onDown);
-    window.addEventListener("keydown", onKey);
+    window.addEventListener("keydown", onKey, true);
     return () => {
       document.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("keydown", onKey, true);
     };
   }, [open]);
 

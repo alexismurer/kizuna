@@ -108,7 +108,7 @@ export function PackSidePanel({
         )}
         {mode !== "daily" && (
           <>
-            {status.untilPity > 0 ? (
+            {status.untilPity > 1 ? (
               <Tile value={status.untilPity} label={t("home.panel.pity")} />
             ) : (
               <Tile value={t("rarity.mythic")} label={t("home.panel.pityNext")} />

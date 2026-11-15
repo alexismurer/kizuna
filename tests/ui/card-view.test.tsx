@@ -24,9 +24,22 @@ const wrap = (ui: React.ReactNode) =>
     </NextIntlClientProvider>,
   );
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  localStorage.clear();
+});
 
 describe("CardView", () => {
+  it("stills the sheen when the Animations setting is off", () => {
+    const sheen = () => document.querySelector(".card-sheen")!.parentElement!;
+    const { unmount } = wrap(<CardView card={card} />);
+    expect(sheen()).not.toHaveClass("fx-still");
+    unmount();
+    localStorage.setItem("anicards.prefs", JSON.stringify({ animations: false }));
+    wrap(<CardView card={card} />);
+    expect(sheen()).toHaveClass("fx-still");
+  });
+
   it("renders name, number, series, stats on one line and badge", () => {
     wrap(<CardView card={card} />);
     expect(screen.getByText("Hero")).toBeInTheDocument();

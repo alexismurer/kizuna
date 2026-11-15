@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import type { Card, Rarity } from "@/lib/game/types";
+import { usePrefs } from "@/lib/fx/prefs";
 import { RarityBadge } from "../RarityBadge";
 import { CARD_WIDTH, type CardSize } from "./CardBack";
 
@@ -68,12 +69,13 @@ export function CardView({
 }) {
   const t = useTranslations();
   const [broken, setBroken] = useState(false);
+  const [prefs] = usePrefs();
   const color = COLOR[card.rarity];
   const epicPlus = ["epic", "legendary", "mythic"].includes(card.rarity);
   const small = size === "xs" || size === "sm";
 
   return (
-    <div className={`relative ${CARD_WIDTH[size]} ${TEXT[size]} aspect-[2/3]`}>
+    <div className={`relative ${CARD_WIDTH[size]} ${TEXT[size]} aspect-[2/3] ${prefs.animations ? "" : "fx-still"}`}>
       <div
         className={`relative h-full w-full overflow-hidden rounded-xl p-[2px] ${epicPlus ? "card-sheen" : ""}`}
         style={{

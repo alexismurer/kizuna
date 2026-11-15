@@ -25,7 +25,7 @@ export type TopCardRow = {
   aura: number;
   series: { title: string } | null;
 };
-export type Pool = { name: string; series_ids: number[] } | null;
+type Pool = { name: string; series_ids: number[] } | null;
 
 // The player's status, once per request (top bar, bottom nav, home).
 export const loadStatus = cache(async () => {

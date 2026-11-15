@@ -153,9 +153,14 @@ describe("Summary", () => {
   });
 
   it("downloads a PNG of the summary", async () => {
-    toPng.mockResolvedValue("data:image/png;base64,AAAA");
+    let during = { maxHeight: "", overflow: "" };
+    toPng.mockImplementation(async () => {
+      const ul = screen.getByRole("list", { name: messages.summary.cards });
+      during = { maxHeight: ul.style.maxHeight, overflow: ul.style.overflow };
+      return "data:image/png;base64,AAAA";
+    });
     const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
-    wrap();
+    wrap({ packCount: 2, cards: [...pull, make(4, "rare", false, 2)] });
     fireEvent.click(screen.getByRole("button", { name: messages.summary.image }));
     await waitFor(() => expect(click).toHaveBeenCalled());
     const [node, opts] = toPng.mock.calls[0];
@@ -164,6 +169,11 @@ describe("Summary", () => {
     expect(opts.imagePlaceholder).toMatch(/^data:image\//);
     // a plain cached copy has no CORS headers: html-to-image must refetch
     expect(opts.fetchRequestInit).toEqual({ cache: "no-store" });
+    // the scrolling, height-capped list must not clip a x5 / x10 export, and is put back after
+    expect(during).toEqual({ maxHeight: "none", overflow: "visible" });
+    const ul = screen.getByRole("list", { name: messages.summary.cards });
+    expect(ul.style.maxHeight).toBe("");
+    expect(ul.style.overflow).toBe("");
     const a = click.mock.contexts[0] as HTMLAnchorElement;
     expect(a.download).toBe("anicards-pull.png");
     expect(a.href).toBe("data:image/png;base64,AAAA");

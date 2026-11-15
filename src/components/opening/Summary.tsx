@@ -64,6 +64,7 @@ export function Summary({
   const tr = useTranslations();
   const desktop = useDesktop();
   const captureRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const openBtn = useRef<HTMLButtonElement | null>(null);
 
@@ -123,6 +124,12 @@ export function Summary({
     const node = captureRef.current;
     if (!node || exporting) return;
     setExporting(true);
+    // the on-screen list is height-capped and scrolls: lift that so every card is in the image
+    const list = listRef.current;
+    if (list) {
+      list.style.maxHeight = "none";
+      list.style.overflow = "visible";
+    }
     try {
       const { toPng } = await import("html-to-image");
       const url = await toPng(node, {
@@ -139,6 +146,10 @@ export function Summary({
     } catch {
       setToast(t("imageError"));
     } finally {
+      if (list) {
+        list.style.maxHeight = "";
+        list.style.overflow = "";
+      }
       setExporting(false);
     }
   }
@@ -185,6 +196,7 @@ export function Summary({
         {multi ? (
           <ul
             aria-label={t("cards")}
+            ref={listRef}
             className="mt-2 flex max-h-[44dvh] w-full flex-wrap justify-center gap-x-3 gap-y-4 overflow-y-auto px-1 pt-3 pb-2 md:max-h-[52dvh] md:gap-x-4"
           >
             {slots.map((s, i) => (

@@ -196,18 +196,26 @@ describe("PackSidePanel", () => {
     expect(screen.queryByText(messages.home.panel.pity)).toBeNull();
   });
 
-  it("treats a pity of 0 or less as the next booster", () => {
-    panel(PACKS[0], status({ untilPity: -2 }));
+  it("shows the next booster as a sure Mythic at 1 and a count above", () => {
+    panel(PACKS[0], status({ untilPity: 1 }));
     expect(screen.getByText(messages.home.panel.pityNext)).toBeInTheDocument();
-    expect(screen.queryByText("-2")).toBeNull();
+    expect(screen.queryByText(messages.home.panel.pity)).toBeNull();
+    cleanup();
+    panel(PACKS[0], status({ untilPity: 2 }));
+    expect(screen.getByText("2")).toBeInTheDocument();
+    expect(screen.getByText(messages.home.panel.pity)).toBeInTheDocument();
   });
 });
 
 describe("StatusTiles", () => {
-  it("never shows a negative pity count", () => {
-    wrap(<StatusTiles status={status({ untilPity: -1 })} />);
-    expect(screen.queryByText("-1")).toBeNull();
-    expect(screen.getByText(messages.home.tiles.pityNext)).toBeInTheDocument();
+  it("shows the next booster wording at 1 and the count above", () => {
+    wrap(<StatusTiles status={status({ untilPity: 1 })} />);
+    expect(screen.getAllByText(messages.home.tiles.pityNext).length).toBeGreaterThan(0);
+    expect(screen.queryByText("1")).toBeNull();
+    cleanup();
+    wrap(<StatusTiles status={status({ untilPity: 7 })} />);
+    expect(screen.getAllByText("7").length).toBeGreaterThan(0);
+    expect(screen.queryByText(messages.home.tiles.pityNext)).toBeNull();
   });
 });
 

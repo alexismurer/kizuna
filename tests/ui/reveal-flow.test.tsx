@@ -175,6 +175,14 @@ describe("RevealFlow", () => {
     expect(onDone).toHaveBeenCalledTimes(1);
   });
 
+  it("ignores an Escape another control already handled", () => {
+    const onDone = wrap();
+    const e = new KeyboardEvent("keydown", { key: "Escape", cancelable: true });
+    e.preventDefault();
+    window.dispatchEvent(e);
+    expect(onDone).not.toHaveBeenCalled();
+  });
+
   it("hides the back face from assistive tech once flipped", () => {
     wrap();
     fireEvent.click(card());

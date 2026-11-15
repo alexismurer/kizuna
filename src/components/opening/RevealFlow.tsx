@@ -136,7 +136,7 @@ export function RevealFlow({
       } else if (e.key === "Enter" || e.key === "ArrowRight") {
         e.preventDefault();
         if (!e.repeat) latest.current("tap");
-      } else if (e.key === "Escape" && !e.repeat) {
+      } else if (e.key === "Escape" && !e.repeat && !e.defaultPrevented) {
         latest.current("revealAll");
       }
     };

@@ -29,7 +29,7 @@ function Chip({
   );
 }
 
-// phone variant: a square tile in a 5-column grid
+// phone variant: a square tile in a 3-column grid
 function Tile({
   color,
   Icon,
@@ -82,7 +82,7 @@ export function StatusTiles({ status }: { status: Status }) {
           label={countdown ? <span className="font-mono text-cta">{formatClock(left)}</span> : t("shortFree")}
         />
         <Tile color="var(--color-legendary)" Icon={Star} value={status.untilGolden} label={t("shortGolden")} />
-        {status.untilPity > 0 ? (
+        {status.untilPity > 1 ? (
           <Tile color="var(--mythic-a)" Icon={Gem} value={status.untilPity} label={t("shortPity")} />
         ) : (
           <Tile color="var(--mythic-a)" Icon={Gem} value={<Sparkles className="h-3.5 w-3.5 text-cta" aria-hidden />} label={t("shortPityNext")} />
@@ -104,7 +104,7 @@ export function StatusTiles({ status }: { status: Status }) {
           <span className="text-common">{t("golden")}</span>
         </Chip>
         <Chip color="var(--mythic-a)" Icon={Gem}>
-          {status.untilPity > 0 ? (
+          {status.untilPity > 1 ? (
             <>
               <span className={num}>{status.untilPity}</span>{" "}
               <span className="text-common">{t("pity")}</span>

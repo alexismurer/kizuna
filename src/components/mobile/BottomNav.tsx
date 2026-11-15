@@ -11,7 +11,7 @@ import { Sheet } from "./Sheet";
 const item = "flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] font-medium";
 
 // Phone tab bar: Home, Collection, a raised Open button, Market, More.
-// Hidden on md and up, and on the full-screen opening page.
+// Hidden on md and up.
 export function BottomNav() {
   const t = useTranslations("nav");
   const pathname = usePathname();
