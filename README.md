@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Anicards
 
-## Getting Started
+An anime character card collecting web game for a small private group.
+Players join with an invite code, open free, daily and shop booster packs,
+and build a collection of characters imported from AniList.
 
-First, run the development server:
+Built with Next.js (App Router), next-intl, Tailwind CSS and Supabase.
+
+## Prerequisites
+
+- Node.js 20 or newer
+- Docker Desktop (runs the local Supabase stack)
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npx supabase start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create `.env.local` from `.env.example` and fill in the URL, anon key and
+service role key printed by `npx supabase status`. Set
+`NEXT_PUBLIC_DEV_LOGIN=true` locally to get the email/password dev login.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run catalog:dev   # reset the DB and import the real 5,000-card catalog
+npm run invite        # print a fresh invite code
+npm run dev           # http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Sign in, then join with the invite code.
 
-## Learn More
+## Testing
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run db:reset && npm run test:db   # database tests (use the 120-card seed)
+npm run test:ui                       # component and unit tests
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The database tests need the seed catalog, so they replace the real one. Run
+`npm run catalog:dev` again afterwards to get the real catalog back (AniList
+responses are cached, so it is quick).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Optional phone-width check (needs `npm run dev` and a test player in
+`DEV_TEST_EMAIL` / `DEV_TEST_PASSWORD`):
 
-## Deploy on Vercel
+```bash
+npx tsx scripts/phone-check.ts <screenshot-dir>
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Before hosted deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] Enable the Discord auth provider and add the site's `/auth/callback`
+      URL to the Supabase redirect URLs and the Discord app.
+- [ ] Disable email signups and anonymous sign-ins in Supabase Auth.
+- [ ] Set `NEXT_PUBLIC_DEV_LOGIN` to `false` (or leave it unset).
+- [ ] Send `Cache-Control: no-store` on responses that refresh the session.
+- [ ] If `scripts/import-anilist/.cache` predates the "never cache AniList
+      errors" fix, clear it once before importing.
