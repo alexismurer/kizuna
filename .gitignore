@@ -13,3 +13,18 @@ todo.txt
 .env*
 !.env.example
 *.pem
+
+# next.js / node
+/node_modules
+/.next/
+/out/
+/build
+/coverage
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+npm-debug.log*
+
+# importer cache
+scripts/import-anilist/.cache/
