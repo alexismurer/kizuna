@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AlbumList, type Album } from "@/components/AlbumList";
-import type { CardData } from "@/components/CardView";
+import type { CardData } from "@/components/card/CardView";
 import { CollectionGrid, type OwnedCard } from "@/components/CollectionGrid";
 import { RecycleButton } from "@/components/RecycleButton";
 import { Link } from "@/i18n/navigation";
@@ -157,7 +157,7 @@ async function CollectionContent({
       {view === "albums" ? (
         <AlbumList albums={albums} query={q} />
       ) : (
-        <CollectionGrid items={items} query={q} />
+        <CollectionGrid items={items} query={q} total={total} />
       )}
     </>
   );

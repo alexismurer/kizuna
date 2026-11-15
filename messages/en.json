@@ -98,6 +98,8 @@
     "pow": "POW",
     "aura": "AURA",
     "noArt": "No art",
+    "brand": "ANICARDS",
+    "backAlt": "Card back",
     "owned": "Copies owned",
     "series": "View series album",
     "back": "Back to collection"

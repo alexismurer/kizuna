@@ -12,6 +12,9 @@
   --color-epic: #a855f7;
   --color-legendary: #f5b301;
   --color-mythic: #ff3d7f;
+  --mythic-a: #ff3d7f;
+  --mythic-b: #ffd23f;
+  --mythic-c: #3b82f6;
   --font-display: var(--font-bricolage), sans-serif;
   --font-sans: var(--font-inter), sans-serif;
   --font-mono: var(--font-jetbrains), monospace;
@@ -30,6 +33,10 @@ body {
 @keyframes sheen {
   from { background-position: -200% 0; }
   to { background-position: 200% 0; }
+}
+
+@keyframes mythic-hue {
+  to { filter: hue-rotate(360deg); }
 }
 
 @keyframes flash {
@@ -74,4 +81,29 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .holo::after { animation: none; }
   .flip { transition: none; }
+}
+
+.card-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.3) 45%, transparent 60%);
+  background-size: 250% 100%;
+  animation: sheen 3s linear infinite;
+}
+
+.back-glow-rare { box-shadow: 0 0 10px var(--color-rare); }
+.back-glow-epic { box-shadow: 0 0 18px var(--color-epic); }
+.back-glow-legendary { box-shadow: 0 0 28px 2px var(--color-legendary); }
+.back-glow-mythic {
+  box-shadow: 0 0 38px 4px var(--mythic-a), 0 0 14px var(--mythic-c);
+  animation: mythic-hue 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-sheen::after { animation: none; }
+  .back-glow-mythic { animation: none; }
 }

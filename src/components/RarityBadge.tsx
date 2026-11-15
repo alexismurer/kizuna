@@ -10,11 +10,17 @@ const LETTER: Record<Rarity, string> = {
   mythic: "M",
 };
 
-export function RarityBadge({ rarity }: { rarity: Rarity }) {
+export function RarityBadge({
+  rarity,
+  className = "h-6 w-6 text-xs",
+}: {
+  rarity: Rarity;
+  className?: string;
+}) {
   const t = useTranslations("rarity");
   const style =
     rarity === "mythic"
-      ? "bg-[linear-gradient(135deg,#ff3d7f,#ffd23f,#3ccf7a,#3b82f6,#a855f7)]"
+      ? "bg-[linear-gradient(135deg,var(--mythic-a),var(--mythic-b),var(--mythic-c))]"
       : {
           common: "bg-common",
           uncommon: "bg-uncommon",
@@ -26,7 +32,7 @@ export function RarityBadge({ rarity }: { rarity: Rarity }) {
     <span
       aria-label={t(rarity)}
       title={t(rarity)}
-      className={`inline-flex h-6 w-6 items-center justify-center rounded-md font-mono text-xs font-bold text-black ${style}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-full font-mono font-bold text-black ${className} ${style}`}
     >
       {LETTER[rarity]}
     </span>

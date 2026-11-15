@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { CardView } from "@/components/CardView";
+import { CardView } from "@/components/card/CardView";
 import { RecycleButton } from "@/components/RecycleButton";
 import { Link } from "@/i18n/navigation";
 import { recyclable, RECYCLE_VALUE } from "@/lib/game/recycle";
@@ -46,6 +46,9 @@ async function CardContent({
     .select("count, locked")
     .eq("card_id", c.id)
     .maybeSingle();
+  const { count: catalogTotal } = await supabase
+    .from("cards")
+    .select("id", { count: "exact", head: true });
   const count = inv?.count ?? 0;
   const spare = recyclable(count, inv?.locked ?? 0);
   const seriesTitle = c.series?.title ?? "";
@@ -59,12 +62,11 @@ async function CardContent({
         <CardView
           size="lg"
           card={{
-            id: c.id,
             number: c.number,
+            total: catalogTotal ?? 0,
             name: c.name,
             nativeName: c.native_name,
             imageUrl: c.image_url,
-            seriesId: c.series_id,
             seriesTitle,
             rarity: c.rarity,
             pow: c.pow,

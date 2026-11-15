@@ -4,15 +4,17 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { RARITIES, type Rarity } from "@/lib/game/types";
-import { CardView, type CardData } from "./CardView";
+import { CardView, type CardData } from "./card/CardView";
 
 export type OwnedCard = { card: CardData; count: number };
 
 export function CollectionGrid({
   items,
   query = "",
+  total,
 }: {
   items: OwnedCard[];
+  total: number;
   query?: string;
 }) {
   const t = useTranslations();
@@ -50,7 +52,7 @@ export function CollectionGrid({
           {shown.map(({ card, count }) => (
             <li key={card.id} className="relative">
               <Link href={`/card/${card.number}`}>
-                <CardView card={card} size="md" />
+                <CardView card={{ ...card, total }} size="md" />
               </Link>
               {count > 1 && (
                 <span className="absolute -right-1 -top-1 rounded-full bg-cta px-2 py-0.5 font-mono text-xs font-bold text-black">

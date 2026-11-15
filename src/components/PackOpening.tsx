@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { CardView, type CardData } from "./CardView";
+import { CardView, type CardData } from "./card/CardView";
 
 export type RevealCard = { slot: number; isNew: boolean; card: CardData };
 
@@ -115,9 +115,8 @@ export function PackOpening({
             >
               {i < shown && (
                 <CardView
-                  card={c.card}
+                  card={{ ...c.card, total: total ?? 0 }}
                   size={size}
-                  total={total}
                   isNew={newAt.has(i)}
                 />
               )}
