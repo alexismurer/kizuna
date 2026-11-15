@@ -101,7 +101,7 @@ export function CardView({
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={card.imageUrl}
-                alt={card.name}
+                alt=""
                 loading="lazy"
                 onError={() => setBroken(true)}
                 className="h-full w-full object-cover"
@@ -112,7 +112,8 @@ export function CardView({
               </div>
             )}
             <span className="absolute bottom-0.5 left-1 rounded bg-black/60 px-1 font-mono text-[0.8em]">
-              #{card.number}/{card.total}
+              #{card.number}
+              {card.total > 0 ? `/${card.total}` : ""}
             </span>
           </div>
           <p className="truncate text-common">{card.seriesTitle}</p>

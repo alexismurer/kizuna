@@ -30,6 +30,7 @@ export function RarityBadge({
         }[rarity];
   return (
     <span
+      role="img"
       aria-label={t(rarity)}
       title={t(rarity)}
       className={`inline-flex shrink-0 items-center justify-center rounded-full font-mono font-bold text-black ${className} ${style}`}

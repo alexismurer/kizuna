@@ -46,6 +46,11 @@ describe("CardView", () => {
     expect(screen.queryByText("ヒーロー")).toBeNull();
   });
 
+  it("omits the total when it is unknown", () => {
+    wrap(<CardView card={{ ...card, total: 0 }} />);
+    expect(screen.getByText("#12")).toBeInTheDocument();
+  });
+
   it("shows New only when isNew", () => {
     wrap(<CardView card={card} isNew />);
     expect(screen.getByText("NEW")).toBeInTheDocument();
@@ -56,8 +61,8 @@ describe("CardView", () => {
 
   it("swaps a broken image for the placeholder", () => {
     wrap(<CardView card={card} />);
-    fireEvent.error(screen.getByRole("img", { name: "Hero" }));
-    expect(screen.queryByRole("img", { name: "Hero" })).toBeNull();
+    fireEvent.error(document.querySelector("img")!);
+    expect(document.querySelector("img")).toBeNull();
     expect(screen.getByText("No art")).toBeInTheDocument();
   });
 });

@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { useTranslations } from "next-intl";
 import type { Rarity } from "@/lib/game/types";
 
@@ -33,6 +34,7 @@ export function CardBack({
   glowRarity?: Rarity | null;
 }) {
   const t = useTranslations("card");
+  const patternId = useId();
   const glow = glowRarity ? (GLOW[glowRarity] ?? "") : "";
   return (
     <div
@@ -47,7 +49,7 @@ export function CardBack({
       >
         <defs>
           <pattern
-            id="card-back-lattice"
+            id={patternId}
             width="20"
             height="20"
             patternUnits="userSpaceOnUse"
@@ -61,7 +63,7 @@ export function CardBack({
             />
           </pattern>
         </defs>
-        <rect x="10" y="10" width="180" height="280" fill="url(#card-back-lattice)" />
+        <rect x="10" y="10" width="180" height="280" fill={`url(#${patternId})`} />
         <rect
           x="10"
           y="10"

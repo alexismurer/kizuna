@@ -6,6 +6,7 @@ import { RecycleButton } from "@/components/RecycleButton";
 import { Link } from "@/i18n/navigation";
 import { recyclable, RECYCLE_VALUE } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
+import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { createServerClient } from "@/lib/supabase/server";
 
 type Row = {
@@ -41,14 +42,14 @@ async function CardContent({
     .maybeSingle();
   if (!data) notFound();
   const c = data as unknown as Row;
-  const { data: inv } = await supabase
-    .from("inventory")
-    .select("count, locked")
-    .eq("card_id", c.id)
-    .maybeSingle();
-  const { count: catalogTotal } = await supabase
-    .from("cards")
-    .select("id", { count: "exact", head: true });
+  const [{ data: inv }, total] = await Promise.all([
+    supabase
+      .from("inventory")
+      .select("count, locked")
+      .eq("card_id", c.id)
+      .maybeSingle(),
+    catalogTotal(supabase),
+  ]);
   const count = inv?.count ?? 0;
   const spare = recyclable(count, inv?.locked ?? 0);
   const seriesTitle = c.series?.title ?? "";
@@ -63,7 +64,7 @@ async function CardContent({
           size="lg"
           card={{
             number: c.number,
-            total: catalogTotal ?? 0,
+            total,
             name: c.name,
             nativeName: c.native_name,
             imageUrl: c.image_url,

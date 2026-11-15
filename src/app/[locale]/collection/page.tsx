@@ -8,6 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { recycleBreakdown, recycleEstimate } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
 import { fetchAll } from "@/lib/supabase/fetchAll";
+import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { createServerClient } from "@/lib/supabase/server";
 
 type CardRow = {
@@ -42,7 +43,7 @@ async function CollectionContent({
   const q = typeof sp.q === "string" ? sp.q : "";
   const t = await getTranslations("collection");
   const supabase = await createServerClient();
-  const [invRows, albumRows, catalog] = await Promise.all([
+  const [invRows, albumRows, total] = await Promise.all([
     fetchAll((from, to) =>
       supabase
         .from("inventory")
@@ -60,7 +61,7 @@ async function CollectionContent({
         .order("series_id")
         .range(from, to),
     ),
-    supabase.from("cards").select("id", { count: "exact", head: true }),
+    catalogTotal(supabase),
   ]);
 
   const rows = invRows as unknown as InvRow[];
@@ -88,7 +89,6 @@ async function CollectionContent({
     total: a.total,
     byRarity: a.by_rarity,
   }));
-  const total = catalog.count ?? 0;
   const unique = items.length;
   const duplicates = items.reduce((s, i) => s + Math.max(0, i.count - 1), 0);
   const recycleRows = rows.map((r) => ({
