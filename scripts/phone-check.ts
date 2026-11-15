@@ -74,6 +74,10 @@ async function main() {
   await page.getByRole('heading', { level: 1 }).waitFor()
   ok = (await check(page, 'albums', false)) && ok // long list: viewport only
 
+  await page.goto(`${base}/missions`)
+  await page.getByRole('heading', { level: 1 }).waitFor()
+  ok = (await check(page, 'missions')) && ok
+
   // opening page: stage, mid-reveal, summary
   await page.goto(`${base}/open/mix`)
   const open = page.getByRole('button', { name: /^(Free · |Open · |\d+ free \+ )/ })
