@@ -18,7 +18,7 @@ const CHIME: Record<"rare" | "epic" | "legendary" | "mythic", [number, number]> 
   rare: [2, 0.4],
   epic: [3, 0.55],
   legendary: [4, 0.75],
-  mythic: [5, 0.95],
+  mythic: [5, 0.85],
 };
 
 function tone(

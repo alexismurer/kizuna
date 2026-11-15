@@ -71,13 +71,15 @@ export function usePrefs(): [Prefs, (patch: Partial<Prefs>) => void] {
     };
   }, []);
 
-  const update = useCallback((patch: Partial<Prefs>) => {
-    setPrefs((cur) => {
-      const next = { ...cur, ...patch };
+  const update = useCallback(
+    (patch: Partial<Prefs>) => {
+      // merge into the freshest stored value so another tab's write isn't clobbered
+      const next = { ...(defaultStorage() ? readPrefs() : prefs), ...patch };
       writePrefs(next);
-      return next;
-    });
-  }, []);
+      setPrefs(next);
+    },
+    [prefs],
+  );
 
   return [reduced ? { ...prefs, animations: false } : prefs, update];
 }
