@@ -63,6 +63,7 @@
     "username_taken": "That username is already taken.",
     "already_player": "You have already joined.",
     "not_a_player": "You need to join with an invite first.",
+    "cost_changed": "Your free boosters changed — check the price and try again.",
     "unknown": "Something went wrong. Please try again."
   },
   "chips": {
@@ -122,6 +123,8 @@
     "confirmFree": "{count, plural, one {# free booster} other {# free boosters}} used first",
     "confirm": "Confirm",
     "cancel": "Cancel",
+    "cardsAdded": "Cards added to your collection.",
+    "seeCollection": "See the collection",
     "resultTitle": "Your cards",
     "done": "Done"
   },

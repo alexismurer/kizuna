@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { CardView, type CardData } from "@/components/card/CardView";
@@ -70,6 +70,9 @@ export function OpeningScreen({
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
+  // the cards were granted but could not be loaded for the reveal
+  const [added, setAdded] = useState(false);
+  const openRef = useRef<HTMLButtonElement>(null);
   const [opened, setOpened] = useState<OpenedCard[] | null>(null);
 
   const title = name ?? t(`packs.${pack.id}.name`);
@@ -84,18 +87,43 @@ export function OpeningScreen({
   const pay = paymentFor(pack, status, n);
   const standard = pack.kind === "free" || pack.kind === "shop";
 
+  // keep the shown price honest: stock may change in another tab or over time
+  useEffect(() => {
+    const onFocus = () => router.refresh();
+    const onVisibility = () => {
+      if (!document.hidden) router.refresh();
+    };
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [router]);
+
+  useEffect(() => {
+    if (!status.nextFreeAt) return;
+    const ms = Date.parse(status.nextFreeAt) - Date.now();
+    if (!(ms > 0)) return;
+    const id = setTimeout(() => router.refresh(), ms + 1000);
+    return () => clearTimeout(id);
+  }, [status.nextFreeAt, router]);
+
   const open = useCallback(
-    async (count: number) => {
+    async (count: number, maxCost: number) => {
       if (busyRef.current) return;
       busyRef.current = true;
       setBusy(true);
       setError(null);
+      setAdded(false);
       try {
         const supabase = createBrowserClient();
         // cards are granted server-side before any reveal UI exists
         const { data, error: rpcError } = await supabase.rpc("open_packs", {
           p_pack: pack.id,
           p_count: count,
+          // the server refuses (cost_changed) rather than charge more than shown
+          p_max_cost: maxCost,
         });
         if (rpcError) {
           setError(rpcErrorKey(rpcError.message));
@@ -110,7 +138,7 @@ export function OpeningScreen({
           .select(CARD_COLUMNS)
           .in("id", ids);
         if (cardError || !cardRows) {
-          setError("errors.unknown");
+          setAdded(true);
           return;
         }
         const byId = new Map(
@@ -153,10 +181,13 @@ export function OpeningScreen({
   function requestOpen() {
     if (!n || busyRef.current) return;
     if (pay.paid > 0 && prefs.warnPaid) setConfirming(true);
-    else void open(n);
+    else void open(n, pay.cost);
   }
 
-  const cancelConfirm = useCallback(() => setConfirming(false), []);
+  const closeConfirm = useCallback(() => {
+    setConfirming(false);
+    openRef.current?.focus();
+  }, []);
 
   let label: string;
   if (busy) label = t("opening.opening");
@@ -239,6 +270,7 @@ export function OpeningScreen({
               disabled={busy}
             />
             <button
+              ref={openRef}
               type="button"
               disabled={!n || busy}
               onClick={requestOpen}
@@ -249,6 +281,14 @@ export function OpeningScreen({
             {error && (
               <p role="alert" className="text-center text-sm text-accent">
                 {t(error)}
+              </p>
+            )}
+            {added && (
+              <p role="alert" className="text-center text-sm text-uncommon">
+                {t("opening.cardsAdded")}{" "}
+                <Link href="/collection" className="underline">
+                  {t("opening.seeCollection")}
+                </Link>
               </p>
             )}
             {standard && (
@@ -270,10 +310,10 @@ export function OpeningScreen({
           free={pay.free}
           paid={pay.paid}
           cost={pay.cost}
-          onCancel={cancelConfirm}
+          onCancel={closeConfirm}
           onConfirm={() => {
-            setConfirming(false);
-            void open(n);
+            closeConfirm();
+            void open(n, pay.cost);
           }}
         />
       )}

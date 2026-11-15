@@ -80,3 +80,43 @@ describe('open_packs', () => {
     for (const r of data as Row[]) expect(r.is_new).toBe(!owned.has(r.card_id))
   })
 })
+
+describe('open_packs max cost', () => {
+  it('opens when the stock covers everything and max cost is 0', async () => {
+    const { userId, client } = await newPlayer({ freeStock: 5, currency: 1000 })
+    const { error } = await client.rpc('open_packs', { p_pack: 'mix', p_count: 5, p_max_cost: 0 })
+    expect(error).toBeNull()
+    expect((await player(userId)).currency).toBe(1000)
+  })
+
+  it('rejects with cost_changed and spends nothing when the cost exceeds the ceiling', async () => {
+    const { userId, client } = await newPlayer({ freeStock: 2, currency: 1000 })
+    const { error } = await client.rpc('open_packs', { p_pack: 'mix', p_count: 5, p_max_cost: 0 })
+    expect(error?.message).toContain('cost_changed')
+    const p = await player(userId)
+    expect(p.free_stock).toBe(2)
+    expect(p.currency).toBe(1000)
+    expect((await inventoryOf(userId)).size).toBe(0)
+  })
+
+  it('opens when the cost equals the ceiling', async () => {
+    const { userId, client } = await newPlayer({ freeStock: 2, currency: 1000 })
+    const { error } = await client.rpc('open_packs', { p_pack: 'mix', p_count: 5, p_max_cost: 450 })
+    expect(error).toBeNull()
+    expect((await player(userId)).currency).toBe(550)
+  })
+
+  it('keeps the old behaviour without a ceiling', async () => {
+    const { userId, client } = await newPlayer({ freeStock: 2, currency: 1000 })
+    const { error } = await client.rpc('open_packs', { p_pack: 'mix', p_count: 5, p_max_cost: null })
+    expect(error).toBeNull()
+    expect((await player(userId)).currency).toBe(550)
+  })
+
+  it('applies to shop packs', async () => {
+    const { userId, client } = await newPlayer({ freeStock: 5, currency: 750 })
+    const { error } = await client.rpc('open_packs', { p_pack: 'hall_of_fame', p_count: 1, p_max_cost: 749 })
+    expect(error?.message).toContain('cost_changed')
+    expect((await player(userId)).currency).toBe(750)
+  })
+})

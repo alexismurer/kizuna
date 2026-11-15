@@ -8,6 +8,7 @@ const CODES = [
   "username_taken",
   "already_player",
   "not_a_player",
+  "cost_changed",
 ] as const;
 
 export function rpcErrorKey(message: string): string {

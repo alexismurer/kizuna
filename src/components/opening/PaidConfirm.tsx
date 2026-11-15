@@ -17,9 +17,10 @@ export function PaidConfirm({
   onCancel: () => void;
 }) {
   const t = useTranslations("opening");
-  const confirmRef = useRef<HTMLButtonElement>(null);
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => confirmRef.current?.focus(), []);
+  // spending is the risky choice: start on Cancel
+  useEffect(() => cancelRef.current?.focus(), []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -50,6 +51,7 @@ export function PaidConfirm({
         </ul>
         <div className="mt-5 flex justify-end gap-2">
           <button
+            ref={cancelRef}
             type="button"
             onClick={onCancel}
             className="rounded-md border border-border px-4 py-2"
@@ -57,7 +59,6 @@ export function PaidConfirm({
             {t("cancel")}
           </button>
           <button
-            ref={confirmRef}
             type="button"
             onClick={onConfirm}
             className="rounded-md bg-cta px-4 py-2 font-semibold text-black"

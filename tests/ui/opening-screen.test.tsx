@@ -6,6 +6,7 @@ import type { Status } from "@/lib/game/types";
 import messages from "../../messages/en.json";
 
 const rpc = vi.fn();
+const refresh = vi.fn();
 const inFn = vi.fn();
 
 vi.mock("@/lib/supabase/client", () => ({
@@ -16,7 +17,7 @@ vi.mock("@/lib/supabase/client", () => ({
 }));
 
 vi.mock("@/i18n/navigation", () => ({
-  useRouter: () => ({ refresh: vi.fn() }),
+  useRouter: () => ({ refresh }),
   Link: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) => (
     <a href={href} {...rest}>
       {children}
@@ -68,6 +69,7 @@ const openButton = () => screen.getByRole("button", { name: /^(Open|Free|\d+ fre
 beforeEach(() => {
   localStorage.clear();
   rpc.mockReset();
+  refresh.mockReset();
   inFn.mockReset();
   inFn.mockResolvedValue({ data: cardRows, error: null });
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
@@ -110,7 +112,7 @@ describe("OpeningScreen", () => {
     fireEvent.click(screen.getByRole("button", { name: messages.opening.confirm }));
 
     expect(rpc).toHaveBeenCalledTimes(1);
-    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 5 });
+    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 5, p_max_cost: 450 });
     expect(screen.queryByTestId("reveal-placeholder")).toBeNull();
 
     await act(async () => resolve({ data: rows, error: null }));
@@ -124,7 +126,7 @@ describe("OpeningScreen", () => {
     wrap();
     fireEvent.click(openButton());
     expect(screen.queryByRole("alertdialog")).toBeNull();
-    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 1 });
+    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 1, p_max_cost: 0 });
     expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
   });
 
@@ -135,7 +137,7 @@ describe("OpeningScreen", () => {
     fireEvent.click(screen.getByRole("radio", { name: "×5" }));
     fireEvent.click(openButton());
     expect(screen.queryByRole("alertdialog")).toBeNull();
-    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 5 });
+    expect(rpc).toHaveBeenCalledWith("open_packs", { p_pack: "mix", p_count: 5, p_max_cost: 450 });
     expect(await screen.findByTestId("reveal-placeholder")).toBeInTheDocument();
   });
 
@@ -147,6 +149,59 @@ describe("OpeningScreen", () => {
       messages.errors.insufficient_currency,
     );
     expect(screen.queryByTestId("reveal-placeholder")).toBeNull();
+  });
+
+  it("focuses Cancel in the paid confirm, Esc cancels and focus returns to Open", () => {
+    wrap();
+    fireEvent.click(screen.getByRole("radio", { name: "×5" }));
+    const button = openButton();
+    fireEvent.click(button);
+    expect(screen.getByRole("button", { name: messages.opening.cancel })).toHaveFocus();
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+    expect(button).toHaveFocus();
+    expect(rpc).not.toHaveBeenCalled();
+  });
+
+  it("shows cost_changed and refreshes the status", async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: "cost_changed" } });
+    wrap();
+    fireEvent.click(openButton());
+    expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.cost_changed);
+    expect(refresh).toHaveBeenCalled();
+  });
+
+  it("says the cards were added when only the card fetch fails", async () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    inFn.mockResolvedValue({ data: null, error: { message: "boom" } });
+    wrap();
+    fireEvent.click(openButton());
+    expect(await screen.findByRole("alert")).toHaveTextContent(messages.opening.cardsAdded);
+    expect(screen.getByRole("link", { name: messages.opening.seeCollection })).toHaveAttribute(
+      "href",
+      "/collection",
+    );
+  });
+
+  it("refreshes the status when the window regains focus or becomes visible", () => {
+    wrap();
+    fireEvent(window, new Event("focus"));
+    expect(refresh).toHaveBeenCalledTimes(1);
+    fireEvent(document, new Event("visibilitychange"));
+    expect(refresh).toHaveBeenCalledTimes(2);
+  });
+
+  it("schedules a refresh at nextFreeAt", () => {
+    vi.useFakeTimers();
+    try {
+      const at = new Date(Date.now() + 5000).toISOString();
+      wrap(status({ nextFreeAt: at }));
+      expect(refresh).not.toHaveBeenCalled();
+      act(() => vi.advanceTimersByTime(6000));
+      expect(refresh).toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("shows the pity line", () => {
