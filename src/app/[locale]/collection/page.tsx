@@ -7,6 +7,7 @@ import { RecycleButton } from "@/components/RecycleButton";
 import { Link } from "@/i18n/navigation";
 import { recycleEstimate } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
+import { fetchAll } from "@/lib/supabase/fetchAll";
 import { createServerClient } from "@/lib/supabase/server";
 
 type CardRow = {
@@ -41,18 +42,28 @@ async function CollectionContent({
   const q = typeof sp.q === "string" ? sp.q : "";
   const t = await getTranslations("collection");
   const supabase = await createServerClient();
-  const [inv, albumRows, catalog] = await Promise.all([
-    supabase
-      .from("inventory")
-      .select(
-        "count, locked, cards(id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title))",
-      )
-      .gt("count", 0),
-    supabase.from("my_albums").select("*"),
+  const [invRows, albumRows, catalog] = await Promise.all([
+    fetchAll((from, to) =>
+      supabase
+        .from("inventory")
+        .select(
+          "count, locked, cards(id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title))",
+        )
+        .gt("count", 0)
+        .order("card_id")
+        .range(from, to),
+    ),
+    fetchAll((from, to) =>
+      supabase
+        .from("my_albums")
+        .select("*")
+        .order("series_id")
+        .range(from, to),
+    ),
     supabase.from("cards").select("id", { count: "exact", head: true }),
   ]);
 
-  const rows = (inv.data ?? []) as unknown as InvRow[];
+  const rows = invRows as unknown as InvRow[];
   const items: OwnedCard[] = rows.map((r) => {
     const c = r.cards;
     const card: CardData = {
@@ -69,7 +80,7 @@ async function CollectionContent({
     };
     return { card, count: r.count };
   });
-  const albums: Album[] = ((albumRows.data ?? []) as AlbumRow[]).map((a) => ({
+  const albums: Album[] = (albumRows as AlbumRow[]).map((a) => ({
     seriesId: a.series_id,
     title: a.title,
     coverUrl: a.cover_url,

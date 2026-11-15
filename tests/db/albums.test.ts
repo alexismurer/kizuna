@@ -16,6 +16,18 @@ describe('my_albums', () => {
     expect(sum.reduce((a, [, t]) => a + t, 0)).toBe(40)
   })
 
+  it('isolates players and lists by_rarity keys present in the series', async () => {
+    const a = await newPlayer()
+    const b = await newPlayer()
+    const { data: s1 } = await admin.from('cards').select('id, rarity').eq('series_id', 1)
+    for (const c of s1!.slice(0, 5)) await giveCards(b.userId, c.id, 1)
+    const { data: forA } = await a.client.from('my_albums').select('*').eq('series_id', 1).single()
+    expect(forA.owned).toBe(0)
+    const { data: forB } = await b.client.from('my_albums').select('*').eq('series_id', 1).single()
+    expect(forB.owned).toBe(5)
+    expect(Object.keys(forA.by_rarity).sort()).toEqual([...new Set(s1!.map((c) => c.rarity as string))].sort())
+  })
+
   it('lists every series, with zero owned for a new player', async () => {
     const { client } = await newPlayer()
     const { data } = await client.from('my_albums').select('owned, total')
