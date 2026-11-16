@@ -57,7 +57,7 @@ export function TradeComposer({
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);
-  // the prefilled card, added once the player's cards are loaded
+  // the prefilled card, looked up by its id once the player is chosen
   const pendingWant = useRef<number | null>(prefill?.wantCardId ?? null);
   // applied once: a live refresh hands in a new (equal) prefill object
   const [initial] = useState(prefill);
@@ -102,15 +102,7 @@ export function TradeComposer({
       async () => {
         try {
           const list = await loadTradables(createBrowserClient(), player.id, q || null);
-          if (!live) return;
-          setTheirs(list);
-          const wanted = pendingWant.current;
-          if (wanted !== null) {
-            pendingWant.current = null;
-            const hit = list.find((x) => x.card.id === wanted);
-            if (hit) setWant([{ item: hit, count: 1 }]);
-            else setNote(t("notTradable", { name: player.username }));
-          }
+          if (live) setTheirs(list);
         } catch {
           if (live) setError("errors.unknown");
         }
@@ -122,6 +114,25 @@ export function TradeComposer({
       clearTimeout(id);
     };
   }, [player, theirQuery, t]);
+
+  // prefill: that exact card (it may be past the first 200 of the list)
+  useEffect(() => {
+    const wanted = pendingWant.current;
+    if (!player || wanted === null) return;
+    let live = true;
+    loadTradables(createBrowserClient(), player.id, null, wanted)
+      .then((list) => {
+        if (!live) return;
+        pendingWant.current = null;
+        const hit = list.find((x) => x.card.id === wanted);
+        if (hit) setWant([{ item: hit, count: 1 }]);
+        else setNote(t("notTradable", { name: player.username }));
+      })
+      .catch(() => live && setError("errors.unknown"));
+    return () => {
+      live = false;
+    };
+  }, [player, t]);
 
   function choose(p: Player | null) {
     setPlayer(p);

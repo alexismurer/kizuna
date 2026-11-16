@@ -5,8 +5,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import messages from "../../messages/en.json";
 
 const rpc = vi.fn();
+const on = vi.fn();
+const chan: { on: typeof on; subscribe: () => unknown } = { on, subscribe: () => chan };
 vi.mock("@/lib/supabase/client", () => ({
-  createBrowserClient: () => ({ rpc }),
+  createBrowserClient: () => ({
+    rpc,
+    channel: () => chan,
+    removeChannel: vi.fn(),
+    realtime: { setAuth: async () => {} },
+  }),
 }));
 vi.mock("@/i18n/navigation", () => ({
   Link: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) => (
@@ -47,6 +54,7 @@ afterEach(() => {
 beforeEach(() => {
   rpc.mockReset();
   rpc.mockResolvedValue({ data: null, error: null });
+  on.mockReset().mockImplementation(() => chan);
 });
 
 describe("NotificationBell", () => {
@@ -57,7 +65,7 @@ describe("NotificationBell", () => {
   ];
 
   it("shows the unread count and marks read up to the newest id when opened", async () => {
-    wrap(<NotificationBell initial={items} names={names} />);
+    wrap(<NotificationBell playerId="u1" initial={items} names={names} />);
     const bell = screen.getByRole("button", { name: /notifications, 2 unread/i });
     expect(within(bell).getByText("2")).toBeInTheDocument();
 
@@ -82,15 +90,27 @@ describe("NotificationBell", () => {
 
   it("keeps the notifications unread when marking them read fails", async () => {
     rpc.mockResolvedValue({ data: null, error: { message: "boom" } });
-    wrap(<NotificationBell initial={items} names={names} />);
+    wrap(<NotificationBell playerId="u1" initial={items} names={names} />);
     fireEvent.click(screen.getByRole("button", { name: /2 unread/i }));
     expect(rpc).toHaveBeenCalledTimes(1);
     await waitFor(() => expect(screen.getByRole("button", { name: /notifications, 2 unread/i })).toBeInTheDocument());
   });
 
+  it("listens live only to new notifications of this player (its own mark-read doesn't refresh the page)", async () => {
+    wrap(<NotificationBell playerId="u1" initial={[]} names={{}} />);
+    await waitFor(() => expect(on).toHaveBeenCalledTimes(1));
+    expect(on.mock.calls[0][0]).toBe("postgres_changes");
+    expect(on.mock.calls[0][1]).toStrictEqual({
+      event: "INSERT",
+      schema: "public",
+      table: "notifications",
+      filter: "player_id=eq.u1",
+    });
+  });
+
   it("caps the badge at 9+", () => {
     const many = Array.from({ length: 12 }, (_, i) => n(20 - i, "trade_expired", { trade_id: i }));
-    wrap(<NotificationBell initial={many} names={{}} />);
+    wrap(<NotificationBell playerId="u1" initial={many} names={{}} />);
     expect(screen.getByRole("button", { name: /12 unread/i })).toHaveTextContent("9+");
   });
 
@@ -99,7 +119,7 @@ describe("NotificationBell", () => {
     wrap(
       <div>
         <p>outside</p>
-        <NotificationBell initial={items} names={names} />
+        <NotificationBell playerId="u1" initial={items} names={names} />
       </div>,
     );
     fireEvent.click(screen.getByRole("button", { name: /notifications/i }));
@@ -109,13 +129,13 @@ describe("NotificationBell", () => {
   });
 
   it("opens from the More sheet's event", () => {
-    wrap(<NotificationBell initial={items} names={names} />);
+    wrap(<NotificationBell playerId="u1" initial={items} names={names} />);
     fireEvent(window, new Event("notifications:open"));
     expect(screen.getByRole("dialog", { name: messages.notifications.title })).toBeInTheDocument();
   });
 
   it("says when there is nothing yet", () => {
-    wrap(<NotificationBell initial={[]} names={{}} />);
+    wrap(<NotificationBell playerId="u1" initial={[]} names={{}} />);
     fireEvent.click(screen.getByRole("button", { name: messages.topbar.notifications }));
     expect(screen.getByText(messages.notifications.empty)).toBeInTheDocument();
     expect(rpc).not.toHaveBeenCalled();

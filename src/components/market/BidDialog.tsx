@@ -5,7 +5,7 @@ import { Coins } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { rpcErrorKey } from "@/lib/game/errors";
-import { validPrice } from "@/lib/market/format";
+import { MAX_PRICE, validPrice } from "@/lib/market/format";
 import type { Auction } from "@/lib/market/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { Dialog } from "./Dialog";
@@ -34,13 +34,15 @@ export function BidDialog({
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
+  // the top bid is the maximum price: no further bid is possible
+  const [maxed, setMaxed] = useState(auction.topBid !== null && auction.topBid >= MAX_PRICE);
 
   const amount = Number(input);
   const valid = input !== "" && validPrice(amount);
   const tooLow = valid && amount < min;
   const short = valid && amount > currency;
   const current = auction.topBid ?? auction.startPrice;
-  const plus10 = Math.max(min, Math.ceil((current * 11) / 10));
+  const plus10 = Math.min(MAX_PRICE, Math.max(min, Math.ceil((current * 11) / 10)));
   // a new amount makes the last server error stale (the live hints take over)
   const edit = (v: string) => {
     setInput(v);
@@ -62,9 +64,10 @@ export function BidDialog({
         const low = /bid_too_low:(\d+)/.exec(rpcError.message);
         if (low) setFloor(Number(low[1]));
         const key = rpcErrorKey(rpcError.message);
-        setError(key);
-        // ended meanwhile: reload so the list shows it as gone
-        if (key === "errors.auction_ended") router.refresh();
+        if (key === "errors.auction_maxed") setMaxed(true);
+        else setError(key);
+        // ended or maxed meanwhile: reload so the list shows its new state
+        if (key === "errors.auction_ended" || key === "errors.auction_maxed") router.refresh();
       } else {
         onPlaced(amount);
       }
@@ -90,60 +93,71 @@ export function BidDialog({
           </dd>
         </div>
       </dl>
-      <form
-        className="mt-4 flex flex-col gap-3"
-        onSubmit={(e) => {
-          e.preventDefault();
-          place();
-        }}
-      >
-        <label className="flex flex-col gap-1 text-sm">
-          {t("dialog.amount")}
-          <input
-            type="number"
-            min={min}
-            inputMode="numeric"
-            value={input}
-            onChange={(e) => edit(e.target.value)}
-            className="rounded-lg border border-border bg-bg px-3 py-2 font-mono text-base"
-          />
-        </label>
-        <div className="flex gap-2">
-          <button type="button" onClick={() => edit(String(min))} className={quick}>
-            {t("dialog.min")}
-          </button>
-          <button type="button" onClick={() => edit(String(plus10))} className={quick}>
-            {t("dialog.plus10")}
-          </button>
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-common">{t("dialog.balanceAfter")}</span>
-          <span className={`font-mono ${short ? "text-red-400" : ""}`}>
-            {format.number(currency - (valid ? amount : 0))}
-          </span>
-        </div>
-        {error ? (
-          <p role="alert" className="text-sm text-red-400">
-            {te(error, { min: format.number(min) })}
-          </p>
-        ) : tooLow ? (
-          <p className="text-sm text-red-400">{te("errors.bid_too_low", { min: format.number(min) })}</p>
-        ) : short ? (
-          <p className="text-sm text-red-400">{te("errors.insufficient_currency")}</p>
-        ) : null}
-        <div className="mt-2 flex justify-end gap-2">
-          <button type="button" onClick={onClose} className="rounded-lg border border-border px-4 py-2">
-            {t("dialog.cancel")}
-          </button>
-          <button
-            type="submit"
-            disabled={!valid || tooLow || short || busy}
-            className="rounded-lg bg-cta px-4 py-2 font-bold text-black disabled:opacity-50"
-          >
-            {t("dialog.confirm")}
-          </button>
-        </div>
-      </form>
+      {maxed ? (
+        <>
+          <p className="mt-4 text-sm text-common">{te("errors.auction_maxed")}</p>
+          <div className="mt-4 flex justify-end">
+            <button type="button" onClick={onClose} className="rounded-lg border border-border px-4 py-2">
+              {t("dialog.cancel")}
+            </button>
+          </div>
+        </>
+      ) : (
+        <form
+          className="mt-4 flex flex-col gap-3"
+          onSubmit={(e) => {
+            e.preventDefault();
+            place();
+          }}
+        >
+          <label className="flex flex-col gap-1 text-sm">
+            {t("dialog.amount")}
+            <input
+              type="number"
+              min={min}
+              inputMode="numeric"
+              value={input}
+              onChange={(e) => edit(e.target.value)}
+              className="rounded-lg border border-border bg-bg px-3 py-2 font-mono text-base"
+            />
+          </label>
+          <div className="flex gap-2">
+            <button type="button" onClick={() => edit(String(min))} className={quick}>
+              {t("dialog.min")}
+            </button>
+            <button type="button" onClick={() => edit(String(plus10))} className={quick}>
+              {t("dialog.plus10")}
+            </button>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-common">{t("dialog.balanceAfter")}</span>
+            <span className={`font-mono ${short ? "text-red-400" : ""}`}>
+              {format.number(currency - (valid ? amount : 0))}
+            </span>
+          </div>
+          {error ? (
+            <p role="alert" className="text-sm text-red-400">
+              {te(error, { min: format.number(min) })}
+            </p>
+          ) : tooLow ? (
+            <p className="text-sm text-red-400">{te("errors.bid_too_low", { min: format.number(min) })}</p>
+          ) : short ? (
+            <p className="text-sm text-red-400">{te("errors.insufficient_currency")}</p>
+          ) : null}
+          <div className="mt-2 flex justify-end gap-2">
+            <button type="button" onClick={onClose} className="rounded-lg border border-border px-4 py-2">
+              {t("dialog.cancel")}
+            </button>
+            <button
+              type="submit"
+              disabled={!valid || tooLow || short || busy}
+              className="rounded-lg bg-cta px-4 py-2 font-bold text-black disabled:opacity-50"
+            >
+              {t("dialog.confirm")}
+            </button>
+          </div>
+        </form>
+      )}
     </Dialog>
   );
 }

@@ -11,17 +11,20 @@ import { NotificationList } from "./NotificationList";
 
 // Top bar bell: unread badge, a dropdown (md and up) or a bottom sheet
 // (phones) with the latest notifications. Opening marks them read up to the
-// newest; new ones arrive live. The More sheet opens it with the
+// newest; new ones arrive live (inserts for this player only, so marking them
+// read doesn't refresh the page). The More sheet opens it with the
 // "notifications:open" window event.
 export function NotificationBell({
+  playerId,
   initial,
   names,
 }: {
+  playerId: string;
   initial: Notification[];
   names: Record<number, string>;
 }) {
   const t = useTranslations();
-  useMarketLive(["notifications"]);
+  useMarketLive(["notifications"], { notifications: { event: "INSERT", filter: `player_id=eq.${playerId}` } });
   const [open, setOpen] = useState<"dropdown" | "sheet" | null>(null);
   // marked read here since the server data was loaded
   const [readUpTo, setReadUpTo] = useState(0);

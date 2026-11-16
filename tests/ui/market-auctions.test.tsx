@@ -219,6 +219,35 @@ describe("BidDialog", () => {
     expect(refresh).toHaveBeenCalledTimes(1);
   });
 
+  it("caps quick amounts at the maximum price", () => {
+    wrap(tab([auction(1, { topBid: 990000, minBid: 1000000 })], 2000000));
+    fireEvent.click(screen.getByRole("button", { name: "Bid on Card 1" }));
+    const dialog = screen.getByRole("dialog");
+    fireEvent.click(within(dialog).getByRole("button", { name: messages.market.auction.dialog.plus10 }));
+    expect(within(dialog).getByLabelText(messages.market.auction.dialog.amount)).toHaveValue(1000000);
+    expect(within(dialog).getByRole("button", { name: messages.market.auction.dialog.confirm })).toBeEnabled();
+  });
+
+  it("a maxed auction shows that no further bid is possible instead of the input", () => {
+    wrap(tab([auction(1, { topBid: 1000000, minBid: 1000000 })], 2000000));
+    fireEvent.click(screen.getByRole("button", { name: "Bid on Card 1" }));
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toHaveTextContent(messages.errors.auction_maxed);
+    expect(within(dialog).queryByLabelText(messages.market.auction.dialog.amount)).toBeNull();
+    expect(within(dialog).queryByRole("button", { name: messages.market.auction.dialog.confirm })).toBeNull();
+  });
+
+  it("switches to the maxed state on auction_maxed", async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: "auction_maxed" } });
+    wrap(tab([auction(7, { topBid: 990000, minBid: 1000000 })], 2000000));
+    fireEvent.click(screen.getByRole("button", { name: "Bid on Card 7" }));
+    fireEvent.click(screen.getByRole("button", { name: messages.market.auction.dialog.confirm }));
+    const dialog = screen.getByRole("dialog");
+    await waitFor(() => expect(dialog).toHaveTextContent(messages.errors.auction_maxed));
+    expect(within(dialog).queryByLabelText(messages.market.auction.dialog.amount)).toBeNull();
+    expect(refresh).toHaveBeenCalled();
+  });
+
   it("does not reload the list for other errors", async () => {
     rpc.mockResolvedValue({ data: null, error: { message: "already_top" } });
     wrap(tab([auction(7)]));
@@ -287,6 +316,22 @@ describe("useMarketLive", () => {
       vi.advanceTimersByTime(500);
     });
     expect(refresh).toHaveBeenCalledTimes(1);
+  });
+
+  it("listens to every event without a filter by default; per-table event and filter when given", async () => {
+    renderHook(() => useMarketLive(["auctions"]));
+    await act(async () => {});
+    expect(on.mock.calls[0][1]).toStrictEqual({ event: "*", schema: "public", table: "auctions" });
+    cleanup();
+    on.mockClear();
+    renderHook(() =>
+      useMarketLive(["notifications", "trades"], { notifications: { event: "INSERT", filter: "player_id=eq.u1" } }),
+    );
+    await act(async () => {});
+    expect(on.mock.calls.map((c) => c[1])).toStrictEqual([
+      { event: "INSERT", schema: "public", table: "notifications", filter: "player_id=eq.u1" },
+      { event: "*", schema: "public", table: "trades" },
+    ]);
   });
 
   it("does nothing when Realtime is unavailable", async () => {

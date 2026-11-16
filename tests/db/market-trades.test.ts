@@ -711,3 +711,83 @@ describe('visibility and reads', () => {
     expect((await me.client.rpc('_close_trade', { p_id: 1, p_status: 'cancelled' })).error).not.toBeNull()
   })
 })
+
+describe('market fixes', () => {
+  it('player_tradable_cards: p_card_id returns that card even past the 200-row browse cap', async () => {
+    const me = await newPlayer()
+    const other = await newPlayer()
+    // the seed has 120 cards: add commons in a new series so the player owns more than 200
+    const { data: series, error: se } = await admin
+      .from('series')
+      .insert({ title: 'AAA trade cap test' })
+      .select('id')
+      .single()
+    expect(se).toBeNull()
+    const extra = Array.from({ length: 100 }, (_, i) => ({
+      number: 900000 + i,
+      name: `Cap test ${i}`,
+      series_id: series!.id,
+      popularity_rank: 900000 + i,
+      rarity: 'common',
+      pow: 1,
+      aura: 1,
+    }))
+    const { data: added, error: ce } = await admin.from('cards').insert(extra).select('id')
+    expect(ce).toBeNull()
+    const addedIds = added!.map((c) => c.id as number)
+    try {
+      const { data: all } = await admin.from('cards').select('id')
+      const ids = all!.map((c) => c.id as number)
+      expect(ids.length).toBeGreaterThan(200)
+      const { error: ie } = await admin
+        .from('inventory')
+        .upsert(ids.map((id) => ({ player_id: other.userId, card_id: id, count: 2 })), { onConflict: 'player_id,card_id' })
+      expect(ie).toBeNull()
+
+      const browse = await me.client.rpc('player_tradable_cards', { p_player: other.userId })
+      expect(browse.data).toHaveLength(200)
+      const shown = new Set((browse.data as Array<{ card_id: number }>).map((r) => r.card_id))
+      const hidden = ids.find((id) => !shown.has(id))!
+      expect(hidden).toBeDefined()
+
+      const exact = await me.client.rpc('player_tradable_cards', { p_player: other.userId, p_card_id: hidden })
+      expect(exact.error).toBeNull()
+      expect(exact.data).toEqual([expect.objectContaining({ card_id: hidden, free: 2 })])
+
+      // a locked copy lowers the free count; none free -> no row
+      await giveCards(other.userId, hidden, 1)
+      expect((await other.client.rpc('create_listing', { p_card_id: hidden, p_price: 5 })).error).toBeNull()
+      const none = await me.client.rpc('player_tradable_cards', { p_player: other.userId, p_card_id: hidden })
+      expect(none.data).toEqual([])
+    } finally {
+      await admin.from('listings').delete().in('card_id', addedIds)
+      await admin.from('inventory').delete().eq('player_id', other.userId)
+      await admin.from('cards').delete().in('id', addedIds)
+      await admin.from('series').delete().eq('id', series!.id)
+    }
+  })
+
+  it('caps open trades: 3 per recipient and 10 per proposer -> too_many_trades', async () => {
+    const me = await newPlayer({ currency: 1000 })
+    const others = await Promise.all(Array.from({ length: 5 }, () => newPlayer()))
+    const offer = (to: string) => propose(me.client, to, [], [], 1, 1)
+
+    for (let i = 0; i < 3; i++) expect((await offer(others[0].userId)).error).toBeNull()
+    const pair = await offer(others[0].userId)
+    expect(pair.error?.message).toContain('too_many_trades')
+    expect(await currencyOf(me.userId)).toBe(997)
+
+    for (let i = 0; i < 3; i++) expect((await offer(others[1].userId)).error).toBeNull()
+    for (let i = 0; i < 3; i++) expect((await offer(others[2].userId)).error).toBeNull()
+    expect((await offer(others[3].userId)).error).toBeNull() // 10 open
+    const total = await offer(others[4].userId)
+    expect(total.error?.message).toContain('too_many_trades')
+    expect(await currencyOf(me.userId)).toBe(990)
+
+    // closing one frees a slot
+    const { data: open } = await admin.from('trades').select('id').eq('from_id', me.userId).eq('to_id', others[0].userId)
+    expect((await me.client.rpc('cancel_trade', { p_id: open![0].id })).error).toBeNull()
+    expect((await offer(others[0].userId)).error).toBeNull()
+    expect((await offer(others[4].userId)).error?.message).toContain('too_many_trades')
+  })
+})

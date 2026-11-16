@@ -8,7 +8,7 @@ import { STALE_ERRORS, rpcErrorKey } from "@/lib/game/errors";
 import type { Tradable, Trade, TradeItem, TradePrefill } from "@/lib/market/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { CardLine } from "./CardLine";
-import { Toast } from "./Dialog";
+import { Dialog, Toast } from "./Dialog";
 import { TradeComposer } from "./TradeComposer";
 import { useMarketLive } from "./useMarketLive";
 
@@ -32,6 +32,8 @@ export function TradesTab({
   const [composing, setComposing] = useState(prefill !== null);
   const [toast, setToast] = useState<string | null>(null);
   const [error, setError] = useState<{ id: number; key: string } | null>(null);
+  // the received offer waiting for "Confirm trade"
+  const [accepting, setAccepting] = useState<Trade | null>(null);
   const busy = useRef(false);
   const free = new Map(mine.map((m) => [m.card.id, m.free]));
   const shown = trades.filter((tr) => tr.direction === view);
@@ -99,12 +101,37 @@ export function TradesTab({
               currency={currency}
               free={free}
               error={error?.id === tr.id ? error.key : null}
-              onAct={(fn) => act(tr, fn)}
+              onAct={(fn) => (fn === "accept_trade" ? setAccepting(tr) : act(tr, fn))}
             />
           ))}
         </ul>
       )}
 
+      {accepting && (
+        <Dialog label={t("confirm.title", { name: accepting.other.username })} onClose={() => setAccepting(null)}>
+          <h2 className="pr-10 font-display text-xl font-bold">{t("confirm.title", { name: accepting.other.username })}</h2>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            {/* a received offer: I give what they ask for, I get what they give */}
+            <Side label={t("youGive")} items={accepting.want} currency={accepting.wantCurrency} />
+            <Side label={t("youGet")} items={accepting.give} currency={accepting.giveCurrency} />
+          </div>
+          <div className="mt-5 flex justify-end gap-2">
+            <button type="button" onClick={() => setAccepting(null)} className="rounded-lg border border-border px-4 py-2">
+              {t("confirm.back")}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAccepting(null);
+                act(accepting, "accept_trade");
+              }}
+              className="rounded-lg bg-cta px-4 py-2 font-bold text-black"
+            >
+              {t("confirm.confirm")}
+            </button>
+          </div>
+        </Dialog>
+      )}
       {composing && (
         <TradeComposer
           mine={mine}

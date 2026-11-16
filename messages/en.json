@@ -157,6 +157,8 @@
     "invalid_trade": "This offer is not valid. Each side needs cards or currency (up to 20 cards).",
     "unknown_player": "That player does not exist.",
     "trade_expired": "This offer has expired.",
+    "too_many_trades": "You have too many open offers (10 in all, 3 per player). Wait for answers or cancel one first.",
+    "auction_maxed": "This auction has reached the maximum bid.",
     "unknown": "Something went wrong. Please try again."
   },
   "reveal": {
@@ -655,6 +657,12 @@
       "listed": "{name} is listed for {price}.",
       "auctionStarted": "Auction started for {name}.",
       "soldNow": "You sold {name} for {net}.",
+      "sellNowConfirm": {
+        "title": "Sell to the best buy order?",
+        "price": "Price",
+        "confirm": "Confirm sale",
+        "back": "Back"
+      },
       "close": "Close"
     },
     "trades": {
@@ -685,6 +693,11 @@
       "declined": "Offer from {name} declined.",
       "cancelled": "Offer to {name} cancelled.",
       "sentToast": "Offer sent to {name}.",
+      "confirm": {
+        "title": "Accept the offer from {name}?",
+        "confirm": "Confirm trade",
+        "back": "Back"
+      },
       "composer": {
         "title": "New trade offer",
         "player": "Player",

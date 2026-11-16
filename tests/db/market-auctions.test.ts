@@ -256,6 +256,24 @@ describe('place_bid', () => {
     }
   })
 
+  it('bid ceiling: the minimum next bid never exceeds 1,000,000; a maxed auction refuses bids with auction_maxed', async () => {
+    const seller = await newPlayer()
+    const a = await newPlayer({ currency: 1000000 })
+    const b = await newPlayer({ currency: 1000000 })
+    const card = await cardOf('rare', 13)
+    await giveCards(seller.userId, card, 1)
+    const id = await newAuction(seller.client, card, 990000)
+    expect((await a.client.rpc('place_bid', { p_id: id, p_amount: 990000 })).error).toBeNull()
+    // 990,000 + 5 % would be 1,039,500: capped at the maximum price
+    expect((await b.client.rpc('min_next_bid', { p_id: id })).data).toBe(1000000)
+    expect((await b.client.rpc('place_bid', { p_id: id, p_amount: 1000000 })).error).toBeNull()
+    expect((await a.client.rpc('min_next_bid', { p_id: id })).data).toBe(1000000)
+    const maxed = await a.client.rpc('place_bid', { p_id: id, p_amount: 1000000 })
+    expect(maxed.error?.message).toContain('auction_maxed')
+    expect(await currencyOf(a.userId)).toBe(1000000)
+    expect(await auctionRow(id)).toMatchObject({ top_bid: 1000000, top_bidder: b.userId, bid_count: 2 })
+  })
+
   it('players cannot call the internal functions', async () => {
     const { userId, client } = await newPlayer()
     expect((await client.rpc('_place_bid', { p_player: userId, p_id: 1, p_amount: 1, p_now: new Date().toISOString() })).error).not.toBeNull()

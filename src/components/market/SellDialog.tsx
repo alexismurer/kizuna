@@ -35,6 +35,8 @@ export function SellDialog({
   const [input, setInput] = useState("");
   const [value, setValue] = useState<number | null | undefined>(undefined);
   const [best, setBest] = useState<Best | null>(null);
+  // "Sell now" waits for a confirmation showing price and net
+  const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);
   const priceId = useId();
@@ -125,14 +127,60 @@ export function SellDialog({
         </div>
       </div>
 
-      {best && (
+      {best && confirming && (
+        <div
+          role="group"
+          aria-label={t("sellNowConfirm.title")}
+          className="mt-4 flex flex-col gap-2 rounded-xl border border-cta p-3 text-sm"
+        >
+          <p className="font-bold">{t("sellNowConfirm.title")}</p>
+          <dl className="flex flex-col gap-1.5">
+            <div className="flex justify-between">
+              <dt className="text-common">{t("sellNowConfirm.price")}</dt>
+              <dd data-testid="sell-now-price" className="font-mono">
+                {format.number(best.price)}
+              </dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-common">{t("fee")}</dt>
+              <dd data-testid="sell-now-fee" className="font-mono text-red-400">
+                −{format.number(marketFee(best.price))}
+              </dd>
+            </div>
+            <div className="flex justify-between font-bold">
+              <dt>{t("net")}</dt>
+              <dd data-testid="sell-now-net" className="font-mono text-cta">
+                {format.number(net(best.price))}
+              </dd>
+            </div>
+          </dl>
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => setConfirming(false)}
+              className="rounded-lg border border-border px-3 py-1.5"
+            >
+              {t("sellNowConfirm.back")}
+            </button>
+            <button
+              type="button"
+              onClick={() => sellNow(best)}
+              disabled={busy}
+              className="rounded-lg bg-cta px-3 py-1.5 font-bold text-black disabled:opacity-50"
+            >
+              {t("sellNowConfirm.confirm")}
+            </button>
+          </div>
+        </div>
+      )}
+      {best && !confirming && (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border p-3 text-sm">
           <span className="text-common">
             {t("bestOrder")}: <span className="font-mono text-white">{format.number(best.price)}</span>
           </span>
           <button
             type="button"
-            onClick={() => sellNow(best)}
+            onClick={() => setConfirming(true)}
             disabled={busy}
             className="rounded-lg border border-cta px-3 py-1.5 font-bold text-cta disabled:opacity-50"
           >

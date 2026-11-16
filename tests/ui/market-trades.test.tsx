@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import messages from "../../messages/en.json";
@@ -54,10 +54,15 @@ function wrap(ui: React.ReactNode) {
   );
 }
 
+// past the 200-row browse list: only found by its id
+const deep = { card_id: 42, free: 1, name: "Card 42", number: 42, image_url: null, rarity: "common", series_title: "Series" };
+
 function server(overrides: Record<string, unknown> = {}) {
-  rpc.mockImplementation(async (name: string) => {
+  rpc.mockImplementation(async (name: string, args?: { p_card_id?: number | null }) => {
     if (name in overrides) return overrides[name];
     if (name === "find_players") return { data: [{ id: "p2", username: "player2" }], error: null };
+    if (name === "player_tradable_cards" && args?.p_card_id != null)
+      return { data: [...theirs, deep].filter((r) => r.card_id === args.p_card_id), error: null };
     if (name === "player_tradable_cards") return { data: theirs, error: null };
     return { data: null, error: null };
   });
@@ -131,8 +136,36 @@ describe("TradesTab", () => {
     expect(within(sent).getByRole("button", { name: "Cancel offer" })).toBeInTheDocument();
   });
 
+  it("Accept asks for confirmation with what I give and get, then calls accept_trade once", async () => {
+    let resolve: (v: unknown) => void = () => {};
+    rpc.mockImplementation(() => new Promise((r) => (resolve = r)));
+    wrap(<TradesTab trades={[trade(7, { giveCurrency: 30 })]} currency={1000} mine={mine} prefill={null} />);
+    fireEvent.click(screen.getByRole("button", { name: "Accept" }));
+    expect(rpc).not.toHaveBeenCalled();
+    const dialog = screen.getByRole("dialog", { name: "Accept the offer from player2?" });
+    expect(within(dialog).getByRole("group", { name: "You give" })).toHaveTextContent("Card 1");
+    expect(within(dialog).getByRole("group", { name: "You get" })).toHaveTextContent("Card 5");
+    expect(within(dialog).getByRole("group", { name: "You get" })).toHaveTextContent("30");
+    const confirm = within(dialog).getByRole("button", { name: messages.market.trades.confirm.confirm });
+    fireEvent.click(confirm);
+    fireEvent.click(confirm);
+    resolve({ data: null, error: null });
+    expect(await screen.findByRole("status")).toHaveTextContent("Trade with player2 done.");
+    expect(rpc).toHaveBeenCalledTimes(1);
+    expect(rpc).toHaveBeenCalledWith("accept_trade", { p_id: 7 });
+    expect(refresh).toHaveBeenCalled();
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("backing out of the Accept confirmation calls nothing", () => {
+    wrap(<TradesTab trades={[trade(7)]} currency={1000} mine={mine} prefill={null} />);
+    fireEvent.click(screen.getByRole("button", { name: "Accept" }));
+    fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: messages.market.trades.confirm.back }));
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(rpc).not.toHaveBeenCalled();
+  });
+
   it.each([
-    ["Accept", "accept_trade", "Trade with player2 done."],
     ["Decline", "decline_trade", "Offer from player2 declined."],
   ])("%s calls %s once, then toasts and refreshes", async (label, fn, toast) => {
     let resolve: (v: unknown) => void = () => {};
@@ -160,6 +193,7 @@ describe("TradesTab", () => {
     server({ accept_trade: { data: null, error: { message: "trade_expired" } } });
     wrap(<TradesTab trades={[trade(7)]} currency={1000} mine={mine} prefill={null} />);
     fireEvent.click(screen.getByRole("button", { name: "Accept" }));
+    fireEvent.click(screen.getByRole("button", { name: messages.market.trades.confirm.confirm }));
     expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.trade_expired);
     expect(refresh).toHaveBeenCalled();
   });
@@ -247,10 +281,14 @@ describe("TradeComposer", () => {
     expect(calls("propose_trade")[0][1]).toMatchObject({ p_give: [], p_give_currency: 100 });
   });
 
-  it("prefills the player and the wanted card from the URL", async () => {
-    wrap(<TradesTab trades={[]} currency={1000} mine={mine} prefill={{ toUsername: "Player2", wantCardId: 8 }} />);
+  it("prefills the player and the wanted card from the URL, looked up by its id", async () => {
+    wrap(<TradesTab trades={[]} currency={1000} mine={mine} prefill={{ toUsername: "Player2", wantCardId: 42 }} />);
     const want = await screen.findByRole("region", { name: "You ask for" });
-    expect(await within(want).findByRole("button", { name: "Remove Card 8" })).toBeInTheDocument();
+    expect(await within(want).findByRole("button", { name: "Remove Card 42" })).toBeInTheDocument();
+    expect(calls("player_tradable_cards")).toContainEqual([
+      "player_tradable_cards",
+      { p_player: "p2", p_query: null, p_card_id: 42 },
+    ]);
     expect(calls("find_players")).toEqual([["find_players", { p_query: "Player2" }]]);
     expect(screen.getByRole("dialog")).toHaveTextContent("player2");
   });
@@ -265,6 +303,27 @@ describe("TradeComposer", () => {
     wrap(<TradesTab trades={[]} currency={1000} mine={mine} prefill={{ toUsername: "player2", wantCardId: 8 }} />);
     expect(await screen.findByText("No player named player2.")).toBeInTheDocument();
     expect(calls("player_tradable_cards")).toEqual([]);
+  });
+
+  it("searches the other player's cards on the server (any card is reachable)", async () => {
+    wrap(<TradesTab trades={[]} currency={1000} mine={mine} prefill={null} />);
+    await pickPlayer();
+    const want = screen.getByRole("region", { name: "You ask for" });
+    fireEvent.change(within(want).getByRole("searchbox", { name: messages.market.trades.composer.searchCards }), {
+      target: { value: "Card 42" },
+    });
+    await waitFor(() =>
+      expect(calls("player_tradable_cards")).toContainEqual(["player_tradable_cards", { p_player: "p2", p_query: "Card 42" }]),
+    );
+  });
+
+  it("maps too_many_trades", async () => {
+    server({ propose_trade: { data: null, error: { message: "too_many_trades" } } });
+    wrap(<TradesTab trades={[]} currency={1000} mine={mine} prefill={null} />);
+    fireEvent.click(await pickPlayer());
+    fireEvent.click(within(screen.getByRole("region", { name: "You give" })).getByRole("button", { name: "Add Card 2" }));
+    fireEvent.click(screen.getByRole("button", { name: "Send offer" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.too_many_trades);
   });
 
   it("maps a propose error", async () => {

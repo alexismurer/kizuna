@@ -13,7 +13,8 @@ export async function TopBar() {
   const status = await loadStatus();
   if (!status) return null;
   const { freeStock, currency, missionsClaimable } = status;
-  const notifications = await loadNotifications(await createServerClient());
+  const supabase = await createServerClient();
+  const [notifications, { data: claims }] = await Promise.all([loadNotifications(supabase), supabase.auth.getClaims()]);
 
   const disabled = ["play", "more"] as const;
 
@@ -83,7 +84,9 @@ export async function TopBar() {
           </>
         )}
       </Link>
-      <NotificationBell initial={notifications.items} names={notifications.names} />
+      {claims && (
+        <NotificationBell playerId={claims.claims.sub} initial={notifications.items} names={notifications.names} />
+      )}
       <details className="relative shrink-0">
         <summary
           aria-label={t("topbar.account")}

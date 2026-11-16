@@ -21,7 +21,9 @@ vi.mock("@/i18n/navigation", () => ({
 
 const loadStatus = vi.hoisted(() => vi.fn());
 vi.mock("@/lib/supabase/boosters", () => ({ loadStatus }));
-vi.mock("@/lib/supabase/server", () => ({ createServerClient: async () => ({}) }));
+vi.mock("@/lib/supabase/server", () => ({
+  createServerClient: async () => ({ auth: { getClaims: async () => ({ data: { claims: { sub: "u1" } } }) } }),
+}));
 vi.mock("@/lib/market/notifications", () => ({
   loadNotifications: async () => ({
     items: [{ id: 1, kind: "trade_expired", payload: { trade_id: 1 }, createdAt: new Date().toISOString(), read: false }],

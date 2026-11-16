@@ -4,16 +4,20 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { createBrowserClient } from "@/lib/supabase/client";
 
+type Listen = { event?: "*" | "INSERT" | "UPDATE" | "DELETE"; filter?: string };
+
 // Re-renders the page (router.refresh) when rows of `tables` change, at most
 // once per 500 ms burst. RLS applies, so only rows the player can see count.
-// Does nothing when Realtime is unavailable.
-export function useMarketLive(tables: string[]) {
+// `listen` narrows a table to one event and/or a row filter (default: every
+// change). Does nothing when Realtime is unavailable.
+export function useMarketLive(tables: string[], listen: Record<string, Listen> = {}) {
   const router = useRouter();
   const latest = useRef(router);
   useEffect(() => {
     latest.current = router;
   });
   const key = tables.join(",");
+  const spec = JSON.stringify(tables.map((t) => listen[t] ?? {}));
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -31,9 +35,12 @@ export function useMarketLive(tables: string[]) {
         await supabase.realtime.setAuth();
         if (gone) return;
         let channel = supabase.channel(`market-live:${key}:${Math.random().toString(36).slice(2)}`);
-        for (const table of key.split(",")) {
-          channel = channel.on("postgres_changes", { event: "*", schema: "public", table }, changed);
-        }
+        const only = JSON.parse(spec) as Listen[];
+        key.split(",").forEach((table, i) => {
+          const { event = "*", filter } = only[i];
+          const opts = { event, schema: "public", table, ...(filter ? { filter } : {}) };
+          channel = channel.on("postgres_changes", opts, changed);
+        });
         // after a reconnect, refresh once to pick up changes missed meanwhile;
         // the first join needs none (the page was just rendered by the server)
         let joined = false;
@@ -52,5 +59,5 @@ export function useMarketLive(tables: string[]) {
       clearTimeout(timer);
       stop?.();
     };
-  }, [key]);
+  }, [key, spec]);
 }

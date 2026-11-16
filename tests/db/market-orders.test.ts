@@ -269,3 +269,19 @@ describe('market_orders / best_order', () => {
     expect(best.data).toEqual([{ id: first.data, price: 25 }])
   })
 })
+
+describe('best_order skips the caller', () => {
+  it('ignores your own orders and shows the best other order', async () => {
+    const me = await newPlayer({ currency: 100 })
+    const other = await newPlayer({ currency: 100 })
+    const card = await cardOf('uncommon', 26)
+    await clearOpenOrders(card)
+    await me.client.rpc('create_buy_order', { p_card_id: card, p_price: 50 })
+    expect((await me.client.rpc('best_order', { p_card_id: card })).data).toEqual([])
+    const theirs = await other.client.rpc('create_buy_order', { p_card_id: card, p_price: 20 })
+    expect((await me.client.rpc('best_order', { p_card_id: card })).data).toEqual([{ id: theirs.data, price: 20 }])
+    // others still see my higher order
+    const best = await other.client.rpc('best_order', { p_card_id: card })
+    expect((best.data as Array<{ price: number }>)[0].price).toBe(50)
+  })
+})

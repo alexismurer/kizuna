@@ -186,12 +186,29 @@ describe("SellTab and SellDialog", () => {
     );
   });
 
-  it("offers Sell now with a best buy order", async () => {
+  it("offers Sell now with a best buy order, confirmed with price and net first", async () => {
     mockReads([{ id: 9, price: 80 }]);
     const dialog = open();
     const sellNow = await within(dialog).findByRole("button", { name: "Sell now for 80" });
     fireEvent.click(sellNow);
+    expect(rpc).not.toHaveBeenCalledWith("fill_buy_order", expect.anything());
+    const confirm = within(dialog).getByRole("group", { name: messages.market.sell.sellNowConfirm.title });
+    expect(within(confirm).getByTestId("sell-now-price")).toHaveTextContent("80");
+    expect(within(confirm).getByTestId("sell-now-fee")).toHaveTextContent("−4");
+    expect(within(confirm).getByTestId("sell-now-net")).toHaveTextContent("76");
+    fireEvent.click(within(confirm).getByRole("button", { name: messages.market.sell.sellNowConfirm.confirm }));
     await waitFor(() => expect(rpc).toHaveBeenCalledWith("fill_buy_order", { p_id: 9 }));
+    expect(rpc.mock.calls.filter((c) => c[0] === "fill_buy_order")).toHaveLength(1);
+  });
+
+  it("backing out of Sell now calls nothing", async () => {
+    mockReads([{ id: 9, price: 80 }]);
+    const dialog = open();
+    fireEvent.click(await within(dialog).findByRole("button", { name: "Sell now for 80" }));
+    fireEvent.click(within(dialog).getByRole("button", { name: messages.market.sell.sellNowConfirm.back }));
+    expect(within(dialog).queryByRole("group", { name: messages.market.sell.sellNowConfirm.title })).toBeNull();
+    expect(within(dialog).getByRole("button", { name: "Sell now for 80" })).toBeInTheDocument();
+    expect(rpc).not.toHaveBeenCalledWith("fill_buy_order", expect.anything());
   });
 
   it("has no Sell now without a buy order", async () => {

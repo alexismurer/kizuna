@@ -51,9 +51,19 @@ export function parseTrades(data: unknown): Trade[] {
   }));
 }
 
-// Another player's free copies (player_tradable_cards), optionally searched
-export async function loadTradables(supabase: SupabaseClient, player: string, query: string | null): Promise<Tradable[]> {
-  const { data, error } = await supabase.rpc("player_tradable_cards", { p_player: player, p_query: query });
+// Another player's free copies (player_tradable_cards), optionally searched;
+// with `cardId`, just that card (the browse list stops at 200 rows)
+export async function loadTradables(
+  supabase: SupabaseClient,
+  player: string,
+  query: string | null,
+  cardId?: number,
+): Promise<Tradable[]> {
+  const { data, error } = await supabase.rpc("player_tradable_cards", {
+    p_player: player,
+    p_query: query,
+    ...(cardId === undefined ? {} : { p_card_id: cardId }),
+  });
   if (error) throw error;
   return ((data ?? []) as TradableRow[]).map((r) => ({ card: brief(r), free: r.free, series: r.series_title }));
 }
