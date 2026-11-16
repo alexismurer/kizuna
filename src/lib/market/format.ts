@@ -19,3 +19,13 @@ export function valueDelta(price: number, value: number | null): number | null {
 export function validPrice(price: number): boolean {
   return Number.isInteger(price) && price >= MIN_PRICE && price <= MAX_PRICE;
 }
+
+// Time left as "h:mm:ss" (or "m:ss" under an hour); null once ended.
+export function formatCountdown(ms: number): string | null {
+  if (ms <= 0) return null;
+  const total = Math.floor(ms / 1000);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = String(total % 60).padStart(2, "0");
+  return h > 0 ? `${h}:${String(m).padStart(2, "0")}:${s}` : `${m}:${s}`;
+}

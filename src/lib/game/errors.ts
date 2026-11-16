@@ -21,6 +21,11 @@ const CODES = [
   "own_order",
   "not_open",
   "not_found",
+  "auction_ended",
+  "own_auction",
+  "already_top",
+  "bid_too_low",
+  "has_bids",
 ] as const;
 
 export function rpcErrorKey(message: string): string {

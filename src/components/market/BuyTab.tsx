@@ -10,6 +10,7 @@ import type { Listing, MarketFilters } from "@/lib/market/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { Dialog, Toast } from "./Dialog";
 import { ListingCard } from "./ListingCard";
+import { useMarketLive } from "./useMarketLive";
 
 export function BuyTab({
   filters,
@@ -30,8 +31,16 @@ export function BuyTab({
   const te = useTranslations();
   const format = useFormatter();
   const router = useRouter();
+  useMarketLive(["listings"]);
   const [listings, setListings] = useState(initial);
   const [more, setMore] = useState(initialMore);
+  // a live refresh brings new server data: start over from it
+  const [shown, setShown] = useState(initial);
+  if (shown !== initial) {
+    setShown(initial);
+    setListings(initial);
+    setMore(initialMore);
+  }
   const [loading, setLoading] = useState(false);
   const [buying, setBuying] = useState<Listing | null>(null);
   const [busy, setBusy] = useState(false);

@@ -6,12 +6,12 @@ import { useTranslations } from "next-intl";
 import { RarityBadge } from "@/components/RarityBadge";
 import { useRouter } from "@/i18n/navigation";
 import { RARITIES, type Rarity } from "@/lib/game/types";
-import { marketHref } from "@/lib/market/filters";
-import { MARKET_SORTS, type MarketFilters as Filters, type MarketSort } from "@/lib/market/types";
+import { defaultSort, marketHref, sortsFor } from "@/lib/market/filters";
+import type { MarketFilters as Filters, MarketSort } from "@/lib/market/types";
 
 const toPrice = (v: string) => (/^\d+$/.test(v) && Number(v) >= 1 ? Number(v) : null);
 
-// Search, rarity chips and (Buy tab) price range and sort; all in the URL.
+// Search, rarity chips and (Buy and Auctions tabs) price range and sort; all in the URL.
 export function MarketFilters({ filters, priceFilters }: { filters: Filters; priceFilters: boolean }) {
   const t = useTranslations("market");
   const router = useRouter();
@@ -27,7 +27,7 @@ export function MarketFilters({ filters, priceFilters }: { filters: Filters; pri
         ? filters.rarities.filter((x) => x !== r)
         : RARITIES.filter((x) => x === r || filters.rarities.includes(x)),
     });
-  const priced = filters.min !== null || filters.max !== null || filters.sort !== "newest";
+  const priced = filters.min !== null || filters.max !== null || filters.sort !== defaultSort(filters.tab);
   const chip = (active: boolean) =>
     `flex h-9 items-center justify-center rounded-full border-2 ${active ? "border-white" : "border-transparent opacity-60 hover:opacity-100"}`;
 
@@ -124,7 +124,7 @@ export function MarketFilters({ filters, priceFilters }: { filters: Filters; pri
               onChange={(e) => setSort(e.target.value as MarketSort)}
               className="rounded-lg border border-border bg-bg px-2 py-1.5"
             >
-              {MARKET_SORTS.map((s) => (
+              {sortsFor(filters.tab).map((s) => (
                 <option key={s} value={s}>
                   {t(`sort.${s}`)}
                 </option>
@@ -141,8 +141,8 @@ export function MarketFilters({ filters, priceFilters }: { filters: Filters; pri
                 setOpen(false);
                 setMin("");
                 setMax("");
-                setSort("newest");
-                go({ min: null, max: null, sort: "newest" });
+                setSort(defaultSort(filters.tab));
+                go({ min: null, max: null, sort: defaultSort(filters.tab) });
               }}
               className="rounded-lg border border-border px-4 py-1.5"
             >

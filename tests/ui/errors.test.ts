@@ -9,9 +9,12 @@ describe("rpcErrorKey", () => {
     expect(rpcErrorKey("not_today")).toBe("errors.not_today");
     expect(rpcErrorKey("already_claimed")).toBe("errors.already_claimed");
     expect(rpcErrorKey("invalid_card")).toBe("errors.invalid_card");
-    for (const c of ["no_free_copy", "invalid_price", "invalid_duration", "own_listing", "own_order", "not_open", "not_found"]) {
+    for (const c of ["no_free_copy", "invalid_price", "invalid_duration", "own_listing", "own_order", "not_open", "not_found", "auction_ended", "own_auction", "already_top", "has_bids"]) {
       expect(rpcErrorKey(c)).toBe(`errors.${c}`);
     }
+  });
+  it("maps bid_too_low with its minimum appended", () => {
+    expect(rpcErrorKey("bid_too_low:1500")).toBe("errors.bid_too_low");
   });
   it("falls back to unknown", () => {
     expect(rpcErrorKey("boom")).toBe("errors.unknown");

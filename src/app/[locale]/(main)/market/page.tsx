@@ -1,11 +1,13 @@
 import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { CardData } from "@/components/card/CardView";
+import { AuctionsTab } from "@/components/market/AuctionsTab";
 import { BuyTab } from "@/components/market/BuyTab";
 import { MarketFilters } from "@/components/market/MarketFilters";
 import { MarketTabs } from "@/components/market/MarketTabs";
 import { SellTab } from "@/components/market/SellTab";
 import type { Rarity } from "@/lib/game/types";
+import { loadAuctions } from "@/lib/market/auctions";
 import { parseMarketParams, toQuery } from "@/lib/market/filters";
 import { loadListings } from "@/lib/market/listings";
 import type { MarketFilters as Filters, SellableCard } from "@/lib/market/types";
@@ -87,6 +89,27 @@ async function Sell({ filters }: { filters: Filters }) {
   return <SellTab filters={filters} items={items} total={total} />;
 }
 
+async function Auctions({ filters }: { filters: Filters }) {
+  const supabase = await createServerClient();
+  const [page, status, total, user] = await Promise.all([
+    loadAuctions(supabase, filters, 0),
+    loadStatus(),
+    catalogTotal(supabase),
+    supabase.auth.getUser(),
+  ]);
+  return (
+    <AuctionsTab
+      key={toQuery(filters)}
+      filters={filters}
+      initial={page.auctions}
+      initialMore={page.more}
+      currency={status?.currency ?? 0}
+      me={user.data.user?.id ?? null}
+      total={total}
+    />
+  );
+}
+
 async function Placeholder() {
   const t = await getTranslations("market");
   return (
@@ -103,16 +126,21 @@ async function MarketContent({
 }) {
   const filters = parseMarketParams(await searchParams);
   const { tab } = filters;
+  // settle ended auctions before reading, in case the cron job is late
+  await (await createServerClient()).rpc("settle_market");
+  const priced = tab === "buy" || tab === "auctions";
   return (
     <>
       <MarketTabs active={tab} />
-      {(tab === "buy" || tab === "sell") && (
-        <MarketFilters key={toQuery(filters)} filters={filters} priceFilters={tab === "buy"} />
+      {(priced || tab === "sell") && (
+        <MarketFilters key={toQuery(filters)} filters={filters} priceFilters={priced} />
       )}
       {tab === "buy" ? (
         <Buy filters={filters} />
       ) : tab === "sell" ? (
         <Sell filters={filters} />
+      ) : tab === "auctions" ? (
+        <Auctions filters={filters} />
       ) : (
         <Placeholder />
       )}

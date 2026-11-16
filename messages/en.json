@@ -147,6 +147,11 @@
     "own_order": "That is your own buy order.",
     "not_open": "This offer is no longer available.",
     "not_found": "This offer no longer exists.",
+    "auction_ended": "This auction has ended.",
+    "own_auction": "That is your own auction.",
+    "already_top": "You already have the top bid.",
+    "bid_too_low": "Minimum bid is {min}",
+    "has_bids": "This auction has bids and can't be cancelled.",
     "unknown": "Something went wrong. Please try again."
   },
   "reveal": {
@@ -552,6 +557,7 @@
     "maxPrice": "Max price",
     "sort": {
       "label": "Sort",
+      "ending": "Ending soon",
       "newest": "Newest",
       "price_asc": "Price: low to high",
       "price_desc": "Price: high to low"
@@ -576,6 +582,30 @@
       "cancel": "Cancel"
     },
     "bought": "You bought {name} for {price}.",
+    "auction": {
+      "count": "{count, plural, one {# auction} other {# auctions}}",
+      "countMore": "{count}+ auctions",
+      "empty": "No auctions match.",
+      "tag": "Auction",
+      "startPrice": "Start price",
+      "currentBid": "Current bid",
+      "bids": "{count, plural, =0 {No bids} one {# bid} other {# bids}}",
+      "endsIn": "Ends in",
+      "ended": "Ended",
+      "leading": "You lead",
+      "bid": "Bid on {name}",
+      "bidButton": "Bid",
+      "dialog": {
+        "title": "Bid on {name}",
+        "amount": "Your bid",
+        "min": "Minimum",
+        "plus10": "+10 %",
+        "balanceAfter": "Your balance after",
+        "confirm": "Place bid",
+        "cancel": "Cancel"
+      },
+      "placed": "Your bid of {amount} on {name} is in."
+    },
     "sell": {
       "empty": "No cards to sell.",
       "title": "Sell {name}",

@@ -1,5 +1,5 @@
 import { RARITIES, type Rarity } from "@/lib/game/types";
-import { MARKET_SORTS, MARKET_TABS, type MarketFilters, type MarketSort, type MarketTab } from "./types";
+import { AUCTION_SORTS, MARKET_SORTS, MARKET_TABS, type MarketFilters, type MarketSort, type MarketTab } from "./types";
 
 type Params = Record<string, string | string[] | undefined>;
 
@@ -11,18 +11,28 @@ function price(v: string): number | null {
   return n >= 1 ? n : null;
 }
 
+// Sort options and default per tab: auctions also sort by end time, first.
+export function sortsFor(tab: MarketTab): readonly MarketSort[] {
+  return tab === "auctions" ? AUCTION_SORTS : MARKET_SORTS;
+}
+
+export function defaultSort(tab: MarketTab): MarketSort {
+  return tab === "auctions" ? "ending" : "newest";
+}
+
 export function parseMarketParams(sp: Params): MarketFilters {
-  const tab = one(sp.tab);
+  const raw = one(sp.tab);
+  const tab = MARKET_TABS.includes(raw as MarketTab) ? (raw as MarketTab) : "buy";
   const sort = one(sp.sort);
   return {
-    tab: MARKET_TABS.includes(tab as MarketTab) ? (tab as MarketTab) : "buy",
+    tab,
     q: one(sp.q).trim(),
     rarities: one(sp.r)
       .split(",")
       .filter((r): r is Rarity => RARITIES.includes(r as Rarity)),
     min: price(one(sp.min)),
     max: price(one(sp.max)),
-    sort: MARKET_SORTS.includes(sort as MarketSort) ? (sort as MarketSort) : "newest",
+    sort: sortsFor(tab).includes(sort as MarketSort) ? (sort as MarketSort) : defaultSort(tab),
   };
 }
 
@@ -34,7 +44,7 @@ export function toQuery(f: MarketFilters): string {
   if (f.rarities.length) p.set("r", f.rarities.join(","));
   if (f.min !== null) p.set("min", String(f.min));
   if (f.max !== null) p.set("max", String(f.max));
-  if (f.sort !== "newest") p.set("sort", f.sort);
+  if (f.sort !== defaultSort(f.tab)) p.set("sort", f.sort);
   return p.toString();
 }
 

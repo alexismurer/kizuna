@@ -5,7 +5,9 @@ export const MARKET_TABS = ["buy", "sell", "auctions", "trades", "activity"] as 
 export type MarketTab = (typeof MARKET_TABS)[number];
 
 export const MARKET_SORTS = ["newest", "price_asc", "price_desc"] as const;
-export type MarketSort = (typeof MARKET_SORTS)[number];
+// the Auctions tab also sorts by end time (its default)
+export const AUCTION_SORTS = ["ending", ...MARKET_SORTS] as const;
+export type MarketSort = (typeof AUCTION_SORTS)[number];
 
 // URL state of the market page
 export type MarketFilters = {
@@ -29,3 +31,18 @@ export type Listing = {
 
 // One of the player's cards with copies that can be sold (count - locked >= 1)
 export type SellableCard = { card: CardData; sellable: number };
+
+// An open auction (Auctions tab); minBid is the server's min_next_bid
+export type Auction = {
+  id: number;
+  startPrice: number;
+  topBid: number | null;
+  topBidder: string | null;
+  bidCount: number;
+  minBid: number;
+  endsAt: string;
+  sellerId: string;
+  seller: string;
+  value: number | null;
+  card: CardData;
+};

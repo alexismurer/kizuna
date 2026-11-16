@@ -4,8 +4,12 @@ import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+const FIELDS = "input:not([disabled]), select:not([disabled]), textarea:not([disabled])";
+const FOCUSABLE = `a[href], button:not([disabled]), ${FIELDS}, [tabindex]:not([tabindex="-1"])`;
+
 // A centred modal for market actions: Esc, the backdrop and the close button
-// close it; focus returns to the opener.
+// close it; focus starts on the first field (else the panel), Tab stays
+// inside, and focus returns to the opener.
 export function Dialog({
   label,
   onClose,
@@ -24,9 +28,24 @@ export function Dialog({
 
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
-    panel.current?.focus();
+    const field = panel.current?.querySelector<HTMLElement>(FIELDS);
+    (field ?? panel.current)?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") latest.current();
+      // keep Tab / Shift+Tab inside the panel
+      if (e.key !== "Tab" || !panel.current) return;
+      const items = [...panel.current.querySelectorAll<HTMLElement>(FOCUSABLE)];
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && (active === first || active === panel.current)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (active === last || !panel.current.contains(active))) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
