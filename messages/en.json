@@ -140,6 +140,13 @@
     "not_complete": "This mission is not complete yet.",
     "already_claimed": "You already claimed this reward.",
     "invalid_card": "That card does not exist.",
+    "no_free_copy": "You have no free copy of this card to sell.",
+    "invalid_price": "Enter a whole price between 1 and 1,000,000.",
+    "invalid_duration": "Pick a duration of 1 h, 6 h or 24 h.",
+    "own_listing": "That is your own listing.",
+    "own_order": "That is your own buy order.",
+    "not_open": "This offer is no longer available.",
+    "not_found": "This offer no longer exists.",
     "unknown": "Something went wrong. Please try again."
   },
   "reveal": {
@@ -525,5 +532,74 @@
   "loginReward": {
     "toast": "Day {day} login · +{reward, number}",
     "golden": "Next booster is golden"
+  },
+  "market": {
+    "eyebrow": "AUCTION HOUSE",
+    "title": "The market",
+    "tabs": {
+      "label": "Market sections",
+      "buy": "Buy",
+      "sell": "Sell",
+      "auctions": "Auctions",
+      "trades": "Trades",
+      "activity": "My activity"
+    },
+    "comingNext": "Coming next",
+    "search": "Search name or series",
+    "allRarities": "All",
+    "filters": "Filters",
+    "minPrice": "Min price",
+    "maxPrice": "Max price",
+    "sort": {
+      "label": "Sort",
+      "newest": "Newest",
+      "price_asc": "Price: low to high",
+      "price_desc": "Price: high to low"
+    },
+    "apply": "Apply",
+    "reset": "Reset",
+    "count": "{count, plural, one {# listing} other {# listings}}",
+    "countMore": "{count}+ listings",
+    "empty": "No listings match.",
+    "fixedPrice": "Fixed price",
+    "yours": "Yours",
+    "seller": "by {name}",
+    "delta": "{delta} % vs value",
+    "buy": "Buy {name}",
+    "buyButton": "Buy",
+    "loadMore": "Load more",
+    "buyConfirm": {
+      "title": "Buy {name}?",
+      "price": "Price",
+      "balanceAfter": "Your balance after",
+      "confirm": "Buy now",
+      "cancel": "Cancel"
+    },
+    "bought": "You bought {name} for {price}.",
+    "sell": {
+      "empty": "No cards to sell.",
+      "title": "Sell {name}",
+      "copies": "{count, plural, one {# sellable copy} other {# sellable copies}}",
+      "value": "Value",
+      "noValue": "—",
+      "mode": "Sale type",
+      "fixed": "Fixed price",
+      "auction": "Auction",
+      "price": "Price",
+      "startPrice": "Start price",
+      "minimum": "Minimum 1",
+      "duration": "Duration",
+      "hours": "{count} h",
+      "fee": "Sales fee 5 %",
+      "net": "Net gain",
+      "list": "List for sale",
+      "start": "Start auction",
+      "bestOrder": "Best buy order",
+      "sellNow": "Sell now for {price}",
+      "listed": "{name} is listed for {price}.",
+      "auctionStarted": "Auction started for {name}.",
+      "soldNow": "You sold {name} for {net}.",
+      "close": "Close"
+    }
   }
 }

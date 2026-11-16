@@ -73,11 +73,7 @@ export function BottomNav({ missionsClaimable }: { missionsClaimable: number }) 
             </button>
           </li>
           <li className="flex justify-center">
-            <button type="button" disabled title={t("soon")} className={`${item} text-common opacity-60`}>
-              <Store className="h-5 w-5" aria-hidden />
-              {t("market")}
-              <span className="sr-only"> · {t("soon")}</span>
-            </button>
+            {tab("/market", pathname.startsWith("/market"), Store, t("market"))}
           </li>
           <li className="flex justify-center">
             <button

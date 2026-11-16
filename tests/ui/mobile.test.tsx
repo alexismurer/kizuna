@@ -77,7 +77,7 @@ describe("BottomNav", () => {
     expect(items).toHaveLength(5);
     expect(within(items[2]).getByRole("button", { name: messages.nav.open })).toBeInTheDocument();
     expect(within(items[0]).getByRole("link", { name: messages.nav.home })).toHaveAttribute("aria-current", "page");
-    expect(within(items[3]).getByRole("button", { name: new RegExp(messages.nav.market) })).toBeDisabled();
+    expect(within(items[3]).getByRole("link", { name: messages.nav.market })).toHaveAttribute("href", "/market");
   });
 
   it("loads the boosters only when the Open button opens the sheet", async () => {

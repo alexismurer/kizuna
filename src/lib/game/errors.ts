@@ -14,6 +14,13 @@ const CODES = [
   "not_complete",
   "already_claimed",
   "invalid_card",
+  "no_free_copy",
+  "invalid_price",
+  "invalid_duration",
+  "own_listing",
+  "own_order",
+  "not_open",
+  "not_found",
 ] as const;
 
 export function rpcErrorKey(message: string): string {

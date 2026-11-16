@@ -11,7 +11,7 @@ export async function TopBar() {
   if (!status) return null;
   const { freeStock, currency, missionsClaimable } = status;
 
-  const disabled = ["market", "play", "more"] as const;
+  const disabled = ["play", "more"] as const;
 
   return (
     <header className="flex items-center gap-3 border-b border-border bg-panel px-3 py-3 sm:gap-6 sm:px-6">
@@ -31,6 +31,9 @@ export async function TopBar() {
         </Link>
         <Link href="/collection" className="hover:text-accent">
           {t("nav.collection")}
+        </Link>
+        <Link href="/market" className="hover:text-accent">
+          {t("nav.market")}
         </Link>
         {disabled.map((k) => (
           <span
