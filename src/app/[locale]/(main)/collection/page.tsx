@@ -6,8 +6,10 @@ import { CollectionGrid, type OwnedCard } from "@/components/CollectionGrid";
 import { RecycleButton } from "@/components/RecycleButton";
 import { WishlistGrid, type WishlistItem } from "@/components/WishlistGrid";
 import { Link } from "@/i18n/navigation";
+import { matchesQuery } from "@/lib/game/collection";
 import { recycleBreakdown, recycleEstimate } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
+import { loadCardValues } from "@/lib/market/values";
 import { fetchAll } from "@/lib/supabase/fetchAll";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { createServerClient } from "@/lib/supabase/server";
@@ -91,12 +93,14 @@ async function CollectionContent({
     pow: c.pow,
     aura: c.aura,
   });
-  // estimated values only for the cards view, in one call
-  const values = new Map<number, number | null>();
-  if (view === "cards" && rows.length) {
-    const { data } = await supabase.rpc("card_values", { p_card_ids: rows.map((r) => r.cards.id) });
-    for (const v of (data ?? []) as { card_id: number; value: number | null }[]) values.set(v.card_id, v.value);
-  }
+  // estimated values only in the cards view, for the cards the search keeps
+  const values =
+    view === "cards"
+      ? await loadCardValues(
+          supabase,
+          rows.filter((r) => matchesQuery(toCard(r.cards), q)).map((r) => r.cards.id),
+        )
+      : new Map<number, number | null>();
   const items: OwnedCard[] = rows.map((r) => ({
     card: toCard(r.cards),
     count: r.count,

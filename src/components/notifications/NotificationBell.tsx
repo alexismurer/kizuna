@@ -37,8 +37,13 @@ export function NotificationBell({
     setFresh(unreadIds);
     const newest = initial[0]?.id;
     if (unread > 0 && newest) {
+      const before = readUpTo;
       setReadUpTo(newest);
-      Promise.resolve(createBrowserClient().rpc("mark_notifications_read", { p_up_to: newest })).catch(() => {});
+      // on failure they stay unread (badge back) until the next try
+      const restore = () => setReadUpTo((r) => (r === newest ? before : r));
+      Promise.resolve(createBrowserClient().rpc("mark_notifications_read", { p_up_to: newest }))
+        .then(({ error }) => error && restore())
+        .catch(restore);
     }
   }
   const latest = useRef(show);

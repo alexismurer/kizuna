@@ -8,6 +8,7 @@ import { SellDialog } from "@/components/market/SellDialog";
 import { Toast } from "@/components/market/Dialog";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { SellableCard } from "@/lib/market/types";
+import { matchesQuery } from "@/lib/game/collection";
 import { RARITIES, type Rarity } from "@/lib/game/types";
 import { CardView, type CardData } from "./card/CardView";
 
@@ -30,15 +31,9 @@ export function CollectionGrid({
   const [toast, setToast] = useState<string | null>(null);
   const format = useFormatter();
   const router = useRouter();
-  const q = query.trim().toLowerCase();
   const shown = items
     .filter((i) => !rarity || i.card.rarity === rarity)
-    .filter(
-      (i) =>
-        !q ||
-        i.card.name.toLowerCase().includes(q) ||
-        i.card.seriesTitle.toLowerCase().includes(q),
-    )
+    .filter((i) => matchesQuery(i.card, query))
     .sort((a, b) => a.card.number - b.card.number);
 
   const chips = (

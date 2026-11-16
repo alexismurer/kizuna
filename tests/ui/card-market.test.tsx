@@ -147,3 +147,36 @@ describe("CardMarket", () => {
     expect(screen.getByRole("dialog", { name: "Sell Mika" })).toBeInTheDocument();
   });
 });
+
+describe("loadCardValues", () => {
+  it("asks in chunks of at most 500 ids and merges every chunk", async () => {
+    const { loadCardValues } = await import("@/lib/market/values");
+    const ids = Array.from({ length: 1201 }, (_, i) => i + 1);
+    const call = vi.fn((_fn: string, { p_card_ids }: { p_card_ids: number[] }) =>
+      Promise.resolve({ data: p_card_ids.map((id) => ({ card_id: id, value: id * 2 })), error: null }),
+    );
+    const values = await loadCardValues({ rpc: call } as never, ids);
+    expect(call).toHaveBeenCalledTimes(3);
+    expect(call.mock.calls.map(([, a]) => a.p_card_ids.length)).toEqual([500, 500, 201]);
+    expect(call.mock.calls.every(([fn]) => fn === "card_values")).toBe(true);
+    expect(values.size).toBe(1201);
+    expect(values.get(1201)).toBe(2402);
+  });
+
+  it("makes no call without ids", async () => {
+    const { loadCardValues } = await import("@/lib/market/values");
+    const call = vi.fn();
+    expect((await loadCardValues({ rpc: call } as never, [])).size).toBe(0);
+    expect(call).not.toHaveBeenCalled();
+  });
+});
+
+describe("matchesQuery", () => {
+  it("matches name or series, case-insensitively; empty matches all", async () => {
+    const { matchesQuery } = await import("@/lib/game/collection");
+    expect(matchesQuery(card(1, "Aki"), "")).toBe(true);
+    expect(matchesQuery(card(1, "Aki"), " aK ")).toBe(true);
+    expect(matchesQuery(card(1, "Aki"), "series")).toBe(true);
+    expect(matchesQuery(card(1, "Aki"), "zz")).toBe(false);
+  });
+});

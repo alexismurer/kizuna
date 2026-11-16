@@ -80,6 +80,14 @@ describe("NotificationBell", () => {
     expect(rpc).toHaveBeenCalledTimes(1);
   });
 
+  it("keeps the notifications unread when marking them read fails", async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: "boom" } });
+    wrap(<NotificationBell initial={items} names={names} />);
+    fireEvent.click(screen.getByRole("button", { name: /2 unread/i }));
+    expect(rpc).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(screen.getByRole("button", { name: /notifications, 2 unread/i })).toBeInTheDocument());
+  });
+
   it("caps the badge at 9+", () => {
     const many = Array.from({ length: 12 }, (_, i) => n(20 - i, "trade_expired", { trade_id: i }));
     wrap(<NotificationBell initial={many} names={{}} />);
