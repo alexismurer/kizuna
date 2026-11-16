@@ -16,7 +16,15 @@ type Missions = {
   claimable: number
 }
 
-const DAILY_POOL = ['daily_pages', 'daily_recycle', 'daily_open', 'daily_pack', 'daily_rare', 'daily_wishlist']
+const DAILY_POOL = [
+  'daily_pages',
+  'daily_recycle',
+  'daily_open',
+  'daily_pack',
+  'daily_rare',
+  'daily_wishlist',
+  'daily_bid',
+]
 
 async function missions(userId: string, now: string): Promise<Missions> {
   const { data, error } = await admin.rpc('_my_missions', { p_player: userId, p_now: now })
@@ -103,6 +111,13 @@ async function completeAllDailies(userId: string, at: string) {
   await insert('ledger', [
     { player_id: userId, kind: 'recycle', currency_delta: 0, card_id: rare, card_delta: -10, created_at: at },
   ])
+  const { data: auction, error } = await admin
+    .from('auctions')
+    .insert({ seller_id: userId, card_id: rare, start_price: 1, duration_h: 1, ends_at: at, status: 'cancelled' })
+    .select('id')
+    .single()
+  if (error) throw error
+  await insert('bids', [{ auction_id: auction.id, bidder_id: userId, amount: 1, created_at: at }])
 }
 
 const addDays = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10)
@@ -388,7 +403,7 @@ describe('my_missions', () => {
     const b = await newPlayer()
     expect((await a.client.rpc('claim_mission', { p_key: 'first_username' })).error).toBeNull()
     const { data: cat } = await b.client.from('missions').select('key')
-    expect(cat!.length).toBe(6 + 6 + 3 + 33 + 3)
+    expect(cat!.length).toBe(6 + 7 + 3 + 33 + 3)
     const { data: claims } = await b.client.from('mission_claims').select('mission_key')
     expect(claims).toEqual([])
   })
