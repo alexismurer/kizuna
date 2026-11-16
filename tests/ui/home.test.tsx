@@ -21,6 +21,13 @@ vi.mock("@/i18n/navigation", () => ({
 
 const loadStatus = vi.hoisted(() => vi.fn());
 vi.mock("@/lib/supabase/boosters", () => ({ loadStatus }));
+vi.mock("@/lib/supabase/server", () => ({ createServerClient: async () => ({}) }));
+vi.mock("@/lib/market/notifications", () => ({
+  loadNotifications: async () => ({
+    items: [{ id: 1, kind: "trade_expired", payload: { trade_id: 1 }, createdAt: new Date().toISOString(), read: false }],
+    names: {},
+  }),
+}));
 vi.mock("next-intl/server", async () => {
   const { createTranslator } = await import("next-intl");
   return { getTranslations: async () => createTranslator({ locale: "en", messages }) };
@@ -291,6 +298,12 @@ describe("TopBar", () => {
     expect(link).toHaveAttribute("href", "/missions");
     expect(link).toHaveTextContent("3 rewards to claim");
     expect(within(link).getByTestId("claimable-dot")).toBeInTheDocument();
+  });
+
+  it("shows the notifications bell with its unread count", async () => {
+    loadStatus.mockResolvedValue(status());
+    wrap(await TopBar());
+    expect(screen.getByRole("button", { name: "Notifications, 1 unread" })).toHaveTextContent("1");
   });
 
   it("shows no dot when nothing is claimable", async () => {

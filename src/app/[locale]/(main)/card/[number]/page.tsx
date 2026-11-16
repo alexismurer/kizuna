@@ -3,11 +3,13 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CardView } from "@/components/card/CardView";
 import { CardViewTracker } from "@/components/CardViewTracker";
+import { CardMarket } from "@/components/market/CardMarket";
 import { RecycleButton } from "@/components/RecycleButton";
 import { WishlistButton } from "@/components/WishlistButton";
 import { Link } from "@/i18n/navigation";
 import { recyclable, RECYCLE_VALUE } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
+import { loadStatus } from "@/lib/supabase/boosters";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -23,6 +25,7 @@ type Row = {
   aura: number;
   series: { title: string } | null;
 };
+type OrderRow = { id: number; price: number; buyer_id: string; buyer_username: string };
 
 async function CardContent({
   params,
@@ -44,7 +47,7 @@ async function CardContent({
     .maybeSingle();
   if (!data) notFound();
   const c = data as unknown as Row;
-  const [{ data: inv }, { data: wished }, total] = await Promise.all([
+  const [{ data: inv }, { data: wished }, total, status, user, value, listings, orders] = await Promise.all([
     supabase
       .from("inventory")
       .select("count, locked")
@@ -52,7 +55,21 @@ async function CardContent({
       .maybeSingle(),
     supabase.from("wishlist").select("card_id").eq("card_id", c.id).maybeSingle(),
     catalogTotal(supabase),
+    loadStatus(),
+    supabase.auth.getUser(),
+    supabase.rpc("card_value", { p_card_id: c.id }),
+    // cheapest open listings (RLS lets players read open rows)
+    supabase
+      .from("listings")
+      .select("id, price, seller_id")
+      .eq("card_id", c.id)
+      .eq("status", "open")
+      .order("price")
+      .order("id")
+      .limit(5),
+    supabase.rpc("market_orders", { p_card_id: c.id, p_limit: 5, p_offset: 0 }),
   ]);
+  const me = user.data.user?.id ?? null;
   const count = inv?.count ?? 0;
   const spare = recyclable(count, inv?.locked ?? 0);
   const seriesTitle = c.series?.title ?? "";
@@ -96,6 +113,38 @@ async function CardContent({
             mode="one"
             cardId={c.id}
             estimate={RECYCLE_VALUE[c.rarity]}
+          />
+        )}
+        {status && (
+          <CardMarket
+            key={c.id}
+            card={{
+              id: c.id,
+              number: c.number,
+              name: c.name,
+              nativeName: c.native_name,
+              imageUrl: c.image_url,
+              seriesId: c.series_id,
+              seriesTitle,
+              rarity: c.rarity,
+              pow: c.pow,
+              aura: c.aura,
+            }}
+            total={total}
+            value={(value.data as number | null) ?? null}
+            listings={((listings.data ?? []) as { id: number; price: number; seller_id: string }[]).map((l) => ({
+              id: l.id,
+              price: l.price,
+              mine: l.seller_id === me,
+            }))}
+            orders={((orders.data ?? []) as OrderRow[]).map((o) => ({
+              id: o.id,
+              price: o.price,
+              buyer: o.buyer_username,
+              mine: o.buyer_id === me,
+            }))}
+            currency={status.currency}
+            sellable={count - (inv?.locked ?? 0)}
           />
         )}
       </div>

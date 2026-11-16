@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Ellipsis, Gamepad2, House, Layers, ListChecks, Package, Store } from "lucide-react";
+import { Bell, Ellipsis, Gamepad2, House, Layers, ListChecks, Package, Store } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SignOutButton } from "@/components/SignOutButton";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -113,6 +113,19 @@ export function BottomNav({ missionsClaimable }: { missionsClaimable: number }) 
                 </>
               )}
             </Link>
+            <button
+              type="button"
+              aria-haspopup="dialog"
+              onClick={() => {
+                setSheet(null);
+                // the top bar's bell opens its own sheet
+                window.dispatchEvent(new Event("notifications:open"));
+              }}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+            >
+              <Bell className="h-5 w-5" aria-hidden />
+              <span className="flex-1">{t("notifications")}</span>
+            </button>
             <div className="mt-2 overflow-hidden rounded-xl border border-border">
               <SignOutButton />
             </div>

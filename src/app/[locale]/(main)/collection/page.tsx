@@ -91,7 +91,18 @@ async function CollectionContent({
     pow: c.pow,
     aura: c.aura,
   });
-  const items: OwnedCard[] = rows.map((r) => ({ card: toCard(r.cards), count: r.count }));
+  // estimated values only for the cards view, in one call
+  const values = new Map<number, number | null>();
+  if (view === "cards" && rows.length) {
+    const { data } = await supabase.rpc("card_values", { p_card_ids: rows.map((r) => r.cards.id) });
+    for (const v of (data ?? []) as { card_id: number; value: number | null }[]) values.set(v.card_id, v.value);
+  }
+  const items: OwnedCard[] = rows.map((r) => ({
+    card: toCard(r.cards),
+    count: r.count,
+    sellable: r.count - r.locked,
+    value: values.get(r.cards.id) ?? null,
+  }));
   const ownedIds = new Set(rows.map((r) => r.cards.id));
   const wishlist: WishlistItem[] = (wishRows as unknown as WishRow[]).map((r) => ({
     card: toCard(r.cards),

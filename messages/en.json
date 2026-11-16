@@ -89,15 +89,17 @@
     "soon": "Soon",
     "open": "Open",
     "missions": "Missions",
-    "moreTitle": "More"
+    "moreTitle": "More",
+    "notifications": "Notifications"
   },
   "topbar": {
     "freeBoosters": "Free boosters",
     "currency": "Currency",
     "account": "Account menu",
     "signOut": "Sign out",
-    "notifications": "Notifications (soon)",
-    "missionsClaimable": "{count, plural, one {# reward} other {# rewards}} to claim"
+    "notifications": "Notifications",
+    "missionsClaimable": "{count, plural, one {# reward} other {# rewards}} to claim",
+    "unread": "{count} unread"
   },
   "rarity": {
     "common": "Common",
@@ -226,7 +228,25 @@
     "backAlt": "Card back",
     "owned": "Copies owned",
     "series": "View series album",
-    "back": "Back to collection"
+    "back": "Back to collection",
+    "market": {
+      "title": "Market",
+      "value": "Estimated value",
+      "noValue": "—",
+      "listings": "Cheapest listings",
+      "noListings": "No one is selling this card right now.",
+      "buy": "Buy {name} for {price}",
+      "orders": "Buy orders",
+      "noOrders": "No buy orders yet.",
+      "by": "by {name}",
+      "sell": "Sell {name}",
+      "sellButton": "Sell",
+      "placeOrder": "Place a buy order",
+      "price": "Your price",
+      "hint": "1 to 1,000,000. Paid now, refunded if you cancel.",
+      "submit": "Place order",
+      "placed": "Buy order placed for {name} at {price}."
+    }
   },
   "wishlist": {
     "button": "Wishlist"
@@ -316,7 +336,11 @@
       "complete": "Most complete",
       "az": "A to Z"
     },
-    "filters": "Filters"
+    "filters": "Filters",
+    "value": "Value",
+    "noValue": "—",
+    "sell": "Sell",
+    "sellCard": "Sell {name}"
   },
   "recycle": {
     "all": "Recycle duplicates · ≈ +{gain}",
@@ -722,5 +746,19 @@
       "auctionCancelled": "Auction cancelled.",
       "orderCancelled": "Buy order cancelled."
     }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications yet.",
+    "someCard": "a card",
+    "sold": "{source, select, auction {Your auction of {name} sold for {price}} order {You filled a buy order for {name} at {price}} other {Your listing of {name} sold for {price}}} — you received {net}.",
+    "outbid": "You were outbid on {name}: the top bid is now {amount}.",
+    "auction_won": "You won the auction for {name} at {price}.",
+    "auction_unsold": "Your auction of {name} ended without bids; the card is back in your collection.",
+    "order_filled": "Your buy order for {name} was filled at {price}.",
+    "trade_received": "{user} sent you a trade offer.",
+    "trade_accepted": "{user} accepted your trade offer.",
+    "trade_declined": "{user} declined your trade offer.",
+    "trade_expired": "Your trade offer expired; your cards and currency were returned."
   }
 }

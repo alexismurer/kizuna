@@ -1,8 +1,11 @@
-import { Bell, Coins, ListChecks, Package, User } from "lucide-react";
+import { Coins, ListChecks, Package, User } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
+import { loadNotifications } from "@/lib/market/notifications";
 import { loadStatus } from "@/lib/supabase/boosters";
+import { createServerClient } from "@/lib/supabase/server";
+import { NotificationBell } from "./notifications/NotificationBell";
 import { SignOutButton } from "./SignOutButton";
 
 export async function TopBar() {
@@ -10,6 +13,7 @@ export async function TopBar() {
   const status = await loadStatus();
   if (!status) return null;
   const { freeStock, currency, missionsClaimable } = status;
+  const notifications = await loadNotifications(await createServerClient());
 
   const disabled = ["play", "more"] as const;
 
@@ -79,15 +83,7 @@ export async function TopBar() {
           </>
         )}
       </Link>
-      <button
-        type="button"
-        disabled
-        aria-label={t("topbar.notifications")}
-        title={t("topbar.notifications")}
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border text-common opacity-60 md:hidden"
-      >
-        <Bell className="h-4 w-4" aria-hidden />
-      </button>
+      <NotificationBell initial={notifications.items} names={notifications.names} />
       <details className="relative shrink-0">
         <summary
           aria-label={t("topbar.account")}

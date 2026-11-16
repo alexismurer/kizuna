@@ -107,6 +107,17 @@ describe("More sheet", () => {
     const link = screen.getByRole("link", { name: /Missions/ });
     expect(within(link).queryByTestId("claimable-dot")).toBeNull();
   });
+
+  it("Notifications closes the sheet and asks the bell to open", () => {
+    const opened = vi.fn();
+    window.addEventListener("notifications:open", opened);
+    wrap(<BottomNav missionsClaimable={0} />);
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.notifications }));
+    expect(opened).toHaveBeenCalledTimes(1);
+    expect(screen.queryByRole("dialog", { name: messages.nav.moreTitle })).toBeNull();
+    window.removeEventListener("notifications:open", opened);
+  });
 });
 
 describe("BoosterSheet", () => {
