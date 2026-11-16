@@ -70,7 +70,10 @@ export function BuyTab({
     try {
       const { error: rpcError } = await createBrowserClient().rpc("buy_listing", { p_id: l.id });
       if (rpcError) {
-        setError(rpcErrorKey(rpcError.message));
+        const key = rpcErrorKey(rpcError.message);
+        setError(key);
+        // sold or cancelled meanwhile (RLS hides that change from Realtime): reload the list
+        if (key === "errors.not_open" || key === "errors.not_found") router.refresh();
       } else {
         setBuying(null);
         setListings((ls) => ls.filter((x) => x.id !== l.id));

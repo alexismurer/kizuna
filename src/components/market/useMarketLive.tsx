@@ -34,7 +34,14 @@ export function useMarketLive(tables: string[]) {
         for (const table of key.split(",")) {
           channel = channel.on("postgres_changes", { event: "*", schema: "public", table }, changed);
         }
-        channel.subscribe();
+        // after a reconnect, refresh once to pick up changes missed meanwhile;
+        // the first join needs none (the page was just rendered by the server)
+        let joined = false;
+        channel.subscribe((status) => {
+          if (status !== "SUBSCRIBED") return;
+          if (joined) changed();
+          joined = true;
+        });
         stop = () => void supabase.removeChannel(channel);
       } catch {
         // no Realtime: the page still works, just without live updates

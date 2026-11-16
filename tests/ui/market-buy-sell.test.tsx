@@ -117,6 +117,17 @@ describe("BuyTab", () => {
     fireEvent.click(screen.getByRole("button", { name: /buy/i }));
     fireEvent.click(screen.getByRole("button", { name: messages.market.buyConfirm.confirm }));
     expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.not_open);
+    // sold meanwhile: the list reloads
+    expect(refresh).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not reload the list for other errors", async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: "insufficient_currency" } });
+    wrap(<BuyTab filters={filters} initial={[listing(7)]} initialMore={false} currency={500} me="me" total={100} />);
+    fireEvent.click(screen.getByRole("button", { name: /buy/i }));
+    fireEvent.click(screen.getByRole("button", { name: messages.market.buyConfirm.confirm }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.insufficient_currency);
+    expect(refresh).not.toHaveBeenCalled();
   });
 });
 

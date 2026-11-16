@@ -215,6 +215,33 @@ describe("BidDialog", () => {
     fireEvent.click(screen.getByRole("button", { name: "Bid on Card 7" }));
     fireEvent.click(screen.getByRole("button", { name: messages.market.auction.dialog.confirm }));
     expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.auction_ended);
+    // ended meanwhile: the list reloads
+    expect(refresh).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not reload the list for other errors", async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: "already_top" } });
+    wrap(tab([auction(7)]));
+    fireEvent.click(screen.getByRole("button", { name: "Bid on Card 7" }));
+    fireEvent.click(screen.getByRole("button", { name: messages.market.auction.dialog.confirm }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.already_top);
+    expect(refresh).not.toHaveBeenCalled();
+  });
+
+  it("clears the server error when the amount changes, so the live hint shows", async () => {
+    rpc.mockResolvedValue({ data: null, error: { message: "bid_too_low:1500" } });
+    wrap(tab([auction(7)], 5000));
+    fireEvent.click(screen.getByRole("button", { name: "Bid on Card 7" }));
+    fireEvent.click(screen.getByRole("button", { name: messages.market.auction.dialog.confirm }));
+    await screen.findByRole("alert");
+    const dialog = screen.getByRole("dialog");
+    fireEvent.change(within(dialog).getByLabelText(messages.market.auction.dialog.amount), {
+      target: { value: "6000" },
+    });
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(dialog).toHaveTextContent(messages.errors.insufficient_currency);
+    fireEvent.click(within(dialog).getByRole("button", { name: messages.market.auction.dialog.min }));
+    expect(within(dialog).getByLabelText(messages.market.auction.dialog.amount)).toHaveValue(1500);
   });
 });
 
@@ -242,6 +269,24 @@ describe("useMarketLive", () => {
     act(() => vi.advanceTimersByTime(1000));
     expect(refresh).toHaveBeenCalledTimes(1);
     expect(removeChannel).toHaveBeenCalledWith(chan);
+  });
+
+  it("refreshes once after a reconnect, not on the first join", async () => {
+    vi.useFakeTimers();
+    renderHook(() => useMarketLive(["auctions"]));
+    await act(async () => {});
+    const status = subscribe.mock.calls[0][0] as (s: string) => void;
+    act(() => {
+      status("SUBSCRIBED");
+      vi.advanceTimersByTime(1000);
+    });
+    expect(refresh).not.toHaveBeenCalled();
+    act(() => {
+      status("CHANNEL_ERROR");
+      status("SUBSCRIBED");
+      vi.advanceTimersByTime(500);
+    });
+    expect(refresh).toHaveBeenCalledTimes(1);
   });
 
   it("does nothing when Realtime is unavailable", async () => {

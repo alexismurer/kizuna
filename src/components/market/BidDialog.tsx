@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Coins } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { rpcErrorKey } from "@/lib/game/errors";
 import { validPrice } from "@/lib/market/format";
 import type { Auction } from "@/lib/market/types";
@@ -25,6 +26,7 @@ export function BidDialog({
   const t = useTranslations("market.auction");
   const te = useTranslations();
   const format = useFormatter();
+  const router = useRouter();
   // raised when the server answers bid_too_low:<min>
   const [floor, setFloor] = useState(auction.minBid);
   const min = Math.max(auction.minBid, floor);
@@ -39,6 +41,11 @@ export function BidDialog({
   const short = valid && amount > currency;
   const current = auction.topBid ?? auction.startPrice;
   const plus10 = Math.max(min, Math.ceil((current * 11) / 10));
+  // a new amount makes the last server error stale (the live hints take over)
+  const edit = (v: string) => {
+    setInput(v);
+    setError(null);
+  };
 
   async function place() {
     // one bid per confirm, however often it is clicked
@@ -54,7 +61,10 @@ export function BidDialog({
       if (rpcError) {
         const low = /bid_too_low:(\d+)/.exec(rpcError.message);
         if (low) setFloor(Number(low[1]));
-        setError(rpcErrorKey(rpcError.message));
+        const key = rpcErrorKey(rpcError.message);
+        setError(key);
+        // ended meanwhile: reload so the list shows it as gone
+        if (key === "errors.auction_ended") router.refresh();
       } else {
         onPlaced(amount);
       }
@@ -94,15 +104,15 @@ export function BidDialog({
             min={min}
             inputMode="numeric"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => edit(e.target.value)}
             className="rounded-lg border border-border bg-bg px-3 py-2 font-mono text-base"
           />
         </label>
         <div className="flex gap-2">
-          <button type="button" onClick={() => setInput(String(min))} className={quick}>
+          <button type="button" onClick={() => edit(String(min))} className={quick}>
             {t("dialog.min")}
           </button>
-          <button type="button" onClick={() => setInput(String(plus10))} className={quick}>
+          <button type="button" onClick={() => edit(String(plus10))} className={quick}>
             {t("dialog.plus10")}
           </button>
         </div>
