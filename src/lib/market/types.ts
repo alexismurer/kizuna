@@ -46,3 +46,64 @@ export type Auction = {
   value: number | null;
   card: CardData;
 };
+
+// The few card fields trade and activity rows show
+export type CardBrief = { id: number; number: number; name: string; imageUrl: string | null; rarity: Rarity };
+
+// A card with free copies to put in a trade (yours or the other player's)
+export type Tradable = { card: CardBrief; free: number; series: string };
+
+export type TradeItem = { card: CardBrief; count: number };
+
+// One of my trade offers (my_trades), give/want from the proposer's side
+export type Trade = {
+  id: number;
+  direction: "received" | "sent";
+  status: "open" | "accepted" | "declined" | "cancelled" | "expired";
+  other: { id: string; username: string };
+  giveCurrency: number;
+  wantCurrency: number;
+  give: TradeItem[];
+  want: TradeItem[];
+  createdAt: string;
+  expiresAt: string;
+  closedAt: string | null;
+};
+
+// Trade composer prefill from the URL (?tab=trades&to=<username>&want=<cardId>)
+export type TradePrefill = { toUsername: string; wantCardId: number | null };
+
+// My activity tab
+export type MyListing = {
+  id: number;
+  card: CardBrief;
+  price: number;
+  status: "open" | "sold" | "cancelled";
+  createdAt: string;
+};
+export type MyAuction = {
+  id: number;
+  card: CardBrief;
+  startPrice: number;
+  topBid: number | null;
+  bidCount: number;
+  endsAt: string;
+  status: "open" | "sold" | "unsold" | "cancelled";
+};
+// an auction I bid on: my highest bid, and whether I hold the top bid
+export type MyBid = {
+  auctionId: number;
+  card: CardBrief;
+  myBid: number;
+  topBid: number | null;
+  endsAt: string;
+  status: MyAuction["status"];
+  winning: boolean;
+};
+export type MyOrder = {
+  id: number;
+  card: CardBrief;
+  price: number;
+  status: "open" | "filled" | "cancelled";
+  createdAt: string;
+};

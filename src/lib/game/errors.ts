@@ -26,9 +26,15 @@ const CODES = [
   "already_top",
   "bid_too_low",
   "has_bids",
+  "invalid_trade",
+  "unknown_player",
+  "trade_expired",
 ] as const;
 
 export function rpcErrorKey(message: string): string {
   const code = CODES.find((c) => message.includes(c));
   return code ? `errors.${code}` : "errors.unknown";
 }
+
+// Errors that mean the item changed meanwhile: the page reloads to show its new state.
+export const STALE_ERRORS = ["errors.not_open", "errors.not_found", "errors.trade_expired", "errors.has_bids"];

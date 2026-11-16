@@ -1,16 +1,21 @@
 import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type { CardData } from "@/components/card/CardView";
+import { ActivityTab } from "@/components/market/ActivityTab";
 import { AuctionsTab } from "@/components/market/AuctionsTab";
 import { BuyTab } from "@/components/market/BuyTab";
 import { MarketFilters } from "@/components/market/MarketFilters";
 import { MarketTabs } from "@/components/market/MarketTabs";
 import { SellTab } from "@/components/market/SellTab";
+import { TradesTab } from "@/components/market/TradesTab";
 import type { Rarity } from "@/lib/game/types";
+import { loadActivity } from "@/lib/market/activity";
 import { loadAuctions } from "@/lib/market/auctions";
-import { parseMarketParams, toQuery } from "@/lib/market/filters";
+import { parseMarketParams, parseTradePrefill, toQuery } from "@/lib/market/filters";
 import { loadListings } from "@/lib/market/listings";
-import type { MarketFilters as Filters, SellableCard } from "@/lib/market/types";
+import { parseTrades } from "@/lib/market/trades";
+import type { MarketFilters as Filters, SellableCard, TradePrefill } from "@/lib/market/types";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { fetchAll } from "@/lib/supabase/fetchAll";
@@ -54,22 +59,19 @@ async function Buy({ filters }: { filters: Filters }) {
   );
 }
 
-async function Sell({ filters }: { filters: Filters }) {
-  const supabase = await createServerClient();
-  const [rows, total] = await Promise.all([
-    fetchAll((from, to) =>
-      supabase
-        .from("inventory")
-        .select(
-          "count, locked, cards(id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title))",
-        )
-        .gt("count", 0)
-        .order("card_id")
-        .range(from, to),
-    ),
-    catalogTotal(supabase),
-  ]);
-  const items: SellableCard[] = (rows as unknown as InvRow[])
+// My cards with free copies (count - locked >= 1): sellable and tradable
+async function loadSellable(supabase: SupabaseClient): Promise<SellableCard[]> {
+  const rows = await fetchAll((from, to) =>
+    supabase
+      .from("inventory")
+      .select(
+        "count, locked, cards(id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title))",
+      )
+      .gt("count", 0)
+      .order("card_id")
+      .range(from, to),
+  );
+  return (rows as unknown as InvRow[])
     .filter((r) => r.count - r.locked >= 1)
     .map(({ count, locked, cards: c }) => ({
       sellable: count - locked,
@@ -86,6 +88,11 @@ async function Sell({ filters }: { filters: Filters }) {
         aura: c.aura,
       } satisfies CardData,
     }));
+}
+
+async function Sell({ filters }: { filters: Filters }) {
+  const supabase = await createServerClient();
+  const [items, total] = await Promise.all([loadSellable(supabase), catalogTotal(supabase)]);
   return <SellTab filters={filters} items={items} total={total} />;
 }
 
@@ -110,13 +117,29 @@ async function Auctions({ filters }: { filters: Filters }) {
   );
 }
 
-async function Placeholder() {
-  const t = await getTranslations("market");
+async function Trades({ prefill }: { prefill: TradePrefill | null }) {
+  const supabase = await createServerClient();
+  const [trades, mine, status] = await Promise.all([supabase.rpc("my_trades"), loadSellable(supabase), loadStatus()]);
+  if (trades.error) throw new Error(trades.error.message);
   return (
-    <p className="rounded-2xl border border-dashed border-border p-8 text-center text-common">
-      {t("comingNext")}
-    </p>
+    <TradesTab
+      trades={parseTrades(trades.data)}
+      currency={status?.currency ?? 0}
+      mine={mine.map(({ card: c, sellable }) => ({
+        card: { id: c.id, number: c.number, name: c.name, imageUrl: c.imageUrl, rarity: c.rarity },
+        free: sellable,
+        series: c.seriesTitle,
+      }))}
+      prefill={prefill}
+    />
   );
+}
+
+async function Activity() {
+  const supabase = await createServerClient();
+  const { data } = await supabase.auth.getUser();
+  const activity = await loadActivity(supabase, data.user?.id ?? "");
+  return <ActivityTab {...activity} />;
 }
 
 async function MarketContent({
@@ -124,7 +147,8 @@ async function MarketContent({
 }: {
   searchParams: PageProps<"/[locale]/market">["searchParams"];
 }) {
-  const filters = parseMarketParams(await searchParams);
+  const sp = await searchParams;
+  const filters = parseMarketParams(sp);
   const { tab } = filters;
   // settle ended auctions before reading, in case the cron job is late
   await (await createServerClient()).rpc("settle_market");
@@ -141,8 +165,10 @@ async function MarketContent({
         <Sell filters={filters} />
       ) : tab === "auctions" ? (
         <Auctions filters={filters} />
+      ) : tab === "trades" ? (
+        <Trades prefill={parseTradePrefill(sp)} />
       ) : (
-        <Placeholder />
+        <Activity />
       )}
     </>
   );

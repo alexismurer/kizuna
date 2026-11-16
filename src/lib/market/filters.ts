@@ -1,5 +1,13 @@
 import { RARITIES, type Rarity } from "@/lib/game/types";
-import { AUCTION_SORTS, MARKET_SORTS, MARKET_TABS, type MarketFilters, type MarketSort, type MarketTab } from "./types";
+import {
+  AUCTION_SORTS,
+  MARKET_SORTS,
+  MARKET_TABS,
+  type MarketFilters,
+  type MarketSort,
+  type MarketTab,
+  type TradePrefill,
+} from "./types";
 
 type Params = Record<string, string | string[] | undefined>;
 
@@ -51,4 +59,12 @@ export function toQuery(f: MarketFilters): string {
 export function marketHref(f: MarketFilters): string {
   const qs = toQuery(f);
   return qs ? `/market?${qs}` : "/market";
+}
+
+// Trade composer prefill (?tab=trades&to=<username>&want=<cardId>); null without `to`
+export function parseTradePrefill(sp: Params): TradePrefill | null {
+  const to = one(sp.to).trim();
+  if (!to) return null;
+  const want = one(sp.want);
+  return { toUsername: to, wantCardId: /^\d+$/.test(want) ? Number(want) : null };
 }

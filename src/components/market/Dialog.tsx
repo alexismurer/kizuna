@@ -13,10 +13,12 @@ const FOCUSABLE = `a[href], button:not([disabled]), ${FIELDS}, [tabindex]:not([t
 export function Dialog({
   label,
   onClose,
+  wide = false,
   children,
 }: {
   label: string;
   onClose: () => void;
+  wide?: boolean;
   children: React.ReactNode;
 }) {
   const t = useTranslations("market.sell");
@@ -66,7 +68,7 @@ export function Dialog({
         aria-label={label}
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className="relative max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-2xl border border-border bg-panel p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl outline-none sm:rounded-2xl"
+        className={`relative max-h-[92dvh] w-full ${wide ? "max-w-3xl" : "max-w-md"} overflow-y-auto rounded-t-2xl border border-border bg-panel p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl outline-none sm:rounded-2xl`}
       >
         <button
           type="button"
