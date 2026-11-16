@@ -12,11 +12,12 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
 import { bestRarity, newFlags, revealOrder } from "@/lib/opening/best";
 import { paymentFor, quantityOptions, rewardsFor } from "@/lib/opening/quantity";
+import { sequenceMs, type Special } from "@/lib/opening/tear";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { FxLayer, type Burst } from "./FxLayer";
 import { OpeningHeader } from "./OpeningHeader";
 import { RewardBadge } from "@/components/RewardBadge";
-import { PackStage, type Special, type TearPhase } from "./PackStage";
+import { PackStage, type TearPhase } from "./PackStage";
 import { PaidConfirm } from "./PaidConfirm";
 import { QuantitySelect } from "./QuantitySelect";
 import { RevealFlow } from "./RevealFlow";
@@ -56,8 +57,6 @@ type CardRow = {
   aura: number;
   series: { title: string } | { title: string }[] | null;
 };
-
-const SEQUENCE_MS = 1200; // tear sequence before the reveal
 
 const CARD_COLUMNS =
   "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title)";
@@ -135,12 +134,14 @@ export function OpeningScreen({
     return () => clearTimeout(id);
   }, [status.nextFreeAt, router]);
 
+  const batchSpecial: Special | null = batch.divine ? "divine" : batch.golden ? "golden" : null;
+
   // after a successful open the sequence plays, then the reveal shows
   useEffect(() => {
     if (tear !== "out") return;
-    const id = setTimeout(() => setTear("sealed"), SEQUENCE_MS);
+    const id = setTimeout(() => setTear("sealed"), sequenceMs(batchSpecial));
     return () => clearTimeout(id);
-  }, [tear]);
+  }, [tear, batchSpecial]);
 
   const open = useCallback(
     async (count: number, maxCost: number) => {
@@ -244,8 +245,8 @@ export function OpeningScreen({
     [opened, total],
   );
   const best = opened && bestRarity(opened.map((c) => c.rarity));
-  const special: Special | null =
-    tear !== "out" ? null : batch.divine ? "divine" : batch.golden ? "golden" : null;
+  const special = tear === "out" ? batchSpecial : null;
+  const revealing = !!deck && tear !== "out" && !revealed;
 
   const closeConfirm = useCallback(() => {
     setConfirming(false);
@@ -292,7 +293,7 @@ export function OpeningScreen({
         color={`hsl(${hue} 90% 80%)`}
         strokeWidth={0.5}
       />
-      <FxLayer hue={hue} enabled={animations} burst={burst} />
+      <FxLayer hue={hue} enabled={animations} burst={burst} ambient={revealing && batch.golden} />
 
       <OpeningHeader
         packId={pack.id}
@@ -305,7 +306,7 @@ export function OpeningScreen({
       />
 
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center gap-3 px-4 pb-6">
-        {deck && tear !== "out" && !revealed ? (
+        {deck && revealing ? (
           <RevealFlow
             key={openId}
             cards={deck}
@@ -370,6 +371,7 @@ export function OpeningScreen({
               disabled={!n || busy}
               onOpen={tearOpen}
               onBurst={setBurst}
+              onSkip={() => setTear("sealed")}
               special={special}
               tease={tear === "out" ? best : null}
             />

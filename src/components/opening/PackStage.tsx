@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { COLOR } from "@/components/card/CardView";
 import { EMBLEM } from "@/components/PackArt";
 import { playSfx, primeAudio } from "@/lib/fx/sound";
 import type { Rarity } from "@/lib/game/types";
 import { TEAR_BAND, createHoldTracker, createTearTracker } from "@/lib/opening/gesture";
+import { STRIP_MS, beamRarity, packVariant, type Special } from "@/lib/opening/tear";
 import type { Burst } from "./FxLayer";
 
 const MAX_TILT = 12; // degrees
@@ -21,9 +23,6 @@ const clamp = (v: number) => Math.max(-0.5, Math.min(0.5, v));
 // sealed: waiting for a gesture; torn: gesture done, waiting for the open;
 // out: opened, the strip flies off and the cards slide out
 export type TearPhase = "sealed" | "torn" | "out";
-
-// a golden booster (raised slot-5 floor) or a divine one in the batch
-export type Special = "golden" | "divine";
 
 // the card back that slides out glows in the batch's best rarity
 const TEASE_GLOW: Partial<Record<Rarity, string>> = {
@@ -106,7 +105,8 @@ function PackFace({ name, hue, animations, Icon, hold, special }: {
         </div>
         {special && (
           <span
-            className="-my-[2cqw] w-[130%] -rotate-6 py-[1cqw] text-center font-mono text-[6cqw] font-bold uppercase tracking-[0.4em] text-black shadow-lg"
+            data-testid="pack-ribbon"
+            className={`-my-[2cqw] w-[130%] -rotate-6 py-[1cqw] text-center font-mono text-[6cqw] font-bold uppercase tracking-[0.4em] text-black shadow-lg ${animations ? "pack-ribbon-in" : ""}`}
             style={{
               background:
                 special === "golden"
@@ -137,6 +137,7 @@ export function PackStage({
   disabled,
   onOpen,
   onBurst,
+  onSkip,
   special = null,
   tease = null,
 }: {
@@ -151,6 +152,9 @@ export function PackStage({
   disabled: boolean;
   onOpen: () => void;
   onBurst: (b: Burst) => void;
+  // a tap while the sequence plays goes straight to the reveal
+  onSkip?: () => void;
+  // the batch's golden / divine booster: shows once the strip is gone
   special?: Special | null;
   // the best rarity of the batch, once opened
   tease?: Rarity | null;
@@ -161,6 +165,8 @@ export function PackStage({
   const raf = useRef(0);
   const [drag, setDrag] = useState({ progress: 0, dir: 1, active: false });
   const [hold, setHold] = useState(0);
+  // the strip has flown off: the pack shows its variant, the beam its colour
+  const [stripped, setStripped] = useState(false);
   const Icon = EMBLEM[packId] ?? Package;
   const ready = !disabled && phase === "sealed";
 
@@ -183,8 +189,17 @@ export function PackStage({
   useEffect(() => {
     if (phase !== "out" || !animations || !tiltRef.current) return;
     const r = tiltRef.current.getBoundingClientRect();
-    onBurst({ x: r.left, y: r.top + r.height * TEAR_BAND, w: r.width, id: Date.now() });
+    onBurst({ x: r.left, y: r.top + r.height * TEAR_BAND, w: r.width, id: Date.now(), kind: "tear" });
   }, [phase, animations, onBurst]);
+
+  useEffect(() => {
+    if (phase !== "out" || !animations) return;
+    const id = setTimeout(() => setStripped(true), STRIP_MS);
+    return () => {
+      clearTimeout(id);
+      setStripped(false);
+    };
+  }, [phase, animations]);
 
   function onStageMove(e: React.PointerEvent<HTMLDivElement>) {
     if (!animations || !tiltRef.current || gesture.current || phase !== "sealed") return;
@@ -208,6 +223,7 @@ export function PackStage({
   }
 
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    if (phase === "out") return onSkip?.();
     if (!ready || e.button !== 0 || gesture.current) return;
     primeAudio(sound);
     e.currentTarget.setPointerCapture?.(e.pointerId);
@@ -267,6 +283,7 @@ export function PackStage({
   function onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
+    if (phase === "out") return onSkip?.();
     if (!ready || gesture.current) return;
     playSfx("tear", sound);
     onOpen();
@@ -280,16 +297,22 @@ export function PackStage({
     clipPath: "inset(0 0 82% 0)",
     transformOrigin: dir > 0 ? "100% 18%" : "0% 18%",
     transform: flying
-      ? `translate(${dir * 180}px, -240px) rotate(${dir * 50}deg)`
+      ? `translate(${dir * 300}px, -360px) rotate(${dir * 80}deg)`
       : `translate(${dir * p * 6}px, ${-p * 12}px) rotate(${dir * p * 9}deg)`,
     opacity: flying ? 0 : 1,
     transition: drag.active
       ? "none"
       : animations
         ? flying
-          ? "transform 500ms ease-in, opacity 500ms ease-in"
+          ? `transform ${STRIP_MS}ms cubic-bezier(.3,.5,.5,1), opacity 250ms ease-in ${STRIP_MS - 250}ms`
           : "transform 180ms ease-out"
         : "none",
+  };
+  const variant = packVariant(special, stripped);
+  const beam = beamRarity(tease, stripped);
+  const beamShape: React.CSSProperties = {
+    clipPath: "polygon(22% 100%, 78% 100%, 100% 0, 0 0)",
+    filter: "blur(5px)",
   };
 
   return (
@@ -307,7 +330,7 @@ export function PackStage({
           aria-disabled={!ready}
           data-testid="pack"
           data-tear={phase}
-          data-special={special ?? undefined}
+          data-special={variant ?? undefined}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
@@ -321,27 +344,53 @@ export function PackStage({
           <div
             aria-hidden
             className="absolute inset-x-0 bottom-0 top-[18%] rounded-b-[14px]"
-            style={{ boxShadow: special ? SPECIAL_GLOW[special] : `0 24px 70px -12px hsl(${hue} 85% 50% / 0.65)` }}
+            style={{ boxShadow: variant ? SPECIAL_GLOW[variant] : `0 24px 70px -12px hsl(${hue} 85% 50% / 0.65)` }}
           />
           {/* light from the opening */}
           {animations && phase !== "sealed" && (
             <div
               aria-hidden
-              className={`pointer-events-none absolute inset-x-[4%] bottom-[82%] h-[150%] origin-bottom ${phase === "out" ? "pack-beam-burst" : pending ? "pack-beam-pulse" : "opacity-40"}`}
-              style={{
-                background: `linear-gradient(to top, hsl(${hue} 100% 94% / 0.95), hsl(${hue} 100% 78% / 0.35) 45%, transparent)`,
-                clipPath: "polygon(18% 100%, 82% 100%, 100% 0, 0 0)",
-                filter: "blur(6px)",
-              }}
-            />
+              data-testid="pack-beam"
+              data-color={beam ?? "white"}
+              className={`pointer-events-none absolute inset-x-0 bottom-[82%] h-[260%] origin-bottom ${phase === "out" ? "pack-beam-shoot" : pending ? "pack-beam-pulse" : "opacity-40"}`}
+            >
+              {/* white, then the best rarity's colour; below Rare it fades */}
+              <div className={`absolute inset-0 transition-opacity duration-700 ${stripped && !beam ? "opacity-0" : ""}`}>
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    ...beamShape,
+                    background:
+                      "linear-gradient(to top, white, rgb(255 255 255 / 0.85) 30%, rgb(255 255 255 / 0.3) 70%, transparent)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0 transition-opacity duration-500"
+                  style={{
+                    ...beamShape,
+                    opacity: beam ? 1 : 0,
+                    background: beam
+                      ? `linear-gradient(to top, color-mix(in srgb, ${COLOR[beam]} 45%, white), ${COLOR[beam]} 30%, color-mix(in srgb, ${COLOR[beam]} 40%, transparent) 70%, transparent)`
+                      : undefined,
+                  }}
+                />
+                <div
+                  className="absolute inset-y-0 left-1/2 w-[16%] -translate-x-1/2"
+                  style={{
+                    background: "linear-gradient(to top, white, rgb(255 255 255 / 0.7) 50%, transparent)",
+                    filter: "blur(3px)",
+                  }}
+                />
+              </div>
+            </div>
           )}
           {/* the cards inside, slide up once opened */}
           <div
             aria-hidden
             className="absolute inset-x-[10%] top-[19%] h-[72%]"
             style={{
-              transform: phase === "out" ? "translateY(-55%)" : undefined,
-              transition: flying ? "transform 650ms cubic-bezier(.2,.8,.2,1) 450ms" : "none",
+              transform: phase === "out" ? "translateY(-50%)" : undefined,
+              transition: flying ? `transform 750ms cubic-bezier(.2,.8,.2,1) ${STRIP_MS + 50}ms` : "none",
             }}
           >
             {[-4, 3, 0].map((r, i) => (
@@ -349,18 +398,29 @@ export function PackStage({
                 key={i}
                 data-testid={i === 2 ? "pack-tease" : undefined}
                 className={`absolute inset-0 rounded-[8px] border border-[#d9b45a]/70 bg-[#0d0d14] shadow-lg ${i === 2 && tease ? (TEASE_GLOW[tease] ?? "") : ""}`}
-                style={{ transform: `rotate(${r}deg) translateY(${i * 2}px)` }}
+                style={{ transform: `rotate(${r}deg) translateY(${(i - 2) * 7}px)` }}
               />
             ))}
           </div>
           {/* body, below the tear line */}
           <div aria-hidden className="absolute inset-0" style={{ clipPath: "inset(18% 0 0 0)" }}>
-            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={special} />
+            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={variant} />
           </div>
           {/* the strip that tears off */}
           <div aria-hidden className="absolute inset-0" style={stripStyle}>
-            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={special} />
+            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={variant} />
           </div>
+          {/* light running along the tear */}
+          {animations && phase !== "sealed" && (
+            <div
+              aria-hidden
+              className={`pointer-events-none absolute inset-x-0 top-[18%] h-[3px] -translate-y-1/2 rounded-full bg-white ${phase === "out" ? "pack-tear-flash" : "pack-tear-run"}`}
+              style={{
+                boxShadow:
+                  "0 0 10px 3px white, 0 0 28px 8px color-mix(in srgb, var(--color-cta) 75%, transparent)",
+              }}
+            />
+          )}
           {phase === "sealed" && (
             <div
               aria-hidden

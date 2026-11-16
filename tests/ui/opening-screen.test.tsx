@@ -579,10 +579,48 @@ describe("OpeningScreen", () => {
       fireEvent.click(screen.getByRole("radio", { name: "×2" }));
       hold(900);
       await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
-      expect(packEl()).toHaveAttribute("data-special", "golden");
+      // while the strip flies off the pack is plain and the beam white
+      expect(packEl()).not.toHaveAttribute("data-special");
+      expect(screen.queryByText(messages.opening.golden)).toBeNull();
+      expect(screen.getByTestId("pack-beam")).toHaveAttribute("data-color", "white");
+      // then it turns golden and the beam takes the best rarity
+      await waitFor(() => expect(packEl()).toHaveAttribute("data-special", "golden"));
       expect(screen.getAllByText(messages.opening.golden).length).toBeGreaterThan(0);
+      expect(screen.getByTestId("pack-beam")).toHaveAttribute("data-color", "legendary");
       expect(screen.getByTestId("pack-tease")).toHaveClass("back-glow-legendary");
     });
+
+    it("rains gold particles during the reveal only", async () => {
+      localStorage.setItem(KEY, JSON.stringify({ animations: true }));
+      wrap(status({ freeStock: 2, currency: 0 }));
+      fireEvent.click(screen.getByRole("radio", { name: "×2" }));
+      hold(900);
+      await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
+      expect(document.querySelector("canvas")).not.toHaveAttribute("data-ambient");
+      await screen.findByTestId("reveal-flow", {}, { timeout: 3000 });
+      expect(document.querySelector("canvas")).toHaveAttribute("data-ambient", "golden");
+      fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
+      expect(document.querySelector("canvas")).not.toHaveAttribute("data-ambient");
+    });
+  });
+
+  it("a plain batch has no gold particles", async () => {
+    localStorage.setItem(KEY, JSON.stringify({ animations: true }));
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    hold(900);
+    await screen.findByTestId("reveal-flow", {}, { timeout: 3000 });
+    expect(document.querySelector("canvas")).not.toHaveAttribute("data-ambient");
+  });
+
+  it("tapping the pack during the sequence goes straight to the reveal", async () => {
+    localStorage.setItem(KEY, JSON.stringify({ animations: true }));
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    hold(900);
+    await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
+    fireEvent.pointerDown(packEl(), { button: 0, pointerId: 2, clientX: 50, clientY: 100 });
+    expect(screen.getByTestId("reveal-flow")).toBeInTheDocument();
   });
 
   it("a plain pack is not golden and its card back does not glow below Rare", async () => {
@@ -591,8 +629,11 @@ describe("OpeningScreen", () => {
     wrap();
     hold(900);
     await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
+    // the strip is gone: still plain, the beam stays white below Rare
+    await new Promise((r) => setTimeout(r, 700));
     expect(packEl()).not.toHaveAttribute("data-special");
     expect(screen.queryByText(messages.opening.golden)).toBeNull();
+    expect(screen.getByTestId("pack-beam")).toHaveAttribute("data-color", "white");
     expect(screen.getByTestId("pack-tease").className).not.toMatch(/back-glow/);
   });
 

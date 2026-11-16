@@ -262,23 +262,70 @@ describe("RevealFlow", () => {
     expect(screen.queryByText(messages.reveal.divine)).toBeNull();
   });
 
-  it("sparkles an Epic+ card's art on the flip and tints the page", () => {
-    wrap({ cards: [make(1, "epic")], animations: true });
-    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
+  it("bursts and shockwaves an Epic+ card on the flip and tints the page", () => {
+    const onBurst = vi.fn();
+    wrap({ cards: [make(1, "epic")], animations: true, onBurst });
+    expect(screen.queryByTestId("reveal-shockwave")).toBeNull();
     fireEvent.click(card());
-    expect(screen.getByTestId("reveal-sparkle")).toBeInTheDocument();
+    expect(screen.getByTestId("reveal-shockwave")).toBeInTheDocument();
+    expect(screen.getByTestId("reveal-burst")).toBeInTheDocument();
+    expect(onBurst).toHaveBeenCalledWith(expect.objectContaining({ kind: "flip", tone: "epic" }));
     expect(screen.getByTestId("reveal-tint").getAttribute("style")).toContain("var(--color-epic)");
   });
 
-  it("no sparkle with animations off or below Epic", () => {
-    wrap({ cards: [make(1, "epic")] });
+  it("no burst or shockwave with animations off or below Epic", () => {
+    const onBurst = vi.fn();
+    wrap({ cards: [make(1, "epic")], onBurst });
     fireEvent.click(card());
-    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
+    expect(screen.queryByTestId("reveal-shockwave")).toBeNull();
+    expect(screen.queryByTestId("reveal-burst")).toBeNull();
+    expect(onBurst).not.toHaveBeenCalled();
     // the tint stays, without motion
     expect(screen.getByTestId("reveal-tint").getAttribute("style")).toContain("var(--color-epic)");
     cleanup();
-    wrap({ cards: [make(1, "rare")], animations: true });
+    wrap({ cards: [make(1, "rare")], animations: true, onBurst });
     fireEvent.click(card());
-    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
+    expect(screen.queryByTestId("reveal-shockwave")).toBeNull();
+    expect(screen.queryByTestId("reveal-burst")).toBeNull();
+    expect(onBurst).not.toHaveBeenCalled();
+  });
+
+  describe("booster title", () => {
+    const title = () => screen.queryByTestId("booster-title");
+
+    it("shows GOLDEN BOOSTER at the start of a golden reveal, then goes away", () => {
+      vi.useFakeTimers();
+      wrap({ golden: true, animations: true });
+      expect(title()).toHaveTextContent(messages.reveal.goldenBooster);
+      act(() => vi.advanceTimersByTime(1500));
+      expect(title()).toBeNull();
+    });
+
+    it("shows DIVINE BOOSTER for a divine batch", () => {
+      wrap({ divine: true, golden: true, animations: true });
+      expect(title()).toHaveTextContent(messages.reveal.divineBooster);
+    });
+
+    it("is not shown for a plain batch or with animations off", () => {
+      wrap({ animations: true });
+      expect(title()).toBeNull();
+      cleanup();
+      wrap({ golden: true });
+      expect(title()).toBeNull();
+    });
+
+    it("does not block a tap", () => {
+      wrap({ golden: true, animations: true });
+      fireEvent.click(card());
+      expect(card()).toHaveAttribute("data-flipped", "true");
+    });
+  });
+
+  it("glows warm behind a golden reveal only", () => {
+    wrap({ golden: true });
+    expect(screen.getByTestId("golden-ambient")).toBeInTheDocument();
+    cleanup();
+    wrap({ divine: true });
+    expect(screen.queryByTestId("golden-ambient")).toBeNull();
   });
 });

@@ -174,7 +174,9 @@
     "strip": "Revealed cards",
     "skipEpic": "Skip to the next Epic or better",
     "golden": "Golden",
-    "divine": "Divine"
+    "divine": "Divine",
+    "goldenBooster": "Golden booster",
+    "divineBooster": "Divine booster"
   },
   "opening": {
     "back": "Boosters",

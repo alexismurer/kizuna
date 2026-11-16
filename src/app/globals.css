@@ -123,14 +123,40 @@ body {
   50% { opacity: 0.8; transform: scaleY(1); }
 }
 
-@keyframes beam-burst {
-  0% { opacity: 0.4; transform: scaleY(0.7); }
-  25% { opacity: 1; transform: scaleY(1.05); }
-  100% { opacity: 0.75; transform: scaleY(1); }
+/* the beam shoots straight up out of the opened pack */
+@keyframes beam-shoot {
+  0% { opacity: 0.5; transform: scaleY(0.05) scaleX(0.6); }
+  22% { opacity: 1; transform: scaleY(1.04) scaleX(1.05); }
+  40% { transform: scaleY(1) scaleX(1); }
+  100% { opacity: 0.9; transform: scaleY(1) scaleX(1); }
+}
+
+/* a bright line along the tear band: runs across, then flashes out */
+@keyframes tear-run {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+@keyframes tear-flash {
+  0% { opacity: 1; transform: scaleY(1); }
+  30% { opacity: 1; transform: scaleY(2.4); }
+  100% { opacity: 0; transform: scaleY(1); }
+}
+
+/* the GOLDEN / DIVINE ribbon slides in diagonally over the pack name */
+@keyframes ribbon-in {
+  0% { opacity: 0; transform: translate(-70%, 45%); }
+  100% { opacity: 1; transform: none; }
 }
 
 .pack-beam-pulse { animation: beam-pulse 1s ease-in-out infinite; }
-.pack-beam-burst { animation: beam-burst 1.2s ease-out forwards; }
+.pack-beam-shoot { animation: beam-shoot 1.1s cubic-bezier(.2,.8,.2,1) forwards; }
+.pack-tear-run { transform-origin: left; animation: tear-run 0.25s ease-out forwards; }
+.pack-tear-flash { animation: tear-flash 0.8s ease-out forwards; }
+.pack-ribbon-in { animation: ribbon-in 0.4s cubic-bezier(.2,.9,.3,1.2) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pack-beam-shoot, .pack-tear-run, .pack-tear-flash, .pack-ribbon-in { animation: none; }
+}
 
 @keyframes reveal-in {
   0% { opacity: 0.4; transform: translate(10px, 10px) scale(0.94); }
@@ -157,26 +183,47 @@ body {
   100% { opacity: 1; transform: none; }
 }
 
-/* an Epic+ flip: a short sparkle over the art in the rarity colour */
-@keyframes reveal-sparkle {
-  0% { opacity: 0; transform: scale(0.85); }
-  25% { opacity: 1; }
-  100% { opacity: 0; transform: scale(1.08); }
+/* an Epic+ flip: a flash from the centre of the art and a card-shaped
+   shockwave growing out of the frame, in the rarity colour (--fx) */
+@keyframes reveal-burst {
+  0% { opacity: 0; transform: scale(0.15); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.7); }
 }
-.reveal-sparkle {
+@keyframes reveal-shockwave {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.32, 1.22); }
+}
+.reveal-burst {
   z-index: 30;
-  background:
-    radial-gradient(circle at 22% 28%, white 0 1.5px, var(--sparkle) 2.5px, transparent 7px),
-    radial-gradient(circle at 74% 20%, white 0 2px, var(--sparkle) 3px, transparent 9px),
-    radial-gradient(circle at 62% 58%, white 0 1.5px, var(--sparkle) 2.5px, transparent 7px),
-    radial-gradient(circle at 30% 70%, white 0 2px, var(--sparkle) 3px, transparent 9px),
-    radial-gradient(circle at 82% 78%, white 0 1px, var(--sparkle) 2px, transparent 6px),
-    radial-gradient(circle at 48% 40%, white 0 1px, var(--sparkle) 2px, transparent 6px),
-    linear-gradient(115deg, transparent 35%, color-mix(in srgb, var(--sparkle) 45%, transparent) 50%, transparent 65%);
+  background: radial-gradient(circle at 50% 40%, white 0 4%, color-mix(in srgb, var(--fx) 85%, white) 12%, color-mix(in srgb, var(--fx) 55%, transparent) 30%, transparent 55%);
   mix-blend-mode: screen;
-  animation: reveal-sparkle 0.9s ease-out 0.35s both;
+  animation: reveal-burst 0.7s ease-out 0.25s both;
 }
-.fx-still .reveal-sparkle { display: none; }
+.reveal-shockwave {
+  border: 4px solid var(--fx);
+  box-shadow: 0 0 18px 4px var(--fx), inset 0 0 14px 2px var(--fx);
+  animation: reveal-shockwave 0.6s ease-out 0.3s both;
+}
+.fx-still .reveal-burst, .fx-still .reveal-shockwave { display: none; }
+
+/* GOLDEN / DIVINE BOOSTER over the first card: scales in glowing, then fades */
+@keyframes booster-title {
+  0% { opacity: 0; transform: scale(0.4); }
+  22% { opacity: 1; transform: scale(1.1); }
+  34% { transform: scale(1); }
+  75% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0; transform: scale(1.06); }
+}
+.booster-title { animation: booster-title 1.2s ease-out both; }
+.booster-title-golden {
+  color: color-mix(in srgb, var(--color-cta) 70%, white);
+  text-shadow: 0 0 6px var(--color-legendary), 0 0 18px var(--color-legendary), 0 0 42px var(--color-cta), 0 3px 0 color-mix(in srgb, var(--color-legendary) 60%, black);
+}
+.booster-title-divine {
+  color: white;
+  text-shadow: 0 0 6px var(--mythic-a), 0 0 18px var(--mythic-c), 0 0 42px var(--mythic-b), 0 3px 0 color-mix(in srgb, var(--mythic-a) 60%, black);
+}
 
 /* golden / divine boosters: foil over the pack face */
 .pack-foil-golden {
@@ -191,5 +238,5 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal-sparkle { display: none; }
+  .reveal-burst, .reveal-shockwave, .booster-title { display: none; }
 }
