@@ -33,13 +33,20 @@ export function bestCard(cards: { rarity: Rarity; number: number }[]): number {
   return best;
 }
 
-// The reveal deck: the whole batch by rarity ascending, then booster and
-// slot, so the best card comes last.
-export function revealOrder<T extends { rarity: Rarity; packIndex: number; slot: number }>(
-  cards: T[],
-): T[] {
+// The reveal deck: the whole batch by rarity ascending, a rarity's best card
+// (as bestCard picks it) last; copies of one card by booster, then slot.
+export function revealOrder<
+  T extends { rarity: Rarity; packIndex: number; slot: number; card: { number: number } },
+>(cards: T[]): T[] {
+  // compareCards reversed: ascending, so the card bestCard picks comes last
   return [...cards].sort(
-    (a, b) => RANK[a.rarity] - RANK[b.rarity] || a.packIndex - b.packIndex || a.slot - b.slot,
+    (a, b) =>
+      compareCards(
+        { rarity: b.rarity, number: b.card.number },
+        { rarity: a.rarity, number: a.card.number },
+      ) ||
+      a.packIndex - b.packIndex ||
+      a.slot - b.slot,
   );
 }
 

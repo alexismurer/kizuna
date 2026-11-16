@@ -564,8 +564,8 @@ describe("OpeningScreen", () => {
       await screen.findByTestId("reveal-flow");
       expect(screen.getByText(messages.reveal.golden)).toBeInTheDocument();
       expect([flipName(), flipName(), flipName(), flipName()]).toEqual([
-        "Hero 2",
         "Hero 4",
+        "Hero 2",
         "Hero 1",
         "Hero 3",
       ]);

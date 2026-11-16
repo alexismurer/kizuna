@@ -1,19 +1,36 @@
 import { describe, expect, it } from "vitest";
 import { bestCard, bestRarity, newFlags, revealOrder } from "@/lib/opening/best";
 import { revealReducer, skipTarget, type RevealState } from "@/lib/opening/reveal";
+import type { Rarity } from "@/lib/game/types";
 
 describe("revealOrder", () => {
-  it("sorts the whole batch by rarity ascending, then pack, then slot", () => {
+  const c = (id: string, rarity: Rarity, number: number, packIndex: number, slot: number) => ({
+    id,
+    rarity,
+    packIndex,
+    slot,
+    card: { number },
+  });
+
+  it("sorts the whole batch by rarity ascending, the best card of a rarity last", () => {
     const cards = [
-      { id: "a", rarity: "rare", packIndex: 1, slot: 5 },
-      { id: "b", rarity: "common", packIndex: 2, slot: 1 },
-      { id: "c", rarity: "mythic", packIndex: 1, slot: 4 },
-      { id: "d", rarity: "common", packIndex: 1, slot: 2 },
-      { id: "e", rarity: "common", packIndex: 1, slot: 1 },
-      { id: "f", rarity: "epic", packIndex: 2, slot: 5 },
-    ] as const;
-    expect(revealOrder([...cards]).map((c) => c.id)).toEqual(["e", "d", "b", "a", "f", "c"]);
+      c("a", "rare", 7, 1, 5),
+      c("b", "common", 3, 2, 1),
+      c("c", "mythic", 1, 1, 4),
+      c("d", "common", 9, 1, 2),
+      c("e", "common", 3, 1, 1), // same card as b: pack, then slot
+      c("f", "epic", 2, 2, 5),
+    ];
+    expect(revealOrder(cards).map((x) => x.id)).toEqual(["d", "e", "b", "a", "f", "c"]);
     expect(cards[0].id).toBe("a"); // the input is not reordered
+  });
+
+  it("reveals the summary's best card last among two Epics", () => {
+    const cards = [c("first", "epic", 671, 1, 5), c("second", "epic", 994, 5, 5), c("x", "rare", 1, 2, 5)];
+    const deck = revealOrder(cards);
+    const best = bestCard(cards.map((x) => ({ rarity: x.rarity, number: x.card.number })));
+    expect(deck.at(-1)).toBe(cards[best]);
+    expect(deck.map((x) => x.id)).toEqual(["x", "second", "first"]);
   });
 });
 
