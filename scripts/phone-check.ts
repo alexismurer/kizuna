@@ -4,7 +4,7 @@
 // Signs in with DEV_TEST_EMAIL / DEV_TEST_PASSWORD from .env.local (needs
 // NEXT_PUBLIC_DEV_LOGIN=true), screenshots key pages at 390x844 and fails if
 // any page scrolls horizontally. Opens one Mix booster (free stock first,
-// then currency).
+// then currency). Also each /market tab and the notifications sheet.
 import path from 'node:path'
 import dotenv from 'dotenv'
 import { chromium, type Page } from 'playwright'
@@ -77,6 +77,19 @@ async function main() {
   await page.goto(`${base}/missions`)
   await page.getByRole('heading', { level: 1 }).waitFor()
   ok = (await check(page, 'missions')) && ok
+
+  for (const tab of ['buy', 'sell', 'auctions', 'trades', 'activity']) {
+    await page.goto(`${base}/market?tab=${tab}`)
+    await page.getByRole('heading', { level: 1 }).waitFor()
+    await page.waitForTimeout(800) // tab data
+    ok = (await check(page, `market-${tab}`)) && ok
+  }
+
+  await page.getByRole('button', { name: /^Notifications/ }).first().click()
+  await page.getByRole('dialog').waitFor()
+  await page.waitForTimeout(400) // slide-up
+  ok = (await check(page, 'market-notifications', false)) && ok
+  await page.keyboard.press('Escape')
 
   // opening page: stage, mid-reveal, summary
   await page.goto(`${base}/open/mix`)

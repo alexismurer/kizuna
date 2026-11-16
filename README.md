@@ -30,6 +30,11 @@ npm run dev           # http://localhost:3000
 
 Sign in, then join with the invite code.
 
+Local test players (dev login, password in `DEV_TEST_PASSWORD`):
+`player1@anicards.test` (`DEV_TEST_EMAIL`) and `player2@anicards.test`, the
+second one for trying the market with two accounts. Create them with the
+invite flow, then set their currency with SQL on the local database only.
+
 ## Testing
 
 ```bash
