@@ -45,6 +45,8 @@ export function Summary({
   collectionHref,
   onChangeBooster,
   animations,
+  golden = false,
+  divine = false,
 }: {
   packName: string;
   cards: RevealCard[];
@@ -59,6 +61,9 @@ export function Summary({
   collectionHref: string;
   onChangeBooster: () => void;
   animations: boolean;
+  // the batch had a golden / divine booster
+  golden?: boolean;
+  divine?: boolean;
 }) {
   const t = useTranslations("summary");
   const tr = useTranslations();
@@ -189,6 +194,26 @@ export function Summary({
         >
           {packName}
         </h2>
+        {(golden || divine) && (
+          <div className="flex flex-wrap justify-center gap-2">
+            {golden && (
+              <p
+                className="rounded-full px-3 py-0.5 text-xs font-bold text-black"
+                style={{ background: "var(--color-legendary)" }}
+              >
+                {t("golden")}
+              </p>
+            )}
+            {divine && (
+              <p
+                className="rounded-full px-3 py-0.5 text-xs font-bold text-black"
+                style={{ background: "linear-gradient(90deg, white, var(--mythic-b), var(--mythic-c), var(--mythic-a))" }}
+              >
+                {t("divine")}
+              </p>
+            )}
+          </div>
+        )}
         <p className="rounded-full border border-white/15 bg-black/40 px-3 py-0.5 text-xs font-semibold text-white/80">
           {t("newCards", { count: fresh })}
         </p>

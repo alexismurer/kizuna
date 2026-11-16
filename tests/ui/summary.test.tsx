@@ -104,6 +104,22 @@ describe("Summary", () => {
     expect(names).toEqual(["Hero 5", "Hero 8", "Hero 3", "Hero 4", "Hero 9", "Hero 2", "Hero 1"]);
   });
 
+  it("says when the batch had a golden or a divine booster", () => {
+    wrap({ golden: true });
+    expect(within(screen.getByTestId("summary-capture")).getByText(messages.summary.golden)).toBeInTheDocument();
+    expect(screen.queryByText(messages.summary.divine)).toBeNull();
+    cleanup();
+    wrap({ golden: true, divine: true });
+    expect(screen.getByText(messages.summary.golden)).toBeInTheDocument();
+    expect(screen.getByText(messages.summary.divine)).toBeInTheDocument();
+  });
+
+  it("shows no booster chip for a plain batch", () => {
+    wrap();
+    expect(screen.queryByText(messages.summary.golden)).toBeNull();
+    expect(screen.queryByText(messages.summary.divine)).toBeNull();
+  });
+
   it("focuses Open another when it mounts", () => {
     wrap();
     expect(screen.getByRole("button", { name: "Open another · 150" })).toHaveFocus();

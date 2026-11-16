@@ -171,7 +171,10 @@
     "booster": "Booster {n}/{count}",
     "counter": "Card {n} of {total}",
     "flip": "Flip the card",
-    "strip": "Revealed cards"
+    "strip": "Revealed cards",
+    "skipEpic": "Skip to the next Epic or better",
+    "golden": "Golden",
+    "divine": "Divine"
   },
   "opening": {
     "back": "Boosters",
@@ -206,7 +209,9 @@
     "confirm": "Confirm",
     "cancel": "Cancel",
     "cardsAdded": "Cards added to your collection.",
-    "seeCollection": "See the collection"
+    "seeCollection": "See the collection",
+    "golden": "Golden",
+    "divine": "Divine"
   },
   "summary": {
     "newCards": "{count, plural, =0 {No new cards} one {# new card} other {# new cards}}",
@@ -220,7 +225,9 @@
     "copied": "Link copied",
     "image": "Image",
     "imageError": "Couldn't make the image. Try again.",
-    "cards": "Your pull"
+    "cards": "Your pull",
+    "golden": "A golden booster in the batch",
+    "divine": "A divine booster in the batch"
   },
   "card": {
     "pow": "POW",

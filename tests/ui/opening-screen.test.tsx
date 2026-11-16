@@ -528,6 +528,74 @@ describe("OpeningScreen", () => {
     });
   });
 
+  describe("a golden ×2 batch", () => {
+    const hero = (id: number, rarity: string) => ({
+      ...cardRows[0],
+      id,
+      number: id,
+      name: `Hero ${id}`,
+      rarity,
+    });
+    const batch = [
+      { pack_index: 1, slot: 1, card_id: 1, rarity: "rare", is_new: false, golden: false, divine: false },
+      { pack_index: 1, slot: 2, card_id: 2, rarity: "common", is_new: false, golden: false, divine: false },
+      { pack_index: 2, slot: 1, card_id: 3, rarity: "legendary", is_new: false, golden: true, divine: false },
+      { pack_index: 2, slot: 2, card_id: 4, rarity: "common", is_new: false, golden: true, divine: false },
+    ];
+    beforeEach(() => {
+      rpc.mockResolvedValue({ data: batch, error: null });
+      inFn.mockResolvedValue({
+        data: [hero(1, "rare"), hero(2, "common"), hero(3, "legendary"), hero(4, "common")],
+        error: null,
+      });
+    });
+
+    const flipName = () => {
+      fireEvent.click(screen.getByTestId("reveal-card"));
+      const name = screen.getByRole("heading", { level: 2 }).textContent;
+      fireEvent.click(screen.getByTestId("reveal-card"));
+      return name;
+    };
+
+    it("reveals by rarity ascending, best last, with a Golden chip, and says so in the summary", async () => {
+      wrap(status({ freeStock: 2, currency: 0 }));
+      fireEvent.click(screen.getByRole("radio", { name: "×2" }));
+      fireEvent.click(openButton());
+      await screen.findByTestId("reveal-flow");
+      expect(screen.getByText(messages.reveal.golden)).toBeInTheDocument();
+      expect([flipName(), flipName(), flipName(), flipName()]).toEqual([
+        "Hero 2",
+        "Hero 4",
+        "Hero 1",
+        "Hero 3",
+      ]);
+      expect(screen.getByTestId("summary")).toBeInTheDocument();
+      expect(screen.getByText(messages.summary.golden)).toBeInTheDocument();
+    });
+
+    it("tears a golden pack whose card back glows in the best rarity", async () => {
+      localStorage.setItem(KEY, JSON.stringify({ animations: true }));
+      wrap(status({ freeStock: 2, currency: 0 }));
+      fireEvent.click(screen.getByRole("radio", { name: "×2" }));
+      hold(900);
+      await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
+      expect(packEl()).toHaveAttribute("data-special", "golden");
+      expect(screen.getAllByText(messages.opening.golden).length).toBeGreaterThan(0);
+      expect(screen.getByTestId("pack-tease")).toHaveClass("back-glow-legendary");
+    });
+  });
+
+  it("a plain pack is not golden and its card back does not glow below Rare", async () => {
+    localStorage.setItem(KEY, JSON.stringify({ animations: true }));
+    rpc.mockResolvedValue({ data: rows, error: null });
+    wrap();
+    hold(900);
+    await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
+    expect(packEl()).not.toHaveAttribute("data-special");
+    expect(screen.queryByText(messages.opening.golden)).toBeNull();
+    expect(screen.getByTestId("pack-tease").className).not.toMatch(/back-glow/);
+  });
+
   it("with animations on, plays the sequence before the reveal", async () => {
     localStorage.setItem(KEY, JSON.stringify({ animations: true }));
     rpc.mockResolvedValue({ data: rows, error: null });

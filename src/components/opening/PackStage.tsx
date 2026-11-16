@@ -5,6 +5,7 @@ import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { EMBLEM } from "@/components/PackArt";
 import { playSfx, primeAudio } from "@/lib/fx/sound";
+import type { Rarity } from "@/lib/game/types";
 import { TEAR_BAND, createHoldTracker, createTearTracker } from "@/lib/opening/gesture";
 import type { Burst } from "./FxLayer";
 
@@ -21,18 +22,37 @@ const clamp = (v: number) => Math.max(-0.5, Math.min(0.5, v));
 // out: opened, the strip flies off and the cards slide out
 export type TearPhase = "sealed" | "torn" | "out";
 
+// a golden booster (raised slot-5 floor) or a divine one in the batch
+export type Special = "golden" | "divine";
+
+// the card back that slides out glows in the batch's best rarity
+const TEASE_GLOW: Partial<Record<Rarity, string>> = {
+  rare: "back-glow-rare",
+  epic: "back-glow-epic",
+  legendary: "back-glow-legendary",
+  mythic: "back-glow-mythic",
+};
+
+const SPECIAL_GLOW: Record<Special, string> = {
+  golden:
+    "0 24px 90px -6px var(--color-legendary), 0 0 46px 6px color-mix(in srgb, var(--color-legendary) 70%, transparent)",
+  divine: "0 24px 90px -6px white, 0 0 46px 6px color-mix(in srgb, var(--mythic-c) 55%, white)",
+};
+
 type Gesture =
   | { mode: "tear"; id: number; tracker: ReturnType<typeof createTearTracker>; x0: number; left: number }
   | { mode: "hold"; id: number; tracker: ReturnType<typeof createHoldTracker>; x0: number; y0: number };
 
-function PackFace({ name, hue, animations, Icon, hold }: {
+function PackFace({ name, hue, animations, Icon, hold, special }: {
   name: string;
   hue: number;
   animations: boolean;
   Icon: typeof Package;
   hold: number;
+  special: Special | null;
 }) {
   const t = useTranslations("card");
+  const to = useTranslations("opening");
   return (
     <div
       className="absolute inset-0 overflow-hidden rounded-[14px] border border-white/25"
@@ -59,6 +79,7 @@ function PackFace({ name, hue, animations, Icon, hold }: {
         className="absolute inset-0"
         style={{ background: "radial-gradient(circle at 50% 46%, rgb(255 255 255 / 0.25), transparent 55%)" }}
       />
+      {special && <div className={`pack-foil-${special} absolute inset-0`} />}
       {animations && <div className="holo absolute inset-0" />}
       <span className="absolute inset-x-0 top-[8%] text-center font-mono text-[4cqw] tracking-[0.35em] text-white/80">
         {t("brand")}
@@ -83,6 +104,19 @@ function PackFace({ name, hue, animations, Icon, hold }: {
             </svg>
           )}
         </div>
+        {special && (
+          <span
+            className="-my-[2cqw] w-[130%] -rotate-6 py-[1cqw] text-center font-mono text-[6cqw] font-bold uppercase tracking-[0.4em] text-black shadow-lg"
+            style={{
+              background:
+                special === "golden"
+                  ? "linear-gradient(90deg, var(--color-cta), var(--color-legendary), var(--color-cta))"
+                  : "linear-gradient(90deg, white, var(--mythic-b), white, var(--mythic-c), white)",
+            }}
+          >
+            {to(special)}
+          </span>
+        )}
         <span className="text-center font-display text-[9cqw] leading-tight text-white drop-shadow">
           {name}
         </span>
@@ -103,6 +137,8 @@ export function PackStage({
   disabled,
   onOpen,
   onBurst,
+  special = null,
+  tease = null,
 }: {
   packId: string;
   name: string;
@@ -115,6 +151,9 @@ export function PackStage({
   disabled: boolean;
   onOpen: () => void;
   onBurst: (b: Burst) => void;
+  special?: Special | null;
+  // the best rarity of the batch, once opened
+  tease?: Rarity | null;
 }) {
   const t = useTranslations("opening");
   const tiltRef = useRef<HTMLDivElement>(null);
@@ -268,6 +307,7 @@ export function PackStage({
           aria-disabled={!ready}
           data-testid="pack"
           data-tear={phase}
+          data-special={special ?? undefined}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
@@ -281,7 +321,7 @@ export function PackStage({
           <div
             aria-hidden
             className="absolute inset-x-0 bottom-0 top-[18%] rounded-b-[14px]"
-            style={{ boxShadow: `0 24px 70px -12px hsl(${hue} 85% 50% / 0.65)` }}
+            style={{ boxShadow: special ? SPECIAL_GLOW[special] : `0 24px 70px -12px hsl(${hue} 85% 50% / 0.65)` }}
           />
           {/* light from the opening */}
           {animations && phase !== "sealed" && (
@@ -307,18 +347,19 @@ export function PackStage({
             {[-4, 3, 0].map((r, i) => (
               <div
                 key={i}
-                className="absolute inset-0 rounded-[8px] border border-[#d9b45a]/70 bg-[#0d0d14] shadow-lg"
+                data-testid={i === 2 ? "pack-tease" : undefined}
+                className={`absolute inset-0 rounded-[8px] border border-[#d9b45a]/70 bg-[#0d0d14] shadow-lg ${i === 2 && tease ? (TEASE_GLOW[tease] ?? "") : ""}`}
                 style={{ transform: `rotate(${r}deg) translateY(${i * 2}px)` }}
               />
             ))}
           </div>
           {/* body, below the tear line */}
           <div aria-hidden className="absolute inset-0" style={{ clipPath: "inset(18% 0 0 0)" }}>
-            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} />
+            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={special} />
           </div>
           {/* the strip that tears off */}
           <div aria-hidden className="absolute inset-0" style={stripStyle}>
-            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} />
+            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={special} />
           </div>
           {phase === "sealed" && (
             <div

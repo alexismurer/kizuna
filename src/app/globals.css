@@ -156,3 +156,40 @@ body {
   0% { opacity: 0; transform: translateY(60px) scale(0.8); }
   100% { opacity: 1; transform: none; }
 }
+
+/* an Epic+ flip: a short sparkle over the art in the rarity colour */
+@keyframes reveal-sparkle {
+  0% { opacity: 0; transform: scale(0.85); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+.reveal-sparkle {
+  z-index: 30;
+  background:
+    radial-gradient(circle at 22% 28%, white 0 1.5px, var(--sparkle) 2.5px, transparent 7px),
+    radial-gradient(circle at 74% 20%, white 0 2px, var(--sparkle) 3px, transparent 9px),
+    radial-gradient(circle at 62% 58%, white 0 1.5px, var(--sparkle) 2.5px, transparent 7px),
+    radial-gradient(circle at 30% 70%, white 0 2px, var(--sparkle) 3px, transparent 9px),
+    radial-gradient(circle at 82% 78%, white 0 1px, var(--sparkle) 2px, transparent 6px),
+    radial-gradient(circle at 48% 40%, white 0 1px, var(--sparkle) 2px, transparent 6px),
+    linear-gradient(115deg, transparent 35%, color-mix(in srgb, var(--sparkle) 45%, transparent) 50%, transparent 65%);
+  mix-blend-mode: screen;
+  animation: reveal-sparkle 0.9s ease-out 0.35s both;
+}
+.fx-still .reveal-sparkle { display: none; }
+
+/* golden / divine boosters: foil over the pack face */
+.pack-foil-golden {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-legendary) 75%, white), var(--color-legendary) 40%, color-mix(in srgb, var(--color-legendary) 55%, black));
+  mix-blend-mode: color;
+  opacity: 0.85;
+}
+.pack-foil-divine {
+  background: linear-gradient(130deg, white, var(--mythic-b) 30%, white 50%, var(--mythic-c) 70%, var(--mythic-a));
+  mix-blend-mode: soft-light;
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-sparkle { display: none; }
+}

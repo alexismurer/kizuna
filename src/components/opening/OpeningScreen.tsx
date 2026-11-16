@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Package } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import type { CardData } from "@/components/card/CardView";
@@ -10,13 +10,13 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { usePrefs } from "@/lib/fx/prefs";
 import { rpcErrorKey } from "@/lib/game/errors";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
-import { newFlags } from "@/lib/opening/best";
+import { bestRarity, newFlags, revealOrder } from "@/lib/opening/best";
 import { paymentFor, quantityOptions, rewardsFor } from "@/lib/opening/quantity";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { FxLayer, type Burst } from "./FxLayer";
 import { OpeningHeader } from "./OpeningHeader";
 import { RewardBadge } from "@/components/RewardBadge";
-import { PackStage, type TearPhase } from "./PackStage";
+import { PackStage, type Special, type TearPhase } from "./PackStage";
 import { PaidConfirm } from "./PaidConfirm";
 import { QuantitySelect } from "./QuantitySelect";
 import { RevealFlow } from "./RevealFlow";
@@ -31,6 +31,7 @@ export type OpenedCard = {
   rarity: Rarity;
   isNew: boolean;
   packIndex: number;
+  slot: number;
 };
 
 type OpenRow = {
@@ -39,6 +40,9 @@ type OpenRow = {
   card_id: number;
   rarity: Rarity;
   is_new: boolean;
+  // this booster's slot-5 floor was raised (10th booster / golden_next), or it rolled divine
+  golden?: boolean;
+  divine?: boolean;
 };
 type CardRow = {
   id: number;
@@ -85,6 +89,7 @@ export function OpeningScreen({
   const [opened, setOpened] = useState<OpenedCard[] | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [packCount, setPackCount] = useState(1);
+  const [batch, setBatch] = useState({ golden: false, divine: false });
   // one RevealFlow per opening
   const [openId, setOpenId] = useState(0);
   // "Open another" from the summary skips the pack and its tear sequence
@@ -176,6 +181,7 @@ export function OpeningScreen({
           (cardRows as unknown as CardRow[]).map((c) => [c.id, c]),
         );
         setPackCount(count);
+        setBatch({ golden: rows.some((r) => r.golden), divine: rows.some((r) => r.divine) });
         setRevealed(false);
         setOpenId((id) => id + 1);
         setOpened(
@@ -186,6 +192,7 @@ export function OpeningScreen({
               rarity: r.rarity,
               isNew: fresh[i],
               packIndex: r.pack_index,
+              slot: r.slot,
               card: {
                 id: c.id,
                 number: c.number,
@@ -230,6 +237,15 @@ export function OpeningScreen({
   }
 
   const onRevealed = useCallback(() => setRevealed(true), []);
+
+  // the reveal deck: rarity ascending, the best card last (the summary sorts its own way)
+  const deck = useMemo(
+    () => opened && revealOrder(opened).map((c) => ({ ...c, card: { ...c.card, total } })),
+    [opened, total],
+  );
+  const best = opened && bestRarity(opened.map((c) => c.rarity));
+  const special: Special | null =
+    tear !== "out" ? null : batch.divine ? "divine" : batch.golden ? "golden" : null;
 
   const closeConfirm = useCallback(() => {
     setConfirming(false);
@@ -289,11 +305,13 @@ export function OpeningScreen({
       />
 
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center gap-3 px-4 pb-6">
-        {opened && tear !== "out" && !revealed ? (
+        {deck && tear !== "out" && !revealed ? (
           <RevealFlow
             key={openId}
-            cards={opened.map((c) => ({ ...c, card: { ...c.card, total } }))}
+            cards={deck}
             packCount={packCount}
+            golden={batch.golden}
+            divine={batch.divine}
             onDone={onRevealed}
             animations={animations}
             sound={prefs.sound}
@@ -328,6 +346,8 @@ export function OpeningScreen({
               collectionHref="/collection"
               onChangeBooster={() => setChanging(true)}
               animations={animations}
+              golden={batch.golden}
+              divine={batch.divine}
             />
             {error && (
               <p role="alert" className="text-center text-sm text-accent">
@@ -350,6 +370,8 @@ export function OpeningScreen({
               disabled={!n || busy}
               onOpen={tearOpen}
               onBurst={setBurst}
+              special={special}
+              tease={tear === "out" ? best : null}
             />
             <p className="text-center text-sm text-white/60">{t("opening.hint")}</p>
             {rewards > 0 && <RewardBadge count={rewards} />}

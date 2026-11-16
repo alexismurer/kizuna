@@ -1,6 +1,43 @@
 import { describe, expect, it } from "vitest";
-import { bestCard, newFlags } from "@/lib/opening/best";
-import { revealReducer, type RevealState } from "@/lib/opening/reveal";
+import { bestCard, bestRarity, newFlags, revealOrder } from "@/lib/opening/best";
+import { revealReducer, skipTarget, type RevealState } from "@/lib/opening/reveal";
+
+describe("revealOrder", () => {
+  it("sorts the whole batch by rarity ascending, then pack, then slot", () => {
+    const cards = [
+      { id: "a", rarity: "rare", packIndex: 1, slot: 5 },
+      { id: "b", rarity: "common", packIndex: 2, slot: 1 },
+      { id: "c", rarity: "mythic", packIndex: 1, slot: 4 },
+      { id: "d", rarity: "common", packIndex: 1, slot: 2 },
+      { id: "e", rarity: "common", packIndex: 1, slot: 1 },
+      { id: "f", rarity: "epic", packIndex: 2, slot: 5 },
+    ] as const;
+    expect(revealOrder([...cards]).map((c) => c.id)).toEqual(["e", "d", "b", "a", "f", "c"]);
+    expect(cards[0].id).toBe("a"); // the input is not reordered
+  });
+});
+
+describe("bestRarity", () => {
+  it("is the highest rarity, null for none", () => {
+    expect(bestRarity(["common", "epic", "rare"])).toBe("epic");
+    expect(bestRarity([])).toBeNull();
+  });
+});
+
+describe("skipTarget", () => {
+  const rarities = ["common", "uncommon", "epic", "legendary"] as const;
+
+  it("is the next unrevealed Epic or better", () => {
+    expect(skipTarget([...rarities], { index: 0, flipped: false, done: false })).toBe(2);
+    expect(skipTarget([...rarities], { index: 2, flipped: true, done: false })).toBe(3);
+  });
+
+  it("is -1 when the current card is that one, or none remain", () => {
+    expect(skipTarget([...rarities], { index: 2, flipped: false, done: false })).toBe(-1);
+    expect(skipTarget([...rarities], { index: 3, flipped: true, done: false })).toBe(-1);
+    expect(skipTarget(["common", "rare"], { index: 0, flipped: false, done: false })).toBe(-1);
+  });
+});
 
 describe("newFlags", () => {
   it("marks only the first new copy of a card across the whole batch", () => {
@@ -84,6 +121,15 @@ describe("revealReducer", () => {
     expect(s).toEqual({ index: 2, flipped: true, done: false });
     s = revealReducer(s, { type: "fastForward" }, 3);
     expect(s.done).toBe(true);
+  });
+
+  it("jump goes to a card face down", () => {
+    const s = { index: 0, flipped: true, done: false };
+    expect(revealReducer(s, { type: "jump", index: 3 }, 5)).toEqual({
+      index: 3,
+      flipped: false,
+      done: false,
+    });
   });
 
   it("ignores actions once done", () => {

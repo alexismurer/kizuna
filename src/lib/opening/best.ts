@@ -32,3 +32,18 @@ export function bestCard(cards: { rarity: Rarity; number: number }[]): number {
   });
   return best;
 }
+
+// The reveal deck: the whole batch by rarity ascending, then booster and
+// slot, so the best card comes last.
+export function revealOrder<T extends { rarity: Rarity; packIndex: number; slot: number }>(
+  cards: T[],
+): T[] {
+  return [...cards].sort(
+    (a, b) => RANK[a.rarity] - RANK[b.rarity] || a.packIndex - b.packIndex || a.slot - b.slot,
+  );
+}
+
+// The highest rarity of a batch, null for none.
+export function bestRarity(rarities: Rarity[]): Rarity | null {
+  return rarities.reduce<Rarity | null>((m, r) => (m === null || RANK[r] > RANK[m] ? r : m), null);
+}

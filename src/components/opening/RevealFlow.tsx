@@ -6,7 +6,7 @@ import { CardBack } from "@/components/card/CardBack";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import { playSfx, type Sfx } from "@/lib/fx/sound";
 import type { Rarity } from "@/lib/game/types";
-import { REVEAL_START, revealReducer, type RevealAction } from "@/lib/opening/reveal";
+import { REVEAL_START, revealReducer, skipTarget, type RevealAction } from "@/lib/opening/reveal";
 import type { Burst } from "./FxLayer";
 import { SlotStrip } from "./SlotStrip";
 
@@ -31,6 +31,7 @@ const BURST: Partial<Record<Rarity, { hue: number; count: number; shake?: true }
   mythic: { hue: 340, count: 130, shake: true },
 };
 const CHIME = new Set<Rarity>(["rare", "epic", "legendary", "mythic"]);
+const SPARKLE = new Set<Rarity>(["epic", "legendary", "mythic"]);
 
 const CONTROLS =
   'button, a, input, select, textarea, [role="button"], [role="radio"], [role="switch"], [role="menuitem"]';
@@ -42,6 +43,8 @@ export function RevealFlow({
   animations,
   sound,
   onBurst,
+  golden = false,
+  divine = false,
 }: {
   cards: RevealCard[];
   packCount: number;
@@ -49,6 +52,9 @@ export function RevealFlow({
   animations: boolean;
   sound: boolean;
   onBurst?: (b: Burst) => void;
+  // the batch has a golden / divine booster
+  golden?: boolean;
+  divine?: boolean;
 }) {
   const t = useTranslations();
   const [state, setState] = useState(REVEAL_START);
@@ -77,9 +83,13 @@ export function RevealFlow({
     }
   }
 
-  function act(type: RevealAction["type"]) {
+  function act(type: Exclude<RevealAction["type"], "jump">) {
+    move({ type });
+  }
+
+  function move(action: RevealAction) {
     const prev = stateRef.current;
-    const next = revealReducer(prev, { type }, total);
+    const next = revealReducer(prev, action, total);
     if (next === prev) return;
     stateRef.current = next;
     setState(next);
@@ -88,7 +98,7 @@ export function RevealFlow({
       return;
     }
     if (next.flipped && (!prev.flipped || next.index !== prev.index)) {
-      flipped(cards[next.index], type === "fastForward");
+      flipped(cards[next.index], action.type === "fastForward");
     }
   }
 
@@ -185,6 +195,11 @@ export function RevealFlow({
   const color = COLOR[current.rarity];
   const left = total - index - 1;
   const ease = animations ? "transform 0.55s cubic-bezier(.2,.7,.2,1)" : "none";
+  const skip = skipTarget(
+    cards.map((c) => c.rarity),
+    state,
+  );
+  const chip = "rounded-full px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-black";
 
   return (
     <section
@@ -193,6 +208,7 @@ export function RevealFlow({
     >
       <div
         aria-hidden
+        data-testid="reveal-tint"
         className="pointer-events-none fixed inset-0 -z-10"
         style={{
           backgroundColor: tint ?? "transparent",
@@ -211,6 +227,19 @@ export function RevealFlow({
         >
           {index + 1}/{total}
         </span>
+        {golden && (
+          <span className={chip} style={{ background: "var(--color-legendary)" }}>
+            {t("reveal.golden")}
+          </span>
+        )}
+        {divine && (
+          <span
+            className={chip}
+            style={{ background: "linear-gradient(90deg, white, var(--mythic-b), var(--mythic-c), var(--mythic-a))" }}
+          >
+            {t("reveal.divine")}
+          </span>
+        )}
         {packCount > 1 && (
           <span className="text-xs text-white/60">
             {t("reveal.booster", { n: current.packIndex, count: packCount })}
@@ -272,6 +301,13 @@ export function RevealFlow({
                   style={{ transform: "rotateY(180deg)" }}
                 >
                   <CardView card={current.card} size="lg" isNew={current.isNew} />
+                  {up && animations && SPARKLE.has(current.rarity) && (
+                    <div
+                      data-testid="reveal-sparkle"
+                      className="reveal-sparkle pointer-events-none absolute inset-0 rounded-xl"
+                      style={{ "--sparkle": COLOR[current.rarity] } as React.CSSProperties}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -292,7 +328,7 @@ export function RevealFlow({
       </div>
 
       <SlotStrip
-        slots={cards.map((c) => ({ rarity: c.rarity, imageUrl: c.card.imageUrl, packIndex: c.packIndex }))}
+        slots={cards.map((c) => ({ rarity: c.rarity, imageUrl: c.card.imageUrl }))}
         filled={up ? index + 1 : index}
         current={index}
         label={t("reveal.strip")}
@@ -301,7 +337,7 @@ export function RevealFlow({
       <p className="text-center text-sm text-white/70">
         {up ? t("reveal.next") : t("reveal.tapToFlip")}
       </p>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
         <button
           type="button"
           onClick={() => act("revealAll")}
@@ -309,6 +345,15 @@ export function RevealFlow({
         >
           {t("reveal.revealAll")}
         </button>
+        {skip > 0 && (
+          <button
+            type="button"
+            onClick={() => move({ type: "jump", index: skip })}
+            className="rounded-full border border-white/25 px-5 py-2 text-sm font-semibold hover:bg-white/10"
+          >
+            {t("reveal.skipEpic")}
+          </button>
+        )}
         <span className="hidden text-xs text-white/50 [@media(pointer:fine)]:inline">
           {t("reveal.keys")}
         </span>

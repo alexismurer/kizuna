@@ -208,13 +208,77 @@ describe("RevealFlow", () => {
     expect(card().parentElement).toHaveClass("reveal-shake");
   });
 
-  it("groups the strip by pack and shows the pack counter for a multi-open", () => {
+  it("shows one slot per card and the current card's booster for a multi-open", () => {
     wrap({
-      cards: [make(1, "common", 1), make(2, "rare", 1), make(3, "common", 2)],
+      cards: [make(1, "common", 1), make(3, "common", 2), make(2, "rare", 1)],
       packCount: 2,
     });
-    expect(screen.getAllByTestId("slot-group")).toHaveLength(2);
     expect(screen.getAllByTestId("slot")).toHaveLength(3);
     expect(screen.getByText("Booster 1/2")).toBeInTheDocument();
+    fireEvent.click(card());
+    fireEvent.click(card());
+    expect(screen.getByText("Booster 2/2")).toBeInTheDocument();
+  });
+
+  describe("skip to the next Epic or better", () => {
+    const skip = () => screen.queryByRole("button", { name: messages.reveal.skipEpic });
+    const batch = [make(1, "common"), make(2, "rare"), make(3, "epic"), make(4, "legendary")];
+
+    it("jumps to the next Epic+ card face down, then to the next one", () => {
+      wrap({ cards: batch });
+      fireEvent.click(skip()!);
+      expect(screen.getByTestId("reveal-counter")).toHaveTextContent("3/4");
+      expect(card()).toHaveAttribute("data-flipped", "false");
+      expect(screen.getByRole("img", { name: messages.card.backAlt })).toHaveClass("back-glow-epic");
+      // the current card is the next Epic+: nothing to skip
+      expect(skip()).toBeNull();
+      fireEvent.click(card());
+      fireEvent.click(skip()!);
+      expect(screen.getByTestId("reveal-counter")).toHaveTextContent("4/4");
+      expect(skip()).toBeNull();
+    });
+
+    it("is hidden when no Epic+ card is left", () => {
+      wrap({ cards: [make(1, "common"), make(2, "rare")] });
+      expect(skip()).toBeNull();
+      expect(screen.getByRole("button", { name: messages.reveal.revealAll })).toBeInTheDocument();
+    });
+  });
+
+  it("shows a Golden chip next to the counter for a golden batch", () => {
+    wrap({ golden: true });
+    expect(screen.getByText(messages.reveal.golden)).toBeInTheDocument();
+    expect(screen.queryByText(messages.reveal.divine)).toBeNull();
+  });
+
+  it("shows a Divine chip for a divine batch", () => {
+    wrap({ divine: true });
+    expect(screen.getByText(messages.reveal.divine)).toBeInTheDocument();
+  });
+
+  it("shows no chip for a plain batch", () => {
+    wrap();
+    expect(screen.queryByText(messages.reveal.golden)).toBeNull();
+    expect(screen.queryByText(messages.reveal.divine)).toBeNull();
+  });
+
+  it("sparkles an Epic+ card's art on the flip and tints the page", () => {
+    wrap({ cards: [make(1, "epic")], animations: true });
+    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
+    fireEvent.click(card());
+    expect(screen.getByTestId("reveal-sparkle")).toBeInTheDocument();
+    expect(screen.getByTestId("reveal-tint").getAttribute("style")).toContain("var(--color-epic)");
+  });
+
+  it("no sparkle with animations off or below Epic", () => {
+    wrap({ cards: [make(1, "epic")] });
+    fireEvent.click(card());
+    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
+    // the tint stays, without motion
+    expect(screen.getByTestId("reveal-tint").getAttribute("style")).toContain("var(--color-epic)");
+    cleanup();
+    wrap({ cards: [make(1, "rare")], animations: true });
+    fireEvent.click(card());
+    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
   });
 });
