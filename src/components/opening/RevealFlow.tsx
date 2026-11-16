@@ -145,6 +145,8 @@ export function RevealFlow({
       hold = fast = undefined;
     };
     const onDown = (e: KeyboardEvent) => {
+      // taken by another handler (e.g. the pack skipping its tear sequence)
+      if (e.defaultPrevented) return;
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       const el = e.target;
       // let buttons, links and fields keep their own Space / Enter
@@ -161,7 +163,7 @@ export function RevealFlow({
       } else if (e.key === "Enter" || e.key === "ArrowRight") {
         e.preventDefault();
         if (!e.repeat) latest.current("tap");
-      } else if (e.key === "Escape" && !e.repeat && !e.defaultPrevented) {
+      } else if (e.key === "Escape" && !e.repeat) {
         latest.current("revealAll");
       }
     };

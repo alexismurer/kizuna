@@ -58,6 +58,10 @@ type CardRow = {
   series: { title: string } | { title: string }[] | null;
 };
 
+// a tap on these during the tear sequence keeps its own meaning
+const CONTROLS =
+  'button, a, input, select, textarea, header, [role="radio"], [role="switch"], [role="menuitem"], [role="dialog"], [role="alertdialog"]';
+
 const CARD_COLUMNS =
   "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title)";
 
@@ -248,6 +252,13 @@ export function OpeningScreen({
   const special = tear === "out" ? batchSpecial : null;
   const revealing = !!deck && tear !== "out" && !revealed;
 
+  // a tap anywhere on the stage skips the tear sequence (the beam reaches past the pack)
+  function skipSequence(e: React.MouseEvent) {
+    if (tear !== "out") return;
+    if (e.target instanceof Element && e.target.closest(CONTROLS)) return;
+    setTear("sealed");
+  }
+
   const closeConfirm = useCallback(() => {
     setConfirming(false);
     openRef.current?.focus();
@@ -279,7 +290,7 @@ export function OpeningScreen({
   );
 
   return (
-    <div className="relative flex min-h-dvh flex-1 flex-col overflow-x-hidden">
+    <div className="relative flex min-h-dvh flex-1 flex-col overflow-x-hidden" onClick={skipSequence}>
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0"

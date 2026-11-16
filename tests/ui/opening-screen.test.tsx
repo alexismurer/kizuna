@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { OpeningScreen, type OpeningPack } from "@/components/opening/OpeningScreen";
 import type { Status } from "@/lib/game/types";
+import { STRIP_MS, sequenceMs } from "@/lib/opening/tear";
 import messages from "../../messages/en.json";
 
 const rpc = vi.fn();
@@ -115,7 +116,21 @@ beforeEach(() => {
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  vi.useRealTimers();
 });
+
+// animations on, fake timers, open by holding; resolves once the pack is "out"
+async function tearWithTimers(before?: () => void) {
+  localStorage.setItem(KEY, JSON.stringify({ animations: true }));
+  // performance.now stays mocked for the hold
+  vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "setInterval", "clearInterval", "Date"] });
+  wrap(status({ freeStock: 2, currency: 0 }));
+  before?.();
+  hold(900);
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(0);
+  });
+}
 
 describe("OpeningScreen", () => {
   it("labels a free open with the stock left", () => {
@@ -573,68 +588,88 @@ describe("OpeningScreen", () => {
       expect(screen.getByText(messages.summary.golden)).toBeInTheDocument();
     });
 
-    it("tears a golden pack whose card back glows in the best rarity", async () => {
-      localStorage.setItem(KEY, JSON.stringify({ animations: true }));
-      wrap(status({ freeStock: 2, currency: 0 }));
-      fireEvent.click(screen.getByRole("radio", { name: "×2" }));
-      hold(900);
-      await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
+    it("tears a golden pack: plain with a white beam, then golden with the best rarity's beam", async () => {
+      await tearWithTimers(() => fireEvent.click(screen.getByRole("radio", { name: "×2" })));
+      expect(packEl()).toHaveAttribute("data-tear", "out");
       // while the strip flies off the pack is plain and the beam white
       expect(packEl()).not.toHaveAttribute("data-special");
       expect(screen.queryByText(messages.opening.golden)).toBeNull();
       expect(screen.getByTestId("pack-beam")).toHaveAttribute("data-color", "white");
-      // then it turns golden and the beam takes the best rarity
-      await waitFor(() => expect(packEl()).toHaveAttribute("data-special", "golden"));
+      // then it turns golden and the beam takes the best rarity, together
+      act(() => vi.advanceTimersByTime(STRIP_MS));
+      expect(packEl()).toHaveAttribute("data-special", "golden");
       expect(screen.getAllByText(messages.opening.golden).length).toBeGreaterThan(0);
       expect(screen.getByTestId("pack-beam")).toHaveAttribute("data-color", "legendary");
       expect(screen.getByTestId("pack-tease")).toHaveClass("back-glow-legendary");
     });
 
     it("rains gold particles during the reveal only", async () => {
-      localStorage.setItem(KEY, JSON.stringify({ animations: true }));
-      wrap(status({ freeStock: 2, currency: 0 }));
-      fireEvent.click(screen.getByRole("radio", { name: "×2" }));
-      hold(900);
-      await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
-      expect(document.querySelector("canvas")).not.toHaveAttribute("data-ambient");
-      await screen.findByTestId("reveal-flow", {}, { timeout: 3000 });
-      expect(document.querySelector("canvas")).toHaveAttribute("data-ambient", "golden");
+      await tearWithTimers(() => fireEvent.click(screen.getByRole("radio", { name: "×2" })));
+      expect(screen.getByTestId("fx-top")).not.toHaveAttribute("data-ambient");
+      act(() => vi.advanceTimersByTime(sequenceMs("golden")));
+      expect(screen.getByTestId("reveal-flow")).toBeInTheDocument();
+      expect(screen.getByTestId("fx-top")).toHaveAttribute("data-ambient", "golden");
       fireEvent.click(screen.getByRole("button", { name: messages.reveal.revealAll }));
-      expect(document.querySelector("canvas")).not.toHaveAttribute("data-ambient");
+      expect(screen.getByTestId("fx-top")).not.toHaveAttribute("data-ambient");
     });
   });
 
-  it("a plain batch has no gold particles", async () => {
-    localStorage.setItem(KEY, JSON.stringify({ animations: true }));
-    rpc.mockResolvedValue({ data: rows, error: null });
-    wrap();
-    hold(900);
-    await screen.findByTestId("reveal-flow", {}, { timeout: 3000 });
-    expect(document.querySelector("canvas")).not.toHaveAttribute("data-ambient");
-  });
+  describe("the tear sequence (fake timers)", () => {
+    beforeEach(() => rpc.mockResolvedValue({ data: rows, error: null }));
 
-  it("tapping the pack during the sequence goes straight to the reveal", async () => {
-    localStorage.setItem(KEY, JSON.stringify({ animations: true }));
-    rpc.mockResolvedValue({ data: rows, error: null });
-    wrap();
-    hold(900);
-    await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
-    fireEvent.pointerDown(packEl(), { button: 0, pointerId: 2, clientX: 50, clientY: 100 });
-    expect(screen.getByTestId("reveal-flow")).toBeInTheDocument();
-  });
+    it("a plain pack stays plain with a white beam and no gold particles", async () => {
+      await tearWithTimers();
+      act(() => vi.advanceTimersByTime(STRIP_MS + 100));
+      expect(packEl()).not.toHaveAttribute("data-special");
+      expect(screen.queryByText(messages.opening.golden)).toBeNull();
+      expect(screen.getByTestId("pack-beam")).toHaveAttribute("data-color", "white");
+      expect(screen.getByTestId("pack-tease").className).not.toMatch(/back-glow/);
+      act(() => vi.advanceTimersByTime(sequenceMs(null)));
+      expect(screen.getByTestId("reveal-flow")).toBeInTheDocument();
+      expect(screen.getByTestId("fx-top")).not.toHaveAttribute("data-ambient");
+    });
 
-  it("a plain pack is not golden and its card back does not glow below Rare", async () => {
-    localStorage.setItem(KEY, JSON.stringify({ animations: true }));
-    rpc.mockResolvedValue({ data: rows, error: null });
-    wrap();
-    hold(900);
-    await waitFor(() => expect(packEl()).toHaveAttribute("data-tear", "out"));
-    // the strip is gone: still plain, the beam stays white below Rare
-    await new Promise((r) => setTimeout(r, 700));
-    expect(packEl()).not.toHaveAttribute("data-special");
-    expect(screen.queryByText(messages.opening.golden)).toBeNull();
-    expect(screen.getByTestId("pack-beam")).toHaveAttribute("data-color", "white");
-    expect(screen.getByTestId("pack-tease").className).not.toMatch(/back-glow/);
+    // the skip lands on card 1 face down, and the sequence timer firing later changes nothing
+    const skipped = () => {
+      expect(screen.getByTestId("reveal-flow")).toBeInTheDocument();
+      expect(screen.getByTestId("reveal-card")).toHaveAttribute("data-flipped", "false");
+      act(() => vi.advanceTimersByTime(5000));
+      expect(screen.getByTestId("reveal-flow")).toBeInTheDocument();
+      expect(screen.getByTestId("reveal-card")).toHaveAttribute("data-flipped", "false");
+      expect(screen.getByTestId("reveal-counter")).toHaveTextContent("1/1");
+    };
+
+    it("a tap anywhere on the stage skips to the reveal", async () => {
+      await tearWithTimers();
+      fireEvent.click(screen.getByRole("main"));
+      skipped();
+    });
+
+    it("a tap on the pack skips to the reveal", async () => {
+      await tearWithTimers();
+      fireEvent.click(packEl());
+      skipped();
+    });
+
+    it("Enter on the pack skips to the reveal without flipping card 1", async () => {
+      await tearWithTimers();
+      fireEvent.keyDown(packEl(), { key: "Enter" });
+      fireEvent.keyUp(window, { key: "Enter" });
+      skipped();
+    });
+
+    it("Space on the pack skips to the reveal without flipping or fast-forwarding", async () => {
+      await tearWithTimers();
+      fireEvent.keyDown(packEl(), { key: " ", code: "Space" });
+      fireEvent.keyUp(window, { key: " ", code: "Space" });
+      skipped();
+    });
+
+    it("header buttons still work during the sequence", async () => {
+      await tearWithTimers();
+      fireEvent.click(screen.getByRole("button", { name: messages.opening.settings }));
+      expect(packEl()).toHaveAttribute("data-tear", "out");
+    });
   });
 
   it("with animations on, plays the sequence before the reveal", async () => {

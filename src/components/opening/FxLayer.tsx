@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { Rarity } from "@/lib/game/types";
 
 const COUNT = 48;
@@ -101,29 +101,18 @@ function shards(b: Burst): Shard[] {
   });
 }
 
-// Slowly rising motes in the pack colour (gold and denser for a golden reveal),
-// plus shards thrown out when a pack is torn or an Epic+ card flips. Not
-// rendered when animations are off; paused while the tab is hidden.
-export function FxLayer({
-  hue,
-  enabled,
-  burst = null,
-  ambient = false,
-}: {
-  hue: number;
-  enabled: boolean;
-  burst?: Burst | null;
-  // a golden reveal: warm gold motes
-  ambient?: boolean;
-}) {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const live = useRef<Shard[]>([]);
+// Draws one frame on a cleared canvas; false means nothing is left to draw and
+// the loop idles until it is woken.
+type Draw = (ctx: CanvasRenderingContext2D, w: number, h: number, dt: number, now: number) => boolean;
 
-  useEffect(() => {
-    if (!enabled || !burst) return;
-    live.current.push(...shards(burst));
-  }, [burst, enabled]);
-
+// A full-viewport canvas loop: sized to the viewport, paused while the tab is
+// hidden. Returns a ref whose function wakes an idle loop.
+function useCanvasLoop(
+  ref: React.RefObject<HTMLCanvasElement | null>,
+  enabled: boolean,
+  setup: () => Draw,
+) {
+  const wake = useRef<() => void>(() => {});
   useEffect(() => {
     if (!enabled) return;
     const canvas = ref.current;
@@ -142,80 +131,14 @@ export function FxLayer({
     };
     resize();
 
-    const gold = [token("--color-cta"), token("--color-legendary")];
-    const spawn = (anywhere: boolean): Particle => ({
-      x: Math.random() * w,
-      y: anywhere ? Math.random() * h : h + 8,
-      r: ambient ? 1 + Math.random() * 2.6 : 0.6 + Math.random() * 1.8,
-      vx: (Math.random() - 0.5) * 8,
-      vy: ambient ? 22 + Math.random() * 30 : 8 + Math.random() * 18,
-      phase: Math.random() * Math.PI * 2,
-      light: 60 + Math.random() * 30,
-      color: Math.floor(Math.random() * gold.length),
-    });
-    const parts = Array.from({ length: ambient ? GOLD_COUNT : COUNT }, () => spawn(true));
-
+    const draw = setup();
     let raf = 0;
     let last = 0;
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       ctx.clearRect(0, 0, w, h);
-      for (const p of parts) {
-        p.y -= p.vy * dt;
-        p.x += p.vx * dt + Math.sin(now / 1200 + p.phase) * 0.2;
-        if (p.y < -8) Object.assign(p, spawn(false));
-        const a = 0.2 + 0.4 * (0.5 + 0.5 * Math.sin(now / 700 + p.phase));
-        if (ambient) {
-          ctx.fillStyle = gold[p.color];
-          ctx.globalAlpha = a * 0.3;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.globalAlpha = Math.min(1, a + 0.35);
-        } else {
-          ctx.fillStyle = `hsla(${hue}, 90%, ${p.light}%, ${a.toFixed(2)})`;
-        }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
-      live.current = live.current.filter((s) => (s.age += dt) < s.life);
-      for (const s of live.current) {
-        if (s.age < 0) continue;
-        const k = Math.exp(-s.drag * dt);
-        s.vx *= k;
-        s.vy = s.vy * k + s.gravity * dt;
-        s.x += s.vx * dt;
-        s.y += s.vy * dt;
-        s.a += s.va * dt;
-        const fade = 1 - s.age / s.life;
-        ctx.save();
-        ctx.translate(s.x, s.y);
-        ctx.rotate(s.a);
-        ctx.fillStyle = s.color;
-        if (s.glow) {
-          ctx.globalCompositeOperation = "lighter";
-          ctx.globalAlpha = fade * 0.35;
-          ctx.beginPath();
-          ctx.arc(0, 0, s.size * 2.4, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.globalAlpha = fade;
-        ctx.beginPath();
-        if (s.tri) {
-          ctx.moveTo(0, -s.size);
-          ctx.lineTo(s.size * 0.87, s.size * 0.5);
-          ctx.lineTo(-s.size * 0.87, s.size * 0.5);
-          ctx.closePath();
-        } else {
-          ctx.arc(0, 0, s.size / 2, 0, Math.PI * 2);
-        }
-        ctx.fill();
-        ctx.restore();
-      }
-      raf = requestAnimationFrame(frame);
+      raf = draw(ctx, w, h, dt, now) ? requestAnimationFrame(frame) : 0;
     };
     const start = () => {
       if (raf || document.hidden) return;
@@ -228,23 +151,165 @@ export function FxLayer({
     };
     const onVisibility = () => (document.hidden ? stop() : start());
 
+    wake.current = start;
     start();
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener("resize", resize);
     return () => {
       stop();
+      wake.current = () => {};
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("resize", resize);
     };
-  }, [enabled, hue, ambient]);
+  }, [ref, enabled, setup]);
+  return wake;
+}
+
+type Spawn = (w: number, h: number, anywhere: boolean) => Particle;
+
+// rising motes, created on the first frame (once the size is known)
+function motes(count: number, spawn: Spawn) {
+  let parts: Particle[] | null = null;
+  return (w: number, h: number, dt: number, now: number, paint: (p: Particle, a: number) => void) => {
+    parts ??= Array.from({ length: count }, () => spawn(w, h, true));
+    for (const p of parts) {
+      p.y -= p.vy * dt;
+      p.x += p.vx * dt + Math.sin(now / 1200 + p.phase) * 0.2;
+      if (p.y < -8) Object.assign(p, spawn(w, h, false));
+      paint(p, 0.2 + 0.4 * (0.5 + 0.5 * Math.sin(now / 700 + p.phase)));
+    }
+  };
+}
+
+function drawShard(ctx: CanvasRenderingContext2D, s: Shard, dt: number) {
+  const k = Math.exp(-s.drag * dt);
+  s.vx *= k;
+  s.vy = s.vy * k + s.gravity * dt;
+  s.x += s.vx * dt;
+  s.y += s.vy * dt;
+  s.a += s.va * dt;
+  const fade = 1 - s.age / s.life;
+  ctx.save();
+  ctx.translate(s.x, s.y);
+  ctx.rotate(s.a);
+  ctx.fillStyle = s.color;
+  if (s.glow) {
+    ctx.globalCompositeOperation = "lighter";
+    ctx.globalAlpha = fade * 0.35;
+    ctx.beginPath();
+    ctx.arc(0, 0, s.size * 2.4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = fade;
+  ctx.beginPath();
+  if (s.tri) {
+    ctx.moveTo(0, -s.size);
+    ctx.lineTo(s.size * 0.87, s.size * 0.5);
+    ctx.lineTo(-s.size * 0.87, s.size * 0.5);
+    ctx.closePath();
+  } else {
+    ctx.arc(0, 0, s.size / 2, 0, Math.PI * 2);
+  }
+  ctx.fill();
+  ctx.restore();
+}
+
+// Two canvases. Behind the content: slowly rising motes in the pack colour,
+// always on. Above it: shards thrown out when a pack is torn or an Epic+ card
+// flips, and warm gold motes during a golden reveal; that loop idles (and the
+// canvas stays clear) when none of these is active. Not rendered when
+// animations are off.
+export function FxLayer({
+  hue,
+  enabled,
+  burst = null,
+  ambient = false,
+}: {
+  hue: number;
+  enabled: boolean;
+  burst?: Burst | null;
+  // a golden reveal: warm gold motes
+  ambient?: boolean;
+}) {
+  const backRef = useRef<HTMLCanvasElement>(null);
+  const topRef = useRef<HTMLCanvasElement>(null);
+  const live = useRef<Shard[]>([]);
+
+  const back = useCallback((): Draw => {
+    const step = motes(COUNT, (w, h, anywhere) => ({
+      x: Math.random() * w,
+      y: anywhere ? Math.random() * h : h + 8,
+      r: 0.6 + Math.random() * 1.8,
+      vx: (Math.random() - 0.5) * 8,
+      vy: 8 + Math.random() * 18,
+      phase: Math.random() * Math.PI * 2,
+      light: 60 + Math.random() * 30,
+      color: 0,
+    }));
+    return (ctx, w, h, dt, now) => {
+      step(w, h, dt, now, (p, a) => {
+        ctx.fillStyle = `hsla(${hue}, 90%, ${p.light}%, ${a.toFixed(2)})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      return true;
+    };
+  }, [hue]);
+
+  const top = useCallback((): Draw => {
+    const gold = [token("--color-cta"), token("--color-legendary")];
+    const step = motes(GOLD_COUNT, (w, h, anywhere) => ({
+      x: Math.random() * w,
+      y: anywhere ? Math.random() * h : h + 8,
+      r: 1 + Math.random() * 2.6,
+      vx: (Math.random() - 0.5) * 8,
+      vy: 22 + Math.random() * 30,
+      phase: Math.random() * Math.PI * 2,
+      light: 0,
+      color: Math.floor(Math.random() * gold.length),
+    }));
+    return (ctx, w, h, dt, now) => {
+      if (ambient) {
+        step(w, h, dt, now, (p, a) => {
+          ctx.fillStyle = gold[p.color];
+          ctx.globalAlpha = a * 0.3;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = Math.min(1, a + 0.35);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        });
+      }
+      live.current = live.current.filter((s) => (s.age += dt) < s.life);
+      for (const s of live.current) if (s.age >= 0) drawShard(ctx, s, dt);
+      return ambient || live.current.length > 0;
+    };
+  }, [ambient]);
+
+  useCanvasLoop(backRef, enabled, back);
+  const wake = useCanvasLoop(topRef, enabled, top);
+
+  useEffect(() => {
+    if (!enabled || !burst) return;
+    live.current.push(...shards(burst));
+    wake.current();
+  }, [burst, enabled, wake]);
 
   if (!enabled) return null;
   return (
-    <canvas
-      ref={ref}
-      aria-hidden
-      data-ambient={ambient ? "golden" : undefined}
-      className="pointer-events-none fixed inset-0 z-20 h-full w-full"
-    />
+    <>
+      <canvas ref={backRef} aria-hidden className="pointer-events-none fixed inset-0 h-full w-full" />
+      <canvas
+        ref={topRef}
+        aria-hidden
+        data-testid="fx-top"
+        data-ambient={ambient ? "golden" : undefined}
+        className="pointer-events-none fixed inset-0 z-20 h-full w-full"
+      />
+    </>
   );
 }

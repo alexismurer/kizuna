@@ -152,7 +152,7 @@ export function PackStage({
   disabled: boolean;
   onOpen: () => void;
   onBurst: (b: Burst) => void;
-  // a tap while the sequence plays goes straight to the reveal
+  // Enter / Space while the sequence plays goes straight to the reveal
   onSkip?: () => void;
   // the batch's golden / divine booster: shows once the strip is gone
   special?: Special | null;
@@ -223,7 +223,6 @@ export function PackStage({
   }
 
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
-    if (phase === "out") return onSkip?.();
     if (!ready || e.button !== 0 || gesture.current) return;
     primeAudio(sound);
     e.currentTarget.setPointerCapture?.(e.pointerId);
@@ -283,7 +282,11 @@ export function PackStage({
   function onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
-    if (phase === "out") return onSkip?.();
+    if (phase === "out") {
+      // handled here: the reveal that mounts must not take this key as a tap
+      e.stopPropagation();
+      return onSkip?.();
+    }
     if (!ready || gesture.current) return;
     playSfx("tear", sound);
     onOpen();
@@ -356,28 +359,32 @@ export function PackStage({
             >
               {/* white, then the best rarity's colour; below Rare it fades */}
               <div className={`absolute inset-0 transition-opacity duration-700 ${stripped && !beam ? "opacity-0" : ""}`}>
+                {/* the white beam gives way to the coloured one as the pack turns golden */}
                 <div
-                  className="absolute inset-0"
+                  className="absolute inset-0 transition-opacity duration-300"
                   style={{
                     ...beamShape,
+                    opacity: beam ? 0 : 1,
                     background:
                       "linear-gradient(to top, white, rgb(255 255 255 / 0.85) 30%, rgb(255 255 255 / 0.3) 70%, transparent)",
                   }}
                 />
                 <div
-                  className="absolute inset-0 transition-opacity duration-500"
+                  className="absolute inset-0 transition-opacity duration-300"
                   style={{
                     ...beamShape,
                     opacity: beam ? 1 : 0,
                     background: beam
-                      ? `linear-gradient(to top, color-mix(in srgb, ${COLOR[beam]} 45%, white), ${COLOR[beam]} 30%, color-mix(in srgb, ${COLOR[beam]} 40%, transparent) 70%, transparent)`
+                      ? `linear-gradient(to top, color-mix(in srgb, ${COLOR[beam]} 70%, white), ${COLOR[beam]} 25%, color-mix(in srgb, ${COLOR[beam]} 70%, transparent) 65%, transparent)`
                       : undefined,
                   }}
                 />
                 <div
                   className="absolute inset-y-0 left-1/2 w-[16%] -translate-x-1/2"
                   style={{
-                    background: "linear-gradient(to top, white, rgb(255 255 255 / 0.7) 50%, transparent)",
+                    background: beam
+                      ? `linear-gradient(to top, color-mix(in srgb, ${COLOR[beam]} 40%, white), color-mix(in srgb, ${COLOR[beam]} 60%, transparent) 50%, transparent)`
+                      : "linear-gradient(to top, white, rgb(255 255 255 / 0.7) 50%, transparent)",
                     filter: "blur(3px)",
                   }}
                 />

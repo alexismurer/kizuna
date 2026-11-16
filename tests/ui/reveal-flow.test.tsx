@@ -321,6 +321,21 @@ describe("RevealFlow", () => {
     });
   });
 
+  it("ignores a key another handler already took (the pack skipping its tear)", () => {
+    vi.useFakeTimers();
+    wrap();
+    for (const key of [" ", "Enter"]) {
+      const e = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+      e.preventDefault();
+      act(() => {
+        window.dispatchEvent(e);
+      });
+    }
+    act(() => vi.advanceTimersByTime(1000)); // no fast forward armed
+    expect(card()).toHaveAttribute("data-flipped", "false");
+    expect(screen.getByTestId("reveal-counter")).toHaveTextContent("1/2");
+  });
+
   it("glows warm behind a golden reveal only", () => {
     wrap({ golden: true });
     expect(screen.getByTestId("golden-ambient")).toBeInTheDocument();
