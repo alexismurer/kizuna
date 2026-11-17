@@ -384,3 +384,25 @@ describe("new-series scene", () => {
     expect(screen.queryByTestId("series-scene")).toBeNull();
   });
 });
+
+describe("rarity seal", () => {
+  const top = () => screen.getAllByTestId("reveal-card").at(-1)!;
+  it("stamps a seal and shows rays on a Legendary", () => {
+    wrap({ cards: [make(1, "legendary")], animations: true });
+    fireEvent.click(top());
+    expect(screen.getByTestId("rarity-seal")).toHaveTextContent("L");
+    expect(screen.getByTestId("reveal-rays")).toBeInTheDocument();
+  });
+  it("leaves an Epic without seal or rays", () => {
+    wrap({ cards: [make(1, "epic")], animations: true });
+    fireEvent.click(top());
+    expect(screen.queryByTestId("rarity-seal")).toBeNull();
+    expect(screen.queryByTestId("reveal-rays")).toBeNull();
+  });
+  it("still stamps the seal with animations off, without moving", () => {
+    wrap({ cards: [make(1, "mythic")], animations: false });
+    fireEvent.click(top());
+    expect(screen.getByTestId("rarity-seal")).toHaveTextContent("M");
+    expect(screen.getByTestId("rarity-seal").className).not.toMatch(/seal-stamp/);
+  });
+});

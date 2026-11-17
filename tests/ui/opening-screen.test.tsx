@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { OpeningScreen, type OpeningPack } from "@/components/opening/OpeningScreen";
@@ -616,6 +616,16 @@ describe("OpeningScreen", () => {
 
   describe("the tear sequence (fake timers)", () => {
     beforeEach(() => rpc.mockResolvedValue({ data: rows, error: null }));
+
+    it("hides the controls while the pack tears out, and cards rise as real card backs", async () => {
+      await tearWithTimers();
+      act(() => vi.advanceTimersByTime(STRIP_MS + 100));
+      const controls = screen.getByTestId("opening-controls");
+      expect(controls).toHaveAttribute("inert");
+      expect(controls).toHaveClass("invisible");
+      expect(within(controls).getByText(messages.opening.hint)).toBeInTheDocument();
+      expect(within(screen.getByTestId("pack-tease")).getByRole("img", { name: messages.card.backAlt, hidden: true })).toBeInTheDocument();
+    });
 
     it("a plain pack stays plain with a white beam and no gold particles", async () => {
       await tearWithTimers();

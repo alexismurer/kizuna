@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { COLOR } from "@/components/card/CardView";
 import type { Rarity } from "@/lib/game/types";
@@ -63,10 +64,11 @@ export function SeriesScene({
   }, []);
 
   const color = COLOR[rarity];
-  return (
+  // on <body>: above the opening header and the particle layer
+  return createPortal(
     <div
       data-testid="series-scene"
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-[#06060a]"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-[#06060a]"
       style={{ "--fx": color } as React.CSSProperties}
     >
       {imageUrl && (
@@ -129,6 +131,7 @@ export function SeriesScene({
       >
         {t("scene.skip")}
       </button>
-    </div>
+    </div>,
+    document.body,
   );
 }

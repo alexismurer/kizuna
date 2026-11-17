@@ -10,6 +10,7 @@ import { REVEAL_START, revealReducer, skipTarget, skipTier, type RevealAction } 
 import { sceneCards } from "@/lib/opening/scene";
 import { boosterTitle, flipFx } from "@/lib/opening/tear";
 import type { Burst } from "./FxLayer";
+import { RaritySeal } from "./RaritySeal";
 import { SeriesScene } from "./SeriesScene";
 import { SlotStrip } from "./SlotStrip";
 
@@ -33,6 +34,8 @@ const CARD_HEIGHT = "min(420px, max(240px, calc(100dvh - 380px)))";
 
 const TEASE = new Set<Rarity>(["rare", "epic", "legendary", "mythic"]);
 const SHAKE = new Set<Rarity>(["legendary", "mythic"]);
+// faces that get rays behind them and a stamped seal
+const SEALED = new Set<Rarity>(["legendary", "mythic"]);
 const CHIME = new Set<Rarity>(["rare", "epic", "legendary", "mythic"]);
 
 const CONTROLS =
@@ -320,6 +323,15 @@ export function RevealFlow({
         className="relative flex w-full flex-1 touch-none select-none items-center justify-center"
       >
         <div className="relative" style={{ height: CARD_HEIGHT, aspectRatio: "2 / 3" }}>
+          {up && SEALED.has(current.rarity) && animations && (
+            <div
+              key={`rays-${index}`}
+              aria-hidden
+              data-testid="reveal-rays"
+              className="reveal-rays pointer-events-none absolute left-1/2 top-1/2 -z-10 aspect-square w-[260%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{ "--fx": color } as React.CSSProperties}
+            />
+          )}
           {/* the rest of the stack behind the current card, thinning as it empties */}
           {[3, 2, 1].map(
             (d) =>
@@ -366,11 +378,17 @@ export function RevealFlow({
                   style={{ transform: "rotateY(180deg)" }}
                 >
                   <CardView card={current.card} size="lg" isNew={current.isNew} />
+                  {up && SEALED.has(current.rarity) && (
+                    // full-size layer: the face's *:h-full/*:w-full would otherwise stretch the seal
+                    <div className="pointer-events-none absolute inset-0">
+                      <RaritySeal rarity={current.rarity as "legendary" | "mythic"} animate={animations} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             {up && flipFx(current.rarity, animations) && (
-              <div key={index} aria-hidden style={{ "--fx": color } as React.CSSProperties}>
+              <div key={`fx-${index}`} aria-hidden style={{ "--fx": color } as React.CSSProperties}>
                 <div
                   data-testid="reveal-shockwave"
                   className="reveal-shockwave pointer-events-none absolute inset-0 rounded-xl"

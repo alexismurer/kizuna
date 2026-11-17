@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { CardBack } from "@/components/card/CardBack";
 import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { COLOR } from "@/components/card/CardView";
@@ -404,9 +405,11 @@ export function PackStage({
               <div
                 key={i}
                 data-testid={i === 2 ? "pack-tease" : undefined}
-                className={`absolute inset-0 rounded-[8px] border border-[#d9b45a]/70 bg-[#0d0d14] shadow-lg ${i === 2 && tease ? (TEASE_GLOW[tease] ?? "") : ""}`}
+                className={`absolute inset-0 overflow-hidden rounded-[8px] shadow-lg *:h-full *:w-full! ${i === 2 && tease ? (TEASE_GLOW[tease] ?? "") : ""}`}
                 style={{ transform: `rotate(${r}deg) translateY(${(i - 2) * 7}px)` }}
-              />
+              >
+                <CardBack size="sm" />
+              </div>
             ))}
           </div>
           {/* body, below the tear line */}

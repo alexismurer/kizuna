@@ -392,6 +392,13 @@ export function OpeningScreen({
               special={special}
               tease={tear === "out" ? best : null}
             />
+            {/* while the pack tears open only the pack shows: the controls keep their space */}
+            <div
+              data-testid="opening-controls"
+              inert={tear === "out"}
+              aria-hidden={tear === "out"}
+              className={`flex w-full flex-col items-center gap-3 transition-opacity duration-200 ${tear === "out" ? "invisible opacity-0" : ""}`}
+            >
             <p className="text-center text-sm text-white/60">{t("opening.hint")}</p>
             {rewards > 0 && <RewardBadge count={rewards} />}
             <QuantitySelect
@@ -430,6 +437,7 @@ export function OpeningScreen({
             >
               {t("opening.changeBooster")}
             </button>
+            </div>
           </>
         )}
       </main>
