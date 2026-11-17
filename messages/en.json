@@ -396,7 +396,16 @@
     "confirmLine": "{rarity} × {copies} · +{gain}",
     "confirmTotal": "Total +{gain}",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "title": "Recycle duplicates",
+    "chip": "×{copies} · +{gain}",
+    "recycled": "Recycled",
+    "kept": "Kept",
+    "none": "None",
+    "go": "Recycle {copies} duplicates · +{gain}",
+    "recovered": "+{gain} recovered",
+    "hint": "One copy of every card is always kept.",
+    "done": "Done"
   },
   "sheet": {
     "close": "Close",

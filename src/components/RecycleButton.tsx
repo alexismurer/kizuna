@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Recycle } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { RecycleModal } from "@/components/collection/RecycleModal";
 import { useRouter } from "@/i18n/navigation";
 import { rpcErrorKey } from "@/lib/game/errors";
-import { RECYCLE_VALUE } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 
@@ -14,40 +14,31 @@ type Props =
       mode: "all";
       estimate: number;
       breakdown: { rarity: Rarity; copies: number }[];
-      // phones: an icon button with the duplicate count as a badge
+      // an icon button with the duplicate count as a badge
       compact?: { duplicates: number };
     }
   | { mode: "one"; cardId: number; estimate: number };
 
 export function RecycleButton(props: Props) {
   const t = useTranslations("recycle");
-  const tr = useTranslations("rarity");
   const te = useTranslations();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
-  const [confirming, setConfirming] = useState(false);
+  const [open, setOpen] = useState(false);
   const [gained, setGained] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  async function run() {
-    setConfirming(false);
+  async function recycleOne(cardId: number) {
     setBusy(true);
     setError(null);
     setGained(null);
     try {
-      const supabase = createBrowserClient();
-      const { data, error: rpcError } =
-        props.mode === "all"
-          ? await supabase.rpc("recycle_all_duplicates")
-          : await supabase.rpc("recycle", {
-              p_card_id: props.cardId,
-              p_count: 1,
-            });
-      if (rpcError) {
-        setError(rpcErrorKey(rpcError.message));
-      } else {
-        setGained(data as number);
-      }
+      const { data, error: rpcError } = await createBrowserClient().rpc("recycle", {
+        p_card_id: cardId,
+        p_count: 1,
+      });
+      if (rpcError) setError(rpcErrorKey(rpcError.message));
+      else setGained(data as number);
       router.refresh();
     } catch {
       setError("errors.unknown");
@@ -56,75 +47,53 @@ export function RecycleButton(props: Props) {
     }
   }
 
-  const disabled = busy || props.estimate < 1;
+  if (props.mode === "all") {
+    const disabled = props.estimate < 1;
+    return (
+      <>
+        {props.compact ? (
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            disabled={disabled}
+            aria-haspopup="dialog"
+            aria-label={t("all", { gain: props.estimate })}
+            title={t("all", { gain: props.estimate })}
+            className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-uncommon/40 bg-panel disabled:opacity-40"
+          >
+            <Recycle className="h-5 w-5 text-uncommon" aria-hidden />
+            {props.compact.duplicates > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 min-w-5 rounded-full bg-uncommon px-1 font-mono text-[10px] font-bold leading-5 text-black">
+                {props.compact.duplicates > 99 ? "99+" : props.compact.duplicates}
+              </span>
+            )}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            disabled={disabled}
+            aria-haspopup="dialog"
+            className="rounded-lg bg-cta px-4 py-2 text-sm font-bold text-black disabled:opacity-50"
+          >
+            {t("all", { gain: props.estimate })}
+          </button>
+        )}
+        {open && <RecycleModal breakdown={props.breakdown} onClose={() => setOpen(false)} />}
+      </>
+    );
+  }
+
   return (
     <div className="flex flex-col items-start gap-1">
-      {confirming && props.mode === "all" ? (
-        <div
-          role="group"
-          aria-label={t("confirmTitle")}
-          className="flex flex-col gap-2 rounded-lg border border-border bg-panel p-3 text-sm"
-        >
-          <p className="font-bold">{t("confirmTitle")}</p>
-          <ul className="flex flex-col gap-0.5 font-mono">
-            {props.breakdown
-              .filter((b) => b.copies > 0)
-              .map((b) => (
-                <li key={b.rarity}>
-                  {t("confirmLine", {
-                    rarity: tr(b.rarity),
-                    copies: b.copies,
-                    gain: b.copies * RECYCLE_VALUE[b.rarity],
-                  })}
-                </li>
-              ))}
-          </ul>
-          <p className="font-bold text-cta">
-            {t("confirmTotal", { gain: props.estimate })}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={run}
-              className="rounded-lg bg-cta px-4 py-2 font-bold text-black"
-            >
-              {t("confirm")}
-            </button>
-            <button
-              type="button"
-              onClick={() => setConfirming(false)}
-              className="rounded-lg border border-border px-4 py-2"
-            >
-              {t("cancel")}
-            </button>
-          </div>
-        </div>
-      ) : props.mode === "all" && props.compact ? (
-        <button
-          type="button"
-          onClick={() => setConfirming(true)}
-          disabled={disabled}
-          aria-label={t("all", { gain: props.estimate })}
-          title={t("all", { gain: props.estimate })}
-          className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-panel disabled:opacity-50"
-        >
-          <Recycle className="h-5 w-5 text-cta" aria-hidden />
-          {props.compact.duplicates > 0 && (
-            <span className="absolute -right-1.5 -top-1.5 min-w-5 rounded-full bg-cta px-1 font-mono text-[10px] font-bold leading-5 text-black">
-              {props.compact.duplicates}
-            </span>
-          )}
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={props.mode === "all" ? () => setConfirming(true) : run}
-          disabled={disabled}
-          className="rounded-lg bg-cta px-4 py-2 text-sm font-bold text-black disabled:opacity-50"
-        >
-          {t(props.mode === "all" ? "all" : "one", { gain: props.estimate })}
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={() => recycleOne(props.cardId)}
+        disabled={busy || props.estimate < 1}
+        className="rounded-lg bg-cta px-4 py-2 text-sm font-bold text-black disabled:opacity-50"
+      >
+        {t("one", { gain: props.estimate })}
+      </button>
       {gained !== null && (
         <p role="status" className="text-sm text-cta">
           {t("gained", { gain: gained })}

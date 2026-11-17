@@ -8,6 +8,7 @@ import { useRouter } from "@/i18n/navigation";
 import { activeFilterCount, collectionHref, type CollectionParams } from "@/lib/game/collection";
 import { RARITIES, type Rarity } from "@/lib/game/types";
 import { FiltersPanel } from "./FiltersPanel";
+import { useDesktop } from "@/lib/useDesktop";
 
 const LETTER: Record<Rarity, string> = {
   common: "C",
@@ -18,18 +19,6 @@ const LETTER: Record<Rarity, string> = {
   mythic: "M",
 };
 
-function useDesktop() {
-  const [desktop, setDesktop] = useState(false);
-  useEffect(() => {
-    if (typeof window.matchMedia !== "function") return;
-    const mq = window.matchMedia("(min-width: 768px)");
-    const on = () => setDesktop(mq.matches);
-    on();
-    mq.addEventListener?.("change", on);
-    return () => mq.removeEventListener?.("change", on);
-  }, []);
-  return desktop;
-}
 
 // Search · rarity dots · Filters · recycle · Cards/Albums. Every change is a URL change.
 export function CollectionToolbar({

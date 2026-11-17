@@ -215,6 +215,6 @@ describe("Collection on phones", () => {
     const button = screen.getByRole("button", { name: /recycle duplicates/i });
     expect(button).toHaveTextContent("6");
     fireEvent.click(button);
-    expect(screen.getByRole("group", { name: /recycle these duplicates/i })).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "Recycle duplicates" })).toBeInTheDocument();
   });
 });
