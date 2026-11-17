@@ -381,7 +381,12 @@
     "reset": "Reset",
     "apply": "Apply",
     "viewSwitch": "Show cards or albums",
-    "count": "{count, plural, one {# card} other {# cards}}"
+    "count": "{count, plural, one {# card} other {# cards}}",
+    "showMore": "Show more · {left} left",
+    "addMissing": "Add the {count} missing to my wishlist",
+    "addedMissing": "{count, plural, one {# card} other {# cards}} added to your wishlist",
+    "missingCard": "Missing card #{number}",
+    "albumOpen": "Open the {title} album"
   },
   "recycle": {
     "all": "Recycle duplicates · ≈ +{gain}",
