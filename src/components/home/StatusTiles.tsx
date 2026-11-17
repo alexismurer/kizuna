@@ -4,17 +4,45 @@ import { useEffect, useRef } from "react";
 import { CalendarCheck, Gem, ListChecks, Package, Sparkles, Star, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
+import { STOCK_MAX } from "@/lib/game/stock";
 import type { Status } from "@/lib/game/types";
 import { formatClock, useCountdown } from "./useCountdown";
 
 // a link when href is set
-function Box({ href, className, children }: { href?: string; className: string; children: React.ReactNode }) {
+function Box({
+  href,
+  className,
+  testId,
+  full,
+  children,
+}: {
+  href?: string;
+  className: string;
+  testId?: string;
+  full?: boolean;
+  children: React.ReactNode;
+}) {
   return href ? (
-    <Link href={href} className={`${className} hover:border-common`}>
+    <Link href={href} data-testid={testId} data-full={full} className={`${className} hover:border-common`}>
       {children}
     </Link>
   ) : (
-    <div className={className}>{children}</div>
+    <div data-testid={testId} data-full={full} className={className}>
+      {children}
+    </div>
+  );
+}
+
+// a pill "Claim" link next to a chip with something waiting
+function ClaimLink({ href }: { href: string }) {
+  const t = useTranslations("home.tiles");
+  return (
+    <Link
+      href={href}
+      className="rounded-full bg-uncommon px-2.5 py-0.5 text-xs font-bold text-black hover:brightness-110"
+    >
+      {t("claim")}
+    </Link>
   );
 }
 
@@ -22,15 +50,33 @@ function Chip({
   color,
   Icon,
   href,
+  full = false,
+  testId,
+  claim,
   children,
 }: {
   color: string;
   Icon: LucideIcon;
   href?: string;
+  full?: boolean;
+  testId?: string;
+  claim?: string;
   children: React.ReactNode;
 }) {
+  const className = `flex items-center gap-2.5 rounded-full border bg-panel py-1.5 pl-2 text-sm ${claim ? "pr-1.5" : "pr-4"} ${full ? "border-accent/70" : "border-border"}`;
+  if (claim) {
+    return (
+      <div data-testid={testId} data-full={full} className={className}>
+        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md" style={{ background: color }}>
+          <Icon className="h-3.5 w-3.5" color="black" strokeWidth={2.5} />
+        </span>
+        <span className="min-w-0">{children}</span>
+        <ClaimLink href={claim} />
+      </div>
+    );
+  }
   return (
-    <Box href={href} className="flex items-center gap-2.5 rounded-full border border-border bg-panel py-1.5 pl-2 pr-4 text-sm">
+    <Box href={href} testId={testId} full={full} className={className}>
       <span
         className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md"
         style={{ background: color }}
@@ -49,15 +95,27 @@ function Tile({
   href,
   value,
   label,
+  full = false,
+  testId,
+  dot = false,
 }: {
   color: string;
   Icon: LucideIcon;
   href?: string;
   value: React.ReactNode;
   label: React.ReactNode;
+  full?: boolean;
+  testId?: string;
+  dot?: boolean;
 }) {
   return (
-    <Box href={href} className="flex min-w-0 flex-col items-center gap-1 rounded-xl border border-border bg-panel px-1 py-2 text-center">
+    <Box
+      href={href}
+      testId={testId}
+      full={full}
+      className={`relative flex min-w-0 flex-col items-center gap-1 rounded-xl border bg-panel px-1 py-2 text-center ${full ? "border-accent/70" : dot ? "border-uncommon/70" : "border-border"}`}
+    >
+      {dot && <span aria-hidden className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-uncommon" />}
       <span
         className="flex h-6 w-6 items-center justify-center rounded-md"
         style={{ background: color }}
@@ -86,17 +144,44 @@ export function StatusTiles({ status }: { status: Status }) {
 
   const num = "font-mono font-bold";
   const countdown = left !== null && left > 0;
+  const full = status.freeStock >= STOCK_MAX;
+  const rewards = status.missionsClaimable;
+  const streakClaim = !status.streakClaimedToday;
   return (
     <>
       <div className="grid grid-cols-5 gap-1.5 md:hidden">
         <Tile
           color="var(--color-uncommon)"
           Icon={Package}
-          value={`${status.freeStock}/10`}
-          label={countdown ? <span className="font-mono text-cta">{formatClock(left)}</span> : t("shortFree")}
+          testId="free-chip"
+          full={full}
+          value={`${status.freeStock}/${STOCK_MAX}`}
+          label={
+            countdown ? (
+              <span className="font-mono text-cta">{formatClock(left)}</span>
+            ) : full ? (
+              <span className="text-accent">{t("shortFull")}</span>
+            ) : (
+              t("shortFree")
+            )
+          }
         />
-        <Tile color="var(--color-rare)" Icon={ListChecks} href="/missions" value={`${status.dailyDone}/3`} label={t("shortDaily")} />
-        <Tile color="var(--color-epic)" Icon={CalendarCheck} href="/missions" value={t("streakDay", { n: status.streakDay })} label={t("shortStreak")} />
+        <Tile
+          color="var(--color-rare)"
+          Icon={ListChecks}
+          href="/missions"
+          dot={rewards > 0}
+          value={rewards > 0 ? rewards : `${status.dailyDone}/3`}
+          label={rewards > 0 ? t("claim") : t("shortDaily")}
+        />
+        <Tile
+          color="var(--color-epic)"
+          Icon={CalendarCheck}
+          href={streakClaim ? "/missions#streak" : "/missions"}
+          dot={streakClaim}
+          value={t("streakDay", { n: status.streakDay })}
+          label={t("shortStreak")}
+        />
         <Tile color="var(--color-legendary)" Icon={Star} value={status.untilGolden} label={t("shortGolden")} />
         {status.untilPity > 1 ? (
           <Tile color="var(--mythic-a)" Icon={Gem} value={status.untilPity} label={t("shortPity")} />
@@ -105,9 +190,17 @@ export function StatusTiles({ status }: { status: Status }) {
         )}
       </div>
       <div className="hidden flex-wrap gap-2 md:flex">
-        <Chip color="var(--color-uncommon)" Icon={Package}>
-          <span className={num}>{status.freeStock}/10</span>{" "}
+        <Chip color="var(--color-uncommon)" Icon={Package} testId="free-chip" full={full}>
+          <span className={`${num} ${full ? "text-accent" : ""}`}>
+            {status.freeStock}/{STOCK_MAX}
+          </span>{" "}
           <span className="text-common">{t("free")}</span>
+          {full && (
+            <span className="text-common">
+              {" · "}
+              <span>{t("stockFull")}</span>
+            </span>
+          )}
           {left !== null && left > 0 && (
             <span className="text-common">
               {" · "}
@@ -115,11 +208,22 @@ export function StatusTiles({ status }: { status: Status }) {
             </span>
           )}
         </Chip>
-        <Chip color="var(--color-rare)" Icon={ListChecks} href="/missions">
-          <span className={num}>{status.dailyDone}/3</span>{" "}
-          <span className="text-common">{t("daily")}</span>
-        </Chip>
-        <Chip color="var(--color-epic)" Icon={CalendarCheck} href="/missions">
+        {rewards > 0 ? (
+          <Chip color="var(--color-rare)" Icon={ListChecks} claim="/missions">
+            <span className="text-common">{t("toClaim", { count: rewards })}</span>
+          </Chip>
+        ) : (
+          <Chip color="var(--color-rare)" Icon={ListChecks} href="/missions">
+            <span className={num}>{status.dailyDone}/3</span>{" "}
+            <span className="text-common">{t("daily")}</span>
+          </Chip>
+        )}
+        <Chip
+          color="var(--color-epic)"
+          Icon={CalendarCheck}
+          href={streakClaim ? undefined : "/missions"}
+          claim={streakClaim ? "/missions#streak" : undefined}
+        >
           <span className="font-bold">{t("streakDay", { n: status.streakDay })}</span>{" "}
           <span className="text-common">{t("streak")}</span>
         </Chip>

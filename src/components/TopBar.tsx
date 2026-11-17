@@ -1,4 +1,4 @@
-import { Coins, ListChecks, Package, User } from "lucide-react";
+import { ListChecks, User } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
@@ -7,12 +7,13 @@ import { loadStatus } from "@/lib/supabase/boosters";
 import { createServerClient } from "@/lib/supabase/server";
 import { NotificationBell } from "./notifications/NotificationBell";
 import { SignOutButton } from "./SignOutButton";
+import { StockPopover } from "./StockPopover";
 
 export async function TopBar() {
   const t = await getTranslations();
   const status = await loadStatus();
   if (!status) return null;
-  const { freeStock, currency, missionsClaimable } = status;
+  const { missionsClaimable } = status;
   const supabase = await createServerClient();
   const [notifications, { data: claims }] = await Promise.all([loadNotifications(supabase), supabase.auth.getClaims()]);
 
@@ -51,19 +52,7 @@ export async function TopBar() {
           </span>
         ))}
       </nav>
-      <div className="ml-auto flex shrink-0 items-center gap-2 rounded-full border border-border px-3 py-1 font-mono text-sm sm:gap-3 sm:px-4 md:ml-0">
-        <span title={t("topbar.freeBoosters")} className="flex items-center gap-1">
-          <Package className="h-4 w-4 text-uncommon" aria-hidden />
-          <span className="sr-only">{t("topbar.freeBoosters")}: </span>
-          {freeStock}
-        </span>
-        <span aria-hidden className="text-border">|</span>
-        <span title={t("topbar.currency")} className="flex items-center gap-1 text-cta">
-          <Coins className="h-4 w-4" aria-hidden />
-          <span className="sr-only">{t("topbar.currency")}: </span>
-          {currency}
-        </span>
-      </div>
+      <StockPopover status={status} />
       <Link
         href="/missions"
         className="relative flex h-8 w-8 shrink-0 items-center justify-center gap-2 rounded-full border border-border text-sm hover:text-accent md:w-auto md:px-3"

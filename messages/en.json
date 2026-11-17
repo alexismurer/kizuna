@@ -30,7 +30,11 @@
       "streakDay": "Day {n}",
       "streak": "login streak",
       "shortDaily": "missions",
-      "shortStreak": "streak"
+      "shortStreak": "streak",
+      "claim": "Claim",
+      "toClaim": "{count, plural, one {# reward} other {# rewards}} to claim",
+      "stockFull": "stock full",
+      "shortFull": "full"
     },
     "tabs": {
       "free": "Free",
@@ -99,7 +103,20 @@
     "signOut": "Sign out",
     "notifications": "Notifications",
     "missionsClaimable": "{count, plural, one {# reward} other {# rewards}} to claim",
-    "unread": "{count} unread"
+    "unread": "{count} unread",
+    "stock": {
+      "title": "Free boosters",
+      "next": "+1 in {time} · 1 every {minutes} min",
+      "full": "Stock full · 1 every {minutes} min",
+      "base": "Base stock",
+      "baseHint": "1 every {minutes} min",
+      "yours": "Your stock",
+      "bonus": "Bonus boosters",
+      "bonusHint": "earned, they don’t refill",
+      "currency": "Currency",
+      "open": "Open a booster",
+      "button": "{free} free boosters, {bonus} bonus, {currency} currency"
+    }
   },
   "rarity": {
     "common": "Common",
