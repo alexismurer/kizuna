@@ -238,6 +238,8 @@
   },
   "summary": {
     "newCards": "{count, plural, =0 {No new cards} one {# new card} other {# new cards}}",
+    "batch": "{boosters} boosters · {cards} cards",
+    "newAndDupes": "{fresh, plural, =0 {No new cards} one {# new card} other {# new cards}}, {dupes, plural, one {# duplicate} other {# duplicates}} (+{gain} if recycled)",
     "best": "Best card",
     "openAgain": "Open another · {price}",
     "free": "Free",

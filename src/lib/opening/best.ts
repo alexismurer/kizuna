@@ -1,3 +1,4 @@
+import { RECYCLE_VALUE } from "@/lib/game/recycle";
 import { RARITIES, type Rarity } from "@/lib/game/types";
 
 // The server flags every copy of a card the player didn't own before; within
@@ -53,4 +54,18 @@ export function revealOrder<
 // The highest rarity of a batch, null for none.
 export function bestRarity(rarities: Rarity[]): Rarity | null {
   return rarities.reduce<Rarity | null>((m, r) => (m === null || RANK[r] > RANK[m] ? r : m), null);
+}
+
+// New cards vs duplicates of a pull, and what the duplicates give when recycled.
+export function dupeStats(cards: { isNew: boolean; rarity: Rarity }[]): {
+  fresh: number;
+  dupes: number;
+  recycleGain: number;
+} {
+  const dupes = cards.filter((c) => !c.isNew);
+  return {
+    fresh: cards.length - dupes.length,
+    dupes: dupes.length,
+    recycleGain: dupes.reduce((s, c) => s + RECYCLE_VALUE[c.rarity], 0),
+  };
 }

@@ -7,7 +7,7 @@ import { CardInspector } from "@/components/card/CardInspector";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import type { CardSize } from "@/components/card/CardBack";
 import { Link } from "@/i18n/navigation";
-import { bestCard, compareCards } from "@/lib/opening/best";
+import { bestCard, compareCards, dupeStats } from "@/lib/opening/best";
 import { QuantitySelect } from "./QuantitySelect";
 import type { RevealCard } from "./RevealFlow";
 
@@ -105,7 +105,7 @@ export function Summary({
     return () => clearTimeout(id);
   }, [toast]);
 
-  const fresh = cards.filter((c) => c.isNew).length;
+  const { fresh, dupes, recycleGain } = dupeStats(cards);
   const multi = packCount > 1;
   const best = bestCard(cards.map((c) => ({ rarity: c.rarity, number: c.card.number })));
 
@@ -233,8 +233,15 @@ export function Summary({
             )}
           </div>
         )}
+        {multi && (
+          <p className="text-xs font-semibold text-white/60">
+            {t("batch", { boosters: packCount, cards: cards.length })}
+          </p>
+        )}
         <p className="rounded-full border border-white/15 bg-black/40 px-3 py-0.5 text-xs font-semibold text-white/80">
-          {t("newCards", { count: fresh })}
+          {dupes > 0
+            ? t("newAndDupes", { fresh, dupes, gain: recycleGain })
+            : t("newCards", { count: fresh })}
         </p>
 
         {multi ? (
