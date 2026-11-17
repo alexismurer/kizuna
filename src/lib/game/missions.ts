@@ -58,3 +58,38 @@ export function filterAchievements(items: MissionItem[], filter: AchievementFilt
     .filter((i) => (filter === "all" ? true : filter === "earned" ? i.claimed : !i.claimed))
     .sort((a, b) => rank(a) - rank(b) || ratio(b) - ratio(a));
 }
+
+// Claimable mission keys: first steps, daily, weekly, then achievements.
+export function claimableKeys(d: MissionsData): string[] {
+  return [d.first, d.daily, d.weekly, d.achievements]
+    .flatMap((list) => list ?? [])
+    .filter((i) => itemState(i) === "claimable")
+    .map((i) => i.key);
+}
+
+export type ClaimAnswer = { currency?: number; granted?: { pack: string; count: number } | null } | null;
+
+// Claims one key after the other; a failed or empty answer is counted and the rest still run.
+export async function claimAll(
+  keys: string[],
+  rewardOf: (key: string) => number,
+  claim: (key: string) => Promise<ClaimAnswer>,
+): Promise<{ claimed: number; failed: number; reward: number; boosters: number }> {
+  const r = { claimed: 0, failed: 0, reward: 0, boosters: 0 };
+  for (const key of keys) {
+    let answer: ClaimAnswer = null;
+    try {
+      answer = await claim(key);
+    } catch {
+      answer = null;
+    }
+    if (!answer) {
+      r.failed += 1;
+      continue;
+    }
+    r.claimed += 1;
+    r.reward += rewardOf(key);
+    r.boosters += answer.granted?.count ?? 0;
+  }
+  return r;
+}

@@ -616,7 +616,9 @@
         "name": "Dealmaker",
         "desc": "Complete 25 trades"
       }
-    }
+    },
+    "claimAll": "Claim all · {count}",
+    "sections": "Mission sections"
   },
   "loginReward": {
     "toast": "Day {day} login · +{reward, number}",
@@ -837,5 +839,10 @@
     "page": "See the card page",
     "close": "Close",
     "flip": "Flip the card"
+  },
+  "rewardToast": {
+    "reward": "+{reward}",
+    "withBoosters": "+{reward} · +{boosters, plural, one {# bonus booster} other {# bonus boosters}}",
+    "failed": "{count, plural, one {# reward} other {# rewards}} could not be claimed"
   }
 }

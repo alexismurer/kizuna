@@ -214,3 +214,40 @@ describe("MissionsContent", () => {
     expect(screen.getByRole("alert")).toHaveTextContent(messages.missions.loadError);
   });
 });
+
+describe("Claim all", () => {
+  it("shows the count and claims every claimable key", async () => {
+    serverRpc.mockResolvedValue({ data, error: null });
+    rpc.mockReset();
+    rpc.mockResolvedValue({ data: { currency: 500, granted: null }, error: null });
+    wrap(await MissionsContent());
+    const button = screen.getByRole("button", { name: "Claim all · 3" });
+    fireEvent.click(button);
+    await vi.waitFor(() => expect(rpc).toHaveBeenCalledTimes(3));
+    expect(rpc.mock.calls.map((c) => c[1])).toEqual([
+      { p_key: "first_wishlist" },
+      { p_key: "daily_pages" },
+      { p_key: "ach_own_50" },
+    ]);
+    expect(await screen.findByRole("status")).toHaveTextContent("+60");
+  });
+
+  it("is hidden with nothing to claim", async () => {
+    serverRpc.mockResolvedValue({ data: { ...data, claimable: 0 }, error: null });
+    wrap(await MissionsContent());
+    expect(screen.queryByRole("button", { name: /Claim all/ })).toBeNull();
+  });
+});
+
+describe("Missions on phones", () => {
+  it("shows one section at a time, switched by the chips", async () => {
+    serverRpc.mockResolvedValue({ data, error: null });
+    wrap(await MissionsContent());
+    // first section with something to claim
+    expect(screen.getByTestId("section-first")).toHaveAttribute("data-active", "true");
+    expect(screen.getByTestId("section-weekly")).toHaveAttribute("data-active", "false");
+    fireEvent.click(screen.getByRole("tab", { name: /Weekly/ }));
+    expect(screen.getByTestId("section-weekly")).toHaveAttribute("data-active", "true");
+    expect(screen.getByTestId("section-first")).toHaveAttribute("data-active", "false");
+  });
+});
