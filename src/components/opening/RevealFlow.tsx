@@ -6,7 +6,7 @@ import { CardBack } from "@/components/card/CardBack";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import { playSfx, type Sfx } from "@/lib/fx/sound";
 import type { Rarity } from "@/lib/game/types";
-import { REVEAL_START, revealReducer, skipTarget, type RevealAction } from "@/lib/opening/reveal";
+import { REVEAL_START, revealReducer, skipTarget, skipTier, type RevealAction } from "@/lib/opening/reveal";
 import { boosterTitle, flipFx } from "@/lib/opening/tear";
 import type { Burst } from "./FxLayer";
 import { SlotStrip } from "./SlotStrip";
@@ -212,10 +212,9 @@ export function RevealFlow({
   const color = COLOR[current.rarity];
   const left = total - index - 1;
   const ease = animations ? "transform 0.55s cubic-bezier(.2,.7,.2,1)" : "none";
-  const skip = skipTarget(
-    cards.map((c) => c.rarity),
-    state,
-  );
+  const rarities = cards.map((c) => c.rarity);
+  const skip = skipTarget(rarities, state);
+  const tier = skipTier(rarities, state);
   const chip = "rounded-full px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-black";
 
   return (
@@ -393,7 +392,7 @@ export function RevealFlow({
             onClick={() => move({ type: "jump", index: skip })}
             className="rounded-full border border-white/25 px-5 py-2 text-sm font-semibold hover:bg-white/10"
           >
-            {t("reveal.skipEpic")}
+            {tier && t(`reveal.skipTo.${tier}`)}
           </button>
         )}
         <span className="hidden text-xs text-white/50 [@media(pointer:fine)]:inline">

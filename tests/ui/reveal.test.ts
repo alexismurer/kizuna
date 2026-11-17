@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { bestCard, bestRarity, newFlags, revealOrder } from "@/lib/opening/best";
-import { revealReducer, skipTarget, type RevealState } from "@/lib/opening/reveal";
+import { revealReducer, skipTarget, skipTier, type RevealState } from "@/lib/opening/reveal";
 import type { Rarity } from "@/lib/game/types";
 
 describe("revealOrder", () => {
@@ -152,5 +152,17 @@ describe("revealReducer", () => {
   it("ignores actions once done", () => {
     const s = { index: 2, flipped: true, done: true };
     expect(revealReducer(s, { type: "tap" }, 3)).toBe(s);
+  });
+});
+
+describe("skipTier", () => {
+  const at = (index: number, flipped: boolean): RevealState => ({ index, flipped, done: false });
+  it("names the rarity of the card it skips to", () => {
+    expect(skipTier(["common", "common", "epic", "legendary"], at(0, false))).toBe("epic");
+    expect(skipTier(["common", "common", "epic", "legendary"], at(2, true))).toBe("legendary");
+    expect(skipTier(["common", "mythic"], at(0, false))).toBe("mythic");
+  });
+  it("is null with nothing to skip to", () => {
+    expect(skipTier(["common", "rare"], at(0, false))).toBeNull();
   });
 });

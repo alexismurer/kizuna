@@ -189,11 +189,15 @@
     "counter": "Card {n} of {total}",
     "flip": "Flip the card",
     "strip": "Revealed cards",
-    "skipEpic": "Skip to the next Epic or better",
     "golden": "Golden",
     "divine": "Divine",
     "goldenBooster": "Golden booster",
-    "divineBooster": "Divine booster"
+    "divineBooster": "Divine booster",
+    "skipTo": {
+      "epic": "Skip to the next Epic or better",
+      "legendary": "Skip to the next Legendary or better",
+      "mythic": "Skip to the next Mythic"
+    }
   },
   "opening": {
     "back": "Boosters",

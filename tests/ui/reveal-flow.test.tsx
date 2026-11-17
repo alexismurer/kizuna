@@ -221,11 +221,12 @@ describe("RevealFlow", () => {
   });
 
   describe("skip to the next Epic or better", () => {
-    const skip = () => screen.queryByRole("button", { name: messages.reveal.skipEpic });
+    const skip = () => screen.queryByRole("button", { name: /^Skip to the next/ });
     const batch = [make(1, "common"), make(2, "rare"), make(3, "epic"), make(4, "legendary")];
 
     it("jumps to the next Epic+ card face down, then to the next one", () => {
       wrap({ cards: batch });
+      expect(skip()).toHaveTextContent("Skip to the next Epic or better");
       fireEvent.click(skip()!);
       expect(screen.getByTestId("reveal-counter")).toHaveTextContent("3/4");
       expect(card()).toHaveAttribute("data-flipped", "false");
@@ -233,6 +234,8 @@ describe("RevealFlow", () => {
       // the current card is the next Epic+: nothing to skip
       expect(skip()).toBeNull();
       fireEvent.click(card());
+      // only a Legendary is left ahead: the label names it
+      expect(skip()).toHaveTextContent("Skip to the next Legendary or better");
       fireEvent.click(skip()!);
       expect(screen.getByTestId("reveal-counter")).toHaveTextContent("4/4");
       expect(skip()).toBeNull();
