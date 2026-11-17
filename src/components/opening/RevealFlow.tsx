@@ -1,21 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { CardBack } from "@/components/card/CardBack";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import { playSfx, type Sfx } from "@/lib/fx/sound";
 import type { Rarity } from "@/lib/game/types";
 import { REVEAL_START, revealReducer, skipTarget, skipTier, type RevealAction } from "@/lib/opening/reveal";
+import { sceneCards } from "@/lib/opening/scene";
 import { boosterTitle, flipFx } from "@/lib/opening/tear";
 import type { Burst } from "./FxLayer";
+import { SeriesScene } from "./SeriesScene";
 import { SlotStrip } from "./SlotStrip";
 
 export type RevealCard = {
-  card: CardFace & { id?: number };
+  card: CardFace & { id?: number; seriesId?: number };
   rarity: Rarity;
   isNew: boolean;
   packIndex: number;
+  // the player owned no card of this series before the batch
+  newSeries?: boolean;
+  seriesCover?: string | null;
 };
 
 const HOLD_MS = 300; // Space held this long starts fast forward
@@ -64,6 +69,11 @@ export function RevealFlow({
   // GOLDEN / DIVINE BOOSTER over the first card for a moment
   const [title, setTitle] = useState(() => boosterTitle(golden, divine, animations));
 
+  // cards that open with the series scene, and those whose scene already played
+  const scenes = useMemo(() => sceneCards(cards), [cards]);
+  const played = useRef(new Set<number>());
+  const [scene, setScene] = useState<number | null>(null);
+
   const total = cards.length;
   const current = cards[state.index];
 
@@ -98,6 +108,19 @@ export function RevealFlow({
 
   function move(action: RevealAction) {
     const prev = stateRef.current;
+    // a manual flip of the first Epic+ card of a new series plays its scene first; the flip follows
+    if (
+      action.type === "tap" &&
+      animations &&
+      !prev.done &&
+      !prev.flipped &&
+      scenes.has(prev.index) &&
+      !played.current.has(prev.index)
+    ) {
+      played.current.add(prev.index);
+      setScene(prev.index);
+      return;
+    }
     const next = revealReducer(prev, action, total);
     if (next === prev) return;
     stateRef.current = next;
@@ -207,6 +230,7 @@ export function RevealFlow({
   }
 
   if (!current) return null;
+  const sceneCard = scene === null ? null : cards[scene];
   const { flipped: up, index } = state;
   const tint = up && current.rarity !== "common" ? COLOR[current.rarity] : null;
   const color = COLOR[current.rarity];
@@ -222,6 +246,20 @@ export function RevealFlow({
       data-testid="reveal-flow"
       className={`flex w-full flex-1 flex-col items-center gap-3 ${animations ? "" : "fx-still"}`}
     >
+      {sceneCard && (
+        <SeriesScene
+          rarity={sceneCard.rarity}
+          seriesTitle={sceneCard.card.seriesTitle}
+          coverUrl={sceneCard.seriesCover ?? null}
+          imageUrl={sceneCard.card.imageUrl}
+          number={sceneCard.card.number}
+          total={sceneCard.card.total}
+          onDone={() => {
+            setScene(null);
+            move({ type: "tap" });
+          }}
+        />
+      )}
       {golden && (
         <div
           aria-hidden

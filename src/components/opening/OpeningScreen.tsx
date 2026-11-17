@@ -33,6 +33,8 @@ export type OpenedCard = {
   isNew: boolean;
   packIndex: number;
   slot: number;
+  newSeries: boolean;
+  seriesCover: string | null;
 };
 
 type OpenRow = {
@@ -44,6 +46,8 @@ type OpenRow = {
   // this booster's slot-5 floor was raised (10th booster / golden_next), or it rolled divine
   golden?: boolean;
   divine?: boolean;
+  // the player owned no card of this series before the batch
+  new_series?: boolean;
 };
 type CardRow = {
   id: number;
@@ -55,7 +59,7 @@ type CardRow = {
   rarity: Rarity;
   pow: number;
   aura: number;
-  series: { title: string } | { title: string }[] | null;
+  series: { title: string; cover_url: string | null } | { title: string; cover_url: string | null }[] | null;
 };
 
 // a tap on these during the tear sequence keeps its own meaning
@@ -63,7 +67,7 @@ const CONTROLS =
   'button, a, input, select, textarea, header, [role="radio"], [role="switch"], [role="menuitem"], [role="dialog"], [role="alertdialog"]';
 
 const CARD_COLUMNS =
-  "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title)";
+  "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title, cover_url)";
 
 export function OpeningScreen({
   pack,
@@ -196,6 +200,8 @@ export function OpeningScreen({
             return {
               rarity: r.rarity,
               isNew: fresh[i],
+              newSeries: r.new_series ?? false,
+              seriesCover: s?.cover_url ?? null,
               packIndex: r.pack_index,
               slot: r.slot,
               card: {

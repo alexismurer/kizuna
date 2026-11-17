@@ -865,5 +865,12 @@
     "reward": "+{reward}",
     "withBoosters": "+{reward} · +{boosters, plural, one {# bonus booster} other {# bonus boosters}}",
     "failed": "{count, plural, one {# reward} other {# rewards}} could not be claimed"
+  },
+  "scene": {
+    "series": "Series",
+    "popularity": "Popularity",
+    "top": "Top {pct}%",
+    "rank": "#{rank}",
+    "skip": "Skip ›"
   }
 }

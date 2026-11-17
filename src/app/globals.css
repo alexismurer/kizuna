@@ -257,3 +257,24 @@ body {
   -webkit-mask-image: radial-gradient(circle, black 18%, transparent 68%);
   animation: inspector-rays-spin 40s linear infinite;
 }
+
+/* new-series scene: the rarity word spreads in, the art behind fades up, each line slides in */
+@keyframes scene-word {
+  from { opacity: 0; letter-spacing: 1.4em; }
+  to { opacity: 1; letter-spacing: 0.6em; }
+}
+@keyframes scene-backdrop {
+  to { opacity: 0.35; }
+}
+@keyframes scene-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes scene-glow {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+.scene-word { animation: scene-word 0.8s cubic-bezier(.2,.7,.2,1) both; }
+.scene-backdrop { filter: blur(26px) brightness(0.55); animation: scene-backdrop 0.9s ease-out 0.4s forwards; }
+.scene-in { animation: scene-in 0.45s cubic-bezier(.2,.7,.2,1) both; }
+.scene-glow { animation: scene-glow 2.4s ease-in-out infinite; }

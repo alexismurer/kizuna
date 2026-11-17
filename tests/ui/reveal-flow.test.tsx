@@ -347,3 +347,40 @@ describe("RevealFlow", () => {
     expect(screen.queryByTestId("golden-ambient")).toBeNull();
   });
 });
+
+describe("new-series scene", () => {
+  const scenic = (id: number, rarity: Rarity, seriesId: number, newSeries: boolean): RevealCard => {
+    const c = make(id, rarity);
+    return { ...c, newSeries, seriesCover: null, card: { ...c.card, seriesId, seriesTitle: `Series ${seriesId}` } };
+  };
+
+  // with animations on the previous card lingers while it leaves: act on the top one
+  const top = () => screen.getAllByTestId("reveal-card").at(-1)!;
+
+  it("plays before the face of the first Epic+ card of a new series", () => {
+    wrap({ cards: [scenic(1, "common", 7, true), scenic(2, "epic", 7, true), scenic(3, "legendary", 7, true)], animations: true });
+    fireEvent.click(top());
+    fireEvent.click(top());
+    fireEvent.click(top());
+    expect(screen.getByTestId("series-scene")).toBeInTheDocument();
+    expect(top()).toHaveAttribute("data-flipped", "false");
+    fireEvent.click(screen.getByRole("button", { name: messages.scene.skip }));
+    expect(screen.queryByTestId("series-scene")).toBeNull();
+    expect(top()).toHaveAttribute("data-flipped", "true");
+    // the next card of the same series flips straight away
+    fireEvent.click(top());
+    fireEvent.click(top());
+    expect(screen.queryByTestId("series-scene")).toBeNull();
+    expect(top()).toHaveAttribute("data-flipped", "true");
+  });
+
+  it("does not play with animations off or for an owned series", () => {
+    wrap({ cards: [scenic(1, "epic", 7, true)], animations: false });
+    fireEvent.click(top());
+    expect(screen.queryByTestId("series-scene")).toBeNull();
+    cleanup();
+    wrap({ cards: [scenic(1, "epic", 7, false)], animations: true });
+    fireEvent.click(top());
+    expect(screen.queryByTestId("series-scene")).toBeNull();
+  });
+});
