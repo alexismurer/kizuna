@@ -209,6 +209,8 @@
     "animationsHint": "Off: instant flips, no particles or shake",
     "warnPaid": "Warn me before a paid booster",
     "hint": "Slide along the top to tear — or press and hold",
+    "hintDaily": "Pull the cord up — or press and hold",
+    "dailyPack": "Daily pack",
     "openBooster": "Open booster",
     "cards": "{count, plural, one {# card} other {# cards}}",
     "quantity": "How many boosters",

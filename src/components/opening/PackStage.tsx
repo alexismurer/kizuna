@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CardBack } from "@/components/card/CardBack";
-import { Package } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { CalendarDays, Package } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
 import { COLOR } from "@/components/card/CardView";
 import { EMBLEM } from "@/components/PackArt";
 import { playSfx, primeAudio } from "@/lib/fx/sound";
 import type { Rarity } from "@/lib/game/types";
-import { TEAR_BAND, createHoldTracker, createTearTracker } from "@/lib/opening/gesture";
+import { CORD_TRAVEL, TEAR_BAND, cordProgress, createHoldTracker, createTearTracker } from "@/lib/opening/gesture";
 import { STRIP_MS, beamRarity, packVariant, type Special } from "@/lib/opening/tear";
 import type { Burst } from "./FxLayer";
 
@@ -41,7 +41,96 @@ const SPECIAL_GLOW: Record<Special, string> = {
 
 type Gesture =
   | { mode: "tear"; id: number; tracker: ReturnType<typeof createTearTracker>; x0: number; left: number }
-  | { mode: "hold"; id: number; tracker: ReturnType<typeof createHoldTracker>; x0: number; y0: number };
+  | { mode: "hold"; id: number; tracker: ReturnType<typeof createHoldTracker>; x0: number; y0: number }
+  | { mode: "cord"; id: number; y0: number; travel: number; progress: number };
+
+// The daily pack: a fabric pouch with a date tag, closed by a cord on top.
+function PouchFace({ name, hue, cards, hold }: { name: string; hue: number; cards: number; hold: number }) {
+  const t = useTranslations("opening");
+  const format = useFormatter();
+  const today = new Date();
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden rounded-[10px] border border-white/25"
+      style={{
+        background: `linear-gradient(160deg, hsl(${hue} 70% 52%), hsl(${hue} 65% 34%))`,
+        boxShadow: "inset 0 1px 0 rgb(255 255 255 / 0.35), inset 0 -18px 30px -12px rgb(0 0 0 / 0.45)",
+      }}
+    >
+      {/* woven lattice */}
+      <div
+        className="absolute inset-0 opacity-30"
+        style={{
+          background:
+            "repeating-linear-gradient(60deg, transparent 0 9px, rgb(255 255 255 / 0.35) 9px 10px), repeating-linear-gradient(-60deg, transparent 0 9px, rgb(255 255 255 / 0.35) 9px 10px)",
+        }}
+      />
+      {/* the gathered top above the tie line */}
+      <div
+        className="absolute inset-x-0 top-0 h-[18%]"
+        style={{ background: `linear-gradient(to bottom, hsl(${hue} 60% 62% / 0.6), transparent)` }}
+      />
+      <div className="absolute inset-x-0 top-[18%] h-[1.5%] bg-[#f4ead2]/80" />
+      {/* the paper label */}
+      <div className="absolute inset-x-[13%] bottom-[5%] top-[23%] flex flex-col items-center rounded-[6px] border-2 border-black/15 bg-[#f4ead2] px-[4cqw] pt-[5cqw] text-[#1c1a24] shadow-inner">
+        <div
+          data-testid="pouch-date"
+          className="flex w-[30cqw] flex-col items-center overflow-hidden rounded-[4px] bg-white shadow"
+        >
+          <span className="h-[2.5cqw] w-full bg-[#e5533d]" />
+          <span suppressHydrationWarning className="font-display text-[11cqw] font-bold leading-none">
+            {format.dateTime(today, { day: "numeric" })}
+          </span>
+          <span suppressHydrationWarning className="pb-[1cqw] font-mono text-[4.5cqw] leading-none text-black/60">
+            {format.dateTime(today, { month: "short" })}
+          </span>
+        </div>
+        <div className="relative mt-[6cqw] flex h-[22cqw] w-[22cqw] items-center justify-center">
+          <CalendarDays className="h-[17cqw] w-[17cqw]" style={{ color: `hsl(${hue} 60% 32%)` }} strokeWidth={1.75} />
+          {hold > 0 && (
+            <svg viewBox="0 0 100 100" className="absolute -inset-[3cqw] -rotate-90">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="rgb(0 0 0 / 0.12)" strokeWidth="5" />
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="none"
+                stroke={`hsl(${hue} 60% 32%)`}
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeDasharray={RING}
+                strokeDashoffset={RING * (1 - hold)}
+              />
+            </svg>
+          )}
+        </div>
+        <span className="mt-[3cqw] text-[4.5cqw] text-black/60">{t("dailyPack")}</span>
+        <span className="text-center font-display text-[8cqw] font-bold leading-tight">{name}</span>
+        <span className="mt-auto pb-[3cqw] font-mono text-[4.5cqw] text-black/55">{t("cards", { count: cards })}</span>
+      </div>
+    </div>
+  );
+}
+
+// Two loops and a knot over the pouch's top edge; lifted by the pull.
+function Cord({ lift }: { lift: number }) {
+  return (
+    <svg
+      aria-hidden
+      data-testid="pack-cord"
+      viewBox="0 0 80 44"
+      className="absolute left-1/2 top-0 w-[30%] cursor-grab"
+      style={{ transform: `translate(-50%, calc(-78% - ${lift}px))` }}
+    >
+      <g fill="none" stroke="#e5533d" strokeWidth="5" strokeLinecap="round">
+        <ellipse cx="24" cy="18" rx="17" ry="12" transform="rotate(-12 24 18)" />
+        <ellipse cx="56" cy="18" rx="17" ry="12" transform="rotate(12 56 18)" />
+        <path d="M40 30 L40 44" />
+      </g>
+      <circle cx="40" cy="30" r="6" fill="#c63f2b" stroke="#f4ead2" strokeWidth="1.5" />
+    </svg>
+  );
+}
 
 function PackFace({ name, hue, animations, Icon, hold, special }: {
   name: string;
@@ -141,6 +230,7 @@ export function PackStage({
   onSkip,
   special = null,
   tease = null,
+  variant: shape = "tear",
 }: {
   packId: string;
   name: string;
@@ -159,7 +249,10 @@ export function PackStage({
   special?: Special | null;
   // the best rarity of the batch, once opened
   tease?: Rarity | null;
+  // "cord": the daily pouch, opened by pulling its cord up
+  variant?: "tear" | "cord";
 }) {
+  const pouch = shape === "cord";
   const t = useTranslations("opening");
   const tiltRef = useRef<HTMLDivElement>(null);
   const gesture = useRef<Gesture | null>(null);
@@ -190,8 +283,13 @@ export function PackStage({
   useEffect(() => {
     if (phase !== "out" || !animations || !tiltRef.current) return;
     const r = tiltRef.current.getBoundingClientRect();
-    onBurst({ x: r.left, y: r.top + r.height * TEAR_BAND, w: r.width, id: Date.now(), kind: "tear" });
-  }, [phase, animations, onBurst]);
+    // the pouch sparkles where the cord came undone
+    onBurst(
+      pouch
+        ? { x: r.left, y: r.top, w: r.width, id: Date.now(), kind: "flip", tone: "legendary" }
+        : { x: r.left, y: r.top + r.height * TEAR_BAND, w: r.width, id: Date.now(), kind: "tear" },
+    );
+  }, [phase, animations, onBurst, pouch]);
 
   useEffect(() => {
     if (phase !== "out" || !animations) return;
@@ -230,6 +328,12 @@ export function PackStage({
     resetTilt();
     const r = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - r.left;
+    // the cord sits above the pouch, so anything above the tie line counts
+    if (pouch && e.clientY - r.top < r.height * TEAR_BAND) {
+      gesture.current = { mode: "cord", id: e.pointerId, y0: e.clientY, travel: r.height * CORD_TRAVEL, progress: 0 };
+      setDrag((d) => ({ ...d, dir: 1, active: true }));
+      return;
+    }
     const tear = createTearTracker(r.width);
     if (tear.start(x, e.clientY - r.top, r.height * TEAR_BAND)) {
       gesture.current = { mode: "tear", id: e.pointerId, tracker: tear, x0: x, left: r.left };
@@ -259,6 +363,12 @@ export function PackStage({
       if (Math.hypot(e.clientX - g.x0, e.clientY - g.y0) > HOLD_SLOP) finish();
       return;
     }
+    if (g.mode === "cord") {
+      g.progress = cordProgress(g.y0, e.clientY, g.travel);
+      if (g.progress >= 1) return complete();
+      setDrag({ progress: g.progress, dir: 1, active: true });
+      return;
+    }
     const x = e.clientX - g.left;
     const progress = g.tracker.move(x);
     if (progress >= 1) return complete();
@@ -269,9 +379,11 @@ export function PackStage({
     const g = gesture.current;
     if (!g || e.pointerId !== g.id) return;
     const done =
-      g.mode === "tear"
-        ? g.tracker.end() === "torn"
-        : g.tracker.end(performance.now()) === "held";
+      g.mode === "cord"
+        ? g.progress >= 1
+        : g.mode === "tear"
+          ? g.tracker.end() === "torn"
+          : g.tracker.end(performance.now()) === "held";
     if (done) complete();
     else finish();
   }
@@ -298,11 +410,17 @@ export function PackStage({
   const dir = drag.dir;
   const flying = phase === "out" && animations;
   const stripStyle: React.CSSProperties = {
-    clipPath: "inset(0 0 82% 0)",
+    // the pouch's cord hangs above the top edge
+    clipPath: pouch ? "inset(-40% -20% 82% -20%)" : "inset(0 0 82% 0)",
     transformOrigin: dir > 0 ? "100% 18%" : "0% 18%",
-    transform: flying
-      ? `translate(${dir * 300}px, -360px) rotate(${dir * 80}deg)`
-      : `translate(${dir * p * 6}px, ${-p * 12}px) rotate(${dir * p * 9}deg)`,
+    // the pouch's gathered top lifts straight up with its cord
+    transform: pouch
+      ? flying
+        ? "translateY(-120px) scale(0.9)"
+        : `translateY(${-p * 14}px)`
+      : flying
+        ? `translate(${dir * 300}px, -360px) rotate(${dir * 80}deg)`
+        : `translate(${dir * p * 6}px, ${-p * 12}px) rotate(${dir * p * 9}deg)`,
     opacity: flying ? 0 : 1,
     transition: drag.active
       ? "none"
@@ -314,6 +432,11 @@ export function PackStage({
   };
   const variant = packVariant(special, stripped);
   const beam = beamRarity(tease, stripped);
+  const face = pouch ? (
+    <PouchFace name={name} hue={hue} cards={cards} hold={hold} />
+  ) : (
+    <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={variant} />
+  );
   const beamShape: React.CSSProperties = {
     clipPath: "polygon(22% 100%, 78% 100%, 100% 0, 0 0)",
     filter: "blur(5px)",
@@ -414,14 +537,15 @@ export function PackStage({
           </div>
           {/* body, below the tear line */}
           <div aria-hidden className="absolute inset-0" style={{ clipPath: "inset(18% 0 0 0)" }}>
-            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={variant} />
+            {face}
           </div>
-          {/* the strip that tears off */}
+          {/* the strip that tears off (the pouch: its gathered top and the cord) */}
           <div aria-hidden className="absolute inset-0" style={stripStyle}>
-            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={variant} />
+            {face}
+            {pouch && <Cord lift={phase === "sealed" ? drag.progress * 18 : 0} />}
           </div>
           {/* light running along the tear */}
-          {animations && phase !== "sealed" && (
+          {!pouch && animations && phase !== "sealed" && (
             <div
               aria-hidden
               className={`pointer-events-none absolute inset-x-0 top-[18%] h-[3px] -translate-y-1/2 rounded-full bg-white ${phase === "out" ? "pack-tear-flash" : "pack-tear-run"}`}
@@ -431,13 +555,13 @@ export function PackStage({
               }}
             />
           )}
-          {phase === "sealed" && (
+          {!pouch && phase === "sealed" && (
             <div
               aria-hidden
               className="pointer-events-none absolute inset-x-[5%] top-[18%] border-t-2 border-dashed border-white/75"
             />
           )}
-          {phase === "sealed" && (
+          {!pouch && phase === "sealed" && (
             <span className="pointer-events-none absolute bottom-[7%] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/40 px-[4cqw] py-[1cqw] text-[4.5cqw] font-semibold text-white/90 backdrop-blur-sm">
               {t("cards", { count: cards })}
             </span>

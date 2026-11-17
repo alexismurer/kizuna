@@ -391,6 +391,7 @@ export function OpeningScreen({
               onSkip={() => setTear("sealed")}
               special={special}
               tease={tear === "out" ? best : null}
+              variant={pack.kind === "daily" ? "cord" : "tear"}
             />
             {/* while the pack tears open only the pack shows: the controls keep their space */}
             <div
@@ -399,7 +400,7 @@ export function OpeningScreen({
               aria-hidden={tear === "out"}
               className={`flex w-full flex-col items-center gap-3 transition-opacity duration-200 ${tear === "out" ? "invisible opacity-0" : ""}`}
             >
-            <p className="text-center text-sm text-white/60">{t("opening.hint")}</p>
+            <p className="text-center text-sm text-white/60">{t(pack.kind === "daily" ? "opening.hintDaily" : "opening.hint")}</p>
             {rewards > 0 && <RewardBadge count={rewards} />}
             <QuantitySelect
               options={options}

@@ -541,6 +541,42 @@ describe("OpeningScreen", () => {
       up(120, 20);
       expect(rpc).not.toHaveBeenCalled();
     });
+
+    describe("the daily pouch", () => {
+      const daily: OpeningPack = { id: "daily", kind: "daily", price: null, fallbackPrice: null, slotFloors: pack.slotFloors };
+
+      it("asks to pull the cord", () => {
+        wrap(status(), daily);
+        expect(screen.getByText(messages.opening.hintDaily)).toBeInTheDocument();
+        expect(screen.getByTestId("pack-cord")).toBeInTheDocument();
+      });
+
+      it("pulling the cord up past its travel opens", () => {
+        rpc.mockResolvedValue({ data: rows, error: null });
+        wrap(status(), daily);
+        down(100, 10);
+        move(100, -40);
+        expect(rpc).not.toHaveBeenCalled();
+        move(100, -100); // travel = 35 % of 300 = 105
+        expect(rpc).toHaveBeenCalledTimes(1);
+        expect(rpc).toHaveBeenCalledWith("open_packs", expect.objectContaining({ p_pack: "daily" }));
+      });
+
+      it("a short pull does nothing", () => {
+        wrap(status(), daily);
+        down(100, 10);
+        move(100, -30);
+        up(100, -30);
+        expect(rpc).not.toHaveBeenCalled();
+      });
+
+      it("the Open button still opens", () => {
+        rpc.mockResolvedValue({ data: rows, error: null });
+        wrap(status(), daily);
+        fireEvent.click(screen.getByRole("button", { name: messages.opening.openDaily }));
+        expect(rpc).toHaveBeenCalledTimes(1);
+      });
+    });
   });
 
   describe("a golden ×2 batch", () => {

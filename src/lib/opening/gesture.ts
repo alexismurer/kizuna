@@ -45,3 +45,10 @@ export function createHoldTracker(ms = 800) {
     },
   };
 }
+
+// The daily pouch opens by pulling its cord up: share of `travel` covered upwards, 0..1.
+export const CORD_TRAVEL = 0.35; // of the pack's height
+export function cordProgress(startY: number, y: number, travel: number): number {
+  if (travel <= 0) return 0;
+  return Math.max(0, Math.min(1, (startY - y) / travel));
+}
