@@ -351,7 +351,37 @@
     "value": "Value",
     "noValue": "—",
     "sell": "Sell",
-    "sellCard": "Sell {name}"
+    "sellCard": "Sell {name}",
+    "kicker": "Album",
+    "heading": "My collection",
+    "uniqueCards": "Unique cards",
+    "completionLabel": "Completion",
+    "rarityAll": "All",
+    "rarities": "Rarity",
+    "searchLabel": "Search a character or series",
+    "series": "Series",
+    "seriesAll": "All series",
+    "cards": "Cards",
+    "show": {
+      "all": "All",
+      "owned": "Owned",
+      "missing": "Missing",
+      "duplicates": "Duplicates",
+      "wishes": "My wishes ({count})"
+    },
+    "cardSort": {
+      "label": "Sort",
+      "number": "Number",
+      "rarity": "Rarity",
+      "name": "Name",
+      "recent": "Recently obtained",
+      "value": "Value (highest)",
+      "series": "Series"
+    },
+    "reset": "Reset",
+    "apply": "Apply",
+    "viewSwitch": "Show cards or albums",
+    "count": "{count, plural, one {# card} other {# cards}}"
   },
   "recycle": {
     "all": "Recycle duplicates · ≈ +{gain}",
