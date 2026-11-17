@@ -240,3 +240,20 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .reveal-burst, .reveal-shockwave, .booster-title { display: none; }
 }
+
+/* card inspector: slow light rays behind a Legendary / Mythic card */
+@keyframes inspector-rays-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.inspector-rays {
+  background: repeating-conic-gradient(
+    from 0deg,
+    color-mix(in srgb, var(--fx) 55%, transparent) 0deg 6deg,
+    transparent 6deg 18deg
+  );
+  mask-image: radial-gradient(circle, black 18%, transparent 68%);
+  -webkit-mask-image: radial-gradient(circle, black 18%, transparent 68%);
+  animation: inspector-rays-spin 40s linear infinite;
+}

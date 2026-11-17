@@ -12,7 +12,7 @@ import type { Burst } from "./FxLayer";
 import { SlotStrip } from "./SlotStrip";
 
 export type RevealCard = {
-  card: CardFace;
+  card: CardFace & { id?: number };
   rarity: Rarity;
   isNew: boolean;
   packIndex: number;

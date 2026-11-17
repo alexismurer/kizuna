@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Download, Link2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { COLOR, CardView } from "@/components/card/CardView";
+import { CardInspector } from "@/components/card/CardInspector";
+import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import type { CardSize } from "@/components/card/CardBack";
 import { Link } from "@/i18n/navigation";
 import { bestCard, compareCards } from "@/lib/opening/best";
@@ -79,6 +80,24 @@ export function Summary({
   }, []);
   const [toast, setToast] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
+  const [inspecting, setInspecting] = useState<(CardFace & { id: number }) | null>(null);
+
+  // a card opens up close when it knows its id
+  function inspectable(c: RevealCard, node: React.ReactNode) {
+    const id = c.card.id;
+    if (id === undefined) return node;
+    return (
+      <button
+        type="button"
+        aria-haspopup="dialog"
+        aria-label={t("inspect", { name: c.card.name })}
+        onClick={() => setInspecting({ ...c.card, id })}
+        className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white"
+      >
+        {node}
+      </button>
+    );
+  }
 
   useEffect(() => {
     if (!toast) return;
@@ -231,7 +250,7 @@ export function Summary({
                 className="relative"
                 style={fly(i)}
               >
-                <CardView card={s.c.card} size={desktop ? "md" : "sm"} isNew={s.c.isNew} />
+                {inspectable(s.c, <CardView card={s.c.card} size={desktop ? "md" : "sm"} isNew={s.c.isNew} />)}
                 {s.best && <div className="mt-1.5 text-center">{label(s)}</div>}
               </li>
             ))}
@@ -257,11 +276,10 @@ export function Summary({
                   }}
                 >
                   <div className="relative" style={fly(i)}>
-                    <CardView
-                      card={s.c.card}
-                      size={s.best ? centre : outer}
-                      isNew={s.c.isNew && !edgePill(p)}
-                    />
+                    {inspectable(
+                      s.c,
+                      <CardView card={s.c.card} size={s.best ? centre : outer} isNew={s.c.isNew && !edgePill(p)} />,
+                    )}
                     {/* the phone arc overlaps so much that a centred pill would hide */}
                     {s.c.isNew && edgePill(p) && (
                       <span
@@ -313,6 +331,7 @@ export function Summary({
         </button>
       </div>
 
+      {inspecting && <CardInspector card={inspecting} onClose={() => setInspecting(null)} />}
       {toast && (
         <p
           role="status"

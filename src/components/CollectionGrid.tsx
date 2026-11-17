@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
+import { CardInspector } from "@/components/card/CardInspector";
 import { MissingSlot } from "@/components/collection/MissingSlot";
 import { SellDialog } from "@/components/market/SellDialog";
 import { Toast } from "@/components/market/Dialog";
@@ -33,6 +34,7 @@ export function CollectionGrid({
   const t = useTranslations();
   const [selling, setSelling] = useState<SellableCard | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [inspecting, setInspecting] = useState<CardData | null>(null);
   const format = useFormatter();
   const router = useRouter();
 
@@ -55,9 +57,15 @@ export function CollectionGrid({
             const { card, count: copies, sellable = 0, value } = entry;
             return (
               <li key={card.id} className="relative flex flex-col gap-1.5">
-                <Link href={`/card/${card.number}`}>
+                <button
+                  type="button"
+                  aria-haspopup="dialog"
+                  aria-label={t("collection.inspect", { name: card.name })}
+                  onClick={() => setInspecting(card)}
+                  className="rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white"
+                >
                   <CardView card={{ ...card, total }} size="md" />
-                </Link>
+                </button>
                 {copies > 1 && (
                   <span className="absolute -right-1 -top-1 rounded-full bg-cta px-2 py-0.5 font-mono text-xs font-bold text-black">
                     ×{copies}
@@ -104,6 +112,7 @@ export function CollectionGrid({
           }}
         />
       )}
+      {inspecting && <CardInspector card={{ ...inspecting, total }} onClose={() => setInspecting(null)} />}
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
     </div>
   );

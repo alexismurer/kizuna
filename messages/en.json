@@ -229,7 +229,8 @@
     "imageError": "Couldn't make the image. Try again.",
     "cards": "Your pull",
     "golden": "A golden booster in the batch",
-    "divine": "A divine booster in the batch"
+    "divine": "A divine booster in the batch",
+    "inspect": "See {name} up close"
   },
   "card": {
     "pow": "POW",
@@ -386,7 +387,8 @@
     "addMissing": "Add the {count} missing to my wishlist",
     "addedMissing": "{count, plural, one {# card} other {# cards}} added to your wishlist",
     "missingCard": "Missing card #{number}",
-    "albumOpen": "Open the {title} album"
+    "albumOpen": "Open the {title} album",
+    "inspect": "See {name} up close"
   },
   "recycle": {
     "all": "Recycle duplicates · ≈ +{gain}",
@@ -826,5 +828,14 @@
     "trade_accepted": "{user} accepted your trade offer.",
     "trade_declined": "{user} declined your trade offer.",
     "trade_expired": "Your trade offer expired; your cards and currency were returned."
+  },
+  "inspector": {
+    "hint": "Move to tilt · tap to flip",
+    "owners": "Players who have it",
+    "since": "You've had it since",
+    "notOwned": "Not in your collection yet",
+    "page": "See the card page",
+    "close": "Close",
+    "flip": "Flip the card"
   }
 }
