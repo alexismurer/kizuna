@@ -49,11 +49,15 @@ export function TradeComposer({
   const [results, setResults] = useState<Player[] | null>(null);
   const [theirs, setTheirs] = useState<Tradable[]>([]);
   const [theirQuery, setTheirQuery] = useState("");
-  const [give, setGive] = useState<Picked[]>([]);
+  // the prefilled card to give: one of my own free cards
+  const giveHit = prefill?.giveCardId == null ? undefined : mine.find((m) => m.card.id === prefill.giveCardId);
+  const [give, setGive] = useState<Picked[]>(() => (giveHit ? [{ item: giveHit, count: 1 }] : []));
   const [want, setWant] = useState<Picked[]>([]);
   const [giveInput, setGiveInput] = useState("0");
   const [wantInput, setWantInput] = useState("0");
-  const [note, setNote] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(
+    prefill?.giveCardId != null && !giveHit ? t("giveUnavailable") : null,
+  );
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);

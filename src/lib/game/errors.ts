@@ -31,6 +31,14 @@ const CODES = [
   "trade_expired",
   "too_many_trades",
   "auction_maxed",
+  "no_copy",
+  "invalid_showcase",
+  "already_friends",
+  "already_requested",
+  "no_request",
+  "not_friends",
+  "rate_limited",
+  "invalid_message",
 ] as const;
 
 export function rpcErrorKey(message: string): string {

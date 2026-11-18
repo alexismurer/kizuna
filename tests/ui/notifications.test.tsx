@@ -155,6 +155,8 @@ describe("NotificationList", () => {
     [n(9, "trade_accepted", { trade_id: 9, to_username: "rival" }), "rival accepted your trade offer.", "/market?tab=trades"],
     [n(10, "trade_declined", { trade_id: 9, to_username: "rival" }), "rival declined your trade offer.", "/market?tab=trades"],
     [n(11, "trade_expired", { trade_id: 9 }), "Your trade offer expired; your cards and currency were returned.", "/market?tab=trades"],
+    [n(12, "friend_request", { from_username: "hana" }), "hana sent you a friend request.", "/friends?tab=requests"],
+    [n(13, "friend_accepted", { username: "hana" }), "hana accepted your friend request.", "/profile/hana"],
   ];
 
   it.each(cases)("renders %#: kind text, link and relative time", (item, text, href) => {

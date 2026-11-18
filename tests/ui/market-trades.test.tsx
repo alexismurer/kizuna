@@ -338,8 +338,67 @@ describe("TradeComposer", () => {
 
 describe("parseTradePrefill", () => {
   it("reads to and want from the URL", () => {
-    expect(parseTradePrefill({ tab: "trades", to: " player2 ", want: "42" })).toEqual({ toUsername: "player2", wantCardId: 42 });
-    expect(parseTradePrefill({ tab: "trades", to: "player2", want: "x" })).toEqual({ toUsername: "player2", wantCardId: null });
+    expect(parseTradePrefill({ tab: "trades", to: " player2 ", want: "42" })).toEqual({ toUsername: "player2", wantCardId: 42, giveCardId: null });
+    expect(parseTradePrefill({ tab: "trades", to: "player2", want: "x" })).toEqual({ toUsername: "player2", wantCardId: null, giveCardId: null });
     expect(parseTradePrefill({ tab: "trades", want: "42" })).toBeNull();
+  });
+});
+
+describe("trade prefill from chat", () => {
+  const withIntl = (ui: React.ReactNode) => (
+    <NextIntlClientProvider locale="en" messages={messages}>
+      {ui}
+    </NextIntlClientProvider>
+  );
+
+  it("reads give from the URL", () => {
+    expect(parseTradePrefill({ tab: "trades", to: "player2", give: "2" })).toEqual({
+      toUsername: "player2",
+      wantCardId: null,
+      giveCardId: 2,
+    });
+  });
+
+  it("prefills the card I give from my free cards", async () => {
+    wrap(<TradesTab trades={[]} currency={1000} mine={mine} prefill={{ toUsername: "player2", wantCardId: null, giveCardId: 2 }} />);
+    const give = await screen.findByRole("region", { name: "You give" });
+    expect(await within(give).findByRole("button", { name: "Remove Card 2" })).toBeInTheDocument();
+  });
+
+  it("notes when I have no free copy of the card they look for", async () => {
+    wrap(<TradesTab trades={[]} currency={1000} mine={mine} prefill={{ toUsername: "player2", wantCardId: null, giveCardId: 99 }} />);
+    expect(await screen.findByText("You have no free copy of the card they are looking for.")).toBeInTheDocument();
+  });
+
+  it("applies a new want prefill while mounted, then a new give prefill", async () => {
+    const tab = (prefill: Parameters<typeof TradesTab>[0]["prefill"]) => (
+      <TradesTab trades={[]} currency={1000} mine={mine} prefill={prefill} />
+    );
+    const { rerender } = render(withIntl(tab(null)));
+    expect(screen.queryByRole("dialog")).toBeNull();
+    rerender(withIntl(tab({ toUsername: "player2", wantCardId: 42, giveCardId: null })));
+    const want = await screen.findByRole("region", { name: "You ask for" });
+    expect(await within(want).findByRole("button", { name: "Remove Card 42" })).toBeInTheDocument();
+    // the URL drops the prefill (composer closed), then a link brings a give prefill
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    rerender(withIntl(tab(null)));
+    expect(screen.queryByRole("dialog")).toBeNull();
+    rerender(withIntl(tab({ toUsername: "player2", wantCardId: null, giveCardId: 1 })));
+    const give = await screen.findByRole("region", { name: "You give" });
+    expect(await within(give).findByRole("button", { name: "Remove Card 1" })).toBeInTheDocument();
+  });
+
+  it("a different prefill replaces the one in an open composer; an equal one changes nothing", async () => {
+    const tab = (prefill: Parameters<typeof TradesTab>[0]["prefill"]) => (
+      <TradesTab trades={[]} currency={1000} mine={mine} prefill={prefill} />
+    );
+    const { rerender } = render(withIntl(tab({ toUsername: "player2", wantCardId: 42, giveCardId: null })));
+    await within(await screen.findByRole("region", { name: "You ask for" })).findByRole("button", { name: "Remove Card 42" });
+    rerender(withIntl(tab({ toUsername: "player2", wantCardId: 42, giveCardId: null })));
+    expect(calls("find_players")).toHaveLength(1);
+    rerender(withIntl(tab({ toUsername: "player2", wantCardId: null, giveCardId: 2 })));
+    const give = await screen.findByRole("region", { name: "You give" });
+    expect(await within(give).findByRole("button", { name: "Remove Card 2" })).toBeInTheDocument();
+    expect(within(screen.getByRole("region", { name: "You ask for" })).queryByRole("button", { name: "Remove Card 42" })).toBeNull();
   });
 });

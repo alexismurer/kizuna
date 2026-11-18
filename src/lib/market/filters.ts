@@ -61,10 +61,15 @@ export function marketHref(f: MarketFilters): string {
   return qs ? `/market?${qs}` : "/market";
 }
 
-// Trade composer prefill (?tab=trades&to=<username>&want=<cardId>); null without `to`
+// Trade composer prefill (?tab=trades&to=<username>&want=<cardId>&give=<cardId>); null without `to`
 export function parseTradePrefill(sp: Params): TradePrefill | null {
   const to = one(sp.to).trim();
   if (!to) return null;
   const want = one(sp.want);
-  return { toUsername: to, wantCardId: /^\d+$/.test(want) ? Number(want) : null };
+  const give = one(sp.give);
+  return {
+    toUsername: to,
+    wantCardId: /^\d+$/.test(want) ? Number(want) : null,
+    giveCardId: /^\d+$/.test(give) ? Number(give) : null,
+  };
 }

@@ -1,10 +1,11 @@
-import { ListChecks, User } from "lucide-react";
+import { ListChecks } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
 import { loadNotifications } from "@/lib/market/notifications";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { createServerClient } from "@/lib/supabase/server";
+import { AccountMenu } from "./AccountMenu";
 import { NotificationBell } from "./notifications/NotificationBell";
 import { SignOutButton } from "./SignOutButton";
 import { StockPopover } from "./StockPopover";
@@ -15,7 +16,15 @@ export async function TopBar() {
   if (!status) return null;
   const { missionsClaimable } = status;
   const supabase = await createServerClient();
-  const [notifications, { data: claims }] = await Promise.all([loadNotifications(supabase), supabase.auth.getClaims()]);
+  const [notifications, { data: claims }, { data: unreadTotal }] = await Promise.all([
+    loadNotifications(supabase),
+    supabase.auth.getClaims(),
+    supabase.rpc("dm_unread_total"),
+  ]);
+  const unread = typeof unreadTotal === "number" ? unreadTotal : 0;
+  const { data: me } = claims
+    ? await supabase.from("player_directory").select("username, avatar_url").eq("id", claims.claims.sub).maybeSingle()
+    : { data: null };
 
   const disabled = ["play", "more"] as const;
 
@@ -76,17 +85,9 @@ export async function TopBar() {
       {claims && (
         <NotificationBell playerId={claims.claims.sub} initial={notifications.items} names={notifications.names} />
       )}
-      <details className="relative shrink-0">
-        <summary
-          aria-label={t("topbar.account")}
-          className="flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-full bg-accent font-bold text-black"
-        >
-          <User className="h-4 w-4" aria-hidden />
-        </summary>
-        <div className="absolute right-0 mt-2 w-36 overflow-hidden rounded-md border border-border bg-panel">
-          <SignOutButton />
-        </div>
-      </details>
+      <AccountMenu playerId={claims?.claims.sub ?? null} me={me} initialUnread={unread}>
+        <SignOutButton />
+      </AccountMenu>
     </header>
   );
 }

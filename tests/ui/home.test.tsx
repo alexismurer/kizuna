@@ -20,9 +20,18 @@ vi.mock("@/i18n/navigation", () => ({
 }));
 
 const loadStatus = vi.hoisted(() => vi.fn());
+const dmUnread = vi.hoisted(() => ({ count: 0 }));
 vi.mock("@/lib/supabase/boosters", () => ({ loadStatus }));
 vi.mock("@/lib/supabase/server", () => ({
-  createServerClient: async () => ({ auth: { getClaims: async () => ({ data: { claims: { sub: "u1" } } }) } }),
+  createServerClient: async () => ({
+    auth: { getClaims: async () => ({ data: { claims: { sub: "u1" } } }) },
+    rpc: async () => ({ data: dmUnread.count, error: null }),
+    from: () => ({
+      select: () => ({
+        eq: () => ({ maybeSingle: async () => ({ data: { username: "kenji", avatar_url: null } }) }),
+      }),
+    }),
+  }),
 }));
 vi.mock("@/lib/market/notifications", () => ({
   loadNotifications: async () => ({
@@ -314,6 +323,26 @@ describe("TopBar", () => {
     loadStatus.mockResolvedValue(status());
     wrap(await TopBar());
     expect(screen.getByRole("button", { name: "Notifications, 1 unread" })).toHaveTextContent("1");
+  });
+
+  it("has an account menu with profile, friends and sign out", async () => {
+    loadStatus.mockResolvedValue(status());
+    wrap(await TopBar());
+    expect(screen.getByRole("link", { name: "My profile" })).toHaveAttribute("href", "/profile/kenji");
+    expect(screen.getByRole("link", { name: "Friends & messages" })).toHaveAttribute("href", "/friends");
+    expect(screen.getByRole("button", { name: "Sign out" })).toBeInTheDocument();
+  });
+
+  it("shows the messages dot and count on the account menu only when there are unread messages", async () => {
+    loadStatus.mockResolvedValue(status());
+    dmUnread.count = 4;
+    wrap(await TopBar());
+    expect(screen.getByTestId("messages-dot")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Friends & messages/ })).toHaveTextContent("4");
+    cleanup();
+    dmUnread.count = 0;
+    wrap(await TopBar());
+    expect(screen.queryByTestId("messages-dot")).toBeNull();
   });
 
   it("shows no dot when nothing is claimable", async () => {

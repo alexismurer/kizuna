@@ -30,6 +30,14 @@ export function TradesTab({
   useMarketLive(["trades"]);
   const [view, setView] = useState<Trade["direction"]>("received");
   const [composing, setComposing] = useState(prefill !== null);
+  // a new prefill while mounted (a "Propose a trade" link clicked on /market) opens the composer afresh;
+  // a live refresh hands in an equal object, which doesn't
+  const prefillKey = prefill ? `${prefill.toUsername}|${prefill.wantCardId ?? ""}|${prefill.giveCardId ?? ""}` : null;
+  const [seenKey, setSeenKey] = useState(prefillKey);
+  if (prefillKey !== seenKey) {
+    setSeenKey(prefillKey);
+    if (prefillKey) setComposing(true);
+  }
   const [toast, setToast] = useState<string | null>(null);
   const [error, setError] = useState<{ id: number; key: string } | null>(null);
   // the received offer waiting for "Confirm trade"
@@ -134,6 +142,7 @@ export function TradesTab({
       )}
       {composing && (
         <TradeComposer
+          key={prefillKey ?? ""}
           mine={mine}
           currency={currency}
           prefill={prefill}

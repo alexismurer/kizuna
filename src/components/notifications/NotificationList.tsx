@@ -4,7 +4,7 @@ import { useFormatter, useNow, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Notification } from "@/lib/market/notifications";
 
-// where each kind leads in the market
+// where each kind leads (friend_accepted: the new friend's profile, see hrefOf)
 const HREF: Record<string, string> = {
   sold: "/market?tab=activity",
   auction_won: "/market?tab=activity",
@@ -15,7 +15,14 @@ const HREF: Record<string, string> = {
   trade_accepted: "/market?tab=trades",
   trade_declined: "/market?tab=trades",
   trade_expired: "/market?tab=trades",
+  friend_request: "/friends?tab=requests",
+  friend_accepted: "/profile",
 };
+
+function hrefOf(i: Notification): string {
+  if (i.kind === "friend_accepted") return `/profile/${encodeURIComponent(String(i.payload.username ?? ""))}`;
+  return HREF[i.kind];
+}
 
 export function NotificationList({
   items,
@@ -44,12 +51,12 @@ export function NotificationList({
           price: num("price"),
           net: num("net"),
           amount: num("amount"),
-          user: String(p.from_username ?? p.to_username ?? ""),
+          user: String(p.from_username ?? p.to_username ?? p.username ?? ""),
         });
         return (
           <li key={i.id}>
             <Link
-              href={HREF[i.kind]}
+              href={hrefOf(i)}
               onClick={onNavigate}
               data-unread={i.read ? undefined : ""}
               className="flex gap-2 rounded-xl px-3 py-2.5 text-sm hover:bg-bg"
