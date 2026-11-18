@@ -1,4 +1,4 @@
-# Deploying Anicards
+# Deploying Kizuna
 
 A step-by-step runbook for putting the game online with Supabase (database and
 login) and Vercel (hosting). Do the steps in order.
