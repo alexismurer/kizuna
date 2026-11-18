@@ -11,6 +11,7 @@ const rpc = vi.fn();
 type Handler = (p: { new: ChatRow }) => void;
 const handlers: Handler[] = [];
 const filters: (string | undefined)[] = [];
+const statuses: ((s: string) => void)[] = [];
 const chan: {
   on: (t: string, o: { filter?: string }, cb: Handler) => unknown;
   subscribe: (cb: (s: string) => void) => unknown;
@@ -21,6 +22,7 @@ const chan: {
     return chan;
   },
   subscribe: (cb) => {
+    statuses.push(cb);
     cb("SUBSCRIBED");
     return chan;
   },
@@ -106,6 +108,7 @@ beforeEach(() => {
   rpc.mockReset();
   handlers.length = 0;
   filters.length = 0;
+  statuses.length = 0;
   tables = { chat_rooms: [{ id: "en" }, { id: "intl" }] };
   try {
     localStorage.clear();
@@ -126,11 +129,11 @@ describe("market chat", () => {
     expect(screen.queryByText("hello 1")).toBeNull();
     expect(rpc).toHaveBeenCalledWith("chat_history", { p_room: "intl", p_before: null, p_limit: 50 });
     await waitFor(() => expect(filters).toContain("room=eq.intl"));
-    expect(localStorage.getItem("kyara.chatRoom")).toBe("intl");
+    expect(localStorage.getItem("anicards.chatRoom")).toBe("intl");
   });
 
   it("opens in the remembered room", async () => {
-    localStorage.setItem("kyara.chatRoom", "intl");
+    localStorage.setItem("anicards.chatRoom", "intl");
     server({ en: [msg(1)], intl: [msg(2, { room: "intl", body: "bonjour" })] });
     wrap(<ChatPanel playerId="me" />);
     expect(await screen.findByText("bonjour")).toBeInTheDocument();
@@ -244,6 +247,43 @@ describe("market chat", () => {
     await waitFor(() =>
       expect(rpc).toHaveBeenCalledWith("send_chat_message", { p_room: "en", p_body: "", p_card_id: 5, p_tag: "trading" }),
     );
+  });
+});
+
+describe("reconnect refetch", () => {
+  // the server's room: ids 1..n, paged like chat_history (newest page before p_before, oldest first)
+  const serve = (all: ChatMessage[]) =>
+    rpc.mockImplementation(async (fn: string, args: { p_before?: number | null; p_limit?: number }) => {
+      if (fn !== "chat_history") return { data: null, error: null };
+      const older = all.filter((m) => args.p_before == null || m.id < args.p_before);
+      return { data: older.slice(-(args.p_limit ?? 50)), error: null };
+    });
+  const range = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => msg(from + i));
+  const reconnect = async () => {
+    await waitFor(() => expect(statuses.length).toBeGreaterThan(0));
+    await act(async () => statuses[statuses.length - 1]("SUBSCRIBED"));
+  };
+  const rendered = () => screen.getAllByText(/^hello [0-9]+$/).map((e) => Number(e.textContent!.slice(6)));
+
+  it("fills a gap longer than one page, each message once and in order", async () => {
+    serve(range(1, 10));
+    wrap(<ChatPanel playerId="me" />);
+    await screen.findByText("hello 10");
+    serve(range(1, 130));
+    await reconnect();
+    await screen.findByText("hello 130");
+    await waitFor(() => expect(rendered()).toHaveLength(130));
+    expect(rendered()).toEqual(range(1, 130).map((m) => m.id));
+  });
+
+  it("does not duplicate messages the refetch overlaps", async () => {
+    serve(range(1, 60));
+    wrap(<ChatPanel playerId="me" />);
+    await screen.findByText("hello 60");
+    serve(range(1, 75));
+    await reconnect();
+    await screen.findByText("hello 75");
+    expect(rendered()).toEqual(range(11, 75).map((m) => m.id));
   });
 });
 

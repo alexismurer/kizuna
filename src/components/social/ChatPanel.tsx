@@ -15,7 +15,7 @@ import { useLiveMessages } from "./useLiveMessages";
 
 const PAGE = 50;
 const NEAR_BOTTOM_PX = 80;
-const ROOM_KEY = "kyara.chatRoom";
+const ROOM_KEY = "anicards.chatRoom";
 
 function savedRoom(): string | null {
   try {
