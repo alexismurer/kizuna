@@ -1,159 +1,82 @@
 # Anicards
 
-A private web game for a small group of friends: open booster packs, collect
-anime characters, complete series, and trade cards with each other.
+**Collect every anime character. Trade the ones you don't need.**
 
-Built with Next.js (App Router), TypeScript, Tailwind CSS, next-intl and
-Supabase (Postgres, Auth, Realtime, pg_cron). Character data comes from the
-public AniList API.
+Anicards is an invite-only card game for a group of friends. Open free boosters (one more every 10 minutes), reveal 5,000 anime characters from the least to the most rare, complete an album for every series, and buy, sell, auction and trade cards on a live market with chat.
 
----
+![Home page with the daily pack](docs/screenshots/home.jpg)
 
-## What you can do
+## Features
 
-**Boosters**
-- 5-card boosters with a floor per slot (the last slot is Rare or better).
-- Free boosters refill by 1 every 10 minutes, up to 10.
-- Themed boosters (Shōnen, Seinen, Isekai, Sports, …), a free themed daily
-  pack, and shop boosters bought with currency (Hall of Fame, Chest, …).
-- Pity (a Mythic within 250 boosters), a golden booster every 10th (Epic or
-  better guaranteed) and a rare divine booster.
-- A full-screen opening: tear the pack or tap and hold, then reveal the
-  cards one by one from the least to the most rare, with rarity glows,
-  sound and a summary you can share as an image. Open ×1, ×5 or ×10.
+- **Boosters**: free boosters that refill over time, themed and daily packs, shop boosters, a guaranteed Mythic within 250 and a golden booster every 10th
+- **Opening**: tear the pack, then flip the cards one by one with rarity glows and sound; open ×1, ×5 or ×10 and share the result as an image
+- **Collection**: an album per series with completion, a wishlist, and duplicates recycled into currency
+- **Market**: fixed-price listings, auctions, buy orders and trade offers, with escrow, live updates and a chat
+- **Social**: public profiles with a showcase, friends, direct messages and personal invite links that reward both players
+- **Progression**: a login streak, daily and weekly missions, achievements and seasonal boosters
+- **Admin page**: invite codes, currency gifts, daily pools, seasonal boosters and chat moderation
+- **Installable app**: works as a PWA on your phone
 
-**Collection**
-- Every series is an album with a completion bar and a per-rarity
-  breakdown. Card detail pages, duplicate counts, a wishlist.
-- Recycle duplicates into currency (you always keep one copy).
+| Opening | Result |
+| --- | --- |
+| ![A card being revealed](docs/screenshots/reveal.jpg) | ![The summary after a ×10 opening](docs/screenshots/summary.jpg) |
 
-**Progression**
-- A 7-day login streak (day 7 makes your next booster golden).
-- First-steps onboarding, 3 daily and 3 weekly missions, ~30 achievements.
-- Reward boosters (a bonus booster, a Chest) granted by missions.
+| Collection | Market |
+| --- | --- |
+| ![The collection](docs/screenshots/collection.jpg) | ![The market with its chat](docs/screenshots/market.jpg) |
 
-**Market**
-- Fixed-price listings, auctions (1 h / 6 h / 24 h, last-minute bids extend
-  the end), buy orders and direct trade offers between players.
-- Cards and currency in a listing, bid, order or offer are held in escrow
-  until it resolves. 5 % fee on sales.
-- Live updates and in-app notifications (sold, outbid, auction won, trade
-  received…). Each card shows an estimated value from recent sales.
+<p align="center">
+  <img src="docs/screenshots/phone-login.jpg" alt="Sign-in on a phone" width="240">
+  <img src="docs/screenshots/phone-home.jpg" alt="Home on a phone" width="240">
+  <img src="docs/screenshots/phone-collection.jpg" alt="Collection on a phone" width="240">
+</p>
 
-**In progress:** market chat, friends, direct messages and public profiles.
-See [Roadmap](#roadmap).
+## Tech stack
 
----
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · next-intl · Supabase (Postgres, Auth, Realtime, pg_cron) · Vitest · Playwright
 
-## How it is built
-
-- **Every game action is a Postgres function** called through Supabase RPC.
-  Each one runs in a single transaction, checks ownership and balances, uses
-  server-side randomness and writes a row to an append-only `ledger` for
-  every currency or card movement. The browser can read what it is allowed
-  to see but never writes game tables directly (Row Level Security).
-- **Realtime** pushes market changes and notifications to open pages.
-- **pg_cron** settles ended auctions and expires old trade offers every
-  minute.
-- **Character data is swappable**: only `scripts/import-anilist/` knows about
-  AniList. The catalog is frozen once players own cards (imports only add).
-- **Every interface string** goes through `messages/en.json`, ready for more
-  languages.
-
-```
-src/app/[locale]/(main)/        pages with the top bar (home, collection, market, missions, card)
-src/app/[locale]/(fullscreen)/  the booster opening page
-src/components/                 UI by area (home, opening, market, missions, mobile, card)
-src/lib/                        pure helpers (odds, gestures, reveal, market fees…) and Supabase clients
-supabase/migrations/            schema and every game function, in order
-scripts/                        catalog import, invite codes, phone-width check
-tests/db/                       database tests against the local Supabase
-tests/ui/                       component and unit tests
-```
-
----
+Every game action is a Postgres function that runs in one transaction and writes to an append-only ledger; the browser never writes game tables directly.
 
 ## Getting started
 
-**Prerequisites:** Node.js 20+ and Docker Desktop (for the local Supabase
-stack).
+Needs Node.js 20+ and Docker Desktop for the local Supabase stack.
 
 ```bash
 npm install
 npx supabase start
+# copy .env.example to .env.local and fill in the keys from `npx supabase status`
+npm run catalog:dev   # import the 5,000-card catalog from AniList
+npm run invite        # print an invite code
+npm run dev
 ```
 
-Copy `.env.example` to `.env.local` and fill in the URL, anon key and service
-role key printed by `npx supabase status`. Set `NEXT_PUBLIC_DEV_LOGIN=true`
-to get the email/password login used in development.
+Open [http://localhost:3000](http://localhost:3000), sign in, enter the invite code and pick a username. Make yourself admin with `npm run admin -- <username>`.
 
-```bash
-npm run catalog:dev   # reset the database and import the 5,000-card catalog
-npm run invite        # print a fresh invite code
-npm run dev           # http://localhost:3000
-```
+To put it online, follow [docs/DEPLOY.md](docs/DEPLOY.md).
 
-Sign in, then join with the invite code and pick a username.
+### Environment variables
 
-**Local test players** (dev login, password in `DEV_TEST_PASSWORD`):
-`player1@anicards.test` (also `DEV_TEST_EMAIL`) and `player2@anicards.test`
-for trying the market with two accounts. Create them with the invite flow,
-then set their currency with SQL on the local database only.
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key, used only by the local scripts |
+| `NEXT_PUBLIC_DEV_LOGIN` | `true` shows the email login for local development |
+| `DEV_TEST_EMAIL` / `DEV_TEST_PASSWORD` | Test player used by the phone-width check |
 
-### Scripts
+## Scripts
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Development server |
-| `npm run build` / `npm run start` | Production build and server |
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
 | `npm run catalog:dev` | Reset the database and import the real catalog |
-| `npm run import` | Import or extend the catalog (adds only, never changes existing cards) |
+| `npm run import` | Add new characters to the catalog (never changes existing cards) |
 | `npm run invite` | Create an invite code |
-| `npm run db:reset` | Reset the database to the 120-card test seed |
-| `npm run test:db` | Database tests |
+| `npm run admin -- <username>` | Make a player admin |
+| `npm run test:db` | Database tests (run `npm run db:reset` first, then `catalog:dev` after) |
 | `npm run test:ui` | Component and unit tests |
-| `npm run lint` | ESLint |
-
----
-
-## Testing
-
-```bash
-npm run db:reset && npm run test:db   # database tests (need the 120-card seed)
-npm run test:ui                       # component and unit tests
-npx tsc --noEmit                      # type check
-```
-
-The database tests replace the real catalog with the seed. Run
-`npm run catalog:dev` afterwards to get it back (AniList responses are
-cached, so it is quick).
-
-Phone-width check (needs `npm run build && npm run start` and a test player
-in `DEV_TEST_EMAIL` / `DEV_TEST_PASSWORD`): it opens every page at 390 px,
-fails if any page scrolls sideways, and saves screenshots.
-
-```bash
-npx tsx scripts/phone-check.ts <screenshot-dir>
-```
-
----
-
-## Roadmap
-
-1. Core: catalog, boosters, collection, recycling — **done**
-2. Look and feel: opening page, card design, home, mobile — **done**
-3. Progression: login streak, missions, achievements, wishlist — **done**
-4. Market: listings, auctions, buy orders, trades, notifications — **done**
-5. Social: market chat, friends, direct messages, public profiles — **in progress**
-6. Launch: admin page, seasonal boosters, Discord login, deploy, installable app
-
-### Before a hosted deploy
-
-Follow the step-by-step runbook in [docs/DEPLOY.md](docs/DEPLOY.md).
-
----
 
 ## Credits
 
-Character names and images come from [AniList](https://anilist.co) and are
-used for a private, non-commercial game. Images are linked, not re-hosted.
+Character names and images come from [AniList](https://anilist.co) and are used for a private, non-commercial game. Images are linked, not re-hosted.
