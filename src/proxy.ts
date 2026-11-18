@@ -33,6 +33,8 @@ export default async function proxy(request: NextRequest) {
       cookies: {
         getAll: () => request.cookies.getAll(),
         setAll(toSet) {
+          // a response carrying session cookies must never be shared by a cache
+          response.headers.set("Cache-Control", "private, no-store");
           toSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options),
           );
@@ -71,6 +73,8 @@ export default async function proxy(request: NextRequest) {
   const redirectTo = (to: string) => {
     const res = NextResponse.redirect(new URL(to, request.url));
     response.cookies.getAll().forEach((c) => res.cookies.set(c));
+    const cacheControl = response.headers.get("Cache-Control");
+    if (cacheControl) res.headers.set("Cache-Control", cacheControl);
     return res;
   };
 
@@ -90,5 +94,5 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
+  matcher: "/((?!api|_next|_vercel|icon$|icon/|apple-icon$|apple-icon/|icons/|.*\\..*).*)",
 };
