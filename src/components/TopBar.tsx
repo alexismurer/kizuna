@@ -6,6 +6,7 @@ import { loadNotifications } from "@/lib/market/notifications";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { createServerClient } from "@/lib/supabase/server";
 import { AccountMenu } from "./AccountMenu";
+import { InviteButton } from "./referrals/InviteButton";
 import { NotificationBell } from "./notifications/NotificationBell";
 import { SignOutButton } from "./SignOutButton";
 import { StockPopover } from "./StockPopover";
@@ -82,6 +83,7 @@ export async function TopBar() {
           </>
         )}
       </Link>
+      <InviteButton />
       {claims && (
         <NotificationBell playerId={claims.claims.sub} initial={notifications.items} names={notifications.names} />
       )}

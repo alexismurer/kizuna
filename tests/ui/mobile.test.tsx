@@ -113,6 +113,15 @@ describe("More sheet", () => {
     expect(within(link).getByTestId("claimable-dot")).toBeInTheDocument();
   });
 
+  it("starts with Invite friends", () => {
+    wrap(<BottomNav missionsClaimable={0} />);
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));
+    const sheet = screen.getByRole("dialog", { name: messages.nav.moreTitle });
+    const first = within(sheet).getAllByRole("link")[0];
+    expect(first).toHaveTextContent("Invite friends");
+    expect(first).toHaveAttribute("href", "/invite-friends");
+  });
+
   it("hides the dot when nothing is claimable", () => {
     wrap(<BottomNav missionsClaimable={0} />);
     fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));

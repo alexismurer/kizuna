@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Ellipsis, Gamepad2, House, Layers, ListChecks, MessageCircle, Package, Store, User } from "lucide-react";
+import { Bell, Ellipsis, Gamepad2, Gift, House, Layers, ListChecks, MessageCircle, Package, Store, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SignOutButton } from "@/components/SignOutButton";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -110,6 +110,14 @@ export function BottomNav({
       {sheet === "more" && (
         <Sheet label={t("moreTitle")} onClose={() => setSheet(null)}>
           <div className="flex flex-col gap-1">
+            <Link
+              href="/invite-friends"
+              onClick={() => setSheet(null)}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-accent hover:bg-bg"
+            >
+              <Gift className="h-5 w-5" aria-hidden />
+              <span className="flex-1">{t("invite")}</span>
+            </Link>
             {soon(Gamepad2, t("play"))}
             <Link
               href="/missions"

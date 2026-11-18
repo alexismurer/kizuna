@@ -319,6 +319,14 @@ describe("TopBar", () => {
     expect(within(link).getByTestId("claimable-dot")).toBeInTheDocument();
   });
 
+  it("has an Invite link with a +3 chip to the invite page", async () => {
+    loadStatus.mockResolvedValue(status());
+    wrap(await TopBar());
+    const link = screen.getByRole("link", { name: /Invite/ });
+    expect(link).toHaveAttribute("href", "/invite-friends");
+    expect(link).toHaveTextContent("+3");
+  });
+
   it("shows the notifications bell with its unread count", async () => {
     loadStatus.mockResolvedValue(status());
     wrap(await TopBar());

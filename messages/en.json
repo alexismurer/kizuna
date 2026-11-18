@@ -96,7 +96,8 @@
     "moreTitle": "More",
     "notifications": "Notifications",
     "friends": "Friends & messages",
-    "myProfile": "My profile"
+    "myProfile": "My profile",
+    "invite": "Invite friends"
   },
   "topbar": {
     "freeBoosters": "Free boosters",
@@ -376,6 +377,7 @@
     "change": "Change booster",
     "collection": "See the collection",
     "copy": "Copy the link",
+    "invite": "Invite a friend",
     "copied": "Link copied",
     "image": "Image",
     "imageError": "Couldn't make the image. Try again.",
@@ -984,7 +986,9 @@
     "trade_declined": "{user} declined your trade offer.",
     "trade_expired": "Your trade offer expired; your cards and currency were returned.",
     "friend_request": "{user} sent you a friend request.",
-    "friend_accepted": "{user} accepted your friend request."
+    "friend_accepted": "{user} accepted your friend request.",
+    "referral_joined": "{user} joined with your link",
+    "referral_rewarded": "{user} played 10 boosters over 3 days: +3 boosters and +500 for you"
   },
   "inspector": {
     "hint": "Move to tilt · tap to flip",
@@ -1009,6 +1013,9 @@
   },
   "referrals": {
     "title": "Invite friends",
+    "invite": "Invite",
+    "inviteChip": "+3",
+    "openPage": "See your invites",
     "subtitle": "Invite friends: you both get 3 boosters",
     "yourLink": "Your personal link",
     "copy": "Copy link",
