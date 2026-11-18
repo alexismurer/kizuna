@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { collectionHref } from "@/lib/game/collection";
 import { RARITIES, type Rarity } from "@/lib/game/types";
 
 export type Album = {
@@ -86,12 +88,13 @@ export function AlbumList({
           </select>
         </label>
       </div>
-      <ul className="flex flex-col gap-2">
+      <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
         {shown.map((a) => (
-          <li
-            key={a.seriesId}
-            className="flex gap-3 rounded-xl border border-border bg-panel p-3"
-          >
+          <li key={a.seriesId}>
+            <Link
+              href={collectionHref({ series: a.seriesId, show: "all" })}
+              className="flex gap-3 rounded-xl border border-border bg-panel p-3 hover:border-accent"
+            >
             <div className="h-20 w-14 shrink-0 overflow-hidden rounded bg-border">
               {a.coverUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -116,6 +119,7 @@ export function AlbumList({
                 ))}
               </p>
             </div>
+            </Link>
           </li>
         ))}
       </ul>

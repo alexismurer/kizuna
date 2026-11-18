@@ -85,3 +85,33 @@ describe("streakTicked", () => {
     expect(streakTicked(s(7, false))).toBe(0);
   });
 });
+
+import { claimAll, claimableKeys, type MissionsData } from "@/lib/game/missions";
+
+describe("claimableKeys", () => {
+  it("lists claimable keys of every section in order, skipping empty sections", () => {
+    const d = {
+      first: [item("f1", 1, 1), item("f2", 0, 1), item("f3", 1, 1, true)],
+      daily: null,
+      weekly: [item("w1", 2, 2)],
+      achievements: [item("a1", 5, 5), item("a2", 4, 5)],
+    } as unknown as MissionsData;
+    expect(claimableKeys(d)).toEqual(["f1", "w1", "a1"]);
+  });
+});
+
+describe("claimAll", () => {
+  it("keeps going after a failed claim and sums what was gained", async () => {
+    const rewards: Record<string, number> = { a: 20, b: 40, c: 30 };
+    const claim = async (key: string) => {
+      if (key === "b") throw new Error("already_claimed");
+      return { currency: 100, granted: key === "c" ? { pack: "mix", count: 1 } : null };
+    };
+    const r = await claimAll(["a", "b", "c"], (k) => rewards[k], claim);
+    expect(r).toEqual({ claimed: 2, failed: 1, reward: 50, boosters: 1 });
+  });
+  it("counts a null answer as failed", async () => {
+    const r = await claimAll(["a"], () => 10, async () => null);
+    expect(r).toEqual({ claimed: 0, failed: 1, reward: 0, boosters: 0 });
+  });
+});

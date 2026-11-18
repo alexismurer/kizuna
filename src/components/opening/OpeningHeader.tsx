@@ -8,8 +8,8 @@ import { Link } from "@/i18n/navigation";
 import type { Prefs } from "@/lib/fx/prefs";
 import { playSfx } from "@/lib/fx/sound";
 import { SettingsPopover } from "./SettingsPopover";
+import { STOCK_MAX } from "@/lib/game/stock";
 
-const STOCK_MAX = 10;
 
 export function OpeningHeader({
   packId,

@@ -1,37 +1,42 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { CardBack } from "@/components/card/CardBack";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import { playSfx, type Sfx } from "@/lib/fx/sound";
 import type { Rarity } from "@/lib/game/types";
-import { REVEAL_START, revealReducer, skipTarget, type RevealAction } from "@/lib/opening/reveal";
+import { REVEAL_START, revealReducer, skipTarget, skipTier, type RevealAction } from "@/lib/opening/reveal";
+import { sceneCards } from "@/lib/opening/scene";
+import { boosterTitle, flipFx } from "@/lib/opening/tear";
 import type { Burst } from "./FxLayer";
+import { RaritySeal } from "./RaritySeal";
+import { SeriesScene } from "./SeriesScene";
 import { SlotStrip } from "./SlotStrip";
 
 export type RevealCard = {
-  card: CardFace;
+  card: CardFace & { id?: number; seriesId?: number };
   rarity: Rarity;
   isNew: boolean;
   packIndex: number;
+  // the player owned no card of this series before the batch
+  newSeries?: boolean;
+  seriesCover?: string | null;
 };
 
 const HOLD_MS = 300; // Space held this long starts fast forward
 const FAST_MS = 150;
 const SWIPE_PX = 40;
 const SHAKE_MS = 250;
+const TITLE_MS = 1200;
 // 280×420 (CardView lg) when there is room; shrinks so a phone needs no scroll
 const CARD_HEIGHT = "min(420px, max(240px, calc(100dvh - 380px)))";
 
 const TEASE = new Set<Rarity>(["rare", "epic", "legendary", "mythic"]);
-const BURST: Partial<Record<Rarity, { hue: number; count: number; shake?: true }>> = {
-  epic: { hue: 271, count: 50 },
-  legendary: { hue: 43, count: 100, shake: true },
-  mythic: { hue: 340, count: 130, shake: true },
-};
+const SHAKE = new Set<Rarity>(["legendary", "mythic"]);
+// faces that get rays behind them and a stamped seal
+const SEALED = new Set<Rarity>(["legendary", "mythic"]);
 const CHIME = new Set<Rarity>(["rare", "epic", "legendary", "mythic"]);
-const SPARKLE = new Set<Rarity>(["epic", "legendary", "mythic"]);
 
 const CONTROLS =
   'button, a, input, select, textarea, [role="button"], [role="radio"], [role="switch"], [role="menuitem"]';
@@ -64,6 +69,13 @@ export function RevealFlow({
   const swiped = useRef(false);
   const [shaking, setShaking] = useState(false);
   const shakeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  // GOLDEN / DIVINE BOOSTER over the first card for a moment
+  const [title, setTitle] = useState(() => boosterTitle(golden, divine, animations));
+
+  // cards that open with the series scene, and those whose scene already played
+  const scenes = useMemo(() => sceneCards(cards), [cards]);
+  const played = useRef(new Set<number>());
+  const [scene, setScene] = useState<number | null>(null);
 
   const total = cards.length;
   const current = cards[state.index];
@@ -72,11 +84,21 @@ export function RevealFlow({
     playSfx("flip", sound);
     if (fast) return;
     if (CHIME.has(c.rarity)) playSfx(c.rarity as Sfx, sound);
-    const fx = BURST[c.rarity];
-    if (!animations || !fx) return;
+    if (!flipFx(c.rarity, animations)) return;
     const r = cardRef.current?.getBoundingClientRect();
-    if (r) onBurst?.({ x: r.left, y: r.top + r.height * 0.35, w: r.width, id: Date.now(), hue: fx.hue, count: fx.count });
-    if (fx.shake) {
+    // from the centre of the art, once the face has turned
+    if (r) {
+      onBurst?.({
+        x: r.left,
+        y: r.top + r.height * 0.4,
+        w: r.width,
+        id: Date.now(),
+        kind: "flip",
+        tone: c.rarity,
+        delay: 0.25,
+      });
+    }
+    if (SHAKE.has(c.rarity)) {
       setShaking(true);
       clearTimeout(shakeTimer.current);
       shakeTimer.current = setTimeout(() => setShaking(false), SHAKE_MS);
@@ -89,6 +111,19 @@ export function RevealFlow({
 
   function move(action: RevealAction) {
     const prev = stateRef.current;
+    // a manual flip of the first Epic+ card of a new series plays its scene first; the flip follows
+    if (
+      action.type === "tap" &&
+      animations &&
+      !prev.done &&
+      !prev.flipped &&
+      scenes.has(prev.index) &&
+      !played.current.has(prev.index)
+    ) {
+      played.current.add(prev.index);
+      setScene(prev.index);
+      return;
+    }
     const next = revealReducer(prev, action, total);
     if (next === prev) return;
     stateRef.current = next;
@@ -110,6 +145,12 @@ export function RevealFlow({
 
   useEffect(() => () => clearTimeout(shakeTimer.current), []);
 
+  useEffect(() => {
+    if (!title) return;
+    const id = setTimeout(() => setTitle(null), TITLE_MS);
+    return () => clearTimeout(id);
+  }, [title]);
+
   // keyboard users land on the card, and stay on it as cards change
   useEffect(() => {
     cardRef.current?.focus({ preventScroll: true });
@@ -130,6 +171,8 @@ export function RevealFlow({
       hold = fast = undefined;
     };
     const onDown = (e: KeyboardEvent) => {
+      // taken by another handler (e.g. the pack skipping its tear sequence)
+      if (e.defaultPrevented) return;
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       const el = e.target;
       // let buttons, links and fields keep their own Space / Enter
@@ -146,7 +189,7 @@ export function RevealFlow({
       } else if (e.key === "Enter" || e.key === "ArrowRight") {
         e.preventDefault();
         if (!e.repeat) latest.current("tap");
-      } else if (e.key === "Escape" && !e.repeat && !e.defaultPrevented) {
+      } else if (e.key === "Escape" && !e.repeat) {
         latest.current("revealAll");
       }
     };
@@ -190,15 +233,15 @@ export function RevealFlow({
   }
 
   if (!current) return null;
+  const sceneCard = scene === null ? null : cards[scene];
   const { flipped: up, index } = state;
   const tint = up && current.rarity !== "common" ? COLOR[current.rarity] : null;
   const color = COLOR[current.rarity];
   const left = total - index - 1;
   const ease = animations ? "transform 0.55s cubic-bezier(.2,.7,.2,1)" : "none";
-  const skip = skipTarget(
-    cards.map((c) => c.rarity),
-    state,
-  );
+  const rarities = cards.map((c) => c.rarity);
+  const skip = skipTarget(rarities, state);
+  const tier = skipTier(rarities, state);
   const chip = "rounded-full px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-black";
 
   return (
@@ -206,6 +249,31 @@ export function RevealFlow({
       data-testid="reveal-flow"
       className={`flex w-full flex-1 flex-col items-center gap-3 ${animations ? "" : "fx-still"}`}
     >
+      {sceneCard && (
+        <SeriesScene
+          rarity={sceneCard.rarity}
+          seriesTitle={sceneCard.card.seriesTitle}
+          coverUrl={sceneCard.seriesCover ?? null}
+          imageUrl={sceneCard.card.imageUrl}
+          number={sceneCard.card.number}
+          total={sceneCard.card.total}
+          onDone={() => {
+            setScene(null);
+            move({ type: "tap" });
+          }}
+        />
+      )}
+      {golden && (
+        <div
+          aria-hidden
+          data-testid="golden-ambient"
+          className="pointer-events-none fixed inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(ellipse 75% 65% at 50% 45%, color-mix(in srgb, var(--color-legendary) 42%, transparent), color-mix(in srgb, var(--color-cta) 12%, transparent) 55%, transparent 80%)",
+          }}
+        />
+      )}
       <div
         aria-hidden
         data-testid="reveal-tint"
@@ -255,6 +323,15 @@ export function RevealFlow({
         className="relative flex w-full flex-1 touch-none select-none items-center justify-center"
       >
         <div className="relative" style={{ height: CARD_HEIGHT, aspectRatio: "2 / 3" }}>
+          {up && SEALED.has(current.rarity) && animations && (
+            <div
+              key={`rays-${index}`}
+              aria-hidden
+              data-testid="reveal-rays"
+              className="reveal-rays pointer-events-none absolute left-1/2 top-1/2 -z-10 aspect-square w-[260%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{ "--fx": color } as React.CSSProperties}
+            />
+          )}
           {/* the rest of the stack behind the current card, thinning as it empties */}
           {[3, 2, 1].map(
             (d) =>
@@ -301,17 +378,37 @@ export function RevealFlow({
                   style={{ transform: "rotateY(180deg)" }}
                 >
                   <CardView card={current.card} size="lg" isNew={current.isNew} />
-                  {up && animations && SPARKLE.has(current.rarity) && (
-                    <div
-                      data-testid="reveal-sparkle"
-                      className="reveal-sparkle pointer-events-none absolute inset-0 rounded-xl"
-                      style={{ "--sparkle": COLOR[current.rarity] } as React.CSSProperties}
-                    />
+                  {up && SEALED.has(current.rarity) && (
+                    // full-size layer: the face's *:h-full/*:w-full would otherwise stretch the seal
+                    <div className="pointer-events-none absolute inset-0">
+                      <RaritySeal rarity={current.rarity as "legendary" | "mythic"} animate={animations} />
+                    </div>
                   )}
                 </div>
               </div>
             </div>
+            {up && flipFx(current.rarity, animations) && (
+              <div key={`fx-${index}`} aria-hidden style={{ "--fx": color } as React.CSSProperties}>
+                <div
+                  data-testid="reveal-shockwave"
+                  className="reveal-shockwave pointer-events-none absolute inset-0 rounded-xl"
+                />
+                <div
+                  data-testid="reveal-burst"
+                  className="reveal-burst pointer-events-none absolute -inset-[30%] rounded-full"
+                />
+              </div>
+            )}
           </div>
+          {title && (
+            <p
+              aria-hidden
+              data-testid="booster-title"
+              className={`booster-title booster-title-${title} pointer-events-none absolute inset-x-[-25%] top-[38%] z-40 text-center font-display text-5xl font-bold uppercase leading-[0.95] tracking-wide`}
+            >
+              {t(`reveal.${title}Booster`)}
+            </p>
+          )}
         </div>
       </div>
 
@@ -351,7 +448,7 @@ export function RevealFlow({
             onClick={() => move({ type: "jump", index: skip })}
             className="rounded-full border border-white/25 px-5 py-2 text-sm font-semibold hover:bg-white/10"
           >
-            {t("reveal.skipEpic")}
+            {tier && t(`reveal.skipTo.${tier}`)}
           </button>
         )}
         <span className="hidden text-xs text-white/50 [@media(pointer:fine)]:inline">

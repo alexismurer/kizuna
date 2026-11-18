@@ -1,113 +1,104 @@
 "use client";
 
 import { useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { Sheet } from "@/components/mobile/Sheet";
+import { CardInspector } from "@/components/card/CardInspector";
+import { MissingSlot } from "@/components/collection/MissingSlot";
 import { SellDialog } from "@/components/market/SellDialog";
 import { Toast } from "@/components/market/Dialog";
 import { Link, useRouter } from "@/i18n/navigation";
+import type { Rarity } from "@/lib/game/types";
 import type { SellableCard } from "@/lib/market/types";
-import { matchesQuery } from "@/lib/game/collection";
-import { RARITIES, type Rarity } from "@/lib/game/types";
 import { CardView, type CardData } from "./card/CardView";
 
 // sellable = count - locked; value = estimated value (null without sales)
 export type OwnedCard = { card: CardData; count: number; sellable?: number; value?: number | null };
+export type MissingCard = { missing: { id: number; number: number; rarity: Rarity } };
+export type GridEntry = OwnedCard | MissingCard;
 
+type Href = { pathname: "/collection"; query: Record<string, string> };
+
+// The cards the page picked, already filtered and sorted. `count` is the size of the whole list
+// when only a page of it is shown; `more` links to the next page.
 export function CollectionGrid({
   items,
-  query = "",
   total,
+  count = items.length,
+  more,
 }: {
-  items: OwnedCard[];
+  items: GridEntry[];
   total: number;
-  query?: string;
+  count?: number;
+  more?: { left: number; href: Href };
 }) {
   const t = useTranslations();
-  const [rarity, setRarity] = useState<Rarity | null>(null);
-  const [filters, setFilters] = useState(false);
   const [selling, setSelling] = useState<SellableCard | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [inspecting, setInspecting] = useState<CardData | null>(null);
   const format = useFormatter();
   const router = useRouter();
-  const shown = items
-    .filter((i) => !rarity || i.card.rarity === rarity)
-    .filter((i) => matchesQuery(i.card, query))
-    .sort((a, b) => a.card.number - b.card.number);
-
-  const chips = (
-    <div className="flex flex-wrap gap-2">
-      {RARITIES.map((r) => (
-        <button
-          key={r}
-          type="button"
-          aria-pressed={rarity === r}
-          onClick={() => setRarity(rarity === r ? null : r)}
-          className={`rounded-full border px-3 py-1 text-sm ${rarity === r ? "border-cta text-cta" : "border-border"}`}
-        >
-          {t(`rarity.${r}`)}
-        </button>
-      ))}
-    </div>
-  );
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="hidden md:block">{chips}</div>
-      {/* phones: the rarity chips live in a sheet */}
-      <div className="flex items-center justify-end gap-2 md:hidden">
-        {rarity && <span className="text-sm text-cta">{t(`rarity.${rarity}`)}</span>}
-        <button
-          type="button"
-          aria-label={t("collection.filters")}
-          aria-haspopup="dialog"
-          onClick={() => setFilters(true)}
-          className={`flex h-10 w-10 items-center justify-center rounded-xl border bg-panel ${rarity ? "border-cta text-cta" : "border-border"}`}
-        >
-          <SlidersHorizontal className="h-5 w-5" aria-hidden />
-        </button>
-      </div>
-      {filters && (
-        <Sheet label={t("collection.filters")} onClose={() => setFilters(false)}>
-          {chips}
-        </Sheet>
-      )}
-      {shown.length === 0 ? (
+      <p className="font-mono text-xs text-white/50">{t("collection.count", { count })}</p>
+      {items.length === 0 ? (
         <p className="text-common">{t("collection.empty")}</p>
       ) : (
         <ul className="grid grid-cols-2 justify-items-center gap-3 md:grid-cols-[repeat(auto-fill,10rem)] md:justify-start">
-          {shown.map(({ card, count, sellable = 0, value }) => (
-            <li key={card.id} className="relative flex flex-col gap-1.5">
-              <Link href={`/card/${card.number}`}>
-                <CardView card={{ ...card, total }} size="md" />
-              </Link>
-              {count > 1 && (
-                <span className="absolute -right-1 -top-1 rounded-full bg-cta px-2 py-0.5 font-mono text-xs font-bold text-black">
-                  ×{count}
-                </span>
-              )}
-              <div className="flex min-h-8 items-center justify-between gap-2 text-xs">
-                <span className="text-common">
-                  {t("collection.value")}:{" "}
-                  <span className="font-mono text-white">
-                    {value == null ? t("collection.noValue") : format.number(value)}
+          {items.map((entry) => {
+            if ("missing" in entry) {
+              return (
+                <li key={entry.missing.id} className="flex flex-col gap-1.5">
+                  <MissingSlot number={entry.missing.number} rarity={entry.missing.rarity} />
+                  <div className="min-h-8" />
+                </li>
+              );
+            }
+            const { card, count: copies, sellable = 0, value } = entry;
+            return (
+              <li key={card.id} className="relative flex flex-col gap-1.5">
+                <button
+                  type="button"
+                  aria-haspopup="dialog"
+                  aria-label={t("collection.inspect", { name: card.name })}
+                  onClick={() => setInspecting(card)}
+                  className="rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white"
+                >
+                  <CardView card={{ ...card, total }} size="md" />
+                </button>
+                {copies > 1 && (
+                  <span className="absolute -right-1 -top-1 rounded-full bg-cta px-2 py-0.5 font-mono text-xs font-bold text-black">
+                    ×{copies}
                   </span>
-                </span>
-                {sellable >= 1 && (
-                  <button
-                    type="button"
-                    onClick={() => setSelling({ card, sellable })}
-                    aria-label={t("collection.sellCard", { name: card.name })}
-                    className="rounded-lg border border-cta px-3 py-1 font-bold text-cta"
-                  >
-                    {t("collection.sell")}
-                  </button>
                 )}
-              </div>
-            </li>
-          ))}
+                <div className="flex min-h-8 items-center justify-between gap-2 text-xs">
+                  <span className="font-mono text-white/70">
+                    ≈ {value == null ? t("collection.noValue") : format.number(value)}
+                  </span>
+                  {sellable >= 1 && (
+                    <button
+                      type="button"
+                      onClick={() => setSelling({ card, sellable })}
+                      aria-label={t("collection.sellCard", { name: card.name })}
+                      className="rounded-full border border-border px-3 py-1 font-bold hover:border-cta hover:text-cta"
+                    >
+                      {t("collection.sell")}
+                    </button>
+                  )}
+                </div>
+              </li>
+            );
+          })}
         </ul>
+      )}
+      {more && more.left > 0 && (
+        <Link
+          href={more.href}
+          scroll={false}
+          className="self-center rounded-full border border-border px-6 py-2.5 text-sm font-semibold hover:border-accent"
+        >
+          {t("collection.showMore", { left: more.left })}
+        </Link>
       )}
       {selling && (
         <SellDialog
@@ -121,6 +112,7 @@ export function CollectionGrid({
           }}
         />
       )}
+      {inspecting && <CardInspector card={{ ...inspecting, total }} onClose={() => setInspecting(null)} />}
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
     </div>
   );

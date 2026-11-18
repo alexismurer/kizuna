@@ -127,7 +127,7 @@ export function BoosterGrid({
                     onClick={() => setPicked({ ...picked, [tab]: p.id })}
                     className={`block w-full max-w-[13rem] rounded-[16px] ${on ? "ring-2 ring-cta ring-offset-4 ring-offset-bg" : ""} ${prefs.animations ? `motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out ${on ? "motion-safe:[transform:translateY(-6px)]" : "motion-safe:[transform:rotateX(6deg)_rotateY(-12deg)] motion-safe:hover:[transform:translateY(-6px)]"}` : ""}`}
                   >
-                    <PackArt pack={p} cards={p.slotFloors.length} selected={on} />
+                    <PackArt pack={p} cards={p.slotFloors.length} selected={on} name={nameOf(p)} />
                   </button>
                   {rewards > 0 ? (
                     <RewardBadge count={rewards} />

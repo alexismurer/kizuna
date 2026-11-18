@@ -1,55 +1,118 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import type { Rarity } from "@/lib/game/types";
 
 const COUNT = 48;
-const SHARDS = 40;
-const GRAVITY = 900; // px/s²
-const SHARD_LIFE = 1.1; // s
+const GOLD_COUNT = 90;
+const TEAR_SHARDS = 60;
+const FLIP_SHARDS: Partial<Record<Rarity, number>> = { epic: 80, legendary: 120, mythic: 150 };
 
-type Particle = { x: number; y: number; r: number; vx: number; vy: number; phase: number; light: number };
-type Shard = { x: number; y: number; vx: number; vy: number; a: number; va: number; w: number; h: number; light: number; hue: number; age: number };
+type Particle = { x: number; y: number; r: number; vx: number; vy: number; phase: number; light: number; color: number };
+type Shard = {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  a: number;
+  va: number;
+  size: number;
+  color: string;
+  age: number;
+  life: number;
+  gravity: number;
+  drag: number;
+  tri: boolean;
+  glow: boolean;
+};
 
-// Where shards burst from (the torn top edge of the pack, or a revealed card),
-// in viewport pixels; hue and count override the pack colour and SHARDS.
-export type Burst = { x: number; y: number; w: number; id: number; hue?: number; count?: number };
+// Where shards burst from, in viewport pixels. "tear": the torn top edge of the
+// pack (x..x+w at y), white / gold / grey triangles thrown up. "flip": the
+// centre of a revealed card's art (x + w/2, y), spreading out in the tone's
+// colour after `delay` seconds.
+export type Burst = {
+  x: number;
+  y: number;
+  w: number;
+  id: number;
+  kind: "tear" | "flip";
+  tone?: Rarity;
+  delay?: number;
+};
 
-// Slowly rising motes in the pack colour, plus confetti shards thrown out of
-// the pack when it is torn. Not rendered when animations are off; paused while
-// the tab is hidden.
-export function FxLayer({
-  hue,
-  enabled,
-  burst = null,
-}: {
-  hue: number;
-  enabled: boolean;
-  burst?: Burst | null;
-}) {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const shards = useRef<Shard[]>([]);
+const TOKEN: Record<Rarity, string> = {
+  common: "--color-common",
+  uncommon: "--color-uncommon",
+  rare: "--color-rare",
+  epic: "--color-epic",
+  legendary: "--color-legendary",
+  mythic: "--mythic-a",
+};
 
-  useEffect(() => {
-    if (!enabled || !burst) return;
-    const base = burst.hue ?? hue;
-    for (let i = 0; i < (burst.count ?? SHARDS); i++) {
-      const white = Math.random() < 0.3;
-      shards.current.push({
-        x: burst.x + Math.random() * burst.w,
-        y: burst.y,
-        vx: (Math.random() - 0.5) * 340,
-        vy: -(260 + Math.random() * 380),
-        a: Math.random() * Math.PI,
-        va: (Math.random() - 0.5) * 14,
-        w: 3 + Math.random() * 5,
-        h: 2 + Math.random() * 3,
-        light: white ? 95 : 55 + Math.random() * 25,
-        hue: base + (Math.random() - 0.5) * 60,
-        age: 0,
-      });
-    }
-  }, [burst, enabled, hue]);
+function token(name: string): string {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#ffffff";
+}
 
+const pick = <T,>(xs: T[]) => xs[Math.floor(Math.random() * xs.length)];
+
+function shards(b: Burst): Shard[] {
+  const delay = b.delay ?? 0;
+  if (b.kind === "tear") {
+    const colors = ["#ffffff", "#ffffff", token("--color-cta"), token("--color-legendary"), token("--color-common")];
+    return Array.from({ length: TEAR_SHARDS }, () => ({
+      x: b.x + Math.random() * b.w,
+      y: b.y,
+      vx: (Math.random() - 0.35) * 520,
+      vy: -(280 + Math.random() * 460),
+      a: Math.random() * Math.PI,
+      va: (Math.random() - 0.5) * 16,
+      size: 4 + Math.random() * 7,
+      color: pick(colors),
+      age: -delay,
+      life: 1.2,
+      gravity: 900,
+      drag: 0.6,
+      tri: true,
+      glow: false,
+    }));
+  }
+  const tone = token(TOKEN[b.tone ?? "epic"]);
+  const colors = [tone, tone, tone, "#ffffff"];
+  const cx = b.x + b.w / 2;
+  return Array.from({ length: FLIP_SHARDS[b.tone ?? "epic"] ?? 80 }, () => {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 180 + Math.random() * 620;
+    return {
+      x: cx + Math.cos(angle) * 6,
+      y: b.y + Math.sin(angle) * 6,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      a: Math.random() * Math.PI,
+      va: (Math.random() - 0.5) * 12,
+      size: 2.5 + Math.random() * 5,
+      color: pick(colors),
+      age: -delay,
+      life: 0.9 + Math.random() * 0.6,
+      gravity: 160,
+      drag: 1.5,
+      tri: Math.random() < 0.35,
+      glow: true,
+    };
+  });
+}
+
+// Draws one frame on a cleared canvas; false means nothing is left to draw and
+// the loop idles until it is woken.
+type Draw = (ctx: CanvasRenderingContext2D, w: number, h: number, dt: number, now: number) => boolean;
+
+// A full-viewport canvas loop: sized to the viewport, paused while the tab is
+// hidden. Returns a ref whose function wakes an idle loop.
+function useCanvasLoop(
+  ref: React.RefObject<HTMLCanvasElement | null>,
+  enabled: boolean,
+  setup: () => Draw,
+) {
+  const wake = useRef<() => void>(() => {});
   useEffect(() => {
     if (!enabled) return;
     const canvas = ref.current;
@@ -68,48 +131,14 @@ export function FxLayer({
     };
     resize();
 
-    const spawn = (anywhere: boolean): Particle => ({
-      x: Math.random() * w,
-      y: anywhere ? Math.random() * h : h + 8,
-      r: 0.6 + Math.random() * 1.8,
-      vx: (Math.random() - 0.5) * 8,
-      vy: 8 + Math.random() * 18,
-      phase: Math.random() * Math.PI * 2,
-      light: 60 + Math.random() * 30,
-    });
-    const parts = Array.from({ length: COUNT }, () => spawn(true));
-
+    const draw = setup();
     let raf = 0;
     let last = 0;
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       ctx.clearRect(0, 0, w, h);
-      for (const p of parts) {
-        p.y -= p.vy * dt;
-        p.x += p.vx * dt + Math.sin(now / 1200 + p.phase) * 0.2;
-        if (p.y < -8) Object.assign(p, spawn(false));
-        const a = 0.2 + 0.4 * (0.5 + 0.5 * Math.sin(now / 700 + p.phase));
-        ctx.fillStyle = `hsla(${hue}, 90%, ${p.light}%, ${a.toFixed(2)})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      shards.current = shards.current.filter((s) => (s.age += dt) < SHARD_LIFE);
-      for (const s of shards.current) {
-        s.vy += GRAVITY * dt;
-        s.x += s.vx * dt;
-        s.y += s.vy * dt;
-        s.a += s.va * dt;
-        ctx.save();
-        ctx.translate(s.x, s.y);
-        ctx.rotate(s.a);
-        ctx.globalAlpha = 1 - s.age / SHARD_LIFE;
-        ctx.fillStyle = `hsl(${s.hue}, 90%, ${s.light}%)`;
-        ctx.fillRect(-s.w / 2, -s.h / 2, s.w, s.h);
-        ctx.restore();
-      }
-      raf = requestAnimationFrame(frame);
+      raf = draw(ctx, w, h, dt, now) ? requestAnimationFrame(frame) : 0;
     };
     const start = () => {
       if (raf || document.hidden) return;
@@ -122,22 +151,165 @@ export function FxLayer({
     };
     const onVisibility = () => (document.hidden ? stop() : start());
 
+    wake.current = start;
     start();
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener("resize", resize);
     return () => {
       stop();
+      wake.current = () => {};
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("resize", resize);
     };
-  }, [enabled, hue]);
+  }, [ref, enabled, setup]);
+  return wake;
+}
+
+type Spawn = (w: number, h: number, anywhere: boolean) => Particle;
+
+// rising motes, created on the first frame (once the size is known)
+function motes(count: number, spawn: Spawn) {
+  let parts: Particle[] | null = null;
+  return (w: number, h: number, dt: number, now: number, paint: (p: Particle, a: number) => void) => {
+    parts ??= Array.from({ length: count }, () => spawn(w, h, true));
+    for (const p of parts) {
+      p.y -= p.vy * dt;
+      p.x += p.vx * dt + Math.sin(now / 1200 + p.phase) * 0.2;
+      if (p.y < -8) Object.assign(p, spawn(w, h, false));
+      paint(p, 0.2 + 0.4 * (0.5 + 0.5 * Math.sin(now / 700 + p.phase)));
+    }
+  };
+}
+
+function drawShard(ctx: CanvasRenderingContext2D, s: Shard, dt: number) {
+  const k = Math.exp(-s.drag * dt);
+  s.vx *= k;
+  s.vy = s.vy * k + s.gravity * dt;
+  s.x += s.vx * dt;
+  s.y += s.vy * dt;
+  s.a += s.va * dt;
+  const fade = 1 - s.age / s.life;
+  ctx.save();
+  ctx.translate(s.x, s.y);
+  ctx.rotate(s.a);
+  ctx.fillStyle = s.color;
+  if (s.glow) {
+    ctx.globalCompositeOperation = "lighter";
+    ctx.globalAlpha = fade * 0.35;
+    ctx.beginPath();
+    ctx.arc(0, 0, s.size * 2.4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = fade;
+  ctx.beginPath();
+  if (s.tri) {
+    ctx.moveTo(0, -s.size);
+    ctx.lineTo(s.size * 0.87, s.size * 0.5);
+    ctx.lineTo(-s.size * 0.87, s.size * 0.5);
+    ctx.closePath();
+  } else {
+    ctx.arc(0, 0, s.size / 2, 0, Math.PI * 2);
+  }
+  ctx.fill();
+  ctx.restore();
+}
+
+// Two canvases. Behind the content: slowly rising motes in the pack colour,
+// always on. Above it: shards thrown out when a pack is torn or an Epic+ card
+// flips, and warm gold motes during a golden reveal; that loop idles (and the
+// canvas stays clear) when none of these is active. Not rendered when
+// animations are off.
+export function FxLayer({
+  hue,
+  enabled,
+  burst = null,
+  ambient = false,
+}: {
+  hue: number;
+  enabled: boolean;
+  burst?: Burst | null;
+  // a golden reveal: warm gold motes
+  ambient?: boolean;
+}) {
+  const backRef = useRef<HTMLCanvasElement>(null);
+  const topRef = useRef<HTMLCanvasElement>(null);
+  const live = useRef<Shard[]>([]);
+
+  const back = useCallback((): Draw => {
+    const step = motes(COUNT, (w, h, anywhere) => ({
+      x: Math.random() * w,
+      y: anywhere ? Math.random() * h : h + 8,
+      r: 0.6 + Math.random() * 1.8,
+      vx: (Math.random() - 0.5) * 8,
+      vy: 8 + Math.random() * 18,
+      phase: Math.random() * Math.PI * 2,
+      light: 60 + Math.random() * 30,
+      color: 0,
+    }));
+    return (ctx, w, h, dt, now) => {
+      step(w, h, dt, now, (p, a) => {
+        ctx.fillStyle = `hsla(${hue}, 90%, ${p.light}%, ${a.toFixed(2)})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      return true;
+    };
+  }, [hue]);
+
+  const top = useCallback((): Draw => {
+    const gold = [token("--color-cta"), token("--color-legendary")];
+    const step = motes(GOLD_COUNT, (w, h, anywhere) => ({
+      x: Math.random() * w,
+      y: anywhere ? Math.random() * h : h + 8,
+      r: 1 + Math.random() * 2.6,
+      vx: (Math.random() - 0.5) * 8,
+      vy: 22 + Math.random() * 30,
+      phase: Math.random() * Math.PI * 2,
+      light: 0,
+      color: Math.floor(Math.random() * gold.length),
+    }));
+    return (ctx, w, h, dt, now) => {
+      if (ambient) {
+        step(w, h, dt, now, (p, a) => {
+          ctx.fillStyle = gold[p.color];
+          ctx.globalAlpha = a * 0.3;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = Math.min(1, a + 0.35);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        });
+      }
+      live.current = live.current.filter((s) => (s.age += dt) < s.life);
+      for (const s of live.current) if (s.age >= 0) drawShard(ctx, s, dt);
+      return ambient || live.current.length > 0;
+    };
+  }, [ambient]);
+
+  useCanvasLoop(backRef, enabled, back);
+  const wake = useCanvasLoop(topRef, enabled, top);
+
+  useEffect(() => {
+    if (!enabled || !burst) return;
+    live.current.push(...shards(burst));
+    wake.current();
+  }, [burst, enabled, wake]);
 
   if (!enabled) return null;
   return (
-    <canvas
-      ref={ref}
-      aria-hidden
-      className="pointer-events-none fixed inset-0 h-full w-full"
-    />
+    <>
+      <canvas ref={backRef} aria-hidden className="pointer-events-none fixed inset-0 h-full w-full" />
+      <canvas
+        ref={topRef}
+        aria-hidden
+        data-testid="fx-top"
+        data-ambient={ambient ? "golden" : undefined}
+        className="pointer-events-none fixed inset-0 z-20 h-full w-full"
+      />
+    </>
   );
 }

@@ -35,3 +35,23 @@ describe("recycle breakdown", () => {
     ]);
   });
 });
+
+import { defaultRecycleSelection, selectionGain } from "@/lib/game/recycle";
+
+describe("recycle selection", () => {
+  const breakdown = [
+    { rarity: "epic" as const, copies: 9 },
+    { rarity: "rare" as const, copies: 51 },
+    { rarity: "uncommon" as const, copies: 50 },
+    { rarity: "common" as const, copies: 63 },
+  ];
+  it("starts with Common to Epic", () => {
+    expect([...defaultRecycleSelection()].sort()).toEqual(["common", "epic", "rare", "uncommon"]);
+  });
+  it("sums copies and gain of the selected rarities", () => {
+    const all = defaultRecycleSelection();
+    expect(selectionGain(breakdown, all)).toEqual({ copies: 173, gain: 356 });
+    all.delete("epic");
+    expect(selectionGain(breakdown, all)).toEqual({ copies: 164, gain: 266 });
+  });
+});

@@ -12,11 +12,12 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
 import { bestRarity, newFlags, revealOrder } from "@/lib/opening/best";
 import { paymentFor, quantityOptions, rewardsFor } from "@/lib/opening/quantity";
+import { sequenceMs, type Special } from "@/lib/opening/tear";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { FxLayer, type Burst } from "./FxLayer";
 import { OpeningHeader } from "./OpeningHeader";
 import { RewardBadge } from "@/components/RewardBadge";
-import { PackStage, type Special, type TearPhase } from "./PackStage";
+import { PackStage, type TearPhase } from "./PackStage";
 import { PaidConfirm } from "./PaidConfirm";
 import { QuantitySelect } from "./QuantitySelect";
 import { RevealFlow } from "./RevealFlow";
@@ -32,6 +33,8 @@ export type OpenedCard = {
   isNew: boolean;
   packIndex: number;
   slot: number;
+  newSeries: boolean;
+  seriesCover: string | null;
 };
 
 type OpenRow = {
@@ -43,6 +46,8 @@ type OpenRow = {
   // this booster's slot-5 floor was raised (10th booster / golden_next), or it rolled divine
   golden?: boolean;
   divine?: boolean;
+  // the player owned no card of this series before the batch
+  new_series?: boolean;
 };
 type CardRow = {
   id: number;
@@ -54,13 +59,15 @@ type CardRow = {
   rarity: Rarity;
   pow: number;
   aura: number;
-  series: { title: string } | { title: string }[] | null;
+  series: { title: string; cover_url: string | null } | { title: string; cover_url: string | null }[] | null;
 };
 
-const SEQUENCE_MS = 1200; // tear sequence before the reveal
+// a tap on these during the tear sequence keeps its own meaning
+const CONTROLS =
+  'button, a, input, select, textarea, header, [role="radio"], [role="switch"], [role="menuitem"], [role="dialog"], [role="alertdialog"]';
 
 const CARD_COLUMNS =
-  "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title)";
+  "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title, cover_url)";
 
 export function OpeningScreen({
   pack,
@@ -135,12 +142,14 @@ export function OpeningScreen({
     return () => clearTimeout(id);
   }, [status.nextFreeAt, router]);
 
+  const batchSpecial: Special | null = batch.divine ? "divine" : batch.golden ? "golden" : null;
+
   // after a successful open the sequence plays, then the reveal shows
   useEffect(() => {
     if (tear !== "out") return;
-    const id = setTimeout(() => setTear("sealed"), SEQUENCE_MS);
+    const id = setTimeout(() => setTear("sealed"), sequenceMs(batchSpecial));
     return () => clearTimeout(id);
-  }, [tear]);
+  }, [tear, batchSpecial]);
 
   const open = useCallback(
     async (count: number, maxCost: number) => {
@@ -191,6 +200,8 @@ export function OpeningScreen({
             return {
               rarity: r.rarity,
               isNew: fresh[i],
+              newSeries: r.new_series ?? false,
+              seriesCover: s?.cover_url ?? null,
               packIndex: r.pack_index,
               slot: r.slot,
               card: {
@@ -244,8 +255,15 @@ export function OpeningScreen({
     [opened, total],
   );
   const best = opened && bestRarity(opened.map((c) => c.rarity));
-  const special: Special | null =
-    tear !== "out" ? null : batch.divine ? "divine" : batch.golden ? "golden" : null;
+  const special = tear === "out" ? batchSpecial : null;
+  const revealing = !!deck && tear !== "out" && !revealed;
+
+  // a tap anywhere on the stage skips the tear sequence (the beam reaches past the pack)
+  function skipSequence(e: React.MouseEvent) {
+    if (tear !== "out") return;
+    if (e.target instanceof Element && e.target.closest(CONTROLS)) return;
+    setTear("sealed");
+  }
 
   const closeConfirm = useCallback(() => {
     setConfirming(false);
@@ -278,7 +296,7 @@ export function OpeningScreen({
   );
 
   return (
-    <div className="relative flex min-h-dvh flex-1 flex-col overflow-x-hidden">
+    <div className="relative flex min-h-dvh flex-1 flex-col overflow-x-hidden" onClick={skipSequence}>
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0"
@@ -292,7 +310,7 @@ export function OpeningScreen({
         color={`hsl(${hue} 90% 80%)`}
         strokeWidth={0.5}
       />
-      <FxLayer hue={hue} enabled={animations} burst={burst} />
+      <FxLayer hue={hue} enabled={animations} burst={burst} ambient={revealing && batch.golden} />
 
       <OpeningHeader
         packId={pack.id}
@@ -305,7 +323,7 @@ export function OpeningScreen({
       />
 
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center gap-3 px-4 pb-6">
-        {deck && tear !== "out" && !revealed ? (
+        {deck && revealing ? (
           <RevealFlow
             key={openId}
             cards={deck}
@@ -370,10 +388,19 @@ export function OpeningScreen({
               disabled={!n || busy}
               onOpen={tearOpen}
               onBurst={setBurst}
+              onSkip={() => setTear("sealed")}
               special={special}
               tease={tear === "out" ? best : null}
+              variant={pack.kind === "daily" ? "cord" : "tear"}
             />
-            <p className="text-center text-sm text-white/60">{t("opening.hint")}</p>
+            {/* while the pack tears open only the pack shows: the controls keep their space */}
+            <div
+              data-testid="opening-controls"
+              inert={tear === "out"}
+              aria-hidden={tear === "out"}
+              className={`flex w-full flex-col items-center gap-3 transition-opacity duration-200 ${tear === "out" ? "invisible opacity-0" : ""}`}
+            >
+            <p className="text-center text-sm text-white/60">{t(pack.kind === "daily" ? "opening.hintDaily" : "opening.hint")}</p>
             {rewards > 0 && <RewardBadge count={rewards} />}
             <QuantitySelect
               options={options}
@@ -411,6 +438,7 @@ export function OpeningScreen({
             >
               {t("opening.changeBooster")}
             </button>
+            </div>
           </>
         )}
       </main>

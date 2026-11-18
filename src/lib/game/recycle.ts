@@ -37,3 +37,20 @@ export function recycleBreakdown(
     }))
     .filter((b) => b.copies > 0);
 }
+
+// Rarities the recycle modal starts with: Legendary and Mythic are opt-in.
+export function defaultRecycleSelection(): Set<Rarity> {
+  return new Set<Rarity>(["common", "uncommon", "rare", "epic"]);
+}
+
+export function selectionGain(
+  breakdown: { rarity: Rarity; copies: number }[],
+  selected: Set<Rarity>,
+): { copies: number; gain: number } {
+  return breakdown
+    .filter((b) => selected.has(b.rarity))
+    .reduce(
+      (s, b) => ({ copies: s.copies + b.copies, gain: s.gain + b.copies * RECYCLE_VALUE[b.rarity] }),
+      { copies: 0, gain: 0 },
+    );
+}

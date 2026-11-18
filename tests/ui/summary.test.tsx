@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RevealCard } from "@/components/opening/RevealFlow";
 import { Summary } from "@/components/opening/Summary";
+import { dupeStats } from "@/lib/opening/best";
 import type { Rarity } from "@/lib/game/types";
 import messages from "../../messages/en.json";
 
@@ -79,7 +80,7 @@ describe("Summary", () => {
   it("shows the pack name, the new count and labels the best card", () => {
     wrap();
     expect(screen.getByRole("heading", { name: "Mix" })).toBeInTheDocument();
-    expect(screen.getByText("2 new cards")).toBeInTheDocument();
+    expect(screen.getByText("2 new cards, 3 duplicates (+7 if recycled)")).toBeInTheDocument();
     const best = screen.getByTestId("summary-best");
     expect(within(best).getByText(messages.summary.best)).toBeInTheDocument();
     expect(within(best).getByText("Hero 5")).toBeInTheDocument();
@@ -200,5 +201,32 @@ describe("Summary", () => {
     wrap();
     fireEvent.click(screen.getByRole("button", { name: messages.summary.image }));
     expect(await screen.findByText(messages.summary.imageError)).toBeInTheDocument();
+  });
+});
+
+describe("batch and duplicates lines", () => {
+  // 39 new commons, 9 duplicate commons (9) and 2 duplicate rares (6) → 11 dupes worth 15
+  const batch = [
+    ...Array.from({ length: 39 }, (_, i) => make(100 + i, "common", true, (i % 10) + 1)),
+    ...Array.from({ length: 9 }, (_, i) => make(200 + i, "common", false, (i % 10) + 1)),
+    make(300, "rare", false, 3),
+    make(301, "rare", false, 7),
+  ];
+
+  it("dupeStats counts new cards, duplicates and their recycle value", () => {
+    expect(dupeStats(batch)).toEqual({ fresh: 39, dupes: 11, recycleGain: 15 });
+  });
+
+  it("shows the batch size and the duplicates' value", () => {
+    wrap({ cards: batch, packCount: 10 });
+    expect(screen.getByText("10 boosters · 50 cards")).toBeInTheDocument();
+    expect(screen.getByText("39 new cards, 11 duplicates (+15 if recycled)")).toBeInTheDocument();
+  });
+
+  it("a single pack without duplicates keeps only the new-cards line", () => {
+    wrap({ cards: Array.from({ length: 5 }, (_, i) => make(i + 1, "common", true)) });
+    expect(screen.getByText("5 new cards")).toBeInTheDocument();
+    expect(screen.queryByText(/boosters ·/)).toBeNull();
+    expect(screen.queryByText(/duplicates/)).toBeNull();
   });
 });

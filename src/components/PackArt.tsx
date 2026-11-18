@@ -17,6 +17,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Cord, PouchFace } from "@/components/opening/Pouch";
 
 export const EMBLEM: Record<string, LucideIcon> = {
   mix: Shuffle,
@@ -60,14 +61,26 @@ export function PackArt({
   pack,
   cards,
   selected = false,
+  name,
 }: {
-  pack: { id: string };
+  pack: { id: string; kind?: string };
   cards: number;
   selected?: boolean;
+  // shown instead of the pack's own name (today's pool for the daily pack)
+  name?: string;
 }) {
   const t = useTranslations();
   const Icon = EMBLEM[pack.id] ?? Package;
   const hue = HUE[pack.id] ?? 330;
+  if (pack.kind === "daily")
+    return (
+      <div
+        className={`@container relative mt-[6%] aspect-[5/7] w-full rounded-[10px] ${selected ? "outline-2 outline-cta" : ""}`}
+      >
+        <PouchFace name={name ?? t(`packs.${pack.id}.name`)} hue={hue} cards={cards} hold={0} />
+        <Cord lift={0} />
+      </div>
+    );
   return (
     <div
       className={`@container relative aspect-[5/7] w-full overflow-hidden rounded-[14px] border-2 ${selected ? "border-cta" : "border-white/20"}`}

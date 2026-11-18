@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { CardBack } from "@/components/card/CardBack";
 import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { COLOR } from "@/components/card/CardView";
 import { EMBLEM } from "@/components/PackArt";
 import { playSfx, primeAudio } from "@/lib/fx/sound";
 import type { Rarity } from "@/lib/game/types";
-import { TEAR_BAND, createHoldTracker, createTearTracker } from "@/lib/opening/gesture";
+import { CORD_TRAVEL, TEAR_BAND, cordProgress, createHoldTracker, createTearTracker } from "@/lib/opening/gesture";
+import { STRIP_MS, beamRarity, packVariant, type Special } from "@/lib/opening/tear";
 import type { Burst } from "./FxLayer";
+import { Cord, PouchFace } from "./Pouch";
 
 const MAX_TILT = 12; // degrees
 const HOLD_MS = 800;
@@ -21,9 +25,6 @@ const clamp = (v: number) => Math.max(-0.5, Math.min(0.5, v));
 // sealed: waiting for a gesture; torn: gesture done, waiting for the open;
 // out: opened, the strip flies off and the cards slide out
 export type TearPhase = "sealed" | "torn" | "out";
-
-// a golden booster (raised slot-5 floor) or a divine one in the batch
-export type Special = "golden" | "divine";
 
 // the card back that slides out glows in the batch's best rarity
 const TEASE_GLOW: Partial<Record<Rarity, string>> = {
@@ -41,7 +42,8 @@ const SPECIAL_GLOW: Record<Special, string> = {
 
 type Gesture =
   | { mode: "tear"; id: number; tracker: ReturnType<typeof createTearTracker>; x0: number; left: number }
-  | { mode: "hold"; id: number; tracker: ReturnType<typeof createHoldTracker>; x0: number; y0: number };
+  | { mode: "hold"; id: number; tracker: ReturnType<typeof createHoldTracker>; x0: number; y0: number }
+  | { mode: "cord"; id: number; y0: number; travel: number; progress: number };
 
 function PackFace({ name, hue, animations, Icon, hold, special }: {
   name: string;
@@ -106,7 +108,8 @@ function PackFace({ name, hue, animations, Icon, hold, special }: {
         </div>
         {special && (
           <span
-            className="-my-[2cqw] w-[130%] -rotate-6 py-[1cqw] text-center font-mono text-[6cqw] font-bold uppercase tracking-[0.4em] text-black shadow-lg"
+            data-testid="pack-ribbon"
+            className={`-my-[2cqw] w-[130%] -rotate-6 py-[1cqw] text-center font-mono text-[6cqw] font-bold uppercase tracking-[0.4em] text-black shadow-lg ${animations ? "pack-ribbon-in" : ""}`}
             style={{
               background:
                 special === "golden"
@@ -137,8 +140,10 @@ export function PackStage({
   disabled,
   onOpen,
   onBurst,
+  onSkip,
   special = null,
   tease = null,
+  variant: shape = "tear",
 }: {
   packId: string;
   name: string;
@@ -151,16 +156,24 @@ export function PackStage({
   disabled: boolean;
   onOpen: () => void;
   onBurst: (b: Burst) => void;
+  // Enter / Space while the sequence plays goes straight to the reveal
+  onSkip?: () => void;
+  // the batch's golden / divine booster: shows once the strip is gone
   special?: Special | null;
   // the best rarity of the batch, once opened
   tease?: Rarity | null;
+  // "cord": the daily pouch, opened by pulling its cord up
+  variant?: "tear" | "cord";
 }) {
+  const pouch = shape === "cord";
   const t = useTranslations("opening");
   const tiltRef = useRef<HTMLDivElement>(null);
   const gesture = useRef<Gesture | null>(null);
   const raf = useRef(0);
   const [drag, setDrag] = useState({ progress: 0, dir: 1, active: false });
   const [hold, setHold] = useState(0);
+  // the strip has flown off: the pack shows its variant, the beam its colour
+  const [stripped, setStripped] = useState(false);
   const Icon = EMBLEM[packId] ?? Package;
   const ready = !disabled && phase === "sealed";
 
@@ -183,8 +196,22 @@ export function PackStage({
   useEffect(() => {
     if (phase !== "out" || !animations || !tiltRef.current) return;
     const r = tiltRef.current.getBoundingClientRect();
-    onBurst({ x: r.left, y: r.top + r.height * TEAR_BAND, w: r.width, id: Date.now() });
-  }, [phase, animations, onBurst]);
+    // the pouch sparkles where the cord came undone
+    onBurst(
+      pouch
+        ? { x: r.left, y: r.top, w: r.width, id: Date.now(), kind: "flip", tone: "legendary" }
+        : { x: r.left, y: r.top + r.height * TEAR_BAND, w: r.width, id: Date.now(), kind: "tear" },
+    );
+  }, [phase, animations, onBurst, pouch]);
+
+  useEffect(() => {
+    if (phase !== "out" || !animations) return;
+    const id = setTimeout(() => setStripped(true), STRIP_MS);
+    return () => {
+      clearTimeout(id);
+      setStripped(false);
+    };
+  }, [phase, animations]);
 
   function onStageMove(e: React.PointerEvent<HTMLDivElement>) {
     if (!animations || !tiltRef.current || gesture.current || phase !== "sealed") return;
@@ -214,6 +241,12 @@ export function PackStage({
     resetTilt();
     const r = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - r.left;
+    // the cord sits above the pouch, so anything above the tie line counts
+    if (pouch && e.clientY - r.top < r.height * TEAR_BAND) {
+      gesture.current = { mode: "cord", id: e.pointerId, y0: e.clientY, travel: r.height * CORD_TRAVEL, progress: 0 };
+      setDrag((d) => ({ ...d, dir: 1, active: true }));
+      return;
+    }
     const tear = createTearTracker(r.width);
     if (tear.start(x, e.clientY - r.top, r.height * TEAR_BAND)) {
       gesture.current = { mode: "tear", id: e.pointerId, tracker: tear, x0: x, left: r.left };
@@ -243,6 +276,12 @@ export function PackStage({
       if (Math.hypot(e.clientX - g.x0, e.clientY - g.y0) > HOLD_SLOP) finish();
       return;
     }
+    if (g.mode === "cord") {
+      g.progress = cordProgress(g.y0, e.clientY, g.travel);
+      if (g.progress >= 1) return complete();
+      setDrag({ progress: g.progress, dir: 1, active: true });
+      return;
+    }
     const x = e.clientX - g.left;
     const progress = g.tracker.move(x);
     if (progress >= 1) return complete();
@@ -253,9 +292,11 @@ export function PackStage({
     const g = gesture.current;
     if (!g || e.pointerId !== g.id) return;
     const done =
-      g.mode === "tear"
-        ? g.tracker.end() === "torn"
-        : g.tracker.end(performance.now()) === "held";
+      g.mode === "cord"
+        ? g.progress >= 1
+        : g.mode === "tear"
+          ? g.tracker.end() === "torn"
+          : g.tracker.end(performance.now()) === "held";
     if (done) complete();
     else finish();
   }
@@ -267,6 +308,11 @@ export function PackStage({
   function onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
+    if (phase === "out") {
+      // handled here: the reveal that mounts must not take this key as a tap
+      e.stopPropagation();
+      return onSkip?.();
+    }
     if (!ready || gesture.current) return;
     playSfx("tear", sound);
     onOpen();
@@ -277,19 +323,36 @@ export function PackStage({
   const dir = drag.dir;
   const flying = phase === "out" && animations;
   const stripStyle: React.CSSProperties = {
-    clipPath: "inset(0 0 82% 0)",
+    // the pouch's cord hangs above the top edge
+    clipPath: pouch ? "inset(-40% -20% 82% -20%)" : "inset(0 0 82% 0)",
     transformOrigin: dir > 0 ? "100% 18%" : "0% 18%",
-    transform: flying
-      ? `translate(${dir * 180}px, -240px) rotate(${dir * 50}deg)`
-      : `translate(${dir * p * 6}px, ${-p * 12}px) rotate(${dir * p * 9}deg)`,
+    // the pouch's gathered top lifts straight up with its cord
+    transform: pouch
+      ? flying
+        ? "translateY(-120px) scale(0.9)"
+        : `translateY(${-p * 14}px)`
+      : flying
+        ? `translate(${dir * 300}px, -360px) rotate(${dir * 80}deg)`
+        : `translate(${dir * p * 6}px, ${-p * 12}px) rotate(${dir * p * 9}deg)`,
     opacity: flying ? 0 : 1,
     transition: drag.active
       ? "none"
       : animations
         ? flying
-          ? "transform 500ms ease-in, opacity 500ms ease-in"
+          ? `transform ${STRIP_MS}ms cubic-bezier(.3,.5,.5,1), opacity 250ms ease-in ${STRIP_MS - 250}ms`
           : "transform 180ms ease-out"
         : "none",
+  };
+  const variant = packVariant(special, stripped);
+  const beam = beamRarity(tease, stripped);
+  const face = pouch ? (
+    <PouchFace name={name} hue={hue} cards={cards} hold={hold} />
+  ) : (
+    <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={variant} />
+  );
+  const beamShape: React.CSSProperties = {
+    clipPath: "polygon(22% 100%, 78% 100%, 100% 0, 0 0)",
+    filter: "blur(5px)",
   };
 
   return (
@@ -307,7 +370,7 @@ export function PackStage({
           aria-disabled={!ready}
           data-testid="pack"
           data-tear={phase}
-          data-special={special ?? undefined}
+          data-special={variant ?? undefined}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
@@ -321,53 +384,97 @@ export function PackStage({
           <div
             aria-hidden
             className="absolute inset-x-0 bottom-0 top-[18%] rounded-b-[14px]"
-            style={{ boxShadow: special ? SPECIAL_GLOW[special] : `0 24px 70px -12px hsl(${hue} 85% 50% / 0.65)` }}
+            style={{ boxShadow: variant ? SPECIAL_GLOW[variant] : `0 24px 70px -12px hsl(${hue} 85% 50% / 0.65)` }}
           />
           {/* light from the opening */}
           {animations && phase !== "sealed" && (
             <div
               aria-hidden
-              className={`pointer-events-none absolute inset-x-[4%] bottom-[82%] h-[150%] origin-bottom ${phase === "out" ? "pack-beam-burst" : pending ? "pack-beam-pulse" : "opacity-40"}`}
-              style={{
-                background: `linear-gradient(to top, hsl(${hue} 100% 94% / 0.95), hsl(${hue} 100% 78% / 0.35) 45%, transparent)`,
-                clipPath: "polygon(18% 100%, 82% 100%, 100% 0, 0 0)",
-                filter: "blur(6px)",
-              }}
-            />
+              data-testid="pack-beam"
+              data-color={beam ?? "white"}
+              className={`pointer-events-none absolute inset-x-0 bottom-[82%] h-[260%] origin-bottom ${phase === "out" ? "pack-beam-shoot" : pending ? "pack-beam-pulse" : "opacity-40"}`}
+            >
+              {/* white, then the best rarity's colour; below Rare it fades */}
+              <div className={`absolute inset-0 transition-opacity duration-700 ${stripped && !beam ? "opacity-0" : ""}`}>
+                {/* the white beam gives way to the coloured one as the pack turns golden */}
+                <div
+                  className="absolute inset-0 transition-opacity duration-300"
+                  style={{
+                    ...beamShape,
+                    opacity: beam ? 0 : 1,
+                    background:
+                      "linear-gradient(to top, white, rgb(255 255 255 / 0.85) 30%, rgb(255 255 255 / 0.3) 70%, transparent)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0 transition-opacity duration-300"
+                  style={{
+                    ...beamShape,
+                    opacity: beam ? 1 : 0,
+                    background: beam
+                      ? `linear-gradient(to top, color-mix(in srgb, ${COLOR[beam]} 70%, white), ${COLOR[beam]} 25%, color-mix(in srgb, ${COLOR[beam]} 70%, transparent) 65%, transparent)`
+                      : undefined,
+                  }}
+                />
+                <div
+                  className="absolute inset-y-0 left-1/2 w-[16%] -translate-x-1/2"
+                  style={{
+                    background: beam
+                      ? `linear-gradient(to top, color-mix(in srgb, ${COLOR[beam]} 40%, white), color-mix(in srgb, ${COLOR[beam]} 60%, transparent) 50%, transparent)`
+                      : "linear-gradient(to top, white, rgb(255 255 255 / 0.7) 50%, transparent)",
+                    filter: "blur(3px)",
+                  }}
+                />
+              </div>
+            </div>
           )}
           {/* the cards inside, slide up once opened */}
           <div
             aria-hidden
             className="absolute inset-x-[10%] top-[19%] h-[72%]"
             style={{
-              transform: phase === "out" ? "translateY(-55%)" : undefined,
-              transition: flying ? "transform 650ms cubic-bezier(.2,.8,.2,1) 450ms" : "none",
+              transform: phase === "out" ? "translateY(-50%)" : undefined,
+              transition: flying ? `transform 750ms cubic-bezier(.2,.8,.2,1) ${STRIP_MS + 50}ms` : "none",
             }}
           >
             {[-4, 3, 0].map((r, i) => (
               <div
                 key={i}
                 data-testid={i === 2 ? "pack-tease" : undefined}
-                className={`absolute inset-0 rounded-[8px] border border-[#d9b45a]/70 bg-[#0d0d14] shadow-lg ${i === 2 && tease ? (TEASE_GLOW[tease] ?? "") : ""}`}
-                style={{ transform: `rotate(${r}deg) translateY(${i * 2}px)` }}
-              />
+                className={`absolute inset-0 overflow-hidden rounded-[8px] shadow-lg *:h-full *:w-full! ${i === 2 && tease ? (TEASE_GLOW[tease] ?? "") : ""}`}
+                style={{ transform: `rotate(${r}deg) translateY(${(i - 2) * 7}px)` }}
+              >
+                <CardBack size="sm" />
+              </div>
             ))}
           </div>
           {/* body, below the tear line */}
           <div aria-hidden className="absolute inset-0" style={{ clipPath: "inset(18% 0 0 0)" }}>
-            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={special} />
+            {face}
           </div>
-          {/* the strip that tears off */}
+          {/* the strip that tears off (the pouch: its gathered top and the cord) */}
           <div aria-hidden className="absolute inset-0" style={stripStyle}>
-            <PackFace name={name} hue={hue} animations={animations} Icon={Icon} hold={hold} special={special} />
+            {face}
+            {pouch && <Cord lift={phase === "sealed" ? drag.progress * 18 : 0} />}
           </div>
-          {phase === "sealed" && (
+          {/* light running along the tear */}
+          {!pouch && animations && phase !== "sealed" && (
+            <div
+              aria-hidden
+              className={`pointer-events-none absolute inset-x-0 top-[18%] h-[3px] -translate-y-1/2 rounded-full bg-white ${phase === "out" ? "pack-tear-flash" : "pack-tear-run"}`}
+              style={{
+                boxShadow:
+                  "0 0 10px 3px white, 0 0 28px 8px color-mix(in srgb, var(--color-cta) 75%, transparent)",
+              }}
+            />
+          )}
+          {!pouch && phase === "sealed" && (
             <div
               aria-hidden
               className="pointer-events-none absolute inset-x-[5%] top-[18%] border-t-2 border-dashed border-white/75"
             />
           )}
-          {phase === "sealed" && (
+          {!pouch && phase === "sealed" && (
             <span className="pointer-events-none absolute bottom-[7%] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/40 px-[4cqw] py-[1cqw] text-[4.5cqw] font-semibold text-white/90 backdrop-blur-sm">
               {t("cards", { count: cards })}
             </span>

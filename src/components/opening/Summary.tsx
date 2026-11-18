@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Download, Link2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { COLOR, CardView } from "@/components/card/CardView";
+import { CardInspector } from "@/components/card/CardInspector";
+import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import type { CardSize } from "@/components/card/CardBack";
 import { Link } from "@/i18n/navigation";
-import { bestCard, compareCards } from "@/lib/opening/best";
+import { bestCard, compareCards, dupeStats } from "@/lib/opening/best";
 import { QuantitySelect } from "./QuantitySelect";
 import type { RevealCard } from "./RevealFlow";
 
@@ -79,6 +80,24 @@ export function Summary({
   }, []);
   const [toast, setToast] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
+  const [inspecting, setInspecting] = useState<(CardFace & { id: number }) | null>(null);
+
+  // a card opens up close when it knows its id
+  function inspectable(c: RevealCard, node: React.ReactNode) {
+    const id = c.card.id;
+    if (id === undefined) return node;
+    return (
+      <button
+        type="button"
+        aria-haspopup="dialog"
+        aria-label={t("inspect", { name: c.card.name })}
+        onClick={() => setInspecting({ ...c.card, id })}
+        className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white"
+      >
+        {node}
+      </button>
+    );
+  }
 
   useEffect(() => {
     if (!toast) return;
@@ -86,7 +105,7 @@ export function Summary({
     return () => clearTimeout(id);
   }, [toast]);
 
-  const fresh = cards.filter((c) => c.isNew).length;
+  const { fresh, dupes, recycleGain } = dupeStats(cards);
   const multi = packCount > 1;
   const best = bestCard(cards.map((c) => ({ rarity: c.rarity, number: c.card.number })));
 
@@ -214,8 +233,15 @@ export function Summary({
             )}
           </div>
         )}
+        {multi && (
+          <p className="text-xs font-semibold text-white/60">
+            {t("batch", { boosters: packCount, cards: cards.length })}
+          </p>
+        )}
         <p className="rounded-full border border-white/15 bg-black/40 px-3 py-0.5 text-xs font-semibold text-white/80">
-          {t("newCards", { count: fresh })}
+          {dupes > 0
+            ? t("newAndDupes", { fresh, dupes, gain: recycleGain })
+            : t("newCards", { count: fresh })}
         </p>
 
         {multi ? (
@@ -231,7 +257,7 @@ export function Summary({
                 className="relative"
                 style={fly(i)}
               >
-                <CardView card={s.c.card} size={desktop ? "md" : "sm"} isNew={s.c.isNew} />
+                {inspectable(s.c, <CardView card={s.c.card} size={desktop ? "md" : "sm"} isNew={s.c.isNew} />)}
                 {s.best && <div className="mt-1.5 text-center">{label(s)}</div>}
               </li>
             ))}
@@ -257,11 +283,10 @@ export function Summary({
                   }}
                 >
                   <div className="relative" style={fly(i)}>
-                    <CardView
-                      card={s.c.card}
-                      size={s.best ? centre : outer}
-                      isNew={s.c.isNew && !edgePill(p)}
-                    />
+                    {inspectable(
+                      s.c,
+                      <CardView card={s.c.card} size={s.best ? centre : outer} isNew={s.c.isNew && !edgePill(p)} />,
+                    )}
                     {/* the phone arc overlaps so much that a centred pill would hide */}
                     {s.c.isNew && edgePill(p) && (
                       <span
@@ -313,6 +338,7 @@ export function Summary({
         </button>
       </div>
 
+      {inspecting && <CardInspector card={inspecting} onClose={() => setInspecting(null)} />}
       {toast && (
         <p
           role="status"

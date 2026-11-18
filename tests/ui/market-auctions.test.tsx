@@ -144,6 +144,9 @@ describe("AuctionsTab", () => {
 });
 
 describe("BidDialog", () => {
+  // the fixtures end relative to NOW: pin the clock or they read as ended
+  beforeEach(() => vi.useFakeTimers({ toFake: ["Date"], now: NOW }));
+
   it("prefills the minimum, offers quick amounts and shows the balance after", () => {
     wrap(tab([auction(1)]));
     fireEvent.click(screen.getByRole("button", { name: "Bid on Card 1" }));

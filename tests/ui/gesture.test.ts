@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createHoldTracker, createTearTracker } from "@/lib/opening/gesture";
+import { cordProgress, createHoldTracker, createTearTracker } from "@/lib/opening/gesture";
 
 describe("createTearTracker", () => {
   it("does not start outside the top band", () => {
@@ -63,5 +63,18 @@ describe("createHoldTracker", () => {
 
   it("cancels when never started", () => {
     expect(createHoldTracker().end(5000)).toBe("cancel");
+  });
+});
+
+describe("cordProgress", () => {
+  it("is 1 once pulled up the whole travel", () => {
+    expect(cordProgress(300, 200, 100)).toBe(1);
+    expect(cordProgress(300, 100, 100)).toBe(1);
+  });
+  it("ignores a downward drag", () => {
+    expect(cordProgress(300, 350, 100)).toBe(0);
+  });
+  it("is 0.5 half way", () => {
+    expect(cordProgress(300, 250, 100)).toBe(0.5);
   });
 });

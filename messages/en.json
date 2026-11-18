@@ -30,7 +30,11 @@
       "streakDay": "Day {n}",
       "streak": "login streak",
       "shortDaily": "missions",
-      "shortStreak": "streak"
+      "shortStreak": "streak",
+      "claim": "Claim",
+      "toClaim": "{count, plural, one {# reward} other {# rewards}} to claim",
+      "stockFull": "stock full",
+      "shortFull": "full"
     },
     "tabs": {
       "free": "Free",
@@ -99,7 +103,20 @@
     "signOut": "Sign out",
     "notifications": "Notifications",
     "missionsClaimable": "{count, plural, one {# reward} other {# rewards}} to claim",
-    "unread": "{count} unread"
+    "unread": "{count} unread",
+    "stock": {
+      "title": "Free boosters",
+      "next": "+1 in {time} · 1 every {minutes} min",
+      "full": "Stock full · 1 every {minutes} min",
+      "base": "Base stock",
+      "baseHint": "1 every {minutes} min",
+      "yours": "Your stock",
+      "bonus": "Bonus boosters",
+      "bonusHint": "earned, they don’t refill",
+      "currency": "Currency",
+      "open": "Open a booster",
+      "button": "{free} free boosters, {bonus} bonus, {currency} currency"
+    }
   },
   "rarity": {
     "common": "Common",
@@ -172,9 +189,15 @@
     "counter": "Card {n} of {total}",
     "flip": "Flip the card",
     "strip": "Revealed cards",
-    "skipEpic": "Skip to the next Epic or better",
     "golden": "Golden",
-    "divine": "Divine"
+    "divine": "Divine",
+    "goldenBooster": "Golden booster",
+    "divineBooster": "Divine booster",
+    "skipTo": {
+      "epic": "Skip to the next Epic or better",
+      "legendary": "Skip to the next Legendary or better",
+      "mythic": "Skip to the next Mythic"
+    }
   },
   "opening": {
     "back": "Boosters",
@@ -186,6 +209,8 @@
     "animationsHint": "Off: instant flips, no particles or shake",
     "warnPaid": "Warn me before a paid booster",
     "hint": "Slide along the top to tear — or press and hold",
+    "hintDaily": "Pull the cord up — or press and hold",
+    "dailyPack": "Daily pack",
     "openBooster": "Open booster",
     "cards": "{count, plural, one {# card} other {# cards}}",
     "quantity": "How many boosters",
@@ -215,6 +240,8 @@
   },
   "summary": {
     "newCards": "{count, plural, =0 {No new cards} one {# new card} other {# new cards}}",
+    "batch": "{boosters} boosters · {cards} cards",
+    "newAndDupes": "{fresh, plural, =0 {No new cards} one {# new card} other {# new cards}}, {dupes, plural, one {# duplicate} other {# duplicates}} (+{gain} if recycled)",
     "best": "Best card",
     "openAgain": "Open another · {price}",
     "free": "Free",
@@ -227,7 +254,8 @@
     "imageError": "Couldn't make the image. Try again.",
     "cards": "Your pull",
     "golden": "A golden booster in the batch",
-    "divine": "A divine booster in the batch"
+    "divine": "A divine booster in the batch",
+    "inspect": "See {name} up close"
   },
   "card": {
     "pow": "POW",
@@ -349,7 +377,43 @@
     "value": "Value",
     "noValue": "—",
     "sell": "Sell",
-    "sellCard": "Sell {name}"
+    "sellCard": "Sell {name}",
+    "kicker": "Album",
+    "heading": "My collection",
+    "uniqueCards": "Unique cards",
+    "completionLabel": "Completion",
+    "rarityAll": "All",
+    "rarities": "Rarity",
+    "searchLabel": "Search a character or series",
+    "series": "Series",
+    "seriesAll": "All series",
+    "cards": "Cards",
+    "show": {
+      "all": "All",
+      "owned": "Owned",
+      "missing": "Missing",
+      "duplicates": "Duplicates",
+      "wishes": "My wishes ({count})"
+    },
+    "cardSort": {
+      "label": "Sort",
+      "number": "Number",
+      "rarity": "Rarity",
+      "name": "Name",
+      "recent": "Recently obtained",
+      "value": "Value (highest)",
+      "series": "Series"
+    },
+    "reset": "Reset",
+    "apply": "Apply",
+    "viewSwitch": "Show cards or albums",
+    "count": "{count, plural, one {# card} other {# cards}}",
+    "showMore": "Show more · {left} left",
+    "addMissing": "Add the {count} missing to my wishlist",
+    "addedMissing": "{count, plural, one {# card} other {# cards}} added to your wishlist",
+    "missingCard": "Missing card #{number}",
+    "albumOpen": "Open the {title} album",
+    "inspect": "See {name} up close"
   },
   "recycle": {
     "all": "Recycle duplicates · ≈ +{gain}",
@@ -359,7 +423,16 @@
     "confirmLine": "{rarity} × {copies} · +{gain}",
     "confirmTotal": "Total +{gain}",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "title": "Recycle duplicates",
+    "chip": "×{copies} · +{gain}",
+    "recycled": "Recycled",
+    "kept": "Kept",
+    "none": "None",
+    "go": "Recycle {copies} duplicates · +{gain}",
+    "recovered": "+{gain} recovered",
+    "hint": "One copy of every card is always kept.",
+    "done": "Done"
   },
   "sheet": {
     "close": "Close",
@@ -568,7 +641,9 @@
         "name": "Dealmaker",
         "desc": "Complete 25 trades"
       }
-    }
+    },
+    "claimAll": "Claim all · {count}",
+    "sections": "Mission sections"
   },
   "loginReward": {
     "toast": "Day {day} login · +{reward, number}",
@@ -780,5 +855,26 @@
     "trade_accepted": "{user} accepted your trade offer.",
     "trade_declined": "{user} declined your trade offer.",
     "trade_expired": "Your trade offer expired; your cards and currency were returned."
+  },
+  "inspector": {
+    "hint": "Move to tilt · tap to flip",
+    "owners": "Players who have it",
+    "since": "You've had it since",
+    "notOwned": "Not in your collection yet",
+    "page": "See the card page",
+    "close": "Close",
+    "flip": "Flip the card"
+  },
+  "rewardToast": {
+    "reward": "+{reward}",
+    "withBoosters": "+{reward} · +{boosters, plural, one {# bonus booster} other {# bonus boosters}}",
+    "failed": "{count, plural, one {# reward} other {# rewards}} could not be claimed"
+  },
+  "scene": {
+    "series": "Series",
+    "popularity": "Popularity",
+    "top": "Top {pct}%",
+    "rank": "#{rank}",
+    "skip": "Skip ›"
   }
 }

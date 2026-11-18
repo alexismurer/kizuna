@@ -221,11 +221,12 @@ describe("RevealFlow", () => {
   });
 
   describe("skip to the next Epic or better", () => {
-    const skip = () => screen.queryByRole("button", { name: messages.reveal.skipEpic });
+    const skip = () => screen.queryByRole("button", { name: /^Skip to the next/ });
     const batch = [make(1, "common"), make(2, "rare"), make(3, "epic"), make(4, "legendary")];
 
     it("jumps to the next Epic+ card face down, then to the next one", () => {
       wrap({ cards: batch });
+      expect(skip()).toHaveTextContent("Skip to the next Epic or better");
       fireEvent.click(skip()!);
       expect(screen.getByTestId("reveal-counter")).toHaveTextContent("3/4");
       expect(card()).toHaveAttribute("data-flipped", "false");
@@ -233,6 +234,8 @@ describe("RevealFlow", () => {
       // the current card is the next Epic+: nothing to skip
       expect(skip()).toBeNull();
       fireEvent.click(card());
+      // only a Legendary is left ahead: the label names it
+      expect(skip()).toHaveTextContent("Skip to the next Legendary or better");
       fireEvent.click(skip()!);
       expect(screen.getByTestId("reveal-counter")).toHaveTextContent("4/4");
       expect(skip()).toBeNull();
@@ -262,23 +265,144 @@ describe("RevealFlow", () => {
     expect(screen.queryByText(messages.reveal.divine)).toBeNull();
   });
 
-  it("sparkles an Epic+ card's art on the flip and tints the page", () => {
-    wrap({ cards: [make(1, "epic")], animations: true });
-    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
+  it("bursts and shockwaves an Epic+ card on the flip and tints the page", () => {
+    const onBurst = vi.fn();
+    wrap({ cards: [make(1, "epic")], animations: true, onBurst });
+    expect(screen.queryByTestId("reveal-shockwave")).toBeNull();
     fireEvent.click(card());
-    expect(screen.getByTestId("reveal-sparkle")).toBeInTheDocument();
+    expect(screen.getByTestId("reveal-shockwave")).toBeInTheDocument();
+    expect(screen.getByTestId("reveal-burst")).toBeInTheDocument();
+    expect(onBurst).toHaveBeenCalledWith(expect.objectContaining({ kind: "flip", tone: "epic" }));
     expect(screen.getByTestId("reveal-tint").getAttribute("style")).toContain("var(--color-epic)");
   });
 
-  it("no sparkle with animations off or below Epic", () => {
-    wrap({ cards: [make(1, "epic")] });
+  it("no burst or shockwave with animations off or below Epic", () => {
+    const onBurst = vi.fn();
+    wrap({ cards: [make(1, "epic")], onBurst });
     fireEvent.click(card());
-    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
+    expect(screen.queryByTestId("reveal-shockwave")).toBeNull();
+    expect(screen.queryByTestId("reveal-burst")).toBeNull();
+    expect(onBurst).not.toHaveBeenCalled();
     // the tint stays, without motion
     expect(screen.getByTestId("reveal-tint").getAttribute("style")).toContain("var(--color-epic)");
     cleanup();
-    wrap({ cards: [make(1, "rare")], animations: true });
+    wrap({ cards: [make(1, "rare")], animations: true, onBurst });
     fireEvent.click(card());
-    expect(screen.queryByTestId("reveal-sparkle")).toBeNull();
+    expect(screen.queryByTestId("reveal-shockwave")).toBeNull();
+    expect(screen.queryByTestId("reveal-burst")).toBeNull();
+    expect(onBurst).not.toHaveBeenCalled();
+  });
+
+  describe("booster title", () => {
+    const title = () => screen.queryByTestId("booster-title");
+
+    it("shows GOLDEN BOOSTER at the start of a golden reveal, then goes away", () => {
+      vi.useFakeTimers();
+      wrap({ golden: true, animations: true });
+      expect(title()).toHaveTextContent(messages.reveal.goldenBooster);
+      act(() => vi.advanceTimersByTime(1500));
+      expect(title()).toBeNull();
+    });
+
+    it("shows DIVINE BOOSTER for a divine batch", () => {
+      wrap({ divine: true, golden: true, animations: true });
+      expect(title()).toHaveTextContent(messages.reveal.divineBooster);
+    });
+
+    it("is not shown for a plain batch or with animations off", () => {
+      wrap({ animations: true });
+      expect(title()).toBeNull();
+      cleanup();
+      wrap({ golden: true });
+      expect(title()).toBeNull();
+    });
+
+    it("does not block a tap", () => {
+      wrap({ golden: true, animations: true });
+      fireEvent.click(card());
+      expect(card()).toHaveAttribute("data-flipped", "true");
+    });
+  });
+
+  it("ignores a key another handler already took (the pack skipping its tear)", () => {
+    vi.useFakeTimers();
+    wrap();
+    for (const key of [" ", "Enter"]) {
+      const e = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+      e.preventDefault();
+      act(() => {
+        window.dispatchEvent(e);
+      });
+    }
+    act(() => vi.advanceTimersByTime(1000)); // no fast forward armed
+    expect(card()).toHaveAttribute("data-flipped", "false");
+    expect(screen.getByTestId("reveal-counter")).toHaveTextContent("1/2");
+  });
+
+  it("glows warm behind a golden reveal only", () => {
+    wrap({ golden: true });
+    expect(screen.getByTestId("golden-ambient")).toBeInTheDocument();
+    cleanup();
+    wrap({ divine: true });
+    expect(screen.queryByTestId("golden-ambient")).toBeNull();
+  });
+});
+
+describe("new-series scene", () => {
+  const scenic = (id: number, rarity: Rarity, seriesId: number, newSeries: boolean): RevealCard => {
+    const c = make(id, rarity);
+    return { ...c, newSeries, seriesCover: null, card: { ...c.card, seriesId, seriesTitle: `Series ${seriesId}` } };
+  };
+
+  // with animations on the previous card lingers while it leaves: act on the top one
+  const top = () => screen.getAllByTestId("reveal-card").at(-1)!;
+
+  it("plays before the face of the first Epic+ card of a new series", () => {
+    wrap({ cards: [scenic(1, "common", 7, true), scenic(2, "epic", 7, true), scenic(3, "legendary", 7, true)], animations: true });
+    fireEvent.click(top());
+    fireEvent.click(top());
+    fireEvent.click(top());
+    expect(screen.getByTestId("series-scene")).toBeInTheDocument();
+    expect(top()).toHaveAttribute("data-flipped", "false");
+    fireEvent.click(screen.getByRole("button", { name: messages.scene.skip }));
+    expect(screen.queryByTestId("series-scene")).toBeNull();
+    expect(top()).toHaveAttribute("data-flipped", "true");
+    // the next card of the same series flips straight away
+    fireEvent.click(top());
+    fireEvent.click(top());
+    expect(screen.queryByTestId("series-scene")).toBeNull();
+    expect(top()).toHaveAttribute("data-flipped", "true");
+  });
+
+  it("does not play with animations off or for an owned series", () => {
+    wrap({ cards: [scenic(1, "epic", 7, true)], animations: false });
+    fireEvent.click(top());
+    expect(screen.queryByTestId("series-scene")).toBeNull();
+    cleanup();
+    wrap({ cards: [scenic(1, "epic", 7, false)], animations: true });
+    fireEvent.click(top());
+    expect(screen.queryByTestId("series-scene")).toBeNull();
+  });
+});
+
+describe("rarity seal", () => {
+  const top = () => screen.getAllByTestId("reveal-card").at(-1)!;
+  it("stamps a seal and shows rays on a Legendary", () => {
+    wrap({ cards: [make(1, "legendary")], animations: true });
+    fireEvent.click(top());
+    expect(screen.getByTestId("rarity-seal")).toHaveTextContent("L");
+    expect(screen.getByTestId("reveal-rays")).toBeInTheDocument();
+  });
+  it("leaves an Epic without seal or rays", () => {
+    wrap({ cards: [make(1, "epic")], animations: true });
+    fireEvent.click(top());
+    expect(screen.queryByTestId("rarity-seal")).toBeNull();
+    expect(screen.queryByTestId("reveal-rays")).toBeNull();
+  });
+  it("still stamps the seal with animations off, without moving", () => {
+    wrap({ cards: [make(1, "mythic")], animations: false });
+    fireEvent.click(top());
+    expect(screen.getByTestId("rarity-seal")).toHaveTextContent("M");
+    expect(screen.getByTestId("rarity-seal").className).not.toMatch(/seal-stamp/);
   });
 });

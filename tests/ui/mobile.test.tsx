@@ -195,13 +195,12 @@ describe("Collection on phones", () => {
     count: 1,
   });
 
-  it("filters by rarity from the filter sheet", () => {
+  // rarity and the other filters moved to CollectionToolbar (tests/ui/collection-toolbar.test.tsx)
+  it("lists the cards it is given, with their count", () => {
     wrap(<CollectionGrid items={[owned(1, "rare"), owned(2, "common")]} total={10} />);
-    fireEvent.click(screen.getByRole("button", { name: messages.collection.filters }));
-    const sheet = screen.getByRole("dialog", { name: messages.collection.filters });
-    fireEvent.click(within(sheet).getByRole("button", { name: messages.rarity.rare }));
     expect(screen.getAllByText("Card 1").length).toBeGreaterThan(0);
-    expect(screen.queryByText("Card 2")).toBeNull();
+    expect(screen.getAllByText("Card 2").length).toBeGreaterThan(0);
+    expect(screen.getByText("2 cards")).toBeInTheDocument();
   });
 
   it("shows the recycle icon button with the duplicate count", () => {
@@ -216,6 +215,6 @@ describe("Collection on phones", () => {
     const button = screen.getByRole("button", { name: /recycle duplicates/i });
     expect(button).toHaveTextContent("6");
     fireEvent.click(button);
-    expect(screen.getByRole("group", { name: /recycle these duplicates/i })).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "Recycle duplicates" })).toBeInTheDocument();
   });
 });

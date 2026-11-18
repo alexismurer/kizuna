@@ -168,6 +168,14 @@ describe("BoosterGrid", () => {
     expect(screen.queryByText(/Reward ×/)).toBeNull();
   });
 
+  it("draws the daily pack as a dated pouch named after today's pool", () => {
+    wrap(<BoosterGrid packs={PACKS} status={status()} dailyName="Test Pool" />);
+    fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
+    const daily = screen.getByRole("button", { name: messages.packs.daily.name });
+    expect(within(daily).getByTestId("pouch-date")).toBeInTheDocument();
+    expect(within(daily).getByText("Test Pool")).toBeInTheDocument();
+  });
+
   it("disables the daily Open when there is no pool", () => {
     wrap(<BoosterGrid packs={PACKS} status={status()} dailyName={null} />);
     fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));

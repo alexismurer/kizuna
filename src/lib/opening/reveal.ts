@@ -34,3 +34,9 @@ export function skipTarget(rarities: Rarity[], s: RevealState): number {
   const i = rarities.findIndex((r, j) => j >= from && EPIC_PLUS.has(r));
   return i > s.index ? i : -1;
 }
+
+// The rarity of the card "Skip to the next…" would land on, for its label.
+export function skipTier(rarities: Rarity[], s: RevealState): "epic" | "legendary" | "mythic" | null {
+  const i = skipTarget(rarities, s);
+  return i < 0 ? null : (rarities[i] as "epic" | "legendary" | "mythic");
+}
