@@ -95,11 +95,15 @@ describe("GrantPanel", () => {
     fireEvent.click(screen.getByRole("button", { name: "Grant" }));
   };
 
-  it("shows the new balance", async () => {
+  it("names the player, shows the new balance and clears the form", async () => {
     actions.adminGrantCurrency.mockResolvedValue({ ok: true, data: 1500 });
     wrap(<GrantPanel />);
     fill("sakura", "1000");
-    expect(await screen.findByText("New balance: 1,500")).toBeInTheDocument();
+    expect(await screen.findByText("Sent 1,000 to sakura — new balance 1,500")).toBeInTheDocument();
+    expect(screen.getByLabelText("Amount")).toHaveValue(null);
+    expect(screen.getByLabelText("Note (optional)")).toHaveValue("");
+    expect(screen.getByLabelText("Amount")).toHaveAttribute("min", "1");
+    expect(screen.getByLabelText("Amount")).toHaveAttribute("step", "1");
     expect(actions.adminGrantCurrency).toHaveBeenCalledWith("sakura", 1000, null);
   });
 

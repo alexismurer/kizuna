@@ -102,6 +102,16 @@ describe("service worker", () => {
     expect(fetchFn).toHaveBeenCalledTimes(1);
   });
 
+  it("still returns the response when caching it fails", async () => {
+    const { handlers, caches, fetchFn } = load();
+    caches.open.mockResolvedValue({ match: async () => undefined, put: async () => Promise.reject(new Error("quota")) } as never);
+    const res = { ok: true, clone: () => "clone" };
+    fetchFn.mockResolvedValue(res);
+    const e = fetchEvent("https://app.test/_next/static/b.js");
+    handlers.fetch(e);
+    expect(await e.responded).toBe(res);
+  });
+
   it("drops old caches on activate and claims clients", async () => {
     const { handlers, caches, store, self } = load();
     store.set("anicards-v0", new Map());

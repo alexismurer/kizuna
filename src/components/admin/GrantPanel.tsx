@@ -13,14 +13,19 @@ export function GrantPanel() {
   const [username, setUsername] = useState("");
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
-  const [result, setResult] = useState<{ balance: number } | { error: string } | null>(null);
+  const [result, setResult] = useState<{ balance: number; user: string; amount: number } | { error: string } | null>(null);
   const [pending, start] = useTransition();
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     start(async () => {
-      const r = await adminGrantCurrency(username, Number(amount), note.trim() || null);
-      setResult(r.ok ? { balance: r.data } : { error: r.error });
+      const n = Number(amount);
+      const r = await adminGrantCurrency(username, n, note.trim() || null);
+      if (r.ok) {
+        setResult({ balance: r.data, user: username.trim(), amount: n });
+        setAmount("");
+        setNote("");
+      } else setResult({ error: r.error });
     });
   };
 
@@ -38,6 +43,8 @@ export function GrantPanel() {
             className={input}
             type="number"
             inputMode="numeric"
+            min={1}
+            step={1}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             required
@@ -59,7 +66,7 @@ export function GrantPanel() {
       </form>
       {result && "balance" in result && (
         <p role="status" className="text-sm text-accent">
-          {t("grant.success", { balance: format.number(result.balance) })}
+          {t("grant.success", { amount: format.number(result.amount), user: result.user, balance: format.number(result.balance) })}
         </p>
       )}
       {result && "error" in result && (

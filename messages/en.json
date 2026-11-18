@@ -995,6 +995,7 @@
     "friend_accepted": "{user} accepted your friend request.",
     "referral_gift": "{user} sent you a gift: 3 Mix boosters",
     "referral_joined": "{user} joined with your link",
+    "admin_grant": "You received {amount} currency from the game admin",
     "referral_rewarded": "{user} played 10 boosters over 3 days: +3 boosters and +500 for you"
   },
   "inspector": {
@@ -1085,7 +1086,7 @@
       "amount": "Amount",
       "note": "Note (optional)",
       "submit": "Grant",
-      "success": "New balance: {balance}"
+      "success": "Sent {amount} to {user} — new balance {balance}"
     },
     "picker": {
       "search": "Search series",

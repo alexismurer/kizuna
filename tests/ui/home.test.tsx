@@ -137,6 +137,13 @@ describe("Hero", () => {
     expect(screen.getByText("Hero 2")).toBeInTheDocument();
   });
 
+  it("shows the daily tagline on the daily slide and the seasonal one on seasonal slides", () => {
+    wrap(<Hero slides={[slide(), slide({ packId: "season_x", title: "Spring", seePack: "season_x" })]} dailyOpened={false} />);
+    expect(screen.getByText(messages.packs.daily.tagline)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Show slide 2" }));
+    expect(screen.getByText(messages.packs.seasonal.tagline)).toBeInTheDocument();
+  });
+
   it("disables the CTA when there is no pool today", () => {
     wrap(<Hero slides={[slide({ title: "Daily", noPool: true, seePack: "mix" })]} dailyOpened={false} />);
     expect(screen.getByRole("button", { name: messages.home.hero.none })).toBeDisabled();
