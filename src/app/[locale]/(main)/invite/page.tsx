@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { cookies } from "next/headers";
+import { AuthShell } from "@/components/auth/AuthShell";
 import { InviteForm } from "@/components/referrals/InviteForm";
 import { REF_COOKIE } from "@/lib/referrals/link";
 import { createServerClient } from "@/lib/supabase/server";
@@ -20,8 +21,10 @@ async function InviteContent() {
 
 export default function InvitePage() {
   return (
-    <Suspense>
-      <InviteContent />
-    </Suspense>
+    <AuthShell>
+      <Suspense>
+        <InviteContent />
+      </Suspense>
+    </AuthShell>
   );
 }
