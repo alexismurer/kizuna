@@ -19,7 +19,7 @@ vi.mock("next/navigation", () => ({
   },
 }));
 vi.mock("next/headers", () => ({
-  headers: async () => new Headers({ host: "anicards.test", "x-forwarded-proto": "https" }),
+  headers: async () => new Headers({ host: "kizuna.test", "x-forwarded-proto": "https" }),
 }));
 vi.mock("next-intl/server", () => ({
   setRequestLocale: vi.fn(),
@@ -163,7 +163,7 @@ describe("invite friends page", () => {
     wrap(await Content(content.props));
     expect(screen.getByText(/\+3 boosters · \+500/)).toBeInTheDocument();
     expect(screen.getAllByRole("listitem").filter((li) => li.closest("ol"))).toHaveLength(3);
-    expect(screen.getByRole("textbox")).toHaveValue("https://anicards.test/join/ABCD2345");
+    expect(screen.getByRole("textbox")).toHaveValue("https://kizuna.test/join/ABCD2345");
     expect(screen.getByText(/3 different days/)).toBeInTheDocument();
   });
 });

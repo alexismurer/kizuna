@@ -1,4 +1,4 @@
-const CACHE = "anicards-v1";
+const CACHE = "kizuna-v1";
 const OFFLINE_URL = "/offline.html";
 
 self.addEventListener("install", (event) => {

@@ -202,7 +202,7 @@ describe("Summary", () => {
     expect(ul.style.maxHeight).toBe("");
     expect(ul.style.overflow).toBe("");
     const a = click.mock.contexts[0] as HTMLAnchorElement;
-    expect(a.download).toBe("anicards-pull.png");
+    expect(a.download).toBe("kizuna-pull.png");
     expect(a.href).toBe("data:image/png;base64,AAAA");
   });
 

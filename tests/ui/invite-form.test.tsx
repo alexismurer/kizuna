@@ -93,11 +93,11 @@ describe("InviteForm", () => {
   });
 
   it("clears the referral cookie after joining", async () => {
-    document.cookie = "anicards_ref=ABCD2345; path=/";
+    document.cookie = "kizuna_ref=ABCD2345; path=/";
     wrap(ref);
     typeName("newbie");
     submit();
     await waitFor(() => expect(push).toHaveBeenCalled());
-    expect(document.cookie).not.toContain("anicards_ref");
+    expect(document.cookie).not.toContain("kizuna_ref");
   });
 });

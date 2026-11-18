@@ -69,7 +69,7 @@ afterEach(cleanup);
 describe("JoinLanding", () => {
   it("invites with the inviter name, up to 3 cards and a join link", () => {
     wrap(<JoinLanding code="ABCD2345" preview={preview({ cards: [card(1), card(2), card(3), card(4)] })} />);
-    expect(screen.getByText("Alex invited you to Anicards")).toBeInTheDocument();
+    expect(screen.getByText("Alex invited you to Kizuna")).toBeInTheDocument();
     expect(screen.getAllByRole("img")).toHaveLength(3);
     expect(screen.getByRole("link", { name: "Join and get 3 free boosters" })).toHaveAttribute("href", "/login");
   });
@@ -88,7 +88,7 @@ describe("JoinLanding", () => {
   it("renders a 20-char username with no cards without the fan", () => {
     const name = "a".repeat(20);
     wrap(<JoinLanding code="ABCD2345" preview={preview({ username: name, cards: [] })} />);
-    expect(screen.getByText(`${name} invited you to Anicards`)).toBeInTheDocument();
+    expect(screen.getByText(`${name} invited you to Kizuna`)).toBeInTheDocument();
     expect(screen.queryByRole("list")).toBeNull();
   });
 });

@@ -5,7 +5,7 @@ describe("web manifest", () => {
   const m = manifest();
 
   it("describes an installable standalone app", () => {
-    expect(m.name).toBe("Anicards");
+    expect(m.name).toBe("Kizuna");
     expect(m.start_url).toBe("/");
     expect(m.display).toBe("standalone");
   });

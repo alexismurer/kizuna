@@ -16,7 +16,7 @@ describe("smoke", () => {
         <AppName />
       </NextIntlClientProvider>,
     );
-    expect(screen.getByText("Anicards")).toBeInTheDocument();
-    expect(APP_NAME).toBe("Anicards");
+    expect(screen.getByText("Kizuna")).toBeInTheDocument();
+    expect(APP_NAME).toBe("Kizuna");
   });
 });

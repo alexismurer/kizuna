@@ -167,7 +167,7 @@ export function Summary({
         fetchRequestInit: { cache: "no-store" },
       });
       const a = document.createElement("a");
-      a.download = "anicards-pull.png";
+      a.download = "kizuna-pull.png";
       a.href = url;
       a.click();
     } catch {

@@ -35,7 +35,7 @@ describe("CardView", () => {
     const { unmount } = wrap(<CardView card={card} />);
     expect(sheen()).not.toHaveClass("fx-still");
     unmount();
-    localStorage.setItem("anicards.prefs", JSON.stringify({ animations: false }));
+    localStorage.setItem("kizuna.prefs", JSON.stringify({ animations: false }));
     wrap(<CardView card={card} />);
     expect(sheen()).toHaveClass("fx-still");
   });
@@ -84,6 +84,6 @@ describe("CardBack", () => {
   it("has the rarity glow class", () => {
     const { container } = wrap(<CardBack size="md" glowRarity="legendary" />);
     expect(container.querySelector(".back-glow-legendary")).not.toBeNull();
-    expect(screen.getByText("ANICARDS")).toBeInTheDocument();
+    expect(screen.getByText("KIZUNA")).toBeInTheDocument();
   });
 });

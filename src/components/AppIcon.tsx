@@ -1,7 +1,12 @@
-// Icon art shared by the generated PNG icons: accent background, tilted card.
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+// Icon art shared by the generated PNG icons: the white ensō on the app's black,
+// inset so it survives round and squircle masks.
+const MARK = `data:image/png;base64,${readFileSync(join(process.cwd(), "public/brand/kizuna-mark-white.png")).toString("base64")}`;
+
 export function AppIcon({ size }: { size: number }) {
-  const w = size * 0.42;
-  const h = size * 0.58;
+  const mark = Math.round(size * 0.72);
   return (
     <div
       style={{
@@ -10,24 +15,11 @@ export function AppIcon({ size }: { size: number }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#ff3d7f",
+        background: "#0b0b0f",
       }}
     >
-      <div
-        style={{
-          width: w,
-          height: h,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#0b0b0f",
-          borderRadius: size * 0.06,
-          border: `${size * 0.025}px solid #ffd23f`,
-          transform: "rotate(-8deg)",
-        }}
-      >
-        <div style={{ width: w * 0.4, height: w * 0.4, background: "#ffd23f", borderRadius: w }} />
-      </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={MARK} width={mark} height={mark} alt="" />
     </div>
   );
 }
