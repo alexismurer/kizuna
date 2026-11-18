@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CardView } from "@/components/card/CardView";
 import { Link } from "@/i18n/navigation";
+import { isLive } from "@/lib/game/seasonal";
 import type { Rarity } from "@/lib/game/types";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { packPool, type PoolPack } from "@/lib/supabase/packPool";
@@ -34,16 +35,22 @@ async function CharactersContent({
   const [{ data: pack }, { data: pool }, total] = await Promise.all([
     supabase
       .from("pack_types")
-      .select("id, kind, theme_id, rank_min, rank_max")
+      .select("id, kind, theme_id, rank_min, rank_max, title, series_ids, starts_at, ends_at")
       .eq("id", packId)
       .maybeSingle(),
     supabase.rpc("todays_pool"),
     catalogTotal(supabase),
   ]);
   if (!pack) notFound();
-  const p = pack as PoolPack & { id: string };
+  const p = pack as PoolPack & { id: string; title: string | null; starts_at: string | null; ends_at: string | null };
+  if (!isLive(p, new Date())) notFound();
   const today = pool as { name: string; series_ids: number[] } | null;
-  const name = p.kind === "daily" && today ? today.name : t(`packs.${p.id}.name`);
+  const name =
+    p.kind === "daily" && today
+      ? today.name
+      : p.kind === "seasonal"
+        ? (p.title ?? t("packs.seasonal.name"))
+        : t(`packs.${p.id}.name`);
 
   let cards: CardRow[] = [];
   let count = 0;

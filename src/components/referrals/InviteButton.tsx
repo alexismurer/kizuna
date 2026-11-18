@@ -8,6 +8,7 @@ export function InviteButton() {
   return (
     <Link
       href="/invite-friends"
+      aria-label={t("title")}
       className="hidden h-8 shrink-0 items-center gap-1.5 rounded-full border border-border px-2.5 lg:gap-2 lg:px-3 text-sm hover:text-accent md:flex"
     >
       <Gift className="h-4 w-4" aria-hidden />

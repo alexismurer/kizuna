@@ -154,6 +154,13 @@ async function main() {
   await anon.waitForTimeout(800)
   ok = (await check(anon, 'join-landing')) && ok
 
+  // installable app: manifest is standalone and ships a 512 icon
+  const manifest = await (await fetch(`${base}/manifest.webmanifest`)).json()
+  const hasIcon = (manifest.icons ?? []).some((i: { sizes: string }) => i.sizes === '512x512')
+  const manifestOk = manifest.display === 'standalone' && hasIcon
+  console.log(`${manifestOk ? 'OK  ' : 'FAIL'} manifest: display=${manifest.display} icon512=${hasIcon}`)
+  ok = manifestOk && ok
+
   await browser.close()
   if (!ok) process.exit(1)
 }

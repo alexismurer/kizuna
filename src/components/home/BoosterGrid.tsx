@@ -9,6 +9,7 @@ import { usePrefs } from "@/lib/fx/prefs";
 import { packAvailability } from "@/lib/game/availability";
 import type { Status } from "@/lib/game/types";
 import { rewardsFor } from "@/lib/opening/quantity";
+import { EndsOn } from "./EndsOn";
 import { PackSidePanel, type HomePack } from "./PackSidePanel";
 
 export type { HomePack };
@@ -76,7 +77,11 @@ export function BoosterGrid({
   const inTab = packs.filter((p) => tabOf(p) === tab);
   const selected = inTab.find((p) => p.id === picked[tab]) ?? inTab[0];
   const nameOf = (p: HomePack) =>
-    p.kind === "daily" && dailyName ? dailyName : t(`packs.${p.id}.name`);
+    p.kind === "daily" && dailyName
+      ? dailyName
+      : p.kind === "seasonal"
+        ? (p.title ?? t("packs.seasonal.name"))
+        : t(`packs.${p.id}.name`);
 
   const body = (
     <div className="flex flex-col gap-5">
@@ -122,13 +127,14 @@ export function BoosterGrid({
                 <li key={p.id} className="flex flex-col items-center gap-3 [perspective:900px]">
                   <button
                     type="button"
-                    aria-label={t(`packs.${p.id}.name`)}
+                    aria-label={p.kind === "seasonal" ? nameOf(p) : t(`packs.${p.id}.name`)}
                     aria-pressed={on}
                     onClick={() => setPicked({ ...picked, [tab]: p.id })}
                     className={`block w-full max-w-[13rem] rounded-[16px] ${on ? "ring-2 ring-cta ring-offset-4 ring-offset-bg" : ""} ${prefs.animations ? `motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out ${on ? "motion-safe:[transform:translateY(-6px)]" : "motion-safe:[transform:rotateX(6deg)_rotateY(-12deg)] motion-safe:hover:[transform:translateY(-6px)]"}` : ""}`}
                   >
                     <PackArt pack={p} cards={p.slotFloors.length} selected={on} name={nameOf(p)} />
                   </button>
+                  {p.endsAt && <EndsOn endsAt={p.endsAt} />}
                   {rewards > 0 ? (
                     <RewardBadge count={rewards} />
                   ) : cost === null ? (

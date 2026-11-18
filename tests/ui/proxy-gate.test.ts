@@ -125,4 +125,19 @@ describe("proxy gate", () => {
     expect(res.status).toBe(307);
     expect(res.cookies.get("sb-auth")?.value).toBe("new-token");
   });
+
+  it("sets no-store on every response when cookies were written", async () => {
+    state.refresh = { name: "sb-auth", value: "new-token" };
+    expect((await run("/")).headers.get("cache-control")).toBe("private, no-store");
+    state.user = { id: "u1" };
+    state.player = { id: "u1" };
+    expect((await run("/")).headers.get("cache-control")).toBe("private, no-store");
+    expect((await run("/login")).headers.get("cache-control")).toBe("private, no-store");
+  });
+
+  it("leaves cache headers alone when no cookies were written", async () => {
+    state.user = { id: "u1" };
+    state.player = { id: "u1" };
+    expect((await run("/")).headers.get("cache-control")).toBeNull();
+  });
 });

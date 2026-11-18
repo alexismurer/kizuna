@@ -47,7 +47,7 @@ async function HomeContent() {
       .filter((p) => p.kind === "seasonal")
       .map((p) => ({
         packId: p.id,
-        title: t(`packs.${p.id}.name`),
+        title: p.title ?? t("packs.seasonal.name"),
         cards: (topCards.get(p.id) ?? []).map(face),
         seePack: p.id,
         noPool: false,

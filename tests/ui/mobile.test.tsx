@@ -36,6 +36,8 @@ const pack = (id: string, kind: HomePack["kind"], o: Partial<HomePack> = {}): Ho
   themeId: null,
   characters: 120,
   thumbs: [],
+  title: null,
+  endsAt: null,
   ...o,
 });
 const status: Status = {
@@ -188,6 +190,14 @@ describe("BoosterSheet", () => {
     const row = await screen.findByRole("button", { name: /^Hall of Fame/ });
     expect(within(row).getByText("Reward ×1")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open · Reward · 1 left" })).toHaveAttribute("href", "/open/hall_of_fame");
+  });
+
+  it("shows a seasonal booster by its title with its end date", async () => {
+    const fall = pack("season_fall26", "seasonal", { title: "Fall 2026", endsAt: "2026-12-01T12:00:00Z" });
+    load.mockResolvedValue({ status, packs: [...PACKS, fall], dailyName: null });
+    wrap(<BoosterSheet initialPack="season_fall26" onClose={() => {}} />);
+    const row = await screen.findByRole("button", { name: /^Fall 2026/ });
+    expect(within(row).getByText(/^Ends .*2026/)).toBeInTheDocument();
   });
 
   it("Escape and the close button close it", () => {

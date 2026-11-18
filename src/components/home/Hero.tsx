@@ -75,7 +75,7 @@ export function Hero({
             {slide.title}
           </h1>
           <p className="max-w-md text-white/85">
-            {daily && slide.noPool ? t("home.hero.taglineNone") : t(`packs.${slide.packId}.tagline`)}
+            {daily ? (slide.noPool ? t("home.hero.taglineNone") : t("packs.daily.tagline")) : t("packs.seasonal.tagline")}
           </p>
           <div className="mt-2 flex flex-wrap gap-3">
             {blocked ? (

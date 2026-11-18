@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown, Coins, Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { price, TABS, tabOf, type HomePack, type Tab } from "@/components/home/BoosterGrid";
+import { EndsOn } from "@/components/home/EndsOn";
 import { PackSidePanel } from "@/components/home/PackSidePanel";
 import { EMBLEM, HUE } from "@/components/PackArt";
 import { RewardBadge } from "@/components/RewardBadge";
@@ -78,7 +79,11 @@ export function BoosterPicker({
   const inTab = packs.filter((p) => tabOf(p) === tab);
   const selected = inTab.find((p) => p.id === picked[tab]) ?? inTab[0];
   const nameOf = (p: HomePack) =>
-    p.kind === "daily" && dailyName ? dailyName : t(`packs.${p.id}.name`);
+    p.kind === "daily" && dailyName
+      ? dailyName
+      : p.kind === "seasonal"
+        ? (p.title ?? t("packs.seasonal.name"))
+        : t(`packs.${p.id}.name`);
 
   return (
     <>
@@ -129,8 +134,9 @@ export function BoosterPicker({
                       {nameOf(p)}
                     </span>
                     <span className="block truncate text-xs text-common">
-                      {t(`packs.${p.id}.tagline`)}
+                      {t(p.kind === "seasonal" ? "packs.seasonal.tagline" : `packs.${p.id}.tagline`)}
                     </span>
+                    {p.endsAt && <EndsOn endsAt={p.endsAt} />}
                   </span>
                   {rewards > 0 ? (
                     <RewardBadge count={rewards} />

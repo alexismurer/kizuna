@@ -66,7 +66,7 @@ export function PackArt({
   pack: { id: string; kind?: string };
   cards: number;
   selected?: boolean;
-  // shown instead of the pack's own name (today's pool for the daily pack)
+  // shown instead of the pack's own name (today's pool for the daily pack, a seasonal's title)
   name?: string;
 }) {
   const t = useTranslations();
@@ -116,10 +116,10 @@ export function PackArt({
           <Icon className="h-[19cqw] w-[19cqw]" color="white" strokeWidth={1.75} />
         </div>
         <span className="mt-[2cqw] text-center font-display text-[11cqw] font-bold leading-tight text-white drop-shadow">
-          {t(`packs.${pack.id}.name`)}
+          {name ?? t(`packs.${pack.id}.name`)}
         </span>
         <span className="text-center text-[6cqw] leading-snug text-white/85">
-          {t(`packs.${pack.id}.tagline`)}
+          {pack.kind === "seasonal" ? t("packs.seasonal.tagline") : t(`packs.${pack.id}.tagline`)}
         </span>
       </div>
       <span className="absolute bottom-[8%] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/35 px-[4cqw] py-[1cqw] font-mono text-[5.5cqw] text-white">

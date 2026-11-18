@@ -157,6 +157,7 @@ describe("NotificationList", () => {
     [n(11, "trade_expired", { trade_id: 9 }), "Your trade offer expired; your cards and currency were returned.", "/market?tab=trades"],
     [n(12, "friend_request", { from_username: "hana" }), "hana sent you a friend request.", "/friends?tab=requests"],
     [n(13, "friend_accepted", { username: "hana" }), "hana accepted your friend request.", "/profile/hana"],
+    [n(14, "admin_grant", { amount: 250 }), "You received 250 currency from the game admin", "/"],
   ];
 
   it.each(cases)("renders %#: kind text, link and relative time", (item, text, href) => {

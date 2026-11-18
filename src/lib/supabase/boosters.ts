@@ -1,6 +1,7 @@
 import { cache } from "react";
 import type { HomePack } from "@/components/home/BoosterGrid";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
+import { isLive } from "@/lib/game/seasonal";
 import { packPool } from "./packPool";
 import { createServerClient } from "./server";
 
@@ -14,6 +15,10 @@ type PackRow = {
   theme_id: string | null;
   rank_min: number | null;
   rank_max: number | null;
+  title: string | null;
+  series_ids: number[] | null;
+  starts_at: string | null;
+  ends_at: string | null;
 };
 export type TopCardRow = {
   number: number;
@@ -43,7 +48,8 @@ async function loadPacks<C extends { image_url: string | null }>(columns: string
     supabase.from("pack_types").select("*").order("sort"),
   ]);
   const pool = poolRes.data as Pool;
-  const rows = (packsRes.data ?? []) as PackRow[];
+  const now = new Date();
+  const rows = ((packsRes.data ?? []) as PackRow[]).filter((p) => isLive(p, now));
 
   const tops = await Promise.all(
     rows.map(async (p) => {
@@ -63,6 +69,8 @@ async function loadPacks<C extends { image_url: string | null }>(columns: string
     themeId: p.theme_id,
     characters: tops[i].count,
     thumbs: tops[i].cards.flatMap((c) => (c.image_url ? [c.image_url] : [])),
+    title: p.title,
+    endsAt: p.ends_at,
   }));
   return { pool, packs, topCards };
 }

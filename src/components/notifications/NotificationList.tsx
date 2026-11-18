@@ -20,6 +20,7 @@ const HREF: Record<string, string> = {
   referral_joined: "/profile",
   referral_gift: "/profile",
   referral_rewarded: "/invite-friends",
+  admin_grant: "/",
 };
 
 function hrefOf(i: Notification): string {

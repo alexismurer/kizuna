@@ -149,13 +149,7 @@ npx tsx scripts/phone-check.ts <screenshot-dir>
 
 ### Before a hosted deploy
 
-- [ ] Enable the Discord auth provider and add the site's `/auth/callback`
-      URL to the Supabase redirect URLs and the Discord app.
-- [ ] Disable email signups and anonymous sign-ins in Supabase Auth.
-- [ ] Set `NEXT_PUBLIC_DEV_LOGIN` to `false` (or leave it unset).
-- [ ] Send `Cache-Control: no-store` on responses that refresh the session.
-- [ ] If `scripts/import-anilist/.cache` predates the "never cache AniList
-      errors" fix, clear it once before importing.
+Follow the step-by-step runbook in [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ---
 

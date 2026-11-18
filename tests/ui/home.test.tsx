@@ -67,6 +67,8 @@ const pack = (
   themeId: null,
   characters: 120,
   thumbs: [],
+  title: null,
+  endsAt: null,
   ...o,
 });
 const status = (o: Partial<Status> = {}): Status => ({
@@ -135,6 +137,13 @@ describe("Hero", () => {
     expect(screen.getByText("Hero 2")).toBeInTheDocument();
   });
 
+  it("shows the daily tagline on the daily slide and the seasonal one on seasonal slides", () => {
+    wrap(<Hero slides={[slide(), slide({ packId: "season_x", title: "Spring", seePack: "season_x" })]} dailyOpened={false} />);
+    expect(screen.getByText(messages.packs.daily.tagline)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Show slide 2" }));
+    expect(screen.getByText(messages.packs.seasonal.tagline)).toBeInTheDocument();
+  });
+
   it("disables the CTA when there is no pool today", () => {
     wrap(<Hero slides={[slide({ title: "Daily", noPool: true, seePack: "mix" })]} dailyOpened={false} />);
     expect(screen.getByRole("button", { name: messages.home.hero.none })).toBeDisabled();
@@ -189,6 +198,15 @@ describe("BoosterGrid", () => {
     wrap(<BoosterGrid packs={PACKS} status={status()} dailyName={null} />);
     fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
     expect(screen.getByRole("button", { name: messages.home.hero.none })).toBeDisabled();
+  });
+
+  it("lists a seasonal booster by its title in Daily & limited with its end date", () => {
+    const fall = pack("season_fall26", "seasonal", { title: "Fall 2026", endsAt: "2026-12-01T12:00:00Z" });
+    wrap(<BoosterGrid packs={[...PACKS, fall]} status={status()} dailyName="Test Pool" />);
+    expect(screen.queryByRole("button", { name: "Fall 2026" })).toBeNull();
+    fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
+    const btn = screen.getByRole("button", { name: "Fall 2026" });
+    expect(within(btn.parentElement!).getByText(/^Ends .*2026/)).toBeInTheDocument();
   });
 
   it("full screen toggles an overlay that Escape closes", () => {

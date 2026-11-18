@@ -12,7 +12,8 @@
     "db:reset": "supabase db reset",
     "import": "tsx scripts/import-anilist/index.ts",
     "catalog:dev": "supabase db reset && tsx scripts/clear-test-data.ts && tsx scripts/import-anilist/index.ts --limit 5000",
-    "invite": "tsx scripts/create-invite.ts"
+    "invite": "tsx scripts/create-invite.ts",
+    "admin": "tsx scripts/make-admin.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
