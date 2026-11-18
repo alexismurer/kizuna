@@ -3,7 +3,7 @@
 A step-by-step runbook for putting the game online with Supabase (database and
 login) and Vercel (hosting). Do the steps in order.
 
-The scripts (`npm run import`, `npm run invite`, `npm run admin`) read only
+The scripts (`npm run import`, `npm run admin`) read only
 two variables: `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`
 (no anon key needed). To run one against the hosted project, set both in the
 terminal session only. Example in PowerShell:
@@ -83,17 +83,13 @@ In the dashboard, Authentication:
 
 ## 6. First admin
 
-1. In a terminal with the two hosted variables set (see the top of this page), create an invite code:
-   ```
-   npm run invite
-   ```
-2. Open the site, sign in with Discord and enter the code.
-3. Make yourself admin, using the username you chose in the game (same
-   terminal, or set the two variables again):
+1. Open the site, sign in with Discord and pick a username.
+2. In a terminal with the two hosted variables set (see the top of this page),
+   make yourself admin with that username:
    ```
    npm run admin -- <username>
    ```
-   The Admin page then appears for you. From there you can create more invites,
+   The Admin page then appears for you. From there you can create invite codes,
    grant currency, and manage daily pools, seasonal boosters and chat.
 
 ## 7. Keep-alive cron
@@ -107,7 +103,7 @@ the file on deploy. Check it under Project > Settings > Cron Jobs, and open
 
 After the first deploy, on the live site:
 
-- [ ] Sign in with Discord (and with an invite code on a new account).
+- [ ] Sign in with Discord on a new account and pick a username.
 - [ ] Open a booster and see the cards land in the collection.
 - [ ] Market: list a card and view a listing.
 - [ ] Chat: send a message in the market chat.

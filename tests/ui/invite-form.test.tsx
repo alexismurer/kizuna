@@ -19,7 +19,7 @@ const wrap = (referral: { code: string; username: string } | null) =>
   );
 const ref = { code: "ABCD2345", username: "Alex" };
 const typeName = (v: string) => fireEvent.change(screen.getByPlaceholderText("Username"), { target: { value: v } });
-const submit = () => fireEvent.click(screen.getByRole("button", { name: "Join" }));
+const submit = () => fireEvent.click(screen.getByRole("button", { name: "Start playing" }));
 
 beforeEach(() => {
   rpc.mockReset();
@@ -52,9 +52,19 @@ describe("InviteForm", () => {
     expect(rpc).toHaveBeenCalledWith("redeem_invite", { p_code: "OWNER123", p_username: "newbie" });
   });
 
-  it("without a referral shows the code field as before", async () => {
+  it("without a referral joins with no code at all", async () => {
+    wrap(null);
+    expect(screen.queryByPlaceholderText("Invite code")).toBeNull();
+    typeName("newbie");
+    submit();
+    await waitFor(() => expect(push).toHaveBeenCalledWith("/"));
+    expect(rpc).toHaveBeenCalledWith("redeem_invite", { p_code: "", p_username: "newbie" });
+  });
+
+  it("without a referral an optional code can still be entered", async () => {
     wrap(null);
     expect(screen.queryByText(/Invited by/)).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Have an invite code?" }));
     fireEvent.change(screen.getByPlaceholderText("Invite code"), { target: { value: "OWNER123" } });
     typeName("newbie");
     submit();

@@ -16,7 +16,8 @@ export function InviteForm({
 }) {
   const t = useTranslations();
   const router = useRouter();
-  const [useCode, setUseCode] = useState(referral === null);
+  // the code is optional: shown on request, or when a referral is replaced or refused
+  const [useCode, setUseCode] = useState(initialError !== null);
   const [code, setCode] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState<string | null>(initialError);
@@ -24,7 +25,7 @@ export function InviteForm({
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const { error } = await createBrowserClient().rpc("redeem_invite", {
-      p_code: useCode ? code.trim() : referral!.code,
+      p_code: useCode ? code.trim() : (referral?.code ?? ""),
       p_username: username.trim(),
     });
     if (error) {
@@ -54,15 +55,6 @@ export function InviteForm({
           </button>
         </p>
       )}
-      {useCode && (
-        <input
-          required
-          placeholder={t("invite.code")}
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          className="w-full rounded-lg border border-border bg-bg px-3 py-2.5 outline-none focus-visible:border-accent font-mono"
-        />
-      )}
       <input
         required
         minLength={3}
@@ -73,6 +65,23 @@ export function InviteForm({
         className="w-full rounded-lg border border-border bg-bg px-3 py-2.5 outline-none focus-visible:border-accent"
       />
       <p className="text-xs text-common">{t("invite.hint")}</p>
+      {useCode && (
+        <input
+          placeholder={t("invite.code")}
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          className="w-full rounded-lg border border-border bg-bg px-3 py-2.5 outline-none focus-visible:border-accent font-mono"
+        />
+      )}
+      {!referral && !useCode && (
+        <button
+          type="button"
+          onClick={() => setUseCode(true)}
+          className="self-start text-sm text-accent underline"
+        >
+          {t("invite.haveCode")}
+        </button>
+      )}
       <button
         type="submit"
         className="w-full rounded-xl bg-cta px-5 py-3 font-semibold text-black transition hover:brightness-110"
