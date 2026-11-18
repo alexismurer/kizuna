@@ -22,7 +22,14 @@ vi.mock("@/i18n/navigation", () => ({
 const loadStatus = vi.hoisted(() => vi.fn());
 vi.mock("@/lib/supabase/boosters", () => ({ loadStatus }));
 vi.mock("@/lib/supabase/server", () => ({
-  createServerClient: async () => ({ auth: { getClaims: async () => ({ data: { claims: { sub: "u1" } } }) } }),
+  createServerClient: async () => ({
+    auth: { getClaims: async () => ({ data: { claims: { sub: "u1" } } }) },
+    from: () => ({
+      select: () => ({
+        eq: () => ({ maybeSingle: async () => ({ data: { username: "kenji", avatar_url: null } }) }),
+      }),
+    }),
+  }),
 }));
 vi.mock("@/lib/market/notifications", () => ({
   loadNotifications: async () => ({
@@ -314,6 +321,14 @@ describe("TopBar", () => {
     loadStatus.mockResolvedValue(status());
     wrap(await TopBar());
     expect(screen.getByRole("button", { name: "Notifications, 1 unread" })).toHaveTextContent("1");
+  });
+
+  it("has an account menu with profile, friends and sign out", async () => {
+    loadStatus.mockResolvedValue(status());
+    wrap(await TopBar());
+    expect(screen.getByRole("link", { name: "My profile" })).toHaveAttribute("href", "/profile/kenji");
+    expect(screen.getByRole("link", { name: "Friends & messages" })).toHaveAttribute("href", "/friends");
+    expect(screen.getByRole("button", { name: "Sign out" })).toBeInTheDocument();
   });
 
   it("shows no dot when nothing is claimable", async () => {

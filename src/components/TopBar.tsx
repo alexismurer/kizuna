@@ -6,6 +6,7 @@ import { loadNotifications } from "@/lib/market/notifications";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { createServerClient } from "@/lib/supabase/server";
 import { NotificationBell } from "./notifications/NotificationBell";
+import { Avatar } from "./social/Avatar";
 import { SignOutButton } from "./SignOutButton";
 import { StockPopover } from "./StockPopover";
 
@@ -16,6 +17,9 @@ export async function TopBar() {
   const { missionsClaimable } = status;
   const supabase = await createServerClient();
   const [notifications, { data: claims }] = await Promise.all([loadNotifications(supabase), supabase.auth.getClaims()]);
+  const { data: me } = claims
+    ? await supabase.from("player_directory").select("username, avatar_url").eq("id", claims.claims.sub).maybeSingle()
+    : { data: null };
 
   const disabled = ["play", "more"] as const;
 
@@ -79,11 +83,19 @@ export async function TopBar() {
       <details className="relative shrink-0">
         <summary
           aria-label={t("topbar.account")}
-          className="flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-full bg-accent font-bold text-black"
+          className="flex h-8 w-8 cursor-pointer list-none items-center justify-center overflow-hidden rounded-full bg-accent font-bold text-black"
         >
-          <User className="h-4 w-4" aria-hidden />
+          {me ? <Avatar url={me.avatar_url} username={me.username} size={32} /> : <User className="h-4 w-4" aria-hidden />}
         </summary>
-        <div className="absolute right-0 mt-2 w-36 overflow-hidden rounded-md border border-border bg-panel">
+        <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-md border border-border bg-panel">
+          {me && (
+            <Link href={`/profile/${me.username}`} className="block px-3 py-2 text-sm hover:bg-border">
+              {t("topbar.myProfile")}
+            </Link>
+          )}
+          <Link href="/friends" className="block px-3 py-2 text-sm hover:bg-border">
+            {t("topbar.friends")}
+          </Link>
           <SignOutButton />
         </div>
       </details>
