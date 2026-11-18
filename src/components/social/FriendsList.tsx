@@ -46,7 +46,10 @@ export function FriendsList({
   }
   const busy = useRef(new Set<string>());
 
-  useMarketLive(["friendships", "direct_messages"], {
+  // friendships isn't published (Realtime DELETE events would leak who ended what); the player's own
+  // notifications cover new requests and acceptances
+  useMarketLive(["notifications", "direct_messages"], {
+    notifications: { event: "INSERT", filter: `player_id=eq.${playerId}` },
     direct_messages: { event: "INSERT", filter: `to_id=eq.${playerId}` },
   });
 

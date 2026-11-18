@@ -4,6 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { Dialog } from "@/components/market/Dialog";
 import { Link } from "@/i18n/navigation";
+import { usePrefs } from "@/lib/fx/prefs";
 import { rpcErrorKey } from "@/lib/game/errors";
 import { CARD_COLUMNS, mergeById, toProfileCard, type CardRow } from "@/lib/social/thread";
 import type { ChatMessage, ChatRow, ProfileCard } from "@/lib/social/types";
@@ -32,6 +33,7 @@ export function ChatPanel({ playerId }: { playerId: string }) {
   const td = useTranslations("dm");
   const te = useTranslations();
   const format = useFormatter();
+  const [prefs] = usePrefs();
   const now = useNow({ updateInterval: 60_000 });
   const [rooms, setRooms] = useState<string[]>([]);
   const [room, setRoom] = useState<string | null>(null);
@@ -207,7 +209,7 @@ export function ChatPanel({ playerId }: { playerId: string }) {
       <header className="flex items-center gap-2 border-b border-border px-3 py-2">
         <h2 className="font-display text-lg font-bold">{t("title")}</h2>
         <span className="flex items-center gap-1 text-[11px] font-bold text-uncommon">
-          <span aria-hidden className="h-2 w-2 rounded-full bg-uncommon motion-safe:animate-pulse" />
+          <span aria-hidden className={`h-2 w-2 rounded-full bg-uncommon ${prefs.animations ? "motion-safe:animate-pulse" : ""}`} />
           {t("live")}
         </span>
       </header>

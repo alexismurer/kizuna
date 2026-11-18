@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { execFileSync } from 'node:child_process'
 import { admin, giveCards, newPlayer, signedInClient, type TestClient } from './helpers'
 
 type P = { userId: string; client: TestClient }
@@ -260,7 +261,7 @@ describe('direct messages', () => {
     expect(t[0]).toMatchObject({ fromId: a.userId, mine: true, card: null, tag: null, readAt: null })
     expect(t[1]).toMatchObject({ fromId: b.userId, mine: false, tag: 'looking' })
     expect(t[1].card).toMatchObject({ id: card, rarity: 'epic' })
-    expect(Object.keys(t[1]).sort()).toEqual(['body', 'card', 'createdAt', 'fromId', 'id', 'mine', 'readAt', 'tag'])
+    expect(Object.keys(t[1]).sort()).toEqual(['body', 'card', 'createdAt', 'fromId', 'id', 'mine', 'missing', 'readAt', 'tag'])
     // same thread from the other side
     const tb = (await b.client.rpc('dm_thread', { p_username: a.name.toUpperCase() })).data
     expect(tb.map((m: { id: number }) => m.id)).toEqual(t.map((m: { id: number }) => m.id))
@@ -355,5 +356,54 @@ describe('public_profile friendship', () => {
     expect(await show()).toEqual([c2])
     await giveCards(a.userId, c2, 0)
     expect(await show()).toEqual([])
+  })
+})
+
+describe('final review fixes', () => {
+  it('friendships is not published over Realtime', () => {
+    const sql = "select tablename from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public'"
+    const out = execFileSync('docker', ['exec', 'supabase_db_kyara', 'psql', '-U', 'postgres', '-At', '-c', sql]).toString()
+    const tables = out.split(/\r?\n/).filter(Boolean)
+    expect(tables).not.toContain('friendships')
+    expect(tables).toEqual(expect.arrayContaining(['chat_messages', 'direct_messages']))
+  })
+
+  it('dm_thread flags an attached card the viewer does not own', async () => {
+    const a = await player()
+    const b = await player()
+    await befriend(a, b)
+    const card = await aCard('common', 2)
+    await giveCards(a.userId, card, 1)
+    expect((await a.client.rpc('send_dm', { p_username: b.name, p_body: 'x', p_card_id: card, p_tag: 'trading' })).error).toBeNull()
+    expect((await a.client.rpc('send_dm', { p_username: b.name, p_body: 'plain' })).error).toBeNull()
+    const sender = (await a.client.rpc('dm_thread', { p_username: b.name })).data
+    const recipient = (await b.client.rpc('dm_thread', { p_username: a.name })).data
+    expect(sender.map((m: { missing: boolean }) => m.missing)).toEqual([false, false])
+    expect(recipient.map((m: { missing: boolean }) => m.missing)).toEqual([true, false])
+    await giveCards(b.userId, card, 1)
+    expect((await b.client.rpc('dm_thread', { p_username: a.name })).data[0].missing).toBe(false)
+  })
+
+  it('send_friend_request allows 20 new requests per rolling hour, the 21st is rate limited', async () => {
+    const a = await player()
+    const others = await Promise.all(Array.from({ length: 21 }, () => player()))
+    for (const o of others.slice(0, 20)) {
+      expect((await a.client.rpc('send_friend_request', { p_username: o.name })).error).toBeNull()
+    }
+    expect((await a.client.rpc('send_friend_request', { p_username: others[20].name })).error?.message).toContain('rate_limited')
+    // cancelling doesn't reset it
+    await a.client.rpc('remove_friend', { p_username: others[0].name })
+    expect((await a.client.rpc('send_friend_request', { p_username: others[20].name })).error?.message).toContain('rate_limited')
+    // accepting someone's request is not a new request
+    const z = await player()
+    expect((await z.client.rpc('send_friend_request', { p_username: a.name })).error).toBeNull()
+    expect((await a.client.rpc('send_friend_request', { p_username: z.name })).data).toBe('accepted')
+    // an older request no longer counts
+    await admin
+      .from('notifications')
+      .update({ created_at: new Date(Date.now() - 3_700_000).toISOString() })
+      .eq('kind', 'friend_request')
+      .eq('payload->>from_username', a.name)
+    expect((await a.client.rpc('send_friend_request', { p_username: others[20].name })).error).toBeNull()
   })
 })

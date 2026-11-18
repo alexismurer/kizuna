@@ -39,6 +39,17 @@ describe("profile page", () => {
     expect(notFound).toHaveBeenCalledTimes(1);
   });
 
+  it("is a 404, not a throw, for a malformed percent escape", async () => {
+    await expect(runContent("100%")).rejects.toThrow("NEXT_NOT_FOUND");
+    expect(rpc).not.toHaveBeenCalled();
+  });
+
+  it("decodes an encoded username", async () => {
+    rpc.mockResolvedValue({ data: { username: "a#b", isMe: false, showcase: [], wishlist: [], recentPulls: [] }, error: null });
+    await runContent("a%23b");
+    expect(rpc).toHaveBeenCalledWith("public_profile", { p_username: "a#b" });
+  });
+
   it("renders for a known player", async () => {
     rpc.mockResolvedValue({
       data: { username: "sakura", isMe: false, showcase: [], wishlist: [], recentPulls: [] },

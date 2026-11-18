@@ -8,7 +8,15 @@ import messages from "../../messages/en.json";
 
 const rpc = vi.fn();
 const refresh = vi.fn();
-const chan: { on: () => unknown; subscribe: () => unknown } = { on: () => chan, subscribe: () => chan };
+type Sub = { table: string; opts: { event?: string; filter?: string }; cb: () => void };
+const subs: Sub[] = [];
+const chan: { on: (t: string, o: Sub["opts"] & { table: string }, cb: () => void) => unknown; subscribe: () => unknown } = {
+  on: (_t, o, cb) => {
+    subs.push({ table: o.table, opts: o, cb });
+    return chan;
+  },
+  subscribe: () => chan,
+};
 vi.mock("@/lib/supabase/client", () => ({
   createBrowserClient: () => ({
     rpc,
@@ -45,6 +53,7 @@ const data: FriendsData = {
 };
 
 beforeEach(() => {
+  subs.length = 0;
   rpc.mockReset();
   refresh.mockReset();
   rpc.mockResolvedValue({ data: null, error: null });
@@ -55,6 +64,20 @@ afterEach(() => {
 });
 
 describe("friends page", () => {
+  it("refreshes on an own notification insert and does not listen to friendships", async () => {
+    wrap(<FriendsList data={data} playerId="me" />);
+    await waitFor(() => expect(subs.length).toBeGreaterThan(0));
+    expect(subs.map((s) => s.table).sort()).toEqual(["direct_messages", "notifications"]);
+    const n = subs.find((s) => s.table === "notifications")!;
+    expect(n.opts).toMatchObject({ event: "INSERT", filter: "player_id=eq.me" });
+    vi.useFakeTimers();
+    act(() => n.cb());
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
+    expect(refresh).toHaveBeenCalled();
+  });
+
   it("lists friends with profile links, unread badge and a Message link", () => {
     wrap(<FriendsList data={data} playerId="me" />);
     expect(screen.getByRole("link", { name: "sakura" })).toHaveAttribute("href", "/profile/sakura");

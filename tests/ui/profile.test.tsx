@@ -87,6 +87,16 @@ describe("ProfileHeader + tabs", () => {
     expect(screen.getByText("45")).toBeInTheDocument();
   });
 
+  it("formats the card counts in the player's locale", () => {
+    wrap(<ProfileHeader profile={profile({ uniqueCards: 1234, catalogSize: 5000 })} owned={[]} />);
+    expect(screen.getByText("1,234/5,000")).toBeInTheDocument();
+  });
+
+  it("encodes the username in the Message link", () => {
+    wrap(<ProfileHeader profile={profile({ username: "a#b c%", friendship: "friends" })} owned={[]} />);
+    expect(screen.getByRole("link", { name: "Message" })).toHaveAttribute("href", "/messages/a%23b%20c%25");
+  });
+
   it("shows showcase, wishlist and pulls in tabs", () => {
     wrap(<ProfileTabs profile={profile()} />);
     expect(screen.getByText("Hero 1")).toBeInTheDocument();

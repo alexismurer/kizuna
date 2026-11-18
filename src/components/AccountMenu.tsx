@@ -40,7 +40,7 @@ export function AccountMenu({
       </summary>
       <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-md border border-border bg-panel">
         {me && (
-          <Link href={`/profile/${me.username}`} className="block px-3 py-2 text-sm hover:bg-border">
+          <Link href={`/profile/${encodeURIComponent(me.username)}`} className="block px-3 py-2 text-sm hover:bg-border">
             {t("myProfile")}
           </Link>
         )}

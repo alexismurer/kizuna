@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { HomePack } from "@/components/home/BoosterGrid";
 import { BoosterSheet } from "@/components/mobile/BoosterSheet";
+import { AccountMenu } from "@/components/AccountMenu";
 import { BottomNav } from "@/components/mobile/BottomNav";
 import { CollectionGrid } from "@/components/CollectionGrid";
 import { RecycleButton } from "@/components/RecycleButton";
@@ -69,6 +70,17 @@ afterEach(() => {
   load.mockReset();
 });
 
+describe("AccountMenu", () => {
+  it("encodes the username in My profile", () => {
+    wrap(
+      <AccountMenu playerId="u1" me={{ username: "a#b c%", avatar_url: null }} initialUnread={0}>
+        <span />
+      </AccountMenu>,
+    );
+    expect(screen.getByRole("link", { name: "My profile" })).toHaveAttribute("href", "/profile/a%23b%20c%25");
+  });
+});
+
 describe("BottomNav", () => {
   it("renders five items with the Open button in the middle", () => {
     wrap(<BottomNav missionsClaimable={0} />);
@@ -117,6 +129,12 @@ describe("More sheet", () => {
     const friends = within(sheet).getByRole("link", { name: /Friends & messages/ });
     expect(friends).toHaveAttribute("href", "/friends");
     expect(friends).toHaveTextContent("3");
+  });
+
+  it("encodes the username in My profile", () => {
+    wrap(<BottomNav missionsClaimable={0} social={{ playerId: "u1", username: "a#b c%", unread: 0 }} />);
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));
+    expect(screen.getByRole("link", { name: "My profile" })).toHaveAttribute("href", "/profile/a%23b%20c%25");
   });
 
   it("Notifications closes the sheet and asks the bell to open", () => {

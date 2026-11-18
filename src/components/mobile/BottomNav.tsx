@@ -130,7 +130,7 @@ export function BottomNav({
             </Link>
             {social && (
               <Link
-                href={`/profile/${social.username}`}
+                href={`/profile/${encodeURIComponent(social.username)}`}
                 onClick={() => setSheet(null)}
                 className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
               >

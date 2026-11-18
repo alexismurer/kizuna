@@ -26,7 +26,13 @@ type InvRow = {
 async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile/[username]">["params"] }) {
   const { locale, username: raw } = await params;
   setRequestLocale(locale);
-  const username = decodeURIComponent(raw);
+  let username: string;
+  try {
+    username = decodeURIComponent(raw);
+  } catch {
+    // a malformed escape (e.g. a raw "%") can't be a username
+    notFound();
+  }
   const supabase = await createServerClient();
   const { data, error } = await supabase.rpc("public_profile", { p_username: username });
   // an unknown username comes back as null

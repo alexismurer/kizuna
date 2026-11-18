@@ -14,7 +14,13 @@ const PAGE = 50;
 async function Conversation({ params }: { params: PageProps<"/[locale]/messages/[username]">["params"] }) {
   const { locale, username: raw } = await params;
   setRequestLocale(locale);
-  const username = decodeURIComponent(raw);
+  let username: string;
+  try {
+    username = decodeURIComponent(raw);
+  } catch {
+    // a malformed escape (e.g. a raw "%") can't be a username
+    notFound();
+  }
   const t = await getTranslations();
   const supabase = await createServerClient();
   const [{ data: profileData, error }, { data: claims }, { data: thread }] = await Promise.all([

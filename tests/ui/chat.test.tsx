@@ -119,6 +119,19 @@ beforeEach(() => {
 afterEach(() => cleanup());
 
 describe("market chat", () => {
+  it("pulses the live dot only with animations on", async () => {
+    server({ en: [msg(1)] });
+    localStorage.setItem("anicards.prefs", JSON.stringify({ animations: false }));
+    const { unmount } = wrap(<ChatPanel playerId="me" />);
+    await screen.findByText("hello 1");
+    expect(screen.getByText("Live").querySelector("span")).not.toHaveClass("motion-safe:animate-pulse");
+    unmount();
+    localStorage.setItem("anicards.prefs", JSON.stringify({ animations: true }));
+    wrap(<ChatPanel playerId="me" />);
+    await screen.findByText("hello 1");
+    expect(screen.getByText("Live").querySelector("span")).toHaveClass("motion-safe:animate-pulse");
+  });
+
   it("loads the first room, then another room's history when its pill is chosen, and remembers it", async () => {
     server({ en: [msg(1)], intl: [msg(2, { room: "intl", body: "bonjour" })] });
     wrap(<ChatPanel playerId="me" />);

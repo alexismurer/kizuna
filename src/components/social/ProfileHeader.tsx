@@ -72,7 +72,7 @@ export function ProfileHeader({ profile, owned }: { profile: ProfileData; owned:
         </div>
         <dl className="flex flex-col gap-1">
           <dd className="font-display text-2xl leading-none">
-            {profile.uniqueCards}/{profile.catalogSize}
+            {format.number(profile.uniqueCards)}/{format.number(profile.catalogSize)}
           </dd>
           <dt className={label}>{t("uniqueCards")}</dt>
         </dl>
@@ -134,7 +134,7 @@ export function ProfileHeader({ profile, owned }: { profile: ProfileData; owned:
           <>
             <FriendButton username={profile.username} friendship={friendship} onChange={setFriendship} />
             {friendship === "friends" && (
-              <Link href={`/messages/${profile.username}`} className={BTN}>
+              <Link href={`/messages/${encodeURIComponent(profile.username)}`} className={BTN}>
                 {t("message")}
               </Link>
             )}

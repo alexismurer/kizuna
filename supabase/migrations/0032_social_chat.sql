@@ -148,6 +148,9 @@ create extension if not exists pg_cron with schema pg_catalog;
 select cron.schedule('chat-retention', '0 4 * * *', $$select public._chat_retention()$$);
 
 -- Realtime: guarded per table, so re-running or an existing member is safe.
+-- friendships is deliberately not published: DELETE events skip RLS and filters, so
+-- removals/declines/cancels would leak who ended what with whom. The friends page
+-- refreshes on the player's own notifications instead.
 do $$
 declare
   t text;
@@ -155,7 +158,7 @@ begin
   if not exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
     return;
   end if;
-  foreach t in array array['chat_messages', 'direct_messages', 'friendships'] loop
+  foreach t in array array['chat_messages', 'direct_messages'] loop
     if not exists (
       select 1 from pg_publication_tables
       where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = t
@@ -165,3 +168,71 @@ begin
   end loop;
 end;
 $$;
+
+-- DM thread items also say whether the viewer owns none of the attached card.
+create or replace function dm_thread(p_username text, p_before bigint default null, p_limit int default 50) returns json
+language plpgsql stable security definer set search_path = public as $$
+declare
+  v_me uuid := auth.uid();
+  v_other uuid;
+begin
+  if not is_player() then raise exception 'not_a_player'; end if;
+  v_other := _player_id(p_username);
+  if v_other is null then return '[]'::json; end if;
+  return (select coalesce(json_agg(json_build_object(
+            'id', m.id, 'fromId', m.from_id, 'mine', m.from_id = v_me, 'body', m.body,
+            'card', case when m.card_id is null then null else _card_json(m.card_id) end,
+            'tag', m.tag, 'createdAt', m.created_at, 'readAt', m.read_at,
+            'missing', m.card_id is not null and not exists (
+              select 1 from inventory i where i.player_id = v_me and i.card_id = m.card_id and i.count > 0))
+            order by m.id), '[]'::json)
+          from (select * from direct_messages
+                where least(from_id, to_id) = least(v_me, v_other)
+                  and greatest(from_id, to_id) = greatest(v_me, v_other)
+                  and (p_before is null or id < p_before)
+                order by id desc
+                limit least(greatest(coalesce(p_limit, 50), 1), 100)) m);
+end $$;
+revoke execute on function dm_thread(text, bigint, int) from public, anon;
+grant execute on function dm_thread(text, bigint, int) to authenticated;
+
+-- Friend requests: at most 20 new requests per player per rolling hour, counted from the
+-- notifications they caused so cancelling and re-sending doesn't reset it.
+create or replace function send_friend_request(p_username text) returns text
+language plpgsql security definer set search_path = public as $$
+declare
+  v_me uuid := auth.uid();
+  v_other uuid;
+  f friendships%rowtype;
+begin
+  if not is_player() then raise exception 'not_a_player'; end if;
+  v_other := _player_id(p_username);
+  if v_other is null then raise exception 'unknown_player'; end if;
+  if v_other = v_me then raise exception 'self'; end if;
+  perform 1 from players where id in (v_me, v_other) order by id for no key update;
+
+  select * into f from friendships where a = least(v_me, v_other) and b = greatest(v_me, v_other);
+  if found then
+    if f.status = 'accepted' then raise exception 'already_friends'; end if;
+    if f.requested_by = v_me then raise exception 'already_requested'; end if;
+    update friendships set status = 'accepted', accepted_at = now() where a = f.a and b = f.b;
+    perform _notify(v_other, 'friend_accepted',
+      jsonb_build_object('username', (select username from players where id = v_me)));
+    return 'accepted';
+  end if;
+
+  if (select count(*) from notifications
+      where kind = 'friend_request'
+        and payload->>'from_username' = (select username from players where id = v_me)
+        and created_at > now() - interval '1 hour') >= 20 then
+    raise exception 'rate_limited';
+  end if;
+
+  insert into friendships (a, b, requested_by, status)
+    values (least(v_me, v_other), greatest(v_me, v_other), v_me, 'pending');
+  perform _notify(v_other, 'friend_request',
+    jsonb_build_object('from_username', (select username from players where id = v_me)));
+  return 'pending';
+end $$;
+revoke execute on function send_friend_request(text) from public, anon;
+grant execute on function send_friend_request(text) to authenticated;

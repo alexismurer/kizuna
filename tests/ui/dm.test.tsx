@@ -194,6 +194,11 @@ describe("direct messages", () => {
     expect(screen.queryByText("spam", { selector: "p" })).toBeNull();
   });
 
+  it("shows the missing badge on a received attachment flagged missing", () => {
+    view([msg(1, { card, tag: "trading", missing: true }), msg(2, { card, tag: "looking", missing: false })]);
+    expect(screen.getAllByText("You're missing it")).toHaveLength(1);
+  });
+
   it("renders a body with a script tag as plain text", () => {
     const body = "<script>alert(1)</script><b>x</b>";
     const { container } = view([msg(1, { body })]);

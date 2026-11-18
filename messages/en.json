@@ -150,7 +150,7 @@
   },
   "errors": {
     "not_friends": "You can only message friends.",
-    "rate_limited": "You are sending messages too fast. Wait a few seconds.",
+    "rate_limited": "You are doing that too fast. Wait a bit and try again.",
     "invalid_message": "That message is not valid.",
     "no_free_boosters": "No free boosters available right now.",
     "insufficient_currency": "Not enough currency.",
