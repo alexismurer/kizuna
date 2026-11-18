@@ -24,7 +24,7 @@ export function ReferralLink({ code, origin, share = true }: { code: string; ori
       input.current?.focus();
       input.current?.select();
     }
-    setState(result);
+    setState(result === "cancelled" ? "idle" : result);
   }
 
   return (

@@ -64,7 +64,13 @@ describe("share helpers", () => {
     const share = vi.fn().mockResolvedValue(undefined);
     setNav({ share });
     await expect(copyOrShare("https://x/join/A", "hi", "share")).resolves.toBe("shared");
-    expect(share).toHaveBeenCalledWith({ text: "hi", url: "https://x/join/A" });
+    expect(share).toHaveBeenCalledWith({ text: "hi" });
+  });
+
+  it("a cancelled share sheet is neither a fallback nor a copy", async () => {
+    const share = vi.fn().mockRejectedValue(new DOMException("cancelled", "AbortError"));
+    setNav({ share });
+    await expect(copyOrShare("u", "t", "share")).resolves.toBe("cancelled");
   });
 
   it("falls back when the clipboard rejects", async () => {
@@ -194,6 +200,7 @@ describe("referral notifications", () => {
       "mika played 10 boosters over 3 days: +3 boosters and +500 for you",
       "/invite-friends",
     ],
+    [n(3, "referral_gift", { username: "mika" }), "mika sent you a gift: 3 Mix boosters", "/profile/mika"],
   ])("renders %#", (item, text, href) => {
     wrap(<NotificationList items={[item]} names={{}} onNavigate={() => {}} />);
     const link = screen.getByRole("link");

@@ -59,6 +59,7 @@ declare
   v_code text := upper(trim(p_code));
   v_owner_code text;
   v_inviter uuid;
+  v_inviter_name text;
 begin
   if v_uid is null then
     raise exception 'not_a_player';
@@ -87,6 +88,8 @@ begin
       values (least(v_uid, v_inviter), greatest(v_uid, v_inviter), v_inviter, 'accepted', now())
       on conflict do nothing;
     perform _notify(v_inviter, 'referral_joined', jsonb_build_object('username', p_username));
+    select username into v_inviter_name from players where id = v_inviter;
+    perform _notify(v_uid, 'referral_gift', jsonb_build_object('username', v_inviter_name));
   end if;
 end;
 $$;

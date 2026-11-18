@@ -987,6 +987,7 @@
     "trade_expired": "Your trade offer expired; your cards and currency were returned.",
     "friend_request": "{user} sent you a friend request.",
     "friend_accepted": "{user} accepted your friend request.",
+    "referral_gift": "{user} sent you a gift: 3 Mix boosters",
     "referral_joined": "{user} joined with your link",
     "referral_rewarded": "{user} played 10 boosters over 3 days: +3 boosters and +500 for you"
   },

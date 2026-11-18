@@ -52,6 +52,8 @@ describe('referral sign-up', () => {
     expect(await referredBy(userId)).toBeNull()
     expect(await mixPacks(userId)).toBe(0)
     expect(await friendshipsOf(userId)).toHaveLength(0)
+    const { data: gift } = await admin.from('notifications').select('id').eq('player_id', userId).eq('kind', 'referral_gift')
+    expect(gift).toHaveLength(0)
   })
 
   it("a player's code signs up a referral", async () => {
@@ -74,6 +76,14 @@ describe('referral sign-up', () => {
       .eq('kind', 'referral_joined')
     expect(notes).toHaveLength(1)
     expect(notes![0].payload.username).toBe(name)
+    const { data: inv } = await admin.from('players').select('username').eq('id', inviter.userId).single()
+    const { data: gift } = await admin
+      .from('notifications')
+      .select('payload')
+      .eq('player_id', userId)
+      .eq('kind', 'referral_gift')
+    expect(gift).toHaveLength(1)
+    expect(gift![0].payload.username).toBe(inv!.username)
   })
 
   it('codes match case-insensitively after trim', async () => {

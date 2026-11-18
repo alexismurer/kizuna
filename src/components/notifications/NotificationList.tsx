@@ -18,11 +18,12 @@ const HREF: Record<string, string> = {
   friend_request: "/friends?tab=requests",
   friend_accepted: "/profile",
   referral_joined: "/profile",
+  referral_gift: "/profile",
   referral_rewarded: "/invite-friends",
 };
 
 function hrefOf(i: Notification): string {
-  if (i.kind === "friend_accepted" || i.kind === "referral_joined") return `/profile/${encodeURIComponent(String(i.payload.username ?? ""))}`;
+  if (i.kind === "friend_accepted" || i.kind === "referral_joined" || i.kind === "referral_gift") return `/profile/${encodeURIComponent(String(i.payload.username ?? ""))}`;
   return HREF[i.kind];
 }
 
