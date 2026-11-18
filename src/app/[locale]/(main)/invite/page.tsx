@@ -13,7 +13,9 @@ async function InviteContent() {
     const username = (data as { username?: string } | null)?.username;
     if (username) referral = { code, username };
   }
-  return <InviteForm referral={referral} />;
+  // a cookie code that no longer previews must not fall back silently
+  const stale = !!code && !referral;
+  return <InviteForm referral={referral} initialError={stale ? "errors.invalid_invite" : null} />;
 }
 
 export default function InvitePage() {

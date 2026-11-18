@@ -27,7 +27,7 @@ async function JoinContent({ params }: { params: PageProps<"/[locale]/join/[code
     if (player) redirect("/");
   }
   const { data } = await supabase.rpc("referral_preview", { p_code: code });
-  return <JoinLanding code={code} preview={(data as unknown as JoinPreview | null) ?? null} />;
+  return <JoinLanding code={code} preview={(data as unknown as JoinPreview | null) ?? null} signedIn={!!user} />;
 }
 
 export default function JoinPage({ params }: PageProps<"/[locale]/join/[code]">) {

@@ -10,7 +10,15 @@ export type JoinPreview = {
   cards: { name: string; imageUrl: string | null; rarity: Rarity }[];
 };
 
-export function JoinLanding({ code, preview }: { code: string; preview: JoinPreview | null }) {
+export function JoinLanding({
+  code,
+  preview,
+  signedIn = false,
+}: {
+  code: string;
+  preview: JoinPreview | null;
+  signedIn?: boolean;
+}) {
   const t = useTranslations("join");
   if (!preview) {
     return (
@@ -52,7 +60,7 @@ export function JoinLanding({ code, preview }: { code: string; preview: JoinPrev
           </ul>
         )}
         <Link
-          href="/login"
+          href={signedIn ? "/invite" : "/login"}
           className="block w-full rounded-md bg-cta px-4 py-2 font-semibold text-black"
         >
           {t("cta")}

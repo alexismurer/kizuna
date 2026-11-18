@@ -42,19 +42,29 @@ export default async function proxy(request: NextRequest) {
   );
 
   const path = stripLocale(request.nextUrl.pathname);
-  const joined = path.match(/^\/join\/([^/]+)/);
-  if (joined) {
-    let code = joined[1];
-    try {
-      code = decodeURIComponent(code);
-    } catch {
-      // keep the raw segment
-    }
-    const { name, value, ...options } = refCookie(code.slice(0, 64));
-    response.cookies.set(name, value, options);
-  }
   if (EXEMPT.some((p) => path === p || path.startsWith(`${p}/`))) {
-    await supabase.auth.getUser(); // refresh session
+    const {
+      data: { user },
+    } = await supabase.auth.getUser(); // refresh session
+    const code = path.match(/^\/join\/([^/]+)/)?.[1];
+    if (code) {
+      let decoded = code;
+      try {
+        decoded = decodeURIComponent(code).trim();
+      } catch {
+        // not a valid code; skipped below
+      }
+      // players are redirected home by the page; only visitors who can still join keep the code
+      if (/^[A-Za-z0-9]{8}$/.test(decoded)) {
+        const { data: player } = user
+          ? await supabase.from("players").select("id").eq("id", user.id).maybeSingle()
+          : { data: null };
+        if (!player) {
+          const { name, value, ...options } = refCookie(decoded);
+          response.cookies.set(name, value, options);
+        }
+      }
+    }
     return response;
   }
 

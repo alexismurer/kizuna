@@ -7,13 +7,19 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import { REF_COOKIE } from "@/lib/referrals/link";
 import { createBrowserClient } from "@/lib/supabase/client";
 
-export function InviteForm({ referral }: { referral: { code: string; username: string } | null }) {
+export function InviteForm({
+  referral,
+  initialError = null,
+}: {
+  referral: { code: string; username: string } | null;
+  initialError?: string | null;
+}) {
   const t = useTranslations();
   const router = useRouter();
   const [useCode, setUseCode] = useState(referral === null);
   const [code, setCode] = useState("");
   const [username, setUsername] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(initialError);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();

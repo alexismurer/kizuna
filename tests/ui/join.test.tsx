@@ -73,6 +73,11 @@ describe("JoinLanding", () => {
     expect(screen.getByRole("link", { name: "Join and get 3 free boosters" })).toHaveAttribute("href", "/login");
   });
 
+  it("sends a signed-in non-player to /invite", () => {
+    wrap(<JoinLanding code="ABCD2345" preview={preview()} signedIn />);
+    expect(screen.getByRole("link", { name: "Join and get 3 free boosters" })).toHaveAttribute("href", "/invite");
+  });
+
   it("says the link does not work, with no join link, for a null preview", () => {
     wrap(<JoinLanding code="NOPE" preview={null} />);
     expect(screen.getByText("This invite link doesn't work")).toBeInTheDocument();

@@ -72,6 +72,16 @@ describe("InviteForm", () => {
     expect(push).not.toHaveBeenCalled();
   });
 
+  it("shows an initial error with the code field", () => {
+    render(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <InviteForm referral={null} initialError="errors.invalid_invite" />
+      </NextIntlClientProvider>,
+    );
+    expect(screen.getByRole("alert")).toHaveTextContent("That invite code is not valid.");
+    expect(screen.getByPlaceholderText("Invite code")).toBeInTheDocument();
+  });
+
   it("clears the referral cookie after joining", async () => {
     document.cookie = "anicards_ref=ABCD2345; path=/";
     wrap(ref);

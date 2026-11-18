@@ -91,6 +91,29 @@ describe("proxy gate", () => {
     expect(header).toContain("Path=/");
   });
 
+  it("sets the referral cookie for a signed-in non-player", async () => {
+    state.user = { id: "u1" };
+    const res = await run("/en/join/ABCD2345");
+    expect(res.headers.get("set-cookie")).toContain("anicards_ref=ABCD2345");
+  });
+
+  it("sets no referral cookie for a player", async () => {
+    state.user = { id: "u1" };
+    state.player = { id: "u1" };
+    const res = await run("/en/join/ABCD2345");
+    expect(res.status).toBe(200);
+    expect(res.headers.get("set-cookie")).toBeNull();
+  });
+
+  it.each(["/en/join/abc", "/en/join/ABCD234$", "/en/join/ABCD23456"])(
+    "does not overwrite the cookie for malformed code %s",
+    async (path) => {
+      const res = await run(path);
+      expect(res.status).toBe(200);
+      expect(res.headers.get("set-cookie")).toBeNull();
+    },
+  );
+
   it("does not set the referral cookie elsewhere", async () => {
     const res = await run("/login");
     expect(res.headers.get("set-cookie")).toBeNull();
