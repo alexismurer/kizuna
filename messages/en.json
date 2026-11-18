@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Anicards"
+    "name": "Kizuna"
   },
   "home": {
     "title": "Collect your favourite anime characters",
@@ -147,7 +147,7 @@
     "credits": "Character names and art come from AniList."
   },
   "auth": {
-    "brand": "Anicards",
+    "brand": "Kizuna",
     "headline": "Collect every anime character",
     "pitch": "Open free boosters, finish albums of the series you love and trade cards with your friends.",
     "count": "{count, number} characters to collect"
@@ -163,7 +163,7 @@
     "useAnother": "Use another code"
   },
   "join": {
-    "invited": "{name} invited you to Anicards",
+    "invited": "{name} invited you to Kizuna",
     "cta": "Join and get 3 free boosters",
     "cards": "Cards from their collection",
     "broken": "This invite link doesn't work",
@@ -401,7 +401,7 @@
     "pow": "POW",
     "aura": "AURA",
     "noArt": "No art",
-    "brand": "ANICARDS",
+    "brand": "KIZUNA",
     "backAlt": "Card back",
     "owned": "Copies owned",
     "series": "View series album",
@@ -1038,7 +1038,7 @@
     "copy": "Copy link",
     "copied": "Link copied",
     "share": "Share",
-    "shareText": "Join me on Anicards — we both get 3 free boosters: {link}",
+    "shareText": "Join me on Kizuna — we both get 3 free boosters: {link}",
     "manualCopy": "Copy the link from the field above.",
     "howTitle": "How it works",
     "step1": "Send your link to a friend.",

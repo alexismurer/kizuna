@@ -114,11 +114,11 @@ describe("service worker", () => {
 
   it("drops old caches on activate and claims clients", async () => {
     const { handlers, caches, store, self } = load();
-    store.set("anicards-v0", new Map());
+    store.set("kizuna-v0", new Map());
     let p: Promise<unknown> = Promise.resolve();
     handlers.activate({ waitUntil: (x: Promise<unknown>) => (p = x) });
     await p;
-    expect(caches.delete).toHaveBeenCalledWith("anicards-v0");
+    expect(caches.delete).toHaveBeenCalledWith("kizuna-v0");
     expect(self.clients.claim).toHaveBeenCalled();
   });
 });

@@ -82,24 +82,8 @@ export function CardBack({
             fill={GOLD}
           />
         ))}
-        <circle cx="100" cy="140" r="46" fill="#0d0d14" stroke={GOLD} strokeWidth="1.5" />
-        <circle
-          cx="100"
-          cy="140"
-          r="39"
-          fill="none"
-          stroke={GOLD}
-          strokeWidth="0.6"
-          strokeOpacity="0.6"
-        />
-        <path
-          d="M100 112 L124 166 M100 112 L76 166 M86 148 H114"
-          fill="none"
-          stroke={GOLD}
-          strokeWidth="5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <circle cx="100" cy="140" r="50" fill="#0d0d14" />
+        <image href="/brand/kizuna-mark-gold.png" x="50" y="90" width="100" height="100" />
         <text
           x="100"
           y="222"

@@ -1,8 +1,15 @@
-# Anicards
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/brand/kizuna-mark-white.png">
+    <img src="public/brand/kizuna-mark-black.png" alt="Kizuna logo" width="120">
+  </picture>
+</p>
+
+# Kizuna
 
 **Collect every anime character. Trade the ones you don't need.**
 
-Anicards is an anime card-collecting game in the browser. Open free boosters (one more every 10 minutes), reveal 5,000 anime characters from the least to the most rare, complete an album for every series, and buy, sell, auction and trade cards on a live market with chat.
+Kizuna is an anime card-collecting game in the browser. Open free boosters (one more every 10 minutes), reveal 5,000 anime characters from the least to the most rare, complete an album for every series, and buy, sell, auction and trade cards on a live market with chat.
 
 ![Home page with the daily pack](docs/screenshots/home.jpg)
 

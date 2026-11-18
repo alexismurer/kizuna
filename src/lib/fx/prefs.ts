@@ -10,7 +10,7 @@ export const DEFAULT_PREFS: Prefs = {
   sound: false,
 };
 
-const KEY = "anicards.prefs";
+const KEY = "kizuna.prefs";
 
 function defaultStorage(): Storage | null {
   try {

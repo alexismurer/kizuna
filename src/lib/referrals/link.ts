@@ -1,4 +1,4 @@
-export const REF_COOKIE = "anicards_ref";
+export const REF_COOKIE = "kizuna_ref";
 
 export function refCookie(code: string) {
   return {

@@ -31,7 +31,7 @@ vi.mock("@/i18n/navigation", () => ({
   ),
 }));
 
-const KEY = "anicards.prefs";
+const KEY = "kizuna.prefs";
 
 const pack: OpeningPack = {
   id: "mix",

@@ -1,1 +1,1 @@
-export const APP_NAME = "Anicards";
+export const APP_NAME = "Kizuna";

@@ -85,7 +85,7 @@ describe("proxy gate", () => {
     const res = await run("/en/join/ABCD2345");
     expect(res.status).toBe(200);
     const header = res.headers.get("set-cookie")!;
-    expect(header).toContain("anicards_ref=ABCD2345");
+    expect(header).toContain("kizuna_ref=ABCD2345");
     expect(header).toContain("Max-Age=2592000");
     expect(header).toMatch(/SameSite=lax/i);
     expect(header).toContain("Path=/");
@@ -94,7 +94,7 @@ describe("proxy gate", () => {
   it("sets the referral cookie for a signed-in non-player", async () => {
     state.user = { id: "u1" };
     const res = await run("/en/join/ABCD2345");
-    expect(res.headers.get("set-cookie")).toContain("anicards_ref=ABCD2345");
+    expect(res.headers.get("set-cookie")).toContain("kizuna_ref=ABCD2345");
   });
 
   it("sets no referral cookie for a player", async () => {

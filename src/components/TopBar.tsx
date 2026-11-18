@@ -32,14 +32,14 @@ export async function TopBar() {
 
   return (
     <header className="flex items-center gap-3 border-b border-border bg-panel px-3 py-3 sm:gap-4 sm:px-6 lg:gap-6">
-      <Link href="/" aria-label={APP_NAME} className="shrink-0 font-display text-lg font-extrabold text-accent sm:text-xl">
-        {/* phones: a logo mark; the bottom nav carries the links */}
-        <span
-          aria-hidden
-          className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-xl text-black md:hidden"
-        >
-          {APP_NAME[0]}
-        </span>
+      <Link
+        href="/"
+        aria-label={APP_NAME}
+        className="flex shrink-0 items-center gap-2 font-display text-lg font-extrabold text-white sm:text-xl"
+      >
+        {/* the ensō mark; phones show it alone, the bottom nav carries the links */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/brand/kizuna-mark-white.png" alt="" aria-hidden width={36} height={36} className="h-9 w-9" />
         <span className="hidden md:inline">{APP_NAME}</span>
       </Link>
       <nav className="hidden min-w-0 flex-1 items-center gap-3 text-sm sm:gap-4 md:flex">

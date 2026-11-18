@@ -121,12 +121,12 @@ afterEach(() => cleanup());
 describe("market chat", () => {
   it("pulses the live dot only with animations on", async () => {
     server({ en: [msg(1)] });
-    localStorage.setItem("anicards.prefs", JSON.stringify({ animations: false }));
+    localStorage.setItem("kizuna.prefs", JSON.stringify({ animations: false }));
     const { unmount } = wrap(<ChatPanel playerId="me" />);
     await screen.findByText("hello 1");
     expect(screen.getByText("Live").querySelector("span")).not.toHaveClass("motion-safe:animate-pulse");
     unmount();
-    localStorage.setItem("anicards.prefs", JSON.stringify({ animations: true }));
+    localStorage.setItem("kizuna.prefs", JSON.stringify({ animations: true }));
     wrap(<ChatPanel playerId="me" />);
     await screen.findByText("hello 1");
     expect(screen.getByText("Live").querySelector("span")).toHaveClass("motion-safe:animate-pulse");
@@ -142,11 +142,11 @@ describe("market chat", () => {
     expect(screen.queryByText("hello 1")).toBeNull();
     expect(rpc).toHaveBeenCalledWith("chat_history", { p_room: "intl", p_before: null, p_limit: 50 });
     await waitFor(() => expect(filters).toContain("room=eq.intl"));
-    expect(localStorage.getItem("anicards.chatRoom")).toBe("intl");
+    expect(localStorage.getItem("kizuna.chatRoom")).toBe("intl");
   });
 
   it("opens in the remembered room", async () => {
-    localStorage.setItem("anicards.chatRoom", "intl");
+    localStorage.setItem("kizuna.chatRoom", "intl");
     server({ en: [msg(1)], intl: [msg(2, { room: "intl", body: "bonjour" })] });
     wrap(<ChatPanel playerId="me" />);
     expect(await screen.findByText("bonjour")).toBeInTheDocument();
