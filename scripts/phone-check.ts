@@ -4,7 +4,9 @@
 // Signs in with DEV_TEST_EMAIL / DEV_TEST_PASSWORD from .env.local (needs
 // NEXT_PUBLIC_DEV_LOGIN=true), screenshots key pages at 390x844 and fails if
 // any page scrolls horizontally. Opens one Mix booster (free stock first,
-// then currency). Also each /market tab and the notifications sheet.
+// then currency). Also each /market tab, the market chat sheet, the social
+// pages (profile, friends, a DM thread; needs a friend named player2) and the
+// notifications sheet.
 import path from 'node:path'
 import dotenv from 'dotenv'
 import { chromium, type Page } from 'playwright'
@@ -83,6 +85,27 @@ async function main() {
     await page.getByRole('heading', { level: 1 }).waitFor()
     await page.waitForTimeout(800) // tab data
     ok = (await check(page, `market-${tab}`)) && ok
+  }
+
+  // chat: the sheet opens from the floating button below lg
+  await page.goto(`${base}/market?tab=buy`)
+  await page.getByRole('button', { name: 'Chat', exact: true }).click()
+  await page.getByRole('dialog').waitFor()
+  await page.waitForTimeout(1200) // slide-up + history
+  ok = (await check(page, 'market-chat-sheet', false)) && ok
+  await page.keyboard.press('Escape')
+
+  // social pages
+  for (const [name, route] of [
+    ['profile', '/profile/player1'],
+    ['friends', '/friends'],
+    ['friends-requests', '/friends?tab=requests'],
+    ['friends-find', '/friends?tab=find'],
+    ['dm', '/messages/player2'],
+  ]) {
+    await page.goto(`${base}${route}`)
+    await page.waitForTimeout(1500) // data
+    ok = (await check(page, name)) && ok
   }
 
   await page.getByRole('button', { name: /^Notifications/ }).first().click()

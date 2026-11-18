@@ -22,7 +22,11 @@ type InvRow = {
   };
 };
 
-async function ProfileContent({ username }: { username: string }) {
+// params hold the username (runtime data), so they are read inside the Suspense boundary
+async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile/[username]">["params"] }) {
+  const { locale, username: raw } = await params;
+  setRequestLocale(locale);
+  const username = decodeURIComponent(raw);
   const supabase = await createServerClient();
   const { data, error } = await supabase.rpc("public_profile", { p_username: username });
   // an unknown username comes back as null
@@ -62,14 +66,11 @@ async function ProfileContent({ username }: { username: string }) {
   );
 }
 
-export default async function ProfilePage({ params }: PageProps<"/[locale]/profile/[username]">) {
-  const { locale, username } = await params;
-  setRequestLocale(locale);
-
+export default function ProfilePage({ params }: PageProps<"/[locale]/profile/[username]">) {
   return (
     <main className="mx-auto w-full max-w-7xl flex-1 p-4 sm:p-6">
       <Suspense>
-        <ProfileContent username={decodeURIComponent(username)} />
+        <ProfileContent params={params} />
       </Suspense>
     </main>
   );
