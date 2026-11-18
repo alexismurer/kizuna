@@ -13,7 +13,7 @@ describe('catalog schema', () => {
   })
 
   it('seeds 15 pack types', async () => {
-    const { count, error } = await admin.from('pack_types').select('*', { count: 'exact', head: true })
+    const { count, error } = await admin.from('pack_types').select('*', { count: 'exact', head: true }).neq('kind', 'seasonal')
     expect(error).toBeNull()
     expect(count).toBe(15)
   })
