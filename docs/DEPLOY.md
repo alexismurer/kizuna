@@ -74,7 +74,8 @@ In the dashboard, Authentication:
 2. Add these environment variables (see `.env.example`):
    - `NEXT_PUBLIC_SUPABASE_URL`: the hosted project URL
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: the hosted anon key
-   - `SUPABASE_SERVICE_ROLE_KEY`: the hosted service-role key
+   - Do not add `SUPABASE_SERVICE_ROLE_KEY` here: the app never reads it. It
+     stays only in your terminal session, for the scripts.
    - Leave `NEXT_PUBLIC_DEV_LOGIN` unset (or `false`). Do not set the
      `DEV_TEST_*` variables.
 3. Deploy, then add your domain (or use the `*.vercel.app` one) and make sure it
