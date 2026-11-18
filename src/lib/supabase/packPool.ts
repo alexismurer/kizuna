@@ -7,6 +7,7 @@ export type PoolPack = {
   theme_id: string | null;
   rank_min: number | null;
   rank_max: number | null;
+  series_ids?: number[] | null;
 };
 
 // Cards a pack can draw, mirroring the pool in _open_pack: theme, popularity
@@ -25,5 +26,6 @@ export function packPool(
   if (pack.rank_min !== null) q = q.gte("popularity_rank", pack.rank_min);
   if (pack.rank_max !== null) q = q.lte("popularity_rank", pack.rank_max);
   if (pack.kind === "daily") q = q.in("series_id", dailySeries ?? []);
+  if (pack.kind === "seasonal") q = q.in("series_id", pack.series_ids ?? []);
   return q.order("popularity_rank").order("id");
 }

@@ -34,16 +34,21 @@ async function CharactersContent({
   const [{ data: pack }, { data: pool }, total] = await Promise.all([
     supabase
       .from("pack_types")
-      .select("id, kind, theme_id, rank_min, rank_max")
+      .select("id, kind, theme_id, rank_min, rank_max, title, series_ids")
       .eq("id", packId)
       .maybeSingle(),
     supabase.rpc("todays_pool"),
     catalogTotal(supabase),
   ]);
   if (!pack) notFound();
-  const p = pack as PoolPack & { id: string };
+  const p = pack as PoolPack & { id: string; title: string | null };
   const today = pool as { name: string; series_ids: number[] } | null;
-  const name = p.kind === "daily" && today ? today.name : t(`packs.${p.id}.name`);
+  const name =
+    p.kind === "daily" && today
+      ? today.name
+      : p.kind === "seasonal"
+        ? (p.title ?? t("packs.seasonal.name"))
+        : t(`packs.${p.id}.name`);
 
   let cards: CardRow[] = [];
   let count = 0;

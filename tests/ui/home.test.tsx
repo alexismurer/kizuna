@@ -67,6 +67,8 @@ const pack = (
   themeId: null,
   characters: 120,
   thumbs: [],
+  title: null,
+  endsAt: null,
   ...o,
 });
 const status = (o: Partial<Status> = {}): Status => ({
@@ -189,6 +191,15 @@ describe("BoosterGrid", () => {
     wrap(<BoosterGrid packs={PACKS} status={status()} dailyName={null} />);
     fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
     expect(screen.getByRole("button", { name: messages.home.hero.none })).toBeDisabled();
+  });
+
+  it("lists a seasonal booster by its title in Daily & limited with its end date", () => {
+    const fall = pack("season_fall26", "seasonal", { title: "Fall 2026", endsAt: "2026-12-01T12:00:00Z" });
+    wrap(<BoosterGrid packs={[...PACKS, fall]} status={status()} dailyName="Test Pool" />);
+    expect(screen.queryByRole("button", { name: "Fall 2026" })).toBeNull();
+    fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
+    const btn = screen.getByRole("button", { name: "Fall 2026" });
+    expect(within(btn.parentElement!).getByText(/^Ends .*2026/)).toBeInTheDocument();
   });
 
   it("full screen toggles an overlay that Escape closes", () => {

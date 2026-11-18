@@ -16,6 +16,9 @@ export type HomePack = PackType & {
   // size of the pack's pool and the art of its three most popular characters
   characters: number;
   thumbs: string[];
+  // seasonal boosters: their title and end
+  title: string | null;
+  endsAt: string | null;
 };
 
 const BARS = [
@@ -105,7 +108,7 @@ export function PackSidePanel({
           </div>
           <div className="min-w-0">
             <h3 className="break-words font-display text-2xl font-bold leading-tight">{name}</h3>
-            <p className="text-sm text-common">{t(`packs.${pack.id}.tagline`)}</p>
+            <p className="text-sm text-common">{t(pack.kind === "seasonal" ? "packs.seasonal.tagline" : `packs.${pack.id}.tagline`)}</p>
           </div>
         </div>
       )}

@@ -4,6 +4,7 @@
   },
   "home": {
     "title": "Collect your favourite anime characters",
+    "endsOn": "Ends {date}",
     "hero": {
       "carousel": "Featured boosters",
       "slide": "Show slide {n}",
@@ -478,6 +479,10 @@
     "daily": {
       "name": "Daily",
       "tagline": "Today's themed selection"
+    },
+    "seasonal": {
+      "name": "Seasonal",
+      "tagline": "Limited time only"
     }
   },
   "collection": {
