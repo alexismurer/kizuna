@@ -146,7 +146,16 @@
     "code": "Invite code",
     "username": "Username",
     "submit": "Join",
-    "hint": "Username must be 3 to 20 characters."
+    "hint": "Username must be 3 to 20 characters.",
+    "invitedBy": "Invited by {name}.",
+    "useAnother": "Use another code"
+  },
+  "join": {
+    "invited": "{name} invited you to Anicards",
+    "cta": "Join and get 3 free boosters",
+    "cards": "Cards from their collection",
+    "broken": "This invite link doesn't work",
+    "brokenHint": "Ask your friend to send the link again."
   },
   "errors": {
     "not_friends": "You can only message friends.",

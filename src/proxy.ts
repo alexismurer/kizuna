@@ -2,10 +2,11 @@ import { createServerClient } from "@supabase/ssr";
 import createMiddleware from "next-intl/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
+import { refCookie } from "./lib/referrals/link";
 
 const intl = createMiddleware(routing);
 
-const EXEMPT = ["/login", "/invite", "/auth"];
+const EXEMPT = ["/login", "/invite", "/auth", "/join"];
 
 function stripLocale(pathname: string) {
   for (const l of routing.locales) {
@@ -41,6 +42,17 @@ export default async function proxy(request: NextRequest) {
   );
 
   const path = stripLocale(request.nextUrl.pathname);
+  const joined = path.match(/^\/join\/([^/]+)/);
+  if (joined) {
+    let code = joined[1];
+    try {
+      code = decodeURIComponent(code);
+    } catch {
+      // keep the raw segment
+    }
+    const { name, value, ...options } = refCookie(code.slice(0, 64));
+    response.cookies.set(name, value, options);
+  }
   if (EXEMPT.some((p) => path === p || path.startsWith(`${p}/`))) {
     await supabase.auth.getUser(); // refresh session
     return response;
