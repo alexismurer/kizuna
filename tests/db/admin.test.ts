@@ -104,6 +104,21 @@ describe('admin grant currency', () => {
     expect(n![0].payload).toMatchObject({ amount: 250 })
   })
 
+  it('credits exactly the matching player when usernames differ only by case', async () => {
+    const a = await newAdmin()
+    const t1 = await newPlayer()
+    const t2 = await newPlayer()
+    const base = `cb${Math.random().toString(36).slice(2, 8)}`
+    await admin.from('players').update({ username: `${base}Bob`, currency: 100 }).eq('id', t1.userId)
+    await admin.from('players').update({ username: `${base}bob`, currency: 100 }).eq('id', t2.userId)
+    expect((await a.client.rpc('admin_grant_currency', { p_username: `${base}bob`, p_amount: 50 })).data).toBe(150)
+    const bal = async (id: string) => (await admin.from('players').select('currency').eq('id', id).single()).data!.currency
+    expect(await bal(t2.userId)).toBe(150)
+    expect(await bal(t1.userId)).toBe(100)
+    // ambiguous case-insensitive match is refused
+    expect((await a.client.rpc('admin_grant_currency', { p_username: `${base}BOB`, p_amount: 50 })).error?.message).toContain('player_not_found')
+  })
+
   it('validates player and amount', async () => {
     const a = await newAdmin()
     expect((await a.client.rpc('admin_grant_currency', { p_username: 'nobody_here', p_amount: 5 })).error?.message).toContain('player_not_found')

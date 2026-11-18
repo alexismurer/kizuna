@@ -118,6 +118,20 @@ describe('seasonal boosters', () => {
     expect(mine[0].title).toBe('Spring')
   })
 
+  it('admin_end_seasonal only ends a live seasonal', async () => {
+    const a = await newAdmin()
+    const future = await season(a, slug(), iso(HOUR), iso(2 * HOUR))
+    const past = await season(a, slug(), iso(-2 * HOUR), iso(-HOUR))
+    const endsAt = async (id: string) => (await admin.from('pack_types').select('ends_at').eq('id', id).single()).data!.ends_at
+    const pastEnd = await endsAt(past)
+    const futureEnd = await endsAt(future)
+    for (const id of [future, past, 'season_does_not_exist']) {
+      expect((await a.client.rpc('admin_end_seasonal', { p_id: id })).error?.message, id).toContain('invalid_seasonal')
+    }
+    expect(await endsAt(past)).toBe(pastEnd)
+    expect(await endsAt(future)).toBe(futureEnd)
+  })
+
   it('admin_end_seasonal makes it unopenable and keeps the row', async () => {
     const a = await newAdmin()
     const { userId } = await newPlayer({ freeStock: 4 })
