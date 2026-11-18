@@ -2,7 +2,7 @@
 
 **Collect every anime character. Trade the ones you don't need.**
 
-Anicards is an invite-only card game for a group of friends. Open free boosters (one more every 10 minutes), reveal 5,000 anime characters from the least to the most rare, complete an album for every series, and buy, sell, auction and trade cards on a live market with chat.
+Anicards is an anime card-collecting game in the browser. Open free boosters (one more every 10 minutes), reveal 5,000 anime characters from the least to the most rare, complete an album for every series, and buy, sell, auction and trade cards on a live market with chat.
 
 ![Home page with the daily pack](docs/screenshots/home.jpg)
 
@@ -46,11 +46,10 @@ npm install
 npx supabase start
 # copy .env.example to .env.local and fill in the keys from `npx supabase status`
 npm run catalog:dev   # import the 5,000-card catalog from AniList
-npm run invite        # print an invite code
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000), sign in, enter the invite code and pick a username. Make yourself admin with `npm run admin -- <username>`.
+Open [http://localhost:3000](http://localhost:3000), sign in and pick a username. Make yourself admin with `npm run admin -- <username>`.
 
 To put it online, follow [docs/DEPLOY.md](docs/DEPLOY.md).
 
@@ -72,11 +71,11 @@ To put it online, follow [docs/DEPLOY.md](docs/DEPLOY.md).
 | `npm run build` | Production build |
 | `npm run catalog:dev` | Reset the database and import the real catalog |
 | `npm run import` | Add new characters to the catalog (never changes existing cards) |
-| `npm run invite` | Create an invite code |
+| `npm run invite` | Create an invite code (optional at sign-up) |
 | `npm run admin -- <username>` | Make a player admin |
 | `npm run test:db` | Database tests (run `npm run db:reset` first, then `catalog:dev` after) |
 | `npm run test:ui` | Component and unit tests |
 
 ## Credits
 
-Character names and images come from [AniList](https://anilist.co) and are used for a private, non-commercial game. Images are linked, not re-hosted.
+Character names and images come from [AniList](https://anilist.co) and are used for a non-commercial fan project. Images are linked, not re-hosted.
