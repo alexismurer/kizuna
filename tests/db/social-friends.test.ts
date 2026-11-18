@@ -362,7 +362,7 @@ describe('public_profile friendship', () => {
 describe('final review fixes', () => {
   it('friendships is not published over Realtime', () => {
     const sql = "select tablename from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public'"
-    const out = execFileSync('docker', ['exec', 'supabase_db_kyara', 'psql', '-U', 'postgres', '-At', '-c', sql]).toString()
+    const out = execFileSync('docker', ['exec', 'supabase_db_kizuna', 'psql', '-U', 'postgres', '-At', '-c', sql]).toString()
     const tables = out.split(/\r?\n/).filter(Boolean)
     expect(tables).not.toContain('friendships')
     expect(tables).toEqual(expect.arrayContaining(['chat_messages', 'direct_messages']))
