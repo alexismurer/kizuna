@@ -21,9 +21,9 @@ export function CollectionHeader({
       </div>
       <dl className="grid grid-cols-3 divide-x divide-border rounded-2xl border border-border bg-panel px-1 py-3">
         <div className="flex flex-col gap-1 px-4">
-          <dd className="font-display text-2xl leading-none">
+          <dd className="flex flex-wrap items-baseline font-display text-2xl leading-none">
             <span>{unique}</span>
-            <span className="text-white/35">/{total}</span>
+            <span className="text-base text-white/35 md:text-2xl">/{total}</span>
           </dd>
           <dt className={label}>{t("uniqueCards")}</dt>
         </div>
