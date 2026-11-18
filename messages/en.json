@@ -1006,5 +1006,28 @@
     "top": "Top {pct}%",
     "rank": "#{rank}",
     "skip": "Skip ›"
+  },
+  "referrals": {
+    "title": "Invite friends",
+    "subtitle": "Invite friends: you both get 3 boosters",
+    "yourLink": "Your personal link",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "share": "Share",
+    "shareText": "Join me on Anicards — we both get 3 free boosters: {link}",
+    "manualCopy": "Copy the link from the field above.",
+    "howTitle": "How it works",
+    "step1": "Send your link to a friend.",
+    "step2": "They join and get 3 free boosters, and you become friends.",
+    "step3": "Once they have opened 10 boosters over 3 different days, you get 3 boosters and +500.",
+    "invitedTitle": "Your invited friends",
+    "empty": "No one yet — share your link",
+    "boosters": "{count}/10 boosters",
+    "days": "{count}/3 days",
+    "rewarded": "Rewarded",
+    "joinedOn": "Joined {date}",
+    "totalJoined": "{count, plural, one {# friend joined} other {# friends joined}}",
+    "totalRewarded": "{count} rewarded",
+    "totalEarned": "+{boosters, number} boosters · +{currency, number}"
   }
 }

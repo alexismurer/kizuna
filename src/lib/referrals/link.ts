@@ -9,3 +9,7 @@ export function refCookie(code: string) {
     path: "/",
   };
 }
+
+export function referralUrl(origin: string, code: string) {
+  return `${origin}/join/${code}`;
+}
