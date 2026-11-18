@@ -255,6 +255,23 @@
     "requestSent": "Request sent",
     "isFriend": "Friends"
   },
+  "chat": {
+    "title": "The counter",
+    "live": "Live",
+    "open": "Chat",
+    "log": "Chat messages",
+    "empty": "Quiet in here. Say hello!",
+    "lookingFor": "Looking for…",
+    "trading": "Trading…",
+    "myListing": "My listing",
+    "listingTitle": "Attach one of your listings",
+    "noListings": "You have no open listings.",
+    "rooms": {
+      "label": "Chat rooms",
+      "en": "English",
+      "intl": "International"
+    }
+  },
   "dm": {
     "with": "Messages with {name}",
     "trade": "Propose a trade",
@@ -890,6 +907,7 @@
         "change": "Change",
         "noSuchPlayer": "No player named {name}.",
         "notTradable": "{name} has no free copy of that card.",
+        "giveUnavailable": "You have no free copy of the card they are looking for.",
         "give": "You give",
         "want": "You ask for",
         "searchCards": "Search cards",

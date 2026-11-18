@@ -8,17 +8,27 @@ import type { MessageTag, ProfileCard } from "@/lib/social/types";
 import { CardAttachment } from "./CardAttachment";
 import { CardPicker } from "./CardPicker";
 
+// what a shortcut can do: attach a card straight away, or open the picker on a tag
+export type ComposerApi = { attach: (card: ProfileCard, tag: MessageTag) => void; pick: (tag: MessageTag) => void };
+
 export type Outgoing = { body: string; card: ProfileCard | null; tag: MessageTag | null };
 
 // Textarea with a 300-character counter, a card attachment and Send.
 // Enter sends, Shift+Enter adds a line. `onSend` resolves to null on success or
 // an `errors.*` key; on failure the text and attachment are put back.
-export function MessageComposer({ onSend }: { onSend: (message: Outgoing) => Promise<string | null> }) {
+export function MessageComposer({
+  onSend,
+  renderQuick,
+}: {
+  onSend: (message: Outgoing) => Promise<string | null>;
+  // optional row of shortcuts above the box (the market chat's quick buttons)
+  renderQuick?: (api: ComposerApi) => React.ReactNode;
+}) {
   const t = useTranslations("dm");
   const te = useTranslations();
   const [text, setText] = useState("");
   const [attached, setAttached] = useState<{ card: ProfileCard; tag: MessageTag } | null>(null);
-  const [picking, setPicking] = useState(false);
+  const [picking, setPicking] = useState<MessageTag | null>(null);
   const [error, setError] = useState<string | null>(null);
   const area = useRef<HTMLTextAreaElement>(null);
 
@@ -44,6 +54,7 @@ export function MessageComposer({ onSend }: { onSend: (message: Outgoing) => Pro
 
   return (
     <div className="flex flex-col gap-2 border-t border-border p-3">
+      {renderQuick?.({ attach: (card, tag) => setAttached({ card, tag }), pick: setPicking })}
       {attached && (
         <div className="flex items-start gap-2">
           <div className="min-w-0 flex-1">
@@ -64,7 +75,7 @@ export function MessageComposer({ onSend }: { onSend: (message: Outgoing) => Pro
           type="button"
           aria-label={t("attach")}
           aria-haspopup="dialog"
-          onClick={() => setPicking(true)}
+          onClick={() => setPicking("trading")}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border hover:border-accent"
         >
           <Paperclip className="h-4 w-4" aria-hidden />
@@ -103,13 +114,14 @@ export function MessageComposer({ onSend }: { onSend: (message: Outgoing) => Pro
           {t("counter", { count, max: MAX_BODY })}
         </span>
       </div>
-      {picking && (
+      {picking !== null && (
         <CardPicker
+          initialTag={picking}
           onPick={(card, tag) => {
             setAttached({ card, tag });
-            setPicking(false);
+            setPicking(null);
           }}
-          onClose={() => setPicking(false)}
+          onClose={() => setPicking(null)}
         />
       )}
     </div>

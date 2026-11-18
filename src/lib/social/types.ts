@@ -50,6 +50,23 @@ export type ThreadMessage = {
   pending?: boolean;
 };
 
+// One market chat message as chat_history / chat_message return it.
+export type ChatMessage = {
+  id: number;
+  room: string;
+  author: { id: string; username: string; avatarUrl: string | null };
+  body: string;
+  card: ProfileCard | null;
+  tag: MessageTag | null;
+  missing: boolean;
+  mine: boolean;
+  createdAt: string;
+  pending?: boolean;
+};
+
+// A chat_messages row as Realtime delivers it.
+export type ChatRow = { id: number; room: string; author_id: string };
+
 // A direct_messages row as Realtime delivers it.
 export type DmRow = {
   id: number;

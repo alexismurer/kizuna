@@ -17,10 +17,18 @@ type Found = { key: string; cards: ProfileCard[] } | null;
 
 // Pick the card to attach: one of your own (tag Trading) or any card of the
 // catalogue, searched by name (tag Looking for).
-export function CardPicker({ onPick, onClose }: { onPick: (card: ProfileCard, tag: MessageTag) => void; onClose: () => void }) {
+export function CardPicker({
+  onPick,
+  onClose,
+  initialTag = "trading",
+}: {
+  onPick: (card: ProfileCard, tag: MessageTag) => void;
+  onClose: () => void;
+  initialTag?: MessageTag;
+}) {
   const t = useTranslations("dm");
   const te = useTranslations();
-  const [tag, setTag] = useState<MessageTag>("trading");
+  const [tag, setTag] = useState<MessageTag>(initialTag);
   const [q, setQ] = useState("");
   const [owned, setOwned] = useState<ProfileCard[] | null>(null);
   const [found, setFound] = useState<Found>(null);

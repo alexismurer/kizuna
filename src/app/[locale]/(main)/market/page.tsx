@@ -9,6 +9,7 @@ import { MarketFilters } from "@/components/market/MarketFilters";
 import { MarketTabs } from "@/components/market/MarketTabs";
 import { SellTab } from "@/components/market/SellTab";
 import { TradesTab } from "@/components/market/TradesTab";
+import { MarketChat } from "@/components/social/MarketChat";
 import type { Rarity } from "@/lib/game/types";
 import { loadActivity } from "@/lib/market/activity";
 import { loadAuctions } from "@/lib/market/auctions";
@@ -142,6 +143,12 @@ async function Activity() {
   return <ActivityTab {...activity} />;
 }
 
+async function Chat() {
+  const supabase = await createServerClient();
+  const { data } = await supabase.auth.getUser();
+  return data.user ? <MarketChat playerId={data.user.id} /> : null;
+}
+
 async function MarketContent({
   searchParams,
 }: {
@@ -185,9 +192,16 @@ export default async function MarketPage({ params, searchParams }: PageProps<"/[
         <p className="text-xs font-bold tracking-[0.25em] text-accent">{t("eyebrow")}</p>
         <h1 className="font-display text-3xl font-extrabold sm:text-5xl">{t("title")}</h1>
       </header>
-      <Suspense fallback={null}>
-        <MarketContent searchParams={searchParams} />
-      </Suspense>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+        <div className="flex min-w-0 flex-1 flex-col gap-4">
+          <Suspense fallback={null}>
+            <MarketContent searchParams={searchParams} />
+          </Suspense>
+        </div>
+        <Suspense fallback={null}>
+          <Chat />
+        </Suspense>
+      </div>
     </main>
   );
 }

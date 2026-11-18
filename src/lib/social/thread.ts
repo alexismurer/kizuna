@@ -1,9 +1,9 @@
 import type { Rarity } from "@/lib/game/types";
-import type { ProfileCard, ThreadMessage } from "./types";
+import type { ProfileCard } from "./types";
 
 // Union by id (incoming wins), real messages oldest first, pending ones last in the order sent.
-export function mergeById(cur: ThreadMessage[], incoming: ThreadMessage[]): ThreadMessage[] {
-  const real = new Map<number, ThreadMessage>();
+export function mergeById<T extends { id: number; pending?: boolean }>(cur: T[], incoming: T[]): T[] {
+  const real = new Map<number, T>();
   for (const m of cur) if (!m.pending) real.set(m.id, m);
   for (const m of incoming) real.set(m.id, m);
   return [...[...real.values()].sort((a, b) => a.id - b.id), ...cur.filter((m) => m.pending)];

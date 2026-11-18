@@ -71,7 +71,7 @@ export type Trade = {
 };
 
 // Trade composer prefill from the URL (?tab=trades&to=<username>&want=<cardId>)
-export type TradePrefill = { toUsername: string; wantCardId: number | null };
+export type TradePrefill = { toUsername: string; wantCardId: number | null; giveCardId?: number | null };
 
 // My activity tab
 export type MyListing = {
