@@ -72,7 +72,7 @@ describe("proxy gate", () => {
     expect(res.headers.get("x-intl")).toBe("1");
   });
 
-  it.each(["/login", "/invite", "/auth/callback", "/en/login"])(
+  it.each(["/login", "/invite", "/auth/callback", "/en/login", "/join/ABCD2345", "/en/join/ABCD2345"])(
     "exempts %s when signed out",
     async (path) => {
       const res = await run(path);
@@ -80,6 +80,44 @@ describe("proxy gate", () => {
       expect(res.headers.get("location")).toBeNull();
     },
   );
+
+  it("sets the referral cookie on /join/<code>", async () => {
+    const res = await run("/en/join/ABCD2345");
+    expect(res.status).toBe(200);
+    const header = res.headers.get("set-cookie")!;
+    expect(header).toContain("anicards_ref=ABCD2345");
+    expect(header).toContain("Max-Age=2592000");
+    expect(header).toMatch(/SameSite=lax/i);
+    expect(header).toContain("Path=/");
+  });
+
+  it("sets the referral cookie for a signed-in non-player", async () => {
+    state.user = { id: "u1" };
+    const res = await run("/en/join/ABCD2345");
+    expect(res.headers.get("set-cookie")).toContain("anicards_ref=ABCD2345");
+  });
+
+  it("sets no referral cookie for a player", async () => {
+    state.user = { id: "u1" };
+    state.player = { id: "u1" };
+    const res = await run("/en/join/ABCD2345");
+    expect(res.status).toBe(200);
+    expect(res.headers.get("set-cookie")).toBeNull();
+  });
+
+  it.each(["/en/join/abc", "/en/join/ABCD234$", "/en/join/ABCD23456"])(
+    "does not overwrite the cookie for malformed code %s",
+    async (path) => {
+      const res = await run(path);
+      expect(res.status).toBe(200);
+      expect(res.headers.get("set-cookie")).toBeNull();
+    },
+  );
+
+  it("does not set the referral cookie elsewhere", async () => {
+    const res = await run("/login");
+    expect(res.headers.get("set-cookie")).toBeNull();
+  });
 
   it("carries a refreshed auth cookie onto the redirect", async () => {
     state.refresh = { name: "sb-auth", value: "new-token" };

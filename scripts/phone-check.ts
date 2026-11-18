@@ -6,9 +6,11 @@
 // any page scrolls horizontally. Opens one Mix booster (free stock first,
 // then currency). Also each /market tab, the market chat sheet, the social
 // pages (profile, friends, a DM thread; needs a friend named player2) and the
-// notifications sheet.
+// notifications sheet, /invite-friends, and (signed out) the join landing for
+// player1's referral link (reads it with the service-role key; local DB only).
 import path from 'node:path'
 import dotenv from 'dotenv'
+import { createClient } from '@supabase/supabase-js'
 import { chromium, type Page } from 'playwright'
 
 dotenv.config({ path: '.env.local', quiet: true })
@@ -16,6 +18,7 @@ dotenv.config({ path: '.env.local', quiet: true })
 const outDir = process.argv[2] ?? '.phone-check'
 const base = process.argv[3] ?? 'http://localhost:3000'
 const WIDTH = 390
+const admin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } })
 
 async function check(page: Page, name: string, fullPage = true) {
   const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
@@ -102,6 +105,7 @@ async function main() {
     ['friends-requests', '/friends?tab=requests'],
     ['friends-find', '/friends?tab=find'],
     ['dm', '/messages/player2'],
+    ['invite-friends', '/invite-friends'],
   ]) {
     await page.goto(`${base}${route}`)
     await page.waitForTimeout(1500) // data
@@ -116,7 +120,7 @@ async function main() {
 
   // opening page: stage, mid-reveal, summary
   await page.goto(`${base}/open/mix`)
-  const open = page.getByRole('button', { name: /^(Free · |Open · |\d+ free \+ )/ })
+  const open = page.getByRole('button', { name: /^(Free · |Reward · |Open · |\d+ free \+ )/ })
   await open.waitFor({ timeout: 30_000 })
   ok = (await check(page, 'open-stage')) && ok
 
@@ -141,6 +145,14 @@ async function main() {
   await page.getByText('Best card').first().waitFor({ timeout: 30_000 })
   await page.waitForTimeout(1200)
   ok = (await check(page, 'open-summary')) && ok
+
+  // signed-out pass: the join landing for player1's personal link
+  const { data: inviter } = await admin.from('players').select('referral_code').eq('username', 'player1').single()
+  const anon = await browser.newPage({ viewport: { width: WIDTH, height: 844 } })
+  await anon.goto(`${base}/join/${inviter!.referral_code}`)
+  await anon.getByRole('heading', { level: 1 }).waitFor({ timeout: 30_000 })
+  await anon.waitForTimeout(800)
+  ok = (await check(anon, 'join-landing')) && ok
 
   await browser.close()
   if (!ok) process.exit(1)

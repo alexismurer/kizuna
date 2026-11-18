@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Download, Link2 } from "lucide-react";
+import { Download, Gift, Link2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { CardInspector } from "@/components/card/CardInspector";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import type { CardSize } from "@/components/card/CardBack";
 import { Link } from "@/i18n/navigation";
+import { RARITIES } from "@/lib/game/types";
 import { bestCard, compareCards, dupeStats } from "@/lib/opening/best";
 import { QuantitySelect } from "./QuantitySelect";
 import type { RevealCard } from "./RevealFlow";
@@ -107,6 +108,8 @@ export function Summary({
 
   const { fresh, dupes, recycleGain } = dupeStats(cards);
   const multi = packCount > 1;
+  const epicIdx = RARITIES.indexOf("epic");
+  const hasEpic = cards.some((c) => RARITIES.indexOf(c.rarity) >= epicIdx);
   const best = bestCard(cards.map((c) => ({ rarity: c.rarity, number: c.card.number })));
 
   let slots: Slot[];
@@ -332,6 +335,12 @@ export function Summary({
           <Link2 aria-hidden className="h-4 w-4" />
           {t("copy")}
         </button>
+        {hasEpic && (
+          <Link href="/invite-friends" className={secondary}>
+            <Gift aria-hidden className="h-4 w-4" />
+            {t("invite")}
+          </Link>
+        )}
         <button type="button" onClick={exportImage} disabled={exporting} className={secondary}>
           <Download aria-hidden className="h-4 w-4" />
           {t("image")}

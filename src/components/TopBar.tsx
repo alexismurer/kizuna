@@ -6,6 +6,7 @@ import { loadNotifications } from "@/lib/market/notifications";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { createServerClient } from "@/lib/supabase/server";
 import { AccountMenu } from "./AccountMenu";
+import { InviteButton } from "./referrals/InviteButton";
 import { NotificationBell } from "./notifications/NotificationBell";
 import { SignOutButton } from "./SignOutButton";
 import { StockPopover } from "./StockPopover";
@@ -29,7 +30,7 @@ export async function TopBar() {
   const disabled = ["play", "more"] as const;
 
   return (
-    <header className="flex items-center gap-3 border-b border-border bg-panel px-3 py-3 sm:gap-6 sm:px-6">
+    <header className="flex items-center gap-3 border-b border-border bg-panel px-3 py-3 sm:gap-4 sm:px-6 lg:gap-6">
       <Link href="/" aria-label={APP_NAME} className="shrink-0 font-display text-lg font-extrabold text-accent sm:text-xl">
         {/* phones: a logo mark; the bottom nav carries the links */}
         <span
@@ -55,7 +56,7 @@ export async function TopBar() {
             key={k}
             title={t("nav.soon")}
             aria-disabled="true"
-            className="hidden cursor-not-allowed text-common opacity-60 sm:inline"
+            className="hidden cursor-not-allowed text-common opacity-60 lg:inline"
           >
             {t(`nav.${k}`)}
           </span>
@@ -64,10 +65,10 @@ export async function TopBar() {
       <StockPopover status={status} />
       <Link
         href="/missions"
-        className="relative flex h-8 w-8 shrink-0 items-center justify-center gap-2 rounded-full border border-border text-sm hover:text-accent md:w-auto md:px-3"
+        className="relative flex h-8 w-8 shrink-0 items-center justify-center gap-2 rounded-full border border-border text-sm hover:text-accent lg:w-auto lg:px-3"
       >
         <ListChecks className="h-4 w-4" aria-hidden />
-        <span className="sr-only md:not-sr-only">{t("nav.missions")}</span>
+        <span className="sr-only lg:not-sr-only">{t("nav.missions")}</span>
         {missionsClaimable > 0 && (
           <>
             <span
@@ -82,6 +83,7 @@ export async function TopBar() {
           </>
         )}
       </Link>
+      <InviteButton />
       {claims && (
         <NotificationBell playerId={claims.claims.sub} initial={notifications.items} names={notifications.names} />
       )}

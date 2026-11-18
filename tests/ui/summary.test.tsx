@@ -87,6 +87,16 @@ describe("Summary", () => {
     expect(screen.getAllByText(messages.summary.best)).toHaveLength(1);
   });
 
+  it("nudges to invite a friend after an Epic or better", () => {
+    wrap({ cards: [...pull, make(8, "epic")] });
+    expect(screen.getByRole("link", { name: "Invite a friend" })).toHaveAttribute("href", "/invite-friends");
+  });
+
+  it("has no invite nudge for a pull below Epic", () => {
+    wrap({ cards: [make(1, "common"), make(2, "rare")] });
+    expect(screen.queryByRole("link", { name: "Invite a friend" })).toBeNull();
+  });
+
   it("puts the best card in the middle of the arc", () => {
     wrap();
     const slots = screen.getAllByTestId(/^summary-(card|best)$/);

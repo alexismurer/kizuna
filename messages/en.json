@@ -96,7 +96,8 @@
     "moreTitle": "More",
     "notifications": "Notifications",
     "friends": "Friends & messages",
-    "myProfile": "My profile"
+    "myProfile": "My profile",
+    "invite": "Invite friends"
   },
   "topbar": {
     "freeBoosters": "Free boosters",
@@ -146,7 +147,16 @@
     "code": "Invite code",
     "username": "Username",
     "submit": "Join",
-    "hint": "Username must be 3 to 20 characters."
+    "hint": "Username must be 3 to 20 characters.",
+    "invitedBy": "Invited by {name}.",
+    "useAnother": "Use another code"
+  },
+  "join": {
+    "invited": "{name} invited you to Anicards",
+    "cta": "Join and get 3 free boosters",
+    "cards": "Cards from their collection",
+    "broken": "This invite link doesn't work",
+    "brokenHint": "Ask your friend to send the link again."
   },
   "errors": {
     "not_friends": "You can only message friends.",
@@ -367,6 +377,7 @@
     "change": "Change booster",
     "collection": "See the collection",
     "copy": "Copy the link",
+    "invite": "Invite a friend",
     "copied": "Link copied",
     "image": "Image",
     "imageError": "Couldn't make the image. Try again.",
@@ -975,7 +986,10 @@
     "trade_declined": "{user} declined your trade offer.",
     "trade_expired": "Your trade offer expired; your cards and currency were returned.",
     "friend_request": "{user} sent you a friend request.",
-    "friend_accepted": "{user} accepted your friend request."
+    "friend_accepted": "{user} accepted your friend request.",
+    "referral_gift": "{user} sent you a gift: 3 Mix boosters",
+    "referral_joined": "{user} joined with your link",
+    "referral_rewarded": "{user} played 10 boosters over 3 days: +3 boosters and +500 for you"
   },
   "inspector": {
     "hint": "Move to tilt · tap to flip",
@@ -997,5 +1011,31 @@
     "top": "Top {pct}%",
     "rank": "#{rank}",
     "skip": "Skip ›"
+  },
+  "referrals": {
+    "title": "Invite friends",
+    "invite": "Invite",
+    "inviteChip": "+3",
+    "openPage": "See your invites",
+    "subtitle": "Invite friends: you both get 3 boosters",
+    "yourLink": "Your personal link",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "share": "Share",
+    "shareText": "Join me on Anicards — we both get 3 free boosters: {link}",
+    "manualCopy": "Copy the link from the field above.",
+    "howTitle": "How it works",
+    "step1": "Send your link to a friend.",
+    "step2": "They join and get 3 free boosters, and you become friends.",
+    "step3": "Once they have opened 10 boosters over 3 different days, you get 3 boosters and +500.",
+    "invitedTitle": "Your invited friends",
+    "empty": "No one yet — share your link",
+    "boosters": "{count}/10 boosters",
+    "days": "{count}/3 days",
+    "rewarded": "Rewarded",
+    "joinedOn": "Joined {date}",
+    "totalJoined": "{count, plural, one {# friend joined} other {# friends joined}}",
+    "totalRewarded": "{count} rewarded",
+    "totalEarned": "+{boosters, number} boosters · +{currency, number}"
   }
 }
