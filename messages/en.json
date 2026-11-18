@@ -143,7 +143,7 @@
     "signIn": "Sign in",
     "signUp": "Create account",
     "failed": "Sign-in failed. Check your details and try again.",
-    "inviteOnly": "Anicards is invite-only. New players enter their invite code right after signing in.",
+    "newHere": "New here? Sign in with Discord, then pick a username to start playing.",
     "credits": "Character names and art come from AniList."
   },
   "auth": {
@@ -153,10 +153,11 @@
     "count": "{count, number} characters to collect"
   },
   "invite": {
-    "title": "Join with an invite",
+    "title": "Pick your username",
     "code": "Invite code",
+    "haveCode": "Have an invite code?",
     "username": "Username",
-    "submit": "Join",
+    "submit": "Start playing",
     "hint": "Username must be 3 to 20 characters.",
     "invitedBy": "Invited by {name}.",
     "useAnother": "Use another code"

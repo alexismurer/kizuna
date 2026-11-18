@@ -48,7 +48,7 @@ export function LoginPanel({ devLogin }: { devLogin: boolean }) {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
         <h1 className="font-display text-4xl font-extrabold">{t("login.title")}</h1>
-        <p className="text-common">{t("login.inviteOnly")}</p>
+        <p className="text-common">{t("login.newHere")}</p>
       </div>
       <button
         type="button"

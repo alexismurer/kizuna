@@ -19,11 +19,11 @@ const wrap = (ui: React.ReactNode) =>
 afterEach(cleanup);
 
 describe("LoginPanel", () => {
-  it("offers Discord sign-in and explains the invite step", () => {
+  it("offers Discord sign-in and explains the next step", () => {
     wrap(<LoginPanel devLogin={false} />);
     expect(screen.getByRole("heading", { name: "Sign in" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Continue with Discord" })).toBeInTheDocument();
-    expect(screen.getByText(/invite-only/)).toBeInTheDocument();
+    expect(screen.getByText(/pick a username/)).toBeInTheDocument();
     expect(screen.getByText(/AniList/)).toBeInTheDocument();
   });
 
