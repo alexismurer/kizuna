@@ -35,6 +35,7 @@ async function main() {
   let ok = true
 
   await page.goto(`${base}/login`)
+  await page.getByText('Developer login').click()
   await page.fill('input[type=email]', process.env.DEV_TEST_EMAIL!)
   await page.fill('input[type=password]', process.env.DEV_TEST_PASSWORD!)
   await page.click('button[type=submit]')

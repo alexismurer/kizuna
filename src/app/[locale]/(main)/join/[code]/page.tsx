@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { AuthShell } from "@/components/auth/AuthShell";
 import { JoinLanding, type JoinPreview } from "@/components/referrals/JoinLanding";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -32,8 +33,10 @@ async function JoinContent({ params }: { params: PageProps<"/[locale]/join/[code
 
 export default function JoinPage({ params }: PageProps<"/[locale]/join/[code]">) {
   return (
-    <Suspense>
-      <JoinContent params={params} />
-    </Suspense>
+    <AuthShell>
+      <Suspense>
+        <JoinContent params={params} />
+      </Suspense>
+    </AuthShell>
   );
 }

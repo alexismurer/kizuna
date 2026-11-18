@@ -137,12 +137,20 @@
   "login": {
     "title": "Sign in",
     "discord": "Continue with Discord",
-    "devHeading": "Dev login",
+    "devHeading": "Developer login",
     "email": "Email",
     "password": "Password",
     "signIn": "Sign in",
     "signUp": "Create account",
-    "failed": "Sign-in failed. Check your details and try again."
+    "failed": "Sign-in failed. Check your details and try again.",
+    "inviteOnly": "Anicards is invite-only. New players enter their invite code right after signing in.",
+    "credits": "Character names and art come from AniList."
+  },
+  "auth": {
+    "brand": "Anicards",
+    "headline": "Collect every anime character",
+    "pitch": "Open free boosters, finish albums of the series you love and trade cards with your friends.",
+    "count": "{count, number} characters to collect"
   },
   "invite": {
     "title": "Join with an invite",

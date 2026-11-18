@@ -13,7 +13,8 @@ import InvitePage from "@/app/[locale]/(main)/invite/page";
 
 async function runContent() {
   const page = InvitePage() as ReactElement<{ children: ReactElement }>;
-  const content = page.props.children;
+  // page → AuthShell → Suspense → content
+  const content = (page.props.children as ReactElement<{ children: ReactElement }>).props.children;
   expect(isValidElement(content)).toBe(true);
   const Content = content.type as (p: unknown) => Promise<ReactElement<Record<string, unknown>>>;
   return (await Content(content.props)).props;

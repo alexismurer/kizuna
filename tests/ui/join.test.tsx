@@ -51,7 +51,8 @@ async function runContent(code: string) {
   const page = JoinPage({ params: Promise.resolve({ locale: "en", code }) } as never) as ReactElement<{
     children: ReactElement;
   }>;
-  const content = page.props.children;
+  // page → AuthShell → Suspense → content
+  const content = (page.props.children as ReactElement<{ children: ReactElement }>).props.children;
   expect(isValidElement(content)).toBe(true);
   const Content = content.type as (p: unknown) => Promise<unknown>;
   return Content(content.props);
