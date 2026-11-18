@@ -122,7 +122,8 @@
       "currency": "Currency",
       "open": "Open a booster",
       "button": "{free} free boosters, {bonus} bonus, {currency} currency"
-    }
+    },
+    "admin": "Admin"
   },
   "rarity": {
     "common": "Common",
@@ -1037,5 +1038,50 @@
     "totalJoined": "{count, plural, one {# friend joined} other {# friends joined}}",
     "totalRewarded": "{count} rewarded",
     "totalEarned": "+{boosters, number} boosters · +{currency, number}"
+  },
+  "admin": {
+    "title": "Admin",
+    "nav": {
+      "label": "Sections",
+      "invites": "Invites",
+      "currency": "Currency",
+      "pools": "Daily pools",
+      "seasonal": "Seasonal",
+      "chat": "Chat"
+    },
+    "errors": {
+      "not_admin": "You are not an admin.",
+      "invalid_count": "Pick between 1 and 20 codes.",
+      "invite_used": "That code was already used.",
+      "invite_not_found": "That code no longer exists.",
+      "player_not_found": "No player with that username.",
+      "invalid_amount": "The amount must be between 1 and 1,000,000.",
+      "generic": "Something went wrong. Try again."
+    },
+    "invites": {
+      "title": "Invite codes",
+      "hint": "Share a code with a friend; they enter it on the sign-up page ({path}).",
+      "create": "Create {count}",
+      "copy": "Copy",
+      "copied": "Copied",
+      "revoke": "Revoke",
+      "usedBy": "Used by {name}",
+      "unused": "Unused",
+      "empty": "No invite codes yet."
+    },
+    "grant": {
+      "title": "Grant currency",
+      "username": "Username",
+      "amount": "Amount",
+      "note": "Note (optional)",
+      "submit": "Grant",
+      "success": "New balance: {balance}"
+    },
+    "chat": {
+      "title": "Chat moderation",
+      "empty": "No messages.",
+      "delete": "Delete",
+      "room": "Room {room}"
+    }
   }
 }

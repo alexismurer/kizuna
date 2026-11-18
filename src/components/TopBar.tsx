@@ -17,10 +17,11 @@ export async function TopBar() {
   if (!status) return null;
   const { missionsClaimable } = status;
   const supabase = await createServerClient();
-  const [notifications, { data: claims }, { data: unreadTotal }] = await Promise.all([
+  const [notifications, { data: claims }, { data: unreadTotal }, { data: isAdmin }] = await Promise.all([
     loadNotifications(supabase),
     supabase.auth.getClaims(),
     supabase.rpc("dm_unread_total"),
+    supabase.rpc("is_admin"),
   ]);
   const unread = typeof unreadTotal === "number" ? unreadTotal : 0;
   const { data: me } = claims
@@ -87,7 +88,7 @@ export async function TopBar() {
       {claims && (
         <NotificationBell playerId={claims.claims.sub} initial={notifications.items} names={notifications.names} />
       )}
-      <AccountMenu playerId={claims?.claims.sub ?? null} me={me} initialUnread={unread}>
+      <AccountMenu playerId={claims?.claims.sub ?? null} me={me} initialUnread={unread} isAdmin={isAdmin === true}>
         <SignOutButton />
       </AccountMenu>
     </header>

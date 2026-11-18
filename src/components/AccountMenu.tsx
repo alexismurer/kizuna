@@ -11,11 +11,13 @@ export function AccountMenu({
   playerId,
   me,
   initialUnread,
+  isAdmin = false,
   children,
 }: {
   playerId: string | null;
   me: { username: string; avatar_url: string | null } | null;
   initialUnread: number;
+  isAdmin?: boolean;
   children: React.ReactNode;
 }) {
   const t = useTranslations("topbar");
@@ -52,6 +54,11 @@ export function AccountMenu({
             </span>
           )}
         </Link>
+        {isAdmin && (
+          <Link href="/admin" className="block px-3 py-2 text-sm hover:bg-border">
+            {t("admin")}
+          </Link>
+        )}
         {children}
       </div>
     </details>
