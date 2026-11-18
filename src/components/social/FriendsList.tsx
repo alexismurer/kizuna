@@ -30,6 +30,12 @@ export function FriendsList({
   const format = useFormatter();
   const router = useRouter();
   const [tab, setTab] = useState<FriendsTab>(initialTab);
+  // the tab follows the URL: a client navigation (e.g. the friend-request notification) hands in a new initialTab
+  const [seenTab, setSeenTab] = useState(initialTab);
+  if (seenTab !== initialTab) {
+    setSeenTab(initialTab);
+    setTab(initialTab);
+  }
   const [error, setError] = useState<string | null>(null);
   // requests answered here are hidden at once; reset when the server sends new data
   const [gone, setGone] = useState<string[]>([]);

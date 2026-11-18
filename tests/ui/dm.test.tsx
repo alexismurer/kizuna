@@ -245,6 +245,21 @@ describe("direct messages", () => {
     expect(screen.getAllByText("hello 1")).toHaveLength(1);
   });
 
+  it("fills a reconnect gap larger than one page, once each and in order", async () => {
+    const all = Array.from({ length: 130 }, (_, i) => msg(i + 1, { body: `m${i + 1}` }));
+    rpc.mockImplementation(async (fn: string, args: { p_before: number | null; p_limit: number }) => {
+      if (fn !== "dm_thread") return { data: null, error: null };
+      const pool = args.p_before === null ? all : all.filter((m) => m.id < args.p_before!);
+      return { data: pool.slice(-args.p_limit), error: null };
+    });
+    wrap(<DmThread username="sakura" playerId="me" otherId="u2" initial={all.slice(0, 10)} initialHasMore={false} canSend />);
+    await waitFor(() => expect(statuses).toHaveLength(2));
+    await act(async () => statuses.forEach((cb) => cb("SUBSCRIBED")));
+    expect(await screen.findByText("m130")).toBeInTheDocument();
+    const texts = screen.getAllByText(/^m[0-9]+$/).map((e) => e.textContent);
+    expect(texts).toEqual(all.map((m) => m.body));
+  });
+
   it("loads older messages with p_before", async () => {
     rpc.mockImplementation(async (fn: string) =>
       fn === "dm_thread" ? { data: [msg(1, { body: "old one" })], error: null } : { data: null, error: null },

@@ -82,6 +82,19 @@ describe("friends page", () => {
     expect(rpc).toHaveBeenCalledTimes(2);
   });
 
+  it("follows a new initialTab on client navigation", () => {
+    const ui = (tab: "friends" | "requests") => (
+      <NextIntlClientProvider locale="en" messages={messages} now={NOW} timeZone="UTC">
+        <FriendsList data={data} playerId="me" initialTab={tab} />
+      </NextIntlClientProvider>
+    );
+    const { rerender } = render(ui("friends"));
+    expect(screen.getByRole("tab", { name: "Friends" })).toHaveAttribute("aria-selected", "true");
+    rerender(ui("requests"));
+    expect(screen.getByRole("tab", { name: /Requests/ })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByText("hana")).toBeInTheDocument();
+  });
+
   it("switches tabs without calling the server", () => {
     wrap(<FriendsList data={data} playerId="me" />);
     fireEvent.click(screen.getByRole("tab", { name: /Requests/ }));

@@ -57,11 +57,22 @@ export function DmThread({
     setItems((cur) => mergeById(cur, incoming));
   }, []);
 
-  // the newest page again: after a reconnect, or when a live row carries a card
+  // after a reconnect (or a live row with a card): read the newest page, then keep paging
+  // back until the last message we already had, so a long outage leaves no gap
   const refetchLatest = useCallback(async () => {
-    const { data, error: rpcError } = await db().rpc("dm_thread", { p_username: username, p_before: null, p_limit: PAGE });
-    if (rpcError || !Array.isArray(data)) return;
-    absorb(data as ThreadMessage[]);
+    const had = Math.max(0, ...known.current);
+    let before: number | null = null;
+    const fetched: ThreadMessage[] = [];
+    for (;;) {
+      const { data, error: rpcError } = await db().rpc("dm_thread", { p_username: username, p_before: before, p_limit: PAGE });
+      if (rpcError || !Array.isArray(data)) break;
+      const page = data as ThreadMessage[];
+      fetched.push(...page);
+      if (page.length < PAGE || page[0].id <= had) break;
+      before = page[0].id;
+    }
+    if (fetched.length === 0) return;
+    absorb(fetched);
     markRead();
   }, [username, absorb, markRead]);
 
