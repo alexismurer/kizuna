@@ -3,10 +3,20 @@
 A step-by-step runbook for putting the game online with Supabase (database and
 login) and Vercel (hosting). Do the steps in order.
 
-The scripts (`npm run import`, `npm run invite`, `npm run admin`) read
-`.env.local`. For the steps below that run them against the hosted project,
-temporarily put the hosted values in `.env.local` (keep a copy of your local
-ones), and put the local ones back afterwards. Never commit this file.
+The scripts (`npm run import`, `npm run invite`, `npm run admin`) read only
+two variables: `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`
+(no anon key needed). To run one against the hosted project, set both in the
+terminal session only. Example in PowerShell:
+
+```
+$env:NEXT_PUBLIC_SUPABASE_URL='https://<project-ref>.supabase.co'
+$env:SUPABASE_SERVICE_ROLE_KEY='<service-role key>'
+npm run admin -- <username>
+```
+
+Variables already set in the terminal win over `.env.local`. Close that
+terminal when you are done so the production key does not linger. `.env.local`
+is never edited and stays pointed at your local database.
 
 ## 1. Supabase project
 
@@ -30,7 +40,7 @@ ones), and put the local ones back afterwards. Never commit this file.
 
 ## 2. Import the catalog
 
-Put the hosted URL and service-role key in `.env.local`, then:
+In a terminal with the two hosted variables set (see the top of this page):
 
 ```
 npm run import
@@ -72,12 +82,13 @@ In the dashboard, Authentication:
 
 ## 6. First admin
 
-1. With the hosted values in `.env.local`, create an invite code:
+1. In a terminal with the two hosted variables set (see the top of this page), create an invite code:
    ```
    npm run invite
    ```
 2. Open the site, sign in with Discord and enter the code.
-3. Make yourself admin, using the username you chose in the game:
+3. Make yourself admin, using the username you chose in the game (same
+   terminal, or set the two variables again):
    ```
    npm run admin -- <username>
    ```
