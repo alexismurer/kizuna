@@ -1056,6 +1056,11 @@
       "invite_not_found": "That code no longer exists.",
       "player_not_found": "No player with that username.",
       "invalid_amount": "The amount must be between 1 and 1,000,000.",
+      "invalid_pool": "A pool needs a name (up to 40 characters) and at least one series.",
+      "invalid_seasonal": "A seasonal needs a slug (2 to 30 of a-z, 0-9, _), a title, at least one series and an end after the start.",
+      "seasonal_title": "Enter a title.",
+      "seasonal_series": "Pick at least one series.",
+      "seasonal_dates": "The end must be after the start.",
       "generic": "Something went wrong. Try again."
     },
     "invites": {
@@ -1076,6 +1081,38 @@
       "note": "Note (optional)",
       "submit": "Grant",
       "success": "New balance: {balance}"
+    },
+    "picker": {
+      "search": "Search series",
+      "add": "Add {title} ({cards} cards)",
+      "remove": "Remove {title}",
+      "cards": "{count} cards"
+    },
+    "pools": {
+      "title": "Daily pools",
+      "empty": "No pools yet.",
+      "new": "New pool",
+      "editing": "Edit pool",
+      "name": "Name",
+      "save": "Save pool",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "seasonal": {
+      "title": "Seasonal boosters",
+      "empty": "No seasonal boosters yet.",
+      "new": "New seasonal booster",
+      "editing": "Edit seasonal booster",
+      "slug": "Slug",
+      "titleLabel": "Title",
+      "starts": "Starts",
+      "ends": "Ends",
+      "save": "Save seasonal",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "endNow": "End now",
+      "status": { "live": "Live", "scheduled": "Scheduled", "ended": "Ended" }
     },
     "chat": {
       "title": "Chat moderation",

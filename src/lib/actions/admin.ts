@@ -22,3 +22,24 @@ export const adminGrantCurrency = (username: string, amount: number, note: strin
   call<number>("admin_grant_currency", { p_username: username, p_amount: amount, p_note: note });
 export const adminChatRecent = () => call<AdminChatMessage[]>("admin_chat_recent");
 export const adminDeleteChat = (id: number) => call<null>("admin_delete_chat", { p_id: id });
+
+export type AdminSeries = { id: number; title: string };
+export type AdminPool = { id: number; name: string; seriesIds: number[]; series: AdminSeries[] };
+export type AdminSeriesHit = AdminSeries & { cards: number };
+export type AdminSeasonal = { id: string; title: string; seriesIds: number[]; startsAt: string; endsAt: string };
+
+export const adminPools = () => call<AdminPool[]>("admin_pools");
+export const adminSavePool = (id: number | null, name: string, seriesIds: number[]) =>
+  call<number>("admin_save_pool", { p_id: id, p_name: name, p_series_ids: seriesIds });
+export const adminDeletePool = (id: number) => call<null>("admin_delete_pool", { p_id: id });
+export const adminSeriesSearch = (query: string) => call<AdminSeriesHit[]>("admin_series_search", { p_query: query });
+export const adminSeasonals = () => call<AdminSeasonal[]>("admin_seasonals");
+export const adminSaveSeasonal = (slug: string, title: string, seriesIds: number[], startsAt: string, endsAt: string) =>
+  call<string>("admin_save_seasonal", {
+    p_slug: slug,
+    p_title: title,
+    p_series_ids: seriesIds,
+    p_starts_at: startsAt,
+    p_ends_at: endsAt,
+  });
+export const adminEndSeasonal = (id: string) => call<null>("admin_end_seasonal", { p_id: id });

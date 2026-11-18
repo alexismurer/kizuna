@@ -4,7 +4,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ChatPanel } from "@/components/admin/ChatPanel";
 import { GrantPanel } from "@/components/admin/GrantPanel";
 import { InvitesPanel } from "@/components/admin/InvitesPanel";
-import type { AdminChatMessage, AdminInvite } from "@/lib/actions/admin";
+import { PoolsPanel } from "@/components/admin/PoolsPanel";
+import { SeasonalPanel } from "@/components/admin/SeasonalPanel";
+import type { AdminChatMessage, AdminInvite, AdminPool, AdminSeasonal } from "@/lib/actions/admin";
 import { createServerClient } from "@/lib/supabase/server";
 
 const SECTIONS = ["invites", "currency", "pools", "seasonal", "chat"] as const;
@@ -17,7 +19,20 @@ async function AdminContent({ params }: { params: PageProps<"/[locale]/admin">["
   if (admin !== true) notFound();
 
   const t = await getTranslations("admin");
-  const [invites, chat] = await Promise.all([supabase.rpc("admin_invites"), supabase.rpc("admin_chat_recent")]);
+  const [invites, chat, pools, seasonals] = await Promise.all([
+    supabase.rpc("admin_invites"),
+    supabase.rpc("admin_chat_recent"),
+    supabase.rpc("admin_pools"),
+    supabase.rpc("admin_seasonals"),
+  ]);
+  const seasonalRows = (seasonals.data as AdminSeasonal[] | null) ?? [];
+  // admin_seasonals returns series ids only; players can read `series`, so resolve titles for the chips.
+  const ids = [...new Set(seasonalRows.flatMap((s) => s.seriesIds))];
+  const seriesTitles: Record<number, string> = {};
+  if (ids.length > 0) {
+    const { data } = await supabase.from("series").select("id, title").in("id", ids);
+    for (const s of data ?? []) seriesTitles[s.id] = s.title;
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -31,9 +46,8 @@ async function AdminContent({ params }: { params: PageProps<"/[locale]/admin">["
       </nav>
       <InvitesPanel initial={(invites.data as AdminInvite[] | null) ?? []} />
       <GrantPanel />
-      {/* placeholders for the pools and seasonal panels */}
-      <div id="pools" className="scroll-mt-4" />
-      <div id="seasonal" className="scroll-mt-4" />
+      <PoolsPanel initial={(pools.data as AdminPool[] | null) ?? []} />
+      <SeasonalPanel initial={seasonalRows} seriesTitles={seriesTitles} />
       <ChatPanel initial={(chat.data as AdminChatMessage[] | null) ?? []} />
     </div>
   );
