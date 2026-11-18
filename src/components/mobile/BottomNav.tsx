@@ -1,22 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Ellipsis, Gamepad2, House, Layers, ListChecks, Package, Store } from "lucide-react";
+import { Bell, Ellipsis, Gamepad2, House, Layers, ListChecks, MessageCircle, Package, Store, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SignOutButton } from "@/components/SignOutButton";
 import { Link, usePathname } from "@/i18n/navigation";
 import { BoosterSheet } from "./BoosterSheet";
+import { useDmUnread } from "@/components/social/useDmUnread";
 import { Sheet } from "./Sheet";
 
 const item = "flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] font-medium";
 
 // Phone tab bar: Home, Collection, a raised Open button, Market, More.
 // Hidden on md and up.
-export function BottomNav({ missionsClaimable }: { missionsClaimable: number }) {
+export function BottomNav({
+  missionsClaimable,
+  social,
+}: {
+  missionsClaimable: number;
+  social?: { playerId: string; username: string; unread: number };
+}) {
   const t = useTranslations("nav");
   const tb = useTranslations("topbar");
   const pathname = usePathname();
   const [sheet, setSheet] = useState<"boosters" | "more" | null>(null);
+  const unread = useDmUnread(social?.playerId ?? null, social?.unread ?? 0);
 
   if (/^\/open\/[^/]+$/.test(pathname)) return null;
 
@@ -80,10 +88,17 @@ export function BottomNav({ missionsClaimable }: { missionsClaimable: number }) 
               type="button"
               aria-haspopup="dialog"
               onClick={() => setSheet("more")}
-              className={`${item} text-common`}
+              className={`${item} relative text-common`}
             >
               <Ellipsis className="h-5 w-5" aria-hidden />
               {t("more")}
+              {unread > 0 && (
+                <span
+                  data-testid="messages-dot"
+                  aria-hidden
+                  className="absolute right-[30%] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-panel bg-cta"
+                />
+              )}
             </button>
           </li>
         </ul>
@@ -110,6 +125,32 @@ export function BottomNav({ missionsClaimable }: { missionsClaimable: number }) 
                     {", "}
                     {tb("missionsClaimable", { count: missionsClaimable })}
                   </span>
+                </>
+              )}
+            </Link>
+            {social && (
+              <Link
+                href={`/profile/${social.username}`}
+                onClick={() => setSheet(null)}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+              >
+                <User className="h-5 w-5" aria-hidden />
+                <span className="flex-1">{t("myProfile")}</span>
+              </Link>
+            )}
+            <Link
+              href="/friends"
+              onClick={() => setSheet(null)}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+            >
+              <MessageCircle className="h-5 w-5" aria-hidden />
+              <span className="flex-1">{t("friends")}</span>
+              {unread > 0 && (
+                <>
+                  <span aria-hidden className="rounded-full bg-cta px-1.5 text-xs font-bold text-black">
+                    {unread}
+                  </span>
+                  <span className="sr-only">{tb("messagesUnread", { count: unread })}</span>
                 </>
               )}
             </Link>

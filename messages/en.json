@@ -94,7 +94,9 @@
     "open": "Open",
     "missions": "Missions",
     "moreTitle": "More",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "friends": "Friends & messages",
+    "myProfile": "My profile"
   },
   "topbar": {
     "freeBoosters": "Free boosters",
@@ -102,6 +104,7 @@
     "account": "Account menu",
     "myProfile": "My profile",
     "friends": "Friends & messages",
+    "messagesUnread": "{count, plural, one {# unread message} other {# unread messages}}",
     "signOut": "Sign out",
     "notifications": "Notifications",
     "missionsClaimable": "{count, plural, one {# reward} other {# rewards}} to claim",
@@ -146,6 +149,9 @@
     "hint": "Username must be 3 to 20 characters."
   },
   "errors": {
+    "not_friends": "You can only message friends.",
+    "rate_limited": "You are sending messages too fast. Wait a few seconds.",
+    "invalid_message": "That message is not valid.",
     "no_free_boosters": "No free boosters available right now.",
     "insufficient_currency": "Not enough currency.",
     "pack_unavailable": "This pack is not available.",
@@ -225,6 +231,53 @@
     "defaultAvatar": "Use my best card",
     "noMatches": "No cards match.",
     "noCards": "You have no cards yet."
+  },
+  "friends": {
+    "title": "Friends & messages",
+    "tabs": "Friends sections",
+    "friends": "Friends",
+    "requests": "Requests",
+    "find": "Find players",
+    "empty": "No friends yet. Find players to add them.",
+    "message": "Message",
+    "unread": "{count} unread",
+    "since": "Friends since {date}",
+    "received": "Received",
+    "sent": "Sent",
+    "noRequests": "No pending requests.",
+    "cancel": "Cancel",
+    "accept": "Accept",
+    "decline": "Decline",
+    "searchLabel": "Search players by username",
+    "searchPlaceholder": "Start of a username",
+    "noResults": "No players found.",
+    "add": "Add friend",
+    "requestSent": "Request sent",
+    "isFriend": "Friends"
+  },
+  "dm": {
+    "with": "Messages with {name}",
+    "trade": "Propose a trade",
+    "empty": "No messages yet. Say hello!",
+    "loadOlder": "Load older messages",
+    "notFriends": "You are not friends with {name}. Add them as a friend to message them.",
+    "thread": "Conversation",
+    "compose": "Write a message",
+    "counter": "{count}/{max}",
+    "send": "Send",
+    "sending": "Sending",
+    "attach": "Attach a card",
+    "removeAttachment": "Remove the attached card",
+    "tagTrading": "TRADING",
+    "tagLooking": "LOOKING FOR",
+    "missing": "You're missing it",
+    "pickerTitle": "Attach a card",
+    "pickerTag": "Card tag",
+    "pickerTrading": "Trading (your cards)",
+    "pickerLooking": "Looking for",
+    "pickerSearch": "Search cards",
+    "pickerNone": "No cards match.",
+    "pickerNoCards": "You have no cards to trade yet."
   },
   "reveal": {
     "new": "NEW",
@@ -902,7 +955,9 @@
     "trade_received": "{user} sent you a trade offer.",
     "trade_accepted": "{user} accepted your trade offer.",
     "trade_declined": "{user} declined your trade offer.",
-    "trade_expired": "Your trade offer expired; your cards and currency were returned."
+    "trade_expired": "Your trade offer expired; your cards and currency were returned.",
+    "friend_request": "{user} sent you a friend request.",
+    "friend_accepted": "{user} accepted your friend request."
   },
   "inspector": {
     "hint": "Move to tilt · tap to flip",

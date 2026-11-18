@@ -108,6 +108,17 @@ describe("More sheet", () => {
     expect(within(link).queryByTestId("claimable-dot")).toBeNull();
   });
 
+  it("links to My profile and Friends & messages, with an unread dot on More", () => {
+    wrap(<BottomNav missionsClaimable={0} social={{ playerId: "u1", username: "kenji", unread: 3 }} />);
+    expect(screen.getByTestId("messages-dot")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));
+    const sheet = screen.getByRole("dialog", { name: messages.nav.moreTitle });
+    expect(within(sheet).getByRole("link", { name: "My profile" })).toHaveAttribute("href", "/profile/kenji");
+    const friends = within(sheet).getByRole("link", { name: /Friends & messages/ });
+    expect(friends).toHaveAttribute("href", "/friends");
+    expect(friends).toHaveTextContent("3");
+  });
+
   it("Notifications closes the sheet and asks the bell to open", () => {
     const opened = vi.fn();
     window.addEventListener("notifications:open", opened);
