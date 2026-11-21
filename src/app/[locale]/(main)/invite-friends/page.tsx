@@ -6,6 +6,7 @@ import { getFormatter, getTranslations, setRequestLocale } from "next-intl/serve
 import { ReferralLink } from "@/components/referrals/ReferralLink";
 import { ReferralList, type Invited } from "@/components/referrals/ReferralList";
 import { createServerClient } from "@/lib/supabase/server";
+import { REFERRAL_BOOSTERS } from "@/config/app";
 
 type MyReferrals = {
   code: string;
@@ -40,7 +41,7 @@ async function InviteContent() {
               <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-accent font-bold text-black">
                 {i + 1}
               </span>
-              <span>{t(k)}</span>
+              <span>{t(k, { boosters: REFERRAL_BOOSTERS })}</span>
             </li>
           ))}
         </ol>
@@ -67,7 +68,7 @@ export default async function InviteFriendsPage({ params }: PageProps<"/[locale]
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold sm:text-4xl">
           <Gift aria-hidden /> {t("title")}
         </h1>
-        <p className="text-white/70">{t("subtitle")}</p>
+        <p className="text-white/70">{t("subtitle", { boosters: REFERRAL_BOOSTERS })}</p>
       </header>
       <Suspense fallback={null}>
         <InviteContent />

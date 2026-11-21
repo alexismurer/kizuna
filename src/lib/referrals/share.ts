@@ -1,5 +1,6 @@
-export function shareText(t: (key: string, values?: Record<string, string>) => string, url: string): string {
-  return t("shareText", { link: url });
+import { REFERRAL_BOOSTERS } from "@/config/app";
+export function shareText(t: (key: string, values?: Record<string, string | number>) => string, url: string): string {
+  return t("shareText", { link: url, boosters: REFERRAL_BOOSTERS });
 }
 
 // Share sheet when asked and available, else the clipboard; "cancelled" means the sheet was dismissed; "fallback" means neither worked

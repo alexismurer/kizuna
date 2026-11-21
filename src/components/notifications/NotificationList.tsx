@@ -3,6 +3,7 @@
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Notification } from "@/lib/market/notifications";
+import { REFERRAL_BOOSTERS } from "@/config/app";
 
 // where each kind leads (friend_accepted: the new friend's profile, see hrefOf)
 const HREF: Record<string, string> = {
@@ -56,6 +57,7 @@ export function NotificationList({
           net: num("net"),
           amount: num("amount"),
           user: String(p.from_username ?? p.to_username ?? p.username ?? ""),
+          boosters: REFERRAL_BOOSTERS,
         });
         return (
           <li key={i.id}>

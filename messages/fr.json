@@ -176,7 +176,7 @@
   },
   "join": {
     "invited": "{name} t'invite sur Kizuna",
-    "cta": "Rejoins le jeu et reçois 3 boosters gratuits",
+    "cta": "Rejoins le jeu et reçois {boosters} boosters gratuits",
     "cards": "Des cartes de sa collection",
     "broken": "Ce lien d'invitation ne fonctionne pas",
     "brokenHint": "Demande à ton ami de te renvoyer le lien."
@@ -1016,10 +1016,10 @@
     "trade_expired": "Ton offre d'échange a expiré ; tes cartes et ta monnaie t'ont été rendues.",
     "friend_request": "{user} t'a envoyé une demande d'ami.",
     "friend_accepted": "{user} a accepté ta demande d'ami.",
-    "referral_gift": "{user} t'a envoyé un cadeau : 3 boosters Mix",
+    "referral_gift": "{user} t'a envoyé un cadeau : {boosters} boosters Mix",
     "referral_joined": "{user} a rejoint le jeu grâce à ton lien",
     "admin_grant": "Tu as reçu {amount} de monnaie de la part de l'administrateur du jeu",
-    "referral_rewarded": "{user} a ouvert 10 boosters sur 3 jours : +3 boosters et +500 pour toi"
+    "referral_rewarded": "{user} a ouvert 10 boosters sur 3 jours : +{boosters} boosters et +500 pour toi"
   },
   "inspector": {
     "hint": "Bouge pour incliner · touche pour retourner",
@@ -1045,18 +1045,18 @@
   "referrals": {
     "title": "Inviter des amis",
     "invite": "Inviter",
-    "inviteChip": "+3",
-    "subtitle": "Invite tes amis : vous recevez chacun 3 boosters",
+    "inviteChip": "+{boosters}",
+    "subtitle": "Invite tes amis : vous recevez chacun {boosters} boosters",
     "yourLink": "Ton lien personnel",
     "copy": "Copier le lien",
     "copied": "Lien copié",
     "share": "Partager",
-    "shareText": "Rejoins-moi sur Kizuna, on reçoit tous les deux 3 boosters gratuits : {link}",
+    "shareText": "Rejoins-moi sur Kizuna, on reçoit tous les deux {boosters} boosters gratuits : {link}",
     "manualCopy": "Copie le lien depuis le champ ci-dessus.",
     "howTitle": "Comment ça marche",
     "step1": "Envoie ton lien à un ami.",
-    "step2": "Il rejoint le jeu, reçoit 3 boosters gratuits et vous devenez amis.",
-    "step3": "Quand il a ouvert 10 boosters sur 3 jours différents, tu reçois 3 boosters et +500.",
+    "step2": "Il rejoint le jeu, reçoit {boosters} boosters gratuits et vous devenez amis.",
+    "step3": "Quand il a ouvert 10 boosters sur 3 jours différents, tu reçois {boosters} boosters et +500.",
     "invitedTitle": "Tes amis invités",
     "empty": "Personne pour l'instant : partage ton lien",
     "boosters": "{count}/10 boosters",

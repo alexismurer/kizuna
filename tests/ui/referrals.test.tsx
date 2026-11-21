@@ -179,10 +179,10 @@ describe("referral notifications", () => {
     [n(1, "referral_joined", { username: "mika" }), "mika joined with your link", "/profile/mika"],
     [
       n(2, "referral_rewarded", { username: "mika" }),
-      "mika played 10 boosters over 3 days: +3 boosters and +500 for you",
+      "mika played 10 boosters over 3 days: +30 boosters and +500 for you",
       "/invite-friends",
     ],
-    [n(3, "referral_gift", { username: "mika" }), "mika sent you a gift: 3 Mix boosters", "/profile/mika"],
+    [n(3, "referral_gift", { username: "mika" }), "mika sent you a gift: 30 Mix boosters", "/profile/mika"],
   ])("renders %#", (item, text, href) => {
     wrap(<NotificationList items={[item]} names={{}} onNavigate={() => {}} />);
     const link = screen.getByRole("link");

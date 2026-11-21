@@ -176,7 +176,7 @@
   },
   "join": {
     "invited": "{name}さんがKizunaに招待しています",
-    "cta": "参加して無料ブースターを3つもらう",
+    "cta": "参加して無料ブースターを{boosters}個もらう",
     "cards": "コレクションのカード",
     "broken": "この招待リンクは使えません",
     "brokenHint": "フレンドにもう一度リンクを送ってもらってください。"
@@ -1016,10 +1016,10 @@
     "trade_expired": "トレードオファーの期限が切れ、カードと通貨が戻りました。",
     "friend_request": "{user}さんからフレンド申請が届きました。",
     "friend_accepted": "{user}さんがフレンド申請を承認しました。",
-    "referral_gift": "{user}さんからプレゼント：ミックスブースター3つ",
+    "referral_gift": "{user}さんからプレゼント：ミックスブースター{boosters}個",
     "referral_joined": "{user}さんがあなたのリンクから参加しました",
     "admin_grant": "ゲーム管理者から通貨{amount}を受け取りました",
-    "referral_rewarded": "{user}さんが3日間でブースターを10個開けました：あなたにブースター+3と+500"
+    "referral_rewarded": "{user}さんが3日間でブースターを10個開けました：あなたにブースター+{boosters}と+500"
   },
   "inspector": {
     "hint": "動かして傾ける · タップでめくる",
@@ -1045,18 +1045,18 @@
   "referrals": {
     "title": "フレンドを招待",
     "invite": "招待",
-    "inviteChip": "+3",
-    "subtitle": "フレンドを招待すると、2人ともブースターを3つもらえます",
+    "inviteChip": "+{boosters}",
+    "subtitle": "フレンドを招待すると、2人ともブースターを{boosters}個もらえます",
     "yourLink": "あなた専用のリンク",
     "copy": "リンクをコピー",
     "copied": "リンクをコピーしました",
     "share": "共有",
-    "shareText": "Kizunaで一緒に遊ぼう、2人とも無料ブースターが3つもらえるよ：{link}",
+    "shareText": "Kizunaで一緒に遊ぼう、2人とも無料ブースターが{boosters}個もらえるよ：{link}",
     "manualCopy": "上の欄からリンクをコピーしてください。",
     "howTitle": "しくみ",
     "step1": "フレンドにリンクを送る。",
-    "step2": "フレンドが参加すると無料ブースターを3つもらえ、2人はフレンドになります。",
-    "step3": "フレンドが3日以上にわたってブースターを10個開けると、あなたにブースター3つと+500。",
+    "step2": "フレンドが参加すると無料ブースターを{boosters}個もらえ、2人はフレンドになります。",
+    "step3": "フレンドが3日以上にわたってブースターを10個開けると、あなたにブースター{boosters}個と+500。",
     "invitedTitle": "招待したフレンド",
     "empty": "まだ誰もいません：リンクを共有しよう",
     "boosters": "ブースター {count}/10",

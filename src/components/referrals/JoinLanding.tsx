@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { COLOR } from "@/components/card/CardView";
 import { Avatar } from "@/components/social/Avatar";
 import type { Rarity } from "@/lib/game/types";
+import { REFERRAL_BOOSTERS } from "@/config/app";
 
 export type JoinPreview = {
   username: string;
@@ -64,7 +65,7 @@ export function JoinLanding({
         href={signedIn ? "/invite" : "/login"}
         className="block w-full rounded-xl bg-cta px-5 py-3 text-center font-semibold text-black transition hover:brightness-110"
       >
-        {t("cta")}
+        {t("cta", { boosters: REFERRAL_BOOSTERS })}
       </Link>
     </div>
   );

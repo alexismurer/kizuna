@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { LanguageSelect } from "./LanguageSelect";
 import { Avatar } from "./social/Avatar";
 import { useDmUnread } from "./social/useDmUnread";
+import { REFERRAL_BOOSTERS } from "@/config/app";
 
 // The avatar menu: My profile, Friends & messages (with the unread count), Invite friends, Sign out.
 export function AccountMenu({
@@ -85,7 +86,7 @@ export function AccountMenu({
         <Link href="/invite-friends" className="flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-border">
           {tr("title")}
           <span aria-hidden className="rounded-full bg-accent px-1.5 text-xs font-bold text-black">
-            {tr("inviteChip")}
+            {tr("inviteChip", { boosters: REFERRAL_BOOSTERS })}
           </span>
         </Link>
         {isAdmin && (

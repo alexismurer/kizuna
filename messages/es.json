@@ -176,7 +176,7 @@
   },
   "join": {
     "invited": "{name} te ha invitado a Kizuna",
-    "cta": "Únete y consigue 3 sobres gratis",
+    "cta": "Únete y consigue {boosters} sobres gratis",
     "cards": "Cartas de su colección",
     "broken": "Este enlace de invitación no funciona",
     "brokenHint": "Pide a tu amigo que te envíe el enlace de nuevo."
@@ -1016,10 +1016,10 @@
     "trade_expired": "Tu oferta de intercambio ha caducado; se te han devuelto las cartas y la moneda.",
     "friend_request": "{user} te ha enviado una solicitud de amistad.",
     "friend_accepted": "{user} ha aceptado tu solicitud de amistad.",
-    "referral_gift": "{user} te ha enviado un regalo: 3 sobres Mix",
+    "referral_gift": "{user} te ha enviado un regalo: {boosters} sobres Mix",
     "referral_joined": "{user} se ha unido con tu enlace",
     "admin_grant": "Has recibido {amount} de moneda del administrador del juego",
-    "referral_rewarded": "{user} ha abierto 10 sobres en 3 días: +3 sobres y +500 para ti"
+    "referral_rewarded": "{user} ha abierto 10 sobres en 3 días: +{boosters} sobres y +500 para ti"
   },
   "inspector": {
     "hint": "Mueve para inclinar · toca para girar",
@@ -1045,18 +1045,18 @@
   "referrals": {
     "title": "Invitar amigos",
     "invite": "Invitar",
-    "inviteChip": "+3",
-    "subtitle": "Invita a tus amigos: los dos conseguís 3 sobres",
+    "inviteChip": "+{boosters}",
+    "subtitle": "Invita a tus amigos: los dos conseguís {boosters} sobres",
     "yourLink": "Tu enlace personal",
     "copy": "Copiar enlace",
     "copied": "Enlace copiado",
     "share": "Compartir",
-    "shareText": "Únete a mí en Kizuna: los dos conseguimos 3 sobres gratis: {link}",
+    "shareText": "Únete a mí en Kizuna: los dos conseguimos {boosters} sobres gratis: {link}",
     "manualCopy": "Copia el enlace del campo de arriba.",
     "howTitle": "Cómo funciona",
     "step1": "Envía tu enlace a un amigo.",
-    "step2": "Se une, recibe 3 sobres gratis y os hacéis amigos.",
-    "step3": "Cuando haya abierto 10 sobres en 3 días distintos, recibes 3 sobres y +500.",
+    "step2": "Se une, recibe {boosters} sobres gratis y os hacéis amigos.",
+    "step3": "Cuando haya abierto 10 sobres en 3 días distintos, recibes {boosters} sobres y +500.",
     "invitedTitle": "Tus amigos invitados",
     "empty": "Aún nadie: comparte tu enlace",
     "boosters": "{count}/10 sobres",

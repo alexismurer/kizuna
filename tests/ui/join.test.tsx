@@ -71,12 +71,12 @@ describe("JoinLanding", () => {
     wrap(<JoinLanding code="ABCD2345" preview={preview({ cards: [card(1), card(2), card(3), card(4)] })} />);
     expect(screen.getByText("Alex invited you to Kizuna")).toBeInTheDocument();
     expect(screen.getAllByRole("img")).toHaveLength(3);
-    expect(screen.getByRole("link", { name: "Join and get 3 free boosters" })).toHaveAttribute("href", "/login");
+    expect(screen.getByRole("link", { name: "Join and get 30 free boosters" })).toHaveAttribute("href", "/login");
   });
 
   it("sends a signed-in non-player to /invite", () => {
     wrap(<JoinLanding code="ABCD2345" preview={preview()} signedIn />);
-    expect(screen.getByRole("link", { name: "Join and get 3 free boosters" })).toHaveAttribute("href", "/invite");
+    expect(screen.getByRole("link", { name: "Join and get 30 free boosters" })).toHaveAttribute("href", "/invite");
   });
 
   it("says the link does not work, with no join link, for a null preview", () => {

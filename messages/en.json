@@ -176,7 +176,7 @@
   },
   "join": {
     "invited": "{name} invited you to Kizuna",
-    "cta": "Join and get 3 free boosters",
+    "cta": "Join and get {boosters} free boosters",
     "cards": "Cards from their collection",
     "broken": "This invite link doesn't work",
     "brokenHint": "Ask your friend to send the link again."
@@ -1016,10 +1016,10 @@
     "trade_expired": "Your trade offer expired; your cards and currency were returned.",
     "friend_request": "{user} sent you a friend request.",
     "friend_accepted": "{user} accepted your friend request.",
-    "referral_gift": "{user} sent you a gift: 3 Mix boosters",
+    "referral_gift": "{user} sent you a gift: {boosters} Mix boosters",
     "referral_joined": "{user} joined with your link",
     "admin_grant": "You received {amount} currency from the game admin",
-    "referral_rewarded": "{user} played 10 boosters over 3 days: +3 boosters and +500 for you"
+    "referral_rewarded": "{user} played 10 boosters over 3 days: +{boosters} boosters and +500 for you"
   },
   "inspector": {
     "hint": "Move to tilt · tap to flip",
@@ -1045,18 +1045,18 @@
   "referrals": {
     "title": "Invite friends",
     "invite": "Invite",
-    "inviteChip": "+3",
-    "subtitle": "Invite friends: you both get 3 boosters",
+    "inviteChip": "+{boosters}",
+    "subtitle": "Invite friends: you both get {boosters} boosters",
     "yourLink": "Your personal link",
     "copy": "Copy link",
     "copied": "Link copied",
     "share": "Share",
-    "shareText": "Join me on Kizuna — we both get 3 free boosters: {link}",
+    "shareText": "Join me on Kizuna — we both get {boosters} free boosters: {link}",
     "manualCopy": "Copy the link from the field above.",
     "howTitle": "How it works",
     "step1": "Send your link to a friend.",
-    "step2": "They join and get 3 free boosters, and you become friends.",
-    "step3": "Once they have opened 10 boosters over 3 different days, you get 3 boosters and +500.",
+    "step2": "They join and get {boosters} free boosters, and you become friends.",
+    "step3": "Once they have opened 10 boosters over 3 different days, you get {boosters} boosters and +500.",
     "invitedTitle": "Your invited friends",
     "empty": "No one yet — share your link",
     "boosters": "{count}/10 boosters",
