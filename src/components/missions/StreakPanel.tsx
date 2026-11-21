@@ -2,6 +2,7 @@ import { Check, Star } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { streakTicked, type StreakState } from "@/lib/game/missions";
 import { Panel } from "./MissionList";
+import { StreakClaim } from "./StreakClaim";
 
 export function StreakPanel({ streak }: { streak: StreakState }) {
   const t = useTranslations("missions.streak");
@@ -10,7 +11,7 @@ export function StreakPanel({ streak }: { streak: StreakState }) {
   const today = streak.claimedToday ? ticked : ticked + 1;
 
   return (
-    <Panel id="streak" eyebrow={t("eyebrow")} title={t("title")}>
+    <Panel id="streak" eyebrow={t("eyebrow")} title={t("title")} aside={<StreakClaim claimedToday={streak.claimedToday} />}>
       <ol className="grid grid-cols-7 gap-1.5 sm:gap-2">
         {streak.rewards.map((reward, i) => {
           const n = i + 1;

@@ -791,7 +791,9 @@
   },
   "loginReward": {
     "toast": "Day {day} login · +{reward, number}",
-    "golden": "Next booster is golden"
+    "golden": "Next booster is golden",
+    "claim": "Claim",
+    "claimed": "Claimed today"
   },
   "market": {
     "eyebrow": "AUCTION HOUSE",
@@ -1032,7 +1034,6 @@
     "title": "Invite friends",
     "invite": "Invite",
     "inviteChip": "+3",
-    "openPage": "See your invites",
     "subtitle": "Invite friends: you both get 3 boosters",
     "yourLink": "Your personal link",
     "copy": "Copy link",

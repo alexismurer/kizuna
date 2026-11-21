@@ -4,7 +4,6 @@ import type { CardFace } from "@/components/card/CardView";
 import { BigPulls } from "@/components/home/BigPulls";
 import { BoosterGrid } from "@/components/home/BoosterGrid";
 import { Hero, type HeroSlide } from "@/components/home/Hero";
-import { InviteCard } from "@/components/referrals/InviteCard";
 import { StatusTiles } from "@/components/home/StatusTiles";
 import { loadBoosters, type TopCardRow } from "@/lib/supabase/boosters";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
@@ -13,11 +12,7 @@ import { createServerClient } from "@/lib/supabase/server";
 async function HomeContent() {
   const t = await getTranslations();
   const supabase = await createServerClient();
-  const [boosters, total, referrals] = await Promise.all([
-    loadBoosters(),
-    catalogTotal(supabase),
-    supabase.rpc("my_referrals"),
-  ]);
+  const [boosters, total] = await Promise.all([loadBoosters(), catalogTotal(supabase)]);
   if (!boosters) return null;
   const { status, pool, packs, topCards } = boosters;
 
@@ -58,12 +53,6 @@ async function HomeContent() {
     <>
       <Hero slides={slides} dailyOpened={status.dailyOpenedToday} />
       <StatusTiles status={status} />
-      {referrals.data && (
-        <InviteCard
-          code={(referrals.data as unknown as { code: string }).code}
-          joined={(referrals.data as unknown as { totals: { joined: number } }).totals.joined}
-        />
-      )}
       {/* phones pick boosters from the bottom nav's sheet */}
       <div id="boosters" className="hidden scroll-mt-6 md:block">
         <BoosterGrid packs={packs} status={status} dailyName={pool?.name ?? null} />

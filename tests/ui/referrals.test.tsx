@@ -4,7 +4,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { createFormatter, createTranslator } from "use-intl/core";
 import { isValidElement, type ReactElement } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { InviteCard } from "@/components/referrals/InviteCard";
 import { NotificationList } from "@/components/notifications/NotificationList";
 import { ReferralLink } from "@/components/referrals/ReferralLink";
 import { ReferralList, type Invited } from "@/components/referrals/ReferralList";
@@ -165,23 +164,6 @@ describe("invite friends page", () => {
     expect(screen.getAllByRole("listitem").filter((li) => li.closest("ol"))).toHaveLength(3);
     expect(screen.getByRole("textbox")).toHaveValue("https://kizuna.test/join/ABCD2345");
     expect(screen.getByText(/3 different days/)).toBeInTheDocument();
-  });
-});
-
-describe("InviteCard", () => {
-  it("offers a copy-only link and the invite page", () => {
-    setNav({ share: vi.fn() });
-    wrap(<InviteCard code="ABCD2345" joined={0} />);
-    expect(screen.getByText("Invite friends: you both get 3 boosters")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Copy link" })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Share" })).toBeNull();
-    expect(screen.getByRole("link", { name: "See your invites" })).toHaveAttribute("href", "/invite-friends");
-    expect(screen.queryByText(/joined/)).toBeNull();
-  });
-
-  it("says how many friends joined", () => {
-    wrap(<InviteCard code="ABCD2345" joined={2} />);
-    expect(screen.getByText("2 friends joined")).toBeInTheDocument();
   });
 });
 

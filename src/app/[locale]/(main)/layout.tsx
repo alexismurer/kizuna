@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
-import { LoginClaimer } from "@/components/LoginClaimer";
+import { NewDayRefresh } from "@/components/NewDayRefresh";
 import { BottomNav } from "@/components/mobile/BottomNav";
 import { TopBar } from "@/components/TopBar";
 import { loadStatus } from "@/lib/supabase/boosters";
@@ -20,10 +20,10 @@ async function MobileNav() {
   return <BottomNav missionsClaimable={status.missionsClaimable} social={social} />;
 }
 
-// players only: claims the daily login on the first page load of the day
+// players only: a tab left open overnight refreshes into the new day
 async function DailyLogin() {
   const status = await loadStatus();
-  return status ? <LoginClaimer claimedToday={status.streakClaimedToday} /> : null;
+  return status ? <NewDayRefresh /> : null;
 }
 
 export default async function MainLayout({
