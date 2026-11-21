@@ -89,7 +89,11 @@
   "footer": {
     "label": "Pie de página",
     "disclaimer": "Proyecto de fans no oficial. Los personajes pertenecen a sus respectivos propietarios.",
-    "credits": "Los nombres y las ilustraciones de los personajes provienen de <anilist>AniList</anilist>."
+    "credits": "Los nombres y las ilustraciones de los personajes provienen de <anilist>AniList</anilist>.",
+    "rules": "Reglas",
+    "rarities": "Rarezas",
+    "terms": "Condiciones de uso",
+    "privacy": "Privacidad"
   },
   "nav": {
     "label": "Principal",
@@ -1161,6 +1165,148 @@
       "empty": "No hay mensajes.",
       "delete": "Eliminar",
       "room": "Sala {room}"
+    }
+  },
+  "pages": {
+    "updated": "Última actualización: {date}",
+    "rules": {
+      "eyebrow": "REGLAS DEL JUEGO",
+      "title": "Reglas",
+      "intro": "Kizuna es un juego de colección gratuito. Estas reglas lo mantienen justo y agradable para todos.",
+      "account": {
+        "title": "Una cuenta por persona",
+        "body": "Juega con una sola cuenta. Las cuentas extra creadas para acumular sobres gratis, recompensas de invitación o tratos en el mercado se eliminarán junto con todo lo que hayan conseguido."
+      },
+      "bots": {
+        "title": "Nada de bots ni trampas",
+        "body": "No automatices el juego, no envíes peticiones con scripts ni aproveches errores. Si encuentras un error, avísanos en lugar de usarlo."
+      },
+      "market": {
+        "title": "Comercia con honestidad",
+        "body": "Las ventas en el mercado pagan una comisión del 5 %. Las ventas y los intercambios aceptados son definitivos, así que revisa lo que das antes de confirmar. No uses el mercado para mover cartas o moneda entre cuentas que controlas."
+      },
+      "chat": {
+        "title": "Sé amable en el chat",
+        "body": "Nada de acoso, discursos de odio, spam, estafas ni datos personales, tuyos o de otros. Los administradores pueden borrar mensajes."
+      },
+      "names": {
+        "title": "Nombres y perfiles",
+        "body": "Elige un nombre de usuario que no sea ofensivo y que no suplante a nadie. Lo mismo vale para tu escaparate y tus mensajes."
+      },
+      "money": {
+        "title": "Nada de dinero real",
+        "body": "Las cartas, los sobres, la moneda y las cuentas no se pueden comprar ni vender con dinero real, ni dentro ni fuera del juego."
+      },
+      "enforcement": {
+        "title": "Si se rompen las reglas",
+        "body": "Según la gravedad, los administradores pueden borrar mensajes, retirar objetos conseguidos de forma injusta o suspender la cuenta."
+      }
+    },
+    "rarities": {
+      "eyebrow": "CÓMO FUNCIONA LA RAREZA",
+      "title": "Rarezas",
+      "intro": "Cada personaje tiene una rareza, que depende de lo popular que es en AniList: los personajes más queridos son los más raros.",
+      "table": {
+        "rarity": "Rareza",
+        "share": "Personajes",
+        "card": "Probabilidad por carta",
+        "booster": "Probabilidad por sobre Mix",
+        "recycle": "Valor de reciclaje"
+      },
+      "shareTop": "El {to} % más popular",
+      "shareRange": "Del {from} % al {to} %",
+      "shareRest": "El {pct} % restante",
+      "tableNote": "La probabilidad por carta corresponde a una posición que admite cualquier rareza. La probabilidad por sobre es la de obtener al menos una carta de esa rareza en un sobre estándar de 5 cartas, sin los bonus de sobre dorado, divino ni garantía.",
+      "slots": {
+        "title": "Cómo se llena un sobre",
+        "body": "Un sobre estándar tiene 5 cartas. Las tres primeras pueden ser de cualquier rareza, la cuarta es Poco común o mejor y la quinta Rara o mejor. Cada posición se sortea con las probabilidades de arriba, limitadas a las rarezas que admite."
+      },
+      "golden": {
+        "title": "Sobres dorados",
+        "body": "Cada 10.º sobre estándar es dorado: su última carta es Épica o mejor. El día 7 de la racha de conexión también hace dorado tu próximo sobre."
+      },
+      "pity": {
+        "title": "Mítica garantizada",
+        "body": "Si 249 sobres estándar seguidos no traen ninguna Mítica, el 250.º trae una seguro. El contador vuelve a empezar cada vez que consigues una Mítica."
+      },
+      "divine": {
+        "title": "Sobres divinos",
+        "body": "Cualquier sobre tiene 1 posibilidad entre 2.000 de ser divino: todas sus cartas son Épicas o mejores y la última es Mítica."
+      },
+      "daily": {
+        "title": "El sobre diario",
+        "body": "Una vez al día puedes abrir un sobre temático gratis cuya última carta es Épica o mejor."
+      },
+      "recycle": {
+        "title": "Reciclar duplicados",
+        "body": "Los duplicados se pueden reciclar por moneda según los valores de la tabla. Siempre se conserva una copia de cada carta."
+      }
+    },
+    "terms": {
+      "eyebrow": "LEGAL",
+      "title": "Condiciones de uso",
+      "intro": "Al jugar a Kizuna aceptas estas condiciones. Están escritas en lenguaje sencillo; si algo no queda claro, pregúntanos.",
+      "service": {
+        "title": "Qué es Kizuna",
+        "body": "Kizuna es un proyecto de fans no oficial y sin ánimo de lucro. No está afiliado ni respaldado por los creadores, estudios o editoriales de las series que muestra. Los nombres y las imágenes de los personajes provienen de AniList y pertenecen a sus propietarios."
+      },
+      "account": {
+        "title": "Tu cuenta",
+        "body": "Inicias sesión con Discord y debes tener la edad necesaria para usar Discord en tu país. Eres responsable de lo que pase en tu cuenta, así que mantén segura tu cuenta de Discord."
+      },
+      "virtual": {
+        "title": "Objetos virtuales",
+        "body": "Las cartas, los sobres y la moneda son objetos virtuales sin valor real. No se pueden cambiar por dinero y podemos reequilibrarlos, cambiarlos o reiniciarlos a medida que el juego evoluciona."
+      },
+      "conduct": {
+        "title": "Juego limpio",
+        "body": "Aceptas seguir las reglas del juego. Podemos eliminar contenido, retirar objetos conseguidos de forma injusta o suspender las cuentas que las incumplan."
+      },
+      "availability": {
+        "title": "Disponibilidad",
+        "body": "El juego se ofrece tal cual, sin garantía de que esté siempre disponible o libre de errores. Podemos cambiarlo o detenerlo en cualquier momento."
+      },
+      "liability": {
+        "title": "Responsabilidad",
+        "body": "En la medida en que la ley lo permita, no somos responsables de la pérdida de objetos o datos ni de ningún daño indirecto derivado del uso del juego."
+      },
+      "changes": {
+        "title": "Cambios",
+        "body": "Podemos actualizar estas condiciones. La fecha de arriba indica la versión vigente, y seguir jugando tras un cambio significa que lo aceptas."
+      }
+    },
+    "privacy": {
+      "eyebrow": "LEGAL",
+      "title": "Privacidad",
+      "intro": "Esta página explica qué guarda Kizuna sobre ti y por qué. Solo guardamos lo que el juego necesita.",
+      "collect": {
+        "title": "Qué guardamos",
+        "body": "Los datos que Discord comparte al iniciar sesión (ID de cuenta, nombre de Discord y correo electrónico); el nombre de usuario y el avatar que eliges en Kizuna; tus datos de juego, como tu colección, sobres abiertos, misiones, lista de deseos y escaparate; tu actividad en el mercado, intercambios, amigos, chat y mensajes directos; y quién te invitó o a quién invitaste."
+      },
+      "use": {
+        "title": "Para qué lo usamos",
+        "body": "Solo para que el juego funcione: iniciar tu sesión, guardar tu progreso, mostrar tu perfil y gestionar el mercado, el chat y los amigos. No vendemos tus datos, no mostramos anuncios ni usamos herramientas de seguimiento o analítica."
+      },
+      "public": {
+        "title": "Qué ven otros jugadores",
+        "body": "Tu nombre de usuario, avatar, escaparate, lista de deseos, estadísticas de colección y grandes tiradas son visibles para otros jugadores, igual que tus mensajes en las salas públicas del chat y tus ofertas en el mercado. Los mensajes directos solo los ves tú y la persona a la que escribes."
+      },
+      "cookies": {
+        "title": "Cookies y almacenamiento local",
+        "body": "Usamos una cookie para mantener tu sesión, otra para recordar tu idioma y otra para recordar un enlace de invitación. Tus ajustes de sonido, animaciones y sala de chat se guardan en tu navegador."
+      },
+      "providers": {
+        "title": "Servicios que usamos",
+        "body": "El juego está alojado en Vercel y su base de datos y su inicio de sesión funcionan con Supabase. Discord gestiona el acceso y las imágenes de los personajes se cargan desde AniList."
+      },
+      "rights": {
+        "title": "Tus opciones",
+        "body": "Puedes pedir una copia de tus datos o que se eliminen tu cuenta y sus datos. Pídeselo a un administrador en el chat del juego y nos encargaremos."
+      },
+      "changes": {
+        "title": "Cambios",
+        "body": "Podemos actualizar esta página. La fecha de arriba indica la versión vigente."
+      }
     }
   }
 }

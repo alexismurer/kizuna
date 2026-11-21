@@ -6,7 +6,8 @@ import { refCookie } from "./lib/referrals/link";
 
 const intl = createMiddleware(routing);
 
-const EXEMPT = ["/login", "/invite", "/auth", "/join"];
+// open to visitors: sign-in, joining, and the rules / rarities / legal pages
+const EXEMPT = ["/login", "/invite", "/auth", "/join", "/rules", "/rarities", "/terms", "/privacy"];
 
 function stripLocale(pathname: string) {
   for (const l of routing.locales) {

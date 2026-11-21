@@ -10,6 +10,10 @@ const LINKS = [
   ["/missions", "nav.missions"],
   ["/friends", "nav.friends"],
   ["/invite-friends", "nav.invite"],
+  ["/rules", "footer.rules"],
+  ["/rarities", "footer.rarities"],
+  ["/terms", "footer.terms"],
+  ["/privacy", "footer.privacy"],
 ] as const;
 
 export async function Footer() {

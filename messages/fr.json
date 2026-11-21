@@ -89,7 +89,11 @@
   "footer": {
     "label": "Pied de page",
     "disclaimer": "Projet de fans non officiel. Les personnages appartiennent à leurs propriétaires respectifs.",
-    "credits": "Les noms et illustrations des personnages proviennent d'<anilist>AniList</anilist>."
+    "credits": "Les noms et illustrations des personnages proviennent d'<anilist>AniList</anilist>.",
+    "rules": "Règles",
+    "rarities": "Raretés",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Confidentialité"
   },
   "nav": {
     "label": "Principal",
@@ -1161,6 +1165,148 @@
       "empty": "Aucun message.",
       "delete": "Supprimer",
       "room": "Salon {room}"
+    }
+  },
+  "pages": {
+    "updated": "Dernière mise à jour : {date}",
+    "rules": {
+      "eyebrow": "RÈGLES DU JEU",
+      "title": "Règles",
+      "intro": "Kizuna est un jeu de collection gratuit. Ces règles le gardent juste et agréable pour tout le monde.",
+      "account": {
+        "title": "Un compte par personne",
+        "body": "Joue avec un seul compte. Les comptes supplémentaires créés pour accumuler des boosters gratuits, des récompenses d'invitation ou des affaires sur le marché seront supprimés, avec tout ce qu'ils ont gagné."
+      },
+      "bots": {
+        "title": "Pas de bots ni de triche",
+        "body": "N'automatise pas le jeu, n'envoie pas de requêtes par script et ne profite pas des bugs. Si tu trouves un bug, signale-le au lieu de l'utiliser."
+      },
+      "market": {
+        "title": "Échange honnêtement",
+        "body": "Les ventes sur le marché paient des frais de 5 %. Les ventes et les échanges acceptés sont définitifs : vérifie ce que tu donnes avant de confirmer. N'utilise pas le marché pour transférer des cartes ou de la monnaie entre des comptes que tu contrôles."
+      },
+      "chat": {
+        "title": "Sois sympa dans le chat",
+        "body": "Pas de harcèlement, de discours haineux, de spam, d'arnaques ni d'informations personnelles, les tiennes ou celles des autres. Les admins peuvent supprimer des messages."
+      },
+      "names": {
+        "title": "Pseudos et profils",
+        "body": "Choisis un pseudo qui n'est pas offensant et qui n'usurpe l'identité de personne. Il en va de même pour ta vitrine et tes messages."
+      },
+      "money": {
+        "title": "Pas d'argent réel",
+        "body": "Les cartes, boosters, la monnaie et les comptes ne peuvent pas être achetés ni vendus contre de l'argent réel, dans le jeu ou en dehors."
+      },
+      "enforcement": {
+        "title": "En cas d'infraction",
+        "body": "Selon la gravité, les admins peuvent supprimer des messages, reprendre des objets obtenus de façon déloyale ou suspendre le compte."
+      }
+    },
+    "rarities": {
+      "eyebrow": "COMMENT FONCTIONNE LA RARETÉ",
+      "title": "Raretés",
+      "intro": "Chaque personnage a une rareté, fixée selon sa popularité sur AniList : les personnages les plus aimés sont les plus rares.",
+      "table": {
+        "rarity": "Rareté",
+        "share": "Personnages",
+        "card": "Chance par carte",
+        "booster": "Chance par booster Mix",
+        "recycle": "Valeur de recyclage"
+      },
+      "shareTop": "Les {to} % les plus populaires",
+      "shareRange": "De {from} à {to} %",
+      "shareRest": "Les {pct} % restants",
+      "tableNote": "La chance par carte vaut pour un emplacement qui accepte toutes les raretés. La chance par booster est celle d'obtenir au moins une carte de cette rareté dans un booster standard de 5 cartes, hors bonus doré, divin et garantie.",
+      "slots": {
+        "title": "Comment un booster est rempli",
+        "body": "Un booster standard contient 5 cartes. Les trois premières peuvent être de n'importe quelle rareté, la quatrième est Peu commune ou mieux et la cinquième Rare ou mieux. Chaque emplacement est tiré avec les chances ci-dessus, limitées aux raretés qu'il accepte."
+      },
+      "golden": {
+        "title": "Boosters dorés",
+        "body": "Un booster standard sur 10 est doré : sa dernière carte est Épique ou mieux. Le jour 7 de la série de connexions rend aussi ton prochain booster doré."
+      },
+      "pity": {
+        "title": "Mythique garanti",
+        "body": "Si 249 boosters standard d'affilée ne contiennent aucune Mythique, le 250e en contient une à coup sûr. Le compteur repart à zéro dès que tu obtiens une Mythique."
+      },
+      "divine": {
+        "title": "Boosters divins",
+        "body": "Chaque booster a 1 chance sur 2 000 d'être divin : toutes ses cartes sont Épiques ou mieux et la dernière est Mythique."
+      },
+      "daily": {
+        "title": "Le pack du jour",
+        "body": "Une fois par jour, tu peux ouvrir un pack thématique gratuit dont la dernière carte est Épique ou mieux."
+      },
+      "recycle": {
+        "title": "Recycler les doublons",
+        "body": "Les doublons peuvent être recyclés contre de la monnaie selon les valeurs du tableau. Un exemplaire de chaque carte est toujours conservé."
+      }
+    },
+    "terms": {
+      "eyebrow": "MENTIONS LÉGALES",
+      "title": "Conditions d'utilisation",
+      "intro": "En jouant à Kizuna, tu acceptes ces conditions. Elles sont rédigées simplement ; si quelque chose n'est pas clair, demande-nous.",
+      "service": {
+        "title": "Ce qu'est Kizuna",
+        "body": "Kizuna est un projet de fans non officiel et non commercial. Il n'est ni affilié ni approuvé par les créateurs, studios ou éditeurs des séries présentées. Les noms et images des personnages proviennent d'AniList et appartiennent à leurs propriétaires."
+      },
+      "account": {
+        "title": "Ton compte",
+        "body": "Tu te connectes avec Discord et tu dois avoir l'âge requis pour utiliser Discord dans ton pays. Tu es responsable de ce qui se passe sur ton compte : protège bien ton compte Discord."
+      },
+      "virtual": {
+        "title": "Objets virtuels",
+        "body": "Les cartes, boosters et la monnaie sont des objets virtuels sans valeur réelle. Ils ne peuvent pas être échangés contre de l'argent, et nous pouvons les rééquilibrer, les modifier ou les réinitialiser au fil de l'évolution du jeu."
+      },
+      "conduct": {
+        "title": "Fair-play",
+        "body": "Tu t'engages à respecter les règles du jeu. Nous pouvons supprimer du contenu, reprendre des objets obtenus de façon déloyale ou suspendre les comptes qui les enfreignent."
+      },
+      "availability": {
+        "title": "Disponibilité",
+        "body": "Le jeu est fourni tel quel, sans garantie qu'il soit toujours disponible ou exempt de bugs. Nous pouvons le modifier ou l'arrêter à tout moment."
+      },
+      "liability": {
+        "title": "Responsabilité",
+        "body": "Dans la mesure permise par la loi, nous ne sommes pas responsables de la perte d'objets ou de données, ni d'aucun dommage indirect lié à l'utilisation du jeu."
+      },
+      "changes": {
+        "title": "Modifications",
+        "body": "Nous pouvons mettre à jour ces conditions. La date en haut indique la version en vigueur, et continuer à jouer après un changement vaut acceptation."
+      }
+    },
+    "privacy": {
+      "eyebrow": "MENTIONS LÉGALES",
+      "title": "Confidentialité",
+      "intro": "Cette page explique ce que Kizuna enregistre à ton sujet et pourquoi. Nous ne gardons que ce dont le jeu a besoin.",
+      "collect": {
+        "title": "Ce que nous enregistrons",
+        "body": "Les informations que Discord partage à la connexion (identifiant de compte, nom Discord et adresse e-mail) ; le pseudo et l'avatar que tu choisis dans Kizuna ; tes données de jeu, comme ta collection, tes boosters ouverts, tes missions, ta liste de souhaits et ta vitrine ; ton activité sur le marché, tes échanges, tes amis, le chat et tes messages privés ; et qui t'a invité ou qui tu as invité."
+      },
+      "use": {
+        "title": "À quoi elles servent",
+        "body": "Uniquement à faire fonctionner le jeu : te connecter, sauvegarder ta progression, afficher ton profil et faire tourner le marché, le chat et les amis. Nous ne vendons pas tes données, n'affichons pas de publicité et n'utilisons aucun outil de suivi ou d'analyse."
+      },
+      "public": {
+        "title": "Ce que voient les autres joueurs",
+        "body": "Ton pseudo, ton avatar, ta vitrine, ta liste de souhaits, tes statistiques de collection et tes gros tirages sont visibles par les autres joueurs, tout comme tes messages dans les salons publics et tes annonces sur le marché. Les messages privés ne sont visibles que par toi et ton interlocuteur."
+      },
+      "cookies": {
+        "title": "Cookies et stockage local",
+        "body": "Nous utilisons un cookie pour te garder connecté, un autre pour retenir ta langue et un autre pour retenir un lien d'invitation. Tes réglages de son, d'animations et de salon de chat sont enregistrés dans ton navigateur."
+      },
+      "providers": {
+        "title": "Services utilisés",
+        "body": "Le jeu est hébergé chez Vercel, et sa base de données ainsi que la connexion reposent sur Supabase. Discord gère l'authentification et les images des personnages sont chargées depuis AniList."
+      },
+      "rights": {
+        "title": "Tes choix",
+        "body": "Tu peux demander une copie de tes données ou la suppression de ton compte et de ses données. Demande à un admin dans le chat du jeu et nous nous en occuperons."
+      },
+      "changes": {
+        "title": "Modifications",
+        "body": "Nous pouvons mettre à jour cette page. La date en haut indique la version en vigueur."
+      }
     }
   }
 }

@@ -89,7 +89,11 @@
   "footer": {
     "label": "Footer",
     "disclaimer": "Unofficial fan project. Characters belong to their respective owners.",
-    "credits": "Character names and art come from <anilist>AniList</anilist>."
+    "credits": "Character names and art come from <anilist>AniList</anilist>.",
+    "rules": "Rules",
+    "rarities": "Rarities",
+    "terms": "Terms of service",
+    "privacy": "Privacy"
   },
   "nav": {
     "label": "Main",
@@ -1161,6 +1165,148 @@
       "empty": "No messages.",
       "delete": "Delete",
       "room": "Room {room}"
+    }
+  },
+  "pages": {
+    "updated": "Last updated {date}",
+    "rules": {
+      "eyebrow": "GAME RULES",
+      "title": "Rules",
+      "intro": "Kizuna is a free collecting game. These rules keep it fair and friendly for everyone.",
+      "account": {
+        "title": "One account per person",
+        "body": "Play with a single account. Extra accounts made to farm free boosters, invite rewards or market deals will be removed, along with everything they earned."
+      },
+      "bots": {
+        "title": "No bots or exploits",
+        "body": "Don't automate the game, script requests or take advantage of bugs. If you find a bug, report it instead of using it."
+      },
+      "market": {
+        "title": "Trade fairly",
+        "body": "Market sales pay a 5% fee. Sales and accepted trades are final, so check what you give before you confirm. Don't use the market to move cards or currency between accounts you control."
+      },
+      "chat": {
+        "title": "Be kind in chat",
+        "body": "No harassment, hate speech, spam, scams or personal information, yours or anyone else's. Admins can delete messages."
+      },
+      "names": {
+        "title": "Usernames and profiles",
+        "body": "Pick a username that isn't offensive and doesn't impersonate someone else. The same goes for your showcase and messages."
+      },
+      "money": {
+        "title": "No real-money trading",
+        "body": "Cards, boosters, currency and accounts can't be bought or sold for real money, inside or outside the game."
+      },
+      "enforcement": {
+        "title": "If the rules are broken",
+        "body": "Depending on how serious it is, admins can delete messages, take back items gained unfairly or suspend the account."
+      }
+    },
+    "rarities": {
+      "eyebrow": "HOW RARITY WORKS",
+      "title": "Rarities",
+      "intro": "Every character has one rarity, set by how popular they are on AniList: the most loved characters are the rarest.",
+      "table": {
+        "rarity": "Rarity",
+        "share": "Characters",
+        "card": "Chance per card",
+        "booster": "Chance per Mix booster",
+        "recycle": "Recycle value"
+      },
+      "shareTop": "Top {to}%",
+      "shareRange": "Top {from}–{to}%",
+      "shareRest": "The remaining {pct}%",
+      "tableNote": "Chance per card is for a slot that allows any rarity. Chance per booster is the chance of at least one card of that rarity in a standard 5-card booster, without golden, divine or guarantee bonuses.",
+      "slots": {
+        "title": "How a booster is filled",
+        "body": "A standard booster has 5 cards. The first three can be any rarity, the fourth is Uncommon or better and the fifth Rare or better. Each slot rolls with the chances above, limited to the rarities it allows."
+      },
+      "golden": {
+        "title": "Golden boosters",
+        "body": "Every 10th standard booster is golden: its last card is Epic or better. Day 7 of the login streak also makes your next booster golden."
+      },
+      "pity": {
+        "title": "Mythic guarantee",
+        "body": "If 249 standard boosters in a row have no Mythic, the 250th has one for sure. The counter starts again whenever you pull a Mythic."
+      },
+      "divine": {
+        "title": "Divine boosters",
+        "body": "Any booster has a 1 in 2,000 chance to be divine: every card is Epic or better and the last one is a Mythic."
+      },
+      "daily": {
+        "title": "The daily pack",
+        "body": "Once a day you can open a free themed pack whose last card is Epic or better."
+      },
+      "recycle": {
+        "title": "Recycling duplicates",
+        "body": "Duplicates can be recycled for currency at the values in the table. One copy of every card is always kept."
+      }
+    },
+    "terms": {
+      "eyebrow": "LEGAL",
+      "title": "Terms of service",
+      "intro": "By playing Kizuna you agree to these terms. They are written in plain language; if something is unclear, ask us.",
+      "service": {
+        "title": "What Kizuna is",
+        "body": "Kizuna is an unofficial, non-commercial fan project. It isn't affiliated with or endorsed by the creators, studios or publishers of the series it shows. Character names and images come from AniList and belong to their owners."
+      },
+      "account": {
+        "title": "Your account",
+        "body": "You sign in with Discord and must be old enough to use Discord where you live. You're responsible for what happens on your account, so keep your Discord account secure."
+      },
+      "virtual": {
+        "title": "Virtual items",
+        "body": "Cards, boosters and currency are virtual items with no real-world value. They can't be exchanged for money, and we may rebalance, change or reset them as the game evolves."
+      },
+      "conduct": {
+        "title": "Playing fair",
+        "body": "You agree to follow the game rules. We can remove content, take back items obtained unfairly or suspend accounts that break them."
+      },
+      "availability": {
+        "title": "Availability",
+        "body": "The game is provided as is, without any guarantee that it will always be available or free of bugs. We may change or stop it at any time."
+      },
+      "liability": {
+        "title": "Liability",
+        "body": "As far as the law allows, we aren't liable for lost items or data, or for any indirect damage that comes from using the game."
+      },
+      "changes": {
+        "title": "Changes",
+        "body": "We may update these terms. The date at the top shows the current version, and playing after a change means you accept it."
+      }
+    },
+    "privacy": {
+      "eyebrow": "LEGAL",
+      "title": "Privacy",
+      "intro": "This page explains what Kizuna stores about you and why. We keep only what the game needs.",
+      "collect": {
+        "title": "What we store",
+        "body": "The details Discord shares when you sign in (account ID, Discord name and email address); the username and avatar you pick in Kizuna; your game data such as your collection, boosters opened, missions, wishlist and showcase; your market activity, trades, friends, chat and direct messages; and who invited you or whom you invited."
+      },
+      "use": {
+        "title": "How we use it",
+        "body": "Only to run the game: signing you in, saving your progress, showing your profile and running the market, chat and friends. We don't sell your data, show ads or use tracking or analytics tools."
+      },
+      "public": {
+        "title": "What other players see",
+        "body": "Your username, avatar, showcase, wishlist, collection stats and big pulls are visible to other players, as are your chat messages in public rooms and your market listings. Direct messages are only visible to you and the person you write to."
+      },
+      "cookies": {
+        "title": "Cookies and local storage",
+        "body": "We use a cookie to keep you signed in, one to remember your language and one to remember an invite link. Your sound, animation and chat-room settings are stored in your browser."
+      },
+      "providers": {
+        "title": "Services we rely on",
+        "body": "The game is hosted on Vercel and its database and sign-in run on Supabase. Discord handles the login, and character images load from AniList."
+      },
+      "rights": {
+        "title": "Your choices",
+        "body": "You can ask for a copy of your data or for your account and its data to be deleted. Ask an admin in the game chat and we'll take care of it."
+      },
+      "changes": {
+        "title": "Changes",
+        "body": "We may update this page. The date at the top shows the current version."
+      }
     }
   }
 }
