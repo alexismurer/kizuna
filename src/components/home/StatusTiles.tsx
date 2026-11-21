@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CalendarCheck, Gem, ListChecks, Package, Sparkles, Star, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -115,6 +115,24 @@ export function StatusTiles({ status }: { status: Status }) {
   const router = useRouter();
   const left = useCountdown(status.nextFreeAt);
   const refreshedFor = useRef<string | null>(null);
+  const chipsRef = useRef<HTMLDivElement>(null);
+  const [split, setSplit] = useState(false);
+
+  // split into two rows when the chips' natural widths overflow one line
+  useEffect(() => {
+    const row = chipsRef.current;
+    if (!row) return;
+    const measure = () => {
+      const chips = [...row.children].filter((c) => !(c as HTMLElement).dataset.break) as HTMLElement[];
+      const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+      const total = chips.reduce((sum, c) => sum + c.offsetWidth, 0) + gap * (chips.length - 1);
+      setSplit(total > row.clientWidth);
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(row);
+    for (const c of row.children) observer.observe(c);
+    return () => observer.disconnect();
+  }, []);
 
   // a free booster just came in: refresh the server-rendered status
   useEffect(() => {
@@ -171,8 +189,8 @@ export function StatusTiles({ status }: { status: Status }) {
           <Tile color="var(--mythic-a)" Icon={Gem} value={<Sparkles className="h-3.5 w-3.5 text-cta" aria-hidden />} label={t("shortPityNext")} />
         )}
       </div>
-      {/* wrap to a second row instead of truncating longer translations */}
-      <div className="hidden flex-wrap gap-2 md:flex">
+      {/* centered; when the chips don't fit on one line they split 3 + 2 */}
+      <div ref={chipsRef} className="hidden flex-wrap justify-center gap-2 md:flex">
         <Chip color="var(--color-uncommon)" Icon={Package} href="/#boosters" testId="free-chip" full={full}>
           <span className={`${num} ${full ? "text-accent" : ""}`}>
             {status.freeStock}/{STOCK_MAX}
@@ -210,6 +228,7 @@ export function StatusTiles({ status }: { status: Status }) {
           <span className="font-bold">{t("streakDay", { n: status.streakDay })}</span>{" "}
           <span className="text-common">{t("streak")}</span>
         </Chip>
+        {split && <div data-break aria-hidden className="basis-full" />}
         <Chip color="var(--color-legendary)" Icon={Star} href="/#boosters">
           <span className={num}>{status.untilGolden}</span>{" "}
           <span className="text-common">{t("golden")}</span>
