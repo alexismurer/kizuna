@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { CalendarDays } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { adminDeletePool, adminSavePool, type AdminSeries } from "@/lib/actions/admin";
 import { adminErrorKey } from "./errors";
 import { SeriesPicker } from "./SeriesPicker";
+import { AdminSection, danger, errorText, input, label, primary, row, secondary, small } from "./ui";
 
 type Pool = { id: number; name: string; series: AdminSeries[] };
-
-const input = "w-full rounded-md border border-border bg-bg px-3 py-2 text-sm";
 
 export function PoolsPanel({ initial }: { initial: Pool[] }) {
   const t = useTranslations("admin");
@@ -54,57 +54,58 @@ export function PoolsPanel({ initial }: { initial: Pool[] }) {
     });
 
   return (
-    <section id="pools" className="flex scroll-mt-4 flex-col gap-3 rounded-xl border border-border bg-panel p-4">
-      <h2 className="font-display text-lg font-bold">{t("pools.title")}</h2>
+    <AdminSection id="pools" Icon={CalendarDays} color="var(--color-uncommon)" title={t("pools.title")}>
       {pools.length === 0 ? (
-        <p className="text-sm text-muted">{t("pools.empty")}</p>
+        <p className="py-6 text-center text-sm text-white/45">{t("pools.empty")}</p>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <ul className="grid gap-2 md:grid-cols-2">
           {pools.map((p) => (
-            <li key={p.id} className="flex flex-col gap-2 rounded-md border border-border p-3 text-sm">
+            <li key={p.id} className={`${row} flex flex-col gap-2 text-sm ${editing === p.id ? "border-accent/50" : ""}`}>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-bold break-words">{p.name}</span>
-                <span className="flex gap-3">
-                  <button type="button" disabled={pending} onClick={() => edit(p)} className="hover:text-accent">
+                <span className="flex gap-2">
+                  <button type="button" disabled={pending} onClick={() => edit(p)} className={small}>
                     {t("pools.edit")}
                   </button>
-                  <button type="button" disabled={pending} onClick={() => remove(p.id)} className="hover:text-red-400">
+                  <button type="button" disabled={pending} onClick={() => remove(p.id)} className={danger}>
                     {t("pools.delete")}
                   </button>
                 </span>
               </div>
-              <p className="text-muted break-words">{p.series.map((s) => s.title).join(", ")}</p>
+              <ul className="flex flex-wrap gap-1.5">
+                {p.series.map((s) => (
+                  <li key={s.id} className="rounded-full bg-white/[0.05] px-2 py-0.5 text-xs text-white/70">
+                    {s.title}
+                  </li>
+                ))}
+              </ul>
             </li>
           ))}
         </ul>
       )}
-      <form onSubmit={save} className="flex flex-col gap-3">
+      <form onSubmit={save} className="flex flex-col gap-3 rounded-xl border border-dashed border-border p-4">
         <h3 className="text-sm font-bold">{editing === null ? t("pools.new") : t("pools.editing")}</h3>
-        <label className="flex flex-col gap-1 text-sm">
+        <label className={label}>
           {t("pools.name")}
           <input className={input} value={name} maxLength={40} onChange={(e) => setName(e.target.value)} />
         </label>
         <SeriesPicker value={series} onChange={setSeries} />
         <div className="flex gap-2">
-          <button
-            type="submit"
-            disabled={pending}
-            className="rounded-md bg-cta px-3 py-2 text-sm font-bold text-black disabled:opacity-50"
-          >
+          <button type="submit" disabled={pending} className={primary}>
             {t("pools.save")}
           </button>
           {editing !== null && (
-            <button type="button" onClick={reset} className="rounded-md border border-border px-3 py-2 text-sm">
+            <button type="button" onClick={reset} className={secondary}>
               {t("pools.cancel")}
             </button>
           )}
         </div>
       </form>
       {error && (
-        <p role="alert" className="text-sm text-red-400">
+        <p role="alert" className={errorText}>
           {t(`errors.${adminErrorKey(error)}`)}
         </p>
       )}
-    </section>
+    </AdminSection>
   );
 }

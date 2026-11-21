@@ -33,58 +33,40 @@ function Box({
   );
 }
 
-// a pill "Claim" link next to a chip with something waiting
-function ClaimLink({ href }: { href: string }) {
-  const t = useTranslations("home.tiles");
-  return (
-    <Link
-      href={href}
-      className="rounded-full bg-uncommon px-2.5 py-0.5 text-xs font-bold text-black hover:brightness-110"
-    >
-      {t("claim")}
-    </Link>
-  );
-}
-
+// desktop chip: the whole pill is one link; a "Claim" tag shows when something is waiting
 function Chip({
   color,
   Icon,
   href,
   full = false,
   testId,
-  claim,
+  claim = false,
   children,
 }: {
   color: string;
   Icon: LucideIcon;
-  href?: string;
+  href: string;
   full?: boolean;
   testId?: string;
-  claim?: string;
+  claim?: boolean;
   children: React.ReactNode;
 }) {
-  const className = `flex items-center gap-2.5 rounded-full border bg-panel py-1.5 pl-2 text-sm ${claim ? "pr-1.5" : "pr-4"} ${full ? "border-accent/70" : "border-border"}`;
-  if (claim) {
-    return (
-      <div data-testid={testId} data-full={full} className={className}>
-        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md" style={{ background: color }}>
-          <Icon className="h-3.5 w-3.5" color="black" strokeWidth={2.5} />
-        </span>
-        <span className="min-w-0">{children}</span>
-        <ClaimLink href={claim} />
-      </div>
-    );
-  }
+  const t = useTranslations("home.tiles");
   return (
-    <Box href={href} testId={testId} full={full} className={className}>
-      <span
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md"
-        style={{ background: color }}
-      >
+    <Link
+      href={href}
+      data-testid={testId}
+      data-full={full}
+      className={`flex items-center gap-2.5 rounded-full border bg-panel py-1.5 pl-2 text-sm transition-colors hover:border-common hover:bg-border/40 ${claim ? "pr-1.5" : "pr-4"} ${full ? "border-accent/70" : "border-border"}`}
+    >
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md" style={{ background: color }}>
         <Icon className="h-3.5 w-3.5" color="black" strokeWidth={2.5} />
       </span>
       <span className="min-w-0">{children}</span>
-    </Box>
+      {claim && (
+        <span className="rounded-full bg-uncommon px-2.5 py-0.5 text-xs font-bold text-black">{t("claim")}</span>
+      )}
+    </Link>
   );
 }
 
@@ -190,7 +172,7 @@ export function StatusTiles({ status }: { status: Status }) {
         )}
       </div>
       <div className="hidden flex-wrap gap-2 md:flex">
-        <Chip color="var(--color-uncommon)" Icon={Package} testId="free-chip" full={full}>
+        <Chip color="var(--color-uncommon)" Icon={Package} href="/#boosters" testId="free-chip" full={full}>
           <span className={`${num} ${full ? "text-accent" : ""}`}>
             {status.freeStock}/{STOCK_MAX}
           </span>{" "}
@@ -209,7 +191,7 @@ export function StatusTiles({ status }: { status: Status }) {
           )}
         </Chip>
         {rewards > 0 ? (
-          <Chip color="var(--color-rare)" Icon={ListChecks} claim="/missions">
+          <Chip color="var(--color-rare)" Icon={ListChecks} href="/missions" claim>
             <span className="text-common">{t("toClaim", { count: rewards })}</span>
           </Chip>
         ) : (
@@ -221,17 +203,17 @@ export function StatusTiles({ status }: { status: Status }) {
         <Chip
           color="var(--color-epic)"
           Icon={CalendarCheck}
-          href={streakClaim ? undefined : "/missions"}
-          claim={streakClaim ? "/missions#streak" : undefined}
+          href={streakClaim ? "/missions#streak" : "/missions"}
+          claim={streakClaim}
         >
           <span className="font-bold">{t("streakDay", { n: status.streakDay })}</span>{" "}
           <span className="text-common">{t("streak")}</span>
         </Chip>
-        <Chip color="var(--color-legendary)" Icon={Star}>
+        <Chip color="var(--color-legendary)" Icon={Star} href="/#boosters">
           <span className={num}>{status.untilGolden}</span>{" "}
           <span className="text-common">{t("golden")}</span>
         </Chip>
-        <Chip color="var(--mythic-a)" Icon={Gem}>
+        <Chip color="var(--mythic-a)" Icon={Gem} href="/#boosters">
           {status.untilPity > 1 ? (
             <>
               <span className={num}>{status.untilPity}</span>{" "}

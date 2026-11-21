@@ -1,5 +1,14 @@
 "use server";
 
+import {
+  currentSeason,
+  matchSuggestions,
+  seasonSlug,
+  type AnimeSeason,
+  type CatalogSeries,
+  type Suggestion,
+} from "@/lib/game/seasonSuggest";
+import { fetchAll } from "@/lib/supabase/fetchAll";
 import { createServerClient } from "@/lib/supabase/server";
 
 export type AdminResult<T> = { ok: true; data: T } | { ok: false; error: string };
@@ -65,4 +74,111 @@ export async function adminSaveSeasonal(slug: string, title: string, seriesIds: 
 }
 export async function adminEndSeasonal(id: string) {
   return call<null>("admin_end_seasonal", { p_id: id });
+}
+
+// Seasonal suggestions: this season's most popular anime on AniList (the catalog's source),
+// matched to our series through their franchise root.
+const ANILIST = "https://graphql.anilist.co";
+type AniMedia = {
+  id: number;
+  title: { romaji: string | null; english: string | null };
+  coverImage: { medium: string | null } | null;
+  popularity: number | null;
+  relations: { edges: { relationType: string; node: { id: number } }[] };
+};
+const UP = new Set(["PREQUEL", "PARENT"]);
+const MEDIA_FIELDS = "id title { romaji english } coverImage { medium } popularity relations { edges { relationType node { id } } }";
+
+async function anilist<T>(query: string, variables: Record<string, unknown>): Promise<T> {
+  const res = await fetch(ANILIST, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ query, variables }),
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`anilist ${res.status}`);
+  const json = (await res.json()) as { data: T };
+  return json.data;
+}
+
+export type SeasonalSuggestions = {
+  season: AnimeSeason;
+  year: number;
+  slug: string;
+  startsAt: string;
+  endsAt: string;
+  items: Suggestion[];
+};
+
+export async function adminSeasonalSuggestions(): Promise<AdminResult<SeasonalSuggestions>> {
+  const supabase = await createServerClient();
+  const { data: admin } = await supabase.rpc("is_admin");
+  if (admin !== true) return { ok: false, error: "not_admin" };
+
+  const { season, year, startsAt, endsAt } = currentSeason(new Date());
+  let airing: AniMedia[];
+  const ups = new Map<number, number[]>();
+  try {
+    const page = await anilist<{ Page: { media: AniMedia[] } }>(
+      `query ($season: MediaSeason, $year: Int) { Page(perPage: 30) { media(type: ANIME, season: $season, seasonYear: $year, isAdult: false, sort: POPULARITY_DESC) { ${MEDIA_FIELDS} } } }`,
+      { season, year },
+    );
+    airing = page.Page.media;
+    // walk prequels/parents up to each franchise root, one batched request per level
+    let level = airing;
+    for (let round = 0; round < 8 && level.length > 0; round++) {
+      const next = new Set<number>();
+      for (const m of level) {
+        const u = m.relations.edges.filter((e) => UP.has(e.relationType)).map((e) => e.node.id);
+        ups.set(m.id, u);
+        if (u.length > 0) {
+          const pick = Math.min(...u);
+          if (!ups.has(pick)) next.add(pick);
+        }
+      }
+      if (next.size === 0) break;
+      const r = await anilist<{ Page: { media: AniMedia[] } }>(
+        `query ($ids: [Int]) { Page(perPage: 50) { media(id_in: $ids) { ${MEDIA_FIELDS} } } }`,
+        { ids: [...next].slice(0, 50) },
+      );
+      level = r.Page.media;
+    }
+  } catch {
+    return { ok: false, error: "suggest_failed" };
+  }
+
+  const ids = [...new Set([...ups.values()].flat().concat([...ups.keys()]))];
+  const { data: rows } = await supabase
+    .from("series")
+    .select("id, title, source_id")
+    .eq("source", "anilist")
+    .in("source_id", ids);
+  const seriesIds = (rows ?? []).map((r) => r.id as number);
+  const counts = new Map<number, number>();
+  if (seriesIds.length > 0) {
+    const cards = await fetchAll<{ series_id: number }>((from, to) =>
+      supabase.from("cards").select("series_id").in("series_id", seriesIds).order("id").range(from, to),
+    );
+    for (const c of cards) counts.set(c.series_id, (counts.get(c.series_id) ?? 0) + 1);
+  }
+  const series: CatalogSeries[] = (rows ?? []).map((r) => ({
+    id: r.id,
+    title: r.title,
+    sourceId: r.source_id,
+    cards: counts.get(r.id) ?? 0,
+  }));
+  const items = matchSuggestions(
+    airing.map((m) => ({
+      id: m.id,
+      title: m.title.english ?? m.title.romaji ?? `#${m.id}`,
+      cover: m.coverImage?.medium ?? null,
+      popularity: m.popularity ?? 0,
+    })),
+    ups,
+    series,
+  );
+  return {
+    ok: true,
+    data: { season, year, slug: seasonSlug(season, year), startsAt: startsAt.toISOString(), endsAt: endsAt.toISOString(), items },
+  };
 }

@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { MessagesSquare } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { adminDeleteChat, type AdminChatMessage } from "@/lib/actions/admin";
 import { adminErrorKey } from "./errors";
+import { AdminSection, danger, errorText } from "./ui";
 
 export function ChatPanel({ initial }: { initial: AdminChatMessage[] }) {
   const t = useTranslations("admin");
@@ -20,22 +22,21 @@ export function ChatPanel({ initial }: { initial: AdminChatMessage[] }) {
     });
 
   return (
-    <section id="chat" className="flex scroll-mt-4 flex-col gap-3 rounded-xl border border-border bg-panel p-4">
-      <h2 className="font-display text-lg font-bold">{t("chat.title")}</h2>
+    <AdminSection id="chat" Icon={MessagesSquare} color="var(--color-accent)" title={t("chat.title")}>
       {error && (
-        <p role="alert" className="text-sm text-red-400">
+        <p role="alert" className={errorText}>
           {t(`errors.${adminErrorKey(error)}`)}
         </p>
       )}
       {messages.length === 0 ? (
-        <p className="text-sm text-white/60">{t("chat.empty")}</p>
+        <p className="py-6 text-center text-sm text-white/45">{t("chat.empty")}</p>
       ) : (
-        <ul className="flex flex-col divide-y divide-border">
+        <ul className="flex max-h-[30rem] flex-col divide-y divide-border overflow-y-auto rounded-xl border border-border bg-bg/60">
           {messages.map((m) => (
-            <li key={m.id} className="flex items-start justify-between gap-3 py-2">
+            <li key={m.id} className="flex items-start justify-between gap-3 px-3.5 py-2.5">
               <div className="min-w-0">
-                <p className="text-xs text-white/60">
-                  {m.author} · {t("chat.room", { room: m.room })}
+                <p className="text-xs text-white/45">
+                  <span className="font-semibold text-white/75">{m.author}</span> · {t("chat.room", { room: m.room })}
                 </p>
                 <p className="break-words text-sm">{m.body}</p>
               </div>
@@ -43,7 +44,7 @@ export function ChatPanel({ initial }: { initial: AdminChatMessage[] }) {
                 type="button"
                 disabled={pending}
                 onClick={() => remove(m.id)}
-                className="shrink-0 rounded-md border border-border px-2 py-1 text-xs hover:bg-border disabled:opacity-50"
+                className={`${danger} shrink-0`}
               >
                 {t("chat.delete")}
               </button>
@@ -51,6 +52,6 @@ export function ChatPanel({ initial }: { initial: AdminChatMessage[] }) {
           ))}
         </ul>
       )}
-    </section>
+    </AdminSection>
   );
 }

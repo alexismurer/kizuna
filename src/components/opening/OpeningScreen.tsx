@@ -105,6 +105,27 @@ export function OpeningScreen({
   const [burst, setBurst] = useState<Burst | null>(null);
   const animations = prefs.animations;
 
+  // the router keeps this route alive in the background (cacheComponents): coming back to it
+  // shows the pack again, not the last opening's cards. Effects re-run when it is shown again.
+  const shownBefore = useRef(false);
+  useEffect(() => {
+    if (shownBefore.current) {
+      setOpened(null);
+      setRevealed(false);
+      setTear("sealed");
+      setBurst(null);
+      setError(null);
+      setAdded(false);
+      setConfirming(false);
+      setChanging(false);
+      setQty(1);
+      againRef.current = false;
+    }
+    return () => {
+      shownBefore.current = true;
+    };
+  }, []);
+
   const title = name ?? t(`packs.${pack.id}.name`);
   const hue = HUE[pack.id] ?? 330;
   const Emblem = EMBLEM[pack.id] ?? Package;

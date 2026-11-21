@@ -1,3 +1,4 @@
+import { Activity } from "react";
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -398,6 +399,25 @@ describe("OpeningScreen", () => {
     fireEvent.keyDown(window, { key: " ", code: "Space" });
     fireEvent.keyUp(window, { key: " ", code: "Space" });
     expect(screen.getByTestId("summary")).toBeInTheDocument();
+  });
+
+  it("coming back to a kept-alive route shows the pack, not the last opening", async () => {
+    rpc.mockResolvedValue({ data: rows, error: null });
+    const tree = (mode: "visible" | "hidden") => (
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <Activity mode={mode}>
+          <OpeningScreen pack={pack} status={status()} total={100} />
+        </Activity>
+      </NextIntlClientProvider>
+    );
+    const { rerender } = render(tree("visible"));
+    fireEvent.click(openButton());
+    await screen.findByTestId("reveal-flow");
+    // the player leaves (the router hides the route) and comes back
+    rerender(tree("hidden"));
+    rerender(tree("visible"));
+    await waitFor(() => expect(screen.queryByTestId("reveal-flow")).toBeNull());
+    expect(openButton()).toBeInTheDocument();
   });
 
   it("Open another from the summary goes straight into a fresh reveal", async () => {

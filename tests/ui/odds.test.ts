@@ -5,18 +5,19 @@ import type { Rarity } from "@/lib/game/types";
 const mix: Rarity[] = ["common", "common", "common", "uncommon", "rare"];
 
 describe("packChances", () => {
+  // chance of at least one card of exactly that rarity per booster
   it("mix floors", () => {
     const c = packChances(mix);
-    expect(c.rare).toBe(1);
-    expect(c.epic).toBeGreaterThan(0.18);
-    expect(c.epic).toBeLessThan(0.21);
-    expect(c.mythic).toBeGreaterThan(0.003);
-    expect(c.mythic).toBeLessThan(0.0036);
+    expect(c.rare).toBeCloseTo(0.941, 3);
+    expect(c.epic).toBeCloseTo(0.176, 3);
+    expect(c.legendary).toBeCloseTo(0.0199, 3);
+    expect(c.mythic).toBeCloseTo(0.00333, 4);
   });
 
   it("hall of fame is all epic+", () => {
     const c = packChances(Array(5).fill("epic") as Rarity[]);
-    expect(c.epic).toBe(1);
+    expect(c.rare).toBe(0);
+    expect(c.epic).toBeGreaterThan(0.999);
   });
 
   it("applies multipliers", () => {

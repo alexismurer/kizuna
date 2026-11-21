@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { adminSeriesSearch, type AdminSeries, type AdminSeriesHit } from "@/lib/actions/admin";
+import { input, label } from "./ui";
 
 const DEBOUNCE_MS = 250;
 
@@ -39,13 +40,13 @@ export function SeriesPicker({ value, onChange }: { value: AdminSeries[]; onChan
       {value.length > 0 && (
         <ul className="flex flex-wrap gap-2">
           {value.map((s) => (
-            <li key={s.id} className="flex items-center gap-1 rounded-full border border-border px-3 py-1 text-sm">
+            <li key={s.id} className="flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 py-1 pl-3 pr-2 text-sm">
               <span className="break-words">{s.title}</span>
               <button
                 type="button"
                 aria-label={t("picker.remove", { title: s.title })}
                 onClick={() => onChange(value.filter((v) => v.id !== s.id))}
-                className="text-muted hover:text-red-400"
+                className="flex h-5 w-5 items-center justify-center rounded-full text-white/50 hover:bg-white/10 hover:text-red-300"
               >
                 ×
               </button>
@@ -53,25 +54,26 @@ export function SeriesPicker({ value, onChange }: { value: AdminSeries[]; onChan
           ))}
         </ul>
       )}
-      <label className="flex flex-col gap-1 text-sm">
+      <label className={label}>
         {t("picker.search")}
         <input
-          className="w-full rounded-md border border-border bg-bg px-3 py-2 text-sm"
+          className={input}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </label>
       {hits.length > 0 && (
-        <ul className="flex flex-col gap-1">
+        <ul className="flex max-h-60 flex-col overflow-y-auto rounded-lg border border-border bg-bg">
           {hits.map((h) => (
             <li key={h.id}>
               <button
                 type="button"
                 aria-label={t("picker.add", { title: h.title, cards: h.cards })}
                 onClick={() => add(h)}
-                className="w-full rounded-md border border-border px-3 py-2 text-left text-sm hover:text-accent"
+                className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-white/[0.05] hover:text-accent"
               >
-                {h.title} <span className="text-muted">({t("picker.cards", { count: h.cards })})</span>
+                <span className="min-w-0 truncate">{h.title}</span>
+                <span className="shrink-0 text-xs text-white/45">{t("picker.cards", { count: h.cards })}</span>
               </button>
             </li>
           ))}
