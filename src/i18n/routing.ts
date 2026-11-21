@@ -3,7 +3,8 @@ import { defineRouting } from "next-intl/routing";
 export const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 export const routing = defineRouting({
-  locales: ["en", "es", "fr", "pt", "ru", "ja"],
+  // alphabetical by each language's own name (the order of the language picker)
+  locales: ["de", "en", "es", "fr", "pl", "pt", "ru", "zh", "ja"],
   defaultLocale: "en",
   // the language lives in the cookie only, never in the URL
   localePrefix: "never",
@@ -13,10 +14,13 @@ export const routing = defineRouting({
 
 // each language in its own words, for the language picker
 export const LOCALE_NAMES: Record<(typeof routing.locales)[number], string> = {
+  de: "Deutsch",
   en: "English",
   es: "Español",
   fr: "Français",
+  pl: "Polski",
   pt: "Português",
   ru: "Русский",
+  zh: "中文",
   ja: "日本語",
 };

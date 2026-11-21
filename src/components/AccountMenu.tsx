@@ -95,7 +95,7 @@ export function AccountMenu({
           </Link>
         )}
         <div className="border-t border-border px-3 py-2">
-          <LanguageSelect className="w-full [&>select]:w-full" />
+          <LanguageSelect inline className="w-full" />
         </div>
         {children}
       </div>

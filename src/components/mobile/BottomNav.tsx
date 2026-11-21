@@ -176,7 +176,7 @@ export function BottomNav({
               <Bell className="h-5 w-5" aria-hidden />
               <span className="flex-1">{t("notifications")}</span>
             </button>
-            <LanguageSelect className="mt-2 w-full [&>select]:h-11 [&>select]:w-full" />
+            <LanguageSelect inline className="mt-2 w-full [&>button]:h-11" />
             <div className="mt-2 overflow-hidden rounded-xl border border-border">
               <SignOutButton />
             </div>

@@ -1,0 +1,1351 @@
+{
+  "app": {
+    "name": "Kizuna"
+  },
+  "home": {
+    "title": "收集你最爱的动漫角色",
+    "endsOn": "{date}结束",
+    "hero": {
+      "carousel": "精选卡包",
+      "slide": "显示第 {n} 张",
+      "eyebrowDaily": "每日卡包 · 免费",
+      "eyebrowSeasonal": "限定卡包",
+      "taglineNone": "明天再来看看新的主题精选吧。",
+      "openDaily": "打开每日卡包",
+      "openSeasonal": "打开卡包",
+      "done": "明天再来",
+      "none": "今天没有每日卡包",
+      "see": "查看卡包"
+    },
+    "tiles": {
+      "free": "免费卡包",
+      "next": "{time}后 +1",
+      "golden": "距离黄金卡包",
+      "pity": "距离保底神话",
+      "pityNext": "下一个卡包必出神话",
+      "shortFree": "免费",
+      "shortGolden": "距黄金",
+      "shortPity": "距神话",
+      "shortPityNext": "下包神话",
+      "daily": "每日任务",
+      "streakDay": "第 {n} 天",
+      "streak": "连续登录",
+      "shortDaily": "任务",
+      "shortStreak": "连登",
+      "claim": "领取",
+      "toClaim": "{count, plural, other {# 个奖励}}待领取",
+      "stockFull": "库存已满",
+      "shortFull": "已满"
+    },
+    "tabs": {
+      "free": "免费",
+      "daily": "每日与限定",
+      "shop": "商店"
+    },
+    "grid": {
+      "title": "选择你的卡包",
+      "fullscreen": "全屏",
+      "exitFullscreen": "退出全屏",
+      "free": "免费",
+      "cards": "{count} 张卡",
+      "empty": "这里还什么都没有。"
+    },
+    "panel": {
+      "cards": "每包卡数",
+      "floor": "或更好，保证获得",
+      "pity": "距离保底神话",
+      "pityNext": "下一个卡包保证获得",
+      "golden": "距离黄金卡包",
+      "characters": "查看全部 {count} 个角色",
+      "chances": "每包概率",
+      "oddsNote": "概率不含黄金和保底加成。",
+      "openFree": "打开 · 免费 · 剩余 {count}",
+      "openReward": "打开 · 奖励 · 剩余 {count}",
+      "openPrice": "打开 · {price}",
+      "noFree": "没有免费卡包了",
+      "nextFree": "{time}后获得下一个免费卡包"
+    },
+    "bigPulls": {
+      "title": "大奖",
+      "live": "实时",
+      "empty": "还没有人抽到大奖。打开一个卡包，成为第一人吧！",
+      "justNow": "刚刚"
+    }
+  },
+  "characters": {
+    "title": "{name}的角色",
+    "count": "{count, plural, other {# 个角色}}",
+    "page": "第 {page} 页，共 {pages} 页",
+    "prev": "上一页",
+    "next": "下一页",
+    "empty": "这个卡包今天没有角色。",
+    "back": "卡包",
+    "copies": "×{count}",
+    "notOwned": "尚未拥有"
+  },
+  "language": {
+    "label": "语言"
+  },
+  "footer": {
+    "label": "页脚",
+    "disclaimer": "非官方粉丝项目。角色归各自的版权方所有。",
+    "credits": "角色名称和图片来自<anilist>AniList</anilist>。",
+    "rules": "规则",
+    "rarities": "稀有度",
+    "terms": "服务条款",
+    "privacy": "隐私"
+  },
+  "nav": {
+    "label": "主导航",
+    "home": "首页",
+    "boosters": "卡包",
+    "collection": "收藏",
+    "market": "市场",
+    "play": "游戏",
+    "more": "更多",
+    "soon": "即将推出",
+    "open": "开包",
+    "missions": "任务",
+    "moreTitle": "更多",
+    "notifications": "通知",
+    "friends": "好友与消息",
+    "myProfile": "我的主页",
+    "invite": "邀请好友"
+  },
+  "topbar": {
+    "freeBoosters": "免费卡包",
+    "currency": "货币",
+    "account": "账户菜单",
+    "myProfile": "我的主页",
+    "friends": "好友与消息",
+    "messagesUnread": "{count, plural, other {# 条未读消息}}",
+    "signOut": "退出登录",
+    "notifications": "通知",
+    "missionsClaimable": "{count, plural, other {# 个奖励}}待领取",
+    "unread": "{count} 条未读",
+    "stock": {
+      "title": "免费卡包",
+      "next": "{time}后 +1 · 每 {minutes} 分钟 1 个",
+      "full": "库存已满 · 每 {minutes} 分钟 1 个",
+      "base": "基础库存",
+      "baseHint": "每 {minutes} 分钟 1 个",
+      "yours": "你的库存",
+      "bonus": "奖励卡包",
+      "bonusHint": "通过奖励获得，不会自动补充",
+      "currency": "货币",
+      "open": "打开卡包",
+      "button": "免费卡包 {free} 个，奖励卡包 {bonus} 个，货币 {currency}"
+    },
+    "admin": "管理"
+  },
+  "rarity": {
+    "common": "普通",
+    "uncommon": "罕见",
+    "rare": "稀有",
+    "epic": "史诗",
+    "legendary": "传说",
+    "mythic": "神话"
+  },
+  "login": {
+    "title": "登录",
+    "discord": "使用 Discord 继续",
+    "devHeading": "开发者登录",
+    "email": "邮箱",
+    "password": "密码",
+    "signIn": "登录",
+    "signUp": "创建账户",
+    "failed": "登录失败。请检查你的信息后重试。",
+    "newHere": "第一次来？使用 Discord 登录，然后选择一个用户名即可开始游戏。",
+    "credits": "角色名称和图片来自 AniList。"
+  },
+  "auth": {
+    "brand": "Kizuna",
+    "headline": "收集所有动漫角色",
+    "pitch": "打开免费卡包，集齐你喜爱的作品图鉴，与好友交换卡牌。",
+    "count": "{count, number} 个角色等你收集",
+    "eyebrow": "免费动漫卡牌游戏",
+    "features": {
+      "title": "玩法介绍",
+      "boosters": {
+        "title": "每天都有免费卡包",
+        "body": "每日卡包加上季节限定卡包。每次开包都有机会抽到神话卡。"
+      },
+      "albums": {
+        "title": "集齐你的图鉴",
+        "body": "每部作品就是一本图鉴。从普通到神话，收集其中的角色来完成它。"
+      },
+      "trade": {
+        "title": "与好友交易",
+        "body": "在市场上交换重复卡，和其他收藏家聊天。"
+      }
+    }
+  },
+  "invite": {
+    "title": "选择你的用户名",
+    "code": "邀请码",
+    "haveCode": "有邀请码吗？",
+    "username": "用户名",
+    "submit": "开始游戏",
+    "hint": "用户名长度须为 3 到 20 个字符。",
+    "invitedBy": "邀请人：{name}。",
+    "useAnother": "使用其他邀请码"
+  },
+  "join": {
+    "invited": "{name} 邀请你加入 Kizuna",
+    "cta": "加入并获得 {boosters} 个免费卡包",
+    "cards": "来自 TA 收藏的卡牌",
+    "broken": "这个邀请链接无效",
+    "brokenHint": "请让你的朋友重新发送链接。"
+  },
+  "errors": {
+    "not_friends": "你只能给好友发消息。",
+    "rate_limited": "操作太快了。请稍等片刻再试。",
+    "invalid_message": "这条消息无效。",
+    "no_free_boosters": "目前没有可用的免费卡包。",
+    "insufficient_currency": "货币不足。",
+    "pack_unavailable": "这个卡包不可用。",
+    "daily_already_opened": "你今天已经打开过每日卡包了。",
+    "not_enough_duplicates": "重复卡不足。",
+    "invalid_invite": "这个邀请码无效。",
+    "username_taken": "这个用户名已被占用。",
+    "already_player": "你已经加入了。",
+    "not_a_player": "你需要先通过邀请加入。",
+    "cost_changed": "你的免费卡包数量已变化——请确认价格后重试。",
+    "unknown_mission": "该任务不存在。",
+    "not_today": "该任务不是今天的任务。",
+    "not_complete": "该任务尚未完成。",
+    "already_claimed": "你已经领取过这个奖励了。",
+    "invalid_card": "该卡牌不存在。",
+    "no_free_copy": "你没有这张卡的空闲副本。",
+    "invalid_price": "请输入 1 到 1,000,000 之间的整数价格。",
+    "invalid_duration": "请选择 1 小时、6 小时或 24 小时。",
+    "own_listing": "这是你自己的挂单。",
+    "own_order": "这是你自己的求购单。",
+    "not_open": "该报价已不可用。",
+    "not_found": "该报价已不存在。",
+    "auction_ended": "该拍卖已结束。",
+    "own_auction": "这是你自己的拍卖。",
+    "already_top": "你已经是最高出价者。",
+    "bid_too_low": "最低出价为 {min}",
+    "has_bids": "该拍卖已有出价，无法取消。",
+    "invalid_trade": "该交易报价无效。每一方都需要卡牌或货币（最多 20 张卡）。",
+    "unknown_player": "该玩家不存在。",
+    "trade_expired": "该交易报价已过期。",
+    "too_many_trades": "你的未完成报价太多（总共 10 个，每位玩家 3 个）。请等待回复或先取消一个。",
+    "auction_maxed": "该拍卖已达到最高出价。",
+    "no_copy": "你已不再拥有这张卡。",
+    "invalid_showcase": "展示柜最多可放 8 张不同的卡。",
+    "already_friends": "你们已经是好友了。",
+    "already_requested": "你已经发送过请求了。",
+    "no_request": "该请求已不存在。",
+    "unknown": "出了点问题。请重试。"
+  },
+  "profile": {
+    "memberSince": "{date}加入",
+    "completion": "完成度 {pct}%",
+    "uniqueCards": "不同卡牌",
+    "mythics": "神话",
+    "boostersOpened": "已开卡包",
+    "tabs": "主页栏目",
+    "showcase": "展示柜",
+    "wishlist": "心愿单",
+    "pulls": "最近抽卡",
+    "emptyShowcase": "还没有可展示的卡。打开一个卡包，开始你的收藏吧。",
+    "emptyWishlist": "心愿单是空的。",
+    "emptyPulls": "还没有抽到史诗或更高稀有度的卡。",
+    "customize": "自定义",
+    "copyLink": "复制我的链接",
+    "copied": "链接已复制",
+    "message": "发消息",
+    "trade": "发起交易",
+    "addFriend": "添加好友",
+    "requestSent": "请求已发送（取消）",
+    "accept": "接受",
+    "decline": "拒绝",
+    "friends": "好友",
+    "removeFriend": "删除好友",
+    "customizeTitle": "自定义你的主页",
+    "changeAvatar": "更换头像",
+    "editShowcase": "编辑展示柜",
+    "avatarTitle": "选择你的头像",
+    "showcaseTitle": "最多选择 8 张卡",
+    "searchCards": "搜索你的卡牌",
+    "yourCards": "你的卡牌",
+    "chosen": "你的展示柜",
+    "noneChosen": "未选择：将展示你最好的卡。",
+    "moveUp": "上移 {name}",
+    "moveDown": "下移 {name}",
+    "removeCard": "移除 {name}",
+    "save": "保存",
+    "defaultAvatar": "使用我最好的卡",
+    "noMatches": "没有匹配的卡。",
+    "noCards": "你还没有卡牌。"
+  },
+  "friends": {
+    "title": "好友与消息",
+    "tabs": "好友栏目",
+    "friends": "好友",
+    "requests": "请求",
+    "find": "查找玩家",
+    "empty": "还没有好友。查找玩家并添加他们吧。",
+    "message": "发消息",
+    "unread": "{count} 条未读",
+    "since": "{date}成为好友",
+    "received": "收到的",
+    "sent": "发出的",
+    "noRequests": "没有待处理的请求。",
+    "cancel": "取消",
+    "accept": "接受",
+    "decline": "拒绝",
+    "searchLabel": "按用户名搜索玩家",
+    "searchPlaceholder": "用户名开头",
+    "noResults": "没有找到玩家。",
+    "add": "添加好友",
+    "requestSent": "请求已发送",
+    "isFriend": "好友"
+  },
+  "chat": {
+    "title": "柜台",
+    "live": "实时",
+    "open": "聊天",
+    "log": "聊天消息",
+    "empty": "这里很安静。打个招呼吧！",
+    "lookingFor": "求卡…",
+    "trading": "出卡…",
+    "myListing": "我的挂单",
+    "listingTitle": "附上你的一个挂单",
+    "noListings": "你没有进行中的挂单。",
+    "rooms": {
+      "label": "聊天室",
+      "en": "英语",
+      "intl": "国际"
+    }
+  },
+  "dm": {
+    "with": "与 {name} 的消息",
+    "trade": "发起交易",
+    "empty": "还没有消息。打个招呼吧！",
+    "loadOlder": "加载更早的消息",
+    "notFriends": "你和 {name} 还不是好友。添加对方为好友后才能发消息。",
+    "thread": "对话",
+    "compose": "输入消息",
+    "counter": "{count}/{max}",
+    "send": "发送",
+    "sending": "发送中",
+    "attach": "附上卡牌",
+    "removeAttachment": "移除附上的卡牌",
+    "tagTrading": "出卡",
+    "tagLooking": "求卡",
+    "missing": "你还没有",
+    "pickerTitle": "附上卡牌",
+    "pickerTag": "卡牌标签",
+    "pickerTrading": "出卡（你的卡牌）",
+    "pickerLooking": "求卡",
+    "pickerSearch": "搜索卡牌",
+    "pickerNone": "没有匹配的卡。",
+    "pickerNoCards": "你还没有可交易的卡。"
+  },
+  "reveal": {
+    "new": "新",
+    "stage": "揭示下一张卡",
+    "tapToFlip": "点击卡牌将其翻开",
+    "next": "滑动或点击查看下一张",
+    "keys": "空格：下一张 · 按住：快进",
+    "revealAll": "全部揭示",
+    "booster": "卡包 {n}/{count}",
+    "counter": "第 {n} 张，共 {total} 张",
+    "flip": "翻转卡牌",
+    "strip": "已揭示的卡",
+    "golden": "黄金",
+    "divine": "神圣",
+    "goldenBooster": "黄金卡包",
+    "divineBooster": "神圣卡包",
+    "skipTo": {
+      "epic": "跳到下一张史诗或更高",
+      "legendary": "跳到下一张传说或更高",
+      "mythic": "跳到下一张神话"
+    }
+  },
+  "opening": {
+    "back": "卡包",
+    "stock": "免费卡包：{count}/10",
+    "currency": "货币",
+    "settings": "设置",
+    "sound": "声音",
+    "animations": "动画",
+    "animationsHint": "关闭：立即翻牌，无粒子和震动效果",
+    "warnPaid": "打开付费卡包前提醒我",
+    "hint": "沿顶部滑动撕开——或长按",
+    "hintDaily": "向上拉绳——或长按",
+    "dailyPack": "每日卡包",
+    "openBooster": "打开卡包",
+    "cards": "{count, plural, other {# 张卡}}",
+    "quantity": "卡包数量",
+    "quantityOption": "×{count}",
+    "openFree": "免费 · 剩余 {count}",
+    "openReward": "奖励 · 剩余 {count}",
+    "reward": "奖励 ×{count}",
+    "openPrice": "打开 · {price}",
+    "openMixed": "{free} 个免费 + {cost}",
+    "openDaily": "打开每日卡包",
+    "opening": "开包中…",
+    "dailyDone": "明天再来",
+    "noFree": "没有免费卡包了",
+    "cantAfford": "货币不足",
+    "pity": "{count} 个卡包内保证获得神话",
+    "pityNext": "下一个卡包保证获得神话",
+    "changeBooster": "更换卡包 ›",
+    "confirmTitle": "花费 {cost}？",
+    "confirmPaid": "{count, plural, other {# 个卡包}}使用货币支付",
+    "confirmFree": "优先使用{count, plural, other { # 个免费卡包}}",
+    "confirm": "确认",
+    "cancel": "取消",
+    "cardsAdded": "卡牌已加入你的收藏。",
+    "seeCollection": "查看收藏",
+    "golden": "黄金",
+    "divine": "神圣"
+  },
+  "summary": {
+    "newCards": "{count, plural, =0 {没有新卡} other {# 张新卡}}",
+    "batch": "{boosters} 个卡包 · {cards} 张卡",
+    "newAndDupes": "{fresh, plural, =0 {没有新卡} other {# 张新卡}}，{dupes, plural, other {# 张重复卡}}（回收可得 +{gain}）",
+    "best": "最佳卡牌",
+    "openAgain": "再开一个 · {price}",
+    "free": "免费",
+    "reward": "奖励",
+    "change": "更换卡包",
+    "collection": "查看收藏",
+    "copy": "复制链接",
+    "invite": "邀请好友",
+    "copied": "链接已复制",
+    "image": "图片",
+    "imageError": "无法生成图片。请重试。",
+    "cards": "你的抽卡结果",
+    "golden": "本批中有一个黄金卡包",
+    "divine": "本批中有一个神圣卡包",
+    "inspect": "近距离查看 {name}"
+  },
+  "card": {
+    "pow": "力量",
+    "aura": "气场",
+    "noArt": "无图片",
+    "brand": "KIZUNA",
+    "backAlt": "卡背",
+    "owned": "拥有数量",
+    "series": "查看作品图鉴",
+    "back": "返回收藏",
+    "market": {
+      "title": "市场",
+      "value": "估值",
+      "noValue": "—",
+      "listings": "最低价挂单",
+      "noListings": "目前没有人出售这张卡。",
+      "buy": "以 {price} 购买 {name}",
+      "orders": "求购单",
+      "noOrders": "还没有求购单。",
+      "by": "卖家：{name}",
+      "sell": "出售 {name}",
+      "sellButton": "出售",
+      "placeOrder": "发布求购单",
+      "price": "你的价格",
+      "hint": "1 到 1,000,000。立即支付，取消时退还。",
+      "submit": "发布求购",
+      "placed": "已以 {price} 发布 {name} 的求购单。"
+    }
+  },
+  "wishlist": {
+    "button": "心愿单"
+  },
+  "packs": {
+    "mix": {
+      "name": "综合",
+      "tagline": "来自所有作品的角色"
+    },
+    "shonen": {
+      "name": "少年",
+      "tagline": "斗志与宿敌"
+    },
+    "isekai": {
+      "name": "异世界",
+      "tagline": "另一个世界在等你"
+    },
+    "seinen": {
+      "name": "青年",
+      "tagline": "硬核的成人故事"
+    },
+    "shojo": {
+      "name": "少女",
+      "tagline": "浪漫与心动"
+    },
+    "sports": {
+      "name": "运动",
+      "tagline": "队伍、赛场与荣耀"
+    },
+    "mecha": {
+      "name": "机甲",
+      "tagline": "巨型机器人，更大的赌注"
+    },
+    "female": {
+      "name": "女主角",
+      "tagline": "只有女性主角"
+    },
+    "male": {
+      "name": "男主角",
+      "tagline": "只有男性主角"
+    },
+    "hall_of_fame": {
+      "name": "名人堂",
+      "tagline": "五张史诗或更高"
+    },
+    "deep_cuts": {
+      "name": "冷门宝藏",
+      "tagline": "鲜为人知的角色"
+    },
+    "mini": {
+      "name": "迷你",
+      "tagline": "小巧又便宜的卡包"
+    },
+    "chest": {
+      "name": "宝箱",
+      "tagline": "二十张卡，满载而归"
+    },
+    "prestige": {
+      "name": "尊享",
+      "tagline": "顶级卡概率提升"
+    },
+    "daily": {
+      "name": "每日",
+      "tagline": "今天的主题精选"
+    },
+    "seasonal": {
+      "name": "季节限定",
+      "tagline": "限时提供"
+    }
+  },
+  "collection": {
+    "title": "收藏",
+    "unique": "不同卡牌",
+    "completion": "完成度",
+    "duplicates": "重复卡",
+    "viewCards": "卡牌",
+    "viewAlbums": "图鉴",
+    "viewWishlist": "心愿单",
+    "search": "搜索名称或作品",
+    "empty": "没有找到卡牌。",
+    "wishlistEmpty": "你的心愿单是空的。点击卡牌上的爱心即可添加。",
+    "owned": "已拥有",
+    "filter": {
+      "all": "全部",
+      "todo": "未完成",
+      "done": "已完成"
+    },
+    "sort": {
+      "label": "排序",
+      "cards": "卡牌最多",
+      "complete": "完成度最高",
+      "az": "A 到 Z"
+    },
+    "filters": "筛选",
+    "value": "价值",
+    "noValue": "—",
+    "sell": "出售",
+    "sellCard": "出售 {name}",
+    "kicker": "图鉴",
+    "heading": "我的收藏",
+    "uniqueCards": "不同卡牌",
+    "completionLabel": "完成度",
+    "rarityAll": "全部",
+    "rarities": "稀有度",
+    "searchLabel": "搜索角色或作品",
+    "series": "作品",
+    "seriesAll": "全部作品",
+    "cards": "卡牌",
+    "show": {
+      "all": "全部",
+      "owned": "已拥有",
+      "missing": "未拥有",
+      "duplicates": "重复卡",
+      "wishes": "我的心愿（{count}）"
+    },
+    "cardSort": {
+      "label": "排序",
+      "number": "编号",
+      "rarity": "稀有度",
+      "name": "名称",
+      "recent": "最近获得",
+      "value": "价值（从高到低）",
+      "series": "作品"
+    },
+    "reset": "重置",
+    "apply": "应用",
+    "viewSwitch": "显示卡牌或图鉴",
+    "count": "{count, plural, other {# 张卡}}",
+    "showMore": "显示更多 · 剩余 {left}",
+    "addMissing": "将缺少的 {count} 张加入心愿单",
+    "addedMissing": "已将{count, plural, other { # 张卡}}加入你的心愿单",
+    "missingCard": "缺少的卡 #{number}",
+    "albumOpen": "打开{title}图鉴",
+    "inspect": "近距离查看 {name}"
+  },
+  "recycle": {
+    "all": "回收重复卡 · ≈ +{gain}",
+    "one": "回收一张 · +{gain}",
+    "gained": "回收获得 +{gain}",
+    "confirmTitle": "回收这些重复卡？",
+    "confirmLine": "{rarity} × {copies} · +{gain}",
+    "confirmTotal": "合计 +{gain}",
+    "confirm": "确认",
+    "cancel": "取消",
+    "title": "回收重复卡",
+    "chip": "×{copies} · +{gain}",
+    "recycled": "已回收",
+    "kept": "保留",
+    "none": "无",
+    "go": "回收 {copies} 张重复卡 · +{gain}",
+    "recovered": "回收获得 +{gain}",
+    "hint": "每张卡始终会保留一份。",
+    "done": "完成"
+  },
+  "sheet": {
+    "close": "关闭",
+    "loading": "正在加载卡包…"
+  },
+  "missions": {
+    "eyebrow": "任务",
+    "title": "任务与成就",
+    "subtitle": "每天登录、完成任务并解锁成就，赚取货币和免费卡包。",
+    "loadError": "无法加载你的任务。请稍后重试。",
+    "chips": {
+      "login": "登录",
+      "first": "新手入门",
+      "daily": "每日",
+      "weekly": "每周",
+      "achievements": "成就"
+    },
+    "streak": {
+      "eyebrow": "连续登录",
+      "title": "每日登录",
+      "day": "第{n}天",
+      "golden": "第 7 天：下一个卡包为黄金卡包",
+      "logins": "累计登录{count, plural, other { # 次}}",
+      "forgiveOpen": "本周允许漏签 1 天",
+      "forgiveUsed": "本周的漏签机会已用"
+    },
+    "first": {
+      "eyebrow": "新手入门",
+      "title": "新手入门",
+      "footer": "全部完成 → 宝箱"
+    },
+    "daily": {
+      "eyebrow": "今天",
+      "title": "每日任务",
+      "footer": "3 个全部领取 → +1 奖励卡包"
+    },
+    "weekly": {
+      "eyebrow": "本周",
+      "title": "每周任务",
+      "footer": "3 个全部领取 → 免费宝箱"
+    },
+    "achievements": {
+      "eyebrow": "收藏目标",
+      "title": "成就",
+      "filter": {
+        "all": "全部",
+        "todo": "未完成",
+        "earned": "已获得"
+      },
+      "empty": "这里还什么都没有。"
+    },
+    "reset": "重置倒计时",
+    "resetHours": "{h}小时{m}分",
+    "resetDays": "{d}天{h}小时",
+    "state": {
+      "claimed": "已领取",
+      "progress": "进行中",
+      "claim": "领取"
+    },
+    "items": {
+      "first_booster": "打开你的第一个卡包",
+      "first_recycle": "回收一张重复卡",
+      "first_wishlist": "将 3 个角色加入心愿单",
+      "first_page": "打开一个角色页面",
+      "first_username": "选择你的用户名",
+      "first_discord": "关联你的 Discord 账户",
+      "daily_pages": "查看 3 个角色页面",
+      "daily_recycle": "回收 10 张重复卡",
+      "daily_open": "打开 5 个卡包",
+      "daily_pack": "打开每日卡包",
+      "daily_rare": "抽到 3 张稀有或更高的卡",
+      "daily_wishlist": "将一个角色加入心愿单",
+      "daily_bid": "进行一次出价",
+      "weekly_legendary": "抽到一张传说或更高的卡",
+      "weekly_mythic": "抽到一张神话卡",
+      "weekly_series": "集齐一部作品（5 个以上角色）",
+      "ach_open_10": {
+        "name": "崭新开始",
+        "desc": "打开 10 个卡包"
+      },
+      "ach_open_100": {
+        "name": "囤包达人",
+        "desc": "打开 100 个卡包"
+      },
+      "ach_open_1000": {
+        "name": "撕膜高手",
+        "desc": "打开 1,000 个卡包"
+      },
+      "ach_open_2500": {
+        "name": "破封者",
+        "desc": "打开 2,500 个卡包"
+      },
+      "ach_open_5000": {
+        "name": "卡包男爵",
+        "desc": "打开 5,000 个卡包"
+      },
+      "ach_open_10000": {
+        "name": "无尽开箱",
+        "desc": "打开 10,000 个卡包"
+      },
+      "ach_own_50": {
+        "name": "初具规模",
+        "desc": "拥有 50 个不同角色"
+      },
+      "ach_own_250": {
+        "name": "阵容壮大",
+        "desc": "拥有 250 个不同角色"
+      },
+      "ach_own_500": {
+        "name": "卡册已满",
+        "desc": "拥有 500 个不同角色"
+      },
+      "ach_own_1000": {
+        "name": "档案管理员",
+        "desc": "拥有 1,000 个不同角色"
+      },
+      "ach_own_1500": {
+        "name": "策展人",
+        "desc": "拥有 1,500 个不同角色"
+      },
+      "ach_own_2000": {
+        "name": "宏伟画廊",
+        "desc": "拥有 2,000 个不同角色"
+      },
+      "ach_own_3000": {
+        "name": "活百科",
+        "desc": "拥有 3,000 个不同角色"
+      },
+      "ach_all": {
+        "name": "全收集",
+        "desc": "拥有图鉴中的所有角色"
+      },
+      "ach_first_epic": {
+        "name": "紫色迷雾",
+        "desc": "抽到你的第一张史诗或更高的卡"
+      },
+      "ach_first_legendary": {
+        "name": "黄金时刻",
+        "desc": "抽到你的第一张传说或更高的卡"
+      },
+      "ach_first_mythic": {
+        "name": "神话成真",
+        "desc": "抽到你的第一张神话卡"
+      },
+      "ach_legendary_100": {
+        "name": "镀金百张",
+        "desc": "抽到 100 张传说或更高的卡"
+      },
+      "ach_mythics_10": {
+        "name": "神话守护者",
+        "desc": "拥有 10 个不同的神话角色"
+      },
+      "ach_mythics_25": {
+        "name": "万神殿",
+        "desc": "拥有 25 个不同的神话角色"
+      },
+      "ach_series_1": {
+        "name": "全套收藏",
+        "desc": "集齐一部作品（5 个以上角色）"
+      },
+      "ach_series_10": {
+        "name": "马拉松",
+        "desc": "集齐 10 部作品"
+      },
+      "ach_series_25": {
+        "name": "季票",
+        "desc": "集齐 25 部作品"
+      },
+      "ach_series_50": {
+        "name": "系列大师",
+        "desc": "集齐 50 部作品"
+      },
+      "ach_recycle_1000": {
+        "name": "春季大扫除",
+        "desc": "回收 1,000 张重复卡"
+      },
+      "ach_recycle_10000": {
+        "name": "回收大师",
+        "desc": "回收 10,000 张重复卡"
+      },
+      "ach_divine": {
+        "name": "神圣火花",
+        "desc": "打开一个神圣卡包"
+      },
+      "ach_sell_1": {
+        "name": "首次出售",
+        "desc": "在市场上出售一张卡"
+      },
+      "ach_sell_10": {
+        "name": "摊主",
+        "desc": "在市场上出售 10 张卡"
+      },
+      "ach_sell_100": {
+        "name": "商人",
+        "desc": "在市场上出售 100 张卡"
+      },
+      "ach_sell_1000": {
+        "name": "市场大亨",
+        "desc": "在市场上出售 1,000 张卡"
+      },
+      "ach_trade_1": {
+        "name": "握手成交",
+        "desc": "完成一次交易"
+      },
+      "ach_trade_25": {
+        "name": "交易达人",
+        "desc": "完成 25 次交易"
+      }
+    },
+    "claimAll": "全部领取 · {count}",
+    "sections": "任务栏目"
+  },
+  "loginReward": {
+    "toast": "第 {day} 天登录 · +{reward, number}",
+    "golden": "下一个卡包为黄金卡包",
+    "claim": "领取",
+    "claimed": "今日已领取"
+  },
+  "market": {
+    "eyebrow": "拍卖行",
+    "title": "市场",
+    "tabs": {
+      "label": "市场栏目",
+      "buy": "购买",
+      "sell": "出售",
+      "auctions": "拍卖",
+      "trades": "交易",
+      "activity": "我的动态"
+    },
+    "search": "搜索名称或作品",
+    "allRarities": "全部",
+    "filters": "筛选",
+    "minPrice": "最低价",
+    "maxPrice": "最高价",
+    "sort": {
+      "label": "排序",
+      "ending": "即将结束",
+      "newest": "最新",
+      "price_asc": "价格：从低到高",
+      "price_desc": "价格：从高到低"
+    },
+    "apply": "应用",
+    "reset": "重置",
+    "count": "{count, plural, other {# 个挂单}}",
+    "countMore": "{count}+ 个挂单",
+    "empty": "没有匹配的挂单。",
+    "fixedPrice": "一口价",
+    "yours": "你的",
+    "seller": "卖家：{name}",
+    "delta": "较估值 {delta} %",
+    "buy": "购买 {name}",
+    "buyButton": "购买",
+    "loadMore": "加载更多",
+    "buyConfirm": {
+      "title": "购买 {name}？",
+      "price": "价格",
+      "balanceAfter": "购买后余额",
+      "confirm": "立即购买",
+      "cancel": "取消"
+    },
+    "bought": "你以 {price} 购买了 {name}。",
+    "auction": {
+      "count": "{count, plural, other {# 场拍卖}}",
+      "countMore": "{count}+ 场拍卖",
+      "empty": "没有匹配的拍卖。",
+      "tag": "拍卖",
+      "startPrice": "起拍价",
+      "currentBid": "当前出价",
+      "bids": "{count, plural, =0 {暂无出价} other {# 次出价}}",
+      "endsIn": "剩余时间",
+      "ended": "已结束",
+      "leading": "你领先",
+      "bid": "竞拍 {name}",
+      "bidButton": "出价",
+      "dialog": {
+        "title": "竞拍 {name}",
+        "amount": "你的出价",
+        "min": "最低",
+        "plus10": "+10 %",
+        "balanceAfter": "出价后余额",
+        "confirm": "确认出价",
+        "cancel": "取消"
+      },
+      "placed": "你对 {name} 出价 {amount} 已提交。"
+    },
+    "sell": {
+      "empty": "没有可出售的卡。",
+      "title": "出售 {name}",
+      "copies": "{count, plural, other {# 张可出售}}",
+      "value": "价值",
+      "noValue": "—",
+      "mode": "出售方式",
+      "fixed": "一口价",
+      "auction": "拍卖",
+      "price": "价格",
+      "startPrice": "起拍价",
+      "minimum": "最低 1",
+      "duration": "时长",
+      "hours": "{count} 小时",
+      "fee": "交易手续费 5 %",
+      "net": "净收入",
+      "list": "挂单出售",
+      "start": "开始拍卖",
+      "bestOrder": "最高求购价",
+      "sellNow": "立即以 {price} 出售",
+      "listed": "{name} 已以 {price} 挂单。",
+      "auctionStarted": "{name} 的拍卖已开始。",
+      "soldNow": "你以 {net} 卖出了 {name}。",
+      "sellNowConfirm": {
+        "title": "卖给最高求购单？",
+        "price": "价格",
+        "confirm": "确认出售",
+        "back": "返回"
+      },
+      "close": "关闭"
+    },
+    "trades": {
+      "received": "收到的",
+      "sent": "发出的",
+      "newOffer": "新报价",
+      "emptyReceived": "没有收到报价。",
+      "emptySent": "没有发出报价。",
+      "from": "来自 {name}",
+      "to": "发给 {name}",
+      "youGive": "你给出",
+      "youGet": "你获得",
+      "nothing": "无",
+      "expiresIn": "{time}过期",
+      "status": {
+        "open": "进行中",
+        "accepted": "已接受",
+        "declined": "已拒绝",
+        "cancelled": "已取消",
+        "expired": "已过期"
+      },
+      "accept": "接受",
+      "decline": "拒绝",
+      "cancel": "取消报价",
+      "needCurrency": "你需要 {amount} 才能接受。",
+      "needCards": "你的空闲副本不足，无法接受。",
+      "accepted": "与 {name} 的交易已完成。",
+      "declined": "已拒绝 {name} 的报价。",
+      "cancelled": "已取消发给 {name} 的报价。",
+      "sentToast": "报价已发送给 {name}。",
+      "confirm": {
+        "title": "接受 {name} 的报价？",
+        "confirm": "确认交易",
+        "back": "返回"
+      },
+      "composer": {
+        "title": "新交易报价",
+        "player": "玩家",
+        "searchPlayer": "搜索用户名",
+        "noPlayers": "没有找到玩家。",
+        "to": "发给 {name}",
+        "change": "更换",
+        "noSuchPlayer": "没有名为 {name} 的玩家。",
+        "notTradable": "{name} 没有这张卡的空闲副本。",
+        "giveUnavailable": "你没有对方想要的卡的空闲副本。",
+        "give": "你给出",
+        "want": "你想要",
+        "searchCards": "搜索卡牌",
+        "noCards": "没有可用的卡。",
+        "add": "添加 {name}",
+        "more": "多加一张 {name}",
+        "fewer": "减少一张 {name}",
+        "remove": "移除 {name}",
+        "free": "{count} 张空闲",
+        "maxItems": "每方最多 20 张卡。",
+        "currencyGive": "你给出的货币",
+        "currencyWant": "你想要的货币",
+        "invalidCurrency": "请输入 0 到 1,000,000 之间的整数金额。",
+        "summary": "摘要",
+        "summaryLine": "{side}：{cards, plural, other {# 张卡}}和 {currency} 货币",
+        "emptySide": "每方至少需要一张卡或一些货币。",
+        "send": "发送报价",
+        "cancel": "取消"
+      }
+    },
+    "activity": {
+      "running": "进行中",
+      "finished": "已结束",
+      "show": "显示",
+      "listings": "我的挂单",
+      "auctions": "我的拍卖",
+      "bids": "我的出价",
+      "orders": "我的求购单",
+      "empty": "这里什么都没有。",
+      "cancel": "取消",
+      "cancelLabel": "取消 {name}",
+      "hasBids": "已有出价",
+      "status": {
+        "open": "进行中",
+        "sold": "已售出",
+        "cancelled": "已取消",
+        "unsold": "未售出",
+        "filled": "已成交",
+        "winning": "领先",
+        "outbid": "被超过",
+        "won": "已赢得",
+        "lost": "未赢得"
+      },
+      "bidCount": "{count, plural, =0 {暂无出价} other {# 次出价}}",
+      "yourBid": "你的出价",
+      "topBid": "最高出价",
+      "startPrice": "起拍价",
+      "endsIn": "{time}结束",
+      "listingCancelled": "挂单已取消。",
+      "auctionCancelled": "拍卖已取消。",
+      "orderCancelled": "求购单已取消。"
+    }
+  },
+  "notifications": {
+    "title": "通知",
+    "empty": "还没有通知。",
+    "someCard": "一张卡",
+    "sold": "{source, select, auction {你拍卖的 {name} 以 {price} 成交} order {你以 {price} 满足了 {name} 的求购单} other {你挂单的 {name} 以 {price} 售出}}——你获得了 {net}。",
+    "outbid": "你在 {name} 上的出价被超过：当前最高出价为 {amount}。",
+    "auction_won": "你以 {price} 赢得了 {name} 的拍卖。",
+    "auction_unsold": "你拍卖的 {name} 无人出价已结束；卡牌已返回你的收藏。",
+    "order_filled": "你对 {name} 的求购单已以 {price} 成交。",
+    "trade_received": "{user} 向你发送了交易报价。",
+    "trade_accepted": "{user} 接受了你的交易报价。",
+    "trade_declined": "{user} 拒绝了你的交易报价。",
+    "trade_expired": "你的交易报价已过期；卡牌和货币已退还。",
+    "friend_request": "{user} 向你发送了好友请求。",
+    "friend_accepted": "{user} 接受了你的好友请求。",
+    "referral_gift": "{user} 送你一份礼物：{boosters} 个综合卡包",
+    "referral_joined": "{user} 通过你的链接加入了",
+    "admin_grant": "你收到了游戏管理员发放的 {amount} 货币",
+    "admin_card": "游戏管理员送给你 {count} × {name}",
+    "referral_rewarded": "{user} 在 3 天内打开了 10 个卡包：你获得 +{boosters} 个卡包和 +500"
+  },
+  "inspector": {
+    "hint": "移动以倾斜 · 点击以翻转",
+    "owners": "拥有它的玩家",
+    "since": "你拥有它的时间",
+    "notOwned": "尚未在你的收藏中",
+    "page": "查看卡牌页面",
+    "close": "关闭",
+    "flip": "翻转卡牌"
+  },
+  "rewardToast": {
+    "reward": "+{reward}",
+    "withBoosters": "+{reward} · +{boosters, plural, other {# 个奖励卡包}}",
+    "failed": "{count, plural, other {# 个奖励}}无法领取"
+  },
+  "scene": {
+    "series": "作品",
+    "popularity": "人气",
+    "top": "前 {pct}%",
+    "rank": "#{rank}",
+    "skip": "跳过 ›"
+  },
+  "referrals": {
+    "title": "邀请好友",
+    "invite": "邀请",
+    "inviteChip": "+{boosters}",
+    "subtitle": "邀请好友：双方各得 {boosters} 个卡包",
+    "yourLink": "你的专属链接",
+    "copy": "复制链接",
+    "copied": "链接已复制",
+    "share": "分享",
+    "shareText": "来 Kizuna 和我一起玩吧——我们都能获得 {boosters} 个免费卡包：{link}",
+    "manualCopy": "请从上方输入框复制链接。",
+    "howTitle": "玩法介绍",
+    "step1": "把你的链接发给朋友。",
+    "step2": "对方加入后获得 {boosters} 个免费卡包，你们会自动成为好友。",
+    "step3": "当对方在 3 个不同的日子里打开 10 个卡包后，你将获得 {boosters} 个卡包和 +500。",
+    "invitedTitle": "你邀请的好友",
+    "empty": "还没有人——快分享你的链接吧",
+    "boosters": "{count}/10 个卡包",
+    "days": "{count}/3 天",
+    "rewarded": "已奖励",
+    "joinedOn": "{date}加入",
+    "totalJoined": "{count, plural, other {# 位好友已加入}}",
+    "totalRewarded": "{count} 位已奖励",
+    "totalEarned": "+{boosters, number} 个卡包 · +{currency, number}"
+  },
+  "admin": {
+    "title": "管理",
+    "subtitle": "管理游戏：邀请码、货币、每日卡池、季节限定卡包和聊天。",
+    "back": "返回游戏",
+    "stats": {
+      "invites": "未使用的邀请码",
+      "pools": "每日卡池",
+      "seasonals": "进行中的季节限定",
+      "chat": "最近消息"
+    },
+    "nav": {
+      "label": "栏目",
+      "invites": "邀请码",
+      "currency": "货币",
+      "cards": "卡牌",
+      "pools": "每日卡池",
+      "seasonal": "季节限定",
+      "chat": "聊天"
+    },
+    "errors": {
+      "not_admin": "你不是管理员。",
+      "invalid_count": "请选择 1 到 20 个邀请码。",
+      "invite_used": "该邀请码已被使用。",
+      "invite_not_found": "该邀请码已不存在。",
+      "player_not_found": "没有该用户名的玩家。",
+      "invalid_amount": "金额必须在 1 到 1,000,000 之间。",
+      "invalid_copies": "副本数必须在 1 到 100 之间。",
+      "card_not_found": "该卡牌不存在。",
+      "invalid_pool": "卡池需要一个名称（最多 40 个字符）和至少一部作品。",
+      "invalid_seasonal": "季节限定卡包需要一个 slug（2 到 30 个 a-z、0-9、_ 字符）、一个标题、至少一部作品，且结束时间晚于开始时间。",
+      "seasonal_title": "请输入标题。",
+      "seasonal_series": "请至少选择一部作品。",
+      "seasonal_dates": "结束时间必须晚于开始时间。",
+      "suggest_failed": "无法从 AniList 获取本季动画。请一分钟后重试。",
+      "generic": "出了点问题。请重试。"
+    },
+    "invites": {
+      "title": "邀请码",
+      "hint": "把邀请码分享给朋友；对方在注册页面（{path}）输入即可。",
+      "create": "创建 {count} 个",
+      "copy": "复制",
+      "copied": "已复制",
+      "revoke": "撤销",
+      "usedBy": "使用者：{name}",
+      "unused": "未使用",
+      "empty": "还没有邀请码。"
+    },
+    "grant": {
+      "title": "发放货币",
+      "username": "用户名",
+      "amount": "金额",
+      "note": "备注（可选）",
+      "submit": "发放",
+      "success": "已向 {user} 发放 {amount}——新余额 {balance}"
+    },
+    "grantCard": {
+      "title": "赠送卡牌",
+      "card": "卡牌",
+      "count": "数量",
+      "submit": "赠送",
+      "success": "已向 {user} 赠送 {count} × {card}——对方现在拥有 {owned} 张"
+    },
+    "combobox": {
+      "placeholder": "开始输入…",
+      "clear": "清除",
+      "noMatch": "没有匹配项。"
+    },
+    "picker": {
+      "search": "搜索作品",
+      "add": "添加 {title}（{cards} 张卡）",
+      "remove": "移除 {title}",
+      "cards": "{count} 张卡"
+    },
+    "pools": {
+      "title": "每日卡池",
+      "empty": "还没有卡池。",
+      "new": "新建卡池",
+      "editing": "编辑卡池",
+      "name": "名称",
+      "save": "保存卡池",
+      "cancel": "取消",
+      "edit": "编辑",
+      "delete": "删除"
+    },
+    "seasonal": {
+      "title": "季节限定卡包",
+      "description": "由一组作品组成的限时卡包。",
+      "suggest": "从热播动画中推荐",
+      "suggesting": "正在查询本季动画…",
+      "suggestTitle": "本季热门 · {year} 年{season, select, WINTER {冬季} SPRING {春季} SUMMER {夏季} FALL {秋季} other {本季}}",
+      "suggestHint": "{total} 部作品中有 {matched} 部的角色在图鉴中。选择要包含的作品，然后检查表单。",
+      "seasonName": "{year} 年{season, select, WINTER {冬季} SPRING {春季} SUMMER {夏季} FALL {秋季} other {本季}}",
+      "inCatalog": "{title} · {cards} 张卡",
+      "notInCatalog": "不在图鉴中",
+      "useSelected": "使用{count, plural, other { # 部作品}}",
+      "empty": "还没有季节限定卡包。",
+      "new": "新建季节限定卡包",
+      "editing": "编辑季节限定卡包",
+      "slug": "Slug",
+      "titleLabel": "标题",
+      "starts": "开始",
+      "ends": "结束",
+      "save": "保存季节限定",
+      "cancel": "取消",
+      "edit": "编辑",
+      "endNow": "立即结束",
+      "status": { "live": "进行中", "scheduled": "已排期", "ended": "已结束" }
+    },
+    "chat": {
+      "title": "聊天管理",
+      "empty": "没有消息。",
+      "delete": "删除",
+      "room": "聊天室 {room}"
+    }
+  },
+  "pages": {
+    "updated": "最后更新于 {date}",
+    "rules": {
+      "eyebrow": "游戏规则",
+      "title": "规则",
+      "intro": "Kizuna 是一款免费的收集游戏。这些规则让游戏对每个人都公平友好。",
+      "account": {
+        "title": "每人一个账户",
+        "body": "请只使用一个账户游戏。为刷免费卡包、邀请奖励或市场交易而创建的小号将被删除，连同其获得的一切。"
+      },
+      "bots": {
+        "title": "禁止外挂和漏洞利用",
+        "body": "不要自动化游戏、用脚本发送请求或利用漏洞。如果你发现了漏洞，请报告而不是利用它。"
+      },
+      "market": {
+        "title": "公平交易",
+        "body": "市场出售需支付 5% 的手续费。出售和已接受的交易均为最终结果，确认前请检查你给出的内容。不要利用市场在你控制的账户之间转移卡牌或货币。"
+      },
+      "chat": {
+        "title": "友善聊天",
+        "body": "禁止骚扰、仇恨言论、刷屏、诈骗或泄露个人信息，无论是你自己的还是他人的。管理员可以删除消息。"
+      },
+      "names": {
+        "title": "用户名和主页",
+        "body": "请选择不冒犯他人、不冒充他人的用户名。你的展示柜和消息也同样适用。"
+      },
+      "money": {
+        "title": "禁止现实货币交易",
+        "body": "卡牌、卡包、货币和账户不得在游戏内外以真实货币买卖。"
+      },
+      "enforcement": {
+        "title": "违反规则时",
+        "body": "根据情节轻重，管理员可以删除消息、收回不正当获得的物品或封禁账户。"
+      }
+    },
+    "rarities": {
+      "eyebrow": "稀有度说明",
+      "title": "稀有度",
+      "intro": "每个角色都有一个稀有度，由其在 AniList 上的人气决定：最受欢迎的角色最稀有。",
+      "table": {
+        "rarity": "稀有度",
+        "share": "角色",
+        "card": "每张卡概率",
+        "booster": "每个综合卡包概率",
+        "recycle": "回收价值"
+      },
+      "shareTop": "前 {to}%",
+      "shareRange": "前 {from}–{to}%",
+      "shareRest": "其余 {pct}%",
+      "tableNote": "每张卡概率指允许任意稀有度的卡位的概率。每包概率指标准 5 张卡包中至少出现一张该稀有度卡牌的概率，不含黄金、神圣或保底加成。",
+      "slots": {
+        "title": "卡包如何填充",
+        "body": "标准卡包有 5 张卡。前三张可以是任意稀有度，第四张为罕见或更高，第五张为稀有或更高。每个卡位按上方概率抽取，仅限其允许的稀有度。"
+      },
+      "golden": {
+        "title": "黄金卡包",
+        "body": "每第 10 个标准卡包为黄金卡包：最后一张卡为史诗或更高。连续登录第 7 天也会让你的下一个卡包成为黄金卡包。"
+      },
+      "pity": {
+        "title": "神话保底",
+        "body": "如果连续 249 个标准卡包都没有神话卡，第 250 个必定有一张。每当你抽到神话卡时，计数器都会重新开始。"
+      },
+      "divine": {
+        "title": "神圣卡包",
+        "body": "任何卡包都有 2,000 分之 1 的概率成为神圣卡包：每张卡都是史诗或更高，最后一张为神话。"
+      },
+      "daily": {
+        "title": "每日卡包",
+        "body": "每天你都可以打开一个免费主题卡包，其最后一张卡为史诗或更高。"
+      },
+      "recycle": {
+        "title": "回收重复卡",
+        "body": "重复卡可按表中的价值回收为货币。每张卡始终会保留一份。"
+      }
+    },
+    "terms": {
+      "eyebrow": "法律信息",
+      "title": "服务条款",
+      "intro": "玩 Kizuna 即表示你同意这些条款。条款以通俗语言撰写；如有不清楚之处，请询问我们。",
+      "service": {
+        "title": "Kizuna 是什么",
+        "body": "Kizuna 是一个非官方、非商业的粉丝项目，与所展示作品的创作者、工作室或出版方无关，也未获得其认可。角色名称和图片来自 AniList，归其所有者所有。"
+      },
+      "account": {
+        "title": "你的账户",
+        "body": "你通过 Discord 登录，且必须达到你所在地区使用 Discord 的年龄要求。你需要对账户上发生的一切负责，因此请保护好你的 Discord 账户。"
+      },
+      "virtual": {
+        "title": "虚拟物品",
+        "body": "卡牌、卡包和货币都是没有现实价值的虚拟物品。它们不能兑换成金钱，并且随着游戏的发展，我们可能会对其进行平衡调整、更改或重置。"
+      },
+      "conduct": {
+        "title": "公平游戏",
+        "body": "你同意遵守游戏规则。对于违反规则的账户，我们可以删除内容、收回不正当获得的物品或封禁账户。"
+      },
+      "availability": {
+        "title": "可用性",
+        "body": "游戏按现状提供，不保证始终可用或没有漏洞。我们可能随时更改或停止游戏。"
+      },
+      "liability": {
+        "title": "责任",
+        "body": "在法律允许的范围内，我们不对丢失的物品或数据，或因使用游戏而产生的任何间接损失承担责任。"
+      },
+      "changes": {
+        "title": "变更",
+        "body": "我们可能会更新这些条款。顶部的日期显示当前版本，变更后继续游戏即表示你接受变更。"
+      }
+    },
+    "privacy": {
+      "eyebrow": "法律信息",
+      "title": "隐私",
+      "intro": "本页面说明 Kizuna 存储了你的哪些信息以及原因。我们只保存游戏所需的内容。",
+      "collect": {
+        "title": "我们存储的内容",
+        "body": "你登录时 Discord 共享的信息（账户 ID、Discord 名称和邮箱地址）；你在 Kizuna 中选择的用户名和头像；你的游戏数据，例如收藏、已开卡包、任务、心愿单和展示柜；你的市场动态、交易、好友、聊天和私信；以及谁邀请了你或你邀请了谁。"
+      },
+      "use": {
+        "title": "我们如何使用",
+        "body": "仅用于运营游戏：为你登录、保存进度、展示主页，以及运行市场、聊天和好友功能。我们不出售你的数据，不展示广告，也不使用跟踪或分析工具。"
+      },
+      "public": {
+        "title": "其他玩家能看到什么",
+        "body": "你的用户名、头像、展示柜、心愿单、收藏统计和大奖对其他玩家可见，你在公共聊天室中的消息和市场挂单也是如此。私信仅你和收信人可见。"
+      },
+      "cookies": {
+        "title": "Cookie 和本地存储",
+        "body": "我们使用一个 Cookie 保持你的登录状态，一个记住你的语言，一个记住邀请链接。你的声音、动画和聊天室设置存储在你的浏览器中。"
+      },
+      "providers": {
+        "title": "我们依赖的服务",
+        "body": "游戏托管在 Vercel 上，数据库和登录服务运行在 Supabase 上。Discord 负责登录，角色图片从 AniList 加载。"
+      },
+      "rights": {
+        "title": "你的选择",
+        "body": "你可以申请获取你的数据副本，或要求删除你的账户及其数据。在游戏聊天中联系管理员，我们会为你处理。"
+      },
+      "changes": {
+        "title": "变更",
+        "body": "我们可能会更新本页面。顶部的日期显示当前版本。"
+      }
+    }
+  },
+  "install": {
+    "title": "像应用一样玩",
+    "body": "将 Kizuna 添加到主屏幕：独立图标、全屏显示，一点即开。",
+    "button": "安装应用",
+    "ios": "在 iPhone 上：点击“分享”，然后选择“添加到主屏幕”。",
+    "manual": "要安装，请打开浏览器菜单并选择“安装应用”或“添加到主屏幕”。"
+  }
+}
