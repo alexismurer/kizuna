@@ -1056,6 +1056,14 @@
   },
   "admin": {
     "title": "Admin",
+    "subtitle": "Run the game: invites, currency, daily pools, seasonal boosters and chat.",
+    "back": "Back to the game",
+    "stats": {
+      "invites": "Unused invites",
+      "pools": "Daily pools",
+      "seasonals": "Live seasonals",
+      "chat": "Recent messages"
+    },
     "nav": {
       "label": "Sections",
       "invites": "Invites",
@@ -1076,6 +1084,7 @@
       "seasonal_title": "Enter a title.",
       "seasonal_series": "Pick at least one series.",
       "seasonal_dates": "The end must be after the start.",
+      "suggest_failed": "Couldn't reach AniList for this season's anime. Try again in a minute.",
       "generic": "Something went wrong. Try again."
     },
     "invites": {
@@ -1116,6 +1125,15 @@
     },
     "seasonal": {
       "title": "Seasonal boosters",
+      "description": "Limited-time boosters built from a set of series.",
+      "suggest": "Suggest from airing anime",
+      "suggesting": "Looking up this season…",
+      "suggestTitle": "Popular this season · {season, select, WINTER {Winter} SPRING {Spring} SUMMER {Summer} FALL {Fall} other {Season}} {year}",
+      "suggestHint": "{matched} of {total} shows have characters in the catalog. Pick the series to include, then review the form.",
+      "seasonName": "{season, select, WINTER {Winter} SPRING {Spring} SUMMER {Summer} FALL {Fall} other {Season}} {year}",
+      "inCatalog": "{title} · {cards} cards",
+      "notInCatalog": "Not in the catalog",
+      "useSelected": "Use {count, plural, one {# series} other {# series}}",
       "empty": "No seasonal boosters yet.",
       "new": "New seasonal booster",
       "editing": "Edit seasonal booster",

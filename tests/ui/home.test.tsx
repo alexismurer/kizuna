@@ -306,8 +306,12 @@ describe("StatusTiles progress", () => {
     for (const name of [/2\/3 daily missions/, /Day 4 login streak/]) {
       expect(screen.getByRole("link", { name })).toHaveAttribute("href", "/missions");
     }
-    // the phone tiles link too
-    expect(screen.getAllByRole("link")).toHaveLength(4);
+    // every desktop chip is a link: free, golden and pity scroll to the boosters
+    for (const name of [/3\/10 free boosters/, /before the golden booster/, /until a sure Mythic/]) {
+      expect(screen.getByRole("link", { name })).toHaveAttribute("href", "/#boosters");
+    }
+    // 5 desktop chips + the 2 phone tiles that link
+    expect(screen.getAllByRole("link")).toHaveLength(7);
   });
 
   it("orders the desktop chips: free, daily, streak, golden, pity", () => {

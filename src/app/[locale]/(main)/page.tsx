@@ -65,7 +65,7 @@ async function HomeContent() {
         />
       )}
       {/* phones pick boosters from the bottom nav's sheet */}
-      <div className="hidden md:block">
+      <div id="boosters" className="hidden scroll-mt-6 md:block">
         <BoosterGrid packs={packs} status={status} dailyName={pool?.name ?? null} />
       </div>
       <BigPulls />

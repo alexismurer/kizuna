@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Coins } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { adminGrantCurrency } from "@/lib/actions/admin";
 import { adminErrorKey } from "./errors";
-
-const input = "w-full rounded-md border border-border bg-bg px-3 py-2 text-sm";
+import { AdminSection, errorText, input, label, okText, primary } from "./ui";
 
 export function GrantPanel() {
   const t = useTranslations("admin");
@@ -30,14 +30,13 @@ export function GrantPanel() {
   };
 
   return (
-    <section id="currency" className="flex scroll-mt-4 flex-col gap-3 rounded-xl border border-border bg-panel p-4">
-      <h2 className="font-display text-lg font-bold">{t("grant.title")}</h2>
-      <form onSubmit={submit} className="flex flex-col gap-3">
-        <label className="flex flex-col gap-1 text-sm">
+    <AdminSection id="currency" Icon={Coins} color="var(--color-legendary)" title={t("grant.title")}>
+      <form onSubmit={submit} className="grid gap-3 sm:grid-cols-2">
+        <label className={label}>
           {t("grant.username")}
           <input className={input} value={username} onChange={(e) => setUsername(e.target.value)} required />
         </label>
-        <label className="flex flex-col gap-1 text-sm">
+        <label className={label}>
           {t("grant.amount")}
           <input
             className={input}
@@ -50,30 +49,26 @@ export function GrantPanel() {
             required
           />
         </label>
-        <label className="flex flex-col gap-1 text-sm">
+        <label className={`${label} sm:col-span-2`}>
           {t("grant.note")}
           <input className={input} value={note} onChange={(e) => setNote(e.target.value)} />
         </label>
-        <div>
-          <button
-            type="submit"
-            disabled={pending}
-            className="rounded-md bg-cta px-3 py-2 text-sm font-bold text-black disabled:opacity-50"
-          >
+        <div className="sm:col-span-2">
+          <button type="submit" disabled={pending} className={primary}>
             {t("grant.submit")}
           </button>
         </div>
       </form>
       {result && "balance" in result && (
-        <p role="status" className="text-sm text-accent">
+        <p role="status" className={okText}>
           {t("grant.success", { amount: format.number(result.amount), user: result.user, balance: format.number(result.balance) })}
         </p>
       )}
       {result && "error" in result && (
-        <p role="alert" className="text-sm text-red-400">
+        <p role="alert" className={errorText}>
           {t(`errors.${adminErrorKey(result.error)}`)}
         </p>
       )}
-    </section>
+    </AdminSection>
   );
 }
