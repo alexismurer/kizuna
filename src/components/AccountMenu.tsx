@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { LanguageSelect } from "./LanguageSelect";
 import { Avatar } from "./social/Avatar";
 import { useDmUnread } from "./social/useDmUnread";
 
@@ -92,6 +93,9 @@ export function AccountMenu({
             {t("admin")}
           </Link>
         )}
+        <div className="border-t border-border px-3 py-2">
+          <LanguageSelect className="w-full [&>select]:w-full" />
+        </div>
         {children}
       </div>
     </details>

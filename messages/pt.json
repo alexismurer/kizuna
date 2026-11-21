@@ -1,0 +1,1166 @@
+{
+  "app": {
+    "name": "Kizuna"
+  },
+  "home": {
+    "title": "Colecione seus personagens de anime favoritos",
+    "endsOn": "Termina em {date}",
+    "hero": {
+      "carousel": "Boosters em destaque",
+      "slide": "Mostrar slide {n}",
+      "eyebrowDaily": "Pacote diário · Grátis",
+      "eyebrowSeasonal": "Booster limitado",
+      "taglineNone": "Volte amanhã para uma nova seleção temática.",
+      "openDaily": "Abrir o pacote diário",
+      "openSeasonal": "Abrir o booster",
+      "done": "Volte amanhã",
+      "none": "Sem pacote diário hoje",
+      "see": "Ver o booster"
+    },
+    "tiles": {
+      "free": "boosters grátis",
+      "next": "+1 em {time}",
+      "golden": "até o booster dourado",
+      "pity": "até um Mítico garantido",
+      "pityNext": "O próximo booster tem um Mítico garantido",
+      "shortFree": "grátis",
+      "shortGolden": "p/ dourado",
+      "shortPity": "p/ Mítico",
+      "shortPityNext": "Mítico já",
+      "daily": "missões diárias",
+      "streakDay": "Dia {n}",
+      "streak": "sequência de login",
+      "shortDaily": "missões",
+      "shortStreak": "sequência",
+      "claim": "Resgatar",
+      "toClaim": "{count, plural, one {# recompensa} other {# recompensas}} para resgatar",
+      "stockFull": "estoque cheio",
+      "shortFull": "cheio"
+    },
+    "tabs": {
+      "free": "Grátis",
+      "daily": "Diários e limitados",
+      "shop": "Loja"
+    },
+    "grid": {
+      "title": "Escolha seu booster",
+      "fullscreen": "Tela cheia",
+      "exitFullscreen": "Sair da tela cheia",
+      "free": "Grátis",
+      "cards": "{count} cartas",
+      "empty": "Nada aqui ainda."
+    },
+    "panel": {
+      "cards": "cartas por booster",
+      "floor": "ou melhor, garantida",
+      "pity": "até um Mítico garantido",
+      "pityNext": "garantido no próximo booster",
+      "golden": "até o dourado",
+      "characters": "Ver os {count} personagens",
+      "chances": "Chance por booster",
+      "oddsNote": "As chances não incluem os bônus do booster dourado nem da garantia.",
+      "openFree": "Abrir · Grátis · restam {count}",
+      "openReward": "Abrir · Recompensa · restam {count}",
+      "openPrice": "Abrir · {price}",
+      "noFree": "Sem boosters grátis",
+      "nextFree": "Próximo grátis em {time}"
+    },
+    "bigPulls": {
+      "title": "Grandes puxadas",
+      "live": "Ao vivo",
+      "empty": "Nenhuma grande puxada ainda. Abra um booster e seja o primeiro!",
+      "justNow": "agora mesmo"
+    }
+  },
+  "characters": {
+    "title": "Personagens de {name}",
+    "count": "{count, plural, one {# personagem} other {# personagens}}",
+    "page": "Página {page} de {pages}",
+    "prev": "Anterior",
+    "next": "Próxima",
+    "empty": "Nenhum personagem neste booster hoje.",
+    "back": "Boosters",
+    "copies": "×{count}",
+    "notOwned": "Você ainda não tem"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "footer": {
+    "label": "Rodapé",
+    "disclaimer": "Projeto de fãs não oficial. Os personagens pertencem aos seus respectivos donos.",
+    "credits": "Os nomes e as artes dos personagens vêm do <anilist>AniList</anilist>."
+  },
+  "nav": {
+    "label": "Principal",
+    "home": "Início",
+    "boosters": "Boosters",
+    "collection": "Coleção",
+    "market": "Mercado",
+    "play": "Jogar",
+    "more": "Mais",
+    "soon": "Em breve",
+    "open": "Abrir",
+    "missions": "Missões",
+    "moreTitle": "Mais",
+    "notifications": "Notificações",
+    "friends": "Amigos e mensagens",
+    "myProfile": "Meu perfil",
+    "invite": "Convidar amigos"
+  },
+  "topbar": {
+    "freeBoosters": "Boosters grátis",
+    "currency": "Moeda",
+    "account": "Menu da conta",
+    "myProfile": "Meu perfil",
+    "friends": "Amigos e mensagens",
+    "messagesUnread": "{count, plural, one {# mensagem não lida} other {# mensagens não lidas}}",
+    "signOut": "Sair",
+    "notifications": "Notificações",
+    "missionsClaimable": "{count, plural, one {# recompensa} other {# recompensas}} para resgatar",
+    "unread": "{count} não lidas",
+    "stock": {
+      "title": "Boosters grátis",
+      "next": "+1 em {time} · 1 a cada {minutes} min",
+      "full": "Estoque cheio · 1 a cada {minutes} min",
+      "base": "Estoque base",
+      "baseHint": "1 a cada {minutes} min",
+      "yours": "Seu estoque",
+      "bonus": "Boosters bônus",
+      "bonusHint": "conquistados, não recarregam",
+      "currency": "Moeda",
+      "open": "Abrir um booster",
+      "button": "{free} boosters grátis, {bonus} bônus, {currency} de moeda"
+    },
+    "admin": "Admin"
+  },
+  "rarity": {
+    "common": "Comum",
+    "uncommon": "Incomum",
+    "rare": "Rara",
+    "epic": "Épica",
+    "legendary": "Lendária",
+    "mythic": "Mítica"
+  },
+  "login": {
+    "title": "Entrar",
+    "discord": "Continuar com o Discord",
+    "devHeading": "Login de desenvolvedor",
+    "email": "E-mail",
+    "password": "Senha",
+    "signIn": "Entrar",
+    "signUp": "Criar conta",
+    "failed": "Falha ao entrar. Confira seus dados e tente de novo.",
+    "newHere": "Novo por aqui? Entre com o Discord e escolha um nome de usuário para começar a jogar.",
+    "credits": "Os nomes e as artes dos personagens vêm do AniList."
+  },
+  "auth": {
+    "brand": "Kizuna",
+    "headline": "Colecione todos os personagens de anime",
+    "pitch": "Abra boosters grátis, complete os álbuns das suas séries favoritas e troque cartas com seus amigos.",
+    "count": "{count, number} personagens para colecionar"
+  },
+  "invite": {
+    "title": "Escolha seu nome de usuário",
+    "code": "Código de convite",
+    "haveCode": "Tem um código de convite?",
+    "username": "Nome de usuário",
+    "submit": "Começar a jogar",
+    "hint": "O nome de usuário deve ter de 3 a 20 caracteres.",
+    "invitedBy": "Convidado por {name}.",
+    "useAnother": "Usar outro código"
+  },
+  "join": {
+    "invited": "{name} convidou você para o Kizuna",
+    "cta": "Entre e ganhe 3 boosters grátis",
+    "cards": "Cartas da coleção dele",
+    "broken": "Este link de convite não funciona",
+    "brokenHint": "Peça ao seu amigo para enviar o link de novo."
+  },
+  "errors": {
+    "not_friends": "Você só pode enviar mensagens para amigos.",
+    "rate_limited": "Você está indo rápido demais. Espere um pouco e tente de novo.",
+    "invalid_message": "Essa mensagem não é válida.",
+    "no_free_boosters": "Nenhum booster grátis disponível agora.",
+    "insufficient_currency": "Moeda insuficiente.",
+    "pack_unavailable": "Este pacote não está disponível.",
+    "daily_already_opened": "Você já abriu o pacote de hoje.",
+    "not_enough_duplicates": "Duplicatas insuficientes.",
+    "invalid_invite": "Esse código de convite não é válido.",
+    "username_taken": "Esse nome de usuário já está em uso.",
+    "already_player": "Você já entrou no jogo.",
+    "not_a_player": "Primeiro você precisa entrar com um convite.",
+    "cost_changed": "Seus boosters grátis mudaram: confira o preço e tente de novo.",
+    "unknown_mission": "Essa missão não existe.",
+    "not_today": "Essa missão não é uma das de hoje.",
+    "not_complete": "Esta missão ainda não foi concluída.",
+    "already_claimed": "Você já resgatou esta recompensa.",
+    "invalid_card": "Essa carta não existe.",
+    "no_free_copy": "Você não tem nenhuma cópia livre dessa carta.",
+    "invalid_price": "Digite um preço inteiro entre 1 e 1.000.000.",
+    "invalid_duration": "Escolha uma duração de 1 h, 6 h ou 24 h.",
+    "own_listing": "Esse anúncio é seu.",
+    "own_order": "Essa ordem de compra é sua.",
+    "not_open": "Esta oferta não está mais disponível.",
+    "not_found": "Esta oferta não existe mais.",
+    "auction_ended": "Este leilão terminou.",
+    "own_auction": "Esse leilão é seu.",
+    "already_top": "Você já tem o maior lance.",
+    "bid_too_low": "O lance mínimo é {min}",
+    "has_bids": "Este leilão tem lances e não pode ser cancelado.",
+    "invalid_trade": "Esta oferta não é válida. Cada lado precisa de cartas ou moeda (até 20 cartas).",
+    "unknown_player": "Esse jogador não existe.",
+    "trade_expired": "Esta oferta expirou.",
+    "too_many_trades": "Você tem ofertas abertas demais (10 no total, 3 por jogador). Aguarde respostas ou cancele uma antes.",
+    "auction_maxed": "Este leilão atingiu o lance máximo.",
+    "no_copy": "Você não tem mais essa carta.",
+    "invalid_showcase": "Uma vitrine comporta até 8 cartas diferentes.",
+    "already_friends": "Vocês já são amigos.",
+    "already_requested": "Você já enviou um pedido.",
+    "no_request": "Esse pedido não existe mais.",
+    "unknown": "Algo deu errado. Tente de novo."
+  },
+  "profile": {
+    "memberSince": "Membro desde {date}",
+    "completion": "{pct}% completo",
+    "uniqueCards": "Cartas únicas",
+    "mythics": "Míticas",
+    "boostersOpened": "Boosters abertos",
+    "tabs": "Seções do perfil",
+    "showcase": "Vitrine",
+    "wishlist": "Lista de desejos",
+    "pulls": "Puxadas recentes",
+    "emptyShowcase": "Nenhuma carta para mostrar ainda. Abra um booster para começar uma coleção.",
+    "emptyWishlist": "Nada na lista de desejos.",
+    "emptyPulls": "Nenhuma puxada Épica ou melhor ainda.",
+    "customize": "Personalizar",
+    "copyLink": "Copiar meu link",
+    "copied": "Link copiado",
+    "message": "Mensagem",
+    "trade": "Propor uma troca",
+    "addFriend": "Adicionar amigo",
+    "requestSent": "Pedido enviado (cancelar)",
+    "accept": "Aceitar",
+    "decline": "Recusar",
+    "friends": "Amigos",
+    "removeFriend": "Remover amigo",
+    "customizeTitle": "Personalize seu perfil",
+    "changeAvatar": "Mudar avatar",
+    "editShowcase": "Editar vitrine",
+    "avatarTitle": "Escolha seu avatar",
+    "showcaseTitle": "Escolha até 8 cartas",
+    "searchCards": "Buscar nas suas cartas",
+    "yourCards": "Suas cartas",
+    "chosen": "Sua vitrine",
+    "noneChosen": "Nada escolhido: suas melhores cartas são exibidas.",
+    "moveUp": "Subir {name}",
+    "moveDown": "Descer {name}",
+    "removeCard": "Remover {name}",
+    "save": "Salvar",
+    "defaultAvatar": "Usar minha melhor carta",
+    "noMatches": "Nenhuma carta corresponde.",
+    "noCards": "Você ainda não tem cartas."
+  },
+  "friends": {
+    "title": "Amigos e mensagens",
+    "tabs": "Seções de amigos",
+    "friends": "Amigos",
+    "requests": "Pedidos",
+    "find": "Encontrar jogadores",
+    "empty": "Nenhum amigo ainda. Encontre jogadores para adicioná-los.",
+    "message": "Mensagem",
+    "unread": "{count} não lidas",
+    "since": "Amigos desde {date}",
+    "received": "Recebidos",
+    "sent": "Enviados",
+    "noRequests": "Nenhum pedido pendente.",
+    "cancel": "Cancelar",
+    "accept": "Aceitar",
+    "decline": "Recusar",
+    "searchLabel": "Buscar jogadores pelo nome de usuário",
+    "searchPlaceholder": "Início de um nome de usuário",
+    "noResults": "Nenhum jogador encontrado.",
+    "add": "Adicionar amigo",
+    "requestSent": "Pedido enviado",
+    "isFriend": "Amigos"
+  },
+  "chat": {
+    "title": "O balcão",
+    "live": "Ao vivo",
+    "open": "Chat",
+    "log": "Mensagens do chat",
+    "empty": "Está quieto por aqui. Diga oi!",
+    "lookingFor": "Procuro…",
+    "trading": "Troco…",
+    "myListing": "Meu anúncio",
+    "listingTitle": "Anexar um dos seus anúncios",
+    "noListings": "Você não tem anúncios abertos.",
+    "rooms": {
+      "label": "Salas de chat",
+      "en": "Inglês",
+      "intl": "Internacional"
+    }
+  },
+  "dm": {
+    "with": "Mensagens com {name}",
+    "trade": "Propor uma troca",
+    "empty": "Nenhuma mensagem ainda. Diga oi!",
+    "loadOlder": "Carregar mensagens anteriores",
+    "notFriends": "Você não é amigo de {name}. Adicione como amigo para enviar mensagens.",
+    "thread": "Conversa",
+    "compose": "Escreva uma mensagem",
+    "counter": "{count}/{max}",
+    "send": "Enviar",
+    "sending": "Enviando",
+    "attach": "Anexar uma carta",
+    "removeAttachment": "Remover a carta anexada",
+    "tagTrading": "TROCO",
+    "tagLooking": "PROCURO",
+    "missing": "Você não tem",
+    "pickerTitle": "Anexar uma carta",
+    "pickerTag": "Etiqueta da carta",
+    "pickerTrading": "Troco (suas cartas)",
+    "pickerLooking": "Procuro",
+    "pickerSearch": "Buscar cartas",
+    "pickerNone": "Nenhuma carta corresponde.",
+    "pickerNoCards": "Você ainda não tem cartas para trocar."
+  },
+  "reveal": {
+    "new": "NOVA",
+    "stage": "Revelar a próxima carta",
+    "tapToFlip": "Toque na carta para virá-la",
+    "next": "Deslize ou toque para a próxima",
+    "keys": "Espaço: próxima · segurar: avanço rápido",
+    "revealAll": "Revelar todas",
+    "booster": "Booster {n}/{count}",
+    "counter": "Carta {n} de {total}",
+    "flip": "Virar a carta",
+    "strip": "Cartas reveladas",
+    "golden": "Dourado",
+    "divine": "Divino",
+    "goldenBooster": "Booster dourado",
+    "divineBooster": "Booster divino",
+    "skipTo": {
+      "epic": "Pular para a próxima Épica ou melhor",
+      "legendary": "Pular para a próxima Lendária ou melhor",
+      "mythic": "Pular para a próxima Mítica"
+    }
+  },
+  "opening": {
+    "back": "Boosters",
+    "stock": "Boosters grátis: {count}/10",
+    "currency": "Moeda",
+    "settings": "Configurações",
+    "sound": "Som",
+    "animations": "Animações",
+    "animationsHint": "Desligadas: viradas instantâneas, sem partículas nem tremores",
+    "warnPaid": "Avisar antes de um booster pago",
+    "hint": "Deslize pelo topo para rasgar, ou mantenha pressionado",
+    "hintDaily": "Puxe o cordão para cima, ou mantenha pressionado",
+    "dailyPack": "Pacote diário",
+    "openBooster": "Abrir booster",
+    "cards": "{count, plural, one {# carta} other {# cartas}}",
+    "quantity": "Quantos boosters",
+    "quantityOption": "×{count}",
+    "openFree": "Grátis · restam {count}",
+    "openReward": "Recompensa · restam {count}",
+    "reward": "Recompensa ×{count}",
+    "openPrice": "Abrir · {price}",
+    "openMixed": "{free} grátis + {cost}",
+    "openDaily": "Abrir o pacote diário",
+    "opening": "Abrindo…",
+    "dailyDone": "Volte amanhã",
+    "noFree": "Sem boosters grátis",
+    "cantAfford": "Moeda insuficiente",
+    "pity": "Mítico garantido em até {count} boosters",
+    "pityNext": "Mítico garantido no próximo booster",
+    "changeBooster": "Trocar de booster ›",
+    "confirmTitle": "Gastar {cost}?",
+    "confirmPaid": "{count, plural, one {# booster pago} other {# boosters pagos}} com moeda",
+    "confirmFree": "{count, plural, one {# booster grátis usado} other {# boosters grátis usados}} primeiro",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "cardsAdded": "Cartas adicionadas à sua coleção.",
+    "seeCollection": "Ver a coleção",
+    "golden": "Dourado",
+    "divine": "Divino"
+  },
+  "summary": {
+    "newCards": "{count, plural, =0 {Nenhuma carta nova} one {# carta nova} other {# cartas novas}}",
+    "batch": "{boosters} boosters · {cards} cartas",
+    "newAndDupes": "{fresh, plural, =0 {Nenhuma carta nova} one {# carta nova} other {# cartas novas}}, {dupes, plural, one {# duplicata} other {# duplicatas}} (+{gain} se recicladas)",
+    "best": "Melhor carta",
+    "openAgain": "Abrir outro · {price}",
+    "free": "Grátis",
+    "reward": "Recompensa",
+    "change": "Trocar de booster",
+    "collection": "Ver a coleção",
+    "copy": "Copiar o link",
+    "invite": "Convidar um amigo",
+    "copied": "Link copiado",
+    "image": "Imagem",
+    "imageError": "Não foi possível criar a imagem. Tente de novo.",
+    "cards": "Sua puxada",
+    "golden": "Um booster dourado no lote",
+    "divine": "Um booster divino no lote",
+    "inspect": "Ver {name} de perto"
+  },
+  "card": {
+    "pow": "POD",
+    "aura": "AURA",
+    "noArt": "Sem arte",
+    "brand": "KIZUNA",
+    "backAlt": "Verso da carta",
+    "owned": "Cópias que você tem",
+    "series": "Ver o álbum da série",
+    "back": "Voltar à coleção",
+    "market": {
+      "title": "Mercado",
+      "value": "Valor estimado",
+      "noValue": "—",
+      "listings": "Anúncios mais baratos",
+      "noListings": "Ninguém está vendendo esta carta agora.",
+      "buy": "Comprar {name} por {price}",
+      "orders": "Ordens de compra",
+      "noOrders": "Nenhuma ordem de compra ainda.",
+      "by": "de {name}",
+      "sell": "Vender {name}",
+      "sellButton": "Vender",
+      "placeOrder": "Criar uma ordem de compra",
+      "price": "Seu preço",
+      "hint": "De 1 a 1.000.000. Pago agora, reembolsado se você cancelar.",
+      "submit": "Criar ordem",
+      "placed": "Ordem de compra criada para {name} a {price}."
+    }
+  },
+  "wishlist": {
+    "button": "Lista de desejos"
+  },
+  "packs": {
+    "mix": {
+      "name": "Mix",
+      "tagline": "Personagens de todas as séries"
+    },
+    "shonen": {
+      "name": "Shonen",
+      "tagline": "Espírito de luta e rivais"
+    },
+    "isekai": {
+      "name": "Isekai",
+      "tagline": "Outro mundo espera por você"
+    },
+    "seinen": {
+      "name": "Seinen",
+      "tagline": "Histórias adultas e intensas"
+    },
+    "shojo": {
+      "name": "Shojo",
+      "tagline": "Romance e emoção"
+    },
+    "sports": {
+      "name": "Esportes",
+      "tagline": "Times, quadras e glória"
+    },
+    "mecha": {
+      "name": "Mecha",
+      "tagline": "Robôs gigantes, riscos maiores"
+    },
+    "female": {
+      "name": "Heroínas",
+      "tagline": "Só protagonistas femininas"
+    },
+    "male": {
+      "name": "Heróis",
+      "tagline": "Só protagonistas masculinos"
+    },
+    "hall_of_fame": {
+      "name": "Hall da Fama",
+      "tagline": "Cinco Épicas ou melhores"
+    },
+    "deep_cuts": {
+      "name": "Joias escondidas",
+      "tagline": "Personagens menos conhecidos"
+    },
+    "mini": {
+      "name": "Mini",
+      "tagline": "Um pacote pequeno e barato"
+    },
+    "chest": {
+      "name": "Baú",
+      "tagline": "Vinte cartas, grande saque"
+    },
+    "prestige": {
+      "name": "Prestígio",
+      "tagline": "Chances turbinadas no topo"
+    },
+    "daily": {
+      "name": "Diário",
+      "tagline": "A seleção temática de hoje"
+    },
+    "seasonal": {
+      "name": "Sazonal",
+      "tagline": "Só por tempo limitado"
+    }
+  },
+  "collection": {
+    "title": "Coleção",
+    "unique": "Cartas únicas",
+    "completion": "Completo",
+    "duplicates": "Duplicatas",
+    "viewCards": "Cartas",
+    "viewAlbums": "Álbuns",
+    "viewWishlist": "Lista de desejos",
+    "search": "Buscar nome ou série",
+    "empty": "Nenhuma carta encontrada.",
+    "wishlistEmpty": "Sua lista de desejos está vazia. Toque no coração de uma carta para adicioná-la.",
+    "owned": "Que você tem",
+    "filter": {
+      "all": "Todos",
+      "todo": "A completar",
+      "done": "Completos"
+    },
+    "sort": {
+      "label": "Ordenar",
+      "cards": "Mais cartas",
+      "complete": "Mais completos",
+      "az": "De A a Z"
+    },
+    "filters": "Filtros",
+    "value": "Valor",
+    "noValue": "—",
+    "sell": "Vender",
+    "sellCard": "Vender {name}",
+    "kicker": "Álbum",
+    "heading": "Minha coleção",
+    "uniqueCards": "Cartas únicas",
+    "completionLabel": "Progresso",
+    "rarityAll": "Todas",
+    "rarities": "Raridade",
+    "searchLabel": "Buscar um personagem ou uma série",
+    "series": "Séries",
+    "seriesAll": "Todas as séries",
+    "cards": "Cartas",
+    "show": {
+      "all": "Todas",
+      "owned": "Que você tem",
+      "missing": "Faltando",
+      "duplicates": "Duplicatas",
+      "wishes": "Meus desejos ({count})"
+    },
+    "cardSort": {
+      "label": "Ordenar",
+      "number": "Número",
+      "rarity": "Raridade",
+      "name": "Nome",
+      "recent": "Obtidas recentemente",
+      "value": "Valor (maior)",
+      "series": "Série"
+    },
+    "reset": "Redefinir",
+    "apply": "Aplicar",
+    "viewSwitch": "Mostrar cartas ou álbuns",
+    "count": "{count, plural, one {# carta} other {# cartas}}",
+    "showMore": "Mostrar mais · restam {left}",
+    "addMissing": "Adicionar as {count} que faltam à minha lista de desejos",
+    "addedMissing": "{count, plural, one {# carta adicionada} other {# cartas adicionadas}} à sua lista de desejos",
+    "missingCard": "Carta nº {number} faltando",
+    "albumOpen": "Abrir o álbum {title}",
+    "inspect": "Ver {name} de perto"
+  },
+  "recycle": {
+    "all": "Reciclar duplicatas · ≈ +{gain}",
+    "one": "Reciclar uma · +{gain}",
+    "gained": "Reciclada por +{gain}",
+    "confirmTitle": "Reciclar estas duplicatas?",
+    "confirmLine": "{rarity} × {copies} · +{gain}",
+    "confirmTotal": "Total +{gain}",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "title": "Reciclar duplicatas",
+    "chip": "×{copies} · +{gain}",
+    "recycled": "Reciclada",
+    "kept": "Mantida",
+    "none": "Nenhuma",
+    "go": "Reciclar {copies} duplicatas · +{gain}",
+    "recovered": "+{gain} recuperados",
+    "hint": "Uma cópia de cada carta é sempre mantida.",
+    "done": "Pronto"
+  },
+  "sheet": {
+    "close": "Fechar",
+    "loading": "Carregando boosters…"
+  },
+  "missions": {
+    "eyebrow": "MISSÕES",
+    "title": "Missões e conquistas",
+    "subtitle": "Entre todos os dias, complete missões e desbloqueie conquistas para ganhar moeda e boosters grátis.",
+    "loadError": "Não foi possível carregar suas missões. Tente mais tarde.",
+    "chips": {
+      "login": "Login",
+      "first": "Primeiros passos",
+      "daily": "Diárias",
+      "weekly": "Semanais",
+      "achievements": "Conquistas"
+    },
+    "streak": {
+      "eyebrow": "SEQUÊNCIA DE LOGIN",
+      "title": "Login diário",
+      "day": "D{n}",
+      "golden": "Dia 7: o próximo booster é dourado",
+      "logins": "{count, plural, one {# login} other {# logins}} no total",
+      "forgiveOpen": "1 dia perdido permitido nesta semana",
+      "forgiveUsed": "dia perdido usado nesta semana"
+    },
+    "first": {
+      "eyebrow": "PARA COMEÇAR",
+      "title": "Primeiros passos",
+      "footer": "Tudo feito → Baú"
+    },
+    "daily": {
+      "eyebrow": "HOJE",
+      "title": "Missões diárias",
+      "footer": "As 3 resgatadas → +1 booster bônus"
+    },
+    "weekly": {
+      "eyebrow": "ESTA SEMANA",
+      "title": "Missões semanais",
+      "footer": "As 3 resgatadas → Baú grátis"
+    },
+    "achievements": {
+      "eyebrow": "METAS DE COLEÇÃO",
+      "title": "Conquistas",
+      "filter": {
+        "all": "Todas",
+        "todo": "A fazer",
+        "earned": "Obtidas"
+      },
+      "empty": "Nada aqui ainda."
+    },
+    "reset": "Reinicia em",
+    "resetHours": "{h} h {m} min",
+    "resetDays": "{d} d {h} h",
+    "state": {
+      "claimed": "Resgatada",
+      "progress": "Em andamento",
+      "claim": "Resgatar"
+    },
+    "items": {
+      "first_booster": "Abra seu primeiro booster",
+      "first_recycle": "Recicle uma duplicata",
+      "first_wishlist": "Adicione 3 personagens à sua lista de desejos",
+      "first_page": "Abra a página de um personagem",
+      "first_username": "Escolha seu nome de usuário",
+      "first_discord": "Vincule sua conta do Discord",
+      "daily_pages": "Veja 3 páginas de personagens",
+      "daily_recycle": "Recicle 10 duplicatas",
+      "daily_open": "Abra 5 boosters",
+      "daily_pack": "Abra o pacote diário",
+      "daily_rare": "Consiga 3 cartas Raras ou melhores",
+      "daily_wishlist": "Adicione um personagem à sua lista de desejos",
+      "daily_bid": "Dê um lance",
+      "weekly_legendary": "Consiga uma Lendária ou melhor",
+      "weekly_mythic": "Consiga uma Mítica",
+      "weekly_series": "Complete uma série (5+ personagens)",
+      "ach_open_10": {
+        "name": "Bom começo",
+        "desc": "Abra 10 boosters"
+      },
+      "ach_open_100": {
+        "name": "Acumulador de pacotes",
+        "desc": "Abra 100 boosters"
+      },
+      "ach_open_1000": {
+        "name": "Rasga-embalagens",
+        "desc": "Abra 1.000 boosters"
+      },
+      "ach_open_2500": {
+        "name": "Quebra-selos",
+        "desc": "Abra 2.500 boosters"
+      },
+      "ach_open_5000": {
+        "name": "Barão dos boosters",
+        "desc": "Abra 5.000 boosters"
+      },
+      "ach_open_10000": {
+        "name": "Unboxing sem fim",
+        "desc": "Abra 10.000 boosters"
+      },
+      "ach_own_50": {
+        "name": "Primeira estante",
+        "desc": "Tenha 50 personagens diferentes"
+      },
+      "ach_own_250": {
+        "name": "Elenco crescente",
+        "desc": "Tenha 250 personagens diferentes"
+      },
+      "ach_own_500": {
+        "name": "Fichário cheio",
+        "desc": "Tenha 500 personagens diferentes"
+      },
+      "ach_own_1000": {
+        "name": "Arquivista",
+        "desc": "Tenha 1.000 personagens diferentes"
+      },
+      "ach_own_1500": {
+        "name": "Curador",
+        "desc": "Tenha 1.500 personagens diferentes"
+      },
+      "ach_own_2000": {
+        "name": "Grande galeria",
+        "desc": "Tenha 2.000 personagens diferentes"
+      },
+      "ach_own_3000": {
+        "name": "Enciclopédia viva",
+        "desc": "Tenha 3.000 personagens diferentes"
+      },
+      "ach_all": {
+        "name": "Completista",
+        "desc": "Tenha todos os personagens do catálogo"
+      },
+      "ach_first_epic": {
+        "name": "Névoa roxa",
+        "desc": "Consiga sua primeira carta Épica ou melhor"
+      },
+      "ach_first_legendary": {
+        "name": "Hora dourada",
+        "desc": "Consiga sua primeira carta Lendária ou melhor"
+      },
+      "ach_first_mythic": {
+        "name": "O mito virou realidade",
+        "desc": "Consiga sua primeira carta Mítica"
+      },
+      "ach_legendary_100": {
+        "name": "Cem dourados",
+        "desc": "Consiga 100 cartas Lendárias ou melhores"
+      },
+      "ach_mythics_10": {
+        "name": "Guardião dos mitos",
+        "desc": "Tenha 10 personagens Míticos diferentes"
+      },
+      "ach_mythics_25": {
+        "name": "Panteão",
+        "desc": "Tenha 25 personagens Míticos diferentes"
+      },
+      "ach_series_1": {
+        "name": "Box completo",
+        "desc": "Complete uma série (5+ personagens)"
+      },
+      "ach_series_10": {
+        "name": "Maratona",
+        "desc": "Complete 10 séries"
+      },
+      "ach_series_25": {
+        "name": "Passe de temporada",
+        "desc": "Complete 25 séries"
+      },
+      "ach_series_50": {
+        "name": "Mestre das franquias",
+        "desc": "Complete 50 séries"
+      },
+      "ach_recycle_1000": {
+        "name": "Faxina geral",
+        "desc": "Recicle 1.000 duplicatas"
+      },
+      "ach_recycle_10000": {
+        "name": "Grande reciclador",
+        "desc": "Recicle 10.000 duplicatas"
+      },
+      "ach_divine": {
+        "name": "Centelha divina",
+        "desc": "Abra um booster divino"
+      },
+      "ach_sell_1": {
+        "name": "Primeira venda",
+        "desc": "Venda uma carta no mercado"
+      },
+      "ach_sell_10": {
+        "name": "Feirante",
+        "desc": "Venda 10 cartas no mercado"
+      },
+      "ach_sell_100": {
+        "name": "Mercador",
+        "desc": "Venda 100 cartas no mercado"
+      },
+      "ach_sell_1000": {
+        "name": "Magnata do mercado",
+        "desc": "Venda 1.000 cartas no mercado"
+      },
+      "ach_trade_1": {
+        "name": "Aperto de mão",
+        "desc": "Conclua uma troca"
+      },
+      "ach_trade_25": {
+        "name": "Negociador",
+        "desc": "Conclua 25 trocas"
+      }
+    },
+    "claimAll": "Resgatar tudo · {count}",
+    "sections": "Seções de missões"
+  },
+  "loginReward": {
+    "toast": "Login do dia {day} · +{reward, number}",
+    "golden": "O próximo booster é dourado",
+    "claim": "Resgatar",
+    "claimed": "Resgatado hoje"
+  },
+  "market": {
+    "eyebrow": "CASA DE LEILÕES",
+    "title": "O mercado",
+    "tabs": {
+      "label": "Seções do mercado",
+      "buy": "Comprar",
+      "sell": "Vender",
+      "auctions": "Leilões",
+      "trades": "Trocas",
+      "activity": "Minha atividade"
+    },
+    "search": "Buscar nome ou série",
+    "allRarities": "Todas",
+    "filters": "Filtros",
+    "minPrice": "Preço mín.",
+    "maxPrice": "Preço máx.",
+    "sort": {
+      "label": "Ordenar",
+      "ending": "Terminam em breve",
+      "newest": "Mais recentes",
+      "price_asc": "Preço: menor para maior",
+      "price_desc": "Preço: maior para menor"
+    },
+    "apply": "Aplicar",
+    "reset": "Redefinir",
+    "count": "{count, plural, one {# anúncio} other {# anúncios}}",
+    "countMore": "{count}+ anúncios",
+    "empty": "Nenhum anúncio corresponde.",
+    "fixedPrice": "Preço fixo",
+    "yours": "Seu",
+    "seller": "de {name}",
+    "delta": "{delta} % vs. valor",
+    "buy": "Comprar {name}",
+    "buyButton": "Comprar",
+    "loadMore": "Carregar mais",
+    "buyConfirm": {
+      "title": "Comprar {name}?",
+      "price": "Preço",
+      "balanceAfter": "Seu saldo depois",
+      "confirm": "Comprar agora",
+      "cancel": "Cancelar"
+    },
+    "bought": "Você comprou {name} por {price}.",
+    "auction": {
+      "count": "{count, plural, one {# leilão} other {# leilões}}",
+      "countMore": "{count}+ leilões",
+      "empty": "Nenhum leilão corresponde.",
+      "tag": "Leilão",
+      "startPrice": "Preço inicial",
+      "currentBid": "Lance atual",
+      "bids": "{count, plural, =0 {Sem lances} one {# lance} other {# lances}}",
+      "endsIn": "Termina em",
+      "ended": "Terminado",
+      "leading": "Você lidera",
+      "bid": "Dar lance em {name}",
+      "bidButton": "Dar lance",
+      "dialog": {
+        "title": "Dar lance em {name}",
+        "amount": "Seu lance",
+        "min": "Mínimo",
+        "plus10": "+10 %",
+        "balanceAfter": "Seu saldo depois",
+        "confirm": "Confirmar lance",
+        "cancel": "Cancelar"
+      },
+      "placed": "Seu lance de {amount} em {name} foi registrado."
+    },
+    "sell": {
+      "empty": "Nenhuma carta para vender.",
+      "title": "Vender {name}",
+      "copies": "{count, plural, one {# cópia vendável} other {# cópias vendáveis}}",
+      "value": "Valor",
+      "noValue": "—",
+      "mode": "Tipo de venda",
+      "fixed": "Preço fixo",
+      "auction": "Leilão",
+      "price": "Preço",
+      "startPrice": "Preço inicial",
+      "minimum": "Mínimo 1",
+      "duration": "Duração",
+      "hours": "{count} h",
+      "fee": "Taxa de venda 5 %",
+      "net": "Ganho líquido",
+      "list": "Anunciar",
+      "start": "Iniciar leilão",
+      "bestOrder": "Melhor ordem de compra",
+      "sellNow": "Vender agora por {price}",
+      "listed": "{name} está à venda por {price}.",
+      "auctionStarted": "Leilão iniciado para {name}.",
+      "soldNow": "Você vendeu {name} por {net}.",
+      "sellNowConfirm": {
+        "title": "Vender para a melhor ordem de compra?",
+        "price": "Preço",
+        "confirm": "Confirmar venda",
+        "back": "Voltar"
+      },
+      "close": "Fechar"
+    },
+    "trades": {
+      "received": "Recebidas",
+      "sent": "Enviadas",
+      "newOffer": "Nova oferta",
+      "emptyReceived": "Nenhuma oferta recebida.",
+      "emptySent": "Nenhuma oferta enviada.",
+      "from": "De {name}",
+      "to": "Para {name}",
+      "youGive": "Você dá",
+      "youGet": "Você recebe",
+      "nothing": "Nada",
+      "expiresIn": "Expira {time}",
+      "status": {
+        "open": "Aberta",
+        "accepted": "Aceita",
+        "declined": "Recusada",
+        "cancelled": "Cancelada",
+        "expired": "Expirada"
+      },
+      "accept": "Aceitar",
+      "decline": "Recusar",
+      "cancel": "Cancelar oferta",
+      "needCurrency": "Você precisa de {amount} para aceitar.",
+      "needCards": "Você não tem cópias livres suficientes para aceitar.",
+      "accepted": "Troca com {name} concluída.",
+      "declined": "Oferta de {name} recusada.",
+      "cancelled": "Oferta para {name} cancelada.",
+      "sentToast": "Oferta enviada para {name}.",
+      "confirm": {
+        "title": "Aceitar a oferta de {name}?",
+        "confirm": "Confirmar troca",
+        "back": "Voltar"
+      },
+      "composer": {
+        "title": "Nova oferta de troca",
+        "player": "Jogador",
+        "searchPlayer": "Buscar um nome de usuário",
+        "noPlayers": "Nenhum jogador encontrado.",
+        "to": "Para {name}",
+        "change": "Mudar",
+        "noSuchPlayer": "Nenhum jogador chamado {name}.",
+        "notTradable": "{name} não tem nenhuma cópia livre dessa carta.",
+        "giveUnavailable": "Você não tem nenhuma cópia livre da carta que ele procura.",
+        "give": "Você dá",
+        "want": "Você pede",
+        "searchCards": "Buscar cartas",
+        "noCards": "Nenhuma carta disponível.",
+        "add": "Adicionar {name}",
+        "more": "Mais uma {name}",
+        "fewer": "Uma {name} a menos",
+        "remove": "Remover {name}",
+        "free": "{count} livres",
+        "maxItems": "Até 20 cartas por lado.",
+        "currencyGive": "Moeda que você dá",
+        "currencyWant": "Moeda que você pede",
+        "invalidCurrency": "Digite um valor inteiro entre 0 e 1.000.000.",
+        "summary": "Resumo",
+        "summaryLine": "{side}: {cards, plural, one {# carta} other {# cartas}} e {currency} de moeda",
+        "emptySide": "Cada lado precisa de pelo menos uma carta ou alguma moeda.",
+        "send": "Enviar oferta",
+        "cancel": "Cancelar"
+      }
+    },
+    "activity": {
+      "running": "Em andamento",
+      "finished": "Encerradas",
+      "show": "Mostrar",
+      "listings": "Meus anúncios",
+      "auctions": "Meus leilões",
+      "bids": "Meus lances",
+      "orders": "Minhas ordens de compra",
+      "empty": "Nada aqui.",
+      "cancel": "Cancelar",
+      "cancelLabel": "Cancelar {name}",
+      "hasBids": "Tem lances",
+      "status": {
+        "open": "Aberto",
+        "sold": "Vendido",
+        "cancelled": "Cancelado",
+        "unsold": "Não vendido",
+        "filled": "Executada",
+        "winning": "Vencendo",
+        "outbid": "Superado",
+        "won": "Ganho",
+        "lost": "Perdido"
+      },
+      "bidCount": "{count, plural, =0 {Sem lances} one {# lance} other {# lances}}",
+      "yourBid": "Seu lance",
+      "topBid": "Maior lance",
+      "startPrice": "Preço inicial",
+      "endsIn": "Termina {time}",
+      "listingCancelled": "Anúncio cancelado.",
+      "auctionCancelled": "Leilão cancelado.",
+      "orderCancelled": "Ordem de compra cancelada."
+    }
+  },
+  "notifications": {
+    "title": "Notificações",
+    "empty": "Nenhuma notificação ainda.",
+    "someCard": "uma carta",
+    "sold": "{source, select, auction {Seu leilão de {name} foi vendido por {price}} order {Você atendeu uma ordem de compra de {name} a {price}} other {Seu anúncio de {name} foi vendido por {price}}}: você recebeu {net}.",
+    "outbid": "Seu lance em {name} foi superado: o maior lance agora é {amount}.",
+    "auction_won": "Você venceu o leilão de {name} por {price}.",
+    "auction_unsold": "Seu leilão de {name} terminou sem lances; a carta voltou para sua coleção.",
+    "order_filled": "Sua ordem de compra de {name} foi executada a {price}.",
+    "trade_received": "{user} enviou uma oferta de troca para você.",
+    "trade_accepted": "{user} aceitou sua oferta de troca.",
+    "trade_declined": "{user} recusou sua oferta de troca.",
+    "trade_expired": "Sua oferta de troca expirou; suas cartas e sua moeda foram devolvidas.",
+    "friend_request": "{user} enviou um pedido de amizade.",
+    "friend_accepted": "{user} aceitou seu pedido de amizade.",
+    "referral_gift": "{user} enviou um presente: 3 boosters Mix",
+    "referral_joined": "{user} entrou com seu link",
+    "admin_grant": "Você recebeu {amount} de moeda do administrador do jogo",
+    "referral_rewarded": "{user} abriu 10 boosters em 3 dias: +3 boosters e +500 para você"
+  },
+  "inspector": {
+    "hint": "Mova para inclinar · toque para virar",
+    "owners": "Jogadores que a têm",
+    "since": "Você a tem desde",
+    "notOwned": "Ainda não está na sua coleção",
+    "page": "Ver a página da carta",
+    "close": "Fechar",
+    "flip": "Virar a carta"
+  },
+  "rewardToast": {
+    "reward": "+{reward}",
+    "withBoosters": "+{reward} · +{boosters, plural, one {# booster bônus} other {# boosters bônus}}",
+    "failed": "{count, plural, one {# recompensa não pôde ser resgatada} other {# recompensas não puderam ser resgatadas}}"
+  },
+  "scene": {
+    "series": "Série",
+    "popularity": "Popularidade",
+    "top": "Top {pct}%",
+    "rank": "nº {rank}",
+    "skip": "Pular ›"
+  },
+  "referrals": {
+    "title": "Convidar amigos",
+    "invite": "Convidar",
+    "inviteChip": "+3",
+    "subtitle": "Convide amigos: vocês dois ganham 3 boosters",
+    "yourLink": "Seu link pessoal",
+    "copy": "Copiar link",
+    "copied": "Link copiado",
+    "share": "Compartilhar",
+    "shareText": "Jogue comigo no Kizuna, nós dois ganhamos 3 boosters grátis: {link}",
+    "manualCopy": "Copie o link do campo acima.",
+    "howTitle": "Como funciona",
+    "step1": "Envie seu link para um amigo.",
+    "step2": "Ele entra, ganha 3 boosters grátis e vocês viram amigos.",
+    "step3": "Quando ele abrir 10 boosters em 3 dias diferentes, você ganha 3 boosters e +500.",
+    "invitedTitle": "Seus amigos convidados",
+    "empty": "Ninguém ainda: compartilhe seu link",
+    "boosters": "{count}/10 boosters",
+    "days": "{count}/3 dias",
+    "rewarded": "Recompensado",
+    "joinedOn": "Entrou em {date}",
+    "totalJoined": "{count, plural, one {# amigo entrou} other {# amigos entraram}}",
+    "totalRewarded": "{count} recompensados",
+    "totalEarned": "+{boosters, number} boosters · +{currency, number}"
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Gerencie o jogo: convites, moeda, seleções diárias, boosters sazonais e chat.",
+    "back": "Voltar ao jogo",
+    "stats": {
+      "invites": "Convites não usados",
+      "pools": "Seleções diárias",
+      "seasonals": "Sazonais ativos",
+      "chat": "Mensagens recentes"
+    },
+    "nav": {
+      "label": "Seções",
+      "invites": "Convites",
+      "currency": "Moeda",
+      "pools": "Seleções diárias",
+      "seasonal": "Sazonais",
+      "chat": "Chat"
+    },
+    "errors": {
+      "not_admin": "Você não é administrador.",
+      "invalid_count": "Escolha entre 1 e 20 códigos.",
+      "invite_used": "Esse código já foi usado.",
+      "invite_not_found": "Esse código não existe mais.",
+      "player_not_found": "Nenhum jogador com esse nome de usuário.",
+      "invalid_amount": "O valor deve estar entre 1 e 1.000.000.",
+      "invalid_pool": "Uma seleção precisa de um nome (até 40 caracteres) e pelo menos uma série.",
+      "invalid_seasonal": "Um sazonal precisa de um identificador (2 a 30 caracteres a-z, 0-9, _), um título, pelo menos uma série e um fim depois do início.",
+      "seasonal_title": "Digite um título.",
+      "seasonal_series": "Escolha pelo menos uma série.",
+      "seasonal_dates": "O fim deve ser depois do início.",
+      "suggest_failed": "Não foi possível acessar o AniList para os animes desta temporada. Tente de novo em um minuto.",
+      "generic": "Algo deu errado. Tente de novo."
+    },
+    "invites": {
+      "title": "Códigos de convite",
+      "hint": "Compartilhe um código com um amigo; ele vai digitá-lo na página de cadastro ({path}).",
+      "create": "Criar {count}",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "revoke": "Revogar",
+      "usedBy": "Usado por {name}",
+      "unused": "Não usado",
+      "empty": "Nenhum código de convite ainda."
+    },
+    "grant": {
+      "title": "Dar moeda",
+      "username": "Nome de usuário",
+      "amount": "Valor",
+      "note": "Nota (opcional)",
+      "submit": "Dar",
+      "success": "{amount} enviado para {user}: novo saldo {balance}"
+    },
+    "picker": {
+      "search": "Buscar séries",
+      "add": "Adicionar {title} ({cards} cartas)",
+      "remove": "Remover {title}",
+      "cards": "{count} cartas"
+    },
+    "pools": {
+      "title": "Seleções diárias",
+      "empty": "Nenhuma seleção ainda.",
+      "new": "Nova seleção",
+      "editing": "Editar seleção",
+      "name": "Nome",
+      "save": "Salvar seleção",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Excluir"
+    },
+    "seasonal": {
+      "title": "Boosters sazonais",
+      "description": "Boosters por tempo limitado montados a partir de um conjunto de séries.",
+      "suggest": "Sugerir a partir dos animes em exibição",
+      "suggesting": "Consultando esta temporada…",
+      "suggestTitle": "Populares nesta temporada · {season, select, WINTER {Inverno} SPRING {Primavera} SUMMER {Verão} FALL {Outono} other {Temporada}} {year}",
+      "suggestHint": "{matched} de {total} séries têm personagens no catálogo. Escolha as séries a incluir e revise o formulário.",
+      "seasonName": "{season, select, WINTER {Inverno} SPRING {Primavera} SUMMER {Verão} FALL {Outono} other {Temporada}} {year}",
+      "inCatalog": "{title} · {cards} cartas",
+      "notInCatalog": "Fora do catálogo",
+      "useSelected": "Usar {count, plural, one {# série} other {# séries}}",
+      "empty": "Nenhum booster sazonal ainda.",
+      "new": "Novo booster sazonal",
+      "editing": "Editar booster sazonal",
+      "slug": "Identificador",
+      "titleLabel": "Título",
+      "starts": "Início",
+      "ends": "Fim",
+      "save": "Salvar sazonal",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "endNow": "Encerrar agora",
+      "status": { "live": "Ativo", "scheduled": "Agendado", "ended": "Encerrado" }
+    },
+    "chat": {
+      "title": "Moderação do chat",
+      "empty": "Nenhuma mensagem.",
+      "delete": "Excluir",
+      "room": "Sala {room}"
+    }
+  }
+}

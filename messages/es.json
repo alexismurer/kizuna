@@ -1,0 +1,1166 @@
+{
+  "app": {
+    "name": "Kizuna"
+  },
+  "home": {
+    "title": "Colecciona a tus personajes de anime favoritos",
+    "endsOn": "Termina el {date}",
+    "hero": {
+      "carousel": "Sobres destacados",
+      "slide": "Mostrar diapositiva {n}",
+      "eyebrowDaily": "Sobre diario · Gratis",
+      "eyebrowSeasonal": "Sobre limitado",
+      "taglineNone": "Vuelve mañana para una nueva selección temática.",
+      "openDaily": "Abrir el sobre diario",
+      "openSeasonal": "Abrir el sobre",
+      "done": "Vuelve mañana",
+      "none": "Hoy no hay sobre diario",
+      "see": "Ver el sobre"
+    },
+    "tiles": {
+      "free": "sobres gratis",
+      "next": "+1 en {time}",
+      "golden": "antes del sobre dorado",
+      "pity": "hasta un Mítico seguro",
+      "pityNext": "El próximo sobre trae un Mítico seguro",
+      "shortFree": "gratis",
+      "shortGolden": "al dorado",
+      "shortPity": "al Mítico",
+      "shortPityNext": "Mítico ya",
+      "daily": "misiones diarias",
+      "streakDay": "Día {n}",
+      "streak": "racha de conexión",
+      "shortDaily": "misiones",
+      "shortStreak": "racha",
+      "claim": "Reclamar",
+      "toClaim": "{count, plural, one {# recompensa} other {# recompensas}} por reclamar",
+      "stockFull": "reserva llena",
+      "shortFull": "llena"
+    },
+    "tabs": {
+      "free": "Gratis",
+      "daily": "Diarios y limitados",
+      "shop": "Tienda"
+    },
+    "grid": {
+      "title": "Elige tu sobre",
+      "fullscreen": "Pantalla completa",
+      "exitFullscreen": "Salir de pantalla completa",
+      "free": "Gratis",
+      "cards": "{count} cartas",
+      "empty": "Aún no hay nada aquí."
+    },
+    "panel": {
+      "cards": "cartas por sobre",
+      "floor": "o mejor, garantizada",
+      "pity": "hasta un Mítico seguro",
+      "pityNext": "garantizado en el próximo sobre",
+      "golden": "antes del dorado",
+      "characters": "Ver los {count} personajes",
+      "chances": "Probabilidad por sobre",
+      "oddsNote": "Las probabilidades no incluyen los bonus del sobre dorado ni de la garantía.",
+      "openFree": "Abrir · Gratis · quedan {count}",
+      "openReward": "Abrir · Recompensa · quedan {count}",
+      "openPrice": "Abrir · {price}",
+      "noFree": "No quedan sobres gratis",
+      "nextFree": "Próximo gratis en {time}"
+    },
+    "bigPulls": {
+      "title": "Grandes tiradas",
+      "live": "En directo",
+      "empty": "Aún no hay grandes tiradas. ¡Abre un sobre y sé el primero!",
+      "justNow": "ahora mismo"
+    }
+  },
+  "characters": {
+    "title": "Personajes de {name}",
+    "count": "{count, plural, one {# personaje} other {# personajes}}",
+    "page": "Página {page} de {pages}",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "empty": "Hoy no hay personajes en este sobre.",
+    "back": "Sobres",
+    "copies": "×{count}",
+    "notOwned": "Aún no lo tienes"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "footer": {
+    "label": "Pie de página",
+    "disclaimer": "Proyecto de fans no oficial. Los personajes pertenecen a sus respectivos propietarios.",
+    "credits": "Los nombres y las ilustraciones de los personajes provienen de <anilist>AniList</anilist>."
+  },
+  "nav": {
+    "label": "Principal",
+    "home": "Inicio",
+    "boosters": "Sobres",
+    "collection": "Colección",
+    "market": "Mercado",
+    "play": "Jugar",
+    "more": "Más",
+    "soon": "Pronto",
+    "open": "Abrir",
+    "missions": "Misiones",
+    "moreTitle": "Más",
+    "notifications": "Notificaciones",
+    "friends": "Amigos y mensajes",
+    "myProfile": "Mi perfil",
+    "invite": "Invitar amigos"
+  },
+  "topbar": {
+    "freeBoosters": "Sobres gratis",
+    "currency": "Moneda",
+    "account": "Menú de la cuenta",
+    "myProfile": "Mi perfil",
+    "friends": "Amigos y mensajes",
+    "messagesUnread": "{count, plural, one {# mensaje sin leer} other {# mensajes sin leer}}",
+    "signOut": "Cerrar sesión",
+    "notifications": "Notificaciones",
+    "missionsClaimable": "{count, plural, one {# recompensa} other {# recompensas}} por reclamar",
+    "unread": "{count} sin leer",
+    "stock": {
+      "title": "Sobres gratis",
+      "next": "+1 en {time} · 1 cada {minutes} min",
+      "full": "Reserva llena · 1 cada {minutes} min",
+      "base": "Reserva base",
+      "baseHint": "1 cada {minutes} min",
+      "yours": "Tu reserva",
+      "bonus": "Sobres extra",
+      "bonusHint": "ganados, no se recargan",
+      "currency": "Moneda",
+      "open": "Abrir un sobre",
+      "button": "{free} sobres gratis, {bonus} extra, {currency} de moneda"
+    },
+    "admin": "Admin"
+  },
+  "rarity": {
+    "common": "Común",
+    "uncommon": "Poco común",
+    "rare": "Rara",
+    "epic": "Épica",
+    "legendary": "Legendaria",
+    "mythic": "Mítica"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "discord": "Continuar con Discord",
+    "devHeading": "Acceso de desarrollador",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "signIn": "Iniciar sesión",
+    "signUp": "Crear cuenta",
+    "failed": "No se pudo iniciar sesión. Revisa tus datos e inténtalo de nuevo.",
+    "newHere": "¿Eres nuevo? Inicia sesión con Discord y elige un nombre de usuario para empezar a jugar.",
+    "credits": "Los nombres y las ilustraciones de los personajes provienen de AniList."
+  },
+  "auth": {
+    "brand": "Kizuna",
+    "headline": "Colecciona todos los personajes de anime",
+    "pitch": "Abre sobres gratis, completa los álbumes de tus series favoritas e intercambia cartas con tus amigos.",
+    "count": "{count, number} personajes por coleccionar"
+  },
+  "invite": {
+    "title": "Elige tu nombre de usuario",
+    "code": "Código de invitación",
+    "haveCode": "¿Tienes un código de invitación?",
+    "username": "Nombre de usuario",
+    "submit": "Empezar a jugar",
+    "hint": "El nombre de usuario debe tener entre 3 y 20 caracteres.",
+    "invitedBy": "Invitado por {name}.",
+    "useAnother": "Usar otro código"
+  },
+  "join": {
+    "invited": "{name} te ha invitado a Kizuna",
+    "cta": "Únete y consigue 3 sobres gratis",
+    "cards": "Cartas de su colección",
+    "broken": "Este enlace de invitación no funciona",
+    "brokenHint": "Pide a tu amigo que te envíe el enlace de nuevo."
+  },
+  "errors": {
+    "not_friends": "Solo puedes enviar mensajes a tus amigos.",
+    "rate_limited": "Vas demasiado rápido. Espera un poco e inténtalo de nuevo.",
+    "invalid_message": "Ese mensaje no es válido.",
+    "no_free_boosters": "Ahora mismo no hay sobres gratis disponibles.",
+    "insufficient_currency": "No tienes suficiente moneda.",
+    "pack_unavailable": "Este sobre no está disponible.",
+    "daily_already_opened": "Ya abriste el sobre de hoy.",
+    "not_enough_duplicates": "No tienes suficientes duplicados.",
+    "invalid_invite": "Ese código de invitación no es válido.",
+    "username_taken": "Ese nombre de usuario ya está en uso.",
+    "already_player": "Ya te has unido.",
+    "not_a_player": "Primero tienes que unirte con una invitación.",
+    "cost_changed": "Tus sobres gratis han cambiado: revisa el precio e inténtalo de nuevo.",
+    "unknown_mission": "Esa misión no existe.",
+    "not_today": "Esa misión no es de hoy.",
+    "not_complete": "Esta misión aún no está completada.",
+    "already_claimed": "Ya reclamaste esta recompensa.",
+    "invalid_card": "Esa carta no existe.",
+    "no_free_copy": "No tienes ninguna copia libre de esa carta.",
+    "invalid_price": "Introduce un precio entero entre 1 y 1.000.000.",
+    "invalid_duration": "Elige una duración de 1 h, 6 h o 24 h.",
+    "own_listing": "Esa es tu propia oferta.",
+    "own_order": "Esa es tu propia orden de compra.",
+    "not_open": "Esta oferta ya no está disponible.",
+    "not_found": "Esta oferta ya no existe.",
+    "auction_ended": "Esta subasta ha terminado.",
+    "own_auction": "Esa es tu propia subasta.",
+    "already_top": "Ya tienes la puja más alta.",
+    "bid_too_low": "La puja mínima es {min}",
+    "has_bids": "Esta subasta tiene pujas y no se puede cancelar.",
+    "invalid_trade": "Esta oferta no es válida. Cada lado necesita cartas o moneda (hasta 20 cartas).",
+    "unknown_player": "Ese jugador no existe.",
+    "trade_expired": "Esta oferta ha caducado.",
+    "too_many_trades": "Tienes demasiadas ofertas abiertas (10 en total, 3 por jugador). Espera respuestas o cancela una antes.",
+    "auction_maxed": "Esta subasta ha alcanzado la puja máxima.",
+    "no_copy": "Ya no tienes esa carta.",
+    "invalid_showcase": "Un escaparate admite hasta 8 cartas distintas.",
+    "already_friends": "Ya sois amigos.",
+    "already_requested": "Ya enviaste una solicitud.",
+    "no_request": "Esa solicitud ya no existe.",
+    "unknown": "Algo ha salido mal. Inténtalo de nuevo."
+  },
+  "profile": {
+    "memberSince": "Miembro desde {date}",
+    "completion": "{pct}% completado",
+    "uniqueCards": "Cartas únicas",
+    "mythics": "Míticas",
+    "boostersOpened": "Sobres abiertos",
+    "tabs": "Secciones del perfil",
+    "showcase": "Escaparate",
+    "wishlist": "Lista de deseos",
+    "pulls": "Tiradas recientes",
+    "emptyShowcase": "Aún no hay cartas que mostrar. Abre un sobre para empezar una colección.",
+    "emptyWishlist": "No hay nada en la lista de deseos.",
+    "emptyPulls": "Aún no hay tiradas Épicas o mejores.",
+    "customize": "Personalizar",
+    "copyLink": "Copiar mi enlace",
+    "copied": "Enlace copiado",
+    "message": "Mensaje",
+    "trade": "Proponer un intercambio",
+    "addFriend": "Añadir amigo",
+    "requestSent": "Solicitud enviada (cancelar)",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "friends": "Amigos",
+    "removeFriend": "Eliminar amigo",
+    "customizeTitle": "Personaliza tu perfil",
+    "changeAvatar": "Cambiar avatar",
+    "editShowcase": "Editar escaparate",
+    "avatarTitle": "Elige tu avatar",
+    "showcaseTitle": "Elige hasta 8 cartas",
+    "searchCards": "Buscar en tus cartas",
+    "yourCards": "Tus cartas",
+    "chosen": "Tu escaparate",
+    "noneChosen": "No has elegido nada: se muestran tus mejores cartas.",
+    "moveUp": "Subir {name}",
+    "moveDown": "Bajar {name}",
+    "removeCard": "Quitar {name}",
+    "save": "Guardar",
+    "defaultAvatar": "Usar mi mejor carta",
+    "noMatches": "Ninguna carta coincide.",
+    "noCards": "Aún no tienes cartas."
+  },
+  "friends": {
+    "title": "Amigos y mensajes",
+    "tabs": "Secciones de amigos",
+    "friends": "Amigos",
+    "requests": "Solicitudes",
+    "find": "Buscar jugadores",
+    "empty": "Aún no tienes amigos. Busca jugadores para añadirlos.",
+    "message": "Mensaje",
+    "unread": "{count} sin leer",
+    "since": "Amigos desde {date}",
+    "received": "Recibidas",
+    "sent": "Enviadas",
+    "noRequests": "No hay solicitudes pendientes.",
+    "cancel": "Cancelar",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "searchLabel": "Buscar jugadores por nombre de usuario",
+    "searchPlaceholder": "Inicio de un nombre de usuario",
+    "noResults": "No se encontraron jugadores.",
+    "add": "Añadir amigo",
+    "requestSent": "Solicitud enviada",
+    "isFriend": "Amigos"
+  },
+  "chat": {
+    "title": "El mostrador",
+    "live": "En directo",
+    "open": "Chat",
+    "log": "Mensajes del chat",
+    "empty": "Esto está muy tranquilo. ¡Saluda!",
+    "lookingFor": "Busco…",
+    "trading": "Cambio…",
+    "myListing": "Mi oferta",
+    "listingTitle": "Adjunta una de tus ofertas",
+    "noListings": "No tienes ofertas abiertas.",
+    "rooms": {
+      "label": "Salas de chat",
+      "en": "Inglés",
+      "intl": "Internacional"
+    }
+  },
+  "dm": {
+    "with": "Mensajes con {name}",
+    "trade": "Proponer un intercambio",
+    "empty": "Aún no hay mensajes. ¡Saluda!",
+    "loadOlder": "Cargar mensajes anteriores",
+    "notFriends": "No eres amigo de {name}. Añádelo como amigo para enviarle mensajes.",
+    "thread": "Conversación",
+    "compose": "Escribe un mensaje",
+    "counter": "{count}/{max}",
+    "send": "Enviar",
+    "sending": "Enviando",
+    "attach": "Adjuntar una carta",
+    "removeAttachment": "Quitar la carta adjunta",
+    "tagTrading": "CAMBIO",
+    "tagLooking": "BUSCO",
+    "missing": "Te falta",
+    "pickerTitle": "Adjuntar una carta",
+    "pickerTag": "Etiqueta de la carta",
+    "pickerTrading": "Cambio (tus cartas)",
+    "pickerLooking": "Busco",
+    "pickerSearch": "Buscar cartas",
+    "pickerNone": "Ninguna carta coincide.",
+    "pickerNoCards": "Aún no tienes cartas para intercambiar."
+  },
+  "reveal": {
+    "new": "NUEVA",
+    "stage": "Revelar la siguiente carta",
+    "tapToFlip": "Toca la carta para darle la vuelta",
+    "next": "Desliza o toca para la siguiente",
+    "keys": "Espacio: siguiente · mantener: avance rápido",
+    "revealAll": "Revelar todas",
+    "booster": "Sobre {n}/{count}",
+    "counter": "Carta {n} de {total}",
+    "flip": "Dar la vuelta a la carta",
+    "strip": "Cartas reveladas",
+    "golden": "Dorado",
+    "divine": "Divino",
+    "goldenBooster": "Sobre dorado",
+    "divineBooster": "Sobre divino",
+    "skipTo": {
+      "epic": "Saltar a la siguiente Épica o mejor",
+      "legendary": "Saltar a la siguiente Legendaria o mejor",
+      "mythic": "Saltar a la siguiente Mítica"
+    }
+  },
+  "opening": {
+    "back": "Sobres",
+    "stock": "Sobres gratis: {count}/10",
+    "currency": "Moneda",
+    "settings": "Ajustes",
+    "sound": "Sonido",
+    "animations": "Animaciones",
+    "animationsHint": "Desactivadas: giros instantáneos, sin partículas ni temblores",
+    "warnPaid": "Avisarme antes de un sobre de pago",
+    "hint": "Desliza por la parte superior para rasgar, o mantén pulsado",
+    "hintDaily": "Tira del cordón hacia arriba, o mantén pulsado",
+    "dailyPack": "Sobre diario",
+    "openBooster": "Abrir sobre",
+    "cards": "{count, plural, one {# carta} other {# cartas}}",
+    "quantity": "Cuántos sobres",
+    "quantityOption": "×{count}",
+    "openFree": "Gratis · quedan {count}",
+    "openReward": "Recompensa · quedan {count}",
+    "reward": "Recompensa ×{count}",
+    "openPrice": "Abrir · {price}",
+    "openMixed": "{free} gratis + {cost}",
+    "openDaily": "Abrir el sobre diario",
+    "opening": "Abriendo…",
+    "dailyDone": "Vuelve mañana",
+    "noFree": "No quedan sobres gratis",
+    "cantAfford": "No tienes suficiente moneda",
+    "pity": "Mítico garantizado en {count} sobres como máximo",
+    "pityNext": "Mítico garantizado en el próximo sobre",
+    "changeBooster": "Cambiar de sobre ›",
+    "confirmTitle": "¿Gastar {cost}?",
+    "confirmPaid": "{count, plural, one {# sobre pagado} other {# sobres pagados}} con moneda",
+    "confirmFree": "{count, plural, one {# sobre gratis usado} other {# sobres gratis usados}} primero",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "cardsAdded": "Cartas añadidas a tu colección.",
+    "seeCollection": "Ver la colección",
+    "golden": "Dorado",
+    "divine": "Divino"
+  },
+  "summary": {
+    "newCards": "{count, plural, =0 {Ninguna carta nueva} one {# carta nueva} other {# cartas nuevas}}",
+    "batch": "{boosters} sobres · {cards} cartas",
+    "newAndDupes": "{fresh, plural, =0 {Ninguna carta nueva} one {# carta nueva} other {# cartas nuevas}}, {dupes, plural, one {# duplicado} other {# duplicados}} (+{gain} si los reciclas)",
+    "best": "Mejor carta",
+    "openAgain": "Abrir otro · {price}",
+    "free": "Gratis",
+    "reward": "Recompensa",
+    "change": "Cambiar de sobre",
+    "collection": "Ver la colección",
+    "copy": "Copiar el enlace",
+    "invite": "Invitar a un amigo",
+    "copied": "Enlace copiado",
+    "image": "Imagen",
+    "imageError": "No se pudo crear la imagen. Inténtalo de nuevo.",
+    "cards": "Tu tirada",
+    "golden": "Un sobre dorado en el lote",
+    "divine": "Un sobre divino en el lote",
+    "inspect": "Ver {name} de cerca"
+  },
+  "card": {
+    "pow": "POD",
+    "aura": "AURA",
+    "noArt": "Sin ilustración",
+    "brand": "KIZUNA",
+    "backAlt": "Reverso de la carta",
+    "owned": "Copias en tu poder",
+    "series": "Ver el álbum de la serie",
+    "back": "Volver a la colección",
+    "market": {
+      "title": "Mercado",
+      "value": "Valor estimado",
+      "noValue": "—",
+      "listings": "Ofertas más baratas",
+      "noListings": "Nadie vende esta carta ahora mismo.",
+      "buy": "Comprar {name} por {price}",
+      "orders": "Órdenes de compra",
+      "noOrders": "Aún no hay órdenes de compra.",
+      "by": "de {name}",
+      "sell": "Vender {name}",
+      "sellButton": "Vender",
+      "placeOrder": "Crear una orden de compra",
+      "price": "Tu precio",
+      "hint": "De 1 a 1.000.000. Se paga ahora y se reembolsa si cancelas.",
+      "submit": "Crear orden",
+      "placed": "Orden de compra creada para {name} a {price}."
+    }
+  },
+  "wishlist": {
+    "button": "Lista de deseos"
+  },
+  "packs": {
+    "mix": {
+      "name": "Mix",
+      "tagline": "Personajes de todas las series"
+    },
+    "shonen": {
+      "name": "Shonen",
+      "tagline": "Espíritu de lucha y rivales"
+    },
+    "isekai": {
+      "name": "Isekai",
+      "tagline": "Otro mundo te espera"
+    },
+    "seinen": {
+      "name": "Seinen",
+      "tagline": "Historias crudas y adultas"
+    },
+    "shojo": {
+      "name": "Shojo",
+      "tagline": "Romance y corazón"
+    },
+    "sports": {
+      "name": "Deportes",
+      "tagline": "Equipos, canchas y gloria"
+    },
+    "mecha": {
+      "name": "Mecha",
+      "tagline": "Robots gigantes, apuestas más grandes"
+    },
+    "female": {
+      "name": "Heroínas",
+      "tagline": "Solo protagonistas femeninas"
+    },
+    "male": {
+      "name": "Héroes",
+      "tagline": "Solo protagonistas masculinos"
+    },
+    "hall_of_fame": {
+      "name": "Salón de la Fama",
+      "tagline": "Cinco Épicas o mejores"
+    },
+    "deep_cuts": {
+      "name": "Joyas ocultas",
+      "tagline": "Personajes menos conocidos"
+    },
+    "mini": {
+      "name": "Mini",
+      "tagline": "Un sobre pequeño y barato"
+    },
+    "chest": {
+      "name": "Cofre",
+      "tagline": "Veinte cartas, gran botín"
+    },
+    "prestige": {
+      "name": "Prestigio",
+      "tagline": "Mejores probabilidades en lo más alto"
+    },
+    "daily": {
+      "name": "Diario",
+      "tagline": "La selección temática de hoy"
+    },
+    "seasonal": {
+      "name": "De temporada",
+      "tagline": "Solo por tiempo limitado"
+    }
+  },
+  "collection": {
+    "title": "Colección",
+    "unique": "Cartas únicas",
+    "completion": "Completado",
+    "duplicates": "Duplicados",
+    "viewCards": "Cartas",
+    "viewAlbums": "Álbumes",
+    "viewWishlist": "Lista de deseos",
+    "search": "Buscar nombre o serie",
+    "empty": "No se encontraron cartas.",
+    "wishlistEmpty": "Tu lista de deseos está vacía. Toca el corazón de una carta para añadirla.",
+    "owned": "En tu poder",
+    "filter": {
+      "all": "Todas",
+      "todo": "Por completar",
+      "done": "Completadas"
+    },
+    "sort": {
+      "label": "Ordenar",
+      "cards": "Más cartas",
+      "complete": "Más completas",
+      "az": "De la A a la Z"
+    },
+    "filters": "Filtros",
+    "value": "Valor",
+    "noValue": "—",
+    "sell": "Vender",
+    "sellCard": "Vender {name}",
+    "kicker": "Álbum",
+    "heading": "Mi colección",
+    "uniqueCards": "Cartas únicas",
+    "completionLabel": "Progreso",
+    "rarityAll": "Todas",
+    "rarities": "Rareza",
+    "searchLabel": "Buscar un personaje o una serie",
+    "series": "Series",
+    "seriesAll": "Todas las series",
+    "cards": "Cartas",
+    "show": {
+      "all": "Todas",
+      "owned": "En tu poder",
+      "missing": "Faltan",
+      "duplicates": "Duplicados",
+      "wishes": "Mis deseos ({count})"
+    },
+    "cardSort": {
+      "label": "Ordenar",
+      "number": "Número",
+      "rarity": "Rareza",
+      "name": "Nombre",
+      "recent": "Obtenidas recientemente",
+      "value": "Valor (más alto)",
+      "series": "Serie"
+    },
+    "reset": "Restablecer",
+    "apply": "Aplicar",
+    "viewSwitch": "Mostrar cartas o álbumes",
+    "count": "{count, plural, one {# carta} other {# cartas}}",
+    "showMore": "Mostrar más · quedan {left}",
+    "addMissing": "Añadir las {count} que faltan a mi lista de deseos",
+    "addedMissing": "{count, plural, one {# carta añadida} other {# cartas añadidas}} a tu lista de deseos",
+    "missingCard": "Carta #{number} que falta",
+    "albumOpen": "Abrir el álbum {title}",
+    "inspect": "Ver {name} de cerca"
+  },
+  "recycle": {
+    "all": "Reciclar duplicados · ≈ +{gain}",
+    "one": "Reciclar uno · +{gain}",
+    "gained": "Reciclado por +{gain}",
+    "confirmTitle": "¿Reciclar estos duplicados?",
+    "confirmLine": "{rarity} × {copies} · +{gain}",
+    "confirmTotal": "Total +{gain}",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "title": "Reciclar duplicados",
+    "chip": "×{copies} · +{gain}",
+    "recycled": "Reciclado",
+    "kept": "Conservado",
+    "none": "Ninguno",
+    "go": "Reciclar {copies} duplicados · +{gain}",
+    "recovered": "+{gain} recuperado",
+    "hint": "Siempre se conserva una copia de cada carta.",
+    "done": "Hecho"
+  },
+  "sheet": {
+    "close": "Cerrar",
+    "loading": "Cargando sobres…"
+  },
+  "missions": {
+    "eyebrow": "MISIONES",
+    "title": "Misiones y logros",
+    "subtitle": "Conéctate cada día, completa misiones y desbloquea logros para ganar moneda y sobres gratis.",
+    "loadError": "No se pudieron cargar tus misiones. Inténtalo más tarde.",
+    "chips": {
+      "login": "Conexión",
+      "first": "Primeros pasos",
+      "daily": "Diarias",
+      "weekly": "Semanales",
+      "achievements": "Logros"
+    },
+    "streak": {
+      "eyebrow": "RACHA DE CONEXIÓN",
+      "title": "Conexión diaria",
+      "day": "D{n}",
+      "golden": "Día 7: el próximo sobre es dorado",
+      "logins": "{count, plural, one {# conexión} other {# conexiones}} en total",
+      "forgiveOpen": "1 día perdido permitido esta semana",
+      "forgiveUsed": "día perdido usado esta semana"
+    },
+    "first": {
+      "eyebrow": "PARA EMPEZAR",
+      "title": "Primeros pasos",
+      "footer": "Todo hecho → Cofre"
+    },
+    "daily": {
+      "eyebrow": "HOY",
+      "title": "Misiones diarias",
+      "footer": "Las 3 reclamadas → +1 sobre extra"
+    },
+    "weekly": {
+      "eyebrow": "ESTA SEMANA",
+      "title": "Misiones semanales",
+      "footer": "Las 3 reclamadas → Cofre gratis"
+    },
+    "achievements": {
+      "eyebrow": "OBJETIVOS DE COLECCIÓN",
+      "title": "Logros",
+      "filter": {
+        "all": "Todos",
+        "todo": "Pendientes",
+        "earned": "Conseguidos"
+      },
+      "empty": "Aún no hay nada aquí."
+    },
+    "reset": "Se reinicia en",
+    "resetHours": "{h} h {m} min",
+    "resetDays": "{d} d {h} h",
+    "state": {
+      "claimed": "Reclamada",
+      "progress": "En curso",
+      "claim": "Reclamar"
+    },
+    "items": {
+      "first_booster": "Abre tu primer sobre",
+      "first_recycle": "Recicla un duplicado",
+      "first_wishlist": "Añade 3 personajes a tu lista de deseos",
+      "first_page": "Abre la página de un personaje",
+      "first_username": "Elige tu nombre de usuario",
+      "first_discord": "Vincula tu cuenta de Discord",
+      "daily_pages": "Visita 3 páginas de personajes",
+      "daily_recycle": "Recicla 10 duplicados",
+      "daily_open": "Abre 5 sobres",
+      "daily_pack": "Abre el sobre diario",
+      "daily_rare": "Consigue 3 cartas Raras o mejores",
+      "daily_wishlist": "Añade un personaje a tu lista de deseos",
+      "daily_bid": "Haz una puja",
+      "weekly_legendary": "Consigue una Legendaria o mejor",
+      "weekly_mythic": "Consigue una Mítica",
+      "weekly_series": "Completa una serie (5+ personajes)",
+      "ach_open_10": {
+        "name": "Buen comienzo",
+        "desc": "Abre 10 sobres"
+      },
+      "ach_open_100": {
+        "name": "Acumulador de sobres",
+        "desc": "Abre 100 sobres"
+      },
+      "ach_open_1000": {
+        "name": "Rasgador de papel",
+        "desc": "Abre 1.000 sobres"
+      },
+      "ach_open_2500": {
+        "name": "Rompesellos",
+        "desc": "Abre 2.500 sobres"
+      },
+      "ach_open_5000": {
+        "name": "Barón de los sobres",
+        "desc": "Abre 5.000 sobres"
+      },
+      "ach_open_10000": {
+        "name": "Unboxing sin fin",
+        "desc": "Abre 10.000 sobres"
+      },
+      "ach_own_50": {
+        "name": "Primera estantería",
+        "desc": "Ten 50 personajes distintos"
+      },
+      "ach_own_250": {
+        "name": "Plantilla en aumento",
+        "desc": "Ten 250 personajes distintos"
+      },
+      "ach_own_500": {
+        "name": "Archivador lleno",
+        "desc": "Ten 500 personajes distintos"
+      },
+      "ach_own_1000": {
+        "name": "Archivista",
+        "desc": "Ten 1.000 personajes distintos"
+      },
+      "ach_own_1500": {
+        "name": "Conservador",
+        "desc": "Ten 1.500 personajes distintos"
+      },
+      "ach_own_2000": {
+        "name": "Gran galería",
+        "desc": "Ten 2.000 personajes distintos"
+      },
+      "ach_own_3000": {
+        "name": "Enciclopedia viviente",
+        "desc": "Ten 3.000 personajes distintos"
+      },
+      "ach_all": {
+        "name": "Completista",
+        "desc": "Ten todos los personajes del catálogo"
+      },
+      "ach_first_epic": {
+        "name": "Bruma púrpura",
+        "desc": "Consigue tu primera carta Épica o mejor"
+      },
+      "ach_first_legendary": {
+        "name": "Hora dorada",
+        "desc": "Consigue tu primera carta Legendaria o mejor"
+      },
+      "ach_first_mythic": {
+        "name": "El mito hecho realidad",
+        "desc": "Consigue tu primera carta Mítica"
+      },
+      "ach_legendary_100": {
+        "name": "Cien dorados",
+        "desc": "Consigue 100 cartas Legendarias o mejores"
+      },
+      "ach_mythics_10": {
+        "name": "Guardián de mitos",
+        "desc": "Ten 10 personajes Míticos distintos"
+      },
+      "ach_mythics_25": {
+        "name": "Panteón",
+        "desc": "Ten 25 personajes Míticos distintos"
+      },
+      "ach_series_1": {
+        "name": "Caja recopilatoria",
+        "desc": "Completa una serie (5+ personajes)"
+      },
+      "ach_series_10": {
+        "name": "Maratón",
+        "desc": "Completa 10 series"
+      },
+      "ach_series_25": {
+        "name": "Pase de temporada",
+        "desc": "Completa 25 series"
+      },
+      "ach_series_50": {
+        "name": "Maestro de franquicias",
+        "desc": "Completa 50 series"
+      },
+      "ach_recycle_1000": {
+        "name": "Limpieza a fondo",
+        "desc": "Recicla 1.000 duplicados"
+      },
+      "ach_recycle_10000": {
+        "name": "Gran reciclador",
+        "desc": "Recicla 10.000 duplicados"
+      },
+      "ach_divine": {
+        "name": "Chispa divina",
+        "desc": "Abre un sobre divino"
+      },
+      "ach_sell_1": {
+        "name": "Primera venta",
+        "desc": "Vende una carta en el mercado"
+      },
+      "ach_sell_10": {
+        "name": "Tendero",
+        "desc": "Vende 10 cartas en el mercado"
+      },
+      "ach_sell_100": {
+        "name": "Mercader",
+        "desc": "Vende 100 cartas en el mercado"
+      },
+      "ach_sell_1000": {
+        "name": "Magnate del mercado",
+        "desc": "Vende 1.000 cartas en el mercado"
+      },
+      "ach_trade_1": {
+        "name": "Apretón de manos",
+        "desc": "Completa un intercambio"
+      },
+      "ach_trade_25": {
+        "name": "Negociador",
+        "desc": "Completa 25 intercambios"
+      }
+    },
+    "claimAll": "Reclamar todo · {count}",
+    "sections": "Secciones de misiones"
+  },
+  "loginReward": {
+    "toast": "Conexión del día {day} · +{reward, number}",
+    "golden": "El próximo sobre es dorado",
+    "claim": "Reclamar",
+    "claimed": "Reclamada hoy"
+  },
+  "market": {
+    "eyebrow": "CASA DE SUBASTAS",
+    "title": "El mercado",
+    "tabs": {
+      "label": "Secciones del mercado",
+      "buy": "Comprar",
+      "sell": "Vender",
+      "auctions": "Subastas",
+      "trades": "Intercambios",
+      "activity": "Mi actividad"
+    },
+    "search": "Buscar nombre o serie",
+    "allRarities": "Todas",
+    "filters": "Filtros",
+    "minPrice": "Precio mín.",
+    "maxPrice": "Precio máx.",
+    "sort": {
+      "label": "Ordenar",
+      "ending": "Terminan pronto",
+      "newest": "Más recientes",
+      "price_asc": "Precio: de menor a mayor",
+      "price_desc": "Precio: de mayor a menor"
+    },
+    "apply": "Aplicar",
+    "reset": "Restablecer",
+    "count": "{count, plural, one {# oferta} other {# ofertas}}",
+    "countMore": "{count}+ ofertas",
+    "empty": "Ninguna oferta coincide.",
+    "fixedPrice": "Precio fijo",
+    "yours": "Tuya",
+    "seller": "de {name}",
+    "delta": "{delta} % frente al valor",
+    "buy": "Comprar {name}",
+    "buyButton": "Comprar",
+    "loadMore": "Cargar más",
+    "buyConfirm": {
+      "title": "¿Comprar {name}?",
+      "price": "Precio",
+      "balanceAfter": "Tu saldo después",
+      "confirm": "Comprar ahora",
+      "cancel": "Cancelar"
+    },
+    "bought": "Has comprado {name} por {price}.",
+    "auction": {
+      "count": "{count, plural, one {# subasta} other {# subastas}}",
+      "countMore": "{count}+ subastas",
+      "empty": "Ninguna subasta coincide.",
+      "tag": "Subasta",
+      "startPrice": "Precio de salida",
+      "currentBid": "Puja actual",
+      "bids": "{count, plural, =0 {Sin pujas} one {# puja} other {# pujas}}",
+      "endsIn": "Termina en",
+      "ended": "Terminada",
+      "leading": "Vas en cabeza",
+      "bid": "Pujar por {name}",
+      "bidButton": "Pujar",
+      "dialog": {
+        "title": "Pujar por {name}",
+        "amount": "Tu puja",
+        "min": "Mínimo",
+        "plus10": "+10 %",
+        "balanceAfter": "Tu saldo después",
+        "confirm": "Hacer la puja",
+        "cancel": "Cancelar"
+      },
+      "placed": "Tu puja de {amount} por {name} está registrada."
+    },
+    "sell": {
+      "empty": "No hay cartas para vender.",
+      "title": "Vender {name}",
+      "copies": "{count, plural, one {# copia vendible} other {# copias vendibles}}",
+      "value": "Valor",
+      "noValue": "—",
+      "mode": "Tipo de venta",
+      "fixed": "Precio fijo",
+      "auction": "Subasta",
+      "price": "Precio",
+      "startPrice": "Precio de salida",
+      "minimum": "Mínimo 1",
+      "duration": "Duración",
+      "hours": "{count} h",
+      "fee": "Comisión de venta 5 %",
+      "net": "Ganancia neta",
+      "list": "Poner a la venta",
+      "start": "Iniciar subasta",
+      "bestOrder": "Mejor orden de compra",
+      "sellNow": "Vender ahora por {price}",
+      "listed": "{name} está a la venta por {price}.",
+      "auctionStarted": "Subasta iniciada para {name}.",
+      "soldNow": "Has vendido {name} por {net}.",
+      "sellNowConfirm": {
+        "title": "¿Vender a la mejor orden de compra?",
+        "price": "Precio",
+        "confirm": "Confirmar venta",
+        "back": "Volver"
+      },
+      "close": "Cerrar"
+    },
+    "trades": {
+      "received": "Recibidas",
+      "sent": "Enviadas",
+      "newOffer": "Nueva oferta",
+      "emptyReceived": "No has recibido ofertas.",
+      "emptySent": "No has enviado ofertas.",
+      "from": "De {name}",
+      "to": "Para {name}",
+      "youGive": "Das",
+      "youGet": "Recibes",
+      "nothing": "Nada",
+      "expiresIn": "Caduca {time}",
+      "status": {
+        "open": "Abierta",
+        "accepted": "Aceptada",
+        "declined": "Rechazada",
+        "cancelled": "Cancelada",
+        "expired": "Caducada"
+      },
+      "accept": "Aceptar",
+      "decline": "Rechazar",
+      "cancel": "Cancelar la oferta",
+      "needCurrency": "Necesitas {amount} para aceptar.",
+      "needCards": "No tienes suficientes copias libres para aceptar.",
+      "accepted": "Intercambio con {name} completado.",
+      "declined": "Oferta de {name} rechazada.",
+      "cancelled": "Oferta a {name} cancelada.",
+      "sentToast": "Oferta enviada a {name}.",
+      "confirm": {
+        "title": "¿Aceptar la oferta de {name}?",
+        "confirm": "Confirmar intercambio",
+        "back": "Volver"
+      },
+      "composer": {
+        "title": "Nueva oferta de intercambio",
+        "player": "Jugador",
+        "searchPlayer": "Buscar un nombre de usuario",
+        "noPlayers": "No se encontraron jugadores.",
+        "to": "Para {name}",
+        "change": "Cambiar",
+        "noSuchPlayer": "No hay ningún jugador llamado {name}.",
+        "notTradable": "{name} no tiene ninguna copia libre de esa carta.",
+        "giveUnavailable": "No tienes ninguna copia libre de la carta que busca.",
+        "give": "Das",
+        "want": "Pides",
+        "searchCards": "Buscar cartas",
+        "noCards": "No hay cartas disponibles.",
+        "add": "Añadir {name}",
+        "more": "Una más de {name}",
+        "fewer": "Una menos de {name}",
+        "remove": "Quitar {name}",
+        "free": "{count} libres",
+        "maxItems": "Hasta 20 cartas por lado.",
+        "currencyGive": "Moneda que das",
+        "currencyWant": "Moneda que pides",
+        "invalidCurrency": "Introduce una cantidad entera entre 0 y 1.000.000.",
+        "summary": "Resumen",
+        "summaryLine": "{side}: {cards, plural, one {# carta} other {# cartas}} y {currency} de moneda",
+        "emptySide": "Cada lado necesita al menos una carta o algo de moneda.",
+        "send": "Enviar oferta",
+        "cancel": "Cancelar"
+      }
+    },
+    "activity": {
+      "running": "En curso",
+      "finished": "Terminadas",
+      "show": "Mostrar",
+      "listings": "Mis ofertas",
+      "auctions": "Mis subastas",
+      "bids": "Mis pujas",
+      "orders": "Mis órdenes de compra",
+      "empty": "No hay nada aquí.",
+      "cancel": "Cancelar",
+      "cancelLabel": "Cancelar {name}",
+      "hasBids": "Tiene pujas",
+      "status": {
+        "open": "Abierta",
+        "sold": "Vendida",
+        "cancelled": "Cancelada",
+        "unsold": "Sin vender",
+        "filled": "Completada",
+        "winning": "Ganando",
+        "outbid": "Superada",
+        "won": "Ganada",
+        "lost": "Perdida"
+      },
+      "bidCount": "{count, plural, =0 {Sin pujas} one {# puja} other {# pujas}}",
+      "yourBid": "Tu puja",
+      "topBid": "Puja más alta",
+      "startPrice": "Precio de salida",
+      "endsIn": "Termina {time}",
+      "listingCancelled": "Oferta cancelada.",
+      "auctionCancelled": "Subasta cancelada.",
+      "orderCancelled": "Orden de compra cancelada."
+    }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "empty": "Aún no hay notificaciones.",
+    "someCard": "una carta",
+    "sold": "{source, select, auction {Tu subasta de {name} se vendió por {price}} order {Has completado una orden de compra de {name} a {price}} other {Tu oferta de {name} se vendió por {price}}}: has recibido {net}.",
+    "outbid": "Han superado tu puja por {name}: la puja más alta es ahora {amount}.",
+    "auction_won": "Has ganado la subasta de {name} por {price}.",
+    "auction_unsold": "Tu subasta de {name} terminó sin pujas; la carta ha vuelto a tu colección.",
+    "order_filled": "Tu orden de compra de {name} se completó a {price}.",
+    "trade_received": "{user} te ha enviado una oferta de intercambio.",
+    "trade_accepted": "{user} ha aceptado tu oferta de intercambio.",
+    "trade_declined": "{user} ha rechazado tu oferta de intercambio.",
+    "trade_expired": "Tu oferta de intercambio ha caducado; se te han devuelto las cartas y la moneda.",
+    "friend_request": "{user} te ha enviado una solicitud de amistad.",
+    "friend_accepted": "{user} ha aceptado tu solicitud de amistad.",
+    "referral_gift": "{user} te ha enviado un regalo: 3 sobres Mix",
+    "referral_joined": "{user} se ha unido con tu enlace",
+    "admin_grant": "Has recibido {amount} de moneda del administrador del juego",
+    "referral_rewarded": "{user} ha abierto 10 sobres en 3 días: +3 sobres y +500 para ti"
+  },
+  "inspector": {
+    "hint": "Mueve para inclinar · toca para girar",
+    "owners": "Jugadores que la tienen",
+    "since": "La tienes desde",
+    "notOwned": "Aún no está en tu colección",
+    "page": "Ver la página de la carta",
+    "close": "Cerrar",
+    "flip": "Dar la vuelta a la carta"
+  },
+  "rewardToast": {
+    "reward": "+{reward}",
+    "withBoosters": "+{reward} · +{boosters, plural, one {# sobre extra} other {# sobres extra}}",
+    "failed": "{count, plural, one {No se pudo reclamar # recompensa} other {No se pudieron reclamar # recompensas}}"
+  },
+  "scene": {
+    "series": "Serie",
+    "popularity": "Popularidad",
+    "top": "Top {pct}%",
+    "rank": "#{rank}",
+    "skip": "Saltar ›"
+  },
+  "referrals": {
+    "title": "Invitar amigos",
+    "invite": "Invitar",
+    "inviteChip": "+3",
+    "subtitle": "Invita a tus amigos: los dos conseguís 3 sobres",
+    "yourLink": "Tu enlace personal",
+    "copy": "Copiar enlace",
+    "copied": "Enlace copiado",
+    "share": "Compartir",
+    "shareText": "Únete a mí en Kizuna: los dos conseguimos 3 sobres gratis: {link}",
+    "manualCopy": "Copia el enlace del campo de arriba.",
+    "howTitle": "Cómo funciona",
+    "step1": "Envía tu enlace a un amigo.",
+    "step2": "Se une, recibe 3 sobres gratis y os hacéis amigos.",
+    "step3": "Cuando haya abierto 10 sobres en 3 días distintos, recibes 3 sobres y +500.",
+    "invitedTitle": "Tus amigos invitados",
+    "empty": "Aún nadie: comparte tu enlace",
+    "boosters": "{count}/10 sobres",
+    "days": "{count}/3 días",
+    "rewarded": "Recompensado",
+    "joinedOn": "Se unió el {date}",
+    "totalJoined": "{count, plural, one {# amigo se ha unido} other {# amigos se han unido}}",
+    "totalRewarded": "{count} recompensados",
+    "totalEarned": "+{boosters, number} sobres · +{currency, number}"
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Gestiona el juego: invitaciones, moneda, selecciones diarias, sobres de temporada y chat.",
+    "back": "Volver al juego",
+    "stats": {
+      "invites": "Invitaciones sin usar",
+      "pools": "Selecciones diarias",
+      "seasonals": "Temporadas activas",
+      "chat": "Mensajes recientes"
+    },
+    "nav": {
+      "label": "Secciones",
+      "invites": "Invitaciones",
+      "currency": "Moneda",
+      "pools": "Selecciones diarias",
+      "seasonal": "De temporada",
+      "chat": "Chat"
+    },
+    "errors": {
+      "not_admin": "No eres administrador.",
+      "invalid_count": "Elige entre 1 y 20 códigos.",
+      "invite_used": "Ese código ya se ha usado.",
+      "invite_not_found": "Ese código ya no existe.",
+      "player_not_found": "No hay ningún jugador con ese nombre de usuario.",
+      "invalid_amount": "La cantidad debe estar entre 1 y 1.000.000.",
+      "invalid_pool": "Una selección necesita un nombre (hasta 40 caracteres) y al menos una serie.",
+      "invalid_seasonal": "Un sobre de temporada necesita un identificador (de 2 a 30 caracteres a-z, 0-9, _), un título, al menos una serie y un final posterior al inicio.",
+      "seasonal_title": "Introduce un título.",
+      "seasonal_series": "Elige al menos una serie.",
+      "seasonal_dates": "El final debe ser posterior al inicio.",
+      "suggest_failed": "No se pudo contactar con AniList para obtener el anime de esta temporada. Inténtalo dentro de un minuto.",
+      "generic": "Algo ha salido mal. Inténtalo de nuevo."
+    },
+    "invites": {
+      "title": "Códigos de invitación",
+      "hint": "Comparte un código con un amigo; lo introducirá en la página de registro ({path}).",
+      "create": "Crear {count}",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "revoke": "Revocar",
+      "usedBy": "Usado por {name}",
+      "unused": "Sin usar",
+      "empty": "Aún no hay códigos de invitación."
+    },
+    "grant": {
+      "title": "Dar moneda",
+      "username": "Nombre de usuario",
+      "amount": "Cantidad",
+      "note": "Nota (opcional)",
+      "submit": "Dar",
+      "success": "Enviado {amount} a {user}: nuevo saldo {balance}"
+    },
+    "picker": {
+      "search": "Buscar series",
+      "add": "Añadir {title} ({cards} cartas)",
+      "remove": "Quitar {title}",
+      "cards": "{count} cartas"
+    },
+    "pools": {
+      "title": "Selecciones diarias",
+      "empty": "Aún no hay selecciones.",
+      "new": "Nueva selección",
+      "editing": "Editar selección",
+      "name": "Nombre",
+      "save": "Guardar selección",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "seasonal": {
+      "title": "Sobres de temporada",
+      "description": "Sobres por tiempo limitado creados a partir de un conjunto de series.",
+      "suggest": "Sugerir a partir del anime en emisión",
+      "suggesting": "Consultando esta temporada…",
+      "suggestTitle": "Popular esta temporada · {season, select, WINTER {Invierno} SPRING {Primavera} SUMMER {Verano} FALL {Otoño} other {Temporada}} {year}",
+      "suggestHint": "{matched} de {total} series tienen personajes en el catálogo. Elige las series que quieres incluir y revisa el formulario.",
+      "seasonName": "{season, select, WINTER {Invierno} SPRING {Primavera} SUMMER {Verano} FALL {Otoño} other {Temporada}} {year}",
+      "inCatalog": "{title} · {cards} cartas",
+      "notInCatalog": "No está en el catálogo",
+      "useSelected": "Usar {count, plural, one {# serie} other {# series}}",
+      "empty": "Aún no hay sobres de temporada.",
+      "new": "Nuevo sobre de temporada",
+      "editing": "Editar sobre de temporada",
+      "slug": "Identificador",
+      "titleLabel": "Título",
+      "starts": "Empieza",
+      "ends": "Termina",
+      "save": "Guardar sobre",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "endNow": "Terminar ahora",
+      "status": { "live": "Activo", "scheduled": "Programado", "ended": "Terminado" }
+    },
+    "chat": {
+      "title": "Moderación del chat",
+      "empty": "No hay mensajes.",
+      "delete": "Eliminar",
+      "room": "Sala {room}"
+    }
+  }
+}

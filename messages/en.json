@@ -83,6 +83,14 @@
     "copies": "×{count}",
     "notOwned": "Not owned yet"
   },
+  "language": {
+    "label": "Language"
+  },
+  "footer": {
+    "label": "Footer",
+    "disclaimer": "Unofficial fan project. Characters belong to their respective owners.",
+    "credits": "Character names and art come from <anilist>AniList</anilist>."
+  },
   "nav": {
     "label": "Main",
     "home": "Home",

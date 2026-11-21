@@ -101,7 +101,9 @@ export function Hero({
         </div>
       </div>
 
-      <div key={`fan-${slide.packId}`} className="relative z-[1] hidden h-[330px] sm:block" aria-hidden="true">
+      {/* phones: a smaller fan above the title; wider screens: the fan sits on the right */}
+      <div key={`fan-${slide.packId}`} className="relative z-[1] -order-1 -my-6 h-[200px] md:order-none md:my-0 md:h-[330px]" aria-hidden="true">
+        <div className="absolute inset-x-0 top-1/2 h-[330px] -translate-y-1/2 scale-[0.6] [--spread:120px] md:scale-100 md:[--spread:min(120px,9vw)]">
         {slide.cards.slice(0, 3).map((c, i) => {
           const rc = `var(--color-${c.rarity})`;
           return (
@@ -126,6 +128,7 @@ export function Hero({
             </Link>
           );
         })}
+        </div>
       </div>
 
       {slides.length > 1 && (

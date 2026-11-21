@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Bell, Ellipsis, Gamepad2, Gift, House, Layers, ListChecks, MessageCircle, Package, Store, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SignOutButton } from "@/components/SignOutButton";
+import { LanguageSelect } from "@/components/LanguageSelect";
 import { Link, usePathname } from "@/i18n/navigation";
 import { BoosterSheet } from "./BoosterSheet";
 import { useDmUnread } from "@/components/social/useDmUnread";
@@ -175,6 +176,7 @@ export function BottomNav({
               <Bell className="h-5 w-5" aria-hidden />
               <span className="flex-1">{t("notifications")}</span>
             </button>
+            <LanguageSelect className="mt-2 w-full [&>select]:h-11 [&>select]:w-full" />
             <div className="mt-2 overflow-hidden rounded-xl border border-border">
               <SignOutButton />
             </div>

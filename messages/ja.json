@@ -1,0 +1,1166 @@
+{
+  "app": {
+    "name": "Kizuna"
+  },
+  "home": {
+    "title": "好きなアニメキャラクターを集めよう",
+    "endsOn": "{date}に終了",
+    "hero": {
+      "carousel": "注目のブースター",
+      "slide": "スライド{n}を表示",
+      "eyebrowDaily": "デイリーパック · 無料",
+      "eyebrowSeasonal": "期間限定ブースター",
+      "taglineNone": "明日また新しいテーマのセレクションをチェックしてね。",
+      "openDaily": "デイリーパックを開ける",
+      "openSeasonal": "ブースターを開ける",
+      "done": "また明日",
+      "none": "今日のデイリーパックはありません",
+      "see": "ブースターを見る"
+    },
+    "tiles": {
+      "free": "無料ブースター",
+      "next": "あと{time}で+1",
+      "golden": "ゴールデンブースターまで",
+      "pity": "ミシック確定まで",
+      "pityNext": "次のブースターでミシック確定",
+      "shortFree": "無料",
+      "shortGolden": "ゴールデンまで",
+      "shortPity": "ミシックまで",
+      "shortPityNext": "次でミシック",
+      "daily": "デイリーミッション",
+      "streakDay": "{n}日目",
+      "streak": "ログインボーナス",
+      "shortDaily": "ミッション",
+      "shortStreak": "連続",
+      "claim": "受け取る",
+      "toClaim": "受け取れる報酬 {count}件",
+      "stockFull": "ストック満タン",
+      "shortFull": "満タン"
+    },
+    "tabs": {
+      "free": "無料",
+      "daily": "デイリー・限定",
+      "shop": "ショップ"
+    },
+    "grid": {
+      "title": "ブースターを選ぼう",
+      "fullscreen": "全画面表示",
+      "exitFullscreen": "全画面表示を終了",
+      "free": "無料",
+      "cards": "{count}枚",
+      "empty": "まだ何もありません。"
+    },
+    "panel": {
+      "cards": "1パックの枚数",
+      "floor": "以上確定",
+      "pity": "ミシック確定まで",
+      "pityNext": "次のブースターで確定",
+      "golden": "ゴールデンまで",
+      "characters": "{count}人のキャラクターを見る",
+      "chances": "1パックあたりの確率",
+      "oddsNote": "ゴールデンと天井のボーナスは含みません。",
+      "openFree": "開ける · 無料 · 残り{count}",
+      "openReward": "開ける · 報酬 · 残り{count}",
+      "openPrice": "開ける · {price}",
+      "noFree": "無料ブースターがありません",
+      "nextFree": "次の無料まで{time}"
+    },
+    "bigPulls": {
+      "title": "大当たり",
+      "live": "ライブ",
+      "empty": "まだ大当たりはありません。ブースターを開けて一番乗りしよう！",
+      "justNow": "たった今"
+    }
+  },
+  "characters": {
+    "title": "{name}のキャラクター",
+    "count": "{count}人",
+    "page": "{page} / {pages}ページ",
+    "prev": "前へ",
+    "next": "次へ",
+    "empty": "今日はこのブースターにキャラクターがいません。",
+    "back": "ブースター",
+    "copies": "×{count}",
+    "notOwned": "未所持"
+  },
+  "language": {
+    "label": "言語"
+  },
+  "footer": {
+    "label": "フッター",
+    "disclaimer": "非公式のファンプロジェクトです。キャラクターの権利はそれぞれの権利者に帰属します。",
+    "credits": "キャラクター名とイラストは<anilist>AniList</anilist>のものです。"
+  },
+  "nav": {
+    "label": "メイン",
+    "home": "ホーム",
+    "boosters": "ブースター",
+    "collection": "コレクション",
+    "market": "マーケット",
+    "play": "プレイ",
+    "more": "その他",
+    "soon": "近日公開",
+    "open": "開ける",
+    "missions": "ミッション",
+    "moreTitle": "その他",
+    "notifications": "お知らせ",
+    "friends": "フレンドとメッセージ",
+    "myProfile": "マイプロフィール",
+    "invite": "フレンドを招待"
+  },
+  "topbar": {
+    "freeBoosters": "無料ブースター",
+    "currency": "通貨",
+    "account": "アカウントメニュー",
+    "myProfile": "マイプロフィール",
+    "friends": "フレンドとメッセージ",
+    "messagesUnread": "未読メッセージ {count}件",
+    "signOut": "ログアウト",
+    "notifications": "お知らせ",
+    "missionsClaimable": "受け取れる報酬 {count}件",
+    "unread": "未読 {count}件",
+    "stock": {
+      "title": "無料ブースター",
+      "next": "あと{time}で+1 · {minutes}分ごとに1つ",
+      "full": "ストック満タン · {minutes}分ごとに1つ",
+      "base": "基本ストック",
+      "baseHint": "{minutes}分ごとに1つ",
+      "yours": "あなたのストック",
+      "bonus": "ボーナスブースター",
+      "bonusHint": "獲得分、回復しません",
+      "currency": "通貨",
+      "open": "ブースターを開ける",
+      "button": "無料ブースター{free}、ボーナス{bonus}、通貨{currency}"
+    },
+    "admin": "管理"
+  },
+  "rarity": {
+    "common": "コモン",
+    "uncommon": "アンコモン",
+    "rare": "レア",
+    "epic": "エピック",
+    "legendary": "レジェンダリー",
+    "mythic": "ミシック"
+  },
+  "login": {
+    "title": "ログイン",
+    "discord": "Discordで続ける",
+    "devHeading": "開発者ログイン",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "signIn": "ログイン",
+    "signUp": "アカウント作成",
+    "failed": "ログインに失敗しました。入力内容を確認してもう一度お試しください。",
+    "newHere": "はじめての方は、Discordでログインしてユーザー名を決めればすぐに遊べます。",
+    "credits": "キャラクター名とイラストはAniListのものです。"
+  },
+  "auth": {
+    "brand": "Kizuna",
+    "headline": "すべてのアニメキャラクターを集めよう",
+    "pitch": "無料ブースターを開けて、好きな作品のアルバムを完成させ、フレンドとカードを交換しよう。",
+    "count": "集められるキャラクター {count, number}人"
+  },
+  "invite": {
+    "title": "ユーザー名を決めよう",
+    "code": "招待コード",
+    "haveCode": "招待コードをお持ちですか？",
+    "username": "ユーザー名",
+    "submit": "プレイ開始",
+    "hint": "ユーザー名は3〜20文字にしてください。",
+    "invitedBy": "{name}さんからの招待です。",
+    "useAnother": "別のコードを使う"
+  },
+  "join": {
+    "invited": "{name}さんがKizunaに招待しています",
+    "cta": "参加して無料ブースターを3つもらう",
+    "cards": "コレクションのカード",
+    "broken": "この招待リンクは使えません",
+    "brokenHint": "フレンドにもう一度リンクを送ってもらってください。"
+  },
+  "errors": {
+    "not_friends": "メッセージを送れるのはフレンドだけです。",
+    "rate_limited": "操作が速すぎます。少し待ってからもう一度お試しください。",
+    "invalid_message": "このメッセージは無効です。",
+    "no_free_boosters": "現在使える無料ブースターはありません。",
+    "insufficient_currency": "通貨が足りません。",
+    "pack_unavailable": "このパックは利用できません。",
+    "daily_already_opened": "今日のパックはもう開けました。",
+    "not_enough_duplicates": "重複カードが足りません。",
+    "invalid_invite": "この招待コードは無効です。",
+    "username_taken": "このユーザー名はすでに使われています。",
+    "already_player": "すでに参加しています。",
+    "not_a_player": "まず招待コードで参加してください。",
+    "cost_changed": "無料ブースターの数が変わりました。価格を確認してもう一度お試しください。",
+    "unknown_mission": "そのミッションは存在しません。",
+    "not_today": "そのミッションは今日のものではありません。",
+    "not_complete": "このミッションはまだ達成していません。",
+    "already_claimed": "この報酬はすでに受け取っています。",
+    "invalid_card": "そのカードは存在しません。",
+    "no_free_copy": "そのカードの空いているコピーがありません。",
+    "invalid_price": "1〜1,000,000の整数で価格を入力してください。",
+    "invalid_duration": "期間は1時間、6時間、24時間から選んでください。",
+    "own_listing": "これはあなた自身の出品です。",
+    "own_order": "これはあなた自身の購入注文です。",
+    "not_open": "このオファーはもう利用できません。",
+    "not_found": "このオファーはもう存在しません。",
+    "auction_ended": "このオークションは終了しました。",
+    "own_auction": "これはあなた自身のオークションです。",
+    "already_top": "すでに最高入札者です。",
+    "bid_too_low": "最低入札額は{min}です",
+    "has_bids": "このオークションには入札があるためキャンセルできません。",
+    "invalid_trade": "このオファーは無効です。両方にカードか通貨が必要です（最大20枚）。",
+    "unknown_player": "そのプレイヤーは存在しません。",
+    "trade_expired": "このオファーは期限切れです。",
+    "too_many_trades": "進行中のオファーが多すぎます（合計10件、1人につき3件まで）。返事を待つか、先にどれかをキャンセルしてください。",
+    "auction_maxed": "このオークションは最高額に達しました。",
+    "no_copy": "そのカードはもう持っていません。",
+    "invalid_showcase": "ショーケースには異なるカードを8枚まで置けます。",
+    "already_friends": "すでにフレンドです。",
+    "already_requested": "すでに申請を送っています。",
+    "no_request": "その申請はもう存在しません。",
+    "unknown": "問題が発生しました。もう一度お試しください。"
+  },
+  "profile": {
+    "memberSince": "{date}から参加",
+    "completion": "{pct}%コンプリート",
+    "uniqueCards": "ユニークカード",
+    "mythics": "ミシック",
+    "boostersOpened": "開けたブースター",
+    "tabs": "プロフィールのセクション",
+    "showcase": "ショーケース",
+    "wishlist": "ほしいものリスト",
+    "pulls": "最近の当たり",
+    "emptyShowcase": "まだ表示するカードがありません。ブースターを開けてコレクションを始めよう。",
+    "emptyWishlist": "ほしいものリストは空です。",
+    "emptyPulls": "エピック以上の当たりはまだありません。",
+    "customize": "カスタマイズ",
+    "copyLink": "リンクをコピー",
+    "copied": "リンクをコピーしました",
+    "message": "メッセージ",
+    "trade": "トレードを提案",
+    "addFriend": "フレンドに追加",
+    "requestSent": "申請済み（取り消す）",
+    "accept": "承認",
+    "decline": "拒否",
+    "friends": "フレンド",
+    "removeFriend": "フレンドを解除",
+    "customizeTitle": "プロフィールをカスタマイズ",
+    "changeAvatar": "アバターを変更",
+    "editShowcase": "ショーケースを編集",
+    "avatarTitle": "アバターを選ぶ",
+    "showcaseTitle": "カードを8枚まで選ぶ",
+    "searchCards": "手持ちのカードを検索",
+    "yourCards": "あなたのカード",
+    "chosen": "あなたのショーケース",
+    "noneChosen": "未選択：ベストカードが表示されます。",
+    "moveUp": "{name}を上へ",
+    "moveDown": "{name}を下へ",
+    "removeCard": "{name}を外す",
+    "save": "保存",
+    "defaultAvatar": "ベストカードを使う",
+    "noMatches": "一致するカードがありません。",
+    "noCards": "まだカードを持っていません。"
+  },
+  "friends": {
+    "title": "フレンドとメッセージ",
+    "tabs": "フレンドのセクション",
+    "friends": "フレンド",
+    "requests": "申請",
+    "find": "プレイヤーを探す",
+    "empty": "まだフレンドがいません。プレイヤーを探して追加しよう。",
+    "message": "メッセージ",
+    "unread": "未読 {count}件",
+    "since": "{date}からフレンド",
+    "received": "受信",
+    "sent": "送信済み",
+    "noRequests": "保留中の申請はありません。",
+    "cancel": "取り消す",
+    "accept": "承認",
+    "decline": "拒否",
+    "searchLabel": "ユーザー名でプレイヤーを検索",
+    "searchPlaceholder": "ユーザー名の先頭",
+    "noResults": "プレイヤーが見つかりません。",
+    "add": "フレンドに追加",
+    "requestSent": "申請済み",
+    "isFriend": "フレンド"
+  },
+  "chat": {
+    "title": "カウンター",
+    "live": "ライブ",
+    "open": "チャット",
+    "log": "チャットメッセージ",
+    "empty": "静かですね。あいさつしてみよう！",
+    "lookingFor": "探しています…",
+    "trading": "交換に出しています…",
+    "myListing": "自分の出品",
+    "listingTitle": "出品を1つ添付",
+    "noListings": "出品中のものがありません。",
+    "rooms": {
+      "label": "チャットルーム",
+      "en": "英語",
+      "intl": "インターナショナル"
+    }
+  },
+  "dm": {
+    "with": "{name}とのメッセージ",
+    "trade": "トレードを提案",
+    "empty": "まだメッセージはありません。あいさつしてみよう！",
+    "loadOlder": "以前のメッセージを読み込む",
+    "notFriends": "{name}さんとはフレンドではありません。メッセージを送るにはフレンドに追加してください。",
+    "thread": "会話",
+    "compose": "メッセージを書く",
+    "counter": "{count}/{max}",
+    "send": "送信",
+    "sending": "送信中",
+    "attach": "カードを添付",
+    "removeAttachment": "添付したカードを外す",
+    "tagTrading": "交換に出します",
+    "tagLooking": "探しています",
+    "missing": "未所持",
+    "pickerTitle": "カードを添付",
+    "pickerTag": "カードのタグ",
+    "pickerTrading": "交換に出す（自分のカード）",
+    "pickerLooking": "探している",
+    "pickerSearch": "カードを検索",
+    "pickerNone": "一致するカードがありません。",
+    "pickerNoCards": "交換できるカードがまだありません。"
+  },
+  "reveal": {
+    "new": "NEW",
+    "stage": "次のカードを公開",
+    "tapToFlip": "カードをタップしてめくる",
+    "next": "スワイプかタップで次へ",
+    "keys": "スペース：次へ · 長押し：早送り",
+    "revealAll": "すべて公開",
+    "booster": "ブースター {n}/{count}",
+    "counter": "{total}枚中{n}枚目",
+    "flip": "カードをめくる",
+    "strip": "公開したカード",
+    "golden": "ゴールデン",
+    "divine": "ディヴァイン",
+    "goldenBooster": "ゴールデンブースター",
+    "divineBooster": "ディヴァインブースター",
+    "skipTo": {
+      "epic": "次のエピック以上までスキップ",
+      "legendary": "次のレジェンダリー以上までスキップ",
+      "mythic": "次のミシックまでスキップ"
+    }
+  },
+  "opening": {
+    "back": "ブースター",
+    "stock": "無料ブースター：{count}/10",
+    "currency": "通貨",
+    "settings": "設定",
+    "sound": "サウンド",
+    "animations": "アニメーション",
+    "animationsHint": "オフ：すぐにめくれ、パーティクルや揺れなし",
+    "warnPaid": "有料ブースターの前に確認する",
+    "hint": "上部をなぞって破る、または長押し",
+    "hintDaily": "ひもを上に引く、または長押し",
+    "dailyPack": "デイリーパック",
+    "openBooster": "ブースターを開ける",
+    "cards": "{count}枚",
+    "quantity": "ブースターの数",
+    "quantityOption": "×{count}",
+    "openFree": "無料 · 残り{count}",
+    "openReward": "報酬 · 残り{count}",
+    "reward": "報酬 ×{count}",
+    "openPrice": "開ける · {price}",
+    "openMixed": "無料{free} + {cost}",
+    "openDaily": "デイリーパックを開ける",
+    "opening": "開封中…",
+    "dailyDone": "また明日",
+    "noFree": "無料ブースターがありません",
+    "cantAfford": "通貨が足りません",
+    "pity": "{count}パック以内にミシック確定",
+    "pityNext": "次のブースターでミシック確定",
+    "changeBooster": "ブースターを変更 ›",
+    "confirmTitle": "{cost}を使いますか？",
+    "confirmPaid": "{count}パックを通貨で購入",
+    "confirmFree": "先に無料ブースター{count}パックを使用",
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "cardsAdded": "カードをコレクションに追加しました。",
+    "seeCollection": "コレクションを見る",
+    "golden": "ゴールデン",
+    "divine": "ディヴァイン"
+  },
+  "summary": {
+    "newCards": "{count, plural, =0 {新しいカードなし} other {新しいカード #枚}}",
+    "batch": "{boosters}パック · {cards}枚",
+    "newAndDupes": "{fresh, plural, =0 {新しいカードなし} other {新しいカード #枚}}、重複 {dupes}枚（リサイクルで+{gain}）",
+    "best": "ベストカード",
+    "openAgain": "もう1つ開ける · {price}",
+    "free": "無料",
+    "reward": "報酬",
+    "change": "ブースターを変更",
+    "collection": "コレクションを見る",
+    "copy": "リンクをコピー",
+    "invite": "フレンドを招待",
+    "copied": "リンクをコピーしました",
+    "image": "画像",
+    "imageError": "画像を作成できませんでした。もう一度お試しください。",
+    "cards": "今回の結果",
+    "golden": "ゴールデンブースターが含まれています",
+    "divine": "ディヴァインブースターが含まれています",
+    "inspect": "{name}をじっくり見る"
+  },
+  "card": {
+    "pow": "POW",
+    "aura": "AURA",
+    "noArt": "画像なし",
+    "brand": "KIZUNA",
+    "backAlt": "カードの裏面",
+    "owned": "所持枚数",
+    "series": "作品のアルバムを見る",
+    "back": "コレクションに戻る",
+    "market": {
+      "title": "マーケット",
+      "value": "推定価値",
+      "noValue": "—",
+      "listings": "最安の出品",
+      "noListings": "現在このカードを売っている人はいません。",
+      "buy": "{name}を{price}で購入",
+      "orders": "購入注文",
+      "noOrders": "購入注文はまだありません。",
+      "by": "{name}",
+      "sell": "{name}を売る",
+      "sellButton": "売る",
+      "placeOrder": "購入注文を出す",
+      "price": "希望価格",
+      "hint": "1〜1,000,000。今すぐ支払い、キャンセル時は返金されます。",
+      "submit": "注文する",
+      "placed": "{name}の購入注文を{price}で出しました。"
+    }
+  },
+  "wishlist": {
+    "button": "ほしいもの"
+  },
+  "packs": {
+    "mix": {
+      "name": "ミックス",
+      "tagline": "すべての作品のキャラクター"
+    },
+    "shonen": {
+      "name": "少年",
+      "tagline": "闘志とライバル"
+    },
+    "isekai": {
+      "name": "異世界",
+      "tagline": "別の世界が待っている"
+    },
+    "seinen": {
+      "name": "青年",
+      "tagline": "骨太な大人の物語"
+    },
+    "shojo": {
+      "name": "少女",
+      "tagline": "恋とときめき"
+    },
+    "sports": {
+      "name": "スポーツ",
+      "tagline": "チーム、コート、そして栄光"
+    },
+    "mecha": {
+      "name": "メカ",
+      "tagline": "巨大ロボ、さらに大きな賭け"
+    },
+    "female": {
+      "name": "ヒロイン",
+      "tagline": "女性キャラクターのみ"
+    },
+    "male": {
+      "name": "ヒーロー",
+      "tagline": "男性キャラクターのみ"
+    },
+    "hall_of_fame": {
+      "name": "殿堂入り",
+      "tagline": "エピック以上が5枚"
+    },
+    "deep_cuts": {
+      "name": "隠れた名キャラ",
+      "tagline": "あまり知られていないキャラクター"
+    },
+    "mini": {
+      "name": "ミニ",
+      "tagline": "小さくてお手頃なパック"
+    },
+    "chest": {
+      "name": "宝箱",
+      "tagline": "20枚入りの大収穫"
+    },
+    "prestige": {
+      "name": "プレステージ",
+      "tagline": "上位レアの確率アップ"
+    },
+    "daily": {
+      "name": "デイリー",
+      "tagline": "今日のテーマセレクション"
+    },
+    "seasonal": {
+      "name": "シーズン",
+      "tagline": "期間限定"
+    }
+  },
+  "collection": {
+    "title": "コレクション",
+    "unique": "ユニークカード",
+    "completion": "コンプリート",
+    "duplicates": "重複",
+    "viewCards": "カード",
+    "viewAlbums": "アルバム",
+    "viewWishlist": "ほしいもの",
+    "search": "名前や作品で検索",
+    "empty": "カードが見つかりません。",
+    "wishlistEmpty": "ほしいものリストは空です。カードのハートをタップして追加しよう。",
+    "owned": "所持",
+    "filter": {
+      "all": "すべて",
+      "todo": "未コンプ",
+      "done": "コンプ済み"
+    },
+    "sort": {
+      "label": "並び替え",
+      "cards": "カードが多い順",
+      "complete": "完成度が高い順",
+      "az": "名前順"
+    },
+    "filters": "フィルター",
+    "value": "価値",
+    "noValue": "—",
+    "sell": "売る",
+    "sellCard": "{name}を売る",
+    "kicker": "アルバム",
+    "heading": "マイコレクション",
+    "uniqueCards": "ユニークカード",
+    "completionLabel": "達成率",
+    "rarityAll": "すべて",
+    "rarities": "レアリティ",
+    "searchLabel": "キャラクターや作品を検索",
+    "series": "作品",
+    "seriesAll": "すべての作品",
+    "cards": "カード",
+    "show": {
+      "all": "すべて",
+      "owned": "所持",
+      "missing": "未所持",
+      "duplicates": "重複",
+      "wishes": "ほしいもの（{count}）"
+    },
+    "cardSort": {
+      "label": "並び替え",
+      "number": "番号",
+      "rarity": "レアリティ",
+      "name": "名前",
+      "recent": "最近入手した順",
+      "value": "価値（高い順）",
+      "series": "作品"
+    },
+    "reset": "リセット",
+    "apply": "適用",
+    "viewSwitch": "カードかアルバムを表示",
+    "count": "{count}枚",
+    "showMore": "もっと見る · 残り{left}",
+    "addMissing": "未所持の{count}枚をほしいものリストに追加",
+    "addedMissing": "{count}枚をほしいものリストに追加しました",
+    "missingCard": "未所持のカード No.{number}",
+    "albumOpen": "{title}のアルバムを開く",
+    "inspect": "{name}をじっくり見る"
+  },
+  "recycle": {
+    "all": "重複をリサイクル · 約+{gain}",
+    "one": "1枚リサイクル · +{gain}",
+    "gained": "リサイクルで+{gain}",
+    "confirmTitle": "これらの重複をリサイクルしますか？",
+    "confirmLine": "{rarity} × {copies} · +{gain}",
+    "confirmTotal": "合計 +{gain}",
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "title": "重複をリサイクル",
+    "chip": "×{copies} · +{gain}",
+    "recycled": "リサイクル",
+    "kept": "保持",
+    "none": "なし",
+    "go": "重複{copies}枚をリサイクル · +{gain}",
+    "recovered": "+{gain}を回収",
+    "hint": "各カードは必ず1枚残ります。",
+    "done": "完了"
+  },
+  "sheet": {
+    "close": "閉じる",
+    "loading": "ブースターを読み込み中…"
+  },
+  "missions": {
+    "eyebrow": "ミッション",
+    "title": "ミッションと実績",
+    "subtitle": "毎日ログインしてミッションをこなし、実績を解除して通貨や無料ブースターを手に入れよう。",
+    "loadError": "ミッションを読み込めませんでした。しばらくしてからお試しください。",
+    "chips": {
+      "login": "ログイン",
+      "first": "はじめの一歩",
+      "daily": "デイリー",
+      "weekly": "ウィークリー",
+      "achievements": "実績"
+    },
+    "streak": {
+      "eyebrow": "連続ログイン",
+      "title": "デイリーログイン",
+      "day": "{n}日",
+      "golden": "7日目：次のブースターがゴールデンに",
+      "logins": "合計{count}回ログイン",
+      "forgiveOpen": "今週は1日休んでもOK",
+      "forgiveUsed": "今週のお休みは使用済み"
+    },
+    "first": {
+      "eyebrow": "はじめに",
+      "title": "はじめの一歩",
+      "footer": "すべて達成 → 宝箱"
+    },
+    "daily": {
+      "eyebrow": "今日",
+      "title": "デイリーミッション",
+      "footer": "3つすべて受け取る → ボーナスブースター+1"
+    },
+    "weekly": {
+      "eyebrow": "今週",
+      "title": "ウィークリーミッション",
+      "footer": "3つすべて受け取る → 無料の宝箱"
+    },
+    "achievements": {
+      "eyebrow": "コレクション目標",
+      "title": "実績",
+      "filter": {
+        "all": "すべて",
+        "todo": "未達成",
+        "earned": "達成済み"
+      },
+      "empty": "まだ何もありません。"
+    },
+    "reset": "リセットまで",
+    "resetHours": "{h}時間{m}分",
+    "resetDays": "{d}日{h}時間",
+    "state": {
+      "claimed": "受け取り済み",
+      "progress": "進行中",
+      "claim": "受け取る"
+    },
+    "items": {
+      "first_booster": "初めてのブースターを開ける",
+      "first_recycle": "重複カードをリサイクルする",
+      "first_wishlist": "ほしいものリストにキャラクターを3人追加する",
+      "first_page": "キャラクターページを開く",
+      "first_username": "ユーザー名を決める",
+      "first_discord": "Discordアカウントを連携する",
+      "daily_pages": "キャラクターページを3つ見る",
+      "daily_recycle": "重複カードを10枚リサイクルする",
+      "daily_open": "ブースターを5つ開ける",
+      "daily_pack": "デイリーパックを開ける",
+      "daily_rare": "レア以上のカードを3枚引く",
+      "daily_wishlist": "ほしいものリストにキャラクターを追加する",
+      "daily_bid": "入札する",
+      "weekly_legendary": "レジェンダリー以上を引く",
+      "weekly_mythic": "ミシックを引く",
+      "weekly_series": "作品をコンプリートする（5人以上）",
+      "ach_open_10": {
+        "name": "新たなスタート",
+        "desc": "ブースターを10個開ける"
+      },
+      "ach_open_100": {
+        "name": "パック収集家",
+        "desc": "ブースターを100個開ける"
+      },
+      "ach_open_1000": {
+        "name": "封切り名人",
+        "desc": "ブースターを1,000個開ける"
+      },
+      "ach_open_2500": {
+        "name": "封印破り",
+        "desc": "ブースターを2,500個開ける"
+      },
+      "ach_open_5000": {
+        "name": "ブースター男爵",
+        "desc": "ブースターを5,000個開ける"
+      },
+      "ach_open_10000": {
+        "name": "終わらない開封",
+        "desc": "ブースターを10,000個開ける"
+      },
+      "ach_own_50": {
+        "name": "最初の棚",
+        "desc": "異なるキャラクターを50人所持する"
+      },
+      "ach_own_250": {
+        "name": "増えていく仲間",
+        "desc": "異なるキャラクターを250人所持する"
+      },
+      "ach_own_500": {
+        "name": "満杯のバインダー",
+        "desc": "異なるキャラクターを500人所持する"
+      },
+      "ach_own_1000": {
+        "name": "アーキビスト",
+        "desc": "異なるキャラクターを1,000人所持する"
+      },
+      "ach_own_1500": {
+        "name": "キュレーター",
+        "desc": "異なるキャラクターを1,500人所持する"
+      },
+      "ach_own_2000": {
+        "name": "大ギャラリー",
+        "desc": "異なるキャラクターを2,000人所持する"
+      },
+      "ach_own_3000": {
+        "name": "生きた百科事典",
+        "desc": "異なるキャラクターを3,000人所持する"
+      },
+      "ach_all": {
+        "name": "完全制覇",
+        "desc": "カタログのすべてのキャラクターを所持する"
+      },
+      "ach_first_epic": {
+        "name": "紫の霧",
+        "desc": "初めてエピック以上のカードを引く"
+      },
+      "ach_first_legendary": {
+        "name": "黄金の時",
+        "desc": "初めてレジェンダリー以上のカードを引く"
+      },
+      "ach_first_mythic": {
+        "name": "神話が現実に",
+        "desc": "初めてミシックのカードを引く"
+      },
+      "ach_legendary_100": {
+        "name": "黄金の百枚",
+        "desc": "レジェンダリー以上のカードを100枚引く"
+      },
+      "ach_mythics_10": {
+        "name": "神話の守り手",
+        "desc": "異なるミシックキャラクターを10人所持する"
+      },
+      "ach_mythics_25": {
+        "name": "パンテオン",
+        "desc": "異なるミシックキャラクターを25人所持する"
+      },
+      "ach_series_1": {
+        "name": "ボックスセット",
+        "desc": "作品をコンプリートする（5人以上）"
+      },
+      "ach_series_10": {
+        "name": "一気見",
+        "desc": "10作品をコンプリートする"
+      },
+      "ach_series_25": {
+        "name": "シーズンパス",
+        "desc": "25作品をコンプリートする"
+      },
+      "ach_series_50": {
+        "name": "シリーズの達人",
+        "desc": "50作品をコンプリートする"
+      },
+      "ach_recycle_1000": {
+        "name": "大掃除",
+        "desc": "重複カードを1,000枚リサイクルする"
+      },
+      "ach_recycle_10000": {
+        "name": "リサイクル王",
+        "desc": "重複カードを10,000枚リサイクルする"
+      },
+      "ach_divine": {
+        "name": "神の閃き",
+        "desc": "ディヴァインブースターを開ける"
+      },
+      "ach_sell_1": {
+        "name": "初めての売上",
+        "desc": "マーケットでカードを1枚売る"
+      },
+      "ach_sell_10": {
+        "name": "露店主",
+        "desc": "マーケットでカードを10枚売る"
+      },
+      "ach_sell_100": {
+        "name": "商人",
+        "desc": "マーケットでカードを100枚売る"
+      },
+      "ach_sell_1000": {
+        "name": "マーケット王",
+        "desc": "マーケットでカードを1,000枚売る"
+      },
+      "ach_trade_1": {
+        "name": "握手",
+        "desc": "トレードを1回成立させる"
+      },
+      "ach_trade_25": {
+        "name": "交渉人",
+        "desc": "トレードを25回成立させる"
+      }
+    },
+    "claimAll": "すべて受け取る · {count}",
+    "sections": "ミッションのセクション"
+  },
+  "loginReward": {
+    "toast": "{day}日目のログイン · +{reward, number}",
+    "golden": "次のブースターはゴールデン",
+    "claim": "受け取る",
+    "claimed": "本日受け取り済み"
+  },
+  "market": {
+    "eyebrow": "オークションハウス",
+    "title": "マーケット",
+    "tabs": {
+      "label": "マーケットのセクション",
+      "buy": "買う",
+      "sell": "売る",
+      "auctions": "オークション",
+      "trades": "トレード",
+      "activity": "自分の取引"
+    },
+    "search": "名前や作品で検索",
+    "allRarities": "すべて",
+    "filters": "フィルター",
+    "minPrice": "最低価格",
+    "maxPrice": "最高価格",
+    "sort": {
+      "label": "並び替え",
+      "ending": "終了が近い順",
+      "newest": "新しい順",
+      "price_asc": "価格が安い順",
+      "price_desc": "価格が高い順"
+    },
+    "apply": "適用",
+    "reset": "リセット",
+    "count": "出品 {count}件",
+    "countMore": "出品 {count}件以上",
+    "empty": "一致する出品がありません。",
+    "fixedPrice": "固定価格",
+    "yours": "自分",
+    "seller": "{name}",
+    "delta": "価値比 {delta} %",
+    "buy": "{name}を購入",
+    "buyButton": "購入",
+    "loadMore": "さらに読み込む",
+    "buyConfirm": {
+      "title": "{name}を購入しますか？",
+      "price": "価格",
+      "balanceAfter": "購入後の残高",
+      "confirm": "今すぐ購入",
+      "cancel": "キャンセル"
+    },
+    "bought": "{name}を{price}で購入しました。",
+    "auction": {
+      "count": "オークション {count}件",
+      "countMore": "オークション {count}件以上",
+      "empty": "一致するオークションがありません。",
+      "tag": "オークション",
+      "startPrice": "開始価格",
+      "currentBid": "現在の入札額",
+      "bids": "{count, plural, =0 {入札なし} other {入札 #件}}",
+      "endsIn": "終了まで",
+      "ended": "終了",
+      "leading": "最高入札中",
+      "bid": "{name}に入札",
+      "bidButton": "入札",
+      "dialog": {
+        "title": "{name}に入札",
+        "amount": "入札額",
+        "min": "最低額",
+        "plus10": "+10 %",
+        "balanceAfter": "入札後の残高",
+        "confirm": "入札する",
+        "cancel": "キャンセル"
+      },
+      "placed": "{name}に{amount}で入札しました。"
+    },
+    "sell": {
+      "empty": "売れるカードがありません。",
+      "title": "{name}を売る",
+      "copies": "売却可能 {count}枚",
+      "value": "価値",
+      "noValue": "—",
+      "mode": "販売方法",
+      "fixed": "固定価格",
+      "auction": "オークション",
+      "price": "価格",
+      "startPrice": "開始価格",
+      "minimum": "最低1",
+      "duration": "期間",
+      "hours": "{count}時間",
+      "fee": "販売手数料 5 %",
+      "net": "手取り",
+      "list": "出品する",
+      "start": "オークションを開始",
+      "bestOrder": "最高の購入注文",
+      "sellNow": "今すぐ{price}で売る",
+      "listed": "{name}を{price}で出品しました。",
+      "auctionStarted": "{name}のオークションを開始しました。",
+      "soldNow": "{name}を{net}で売りました。",
+      "sellNowConfirm": {
+        "title": "最高の購入注文に売りますか？",
+        "price": "価格",
+        "confirm": "売却を確定",
+        "back": "戻る"
+      },
+      "close": "閉じる"
+    },
+    "trades": {
+      "received": "受信",
+      "sent": "送信済み",
+      "newOffer": "新しいオファー",
+      "emptyReceived": "受け取ったオファーはありません。",
+      "emptySent": "送ったオファーはありません。",
+      "from": "{name}から",
+      "to": "{name}へ",
+      "youGive": "あなたが渡す",
+      "youGet": "あなたが受け取る",
+      "nothing": "なし",
+      "expiresIn": "{time}に期限切れ",
+      "status": {
+        "open": "受付中",
+        "accepted": "成立",
+        "declined": "拒否",
+        "cancelled": "キャンセル",
+        "expired": "期限切れ"
+      },
+      "accept": "承認",
+      "decline": "拒否",
+      "cancel": "オファーを取り消す",
+      "needCurrency": "承認するには{amount}が必要です。",
+      "needCards": "承認するための空きコピーが足りません。",
+      "accepted": "{name}さんとのトレードが成立しました。",
+      "declined": "{name}さんからのオファーを拒否しました。",
+      "cancelled": "{name}さんへのオファーを取り消しました。",
+      "sentToast": "{name}さんにオファーを送りました。",
+      "confirm": {
+        "title": "{name}さんからのオファーを承認しますか？",
+        "confirm": "トレードを確定",
+        "back": "戻る"
+      },
+      "composer": {
+        "title": "新しいトレードオファー",
+        "player": "プレイヤー",
+        "searchPlayer": "ユーザー名を検索",
+        "noPlayers": "プレイヤーが見つかりません。",
+        "to": "{name}へ",
+        "change": "変更",
+        "noSuchPlayer": "{name}というプレイヤーはいません。",
+        "notTradable": "{name}さんはそのカードの空きコピーを持っていません。",
+        "giveUnavailable": "相手が探しているカードの空きコピーがありません。",
+        "give": "あなたが渡す",
+        "want": "あなたが求める",
+        "searchCards": "カードを検索",
+        "noCards": "使えるカードがありません。",
+        "add": "{name}を追加",
+        "more": "{name}を1枚増やす",
+        "fewer": "{name}を1枚減らす",
+        "remove": "{name}を外す",
+        "free": "空き{count}",
+        "maxItems": "片側20枚まで。",
+        "currencyGive": "渡す通貨",
+        "currencyWant": "求める通貨",
+        "invalidCurrency": "0〜1,000,000の整数を入力してください。",
+        "summary": "まとめ",
+        "summaryLine": "{side}：カード{cards}枚と通貨{currency}",
+        "emptySide": "両方に少なくとも1枚のカードか通貨が必要です。",
+        "send": "オファーを送る",
+        "cancel": "キャンセル"
+      }
+    },
+    "activity": {
+      "running": "進行中",
+      "finished": "終了",
+      "show": "表示",
+      "listings": "自分の出品",
+      "auctions": "自分のオークション",
+      "bids": "自分の入札",
+      "orders": "自分の購入注文",
+      "empty": "何もありません。",
+      "cancel": "キャンセル",
+      "cancelLabel": "{name}をキャンセル",
+      "hasBids": "入札あり",
+      "status": {
+        "open": "受付中",
+        "sold": "売却済み",
+        "cancelled": "キャンセル",
+        "unsold": "売れ残り",
+        "filled": "約定",
+        "winning": "最高入札中",
+        "outbid": "上回られた",
+        "won": "落札",
+        "lost": "落札ならず"
+      },
+      "bidCount": "{count, plural, =0 {入札なし} other {入札 #件}}",
+      "yourBid": "あなたの入札",
+      "topBid": "最高入札",
+      "startPrice": "開始価格",
+      "endsIn": "{time}に終了",
+      "listingCancelled": "出品をキャンセルしました。",
+      "auctionCancelled": "オークションをキャンセルしました。",
+      "orderCancelled": "購入注文をキャンセルしました。"
+    }
+  },
+  "notifications": {
+    "title": "お知らせ",
+    "empty": "お知らせはまだありません。",
+    "someCard": "カード",
+    "sold": "{source, select, auction {{name}のオークションが{price}で落札されました} order {{name}の購入注文に{price}で売却しました} other {{name}の出品が{price}で売れました}}。{net}を受け取りました。",
+    "outbid": "{name}の入札が上回られました。現在の最高入札は{amount}です。",
+    "auction_won": "{name}のオークションを{price}で落札しました。",
+    "auction_unsold": "{name}のオークションは入札なしで終了し、カードはコレクションに戻りました。",
+    "order_filled": "{name}の購入注文が{price}で約定しました。",
+    "trade_received": "{user}さんからトレードオファーが届きました。",
+    "trade_accepted": "{user}さんがトレードオファーを承認しました。",
+    "trade_declined": "{user}さんがトレードオファーを拒否しました。",
+    "trade_expired": "トレードオファーの期限が切れ、カードと通貨が戻りました。",
+    "friend_request": "{user}さんからフレンド申請が届きました。",
+    "friend_accepted": "{user}さんがフレンド申請を承認しました。",
+    "referral_gift": "{user}さんからプレゼント：ミックスブースター3つ",
+    "referral_joined": "{user}さんがあなたのリンクから参加しました",
+    "admin_grant": "ゲーム管理者から通貨{amount}を受け取りました",
+    "referral_rewarded": "{user}さんが3日間でブースターを10個開けました：あなたにブースター+3と+500"
+  },
+  "inspector": {
+    "hint": "動かして傾ける · タップでめくる",
+    "owners": "所持しているプレイヤー",
+    "since": "入手日",
+    "notOwned": "まだコレクションにありません",
+    "page": "カードのページを見る",
+    "close": "閉じる",
+    "flip": "カードをめくる"
+  },
+  "rewardToast": {
+    "reward": "+{reward}",
+    "withBoosters": "+{reward} · ボーナスブースター+{boosters}",
+    "failed": "{count}件の報酬を受け取れませんでした"
+  },
+  "scene": {
+    "series": "作品",
+    "popularity": "人気",
+    "top": "上位{pct}%",
+    "rank": "{rank}位",
+    "skip": "スキップ ›"
+  },
+  "referrals": {
+    "title": "フレンドを招待",
+    "invite": "招待",
+    "inviteChip": "+3",
+    "subtitle": "フレンドを招待すると、2人ともブースターを3つもらえます",
+    "yourLink": "あなた専用のリンク",
+    "copy": "リンクをコピー",
+    "copied": "リンクをコピーしました",
+    "share": "共有",
+    "shareText": "Kizunaで一緒に遊ぼう、2人とも無料ブースターが3つもらえるよ：{link}",
+    "manualCopy": "上の欄からリンクをコピーしてください。",
+    "howTitle": "しくみ",
+    "step1": "フレンドにリンクを送る。",
+    "step2": "フレンドが参加すると無料ブースターを3つもらえ、2人はフレンドになります。",
+    "step3": "フレンドが3日以上にわたってブースターを10個開けると、あなたにブースター3つと+500。",
+    "invitedTitle": "招待したフレンド",
+    "empty": "まだ誰もいません：リンクを共有しよう",
+    "boosters": "ブースター {count}/10",
+    "days": "{count}/3日",
+    "rewarded": "報酬獲得",
+    "joinedOn": "{date}に参加",
+    "totalJoined": "{count}人のフレンドが参加",
+    "totalRewarded": "報酬獲得 {count}人",
+    "totalEarned": "ブースター+{boosters, number} · +{currency, number}"
+  },
+  "admin": {
+    "title": "管理",
+    "subtitle": "ゲームの運営：招待、通貨、デイリーセレクション、シーズンブースター、チャット。",
+    "back": "ゲームに戻る",
+    "stats": {
+      "invites": "未使用の招待",
+      "pools": "デイリーセレクション",
+      "seasonals": "開催中のシーズン",
+      "chat": "最近のメッセージ"
+    },
+    "nav": {
+      "label": "セクション",
+      "invites": "招待",
+      "currency": "通貨",
+      "pools": "デイリーセレクション",
+      "seasonal": "シーズン",
+      "chat": "チャット"
+    },
+    "errors": {
+      "not_admin": "管理者ではありません。",
+      "invalid_count": "1〜20個のコードを選んでください。",
+      "invite_used": "このコードはすでに使われています。",
+      "invite_not_found": "このコードはもう存在しません。",
+      "player_not_found": "そのユーザー名のプレイヤーはいません。",
+      "invalid_amount": "金額は1〜1,000,000にしてください。",
+      "invalid_pool": "セレクションには名前（40文字まで）と1つ以上の作品が必要です。",
+      "invalid_seasonal": "シーズンブースターにはID（a-z、0-9、_ で2〜30文字）、タイトル、1つ以上の作品、開始より後の終了日時が必要です。",
+      "seasonal_title": "タイトルを入力してください。",
+      "seasonal_series": "作品を1つ以上選んでください。",
+      "seasonal_dates": "終了は開始より後にしてください。",
+      "suggest_failed": "今シーズンのアニメを取得するためにAniListに接続できませんでした。1分後にもう一度お試しください。",
+      "generic": "問題が発生しました。もう一度お試しください。"
+    },
+    "invites": {
+      "title": "招待コード",
+      "hint": "フレンドにコードを共有すると、登録ページ（{path}）で入力できます。",
+      "create": "{count}個作成",
+      "copy": "コピー",
+      "copied": "コピーしました",
+      "revoke": "無効化",
+      "usedBy": "{name}が使用",
+      "unused": "未使用",
+      "empty": "招待コードはまだありません。"
+    },
+    "grant": {
+      "title": "通貨を付与",
+      "username": "ユーザー名",
+      "amount": "金額",
+      "note": "メモ（任意）",
+      "submit": "付与",
+      "success": "{user}に{amount}を送りました。新しい残高 {balance}"
+    },
+    "picker": {
+      "search": "作品を検索",
+      "add": "{title}を追加（{cards}枚）",
+      "remove": "{title}を外す",
+      "cards": "{count}枚"
+    },
+    "pools": {
+      "title": "デイリーセレクション",
+      "empty": "セレクションはまだありません。",
+      "new": "新しいセレクション",
+      "editing": "セレクションを編集",
+      "name": "名前",
+      "save": "セレクションを保存",
+      "cancel": "キャンセル",
+      "edit": "編集",
+      "delete": "削除"
+    },
+    "seasonal": {
+      "title": "シーズンブースター",
+      "description": "複数の作品から作る期間限定ブースター。",
+      "suggest": "放送中のアニメから提案",
+      "suggesting": "今シーズンを調べています…",
+      "suggestTitle": "今シーズンの人気作 · {year}年{season, select, WINTER {冬} SPRING {春} SUMMER {夏} FALL {秋} other {シーズン}}",
+      "suggestHint": "{total}作品中{matched}作品のキャラクターがカタログにあります。含める作品を選んで、フォームを確認してください。",
+      "seasonName": "{year}年{season, select, WINTER {冬} SPRING {春} SUMMER {夏} FALL {秋} other {シーズン}}",
+      "inCatalog": "{title} · {cards}枚",
+      "notInCatalog": "カタログにありません",
+      "useSelected": "{count}作品を使う",
+      "empty": "シーズンブースターはまだありません。",
+      "new": "新しいシーズンブースター",
+      "editing": "シーズンブースターを編集",
+      "slug": "ID",
+      "titleLabel": "タイトル",
+      "starts": "開始",
+      "ends": "終了",
+      "save": "シーズンを保存",
+      "cancel": "キャンセル",
+      "edit": "編集",
+      "endNow": "今すぐ終了",
+      "status": { "live": "開催中", "scheduled": "予定", "ended": "終了" }
+    },
+    "chat": {
+      "title": "チャットのモデレーション",
+      "empty": "メッセージはありません。",
+      "delete": "削除",
+      "room": "ルーム {room}"
+    }
+  }
+}

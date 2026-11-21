@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { NewDayRefresh } from "@/components/NewDayRefresh";
+import { Footer } from "@/components/Footer";
 import { BottomNav } from "@/components/mobile/BottomNav";
 import { TopBar } from "@/components/TopBar";
 import { loadStatus } from "@/lib/supabase/boosters";
@@ -40,6 +41,9 @@ export default async function MainLayout({
         <TopBar />
       </Suspense>
       {children}
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
       <Suspense fallback={null}>
         <MobileNav />
       </Suspense>

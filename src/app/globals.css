@@ -321,12 +321,12 @@ body {
 }
 .hero-card {
   --k: 0;
-  transform: translateX(calc(var(--k) * min(120px, 9vw))) translateY(calc(var(--k) * var(--k) * 18px)) rotate(calc(var(--k) * 9deg));
+  transform: translateX(calc(var(--k) * var(--spread, min(120px, 9vw)))) translateY(calc(var(--k) * var(--k) * 18px)) rotate(calc(var(--k) * 9deg));
   transition: transform 0.2s ease;
   animation: hero-deal 0.7s calc((var(--k) + 1) * 90ms) both cubic-bezier(0.2, 0.9, 0.3, 1.1);
 }
 .hero-card:hover {
-  transform: translateX(calc(var(--k) * min(120px, 9vw))) translateY(-12px) rotate(calc(var(--k) * 9deg)) scale(1.04);
+  transform: translateX(calc(var(--k) * var(--spread, min(120px, 9vw)))) translateY(-12px) rotate(calc(var(--k) * 9deg)) scale(1.04);
   z-index: 3;
 }
 .hero-still .hero-in,

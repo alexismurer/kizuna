@@ -19,6 +19,8 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  useRouter: () => ({ refresh: vi.fn(), replace: vi.fn() }),
+  usePathname: () => "/",
 }));
 vi.mock("@/components/social/useDmUnread", () => ({ useDmUnread: (_: unknown, n: number) => n }));
 vi.mock("@/components/social/Avatar", () => ({ Avatar: () => null }));

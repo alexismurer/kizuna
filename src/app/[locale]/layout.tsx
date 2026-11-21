@@ -15,12 +15,12 @@ const display = Bricolage_Grotesque({
 
 const body = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
 });
 
 const mono = JetBrains_Mono({
   variable: "--font-jetbrains",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
 });
 
 export const viewport: Viewport = { themeColor: "#0b0b0f" };
