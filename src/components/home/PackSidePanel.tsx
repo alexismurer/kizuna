@@ -30,6 +30,7 @@ const BARS = [
 
 function pct(p: number) {
   const v = p * 100;
+  if (v === 0) return "—";
   return v >= 10 ? `${v.toFixed(0)}%` : v >= 1 ? `${v.toFixed(1)}%` : `${v.toFixed(2)}%`;
 }
 
