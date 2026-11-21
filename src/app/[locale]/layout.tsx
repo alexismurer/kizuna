@@ -34,8 +34,17 @@ export async function generateMetadata({
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "app" });
-  // iPhones read these instead of the manifest when added to the home screen
-  return { title: t("name"), appleWebApp: { capable: true, title: t("name"), statusBarStyle: "black" } };
+  const home = await getTranslations({ locale, namespace: "home" });
+  const host = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  return {
+    // link previews (Discord, iMessage, ...) need absolute URLs for og:image
+    metadataBase: host ? new URL(`https://${host}`) : undefined,
+    title: t("name"),
+    description: home("title"),
+    openGraph: { siteName: t("name"), title: t("name"), description: home("title"), images: ["/icon"] },
+    // iPhones read these instead of the manifest when added to the home screen
+    appleWebApp: { capable: true, title: t("name"), statusBarStyle: "black" },
+  };
 }
 
 export default async function LocaleLayout({
