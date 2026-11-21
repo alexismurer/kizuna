@@ -32,6 +32,14 @@ describe.each(routing.locales.filter((l) => l !== "en"))("messages/%s.json", (lo
     expect([...other.keys()].sort()).toEqual([...en.keys()].sort());
   });
 
+  // in ICU a straight apostrophe before { or < escapes it, so the tag prints as text
+  it("has no apostrophe right before a placeholder or tag", () => {
+    for (const [key] of other) {
+      const text = key.split(".").reduce<Tree | string>((t, k) => (t as Tree)[k], load(locale)) as string;
+      expect(text, key).not.toMatch(/'[{<]/);
+    }
+  });
+
   it("keeps every placeholder and tag", () => {
     for (const [key, args] of en) expect(other.get(key), key).toEqual(args);
   });

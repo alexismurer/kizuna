@@ -322,6 +322,9 @@ describe("StatusTiles progress", () => {
       </NextIntlClientProvider>,
     );
     const chips = container.querySelector(".md\\:flex")!.children;
+    // one row in every language: no wrapping, long labels are cut with an ellipsis
+    expect(container.querySelector(".md\\:flex")).not.toHaveClass("flex-wrap");
+    for (const c of chips) expect(c.querySelector(".truncate")).not.toBeNull();
     expect([...chips].map((c) => c.textContent)).toEqual([
       "3/10 free boosters",
       "1/3 daily missions",

@@ -57,14 +57,14 @@ function Chip({
       href={href}
       data-testid={testId}
       data-full={full}
-      className={`flex items-center gap-2.5 rounded-full border bg-panel py-1.5 pl-2 text-sm transition-colors hover:border-common hover:bg-border/40 ${claim ? "pr-1.5" : "pr-4"} ${full ? "border-accent/70" : "border-border"}`}
+      className={`flex min-w-0 items-center gap-2.5 rounded-full border bg-panel py-1.5 pl-2 text-sm transition-colors hover:border-common hover:bg-border/40 ${claim ? "pr-1.5" : "pr-4"} ${full ? "border-accent/70" : "border-border"}`}
     >
       <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md" style={{ background: color }}>
         <Icon className="h-3.5 w-3.5" color="black" strokeWidth={2.5} />
       </span>
-      <span className="min-w-0">{children}</span>
+      <span className="min-w-0 truncate whitespace-nowrap">{children}</span>
       {claim && (
-        <span className="rounded-full bg-uncommon px-2.5 py-0.5 text-xs font-bold text-black">{t("claim")}</span>
+        <span className="shrink-0 rounded-full bg-uncommon px-2.5 py-0.5 text-xs font-bold text-black">{t("claim")}</span>
       )}
     </Link>
   );
@@ -171,7 +171,7 @@ export function StatusTiles({ status }: { status: Status }) {
           <Tile color="var(--mythic-a)" Icon={Gem} value={<Sparkles className="h-3.5 w-3.5 text-cta" aria-hidden />} label={t("shortPityNext")} />
         )}
       </div>
-      <div className="hidden flex-wrap gap-2 md:flex">
+      <div className="hidden gap-2 md:flex">
         <Chip color="var(--color-uncommon)" Icon={Package} href="/#boosters" testId="free-chip" full={full}>
           <span className={`${num} ${full ? "text-accent" : ""}`}>
             {status.freeStock}/{STOCK_MAX}
