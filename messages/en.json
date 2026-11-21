@@ -162,7 +162,23 @@
     "brand": "Kizuna",
     "headline": "Collect every anime character",
     "pitch": "Open free boosters, finish albums of the series you love and trade cards with your friends.",
-    "count": "{count, number} characters to collect"
+    "count": "{count, number} characters to collect",
+    "eyebrow": "Free anime card game",
+    "features": {
+      "title": "How it works",
+      "boosters": {
+        "title": "Free boosters every day",
+        "body": "A daily booster plus seasonal packs. Every opening is a shot at a mythic pull."
+      },
+      "albums": {
+        "title": "Finish your albums",
+        "body": "Every series is an album. Collect its characters, from common to mythic, to complete it."
+      },
+      "trade": {
+        "title": "Trade with friends",
+        "body": "Swap your duplicates on the market and chat with other collectors."
+      }
+    }
   },
   "invite": {
     "title": "Pick your username",
@@ -1308,5 +1324,12 @@
         "body": "We may update this page. The date at the top shows the current version."
       }
     }
+  },
+  "install": {
+    "title": "Play it like an app",
+    "body": "Add Kizuna to your home screen: its own icon, full screen, one tap away.",
+    "button": "Install the app",
+    "ios": "On iPhone: tap Share, then “Add to Home Screen”.",
+    "manual": "To install it, open your browser menu and choose “Install app” or “Add to Home screen”."
   }
 }

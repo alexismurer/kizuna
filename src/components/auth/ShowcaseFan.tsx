@@ -17,8 +17,10 @@ export function ShowcaseFan({ cards }: { cards: CardFace[] }) {
   return (
     <div
       aria-hidden="true"
-      className={`relative h-56 w-full sm:h-80 xl:h-[26rem] ${prefs.animations ? "" : "fx-still"}`}
+      className={`relative h-64 w-full sm:h-96 lg:h-[32rem] ${prefs.animations ? "" : "fx-still"}`}
     >
+      {/* a soft halo behind the fan */}
+      <div className="absolute left-1/2 top-1/2 h-3/4 w-3/4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[hsl(330_92%_53%/0.35)] blur-[70px]" />
       {cards.slice(0, 3).map((c, i) => {
         const f = FAN[ORDER[i]];
         const end = `translate(-50%, -50%) translateX(${f.x}) rotate(${f.r}deg) scale(${f.s})`;
@@ -28,8 +30,11 @@ export function ShowcaseFan({ cards }: { cards: CardFace[] }) {
             className="fan-in absolute left-1/2 top-1/2 drop-shadow-2xl"
             style={{ zIndex: f.z, transform: end, ["--fan" as string]: end, animationDelay: `${i * 90}ms` }}
           >
-            <div className="origin-center scale-75 sm:scale-100 xl:scale-125">
-              <CardView card={c} size="md" />
+            {/* each card drifts on its own beat once the fan has landed */}
+            <div className="fan-float" style={{ animationDelay: `${700 + i * 600}ms` }}>
+              <div className="origin-center scale-[0.85] sm:scale-125 lg:scale-[1.35]">
+                <CardView card={c} size="md" />
+              </div>
             </div>
           </div>
         );

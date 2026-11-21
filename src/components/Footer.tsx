@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
+import { InstallApp } from "./InstallApp";
 import { LanguageSelect } from "./LanguageSelect";
 
 const LINKS = [
@@ -40,7 +41,10 @@ export async function Footer() {
               })}
             </p>
           </div>
-          <LanguageSelect />
+          <div className="flex max-w-xs flex-col items-start gap-3">
+            <LanguageSelect />
+            <InstallApp quiet />
+          </div>
         </div>
         <nav aria-label={t("footer.label")}>
           <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-white/60">

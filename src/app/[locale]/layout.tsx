@@ -34,7 +34,8 @@ export async function generateMetadata({
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "app" });
-  return { title: t("name") };
+  // iPhones read these instead of the manifest when added to the home screen
+  return { title: t("name"), appleWebApp: { capable: true, title: t("name"), statusBarStyle: "black" } };
 }
 
 export default async function LocaleLayout({

@@ -162,7 +162,23 @@
     "brand": "Kizuna",
     "headline": "Collectionne tous les personnages d'anime",
     "pitch": "Ouvre des boosters gratuits, complète les albums de tes séries préférées et échange des cartes avec tes amis.",
-    "count": "{count, number} personnages à collectionner"
+    "count": "{count, number} personnages à collectionner",
+    "eyebrow": "Jeu de cartes anime gratuit",
+    "features": {
+      "title": "Comment ça marche",
+      "boosters": {
+        "title": "Des boosters gratuits chaque jour",
+        "body": "Un booster quotidien et des packs saisonniers. Chaque ouverture peut cacher une carte mythique."
+      },
+      "albums": {
+        "title": "Complète tes albums",
+        "body": "Chaque série est un album. Collectionne ses personnages, de commun à mythique, pour le compléter."
+      },
+      "trade": {
+        "title": "Échange avec tes amis",
+        "body": "Échange tes doublons sur le marché et discute avec d’autres collectionneurs."
+      }
+    }
   },
   "invite": {
     "title": "Choisis ton pseudo",
@@ -1308,5 +1324,12 @@
         "body": "Nous pouvons mettre à jour cette page. La date en haut indique la version en vigueur."
       }
     }
+  },
+  "install": {
+    "title": "Joue comme sur une appli",
+    "body": "Ajoute Kizuna à ton écran d’accueil : sa propre icône, en plein écran, à portée de doigt.",
+    "button": "Installer l’appli",
+    "ios": "Sur iPhone : touche Partager, puis « Sur l’écran d’accueil ».",
+    "manual": "Pour l’installer, ouvre le menu du navigateur et choisis « Installer l’application » ou « Ajouter à l’écran d’accueil »."
   }
 }

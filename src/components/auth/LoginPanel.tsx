@@ -45,16 +45,16 @@ export function LoginPanel({ devLogin }: { devLogin: boolean }) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="font-display text-4xl font-extrabold">{t("login.title")}</h1>
-        <p className="text-common">{t("login.newHere")}</p>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-1.5">
+        <h1 className="font-display text-2xl font-extrabold text-white">{t("login.title")}</h1>
+        <p className="text-sm text-white/60">{t("login.newHere")}</p>
       </div>
       <button
         type="button"
         onClick={discord}
         disabled={busy}
-        className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#5865F2] px-5 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#5865F2]/25 transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-70"
+        className="flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#5865F2] px-7 font-display text-base font-bold text-white shadow-[0_0_40px_rgb(88_101_242/0.45)] transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-70"
       >
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor">
           <path d={DISCORD_PATH} />
@@ -66,7 +66,7 @@ export function LoginPanel({ devLogin }: { devLogin: boolean }) {
           {t("login.failed")}
         </p>
       )}
-      <p className="text-xs text-common">{t("login.credits")}</p>
+      <p className="text-xs text-white/40">{t("login.credits")}</p>
       {devLogin && (
         <details className="group rounded-xl border border-border bg-panel p-4">
           <summary className="cursor-pointer text-sm text-common">{t("login.devHeading")}</summary>

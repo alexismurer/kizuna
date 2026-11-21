@@ -162,7 +162,23 @@
     "brand": "Kizuna",
     "headline": "Colecciona todos los personajes de anime",
     "pitch": "Abre sobres gratis, completa los álbumes de tus series favoritas e intercambia cartas con tus amigos.",
-    "count": "{count, number} personajes por coleccionar"
+    "count": "{count, number} personajes por coleccionar",
+    "eyebrow": "Juego de cartas anime gratis",
+    "features": {
+      "title": "Cómo funciona",
+      "boosters": {
+        "title": "Sobres gratis cada día",
+        "body": "Un sobre diario y packs de temporada. Cada apertura puede traer una carta mítica."
+      },
+      "albums": {
+        "title": "Completa tus álbumes",
+        "body": "Cada serie es un álbum. Colecciona sus personajes, de común a mítico, para completarlo."
+      },
+      "trade": {
+        "title": "Intercambia con amigos",
+        "body": "Cambia tus repetidas en el mercado y chatea con otros coleccionistas."
+      }
+    }
   },
   "invite": {
     "title": "Elige tu nombre de usuario",
@@ -1308,5 +1324,12 @@
         "body": "Podemos actualizar esta página. La fecha de arriba indica la versión vigente."
       }
     }
+  },
+  "install": {
+    "title": "Juega como en una app",
+    "body": "Añade Kizuna a tu pantalla de inicio: su propio icono, a pantalla completa, a un toque.",
+    "button": "Instalar la app",
+    "ios": "En iPhone: toca Compartir y luego «Añadir a pantalla de inicio».",
+    "manual": "Para instalarla, abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio»."
   }
 }
