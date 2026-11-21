@@ -171,7 +171,8 @@ export function StatusTiles({ status }: { status: Status }) {
           <Tile color="var(--mythic-a)" Icon={Gem} value={<Sparkles className="h-3.5 w-3.5 text-cta" aria-hidden />} label={t("shortPityNext")} />
         )}
       </div>
-      <div className="hidden gap-2 md:flex">
+      {/* wrap to a second row instead of truncating longer translations */}
+      <div className="hidden flex-wrap gap-2 md:flex">
         <Chip color="var(--color-uncommon)" Icon={Package} href="/#boosters" testId="free-chip" full={full}>
           <span className={`${num} ${full ? "text-accent" : ""}`}>
             {status.freeStock}/{STOCK_MAX}
