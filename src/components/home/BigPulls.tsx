@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { COLOR } from "@/components/card/CardView";
 import type { Rarity } from "@/lib/game/types";
@@ -23,6 +23,23 @@ function ago(iso: string, now: number, locale: string, justNow: string) {
 }
 
 const hueOf = (name: string) => [...name].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
+
+// mouse drag scrolls the row; touch already scrolls it natively
+function dragScroll(e: ReactPointerEvent<HTMLElement>) {
+  if (e.pointerType !== "mouse" || e.button !== 0) return;
+  const el = e.currentTarget;
+  const startX = e.clientX;
+  const startScroll = el.scrollLeft;
+  const move = (ev: PointerEvent) => {
+    el.scrollLeft = startScroll - (ev.clientX - startX);
+  };
+  const up = () => {
+    window.removeEventListener("pointermove", move);
+    window.removeEventListener("pointerup", up);
+  };
+  window.addEventListener("pointermove", move);
+  window.addEventListener("pointerup", up);
+}
 
 // Latest Legendary/Mythic pulls by any player, refreshed every 30 s while the tab is visible.
 export function BigPulls() {
@@ -98,7 +115,10 @@ export function BigPulls() {
         (feed.pulls.length === 0 ? (
           <p className="text-common">{t("home.bigPulls.empty")}</p>
         ) : (
-          <ul className="flex gap-4 overflow-x-auto pb-3">
+          <ul
+            className="flex cursor-grab select-none gap-4 overflow-x-auto [scrollbar-width:none] active:cursor-grabbing [&::-webkit-scrollbar]:hidden"
+            onPointerDown={dragScroll}
+          >
             {feed.pulls.map((p, i) => (
               <li key={`${p.pulled_at}-${i}`} className="flex w-32 shrink-0 flex-col gap-1.5">
                 <div
@@ -107,7 +127,7 @@ export function BigPulls() {
                 >
                   {p.imageUrl && (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={p.imageUrl} alt="" loading="lazy" className="h-full w-full object-cover" />
+                    <img src={p.imageUrl} alt="" loading="lazy" draggable={false} className="h-full w-full object-cover" />
                   )}
                   <span
                     className="absolute left-1.5 top-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase text-black"

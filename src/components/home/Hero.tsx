@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type TouchEvent } from "react";
 import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { CardFace } from "@/components/card/CardView";
@@ -19,6 +19,7 @@ export type HeroSlide = {
 };
 
 const ADVANCE_MS = 6000;
+const SWIPE_PX = 40;
 
 export function Hero({
   slides,
@@ -37,7 +38,23 @@ export function Hero({
     if (!auto) return;
     const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), ADVANCE_MS);
     return () => clearInterval(id);
-  }, [auto, slides.length]);
+    // index restarts the timer so a swipe or dot click gets a full slide duration
+  }, [auto, slides.length, index]);
+
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  const onTouchStart = (e: TouchEvent) => {
+    const p = e.touches[0];
+    touch.current = { x: p.clientX, y: p.clientY };
+  };
+  const onTouchEnd = (e: TouchEvent) => {
+    const start = touch.current;
+    touch.current = null;
+    if (!start || slides.length < 2) return;
+    const p = e.changedTouches[0];
+    const dx = p.clientX - start.x;
+    if (Math.abs(dx) < SWIPE_PX || Math.abs(dx) < Math.abs(p.clientY - start.y)) return;
+    setIndex((i) => (i + (dx < 0 ? 1 : slides.length - 1)) % slides.length);
+  };
 
   const slide = slides[index % slides.length];
   if (!slide) return null;
@@ -54,6 +71,8 @@ export function Hero({
       aria-label={t("home.hero.carousel")}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
       className={`relative grid min-h-[26rem] items-center gap-6 overflow-hidden rounded-[18px] border px-6 py-10 shadow-[0_30px_80px_rgb(0_0_0/0.45)] transition-[border-color] duration-500 sm:px-14 sm:py-12 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] ${prefs.animations ? "" : "hero-still"}`}
       style={{
         borderColor: `hsl(${hue} 92% 53% / 0.35)`,
