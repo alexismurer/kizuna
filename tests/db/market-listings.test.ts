@@ -229,10 +229,10 @@ describe('buy_listing', () => {
 })
 
 describe('card_value', () => {
-  it('is null without sales and the rounded median of the last 10', async () => {
+  it('is the rarity default without sales and the rounded median of the last 10', async () => {
     const { client } = await newPlayer()
     const card = await cardOf('uncommon', 0)
-    const empty = await cardOf('uncommon', 1)
+    const empty = await cardOf('epic', 40)
     const base = Date.now() + 3600_000
     // 12 sales; the two oldest are outliers that must be ignored
     const prices = [100000, 100000, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -248,11 +248,10 @@ describe('card_value', () => {
     expect(v.error).toBeNull()
     expect(v.data).toBe(6) // median of 1..10 = 5.5 -> 6
     const n = await client.rpc('card_value', { p_card_id: empty })
-    expect(n.data).toBeNull()
+    expect(n.data).toBe(16) // epic default
     const many = await client.rpc('card_values', { p_card_ids: [card, empty] })
     expect(many.error).toBeNull()
-    expect(many.data).toEqual(expect.arrayContaining([{ card_id: card, value: 6 }]))
-    expect((many.data as { card_id: number; value: number | null }[]).find((r) => r.card_id === empty)?.value ?? null).toBeNull()
+    expect(many.data).toEqual(expect.arrayContaining([{ card_id: card, value: 6 }, { card_id: empty, value: 16 }]))
   })
 
   it('market_sales are readable by players', async () => {

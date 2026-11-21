@@ -1035,6 +1035,7 @@
     "referral_gift": "{user} sent you a gift: {boosters} Mix boosters",
     "referral_joined": "{user} joined with your link",
     "admin_grant": "You received {amount} currency from the game admin",
+    "admin_card": "The game admin sent you {count} × {name}",
     "referral_rewarded": "{user} played 10 boosters over 3 days: +{boosters} boosters and +500 for you"
   },
   "inspector": {
@@ -1097,6 +1098,7 @@
       "label": "Sections",
       "invites": "Invites",
       "currency": "Currency",
+      "cards": "Cards",
       "pools": "Daily pools",
       "seasonal": "Seasonal",
       "chat": "Chat"
@@ -1108,6 +1110,8 @@
       "invite_not_found": "That code no longer exists.",
       "player_not_found": "No player with that username.",
       "invalid_amount": "The amount must be between 1 and 1,000,000.",
+      "invalid_copies": "Copies must be between 1 and 100.",
+      "card_not_found": "That card does not exist.",
       "invalid_pool": "A pool needs a name (up to 40 characters) and at least one series.",
       "invalid_seasonal": "A seasonal needs a slug (2 to 30 of a-z, 0-9, _), a title, at least one series and an end after the start.",
       "seasonal_title": "Enter a title.",
@@ -1134,6 +1138,18 @@
       "note": "Note (optional)",
       "submit": "Grant",
       "success": "Sent {amount} to {user} — new balance {balance}"
+    },
+    "grantCard": {
+      "title": "Give a card",
+      "card": "Card",
+      "count": "Copies",
+      "submit": "Give",
+      "success": "Gave {count} × {card} to {user} — they now own {owned}"
+    },
+    "combobox": {
+      "placeholder": "Start typing…",
+      "clear": "Clear",
+      "noMatch": "No match."
     },
     "picker": {
       "search": "Search series",

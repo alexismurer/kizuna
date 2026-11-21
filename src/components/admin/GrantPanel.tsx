@@ -3,14 +3,15 @@
 import { useState, useTransition } from "react";
 import { Coins } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { adminGrantCurrency } from "@/lib/actions/admin";
+import { adminGrantCurrency, type AdminPlayerHit } from "@/lib/actions/admin";
 import { adminErrorKey } from "./errors";
+import { PlayerPicker } from "./Pickers";
 import { AdminSection, errorText, input, label, okText, primary } from "./ui";
 
 export function GrantPanel() {
   const t = useTranslations("admin");
   const format = useFormatter();
-  const [username, setUsername] = useState("");
+  const [player, setPlayer] = useState<AdminPlayerHit | null>(null);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [result, setResult] = useState<{ balance: number; user: string; amount: number } | { error: string } | null>(null);
@@ -18,11 +19,12 @@ export function GrantPanel() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!player) return;
     start(async () => {
       const n = Number(amount);
-      const r = await adminGrantCurrency(username, n, note.trim() || null);
+      const r = await adminGrantCurrency(player.username, n, note.trim() || null);
       if (r.ok) {
-        setResult({ balance: r.data, user: username.trim(), amount: n });
+        setResult({ balance: r.data, user: player.username, amount: n });
         setAmount("");
         setNote("");
       } else setResult({ error: r.error });
@@ -32,10 +34,7 @@ export function GrantPanel() {
   return (
     <AdminSection id="currency" Icon={Coins} color="var(--color-legendary)" title={t("grant.title")}>
       <form onSubmit={submit} className="grid gap-3 sm:grid-cols-2">
-        <label className={label}>
-          {t("grant.username")}
-          <input className={input} value={username} onChange={(e) => setUsername(e.target.value)} required />
-        </label>
+        <PlayerPicker value={player} onChange={setPlayer} />
         <label className={label}>
           {t("grant.amount")}
           <input
@@ -54,7 +53,7 @@ export function GrantPanel() {
           <input className={input} value={note} onChange={(e) => setNote(e.target.value)} />
         </label>
         <div className="sm:col-span-2">
-          <button type="submit" disabled={pending} className={primary}>
+          <button type="submit" disabled={pending || !player} className={primary}>
             {t("grant.submit")}
           </button>
         </div>

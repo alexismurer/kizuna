@@ -1035,6 +1035,7 @@
     "referral_gift": "{user} t'a envoyé un cadeau : {boosters} boosters Mix",
     "referral_joined": "{user} a rejoint le jeu grâce à ton lien",
     "admin_grant": "Tu as reçu {amount} de monnaie de la part de l'administrateur du jeu",
+    "admin_card": "L'administrateur du jeu t'a envoyé {count} × {name}",
     "referral_rewarded": "{user} a ouvert 10 boosters sur 3 jours : +{boosters} boosters et +500 pour toi"
   },
   "inspector": {
@@ -1097,6 +1098,7 @@
       "label": "Sections",
       "invites": "Invitations",
       "currency": "Monnaie",
+      "cards": "Cartes",
       "pools": "Sélections du jour",
       "seasonal": "Saisonniers",
       "chat": "Chat"
@@ -1108,6 +1110,8 @@
       "invite_not_found": "Ce code n'existe plus.",
       "player_not_found": "Aucun joueur avec ce pseudo.",
       "invalid_amount": "Le montant doit être compris entre 1 et 1 000 000.",
+      "invalid_copies": "Entre 1 et 100 exemplaires.",
+      "card_not_found": "Cette carte n'existe pas.",
       "invalid_pool": "Une sélection doit avoir un nom (40 caractères max.) et au moins une série.",
       "invalid_seasonal": "Un saisonnier doit avoir un identifiant (2 à 30 caractères a-z, 0-9, _), un titre, au moins une série et une fin après le début.",
       "seasonal_title": "Saisis un titre.",
@@ -1134,6 +1138,18 @@
       "note": "Note (facultatif)",
       "submit": "Donner",
       "success": "{amount} envoyés à {user} : nouveau solde {balance}"
+    },
+    "grantCard": {
+      "title": "Donner une carte",
+      "card": "Carte",
+      "count": "Exemplaires",
+      "submit": "Donner",
+      "success": "{count} × {card} donné à {user} — il en possède maintenant {owned}"
+    },
+    "combobox": {
+      "placeholder": "Commence à taper…",
+      "clear": "Effacer",
+      "noMatch": "Aucun résultat."
     },
     "picker": {
       "search": "Rechercher des séries",

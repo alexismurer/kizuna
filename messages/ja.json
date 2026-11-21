@@ -1035,6 +1035,7 @@
     "referral_gift": "{user}さんからプレゼント：ミックスブースター{boosters}個",
     "referral_joined": "{user}さんがあなたのリンクから参加しました",
     "admin_grant": "ゲーム管理者から通貨{amount}を受け取りました",
+    "admin_card": "ゲーム管理者から{name}を{count}枚受け取りました",
     "referral_rewarded": "{user}さんが3日間でブースターを10個開けました：あなたにブースター+{boosters}と+500"
   },
   "inspector": {
@@ -1097,6 +1098,7 @@
       "label": "セクション",
       "invites": "招待",
       "currency": "通貨",
+      "cards": "カード",
       "pools": "デイリーセレクション",
       "seasonal": "シーズン",
       "chat": "チャット"
@@ -1108,6 +1110,8 @@
       "invite_not_found": "このコードはもう存在しません。",
       "player_not_found": "そのユーザー名のプレイヤーはいません。",
       "invalid_amount": "金額は1〜1,000,000にしてください。",
+      "invalid_copies": "枚数は1〜100にしてください。",
+      "card_not_found": "そのカードは存在しません。",
       "invalid_pool": "セレクションには名前（40文字まで）と1つ以上の作品が必要です。",
       "invalid_seasonal": "シーズンブースターにはID（a-z、0-9、_ で2〜30文字）、タイトル、1つ以上の作品、開始より後の終了日時が必要です。",
       "seasonal_title": "タイトルを入力してください。",
@@ -1134,6 +1138,18 @@
       "note": "メモ（任意）",
       "submit": "付与",
       "success": "{user}に{amount}を送りました。新しい残高 {balance}"
+    },
+    "grantCard": {
+      "title": "カードを付与",
+      "card": "カード",
+      "count": "枚数",
+      "submit": "付与",
+      "success": "{user}に{card}を{count}枚付与しました(所持数{owned})"
+    },
+    "combobox": {
+      "placeholder": "入力して検索…",
+      "clear": "クリア",
+      "noMatch": "該当なし"
     },
     "picker": {
       "search": "作品を検索",

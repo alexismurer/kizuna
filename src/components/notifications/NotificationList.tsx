@@ -22,6 +22,7 @@ const HREF: Record<string, string> = {
   referral_gift: "/profile",
   referral_rewarded: "/invite-friends",
   admin_grant: "/",
+  admin_card: "/collection",
 };
 
 function hrefOf(i: Notification): string {
@@ -56,6 +57,7 @@ export function NotificationList({
           price: num("price"),
           net: num("net"),
           amount: num("amount"),
+          count: num("count"),
           user: String(p.from_username ?? p.to_username ?? p.username ?? ""),
           boosters: REFERRAL_BOOSTERS,
         });

@@ -158,6 +158,7 @@ describe("NotificationList", () => {
     [n(12, "friend_request", { from_username: "hana" }), "hana sent you a friend request.", "/friends?tab=requests"],
     [n(13, "friend_accepted", { username: "hana" }), "hana accepted your friend request.", "/profile/hana"],
     [n(14, "admin_grant", { amount: 250 }), "You received 250 currency from the game admin", "/"],
+    [n(15, "admin_card", { card_id: 7, count: 2 }), "The game admin sent you 2 × Mika", "/collection"],
   ];
 
   it.each(cases)("renders %#: kind text, link and relative time", (item, text, href) => {

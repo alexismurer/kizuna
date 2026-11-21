@@ -1,8 +1,9 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, Coins, MessagesSquare, ShieldCheck, Sparkles, Ticket, type LucideIcon } from "lucide-react";
+import { ArrowLeft, CalendarDays, Coins, Gift, MessagesSquare, ShieldCheck, Sparkles, Ticket, type LucideIcon } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ChatPanel } from "@/components/admin/ChatPanel";
+import { GrantCardPanel } from "@/components/admin/GrantCardPanel";
 import { GrantPanel } from "@/components/admin/GrantPanel";
 import { InvitesPanel } from "@/components/admin/InvitesPanel";
 import { PoolsPanel } from "@/components/admin/PoolsPanel";
@@ -11,9 +12,10 @@ import { Link } from "@/i18n/navigation";
 import type { AdminChatMessage, AdminInvite, AdminPool, AdminSeasonal } from "@/lib/actions/admin";
 import { createServerClient } from "@/lib/supabase/server";
 
-const SECTIONS: [id: "invites" | "currency" | "pools" | "seasonal" | "chat", Icon: LucideIcon, color: string][] = [
+const SECTIONS: [id: "invites" | "currency" | "cards" | "pools" | "seasonal" | "chat", Icon: LucideIcon, color: string][] = [
   ["invites", Ticket, "var(--color-rare)"],
   ["currency", Coins, "var(--color-legendary)"],
+  ["cards", Gift, "var(--color-epic)"],
   ["seasonal", Sparkles, "var(--color-epic)"],
   ["pools", CalendarDays, "var(--color-uncommon)"],
   ["chat", MessagesSquare, "var(--color-accent)"],
@@ -118,6 +120,7 @@ async function AdminContent({ params }: { params: PageProps<"/[locale]/admin">["
             <InvitesPanel initial={inviteRows} />
             <GrantPanel />
           </div>
+          <GrantCardPanel />
           <SeasonalPanel initial={seasonalRows} seriesTitles={seriesTitles} />
           <PoolsPanel initial={poolRows} />
           <ChatPanel initial={chatRows} />

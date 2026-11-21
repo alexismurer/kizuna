@@ -1035,6 +1035,7 @@
     "referral_gift": "{user} enviou um presente: {boosters} boosters Mix",
     "referral_joined": "{user} entrou com seu link",
     "admin_grant": "Você recebeu {amount} de moeda do administrador do jogo",
+    "admin_card": "O administrador do jogo enviou {count} × {name} para você",
     "referral_rewarded": "{user} abriu 10 boosters em 3 dias: +{boosters} boosters e +500 para você"
   },
   "inspector": {
@@ -1097,6 +1098,7 @@
       "label": "Seções",
       "invites": "Convites",
       "currency": "Moeda",
+      "cards": "Cartas",
       "pools": "Seleções diárias",
       "seasonal": "Sazonais",
       "chat": "Chat"
@@ -1108,6 +1110,8 @@
       "invite_not_found": "Esse código não existe mais.",
       "player_not_found": "Nenhum jogador com esse nome de usuário.",
       "invalid_amount": "O valor deve estar entre 1 e 1.000.000.",
+      "invalid_copies": "Entre 1 e 100 cópias.",
+      "card_not_found": "Essa carta não existe.",
       "invalid_pool": "Uma seleção precisa de um nome (até 40 caracteres) e pelo menos uma série.",
       "invalid_seasonal": "Um sazonal precisa de um identificador (2 a 30 caracteres a-z, 0-9, _), um título, pelo menos uma série e um fim depois do início.",
       "seasonal_title": "Digite um título.",
@@ -1134,6 +1138,18 @@
       "note": "Nota (opcional)",
       "submit": "Dar",
       "success": "{amount} enviado para {user}: novo saldo {balance}"
+    },
+    "grantCard": {
+      "title": "Dar uma carta",
+      "card": "Carta",
+      "count": "Cópias",
+      "submit": "Dar",
+      "success": "{count} × {card} entregue a {user}: agora tem {owned}"
+    },
+    "combobox": {
+      "placeholder": "Comece a digitar…",
+      "clear": "Limpar",
+      "noMatch": "Nenhum resultado."
     },
     "picker": {
       "search": "Buscar séries",

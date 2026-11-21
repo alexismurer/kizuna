@@ -8,6 +8,7 @@ import {
   type CatalogSeries,
   type Suggestion,
 } from "@/lib/game/seasonSuggest";
+import type { Rarity } from "@/lib/game/types";
 import { fetchAll } from "@/lib/supabase/fetchAll";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -35,6 +36,25 @@ export async function adminRevokeInvite(code: string) {
 }
 export async function adminGrantCurrency(username: string, amount: number, note: string | null) {
   return call<number>("admin_grant_currency", { p_username: username, p_amount: amount, p_note: note });
+}
+export type AdminPlayerHit = { username: string; avatarUrl: string | null };
+export type AdminCardHit = {
+  id: number;
+  number: number;
+  name: string;
+  imageUrl: string | null;
+  rarity: Rarity;
+  seriesTitle: string;
+};
+
+export async function adminPlayerSearch(query: string) {
+  return call<AdminPlayerHit[]>("admin_player_search", { p_query: query });
+}
+export async function adminCardSearch(query: string) {
+  return call<AdminCardHit[]>("admin_card_search", { p_query: query });
+}
+export async function adminGrantCard(username: string, cardId: number, count: number, note: string | null) {
+  return call<number>("admin_grant_card", { p_username: username, p_card_id: cardId, p_count: count, p_note: note });
 }
 export async function adminChatRecent() {
   return call<AdminChatMessage[]>("admin_chat_recent");

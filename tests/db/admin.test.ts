@@ -175,3 +175,56 @@ describe('admin chat moderation', () => {
     expect(after.some((m) => m.id === id)).toBe(false)
   })
 })
+
+describe('admin lookups and card grant', () => {
+  it('player search returns prefix matches first with an avatar field', async () => {
+    const a = await newAdmin()
+    const t1 = await newPlayer()
+    const t2 = await newPlayer()
+    const base = `ps${Math.random().toString(36).slice(2, 8)}`
+    await admin.from('players').update({ username: `x${base}` }).eq('id', t1.userId)
+    await admin.from('players').update({ username: `${base}z` }).eq('id', t2.userId)
+    const { data, error } = await a.client.rpc('admin_player_search', { p_query: base.toUpperCase() })
+    expect(error).toBeNull()
+    const rows = data as { username: string; avatarUrl: string | null }[]
+    expect(rows.map((r) => r.username)).toEqual([`${base}z`, `x${base}`])
+    expect(rows[0]).toHaveProperty('avatarUrl')
+    expect((await a.client.rpc('admin_player_search', { p_query: '  ' })).data).toEqual([])
+  })
+
+  it('card search finds by number and by name', async () => {
+    const a = await newAdmin()
+    const { data: card } = await admin.from('cards').select('id, number, name').order('id').limit(1).single()
+    const byNum = (await a.client.rpc('admin_card_search', { p_query: String(card!.number) })).data as { id: number }[]
+    expect(byNum[0].id).toBe(card!.id)
+    const byName = (await a.client.rpc('admin_card_search', { p_query: card!.name })).data as { id: number; imageUrl: string }[]
+    expect(byName.some((c) => c.id === card!.id)).toBe(true)
+  })
+
+  it('grants copies of a card with ledger and notification', async () => {
+    const a = await newAdmin()
+    const target = await newPlayer()
+    const name = await usernameOf(target.userId)
+    const { data: card } = await admin.from('cards').select('id').order('id').limit(1).single()
+    expect((await a.client.rpc('admin_grant_card', { p_username: name, p_card_id: card!.id, p_count: 2 })).data).toBe(2)
+    expect((await a.client.rpc('admin_grant_card', { p_username: name, p_card_id: card!.id, p_count: 1, p_note: 'gift' })).data).toBe(3)
+    const { data: led } = await admin.from('ledger').select('card_id, card_delta').eq('player_id', target.userId).eq('kind', 'admin_grant')
+    expect(led).toHaveLength(2)
+    const { data: n } = await admin.from('notifications').select('payload').eq('player_id', target.userId).eq('kind', 'admin_card')
+    expect(n![0].payload).toMatchObject({ card_id: card!.id })
+    expect((await a.client.rpc('admin_grant_card', { p_username: name, p_card_id: card!.id, p_count: 0 })).error?.message).toContain('invalid_copies')
+    expect((await a.client.rpc('admin_grant_card', { p_username: name, p_card_id: -1, p_count: 1 })).error?.message).toContain('card_not_found')
+    expect((await a.client.rpc('admin_grant_card', { p_username: 'nobody_here', p_card_id: card!.id, p_count: 1 })).error?.message).toContain('player_not_found')
+  })
+
+  it('new RPCs are admin-only', async () => {
+    const { client } = await newPlayer()
+    for (const [fn, args] of [
+      ['admin_player_search', { p_query: 'a' }],
+      ['admin_card_search', { p_query: 'a' }],
+      ['admin_grant_card', { p_username: 'x', p_card_id: 1, p_count: 1 }],
+    ] as const) {
+      expect((await client.rpc(fn, args)).error?.message, fn).toContain('not_admin')
+    }
+  })
+})
