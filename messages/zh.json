@@ -1467,5 +1467,9 @@
       "wishlisted": "已加入心愿单",
       "buyFrom": "{price} 起购买"
     }
+  },
+  "push": {
+    "boostersTitle": "免费卡包已就绪",
+    "boostersBody": "10 个免费卡包正等着你，快来打开吧！"
   }
 }

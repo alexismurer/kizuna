@@ -1467,5 +1467,9 @@
       "wishlisted": "Dans ma liste de souhaits",
       "buyFrom": "Acheter dès {price}"
     }
+  },
+  "push": {
+    "boostersTitle": "Tes boosters gratuits sont prêts",
+    "boostersBody": "10 boosters gratuits t'attendent. Ouvre-les !"
   }
 }

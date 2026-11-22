@@ -1467,5 +1467,9 @@
       "wishlisted": "ほしいものに追加済み",
       "buyFrom": "{price}から購入"
     }
+  },
+  "push": {
+    "boostersTitle": "無料ブースターの準備ができました",
+    "boostersBody": "10個の無料ブースターがあなたを待っています。開けてみよう！"
   }
 }
