@@ -37,7 +37,17 @@ export function CharacterPage({ character }: { character: Character }) {
           {character.owned ? (
             <Appearances appearances={character.appearances} />
           ) : (
-            <LockedBox name={card.name} rarity={card.rarity} odds={character.odds} />
+            <LockedBox
+              name={card.name}
+              rarity={card.rarity}
+              odds={character.odds}
+              cheapest={
+                character.cheapestListingId != null && character.stats.cheapest != null
+                  ? { id: character.cheapestListingId, price: character.stats.cheapest }
+                  : null
+              }
+              currency={character.currency}
+            />
           )}
           <div id="market" className="scroll-mt-4">
             <CardValue

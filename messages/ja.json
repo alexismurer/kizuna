@@ -436,17 +436,6 @@
     "series": "作品のアルバムを見る",
     "back": "コレクションに戻る",
     "market": {
-      "title": "マーケット",
-      "value": "推定価値",
-      "noValue": "—",
-      "listings": "最安の出品",
-      "noListings": "現在このカードを売っている人はいません。",
-      "buy": "{name}を{price}で購入",
-      "orders": "購入注文",
-      "noOrders": "購入注文はまだありません。",
-      "by": "{name}",
-      "sell": "{name}を売る",
-      "sellButton": "売る",
       "placeOrder": "購入注文を出す",
       "price": "希望価格",
       "hint": "1〜1,000,000。今すぐ支払い、キャンセル時は返金されます。",
@@ -1398,7 +1387,13 @@
       "seiyu": "声優",
       "chanceTitle": "ブースターごとの確率",
       "obtained": "カード入手日 {date}",
-      "unlockHint": "カードを手に入れるとページが解放されます"
+      "unlockHint": "カードを手に入れるとページが解放されます",
+      "sell": "売る",
+      "buyOrder": "購入注文",
+      "lock": "ロック",
+      "unlock": "ロック解除",
+      "addWishlist": "ほしいものに追加",
+      "buyFrom": "{price}から購入"
     }
   }
 }

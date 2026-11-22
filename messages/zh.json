@@ -436,17 +436,6 @@
     "series": "查看作品图鉴",
     "back": "返回收藏",
     "market": {
-      "title": "市场",
-      "value": "估值",
-      "noValue": "—",
-      "listings": "最低价挂单",
-      "noListings": "目前没有人出售这张卡。",
-      "buy": "以 {price} 购买 {name}",
-      "orders": "求购单",
-      "noOrders": "还没有求购单。",
-      "by": "卖家：{name}",
-      "sell": "出售 {name}",
-      "sellButton": "出售",
       "placeOrder": "发布求购单",
       "price": "你的价格",
       "hint": "1 到 1,000,000。立即支付，取消时退还。",
@@ -1398,7 +1387,13 @@
       "seiyu": "声优",
       "chanceTitle": "每包概率",
       "obtained": "获得卡牌于 {date}",
-      "unlockHint": "获得卡牌后解锁页面"
+      "unlockHint": "获得卡牌后解锁页面",
+      "sell": "出售",
+      "buyOrder": "求购",
+      "lock": "锁定",
+      "unlock": "解锁",
+      "addWishlist": "加入我的心愿单",
+      "buyFrom": "{price} 起购买"
     }
   }
 }

@@ -436,17 +436,6 @@
     "series": "View series album",
     "back": "Back to collection",
     "market": {
-      "title": "Market",
-      "value": "Estimated value",
-      "noValue": "—",
-      "listings": "Cheapest listings",
-      "noListings": "No one is selling this card right now.",
-      "buy": "Buy {name} for {price}",
-      "orders": "Buy orders",
-      "noOrders": "No buy orders yet.",
-      "by": "by {name}",
-      "sell": "Sell {name}",
-      "sellButton": "Sell",
       "placeOrder": "Place a buy order",
       "price": "Your price",
       "hint": "1 to 1,000,000. Paid now, refunded if you cancel.",
@@ -1398,7 +1387,13 @@
       "seiyu": "Seiyū",
       "chanceTitle": "CHANCE PER BOOSTER",
       "obtained": "Card obtained on {date}",
-      "unlockHint": "Page unlocked when you get the card"
+      "unlockHint": "Page unlocked when you get the card",
+      "sell": "Sell",
+      "buyOrder": "Buy order",
+      "lock": "Lock",
+      "unlock": "Unlock",
+      "addWishlist": "Add to my wishlist",
+      "buyFrom": "Buy from {price}"
     }
   }
 }

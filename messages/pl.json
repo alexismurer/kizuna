@@ -436,17 +436,6 @@
     "series": "Zobacz album serii",
     "back": "Wróć do kolekcji",
     "market": {
-      "title": "Rynek",
-      "value": "Szacowana wartość",
-      "noValue": "—",
-      "listings": "Najtańsze oferty",
-      "noListings": "Nikt teraz nie sprzedaje tej karty.",
-      "buy": "Kup {name} za {price}",
-      "orders": "Zlecenia kupna",
-      "noOrders": "Brak zleceń kupna.",
-      "by": "od {name}",
-      "sell": "Sprzedaj {name}",
-      "sellButton": "Sprzedaj",
       "placeOrder": "Złóż zlecenie kupna",
       "price": "Twoja cena",
       "hint": "Od 1 do 1 000 000. Płatne od razu, zwracane po anulowaniu.",
@@ -1398,7 +1387,13 @@
       "seiyu": "Seiyū",
       "chanceTitle": "SZANSA NA BOOSTER",
       "obtained": "Karta zdobyta {date}",
-      "unlockHint": "Strona odblokuje się, gdy zdobędziesz kartę"
+      "unlockHint": "Strona odblokuje się, gdy zdobędziesz kartę",
+      "sell": "Sprzedaj",
+      "buyOrder": "Zlecenie kupna",
+      "lock": "Zablokuj",
+      "unlock": "Odblokuj",
+      "addWishlist": "Dodaj do mojej listy życzeń",
+      "buyFrom": "Kup od {price}"
     }
   }
 }

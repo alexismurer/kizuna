@@ -436,17 +436,6 @@
     "series": "Album der Serie ansehen",
     "back": "Zurück zur Sammlung",
     "market": {
-      "title": "Markt",
-      "value": "Geschätzter Wert",
-      "noValue": "—",
-      "listings": "Günstigste Angebote",
-      "noListings": "Gerade verkauft niemand diese Karte.",
-      "buy": "{name} für {price} kaufen",
-      "orders": "Kaufaufträge",
-      "noOrders": "Noch keine Kaufaufträge.",
-      "by": "von {name}",
-      "sell": "{name} verkaufen",
-      "sellButton": "Verkaufen",
       "placeOrder": "Kaufauftrag erteilen",
       "price": "Dein Preis",
       "hint": "1 bis 1.000.000. Wird sofort bezahlt und bei Abbruch erstattet.",
@@ -1398,7 +1387,13 @@
       "seiyu": "Seiyū",
       "chanceTitle": "CHANCE PRO BOOSTER",
       "obtained": "Karte erhalten am {date}",
-      "unlockHint": "Seite wird freigeschaltet, sobald du die Karte hast"
+      "unlockHint": "Seite wird freigeschaltet, sobald du die Karte hast",
+      "sell": "Verkaufen",
+      "buyOrder": "Kaufauftrag",
+      "lock": "Sperren",
+      "unlock": "Entsperren",
+      "addWishlist": "Auf meine Wunschliste",
+      "buyFrom": "Kaufen ab {price}"
     }
   }
 }

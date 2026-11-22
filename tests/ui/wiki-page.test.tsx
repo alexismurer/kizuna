@@ -10,7 +10,9 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  useRouter: () => ({ refresh: vi.fn(), push: vi.fn() }),
 }));
+vi.mock("@/lib/supabase/client", () => ({ createBrowserClient: () => ({ rpc: vi.fn() }) }));
 
 import { CharacterPage } from "@/components/wiki/CharacterPage";
 import { SameUniverse } from "@/components/wiki/SameUniverse";
@@ -89,7 +91,9 @@ describe("CharacterPage", () => {
     expect(screen.getByText("Aoi Yuuki")).toBeInTheDocument();
     expect(screen.getByText("Card obtained on November 20, 2026")).toBeInTheDocument();
     expect(screen.queryByText("Page locked")).toBeNull();
-    expect(document.querySelector("[data-slot=actions]")).not.toBeNull();
+    expect(screen.getByRole("button", { name: "Sell" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Lock" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Buy from/ })).toBeNull();
   });
 
   it("not owned: locked box with best pack, no private info", () => {
@@ -98,6 +102,9 @@ describe("CharacterPage", () => {
     expect(screen.getByText("Page locked")).toBeInTheDocument();
     expect(screen.getByText('Mythic · 0.57% chance per "Mythic Seal" booster')).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open a booster" })).toHaveAttribute("href", "/open/seal");
+    expect(screen.getByRole("button", { name: "Buy from 250" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Add to my wishlist" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Sell" })).toBeNull();
     expect(screen.queryByRole("table")).toBeNull();
     expect(screen.queryByText("Gender")).toBeNull();
     expect(screen.queryByText("Age")).toBeNull();
@@ -115,6 +122,10 @@ describe("CharacterPage", () => {
     expect(screen.getByText("Not owned")).toBeInTheDocument();
     expect(screen.getByText("Mythic · not owned")).toBeInTheDocument();
     expect(screen.queryByText(/Owned ×|owned ×/)).toBeNull();
+    expect(screen.queryByRole("button", { name: "Sell" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Lock" })).toBeNull();
+    expect(screen.getByRole("button", { name: "Add to my wishlist" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Buy order" })).toBeInTheDocument();
     expect(within(screen.getByRole("table")).getAllByRole("row")).toHaveLength(7);
     expect(screen.getByText("Gender")).toBeInTheDocument();
     expect(screen.getByText("Age")).toBeInTheDocument();

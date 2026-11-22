@@ -3,6 +3,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import { CardView, COLOR } from "@/components/card/CardView";
 import { formatChance } from "@/lib/wiki/chance";
 import type { Character } from "@/lib/wiki/loadCharacter";
+import { WikiActions } from "./WikiActions";
 
 export function SidePanel({ character }: { character: Character }) {
   const t = useTranslations();
@@ -87,7 +88,27 @@ export function SidePanel({ character }: { character: Character }) {
         )}
       </div>
 
-      <div data-slot="actions" />
+      <WikiActions
+        card={{
+          id: card.id,
+          number: card.number,
+          name: card.name,
+          nativeName: card.nativeName,
+          imageUrl: card.imageUrl,
+          seriesId: card.seriesId,
+          seriesTitle: card.seriesTitle,
+          rarity: card.rarity,
+          pow: card.pow,
+          aura: card.aura,
+        }}
+        total={character.total}
+        // a page unlocked by a copy since sold acts as not owned here
+        owned={!!owned?.count}
+        isProtected={!!owned?.protected}
+        wished={character.wished}
+        sellable={owned ? owned.count - owned.locked : 0}
+        currency={character.currency}
+      />
 
       <dl className="divide-y divide-border text-sm">
         {info

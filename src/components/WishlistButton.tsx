@@ -7,7 +7,18 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import { createBrowserClient } from "@/lib/supabase/client";
 
 // Heart toggle: flips at once, rolls back if the server refuses.
-export function WishlistButton({ cardId, initial }: { cardId: number; initial: boolean }) {
+// `primary` + `label` give the wiki page's filled call-to-action look.
+export function WishlistButton({
+  cardId,
+  initial,
+  label,
+  primary = false,
+}: {
+  cardId: number;
+  initial: boolean;
+  label?: string;
+  primary?: boolean;
+}) {
   const t = useTranslations();
   const [on, setOn] = useState(initial);
   const [busy, setBusy] = useState(false);
@@ -47,10 +58,10 @@ export function WishlistButton({ cardId, initial }: { cardId: number; initial: b
         aria-pressed={on}
         disabled={busy}
         onClick={toggle}
-        className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm ${on ? "border-accent text-accent" : "border-border"} disabled:opacity-60`}
+        className={`flex items-center justify-center gap-2 border text-sm ${primary ? "w-full rounded-lg px-4 py-2 font-bold" : "rounded-full px-4 py-1.5"} ${on ? "border-accent text-accent" : primary ? "border-cta bg-cta text-black" : "border-border"} disabled:opacity-60`}
       >
         <Heart className="h-4 w-4" aria-hidden fill={on ? "currentColor" : "none"} />
-        {t("wishlist.button")}
+        {label ?? t("wishlist.button")}
       </button>
       {error && (
         <p role="alert" className="text-sm text-accent">
