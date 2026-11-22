@@ -344,3 +344,24 @@ body {
     animation: none;
   }
 }
+
+/* While a page's content is still streaming in, its <main> holds only React's <template>
+   placeholders: show the logo in the middle and hide the footer instead of a lone footer. */
+@keyframes page-loading-pulse {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+}
+main:not(:has(> :not(template)))::before {
+  content: "";
+  margin: auto;
+  width: 64px;
+  height: 64px;
+  background: url("/brand/kizuna-mark-white.png") center / contain no-repeat;
+  animation: page-loading-pulse 1.4s ease-in-out infinite;
+}
+/* (:has cannot nest, so the footer is reached as main's later sibling in <body>) */
+main:not(:has(> :not(template))) ~ footer {
+  display: none;
+}

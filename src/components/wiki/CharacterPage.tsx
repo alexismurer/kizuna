@@ -23,7 +23,7 @@ export function CharacterPage({ character }: { character: Character }) {
   return (
     <>
       <WikiHeader character={character} />
-      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1fr_280px] lg:gap-10">
+      <div className="mx-auto grid w-full max-w-6xl gap-6 overflow-x-clip px-4 py-6 sm:px-6 lg:grid-cols-[1fr_280px] lg:gap-10">
         <nav className="flex flex-wrap gap-2 lg:col-start-1 lg:row-start-1">
           {chips.map(([href, label]) => (
             <a key={href} href={href} className="rounded-full border border-border px-3 py-1.5 text-sm font-semibold hover:bg-panel">
