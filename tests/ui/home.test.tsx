@@ -323,10 +323,12 @@ describe("StatusTiles progress", () => {
         <StatusTiles status={status({ dailyDone: 1, streakDay: 2 })} />
       </NextIntlClientProvider>,
     );
-    const chips = container.querySelector(".md\\:flex")!.children;
-    // one row in every language: no wrapping, long labels are cut with an ellipsis
-    expect(container.querySelector(".md\\:flex")).not.toHaveClass("flex-wrap");
-    for (const c of chips) expect(c.querySelector(".truncate")).not.toBeNull();
+    const row = container.querySelector(".md\\:flex")!;
+    const chips = row.children;
+    // full labels in every language: the row wraps (3 + 2) instead of cutting them,
+    // and stays one line while it fits
+    expect(row).toHaveClass("flex-wrap", "justify-center");
+    expect(row.querySelector("[data-break]")).toBeNull();
     expect([...chips].map((c) => c.textContent)).toEqual([
       "3/10 free boosters",
       "1/3 daily missions",
