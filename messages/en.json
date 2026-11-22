@@ -1397,7 +1397,6 @@
     "title": "Play it like an app",
     "body": "Add Kizuna to your home screen: its own icon, full screen, one tap away.",
     "button": "Install the app",
-    "ios": "On iPhone: tap Share, then “Add to Home Screen”.",
     "manual": "To install it, open your browser menu and choose “Install app” or “Add to Home screen”."
   },
   "wiki": {
@@ -1470,6 +1469,20 @@
   },
   "push": {
     "boostersTitle": "Your free boosters are ready",
-    "boostersBody": "10 free boosters are waiting for you. Open them!"
+    "boostersBody": "10 free boosters are waiting for you. Open them!",
+    "heading": "Alerts on this device",
+    "enable": "Get alerts on this device",
+    "turnOff": "Turn off on this device",
+    "blocked": "Notifications are blocked in your browser or phone settings.",
+    "catBoosters": "Free boosters ready",
+    "catMarket": "Market & trades",
+    "catSocial": "Friends & invites",
+    "promptTitle": "Get told when your 10 free boosters are ready",
+    "promptBody": "Plus sales, outbids and friends joining, even when the game is closed.",
+    "dismiss": "Not now",
+    "iosTitle": "On iPhone, add Kizuna to your Home Screen first",
+    "iosStep1": "Tap the Share button in Safari",
+    "iosStep2": "Choose “Add to Home Screen”",
+    "iosStep3": "Open Kizuna from your Home Screen and turn on alerts"
   }
 }

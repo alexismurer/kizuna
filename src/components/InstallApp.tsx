@@ -3,6 +3,7 @@
 import { Download } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { IosInstallGuide } from "@/components/push/IosInstallGuide";
 
 type InstallPrompt = Event & { prompt: () => Promise<void> };
 
@@ -66,5 +67,6 @@ export function InstallApp({ className = "", quiet = false }: { className?: stri
         {t("button")}
       </button>
     );
-  return <p className={`text-sm text-white/60 ${className}`}>{mode === "ios" ? t("ios") : t("manual")}</p>;
+  if (mode === "ios") return <IosInstallGuide className={className} />;
+  return <p className={`text-sm text-white/60 ${className}`}>{t("manual")}</p>;
 }

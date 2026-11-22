@@ -1397,7 +1397,6 @@
     "title": "像应用一样玩",
     "body": "将 Kizuna 添加到主屏幕：独立图标、全屏显示，一点即开。",
     "button": "安装应用",
-    "ios": "在 iPhone 上：点击“分享”，然后选择“添加到主屏幕”。",
     "manual": "要安装，请打开浏览器菜单并选择“安装应用”或“添加到主屏幕”。"
   },
   "wiki": {
@@ -1470,6 +1469,20 @@
   },
   "push": {
     "boostersTitle": "免费卡包已就绪",
-    "boostersBody": "10 个免费卡包正等着你，快来打开吧！"
+    "boostersBody": "10 个免费卡包正等着你，快来打开吧！",
+    "heading": "此设备上的提醒",
+    "enable": "在此设备上接收提醒",
+    "turnOff": "在此设备上关闭",
+    "blocked": "通知已在浏览器或手机设置中被屏蔽。",
+    "catBoosters": "免费卡包已就绪",
+    "catMarket": "市场与交易",
+    "catSocial": "好友与邀请",
+    "promptTitle": "10 个免费卡包就绪时通知你",
+    "promptBody": "还有售出、被超价和好友加入，即使游戏已关闭。",
+    "dismiss": "以后再说",
+    "iosTitle": "在 iPhone 上，请先将 Kizuna 添加到主屏幕",
+    "iosStep1": "在 Safari 中轻点“分享”按钮",
+    "iosStep2": "选择“添加到主屏幕”",
+    "iosStep3": "从主屏幕打开 Kizuna 并开启提醒"
   }
 }

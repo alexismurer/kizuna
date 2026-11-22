@@ -7,6 +7,7 @@ import { useMarketLive } from "@/components/market/useMarketLive";
 import { Sheet } from "@/components/mobile/Sheet";
 import type { Notification } from "@/lib/market/notifications";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { PushSettings } from "@/components/push/PushSettings";
 import { NotificationList } from "./NotificationList";
 
 // Top bar bell: unread badge, a dropdown (md and up) or a bottom sheet
@@ -80,12 +81,16 @@ export function NotificationBell({
   const label = unread
     ? `${t("topbar.notifications")}, ${t("topbar.unread", { count: unread })}`
     : t("topbar.notifications");
+  // alerts on this device above the list
   const list = (
-    <NotificationList
-      items={initial.map((i) => ({ ...i, read: !fresh.includes(i.id) }))}
-      names={names}
-      onNavigate={() => setOpen(null)}
-    />
+    <>
+      <PushSettings />
+      <NotificationList
+        items={initial.map((i) => ({ ...i, read: !fresh.includes(i.id) }))}
+        names={names}
+        onNavigate={() => setOpen(null)}
+      />
+    </>
   );
 
   return (

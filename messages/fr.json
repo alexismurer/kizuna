@@ -1397,7 +1397,6 @@
     "title": "Joue comme sur une appli",
     "body": "Ajoute Kizuna à ton écran d’accueil : sa propre icône, en plein écran, à portée de doigt.",
     "button": "Installer l’appli",
-    "ios": "Sur iPhone : touche Partager, puis « Sur l’écran d’accueil ».",
     "manual": "Pour l’installer, ouvre le menu du navigateur et choisis « Installer l’application » ou « Ajouter à l’écran d’accueil »."
   },
   "wiki": {
@@ -1470,6 +1469,20 @@
   },
   "push": {
     "boostersTitle": "Tes boosters gratuits sont prêts",
-    "boostersBody": "10 boosters gratuits t'attendent. Ouvre-les !"
+    "boostersBody": "10 boosters gratuits t'attendent. Ouvre-les !",
+    "heading": "Alertes sur cet appareil",
+    "enable": "Recevoir les alertes sur cet appareil",
+    "turnOff": "Désactiver sur cet appareil",
+    "blocked": "Les notifications sont bloquées dans les réglages de ton navigateur ou de ton téléphone.",
+    "catBoosters": "Boosters gratuits prêts",
+    "catMarket": "Marché et échanges",
+    "catSocial": "Amis et invitations",
+    "promptTitle": "Sois prévenu quand tes 10 boosters gratuits sont prêts",
+    "promptBody": "Et aussi les ventes, les surenchères et les amis qui arrivent, même quand le jeu est fermé.",
+    "dismiss": "Plus tard",
+    "iosTitle": "Sur iPhone, ajoute d'abord Kizuna à ton écran d'accueil",
+    "iosStep1": "Touche le bouton Partager dans Safari",
+    "iosStep2": "Choisis « Sur l'écran d'accueil »",
+    "iosStep3": "Ouvre Kizuna depuis ton écran d'accueil et active les alertes"
   }
 }

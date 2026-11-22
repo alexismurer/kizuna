@@ -4,6 +4,7 @@ import { BigPulls } from "@/components/home/BigPulls";
 import { BoosterGrid } from "@/components/home/BoosterGrid";
 import { Hero, type HeroSlide } from "@/components/home/Hero";
 import { StatusTiles } from "@/components/home/StatusTiles";
+import { PushPrompt } from "@/components/push/PushPrompt";
 import { loadBoosters, type TopCardRow } from "@/lib/supabase/boosters";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { createServerClient } from "@/lib/supabase/server";
@@ -53,6 +54,7 @@ async function HomeContent() {
     <>
       <Hero slides={slides} dailyOpened={status.dailyOpenedToday} />
       <StatusTiles status={status} />
+      <PushPrompt />
       {/* phones pick boosters from the bottom nav's sheet */}
       <div id="boosters" className="hidden scroll-mt-6 md:block">
         <BoosterGrid packs={packs} status={status} dailyName={pool?.name ?? null} />

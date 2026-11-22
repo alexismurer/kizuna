@@ -1397,7 +1397,6 @@
     "title": "Spiel es wie eine App",
     "body": "Füge Kizuna deinem Startbildschirm hinzu: eigenes Symbol, Vollbild, einen Tipp entfernt.",
     "button": "App installieren",
-    "ios": "Auf dem iPhone: Tippe auf „Teilen“ und dann auf „Zum Home-Bildschirm“.",
     "manual": "Öffne zum Installieren das Browsermenü und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“."
   },
   "wiki": {
@@ -1470,6 +1469,20 @@
   },
   "push": {
     "boostersTitle": "Deine Gratis-Booster sind bereit",
-    "boostersBody": "10 Gratis-Booster warten auf dich. Öffne sie!"
+    "boostersBody": "10 Gratis-Booster warten auf dich. Öffne sie!",
+    "heading": "Benachrichtigungen auf diesem Gerät",
+    "enable": "Benachrichtigungen auf diesem Gerät erhalten",
+    "turnOff": "Auf diesem Gerät ausschalten",
+    "blocked": "Benachrichtigungen sind in deinen Browser- oder Handy-Einstellungen blockiert.",
+    "catBoosters": "Gratis-Booster bereit",
+    "catMarket": "Markt & Tausch",
+    "catSocial": "Freunde & Einladungen",
+    "promptTitle": "Erfahre, wenn deine 10 Gratis-Booster bereit sind",
+    "promptBody": "Dazu Verkäufe, Überbietungen und neue Freunde, auch wenn das Spiel geschlossen ist.",
+    "dismiss": "Nicht jetzt",
+    "iosTitle": "Auf dem iPhone füge Kizuna zuerst zum Home-Bildschirm hinzu",
+    "iosStep1": "Tippe in Safari auf „Teilen“",
+    "iosStep2": "Wähle „Zum Home-Bildschirm“",
+    "iosStep3": "Öffne Kizuna vom Home-Bildschirm und schalte die Benachrichtigungen ein"
   }
 }

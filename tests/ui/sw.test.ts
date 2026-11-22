@@ -31,7 +31,7 @@ function load() {
   const self = {
     addEventListener: (t: string, h: Handler) => (handlers[t] = h),
     skipWaiting: vi.fn(),
-    clients: { claim: vi.fn(), matchAll: vi.fn(async () => [] as any[]), openWindow: vi.fn() },
+    clients: { claim: vi.fn(), matchAll: vi.fn(async (): Promise<unknown[]> => []), openWindow: vi.fn() },
     registration: { showNotification: vi.fn(async () => {}) },
     location: { origin: "https://app.test" },
   };

@@ -1397,7 +1397,6 @@
     "title": "Graj jak w aplikacji",
     "body": "Dodaj Kizunę do ekranu głównego: własna ikona, pełny ekran, jedno dotknięcie.",
     "button": "Zainstaluj aplikację",
-    "ios": "Na iPhonie: dotknij Udostępnij, a potem „Do ekranu początkowego”.",
     "manual": "Aby zainstalować, otwórz menu przeglądarki i wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”."
   },
   "wiki": {
@@ -1470,6 +1469,20 @@
   },
   "push": {
     "boostersTitle": "Twoje darmowe boostery są gotowe",
-    "boostersBody": "Czeka na ciebie 10 darmowych boosterów. Otwórz je!"
+    "boostersBody": "Czeka na ciebie 10 darmowych boosterów. Otwórz je!",
+    "heading": "Powiadomienia na tym urządzeniu",
+    "enable": "Włącz powiadomienia na tym urządzeniu",
+    "turnOff": "Wyłącz na tym urządzeniu",
+    "blocked": "Powiadomienia są zablokowane w ustawieniach przeglądarki lub telefonu.",
+    "catBoosters": "Darmowe boostery gotowe",
+    "catMarket": "Rynek i wymiany",
+    "catSocial": "Znajomi i zaproszenia",
+    "promptTitle": "Dowiedz się, gdy twoje 10 darmowych boosterów będzie gotowe",
+    "promptBody": "A także sprzedaże, przebicia i nowi znajomi, nawet gdy gra jest zamknięta.",
+    "dismiss": "Nie teraz",
+    "iosTitle": "Na iPhonie najpierw dodaj Kizunę do ekranu początkowego",
+    "iosStep1": "Stuknij przycisk Udostępnij w Safari",
+    "iosStep2": "Wybierz „Do ekranu początk.”",
+    "iosStep3": "Otwórz Kizunę z ekranu początkowego i włącz powiadomienia"
   }
 }

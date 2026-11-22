@@ -1397,7 +1397,6 @@
     "title": "Juega como en una app",
     "body": "Añade Kizuna a tu pantalla de inicio: su propio icono, a pantalla completa, a un toque.",
     "button": "Instalar la app",
-    "ios": "En iPhone: toca Compartir y luego «Añadir a pantalla de inicio».",
     "manual": "Para instalarla, abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio»."
   },
   "wiki": {
@@ -1470,6 +1469,20 @@
   },
   "push": {
     "boostersTitle": "Tus sobres gratis están listos",
-    "boostersBody": "Te esperan 10 sobres gratis. ¡Ábrelos!"
+    "boostersBody": "Te esperan 10 sobres gratis. ¡Ábrelos!",
+    "heading": "Avisos en este dispositivo",
+    "enable": "Recibir avisos en este dispositivo",
+    "turnOff": "Desactivar en este dispositivo",
+    "blocked": "Las notificaciones están bloqueadas en los ajustes de tu navegador o teléfono.",
+    "catBoosters": "Sobres gratis listos",
+    "catMarket": "Mercado e intercambios",
+    "catSocial": "Amigos e invitaciones",
+    "promptTitle": "Entérate cuando tus 10 sobres gratis estén listos",
+    "promptBody": "Además de ventas, pujas superadas y amigos que se unen, incluso con el juego cerrado.",
+    "dismiss": "Ahora no",
+    "iosTitle": "En iPhone, primero añade Kizuna a tu pantalla de inicio",
+    "iosStep1": "Toca el botón Compartir en Safari",
+    "iosStep2": "Elige «Añadir a pantalla de inicio»",
+    "iosStep3": "Abre Kizuna desde tu pantalla de inicio y activa los avisos"
   }
 }

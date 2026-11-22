@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import type { Prefs } from "@/lib/fx/prefs";
 import { playSfx } from "@/lib/fx/sound";
 
-function Switch({
+export function Switch({
   label,
   hint,
   checked,
