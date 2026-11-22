@@ -238,6 +238,7 @@
     "already_friends": "Jesteście już znajomymi.",
     "already_requested": "Zaproszenie zostało już wysłane.",
     "no_request": "To zaproszenie już nie istnieje.",
+    "card_protected": "Ta karta jest zablokowana. Najpierw ją odblokuj.",
     "unknown": "Coś poszło nie tak. Spróbuj ponownie."
   },
   "profile": {

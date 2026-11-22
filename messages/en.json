@@ -238,6 +238,7 @@
     "already_friends": "You are already friends.",
     "already_requested": "You already sent a request.",
     "no_request": "That request no longer exists.",
+    "card_protected": "This card is locked. Unlock it first.",
     "unknown": "Something went wrong. Please try again."
   },
   "profile": {

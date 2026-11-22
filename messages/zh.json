@@ -238,6 +238,7 @@
     "already_friends": "你们已经是好友了。",
     "already_requested": "你已经发送过请求了。",
     "no_request": "该请求已不存在。",
+    "card_protected": "这张卡已锁定。请先解锁。",
     "unknown": "出了点问题。请重试。"
   },
   "profile": {

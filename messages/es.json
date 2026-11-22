@@ -238,6 +238,7 @@
     "already_friends": "Ya sois amigos.",
     "already_requested": "Ya enviaste una solicitud.",
     "no_request": "Esa solicitud ya no existe.",
+    "card_protected": "Esta carta está bloqueada. Desbloquéala primero.",
     "unknown": "Algo ha salido mal. Inténtalo de nuevo."
   },
   "profile": {

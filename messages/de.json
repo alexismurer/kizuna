@@ -238,6 +238,7 @@
     "already_friends": "Ihr seid bereits befreundet.",
     "already_requested": "Du hast bereits eine Anfrage gesendet.",
     "no_request": "Diese Anfrage existiert nicht mehr.",
+    "card_protected": "Diese Karte ist gesperrt. Entsperre sie zuerst.",
     "unknown": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
   },
   "profile": {

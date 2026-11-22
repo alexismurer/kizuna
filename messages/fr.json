@@ -238,6 +238,7 @@
     "already_friends": "Vous êtes déjà amis.",
     "already_requested": "Tu as déjà envoyé une demande.",
     "no_request": "Cette demande n'existe plus.",
+    "card_protected": "Cette carte est verrouillée. Déverrouille-la d'abord.",
     "unknown": "Une erreur s'est produite. Réessaie."
   },
   "profile": {

@@ -39,6 +39,7 @@ const CODES = [
   "not_friends",
   "rate_limited",
   "invalid_message",
+  "card_protected",
 ] as const;
 
 export function rpcErrorKey(message: string): string {

@@ -238,6 +238,7 @@
     "already_friends": "すでにフレンドです。",
     "already_requested": "すでに申請を送っています。",
     "no_request": "その申請はもう存在しません。",
+    "card_protected": "このカードはロックされています。先にロックを解除してください。",
     "unknown": "問題が発生しました。もう一度お試しください。"
   },
   "profile": {
