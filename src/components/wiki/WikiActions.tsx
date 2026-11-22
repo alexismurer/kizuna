@@ -109,7 +109,12 @@ export function WikiActions({
         </>
       ) : (
         <>
-          <WishlistButton cardId={card.id} initial={wished} label={t("addWishlist")} primary />
+          <WishlistButton
+            cardId={card.id}
+            initial={wished}
+            label={{ off: t("addWishlist"), on: t("wishlisted") }}
+            primary
+          />
           <div className="flex">{orderButton}</div>
         </>
       )}

@@ -442,9 +442,6 @@
     "noArt": "Sans illustration",
     "brand": "KIZUNA",
     "backAlt": "Dos de la carte",
-    "owned": "Exemplaires possédés",
-    "series": "Voir l'album de la série",
-    "back": "Retour à la collection",
     "market": {
       "placeOrder": "Passer un ordre d'achat",
       "price": "Ton prix",
@@ -1355,7 +1352,8 @@
       "pill": "{unlocked} pages débloquées sur {total}.",
       "search": "Personnage ou univers",
       "unlockedOnly": "Pages débloquées uniquement",
-      "more": "Afficher plus · {count} restants"
+      "more": "Afficher plus · {count} restants",
+      "noMatches": "Aucun personnage ne correspond à ta recherche."
     },
     "value": {
       "eyebrow": "MARCHÉ",
@@ -1411,6 +1409,7 @@
       "lock": "Verrouiller",
       "unlock": "Déverrouiller",
       "addWishlist": "Ajouter à ma liste de souhaits",
+      "wishlisted": "Dans ma liste de souhaits",
       "buyFrom": "Acheter dès {price}"
     }
   }

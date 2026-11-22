@@ -442,9 +442,6 @@
     "noArt": "Sin ilustración",
     "brand": "KIZUNA",
     "backAlt": "Reverso de la carta",
-    "owned": "Copias en tu poder",
-    "series": "Ver el álbum de la serie",
-    "back": "Volver a la colección",
     "market": {
       "placeOrder": "Crear una orden de compra",
       "price": "Tu precio",
@@ -1355,7 +1352,8 @@
       "pill": "{unlocked} páginas desbloqueadas de {total}.",
       "search": "Personaje o universo",
       "unlockedOnly": "Solo páginas desbloqueadas",
-      "more": "Mostrar más · quedan {count}"
+      "more": "Mostrar más · quedan {count}",
+      "noMatches": "Ningún personaje coincide con tu búsqueda."
     },
     "value": {
       "eyebrow": "MERCADO",
@@ -1411,6 +1409,7 @@
       "lock": "Bloquear",
       "unlock": "Desbloquear",
       "addWishlist": "Añadir a mi lista de deseos",
+      "wishlisted": "En mi lista de deseos",
       "buyFrom": "Comprar desde {price}"
     }
   }

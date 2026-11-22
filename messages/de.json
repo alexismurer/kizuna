@@ -442,9 +442,6 @@
     "noArt": "Kein Bild",
     "brand": "KIZUNA",
     "backAlt": "Kartenrückseite",
-    "owned": "Kopien im Besitz",
-    "series": "Album der Serie ansehen",
-    "back": "Zurück zur Sammlung",
     "market": {
       "placeOrder": "Kaufauftrag erteilen",
       "price": "Dein Preis",
@@ -1355,7 +1352,8 @@
       "pill": "{unlocked} von {total} Seiten freigeschaltet.",
       "search": "Charakter oder Universum",
       "unlockedOnly": "Nur freigeschaltete Seiten",
-      "more": "Mehr anzeigen · {count} übrig"
+      "more": "Mehr anzeigen · {count} übrig",
+      "noMatches": "Keine Figur passt zu deiner Suche."
     },
     "value": {
       "eyebrow": "MARKT",
@@ -1411,6 +1409,7 @@
       "lock": "Sperren",
       "unlock": "Entsperren",
       "addWishlist": "Auf meine Wunschliste",
+      "wishlisted": "Auf der Wunschliste",
       "buyFrom": "Kaufen ab {price}"
     }
   }

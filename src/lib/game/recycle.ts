@@ -14,18 +14,23 @@ export function recyclable(count: number, locked: number): number {
   return Math.max(0, count - Math.max(locked, 1));
 }
 
+// protected = the player's lock: bulk recycles skip the card, like the database does
+type RecycleRow = { rarity: Rarity; count: number; locked: number; protected?: boolean };
+
+const spare = (r: RecycleRow) => (r.protected ? 0 : recyclable(r.count, r.locked));
+
 export function recycleEstimate(
-  rows: { rarity: Rarity; count: number; locked: number }[],
+  rows: RecycleRow[],
 ): number {
   return rows.reduce(
-    (sum, r) => sum + recyclable(r.count, r.locked) * RECYCLE_VALUE[r.rarity],
+    (sum, r) => sum + spare(r) * RECYCLE_VALUE[r.rarity],
     0,
   );
 }
 
 // Recyclable copies per rarity, rarest first (for the confirmation summary).
 export function recycleBreakdown(
-  rows: { rarity: Rarity; count: number; locked: number }[],
+  rows: RecycleRow[],
 ): { rarity: Rarity; copies: number }[] {
   const order = [...RARITIES].reverse();
   return order
@@ -33,7 +38,7 @@ export function recycleBreakdown(
       rarity,
       copies: rows
         .filter((r) => r.rarity === rarity)
-        .reduce((s, r) => s + recyclable(r.count, r.locked), 0),
+        .reduce((s, r) => s + spare(r), 0),
     }))
     .filter((b) => b.copies > 0);
 }

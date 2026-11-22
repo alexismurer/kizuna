@@ -442,9 +442,6 @@
     "noArt": "No art",
     "brand": "KIZUNA",
     "backAlt": "Card back",
-    "owned": "Copies owned",
-    "series": "View series album",
-    "back": "Back to collection",
     "market": {
       "placeOrder": "Place a buy order",
       "price": "Your price",
@@ -1355,7 +1352,8 @@
       "pill": "{unlocked} pages unlocked out of {total}.",
       "search": "Character or universe",
       "unlockedOnly": "Unlocked pages only",
-      "more": "Show more · {count} left"
+      "more": "Show more · {count} left",
+      "noMatches": "No character matches your search."
     },
     "value": {
       "eyebrow": "MARKET",
@@ -1411,6 +1409,7 @@
       "lock": "Lock",
       "unlock": "Unlock",
       "addWishlist": "Add to my wishlist",
+      "wishlisted": "Wishlisted",
       "buyFrom": "Buy from {price}"
     }
   }

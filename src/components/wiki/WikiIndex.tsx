@@ -93,6 +93,7 @@ export function WikiIndex({ initial, initialQuery = "" }: { initial: WikiIndexRe
           {t("unlockedOnly")}
         </label>
       </div>
+      {data.matches === 0 && <p className="text-sm text-common">{t("noMatches")}</p>}
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {data.rows.map((r) => (
           <li key={r.id}>

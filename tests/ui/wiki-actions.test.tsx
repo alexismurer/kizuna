@@ -56,6 +56,18 @@ describe("WikiActions", () => {
     expect(screen.queryByRole("button", { name: "Add to my wishlist" })).toBeNull();
   });
 
+  it("not owned: the wishlist button says Wishlisted once wished, and follows a toggle", async () => {
+    wrap(<WikiActions {...base} owned={false} wished />);
+    const wished = screen.getByRole("button", { name: "Wishlisted" });
+    expect(wished).toHaveAttribute("aria-pressed", "true");
+    rpc.mockResolvedValueOnce({ data: false, error: null });
+    fireEvent.click(wished);
+    expect(await screen.findByRole("button", { name: "Add to my wishlist" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+  });
+
   it("Lock calls set_card_protected and refreshes", async () => {
     wrap(<WikiActions {...base} owned />);
     fireEvent.click(screen.getByRole("button", { name: "Lock" }));

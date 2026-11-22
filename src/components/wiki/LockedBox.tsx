@@ -1,6 +1,7 @@
 import { Lock } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { packName } from "@/lib/game/packName";
 import type { Rarity } from "@/lib/game/types";
 import { formatChance } from "@/lib/wiki/chance";
 import type { PackOdds } from "@/lib/wiki/odds";
@@ -40,7 +41,7 @@ export function LockedBox({
           {t("wiki.page.lockedChance", {
             rarity: t(`rarity.${rarity}`),
             chance: formatChance(format, best.chance),
-            pack: best.title,
+            pack: packName(t, { id: best.packId, kind: best.kind, title: best.title }, best.title),
           })}
         </p>
       )}

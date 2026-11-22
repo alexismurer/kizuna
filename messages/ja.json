@@ -442,9 +442,6 @@
     "noArt": "画像なし",
     "brand": "KIZUNA",
     "backAlt": "カードの裏面",
-    "owned": "所持枚数",
-    "series": "作品のアルバムを見る",
-    "back": "コレクションに戻る",
     "market": {
       "placeOrder": "購入注文を出す",
       "price": "希望価格",
@@ -1355,7 +1352,8 @@
       "pill": "{total}ページ中{unlocked}ページ解放済み。",
       "search": "キャラクターまたは作品",
       "unlockedOnly": "解放済みのページのみ",
-      "more": "もっと見る · 残り{count}"
+      "more": "もっと見る · 残り{count}",
+      "noMatches": "検索に一致するキャラクターはいません。"
     },
     "value": {
       "eyebrow": "マーケット",
@@ -1411,6 +1409,7 @@
       "lock": "ロック",
       "unlock": "ロック解除",
       "addWishlist": "ほしいものに追加",
+      "wishlisted": "ほしいものに追加済み",
       "buyFrom": "{price}から購入"
     }
   }

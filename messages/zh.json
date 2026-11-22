@@ -442,9 +442,6 @@
     "noArt": "无图片",
     "brand": "KIZUNA",
     "backAlt": "卡背",
-    "owned": "拥有数量",
-    "series": "查看作品图鉴",
-    "back": "返回收藏",
     "market": {
       "placeOrder": "发布求购单",
       "price": "你的价格",
@@ -1355,7 +1352,8 @@
       "pill": "已解锁 {unlocked} / {total} 页。",
       "search": "角色或作品",
       "unlockedOnly": "仅显示已解锁页面",
-      "more": "显示更多 · 还剩 {count}"
+      "more": "显示更多 · 还剩 {count}",
+      "noMatches": "没有符合搜索条件的角色。"
     },
     "value": {
       "eyebrow": "市场",
@@ -1411,6 +1409,7 @@
       "lock": "锁定",
       "unlock": "解锁",
       "addWishlist": "加入我的心愿单",
+      "wishlisted": "已加入心愿单",
       "buyFrom": "{price} 起购买"
     }
   }

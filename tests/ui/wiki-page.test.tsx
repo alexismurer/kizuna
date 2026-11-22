@@ -68,8 +68,11 @@ const owned: Character = {
   latest: [],
   cheapestListingId: 55,
   odds: [
-    { packId: "free", title: "Free booster", chance: 0.00004 },
-    { packId: "seal", title: "Mythic Seal", chance: 0.0057 },
+    { packId: "mix", kind: "free", title: null, chance: 0.00004 },
+    { packId: "prestige", kind: "shop", title: null, chance: 0.0057 },
+    { packId: "daily", kind: "daily", title: "Martial arts", chance: 0.003 },
+    { packId: "winter_2026", kind: "seasonal", title: null, chance: 0.001 },
+    { packId: "spring_2027", kind: "seasonal", title: "Cherry blossoms", chance: 0.0008 },
   ].sort((a, b) => b.chance - a.chance),
   sameUniverse: [],
   currency: 1000,
@@ -100,8 +103,8 @@ describe("CharacterPage", () => {
     const { container } = wrap(<CharacterPage character={notOwned} />);
     expect(screen.getByText("Not owned")).toBeInTheDocument();
     expect(screen.getByText("Page locked")).toBeInTheDocument();
-    expect(screen.getByText('Mythic · 0.57% chance per "Mythic Seal" booster')).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Open a booster" })).toHaveAttribute("href", "/open/seal");
+    expect(screen.getByText('Mythic · 0.57% chance per "Prestige" booster')).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open a booster" })).toHaveAttribute("href", "/open/prestige");
     expect(screen.getByRole("button", { name: "Buy from 250" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Add to my wishlist" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Sell" })).toBeNull();
@@ -160,7 +163,13 @@ describe("SidePanel chances", () => {
     wrap(<SidePanel character={owned} />);
     expect(screen.getByText("CHANCE PER BOOSTER")).toBeInTheDocument();
     const items = screen.getAllByRole("listitem").map((li) => li.textContent);
-    expect(items).toEqual(["Mythic Seal0.57%", "Free booster< 0.01%"]);
+    expect(items).toEqual([
+      "Prestige0.57%",
+      "Martial arts0.3%",
+      "Seasonal0.1%",
+      "Cherry blossoms0.08%",
+      "Mix< 0.01%",
+    ]);
     expect(screen.getByText("0.57% / booster")).toBeInTheDocument();
   });
 

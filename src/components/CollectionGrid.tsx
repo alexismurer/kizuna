@@ -11,8 +11,16 @@ import type { Rarity } from "@/lib/game/types";
 import type { SellableCard } from "@/lib/market/types";
 import { CardView, type CardData } from "./card/CardView";
 
-// sellable = count - locked; value = estimated value (null without sales)
-export type OwnedCard = { card: CardData & { sourceId: number }; count: number; sellable?: number; value?: number | null };
+// locked = copies held by open offers; protected = the player's lock;
+// sellable = copies that can be listed; value = estimated value (null without sales)
+export type OwnedCard = {
+  card: CardData & { sourceId: number };
+  count: number;
+  locked?: number;
+  protected?: boolean;
+  sellable?: number;
+  value?: number | null;
+};
 export type MissingCard = { missing: { id: number; number: number; rarity: Rarity } };
 export type GridEntry = OwnedCard | MissingCard;
 
@@ -34,9 +42,13 @@ export function CollectionGrid({
   const t = useTranslations();
   const [selling, setSelling] = useState<SellableCard | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [inspecting, setInspecting] = useState<OwnedCard["card"] | null>(null);
+  // the id, so the inspector follows the refreshed entry after a recycle
+  const [inspectingId, setInspectingId] = useState<number | null>(null);
   const format = useFormatter();
   const router = useRouter();
+  const inspecting = items.find(
+    (e): e is OwnedCard => !("missing" in e) && e.card.id === inspectingId,
+  );
 
   return (
     <div className="flex flex-col gap-3">
@@ -61,7 +73,7 @@ export function CollectionGrid({
                   type="button"
                   aria-haspopup="dialog"
                   aria-label={t("collection.inspect", { name: card.name })}
-                  onClick={() => setInspecting(card)}
+                  onClick={() => setInspectingId(card.id)}
                   className="rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
                   <CardView card={{ ...card, total }} size="md" />
@@ -112,7 +124,17 @@ export function CollectionGrid({
           }}
         />
       )}
-      {inspecting && <CardInspector card={{ ...inspecting, total }} onClose={() => setInspecting(null)} />}
+      {inspecting && (
+        <CardInspector
+          card={{ ...inspecting.card, total }}
+          owned={{
+            count: inspecting.count,
+            locked: inspecting.locked ?? 0,
+            protected: inspecting.protected ?? false,
+          }}
+          onClose={() => setInspectingId(null)}
+        />
+      )}
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
     </div>
   );

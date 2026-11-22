@@ -15,6 +15,7 @@ import { loadActivity } from "@/lib/market/activity";
 import { loadAuctions } from "@/lib/market/auctions";
 import { parseMarketParams, parseTradePrefill, toQuery } from "@/lib/market/filters";
 import { loadListings } from "@/lib/market/listings";
+import { sellableCopies } from "@/lib/market/sellable";
 import { parseTrades } from "@/lib/market/trades";
 import type { MarketFilters as Filters, SellableCard, TradePrefill } from "@/lib/market/types";
 import { loadStatus } from "@/lib/supabase/boosters";
@@ -25,6 +26,7 @@ import { createServerClient } from "@/lib/supabase/server";
 type InvRow = {
   count: number;
   locked: number;
+  protected: boolean;
   cards: {
     id: number;
     number: number;
@@ -60,22 +62,22 @@ async function Buy({ filters }: { filters: Filters }) {
   );
 }
 
-// My cards with free copies (count - locked >= 1): sellable and tradable
+// My unlocked cards with free copies (count - locked >= 1): sellable and tradable
 async function loadSellable(supabase: SupabaseClient): Promise<SellableCard[]> {
   const rows = await fetchAll((from, to) =>
     supabase
       .from("inventory")
       .select(
-        "count, locked, cards(id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title))",
+        "count, locked, protected, cards(id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title))",
       )
       .gt("count", 0)
       .order("card_id")
       .range(from, to),
   );
   return (rows as unknown as InvRow[])
-    .filter((r) => r.count - r.locked >= 1)
-    .map(({ count, locked, cards: c }) => ({
-      sellable: count - locked,
+    .filter((r) => sellableCopies(r) >= 1)
+    .map(({ cards: c, ...r }) => ({
+      sellable: sellableCopies(r),
       card: {
         id: c.id,
         number: c.number,

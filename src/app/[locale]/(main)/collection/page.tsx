@@ -11,6 +11,7 @@ import { WishlistGrid, type WishlistItem } from "@/components/WishlistGrid";
 import { collectionHref, matchesQuery, parseCollectionParams, sortOwned } from "@/lib/game/collection";
 import { recycleBreakdown, recycleEstimate } from "@/lib/game/recycle";
 import type { Rarity } from "@/lib/game/types";
+import { sellableCopies } from "@/lib/market/sellable";
 import { loadCardValues } from "@/lib/market/values";
 import { fetchAll } from "@/lib/supabase/fetchAll";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
@@ -29,7 +30,7 @@ type CardRow = {
   aura: number;
   series: { title: string } | null;
 };
-type InvRow = { count: number; locked: number; first_at: string | null; cards: CardRow };
+type InvRow = { count: number; locked: number; protected: boolean; first_at: string | null; cards: CardRow };
 type WishRow = { cards: CardRow };
 type AlbumRow = {
   series_id: number;
@@ -71,7 +72,7 @@ async function CollectionContent({
     fetchAll((from, to) =>
       supabase
         .from("inventory")
-        .select(`count, locked, first_at, cards(${CARD_COLUMNS})`)
+        .select(`count, locked, protected, first_at, cards(${CARD_COLUMNS})`)
         .gt("count", 0)
         .order("card_id")
         .range(from, to),
@@ -95,7 +96,12 @@ async function CollectionContent({
   const seriesOptions = albums.map((a) => ({ id: a.seriesId, title: a.title }));
   const wishes = wishRows as unknown as WishRow[];
   const duplicates = rows.reduce((s, r) => s + Math.max(0, r.count - 1), 0);
-  const recycleRows = rows.map((r) => ({ rarity: r.cards.rarity, count: r.count, locked: r.locked }));
+  const recycleRows = rows.map((r) => ({
+    rarity: r.cards.rarity,
+    count: r.count,
+    locked: r.locked,
+    protected: r.protected,
+  }));
 
   const ownedIds = new Set(rows.map((r) => r.cards.id));
   // missing cards of a series already on the wishlist
@@ -145,7 +151,16 @@ async function CollectionContent({
       if (!c) return [];
       const own = inv.get(r.card_id);
       return own
-        ? [{ card: toCard(c), count: own.count, sellable: own.count - own.locked, value: values.get(c.id) ?? null }]
+        ? [
+            {
+              card: toCard(c),
+              count: own.count,
+              locked: own.locked,
+              protected: own.protected,
+              sellable: sellableCopies(own),
+              value: values.get(c.id) ?? null,
+            },
+          ]
         : [{ missing: { id: c.id, number: c.number, rarity: c.rarity } }];
     });
     const album = params.series ? albums.find((a) => a.seriesId === params.series) : undefined;
@@ -182,7 +197,9 @@ async function CollectionContent({
     const items: (OwnedCard & { firstAt?: string })[] = picked.map((r) => ({
       card: toCard(r.cards),
       count: r.count,
-      sellable: r.count - r.locked,
+      locked: r.locked,
+      protected: r.protected,
+      sellable: sellableCopies(r),
       value: values.get(r.cards.id) ?? null,
       firstAt: r.first_at ?? undefined,
     }));

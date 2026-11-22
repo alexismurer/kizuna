@@ -442,9 +442,6 @@
     "noArt": "Brak grafiki",
     "brand": "KIZUNA",
     "backAlt": "Rewers karty",
-    "owned": "Posiadane kopie",
-    "series": "Zobacz album serii",
-    "back": "Wróć do kolekcji",
     "market": {
       "placeOrder": "Złóż zlecenie kupna",
       "price": "Twoja cena",
@@ -1355,7 +1352,8 @@
       "pill": "Odblokowane strony: {unlocked} z {total}.",
       "search": "Postać lub uniwersum",
       "unlockedOnly": "Tylko odblokowane strony",
-      "more": "Pokaż więcej · zostało {count}"
+      "more": "Pokaż więcej · zostało {count}",
+      "noMatches": "Żadna postać nie pasuje do twojego wyszukiwania."
     },
     "value": {
       "eyebrow": "RYNEK",
@@ -1411,6 +1409,7 @@
       "lock": "Zablokuj",
       "unlock": "Odblokuj",
       "addWishlist": "Dodaj do mojej listy życzeń",
+      "wishlisted": "Na mojej liście życzeń",
       "buyFrom": "Kup od {price}"
     }
   }

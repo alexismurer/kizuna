@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CardView } from "@/components/card/CardView";
 import { Link } from "@/i18n/navigation";
+import { packName } from "@/lib/game/packName";
 import { isLive } from "@/lib/game/seasonal";
 import type { Rarity } from "@/lib/game/types";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
@@ -46,12 +47,7 @@ async function CharactersContent({
   const p = pack as PoolPack & { id: string; title: string | null; starts_at: string | null; ends_at: string | null };
   if (!isLive(p, new Date())) notFound();
   const today = pool as { name: string; series_ids: number[] } | null;
-  const name =
-    p.kind === "daily" && today
-      ? today.name
-      : p.kind === "seasonal"
-        ? (p.title ?? t("packs.seasonal.name"))
-        : t(`packs.${p.id}.name`);
+  const name = packName(t, p, today?.name ?? null);
 
   let cards: CardRow[] = [];
   let count = 0;

@@ -6,7 +6,12 @@ import messages from "../../messages/en.json";
 
 const rpc = vi.fn();
 const refresh = vi.fn();
-vi.mock("@/lib/supabase/client", () => ({ createBrowserClient: () => ({ rpc }) }));
+vi.mock("@/lib/supabase/client", () => ({
+  createBrowserClient: () => ({
+    rpc,
+    from: () => ({ select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: null }) }) }) }),
+  }),
+}));
 vi.mock("@/i18n/navigation", () => ({
   Link: ({ href, children, ...rest }: { href: unknown; children: React.ReactNode }) => (
     <a
@@ -93,5 +98,45 @@ describe("CollectionGrid with missing cards", () => {
     const more = screen.getByRole("link", { name: "Show more · 12 left" });
     expect(more.getAttribute("href")).toContain("page=2");
     expect(screen.getByText("60 cards")).toBeInTheDocument();
+  });
+});
+
+describe("CollectionGrid owned cards", () => {
+  const face = (id: number, name: string) => ({
+    id,
+    sourceId: 100 + id,
+    number: id,
+    name,
+    nativeName: null,
+    imageUrl: null,
+    seriesId: 1,
+    seriesTitle: "Series",
+    rarity: "rare" as const,
+    pow: 10,
+    aura: 10,
+  });
+
+  it("recycles a spare copy from the inspector; a locked card offers neither recycle nor sell", () => {
+    rpc.mockResolvedValue({ data: 3, error: null });
+    wrap(
+      <CollectionGrid
+        items={[
+          { card: face(1, "Free"), count: 3, locked: 0, protected: false, sellable: 3 },
+          { card: face(2, "Kept"), count: 3, locked: 0, protected: true, sellable: 0 },
+        ]}
+        total={100}
+      />,
+    );
+    expect(screen.getByRole("button", { name: "Sell Free" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Sell Kept" })).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "See Free up close" }));
+    fireEvent.click(screen.getByRole("button", { name: "Recycle one · +3" }));
+    expect(rpc).toHaveBeenCalledWith("recycle", { p_card_id: 1, p_count: 1 });
+
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    fireEvent.click(screen.getByRole("button", { name: "See Kept up close" }));
+    expect(screen.getByRole("dialog", { name: "Kept" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Recycle one/ })).toBeNull();
   });
 });

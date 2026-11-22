@@ -6,7 +6,8 @@ import { createServerClient } from "@/lib/supabase/server";
 
 type Client = Awaited<ReturnType<typeof createServerClient>>;
 
-export type PackOdds = { packId: string; title: string; chance: number };
+// title: today's pool name for the daily pack, the pack's own title otherwise (shown via packName)
+export type PackOdds = { packId: string; kind: string; title: string | null; chance: number };
 
 type PackRow = PoolPack & {
   id: string;
@@ -26,7 +27,8 @@ export async function loadCardOdds(
     supabase.rpc("todays_pool"),
     supabase.from("pack_types").select("*").order("sort"),
   ]);
-  const dailySeries = (poolRes.data as { series_ids: number[] } | null)?.series_ids ?? null;
+  const pool = poolRes.data as { name: string; series_ids: number[] } | null;
+  const dailySeries = pool?.series_ids ?? null;
   const now = new Date();
   const rows = ((packsRes.data ?? []) as PackRow[]).filter(
     (p) => isLive(p, now) && (p.kind !== "daily" || dailySeries),
@@ -41,7 +43,8 @@ export async function loadCardOdds(
       if (!member.count) return null;
       return {
         packId: p.id,
-        title: p.title ?? p.id,
+        kind: p.kind,
+        title: p.kind === "daily" ? (pool?.name ?? null) : p.title,
         chance: cardChance(p.slot_floors, p.multipliers, card.rarity, same.count ?? 0),
       };
     }),

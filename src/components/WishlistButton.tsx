@@ -7,7 +7,7 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import { createBrowserClient } from "@/lib/supabase/client";
 
 // Heart toggle: flips at once, rolls back if the server refuses.
-// `primary` + `label` give the wiki page's filled call-to-action look.
+// `primary` + `label` (text when off / on) give the wiki page's filled call-to-action look.
 export function WishlistButton({
   cardId,
   initial,
@@ -16,7 +16,7 @@ export function WishlistButton({
 }: {
   cardId: number;
   initial: boolean;
-  label?: string;
+  label?: { off: string; on: string };
   primary?: boolean;
 }) {
   const t = useTranslations();
@@ -61,7 +61,7 @@ export function WishlistButton({
         className={`flex items-center justify-center gap-2 border text-sm ${primary ? "w-full rounded-lg px-4 py-2 font-bold" : "rounded-full px-4 py-1.5"} ${on ? "border-accent text-accent" : primary ? "border-cta bg-cta text-black" : "border-border"} disabled:opacity-60`}
       >
         <Heart className="h-4 w-4" aria-hidden fill={on ? "currentColor" : "none"} />
-        {label ?? t("wishlist.button")}
+        {label ? (on ? label.on : label.off) : t("wishlist.button")}
       </button>
       {error && (
         <p role="alert" className="text-sm text-accent">

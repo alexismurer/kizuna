@@ -7,6 +7,7 @@ import { PackArt } from "@/components/PackArt";
 import { RewardBadge } from "@/components/RewardBadge";
 import { usePrefs } from "@/lib/fx/prefs";
 import { packAvailability } from "@/lib/game/availability";
+import { packName } from "@/lib/game/packName";
 import type { Status } from "@/lib/game/types";
 import { rewardsFor } from "@/lib/opening/quantity";
 import { EndsOn } from "./EndsOn";
@@ -76,12 +77,7 @@ export function BoosterGrid({
 
   const inTab = packs.filter((p) => tabOf(p) === tab);
   const selected = inTab.find((p) => p.id === picked[tab]) ?? inTab[0];
-  const nameOf = (p: HomePack) =>
-    p.kind === "daily" && dailyName
-      ? dailyName
-      : p.kind === "seasonal"
-        ? (p.title ?? t("packs.seasonal.name"))
-        : t(`packs.${p.id}.name`);
+  const nameOf = (p: HomePack) => packName(t, p, dailyName);
 
   const body = (
     <div className="flex flex-col gap-5">

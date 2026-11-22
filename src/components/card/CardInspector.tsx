@@ -3,9 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
+import { RecycleButton } from "@/components/RecycleButton";
 import { Link } from "@/i18n/navigation";
 import { tiltFor } from "@/lib/card/tilt";
 import { usePrefs } from "@/lib/fx/prefs";
+import { recyclable, RECYCLE_VALUE } from "@/lib/game/recycle";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { COLOR, CardView, type CardFace } from "./CardView";
 
@@ -13,11 +15,14 @@ const RAYS = new Set(["legendary", "mythic"]);
 
 // A card shown large: tilt it with the pointer, tap to flip it to its back
 // (owners count, owned since, link to the card page). Esc / ✕ / backdrop close it.
+// `owned` (from the collection) adds a Recycle-one button while a spare, unlocked copy exists.
 export function CardInspector({
   card,
+  owned,
   onClose,
 }: {
   card: CardFace & { id: number; sourceId: number };
+  owned?: { count: number; locked: number; protected: boolean };
   onClose: () => void;
 }) {
   const t = useTranslations("inspector");
@@ -183,6 +188,11 @@ export function CardInspector({
         </div>
       </div>
       <p className="relative text-xs text-white/60">{t("hint")}</p>
+      {owned && !owned.protected && recyclable(owned.count, owned.locked) >= 1 && (
+        <div className="relative">
+          <RecycleButton mode="one" cardId={card.id} estimate={RECYCLE_VALUE[card.rarity]} />
+        </div>
+      )}
     </div>
   );
 }

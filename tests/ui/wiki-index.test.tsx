@@ -108,6 +108,16 @@ describe("WikiIndex", () => {
     expect(screen.queryByRole("button", { name: /Show more/ })).toBeNull();
   });
 
+  it("says when no character matches", () => {
+    wrap({ ...initial, matches: 0, rows: [] }, "zzz");
+    expect(screen.getByText("No character matches your search.")).toBeInTheDocument();
+  });
+
+  it("shows no empty line while there are matches", () => {
+    wrap(initial);
+    expect(screen.queryByText("No character matches your search.")).toBeNull();
+  });
+
   it("prefills the input from the initial query", () => {
     wrap(initial, "One Punch Man");
     expect(screen.getByPlaceholderText("Character or universe")).toHaveValue("One Punch Man");

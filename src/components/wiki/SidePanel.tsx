@@ -1,6 +1,7 @@
 import { Coins } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { CardView, COLOR } from "@/components/card/CardView";
+import { packName } from "@/lib/game/packName";
 import { formatChance } from "@/lib/wiki/chance";
 import type { Character } from "@/lib/wiki/loadCharacter";
 import { WikiActions } from "./WikiActions";
@@ -127,7 +128,9 @@ export function SidePanel({ character }: { character: Character }) {
           <ul className="space-y-1 text-sm">
             {odds.map((o) => (
               <li key={o.packId} className="flex justify-between gap-3">
-                <span className="min-w-0 truncate">{o.title}</span>
+                <span className="min-w-0 truncate">
+                  {packName(t, { id: o.packId, kind: o.kind, title: o.title }, o.title)}
+                </span>
                 <span className="font-mono" style={{ color }}>
                   {formatChance(format, o.chance)}
                 </span>

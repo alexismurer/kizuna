@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { recyclable, recycleBreakdown, recycleEstimate } from "@/lib/game/recycle";
+import { sellableCopies } from "@/lib/market/sellable";
 
 describe("recycle estimate", () => {
   it("keeps one copy and any locked copies", () => {
@@ -33,6 +34,23 @@ describe("recycle breakdown", () => {
       { rarity: "mythic", copies: 1 },
       { rarity: "common", copies: 3 },
     ]);
+  });
+});
+
+describe("locked cards", () => {
+  const rows = [
+    { rarity: "common" as const, count: 3, locked: 0, protected: true },
+    { rarity: "common" as const, count: 2, locked: 0, protected: false },
+    { rarity: "epic" as const, count: 4, locked: 0, protected: true },
+  ];
+  it("leaves them out of the estimate and the breakdown, like the database", () => {
+    expect(recycleEstimate(rows)).toBe(1);
+    expect(recycleBreakdown(rows)).toEqual([{ rarity: "common", copies: 1 }]);
+  });
+  it("are never sellable", () => {
+    expect(sellableCopies({ count: 3, locked: 1, protected: false })).toBe(2);
+    expect(sellableCopies({ count: 3, locked: 1, protected: true })).toBe(0);
+    expect(sellableCopies({ count: 1, locked: 2, protected: false })).toBe(0);
   });
 });
 

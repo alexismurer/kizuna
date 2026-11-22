@@ -18,6 +18,7 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  useRouter: () => ({ refresh: vi.fn() }),
 }));
 
 import { CardInspector } from "@/components/card/CardInspector";
@@ -36,16 +37,19 @@ const card = {
   aura: 60,
 };
 
-function setup(onClose = vi.fn()) {
+function setup(onClose = vi.fn(), owned?: { count: number; locked: number; protected: boolean }) {
   render(
     <NextIntlClientProvider locale="en" messages={messages} timeZone="UTC">
-      <CardInspector card={card} onClose={onClose} />
+      <CardInspector card={card} owned={owned} onClose={onClose} />
     </NextIntlClientProvider>,
   );
   return onClose;
 }
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  rpc.mockClear();
+});
 
 describe("CardInspector", () => {
   it("opens on the face with a hint", () => {
@@ -72,5 +76,23 @@ describe("CardInspector", () => {
     fireEvent.keyDown(window, { key: "Escape" });
     fireEvent.click(screen.getByRole("button", { name: "Close" }));
     expect(onClose).toHaveBeenCalledTimes(2);
+  });
+
+  it("recycles one spare copy from the collection", async () => {
+    setup(vi.fn(), { count: 3, locked: 1, protected: false });
+    fireEvent.click(screen.getByRole("button", { name: "Recycle one · +10" }));
+    expect(rpc).toHaveBeenCalledWith("recycle", { p_card_id: 42, p_count: 1 });
+    expect(await screen.findByRole("status")).toHaveTextContent("Recycled for +2");
+  });
+
+  it("offers no recycle without a spare copy, when locked, or outside the collection", () => {
+    setup(vi.fn(), { count: 2, locked: 2, protected: false });
+    expect(screen.queryByRole("button", { name: /Recycle one/ })).toBeNull();
+    cleanup();
+    setup(vi.fn(), { count: 5, locked: 0, protected: true });
+    expect(screen.queryByRole("button", { name: /Recycle one/ })).toBeNull();
+    cleanup();
+    setup();
+    expect(screen.queryByRole("button", { name: /Recycle one/ })).toBeNull();
   });
 });
