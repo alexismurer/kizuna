@@ -1349,7 +1349,7 @@
     "index": {
       "eyebrow": "WIKI · 百科",
       "title": "The character wiki",
-      "pill": "{unlocked} pages unlocked out of {total}.",
+      "pill": "<b>{unlocked}</b> pages unlocked out of {total}.",
       "search": "Character or universe",
       "unlockedOnly": "Unlocked pages only",
       "more": "Show more · {count} left",

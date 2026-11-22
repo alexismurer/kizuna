@@ -1349,7 +1349,7 @@
     "index": {
       "eyebrow": "WIKI · 百科",
       "title": "キャラクター図鑑",
-      "pill": "{total}ページ中{unlocked}ページ解放済み。",
+      "pill": "{total}ページ中<b>{unlocked}</b>ページ解放済み。",
       "search": "キャラクターまたは作品",
       "unlockedOnly": "解放済みのページのみ",
       "more": "もっと見る · 残り{count}",

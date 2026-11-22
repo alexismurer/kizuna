@@ -1349,7 +1349,7 @@
     "index": {
       "eyebrow": "WIKI · 百科",
       "title": "La wiki de personajes",
-      "pill": "{unlocked} páginas desbloqueadas de {total}.",
+      "pill": "<b>{unlocked}</b> páginas desbloqueadas de {total}.",
       "search": "Personaje o universo",
       "unlockedOnly": "Solo páginas desbloqueadas",
       "more": "Mostrar más · quedan {count}",

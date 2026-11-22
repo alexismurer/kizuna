@@ -1349,7 +1349,7 @@
     "index": {
       "eyebrow": "百科 · WIKI",
       "title": "角色百科",
-      "pill": "已解锁 {unlocked} / {total} 页。",
+      "pill": "已解锁 <b>{unlocked}</b> / {total} 页。",
       "search": "角色或作品",
       "unlockedOnly": "仅显示已解锁页面",
       "more": "显示更多 · 还剩 {count}",

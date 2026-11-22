@@ -1349,7 +1349,7 @@
     "index": {
       "eyebrow": "WIKI · 百科",
       "title": "Wiki postaci",
-      "pill": "Odblokowane strony: {unlocked} z {total}.",
+      "pill": "Odblokowane strony: <b>{unlocked}</b> z {total}.",
       "search": "Postać lub uniwersum",
       "unlockedOnly": "Tylko odblokowane strony",
       "more": "Pokaż więcej · zostało {count}",

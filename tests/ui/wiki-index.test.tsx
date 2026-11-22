@@ -53,7 +53,9 @@ afterEach(() => {
 describe("WikiIndex", () => {
   it("shows the header counts", () => {
     wrap(initial);
-    expect(screen.getByText("1,143 pages unlocked out of 6,736.")).toBeInTheDocument();
+    const pill = screen.getByText("1,143").parentElement!;
+    expect(pill).toHaveTextContent("1,143 pages unlocked out of 6,736.");
+    expect(screen.getByText("1,143").tagName).toBe("STRONG");
   });
 
   it("greys out locked tiles and shows a lock icon", () => {
@@ -84,7 +86,10 @@ describe("WikiIndex", () => {
   it("filters to unlocked pages only", async () => {
     rpc.mockResolvedValue({ data: initial, error: null });
     wrap(initial);
-    fireEvent.click(screen.getByLabelText("Unlocked pages only"));
+    const toggle = screen.getByRole("button", { name: "Unlocked pages only" });
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-pressed", "true");
     await act(async () => {
       await vi.advanceTimersByTimeAsync(300);
     });

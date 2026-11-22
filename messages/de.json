@@ -1349,7 +1349,7 @@
     "index": {
       "eyebrow": "WIKI · 百科",
       "title": "Das Charakter-Wiki",
-      "pill": "{unlocked} von {total} Seiten freigeschaltet.",
+      "pill": "<b>{unlocked}</b> von {total} Seiten freigeschaltet.",
       "search": "Charakter oder Universum",
       "unlockedOnly": "Nur freigeschaltete Seiten",
       "more": "Mehr anzeigen · {count} übrig",
