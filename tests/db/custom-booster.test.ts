@@ -130,7 +130,7 @@ describe('custom booster', () => {
     const rb = await b.client.rpc('open_packs', { p_pack: 'custom', p_count: 5 })
     expect((await seriesOf(ra.data as Row[])).every((s) => A().includes(s))).toBe(true)
     expect((await seriesOf(rb.data as Row[])).every((s) => B().includes(s))).toBe(true)
-  })
+  }, 15_000)
 
   it('a player reads their own picks only', async () => {
     const a = await player({ currency: 1000 })

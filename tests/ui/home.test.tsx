@@ -169,9 +169,11 @@ describe("BoosterGrid", () => {
     expect(within(mix.parentElement!).getByText("150")).toBeInTheDocument();
   });
 
-  it("lists the Custom booster in the Free tab with its 175 fallback price", () => {
+  it("lists the Custom booster in the Daily & limited tab with its 175 fallback price", () => {
     const custom = pack("custom", "free", { fallbackPrice: 175, customSet: true });
     wrap(<BoosterGrid packs={[...PACKS, custom]} status={status({ freeStock: 0 })} dailyName="Test Pool" />);
+    expect(screen.queryByRole("button", { name: /^Custom/ })).toBeNull();
+    fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
     const tile = screen.getByRole("button", { name: /^Custom/ });
     expect(within(tile.parentElement!).getByText("175")).toBeInTheDocument();
   });

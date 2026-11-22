@@ -18,8 +18,9 @@ export type { HomePack };
 export type Tab = "free" | "daily" | "shop";
 export const TABS: Tab[] = ["free", "daily", "shop"];
 
+// the custom booster is paid like a free pack but listed with the daily and limited ones
 export const tabOf = (p: HomePack): Tab =>
-  p.kind === "free" ? "free" : p.kind === "shop" ? "shop" : "daily";
+  p.id === "custom" ? "daily" : p.kind === "free" ? "free" : p.kind === "shop" ? "shop" : "daily";
 
 // what one booster costs right now: free stock first, then the fallback price
 export function price(pack: HomePack, status: Status): number | null {
