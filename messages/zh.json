@@ -1190,7 +1190,11 @@
       "cancel": "取消",
       "edit": "编辑",
       "endNow": "立即结束",
-      "status": { "live": "进行中", "scheduled": "已排期", "ended": "已结束" }
+      "status": {
+        "live": "进行中",
+        "scheduled": "已排期",
+        "ended": "已结束"
+      }
     },
     "chat": {
       "title": "聊天管理",
@@ -1347,5 +1351,20 @@
     "button": "安装应用",
     "ios": "在 iPhone 上：点击“分享”，然后选择“添加到主屏幕”。",
     "manual": "要安装，请打开浏览器菜单并选择“安装应用”或“添加到主屏幕”。"
+  },
+  "wiki": {
+    "value": {
+      "eyebrow": "市场",
+      "title": "卡牌价值",
+      "median7": "7天中位价",
+      "median30": "30天中位价",
+      "sales30": "30天销量",
+      "range7": "7天",
+      "range30": "30天",
+      "med": "中位 {value}",
+      "latest": "最近成交",
+      "listings": "查看全部 {count} 个挂单",
+      "auctions": "查看全部 {count} 场拍卖"
+    }
   }
 }

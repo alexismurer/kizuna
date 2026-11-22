@@ -1190,7 +1190,11 @@
       "cancel": "Annuler",
       "edit": "Modifier",
       "endNow": "Terminer maintenant",
-      "status": { "live": "En cours", "scheduled": "Programmé", "ended": "Terminé" }
+      "status": {
+        "live": "En cours",
+        "scheduled": "Programmé",
+        "ended": "Terminé"
+      }
     },
     "chat": {
       "title": "Modération du chat",
@@ -1347,5 +1351,20 @@
     "button": "Installer l’appli",
     "ios": "Sur iPhone : touche Partager, puis « Sur l’écran d’accueil ».",
     "manual": "Pour l’installer, ouvre le menu du navigateur et choisis « Installer l’application » ou « Ajouter à l’écran d’accueil »."
+  },
+  "wiki": {
+    "value": {
+      "eyebrow": "MARCHÉ",
+      "title": "Valeur de la carte",
+      "median7": "Médiane 7 jours",
+      "median30": "Médiane 30 jours",
+      "sales30": "Ventes sur 30 jours",
+      "range7": "7j",
+      "range30": "30j",
+      "med": "méd. {value}",
+      "latest": "Dernières ventes",
+      "listings": "Voir les {count} annonces",
+      "auctions": "Voir les {count} enchères"
+    }
   }
 }

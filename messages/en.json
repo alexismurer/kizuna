@@ -1190,7 +1190,11 @@
       "cancel": "Cancel",
       "edit": "Edit",
       "endNow": "End now",
-      "status": { "live": "Live", "scheduled": "Scheduled", "ended": "Ended" }
+      "status": {
+        "live": "Live",
+        "scheduled": "Scheduled",
+        "ended": "Ended"
+      }
     },
     "chat": {
       "title": "Chat moderation",
@@ -1347,5 +1351,20 @@
     "button": "Install the app",
     "ios": "On iPhone: tap Share, then “Add to Home Screen”.",
     "manual": "To install it, open your browser menu and choose “Install app” or “Add to Home screen”."
+  },
+  "wiki": {
+    "value": {
+      "eyebrow": "MARKET",
+      "title": "Card value",
+      "median7": "7-day median",
+      "median30": "30-day median",
+      "sales30": "30-day sales",
+      "range7": "7d",
+      "range30": "30d",
+      "med": "med. {value}",
+      "latest": "Latest sales",
+      "listings": "See all {count} listings",
+      "auctions": "See all {count} auctions"
+    }
   }
 }

@@ -1190,7 +1190,11 @@
       "cancel": "Abbrechen",
       "edit": "Bearbeiten",
       "endNow": "Jetzt beenden",
-      "status": { "live": "Aktiv", "scheduled": "Geplant", "ended": "Beendet" }
+      "status": {
+        "live": "Aktiv",
+        "scheduled": "Geplant",
+        "ended": "Beendet"
+      }
     },
     "chat": {
       "title": "Chat-Moderation",
@@ -1347,5 +1351,20 @@
     "button": "App installieren",
     "ios": "Auf dem iPhone: Tippe auf „Teilen“ und dann auf „Zum Home-Bildschirm“.",
     "manual": "Öffne zum Installieren das Browsermenü und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“."
+  },
+  "wiki": {
+    "value": {
+      "eyebrow": "MARKT",
+      "title": "Kartenwert",
+      "median7": "7-Tage-Median",
+      "median30": "30-Tage-Median",
+      "sales30": "Verkäufe in 30 Tagen",
+      "range7": "7T",
+      "range30": "30T",
+      "med": "Med. {value}",
+      "latest": "Letzte Verkäufe",
+      "listings": "Alle {count} Angebote ansehen",
+      "auctions": "Alle {count} Auktionen ansehen"
+    }
   }
 }

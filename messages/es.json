@@ -1190,7 +1190,11 @@
       "cancel": "Cancelar",
       "edit": "Editar",
       "endNow": "Terminar ahora",
-      "status": { "live": "Activo", "scheduled": "Programado", "ended": "Terminado" }
+      "status": {
+        "live": "Activo",
+        "scheduled": "Programado",
+        "ended": "Terminado"
+      }
     },
     "chat": {
       "title": "Moderación del chat",
@@ -1347,5 +1351,20 @@
     "button": "Instalar la app",
     "ios": "En iPhone: toca Compartir y luego «Añadir a pantalla de inicio».",
     "manual": "Para instalarla, abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio»."
+  },
+  "wiki": {
+    "value": {
+      "eyebrow": "MERCADO",
+      "title": "Valor de la carta",
+      "median7": "Mediana de 7 días",
+      "median30": "Mediana de 30 días",
+      "sales30": "Ventas en 30 días",
+      "range7": "7d",
+      "range30": "30d",
+      "med": "med. {value}",
+      "latest": "Últimas ventas",
+      "listings": "Ver las {count} ofertas",
+      "auctions": "Ver las {count} subastas"
+    }
   }
 }

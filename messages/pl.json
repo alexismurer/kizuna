@@ -1190,7 +1190,11 @@
       "cancel": "Anuluj",
       "edit": "Edytuj",
       "endNow": "Zakończ teraz",
-      "status": { "live": "Aktywny", "scheduled": "Zaplanowany", "ended": "Zakończony" }
+      "status": {
+        "live": "Aktywny",
+        "scheduled": "Zaplanowany",
+        "ended": "Zakończony"
+      }
     },
     "chat": {
       "title": "Moderacja czatu",
@@ -1347,5 +1351,20 @@
     "button": "Zainstaluj aplikację",
     "ios": "Na iPhonie: dotknij Udostępnij, a potem „Do ekranu początkowego”.",
     "manual": "Aby zainstalować, otwórz menu przeglądarki i wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”."
+  },
+  "wiki": {
+    "value": {
+      "eyebrow": "RYNEK",
+      "title": "Wartość karty",
+      "median7": "Mediana z 7 dni",
+      "median30": "Mediana z 30 dni",
+      "sales30": "Sprzedaże z 30 dni",
+      "range7": "7d",
+      "range30": "30d",
+      "med": "med. {value}",
+      "latest": "Ostatnie sprzedaże",
+      "listings": "Zobacz wszystkie oferty ({count})",
+      "auctions": "Zobacz wszystkie aukcje ({count})"
+    }
   }
 }
