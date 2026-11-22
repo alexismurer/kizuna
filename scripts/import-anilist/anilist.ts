@@ -8,7 +8,7 @@ export type Media = {
   title: { english: string | null; romaji: string | null }
   coverImage: { large: string | null }
   genres: string[]
-  tags: { name: string }[]
+  tags: { name: string; rank: number; isMediaSpoiler: boolean; isGeneralSpoiler: boolean }[]
   relations: { edges: { relationType: string; node: { id: number } }[] }
 }
 
@@ -31,7 +31,7 @@ const MEDIA_FIELDS = `
   title { english romaji }
   coverImage { large }
   genres
-  tags { name }
+  tags { name rank isMediaSpoiler isGeneralSpoiler }
   relations { edges { relationType node { id } } }
 `
 
@@ -92,6 +92,28 @@ export async function fetchMedia(ids: number[]): Promise<Media[]> {
   }`
   const data = await request<{ Page: { media: Media[] } }>(query, { ids })
   return data.Page.media
+}
+
+export type CharacterThemeSource = {
+  id: number
+  gender: string | null
+  media: { nodes: Pick<Media, 'genres' | 'tags'>[] }
+}
+
+// Same media pick as fetchCharacterPage (most popular), so themes match what the importer derives.
+export async function fetchCharacterThemeSources(ids: number[]): Promise<CharacterThemeSource[]> {
+  if (ids.length > 50) throw new Error('fetchCharacterThemeSources: at most 50 ids')
+  const query = `query ($ids: [Int]) {
+    Page(page: 1, perPage: 50) {
+      characters(id_in: $ids) {
+        id
+        gender
+        media(sort: POPULARITY_DESC, perPage: 1) { nodes { genres tags { name rank isMediaSpoiler isGeneralSpoiler } } }
+      }
+    }
+  }`
+  const data = await request<{ Page: { characters: CharacterThemeSource[] } }>(query, { ids })
+  return data.Page.characters
 }
 
 export type CharacterDetails = {

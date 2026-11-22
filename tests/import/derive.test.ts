@@ -19,8 +19,22 @@ describe('statsForRank', () => {
   })
 })
 
+function tag(name: string, rank: number, spoiler: { isMediaSpoiler?: boolean; isGeneralSpoiler?: boolean } = {}) {
+  return { name, rank, isMediaSpoiler: false, isGeneralSpoiler: false, ...spoiler }
+}
+
 describe('themesFor', () => {
   it('maps tags, genres, gender', () => {
-    expect(themesFor({ genres: ['Sports'], tags: [{ name: 'Shounen' }] }, 'Male')).toEqual(['shonen', 'sports', 'male'])
+    expect(themesFor({ genres: ['Sports'], tags: [tag('Shounen', 95)] }, 'Male')).toEqual(['shonen', 'sports', 'male'])
+  })
+
+  it('ignores tags below 70% relevance (Bleach is tagged Isekai at 50%)', () => {
+    expect(themesFor({ genres: [], tags: [tag('Shounen', 95), tag('Isekai', 50)] }, null)).toEqual(['shonen'])
+    expect(themesFor({ genres: [], tags: [tag('Isekai', 70)] }, null)).toEqual(['isekai'])
+  })
+
+  it('ignores spoiler tags', () => {
+    expect(themesFor({ genres: [], tags: [tag('Isekai', 90, { isMediaSpoiler: true })] }, null)).toEqual([])
+    expect(themesFor({ genres: [], tags: [tag('Isekai', 90, { isGeneralSpoiler: true })] }, null)).toEqual([])
   })
 })
