@@ -89,7 +89,6 @@
   "footer": {
     "label": "Pied de page",
     "disclaimer": "Projet de fans non officiel. Les personnages appartiennent à leurs propriétaires respectifs.",
-    "credits": "Les noms et illustrations des personnages proviennent d’<anilist>AniList</anilist>.",
     "rules": "Règles",
     "rarities": "Raretés",
     "terms": "Conditions d'utilisation",
@@ -1478,11 +1477,13 @@
     "catMarket": "Marché et échanges",
     "catSocial": "Amis et invitations",
     "promptTitle": "Sois prévenu quand tes 10 boosters gratuits sont prêts",
-    "promptBody": "Et aussi les ventes, les surenchères et les amis qui arrivent, même quand le jeu est fermé.",
     "dismiss": "Plus tard",
     "iosTitle": "Sur iPhone, ajoute d'abord Kizuna à ton écran d'accueil",
     "iosStep1": "Touche le bouton Partager dans Safari",
     "iosStep2": "Choisis « Sur l'écran d'accueil »",
-    "iosStep3": "Ouvre Kizuna depuis ton écran d'accueil et active les alertes"
+    "iosStep3": "Ouvre Kizuna depuis ton écran d'accueil et active les alertes",
+    "turnOn": "Activer",
+    "how": "Comment ?",
+    "profileTitle": "Notifications"
   }
 }

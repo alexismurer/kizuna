@@ -95,10 +95,15 @@ describe("PushSettings", () => {
 });
 
 describe("PushPrompt", () => {
-  it("invites players who haven't turned push on", async () => {
+  it("invites players who haven't turned push on in one slim line", async () => {
     getPushState.mockResolvedValue("default");
+    enablePush.mockResolvedValue("on");
     wrap(<PushPrompt />);
     expect(await screen.findByText(t.promptTitle)).toBeInTheDocument();
+    expect(screen.queryByText(t.enable)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: t.turnOn }));
+    expect(enablePush).toHaveBeenCalledWith("en");
+    await waitFor(() => expect(screen.queryByText(t.promptTitle)).not.toBeInTheDocument());
   });
 
   it("stays hidden once dismissed", async () => {
@@ -127,6 +132,8 @@ describe("PushPrompt", () => {
     });
     wrap(<PushPrompt />);
     expect(await screen.findByText(t.promptTitle)).toBeInTheDocument();
+    expect(screen.queryByText(t.iosStep1)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: t.how }));
     expect(screen.getByText(t.iosStep1)).toBeInTheDocument();
     spy.mockRestore();
   });

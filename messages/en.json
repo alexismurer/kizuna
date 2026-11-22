@@ -89,7 +89,6 @@
   "footer": {
     "label": "Footer",
     "disclaimer": "Unofficial fan project. Characters belong to their respective owners.",
-    "credits": "Character names and art come from <anilist>AniList</anilist>.",
     "rules": "Rules",
     "rarities": "Rarities",
     "terms": "Terms of service",
@@ -1478,11 +1477,13 @@
     "catMarket": "Market & trades",
     "catSocial": "Friends & invites",
     "promptTitle": "Get told when your 10 free boosters are ready",
-    "promptBody": "Plus sales, outbids and friends joining, even when the game is closed.",
     "dismiss": "Not now",
     "iosTitle": "On iPhone, add Kizuna to your Home Screen first",
     "iosStep1": "Tap the Share button in Safari",
     "iosStep2": "Choose “Add to Home Screen”",
-    "iosStep3": "Open Kizuna from your Home Screen and turn on alerts"
+    "iosStep3": "Open Kizuna from your Home Screen and turn on alerts",
+    "turnOn": "Turn on",
+    "how": "How?",
+    "profileTitle": "Notifications"
   }
 }

@@ -126,6 +126,11 @@ describe("WishlistGrid", () => {
     expect(items[1]).not.toHaveTextContent(messages.collection.owned);
   });
 
+  it("spreads the card columns across the full width on wide screens", () => {
+    wrap(<WishlistGrid items={[{ card: card(7, 12, "Placeholder Hero"), owned: true }]} total={100} />);
+    expect(screen.getByRole("list")).toHaveClass("md:justify-between");
+  });
+
   it("shows the empty state", () => {
     wrap(<WishlistGrid items={[]} total={100} />);
     expect(screen.getByText(messages.collection.wishlistEmpty)).toBeInTheDocument();

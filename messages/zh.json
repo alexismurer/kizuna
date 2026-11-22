@@ -89,7 +89,6 @@
   "footer": {
     "label": "页脚",
     "disclaimer": "非官方粉丝项目。角色归各自的版权方所有。",
-    "credits": "角色名称和图片来自<anilist>AniList</anilist>。",
     "rules": "规则",
     "rarities": "稀有度",
     "terms": "服务条款",
@@ -1478,11 +1477,13 @@
     "catMarket": "市场与交易",
     "catSocial": "好友与邀请",
     "promptTitle": "10 个免费卡包就绪时通知你",
-    "promptBody": "还有售出、被超价和好友加入，即使游戏已关闭。",
     "dismiss": "以后再说",
     "iosTitle": "在 iPhone 上，请先将 Kizuna 添加到主屏幕",
     "iosStep1": "在 Safari 中轻点“分享”按钮",
     "iosStep2": "选择“添加到主屏幕”",
-    "iosStep3": "从主屏幕打开 Kizuna 并开启提醒"
+    "iosStep3": "从主屏幕打开 Kizuna 并开启提醒",
+    "turnOn": "开启",
+    "how": "怎么做？",
+    "profileTitle": "通知"
   }
 }

@@ -23,23 +23,14 @@ export async function Footer() {
     // the phone bottom nav covers the last 5rem of the page
     <footer className="mt-auto border-t border-border bg-panel/60 pb-24 md:pb-0">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-8 sm:px-6">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex max-w-xl flex-col gap-2">
-            <Link href="/" className="flex items-center gap-2 font-display text-lg font-extrabold text-white">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-1">
+            <Link href="/" className="flex shrink-0 items-center gap-2 font-display text-lg font-extrabold text-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/brand/kizuna-mark-white.png" alt="" aria-hidden width={28} height={28} className="h-7 w-7" />
               {APP_NAME}
             </Link>
             <p className="text-sm text-white/50">{t("footer.disclaimer")}</p>
-            <p className="text-xs text-white/40">
-              {t.rich("footer.credits", {
-                anilist: (chunks) => (
-                  <a href="https://anilist.co" target="_blank" rel="noreferrer" className="underline hover:text-white/70">
-                    {chunks}
-                  </a>
-                ),
-              })}
-            </p>
           </div>
           <div className="flex max-w-xs flex-col items-start gap-3">
             <LanguageSelect />

@@ -89,7 +89,6 @@
   "footer": {
     "label": "Rodapé",
     "disclaimer": "Projeto de fãs não oficial. Os personagens pertencem aos seus respectivos donos.",
-    "credits": "Os nomes e as artes dos personagens vêm do <anilist>AniList</anilist>.",
     "rules": "Regras",
     "rarities": "Raridades",
     "terms": "Termos de uso",
@@ -1478,11 +1477,13 @@
     "catMarket": "Mercado e trocas",
     "catSocial": "Amigos e convites",
     "promptTitle": "Saiba quando seus 10 boosters grátis estiverem prontos",
-    "promptBody": "Além de vendas, lances superados e amigos entrando, mesmo com o jogo fechado.",
     "dismiss": "Agora não",
     "iosTitle": "No iPhone, adicione primeiro o Kizuna à Tela de Início",
     "iosStep1": "Toque no botão Compartilhar no Safari",
     "iosStep2": "Escolha “Adicionar à Tela de Início”",
-    "iosStep3": "Abra o Kizuna pela Tela de Início e ative os alertas"
+    "iosStep3": "Abra o Kizuna pela Tela de Início e ative os alertas",
+    "turnOn": "Ativar",
+    "how": "Como?",
+    "profileTitle": "Notificações"
   }
 }

@@ -89,7 +89,6 @@
   "footer": {
     "label": "フッター",
     "disclaimer": "非公式のファンプロジェクトです。キャラクターの権利はそれぞれの権利者に帰属します。",
-    "credits": "キャラクター名とイラストは<anilist>AniList</anilist>のものです。",
     "rules": "ルール",
     "rarities": "レアリティ",
     "terms": "利用規約",
@@ -1478,11 +1477,13 @@
     "catMarket": "マーケットとトレード",
     "catSocial": "フレンドと招待",
     "promptTitle": "10個の無料ブースターの準備ができたらお知らせ",
-    "promptBody": "販売、入札の更新、フレンドの参加も、ゲームを閉じていてもお知らせします。",
     "dismiss": "今はしない",
     "iosTitle": "iPhoneでは、まずKizunaをホーム画面に追加してください",
     "iosStep1": "Safariの共有ボタンをタップ",
     "iosStep2": "「ホーム画面に追加」を選択",
-    "iosStep3": "ホーム画面からKizunaを開いて通知をオンにする"
+    "iosStep3": "ホーム画面からKizunaを開いて通知をオンにする",
+    "turnOn": "オンにする",
+    "how": "方法",
+    "profileTitle": "通知"
   }
 }

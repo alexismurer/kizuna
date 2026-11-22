@@ -10,7 +10,7 @@ export function WishlistGrid({ items, total }: { items: WishlistItem[]; total: n
   if (items.length === 0) return <p className="text-common">{t("wishlistEmpty")}</p>;
   const shown = [...items].sort((a, b) => a.card.number - b.card.number);
   return (
-    <ul className="grid grid-cols-2 justify-items-center gap-3 md:grid-cols-[repeat(auto-fill,10rem)] md:justify-start">
+    <ul className="grid grid-cols-2 justify-items-center gap-3 md:grid-cols-[repeat(auto-fill,10rem)] md:justify-between">
       {shown.map(({ card, owned }) => (
         <li key={card.id} className="relative">
           <Link href={`/wiki/${card.sourceId}`}>

@@ -89,7 +89,6 @@
   "footer": {
     "label": "Fußzeile",
     "disclaimer": "Inoffizielles Fanprojekt. Die Charaktere gehören ihren jeweiligen Eigentümern.",
-    "credits": "Namen und Bilder der Charaktere stammen von <anilist>AniList</anilist>.",
     "rules": "Regeln",
     "rarities": "Seltenheiten",
     "terms": "Nutzungsbedingungen",
@@ -1478,11 +1477,13 @@
     "catMarket": "Markt & Tausch",
     "catSocial": "Freunde & Einladungen",
     "promptTitle": "Erfahre, wenn deine 10 Gratis-Booster bereit sind",
-    "promptBody": "Dazu Verkäufe, Überbietungen und neue Freunde, auch wenn das Spiel geschlossen ist.",
     "dismiss": "Nicht jetzt",
     "iosTitle": "Auf dem iPhone füge Kizuna zuerst zum Home-Bildschirm hinzu",
     "iosStep1": "Tippe in Safari auf „Teilen“",
     "iosStep2": "Wähle „Zum Home-Bildschirm“",
-    "iosStep3": "Öffne Kizuna vom Home-Bildschirm und schalte die Benachrichtigungen ein"
+    "iosStep3": "Öffne Kizuna vom Home-Bildschirm und schalte die Benachrichtigungen ein",
+    "turnOn": "Einschalten",
+    "how": "Wie?",
+    "profileTitle": "Benachrichtigungen"
   }
 }

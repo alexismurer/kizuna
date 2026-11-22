@@ -56,7 +56,7 @@ export function CollectionGrid({
       {items.length === 0 ? (
         <p className="text-common">{t("collection.empty")}</p>
       ) : (
-        <ul className="grid grid-cols-2 justify-items-center gap-3 md:grid-cols-[repeat(auto-fill,10rem)] md:justify-start">
+        <ul className="grid grid-cols-2 justify-items-center gap-3 md:grid-cols-[repeat(auto-fill,10rem)] md:justify-between">
           {items.map((entry) => {
             if ("missing" in entry) {
               return (

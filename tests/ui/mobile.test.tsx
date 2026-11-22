@@ -253,6 +253,11 @@ describe("Collection on phones", () => {
     expect(screen.getByText("2 cards")).toBeInTheDocument();
   });
 
+  it("spreads the card columns across the full width on wide screens (no empty strip on the right)", () => {
+    wrap(<CollectionGrid items={[owned(1, "rare")]} total={10} />);
+    expect(screen.getByRole("list")).toHaveClass("md:justify-between");
+  });
+
   it("shows the recycle icon button with the duplicate count", () => {
     wrap(
       <RecycleButton

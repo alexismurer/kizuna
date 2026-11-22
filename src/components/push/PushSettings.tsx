@@ -15,7 +15,7 @@ const CATEGORIES = [
   ["social", "catSocial"],
 ] as const;
 
-export function EnablePushButton({ onState }: { onState: (s: PushState) => void }) {
+export function EnablePushButton({ onState, compact = false }: { onState: (s: PushState) => void; compact?: boolean }) {
   const t = useTranslations("push");
   const locale = useLocale();
   const [busy, setBusy] = useState(false);
@@ -31,17 +31,17 @@ export function EnablePushButton({ onState }: { onState: (s: PushState) => void 
           setBusy(false);
         }
       }}
-      className="inline-flex h-9 items-center gap-2 rounded-full bg-white px-4 font-display text-sm font-bold text-[#0e0d12] transition hover:-translate-y-0.5 disabled:opacity-60"
+      className={`inline-flex shrink-0 items-center gap-2 rounded-full bg-white font-display font-bold text-[#0e0d12] transition hover:-translate-y-0.5 disabled:opacity-60 ${compact ? "h-7 px-3 text-xs" : "h-9 px-4 text-sm"}`}
     >
-      <BellRing size={15} aria-hidden />
-      {t("enable")}
+      {!compact && <BellRing size={15} aria-hidden />}
+      {t(compact ? "turnOn" : "enable")}
     </button>
   );
 }
 
-// Top of the notifications panel: turn push on for this device and pick
-// which kinds of alerts (per player, all devices).
-export function PushSettings() {
+// Turn push on for this device and pick which kinds of alerts (per player,
+// all devices). In the notifications panel and on the player's own profile.
+export function PushSettings({ title, className = "mx-3 mb-2" }: { title?: string; className?: string }) {
   const t = useTranslations("push");
   const [state, setState] = useState<PushState | null>(null);
   const [prefs, setPrefs] = useState<Prefs>({ boosters: true, market: true, social: true });
@@ -71,7 +71,8 @@ export function PushSettings() {
 
   if (state === null || state === "unsupported") return null;
   return (
-    <div className="mx-3 mb-2 rounded-xl border border-border bg-bg/40 p-3">
+    <div className={`rounded-xl border border-border bg-bg/40 p-3 ${className}`}>
+      {title && <h2 className="mb-2 font-display text-base font-bold">{title}</h2>}
       {state === "ios-install" && <IosInstallGuide />}
       {state === "denied" && <p className="text-sm text-common">{t("blocked")}</p>}
       {(state === "default" || state === "off") && <EnablePushButton onState={setState} />}

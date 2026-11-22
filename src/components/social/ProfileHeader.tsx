@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { PushSettings } from "@/components/push/PushSettings";
 import { completionPct } from "@/lib/social/format";
 import type { Friendship, ProfileCard, ProfileData } from "@/lib/social/types";
 import { Avatar } from "./Avatar";
@@ -36,6 +37,7 @@ function Ring({ pct }: { pct: number }) {
 // Left column of a profile: identity, stats and the buttons that fit who is looking.
 export function ProfileHeader({ profile, owned }: { profile: ProfileData; owned: ProfileCard[] }) {
   const t = useTranslations("profile");
+  const tPush = useTranslations("push");
   const format = useFormatter();
   const [friendship, setFriendship] = useState<Friendship>(profile.friendship);
   const [picker, setPicker] = useState<"avatar" | "showcase" | null>(null);
@@ -144,6 +146,8 @@ export function ProfileHeader({ profile, owned }: { profile: ProfileData; owned:
           </>
         )}
       </div>
+
+      {profile.isMe && <PushSettings title={tPush("profileTitle")} className="" />}
 
       {picker === "avatar" && <AvatarPicker owned={owned} total={profile.catalogSize} onClose={() => setPicker(null)} />}
       {picker === "showcase" && (

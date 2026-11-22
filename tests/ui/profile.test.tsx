@@ -13,6 +13,7 @@ import messages from "../../messages/en.json";
 const rpc = vi.fn();
 const refresh = vi.fn();
 vi.mock("@/lib/supabase/client", () => ({ createBrowserClient: () => ({ rpc }) }));
+vi.mock("@/lib/push/client", () => ({ getPushState: async () => "default", enablePush: vi.fn(), disablePush: vi.fn() }));
 vi.mock("@/i18n/navigation", () => ({
   Link: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) => (
     <a href={href} {...rest}>
@@ -79,6 +80,16 @@ describe("Avatar", () => {
 });
 
 describe("ProfileHeader + tabs", () => {
+  it("shows the notification settings on my own profile only", async () => {
+    wrap(<ProfileHeader profile={profile({ isMe: true })} owned={[]} />);
+    expect(await screen.findByRole("heading", { name: messages.push.profileTitle })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: messages.push.enable })).toBeInTheDocument();
+    cleanup();
+    wrap(<ProfileHeader profile={profile({ isMe: false })} owned={[]} />);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.queryByRole("heading", { name: messages.push.profileTitle })).not.toBeInTheDocument();
+  });
+
   it("renders stats", () => {
     wrap(<ProfileHeader profile={profile()} owned={[]} />);
     expect(screen.getByRole("heading", { name: "sakura" })).toBeInTheDocument();

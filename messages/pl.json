@@ -89,7 +89,6 @@
   "footer": {
     "label": "Stopka",
     "disclaimer": "Nieoficjalny projekt fanowski. Postacie należą do ich prawowitych właścicieli.",
-    "credits": "Imiona i grafiki postaci pochodzą z <anilist>AniList</anilist>.",
     "rules": "Zasady",
     "rarities": "Rzadkości",
     "terms": "Regulamin",
@@ -1478,11 +1477,13 @@
     "catMarket": "Rynek i wymiany",
     "catSocial": "Znajomi i zaproszenia",
     "promptTitle": "Dowiedz się, gdy twoje 10 darmowych boosterów będzie gotowe",
-    "promptBody": "A także sprzedaże, przebicia i nowi znajomi, nawet gdy gra jest zamknięta.",
     "dismiss": "Nie teraz",
     "iosTitle": "Na iPhonie najpierw dodaj Kizunę do ekranu początkowego",
     "iosStep1": "Stuknij przycisk Udostępnij w Safari",
     "iosStep2": "Wybierz „Do ekranu początk.”",
-    "iosStep3": "Otwórz Kizunę z ekranu początkowego i włącz powiadomienia"
+    "iosStep3": "Otwórz Kizunę z ekranu początkowego i włącz powiadomienia",
+    "turnOn": "Włącz",
+    "how": "Jak?",
+    "profileTitle": "Powiadomienia"
   }
 }
