@@ -10,7 +10,11 @@
       "search": "Buscar series",
       "count": "{count}/10",
       "confirm": "Guardar · {price}",
-      "cards": "{count} cartas"
+      "cards": "{count} cartas",
+      "popular": "Series populares",
+      "picks": "Tus elecciones",
+      "remove": "Quitar {title}",
+      "noMatch": "No se encontró ninguna serie"
     },
     "title": "Colecciona a tus personajes de anime favoritos",
     "endsOn": "Termina el {date}",

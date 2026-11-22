@@ -10,7 +10,11 @@
       "search": "Search series",
       "count": "{count}/10",
       "confirm": "Save · {price}",
-      "cards": "{count} cards"
+      "cards": "{count} cards",
+      "popular": "Popular series",
+      "picks": "Your picks",
+      "remove": "Remove {title}",
+      "noMatch": "No series found"
     },
     "title": "Collect your favourite anime characters",
     "endsOn": "Ends {date}",

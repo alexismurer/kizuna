@@ -10,7 +10,11 @@
       "search": "作品を検索",
       "count": "{count}/10",
       "confirm": "保存 · {price}",
-      "cards": "{count}枚"
+      "cards": "{count}枚",
+      "popular": "人気の作品",
+      "picks": "選んだ作品",
+      "remove": "{title}を外す",
+      "noMatch": "作品が見つかりません"
     },
     "title": "好きなアニメキャラクターを集めよう",
     "endsOn": "{date}に終了",

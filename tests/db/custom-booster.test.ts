@@ -148,4 +148,15 @@ describe('custom booster', () => {
     const mine = (data as { id: number; cards: number }[]).find((s) => s.id === A()[0])
     expect(mine?.cards).toBe(2)
   })
+
+  it('orders the series by their most popular character', async () => {
+    const p = await player()
+    const { data } = await p.client.rpc('custom_series_options')
+    const rows = data as { id: number; popularity: number }[]
+    const ranks = rows.map((r) => r.popularity)
+    expect(ranks.every((r) => typeof r === 'number')).toBe(true)
+    expect(ranks).toEqual([...ranks].sort((a, b) => a - b))
+    // seeded series hold ranks 1..120; the throwaway ones start at 800000
+    expect(rows.findIndex((r) => r.id === A()[0])).toBeGreaterThan(rows.findIndex((r) => r.popularity === 1))
+  })
 })

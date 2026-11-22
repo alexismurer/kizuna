@@ -10,7 +10,11 @@
       "search": "搜索作品",
       "count": "{count}/10",
       "confirm": "保存 · {price}",
-      "cards": "{count}张"
+      "cards": "{count}张",
+      "popular": "热门作品",
+      "picks": "你的选择",
+      "remove": "移除{title}",
+      "noMatch": "没有找到作品"
     },
     "title": "收集你最爱的动漫角色",
     "endsOn": "{date}结束",

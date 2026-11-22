@@ -10,7 +10,11 @@
       "search": "Serie suchen",
       "count": "{count}/10",
       "confirm": "Speichern · {price}",
-      "cards": "{count} Karten"
+      "cards": "{count} Karten",
+      "popular": "Beliebte Serien",
+      "picks": "Deine Auswahl",
+      "remove": "{title} entfernen",
+      "noMatch": "Keine Serie gefunden"
     },
     "title": "Sammle deine liebsten Anime-Charaktere",
     "endsOn": "Endet am {date}",

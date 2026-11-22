@@ -10,7 +10,11 @@
       "search": "Szukaj serii",
       "count": "{count}/10",
       "confirm": "Zapisz · {price}",
-      "cards": "{count} kart"
+      "cards": "{count} kart",
+      "popular": "Popularne serie",
+      "picks": "Twój wybór",
+      "remove": "Usuń {title}",
+      "noMatch": "Nie znaleziono serii"
     },
     "title": "Zbieraj ulubione postacie z anime",
     "endsOn": "Kończy się {date}",
