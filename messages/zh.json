@@ -1339,6 +1339,14 @@
     "manual": "要安装，请打开浏览器菜单并选择“安装应用”或“添加到主屏幕”。"
   },
   "wiki": {
+    "index": {
+      "eyebrow": "百科 · WIKI",
+      "title": "角色百科",
+      "pill": "已解锁 {unlocked} / {total} 页。",
+      "search": "角色或作品",
+      "unlockedOnly": "仅显示已解锁页面",
+      "more": "显示更多 · 还剩 {count}"
+    },
     "value": {
       "eyebrow": "市场",
       "title": "卡牌价值",

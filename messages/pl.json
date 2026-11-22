@@ -1339,6 +1339,14 @@
     "manual": "Aby zainstalować, otwórz menu przeglądarki i wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”."
   },
   "wiki": {
+    "index": {
+      "eyebrow": "WIKI · 百科",
+      "title": "Wiki postaci",
+      "pill": "Odblokowane strony: {unlocked} z {total}.",
+      "search": "Postać lub uniwersum",
+      "unlockedOnly": "Tylko odblokowane strony",
+      "more": "Pokaż więcej · zostało {count}"
+    },
     "value": {
       "eyebrow": "RYNEK",
       "title": "Wartość karty",

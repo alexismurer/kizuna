@@ -1339,6 +1339,14 @@
     "manual": "To install it, open your browser menu and choose “Install app” or “Add to Home screen”."
   },
   "wiki": {
+    "index": {
+      "eyebrow": "WIKI · 百科",
+      "title": "The character wiki",
+      "pill": "{unlocked} pages unlocked out of {total}.",
+      "search": "Character or universe",
+      "unlockedOnly": "Unlocked pages only",
+      "more": "Show more · {count} left"
+    },
     "value": {
       "eyebrow": "MARKET",
       "title": "Card value",

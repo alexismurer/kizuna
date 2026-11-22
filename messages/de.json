@@ -1339,6 +1339,14 @@
     "manual": "Öffne zum Installieren das Browsermenü und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“."
   },
   "wiki": {
+    "index": {
+      "eyebrow": "WIKI · 百科",
+      "title": "Das Charakter-Wiki",
+      "pill": "{unlocked} von {total} Seiten freigeschaltet.",
+      "search": "Charakter oder Universum",
+      "unlockedOnly": "Nur freigeschaltete Seiten",
+      "more": "Mehr anzeigen · {count} übrig"
+    },
     "value": {
       "eyebrow": "MARKT",
       "title": "Kartenwert",

@@ -1339,6 +1339,14 @@
     "manual": "Para instalarla, abre el menú del navegador y elige «Instalar aplicación» o «Añadir a pantalla de inicio»."
   },
   "wiki": {
+    "index": {
+      "eyebrow": "WIKI · 百科",
+      "title": "La wiki de personajes",
+      "pill": "{unlocked} páginas desbloqueadas de {total}.",
+      "search": "Personaje o universo",
+      "unlockedOnly": "Solo páginas desbloqueadas",
+      "more": "Mostrar más · quedan {count}"
+    },
     "value": {
       "eyebrow": "MERCADO",
       "title": "Valor de la carta",
