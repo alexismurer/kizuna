@@ -66,7 +66,7 @@ language sql stable security definer set search_path = public as $$
     'sales30', (select count(*) from market_sales where card_id = p_card_id and sold_at >= now() - interval '30 days'),
     'listings', (select count(*) from listings where card_id = p_card_id and status = 'open'),
     'cheapest', (select min(price) from listings where card_id = p_card_id and status = 'open'),
-    'auctions', (select count(*) from auctions where card_id = p_card_id and status = 'open')
+    'auctions', (select count(*) from auctions where card_id = p_card_id and status = 'open' and ends_at > now())
   ) else json_build_object(
     'median7', null, 'median30', null, 'sales30', 0, 'listings', 0, 'cheapest', null, 'auctions', 0
   ) end

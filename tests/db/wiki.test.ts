@@ -62,6 +62,16 @@ describe('wiki_index', () => {
 
     const quote = await p.client.rpc('wiki_index', { p_query: "'" })
     expect(quote.error).toBeNull()
+
+    const under = await p.client.rpc('wiki_index', { p_query: '_' })
+    expect(under.error).toBeNull()
+    expect((under.data as WikiIndex).matches).toBe(0)
+
+    const backslash = await p.client.rpc('wiki_index', { p_query: '\\' })
+    expect(backslash.error).toBeNull()
+
+    const unicode = await p.client.rpc('wiki_index', { p_query: 'Tōru' })
+    expect(unicode.error).toBeNull()
   })
 
   it('wiki_index searches series title', async () => {
@@ -102,6 +112,19 @@ describe('card_market_stats', () => {
     const e = await p.client.rpc('card_market_stats', { p_card_id: empty })
     expect(e.error).toBeNull()
     expect(e.data).toMatchObject({ median7: null, median30: null, sales30: 0 })
+
+    // only live auctions count: open and not yet ended
+    const aucCard = await cardIdByNumber(119)
+    await admin.from('auctions').delete().eq('card_id', aucCard)
+    const hour = 3_600_000
+    const auc = await admin.from('auctions').insert([
+      { seller_id: p.userId, card_id: aucCard, start_price: 10, duration_h: 1, ends_at: new Date(Date.now() + hour).toISOString() },
+      { seller_id: p.userId, card_id: aucCard, start_price: 10, duration_h: 1, ends_at: new Date(Date.now() - hour).toISOString() },
+    ])
+    expect(auc.error).toBeNull()
+    const live = await p.client.rpc('card_market_stats', { p_card_id: aucCard })
+    expect(live.error).toBeNull()
+    expect(live.data).toMatchObject({ auctions: 1 })
   })
 })
 
@@ -143,6 +166,7 @@ describe('card_appearances', () => {
 
     const { client } = await signedInClient()
     const other = await client.from('card_appearances').select('*').eq('card_id', card)
-    expect(other.data ?? []).toHaveLength(0)
+    expect(other.error).toBeNull()
+    expect(other.data).toHaveLength(0)
   })
 })
