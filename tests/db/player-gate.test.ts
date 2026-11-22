@@ -21,7 +21,7 @@ describe('player gate', () => {
     expect(cards.error).toBeNull()
     expect(cards.data).toHaveLength(120)
     const packs = await me.client.from('pack_types').select('id').neq('kind', 'seasonal')
-    expect(packs.data).toHaveLength(15)
+    expect(packs.data).toHaveLength(16)
     const players = await me.client.from('players').select('id')
     expect(players.error).toBeNull()
     expect(players.data).toEqual([{ id: me.userId }])

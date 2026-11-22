@@ -9,7 +9,7 @@ describe("rpcErrorKey", () => {
     expect(rpcErrorKey("not_today")).toBe("errors.not_today");
     expect(rpcErrorKey("already_claimed")).toBe("errors.already_claimed");
     expect(rpcErrorKey("invalid_card")).toBe("errors.invalid_card");
-    for (const c of ["no_free_copy", "invalid_price", "invalid_duration", "own_listing", "own_order", "not_open", "not_found", "auction_ended", "own_auction", "already_top", "has_bids", "invalid_trade", "unknown_player", "trade_expired", "too_many_trades", "auction_maxed"]) {
+    for (const c of ["no_free_copy", "invalid_price", "invalid_duration", "own_listing", "own_order", "not_open", "not_found", "auction_ended", "own_auction", "already_top", "has_bids", "invalid_trade", "unknown_player", "trade_expired", "too_many_trades", "auction_maxed", "custom_not_set", "invalid_selection"]) {
       expect(rpcErrorKey(c)).toBe(`errors.${c}`);
     }
   });

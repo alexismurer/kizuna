@@ -23,6 +23,8 @@ vi.mock("@/i18n/navigation", () => ({
 const loadStatus = vi.hoisted(() => vi.fn());
 const dmUnread = vi.hoisted(() => ({ count: 0 }));
 vi.mock("@/lib/supabase/boosters", () => ({ loadStatus }));
+const customActions = vi.hoisted(() => ({ getCustomOptions: vi.fn(), saveCustomSeries: vi.fn() }));
+vi.mock("@/lib/actions/customBooster", () => customActions);
 vi.mock("@/lib/supabase/server", () => ({
   createServerClient: async () => ({
     auth: { getClaims: async () => ({ data: { claims: { sub: "u1" } } }) },
@@ -167,6 +169,13 @@ describe("BoosterGrid", () => {
     expect(within(mix.parentElement!).getByText("150")).toBeInTheDocument();
   });
 
+  it("lists the Custom booster in the Free tab with its 175 fallback price", () => {
+    const custom = pack("custom", "free", { fallbackPrice: 175, customSet: true });
+    wrap(<BoosterGrid packs={[...PACKS, custom]} status={status({ freeStock: 0 })} dailyName="Test Pool" />);
+    const tile = screen.getByRole("button", { name: /^Custom/ });
+    expect(within(tile.parentElement!).getByText("175")).toBeInTheDocument();
+  });
+
   it("switching to Shop shows Hall of Fame", () => {
     wrap(<BoosterGrid packs={PACKS} status={status()} dailyName="Test Pool" />);
     expect(screen.queryByRole("button", { name: /^Hall of Fame/ })).toBeNull();
@@ -272,6 +281,31 @@ describe("PackSidePanel", () => {
       "href",
       "/open/hall_of_fame",
     );
+  });
+
+  it("custom booster without picks: Create for 250, no Open link", () => {
+    panel(pack("custom", "free", { fallbackPrice: 175, customSet: false }), status());
+    expect(screen.getByRole("button", { name: "Create your booster · 250" })).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /^Open/ })).toBeNull();
+  });
+
+  it("custom booster with picks: the usual Open link plus Edit for 150", () => {
+    panel(pack("custom", "free", { fallbackPrice: 175, customSet: true }), status());
+    expect(screen.getByRole("link", { name: "Open · Free · 3 left" })).toHaveAttribute("href", "/open/custom");
+    expect(screen.getByRole("button", { name: "Edit · 150" })).toBeInTheDocument();
+  });
+
+  it("custom booster: after a save the panel switches to Open + Edit without a reload (booster sheet)", async () => {
+    const series = Array.from({ length: 10 }, (_, i) => ({ id: i + 1, title: `S${i + 1}`, cover: null, cards: 5 }));
+    customActions.getCustomOptions.mockResolvedValue({ series, picked: [] });
+    customActions.saveCustomSeries.mockResolvedValue({ error: null });
+    panel(pack("custom", "free", { fallbackPrice: 175, customSet: false }), status());
+    fireEvent.click(screen.getByRole("button", { name: "Create your booster · 250" }));
+    const boxes = await screen.findAllByRole("checkbox");
+    boxes.forEach((b) => fireEvent.click(b));
+    fireEvent.click(screen.getByRole("button", { name: "Save · 250" }));
+    expect(await screen.findByRole("button", { name: "Edit · 150" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open · Free · 3 left" })).toHaveAttribute("href", "/open/custom");
   });
 
   it("hides golden and pity tiles for the daily pack", () => {

@@ -3,6 +3,15 @@
     "name": "Kizuna"
   },
   "home": {
+    "custom": {
+      "create": "ブースターを作る · {price}",
+      "edit": "編集 · {price}",
+      "title": "10作品を選ぶ",
+      "search": "作品を検索",
+      "count": "{count}/10",
+      "confirm": "保存 · {price}",
+      "cards": "{count}枚"
+    },
     "title": "好きなアニメキャラクターを集めよう",
     "endsOn": "{date}に終了",
     "hero": {
@@ -207,6 +216,8 @@
     "brokenHint": "フレンドにもう一度リンクを送ってもらってください。"
   },
   "errors": {
+    "custom_not_set": "先に10作品を選んでください。",
+    "invalid_selection": "異なる作品をちょうど10個選んでください。",
     "not_friends": "メッセージを送れるのはフレンドだけです。",
     "rate_limited": "操作が速すぎます。少し待ってからもう一度お試しください。",
     "invalid_message": "このメッセージは無効です。",
@@ -453,6 +464,10 @@
     "button": "ほしいもの"
   },
   "packs": {
+    "custom": {
+      "name": "カスタム",
+      "tagline": "お気に入りの10作品"
+    },
     "mix": {
       "name": "ミックス",
       "tagline": "すべての作品のキャラクター"

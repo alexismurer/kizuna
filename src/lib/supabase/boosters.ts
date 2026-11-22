@@ -2,7 +2,7 @@ import { cache } from "react";
 import type { HomePack } from "@/components/home/BoosterGrid";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
 import { isLive } from "@/lib/game/seasonal";
-import { packPool } from "./packPool";
+import { customSeries, packPool } from "./packPool";
 import { createServerClient } from "./server";
 
 type PackRow = {
@@ -44,9 +44,10 @@ export const loadStatus = cache(async () => {
 // (`columns` of each), one range query per pack.
 async function loadPacks<C extends { image_url: string | null }>(columns: string) {
   const supabase = await createServerClient();
-  const [poolRes, packsRes] = await Promise.all([
+  const [poolRes, packsRes, picks] = await Promise.all([
     supabase.rpc("todays_pool"),
     supabase.from("pack_types").select("*").order("sort"),
+    customSeries(supabase),
   ]);
   const pool = poolRes.data as Pool;
   const now = new Date();
@@ -55,7 +56,7 @@ async function loadPacks<C extends { image_url: string | null }>(columns: string
   const tops = await Promise.all(
     rows.map(async (p) => {
       if (p.kind === "daily" && !pool) return { count: 0, cards: [] as C[] };
-      const { data, count } = await packPool(supabase, p, pool?.series_ids ?? null, columns).range(0, 2);
+      const { data, count } = await packPool(supabase, p, pool?.series_ids ?? null, columns, picks).range(0, 2);
       return { count: count ?? 0, cards: (data ?? []) as unknown as C[] };
     }),
   );
@@ -72,6 +73,7 @@ async function loadPacks<C extends { image_url: string | null }>(columns: string
     thumbs: tops[i].cards.flatMap((c) => (c.image_url ? [c.image_url] : [])),
     title: p.title,
     endsAt: p.ends_at,
+    customSet: p.id === "custom" ? picks.length > 0 : undefined,
   }));
   return { pool, packs, topCards };
 }

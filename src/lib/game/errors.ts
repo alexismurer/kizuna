@@ -40,6 +40,8 @@ const CODES = [
   "rate_limited",
   "invalid_message",
   "card_protected",
+  "custom_not_set",
+  "invalid_selection",
 ] as const;
 
 export function rpcErrorKey(message: string): string {

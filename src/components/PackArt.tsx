@@ -6,6 +6,7 @@ import {
   Flame,
   Flower2,
   Gem,
+  Heart,
   Orbit,
   Package,
   Shield,
@@ -21,6 +22,7 @@ import { Cord, PouchFace } from "@/components/opening/Pouch";
 
 export const EMBLEM: Record<string, LucideIcon> = {
   mix: Shuffle,
+  custom: Heart,
   shonen: Flame,
   seinen: Swords,
   shojo: Flower2,
@@ -39,6 +41,7 @@ export const EMBLEM: Record<string, LucideIcon> = {
 
 export const HUE: Record<string, number> = {
   mix: 330,
+  custom: 350,
   shonen: 15,
   seinen: 0,
   shojo: 340,

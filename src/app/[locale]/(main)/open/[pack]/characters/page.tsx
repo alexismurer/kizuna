@@ -7,7 +7,7 @@ import { packName } from "@/lib/game/packName";
 import { isLive } from "@/lib/game/seasonal";
 import type { Rarity } from "@/lib/game/types";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
-import { packPool, type PoolPack } from "@/lib/supabase/packPool";
+import { customSeries, packPool, type PoolPack } from "@/lib/supabase/packPool";
 import { createServerClient } from "@/lib/supabase/server";
 
 const PER_PAGE = 60;
@@ -58,6 +58,7 @@ async function CharactersContent({
       p,
       today?.series_ids ?? null,
       "id, source_id, number, name, native_name, image_url, rarity, pow, aura, series(title)",
+      p.id === "custom" ? await customSeries(supabase) : null,
     ).range(from, from + PER_PAGE - 1);
     cards = (res.data ?? []) as unknown as CardRow[];
     count = res.count ?? 0;

@@ -3,6 +3,15 @@
     "name": "Kizuna"
   },
   "home": {
+    "custom": {
+      "create": "创建你的卡包 · {price}",
+      "edit": "编辑 · {price}",
+      "title": "选择你的10部作品",
+      "search": "搜索作品",
+      "count": "{count}/10",
+      "confirm": "保存 · {price}",
+      "cards": "{count}张"
+    },
     "title": "收集你最爱的动漫角色",
     "endsOn": "{date}结束",
     "hero": {
@@ -207,6 +216,8 @@
     "brokenHint": "请让你的朋友重新发送链接。"
   },
   "errors": {
+    "custom_not_set": "请先选择10部作品。",
+    "invalid_selection": "请选择正好10部不同的作品。",
     "not_friends": "你只能给好友发消息。",
     "rate_limited": "操作太快了。请稍等片刻再试。",
     "invalid_message": "这条消息无效。",
@@ -453,6 +464,10 @@
     "button": "心愿单"
   },
   "packs": {
+    "custom": {
+      "name": "自选",
+      "tagline": "你最爱的10部作品"
+    },
     "mix": {
       "name": "综合",
       "tagline": "来自所有作品的角色"

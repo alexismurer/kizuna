@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Package } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { EMBLEM, HUE } from "@/components/PackArt";
@@ -8,7 +9,9 @@ import { Link } from "@/i18n/navigation";
 import { packAvailability } from "@/lib/game/availability";
 import { packChances } from "@/lib/game/odds";
 import { RARITIES, type PackType, type Status } from "@/lib/game/types";
+import { getCustomOptions, type CustomOption } from "@/lib/actions/customBooster";
 import { rewardsFor } from "@/lib/opening/quantity";
+import { CustomPicker } from "./CustomPicker";
 import { formatClock, useCountdown } from "./useCountdown";
 
 export type HomePack = PackType & {
@@ -19,6 +22,8 @@ export type HomePack = PackType & {
   // seasonal boosters: their title and end
   title: string | null;
   endsAt: string | null;
+  // custom booster only: whether the player has picked their 10 series
+  customSet?: boolean;
 };
 
 const BARS = [
@@ -96,6 +101,17 @@ export function PackSidePanel({
   const rewards = rewardsFor(pack, status);
   const left = useCountdown(mode === "free" ? status.nextFreeAt : null);
   const cta = "flex w-full items-center justify-center rounded-full bg-cta px-5 py-3.5 font-semibold text-black";
+  // custom booster: picks must exist before it can be opened; the picker loads on demand
+  const custom = pack.id === "custom";
+  const [savedNow, setSavedNow] = useState(false);
+  const customSet = pack.customSet || savedNow;
+  const [picker, setPicker] = useState<{ series: CustomOption[]; picked: number[] } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const openPicker = async () => {
+    setLoading(true);
+    setPicker(await getCustomOptions());
+    setLoading(false);
+  };
 
   return (
     <aside className={`flex flex-col gap-4 ${bare ? "" : "rounded-2xl border border-border bg-panel p-5"}`}>
@@ -176,7 +192,11 @@ export function PackSidePanel({
         <p className="text-[10px] text-common">{t("home.panel.oddsNote")}</p>
       </div>
 
-      {open.disabled ? (
+      {custom && !customSet ? (
+        <button type="button" disabled={loading} onClick={openPicker} className={`${cta} hover:brightness-110`}>
+          {t("home.custom.create", { price: 250 })}
+        </button>
+      ) : open.disabled ? (
         <button type="button" disabled className={`${cta} opacity-50`}>
           {open.label}
         </button>
@@ -184,6 +204,24 @@ export function PackSidePanel({
         <Link href={`/open/${pack.id}`} className={`${cta} hover:brightness-110`}>
           {open.label}
         </Link>
+      )}
+      {custom && customSet && (
+        <button
+          type="button"
+          disabled={loading}
+          onClick={openPicker}
+          className="flex w-full items-center justify-center rounded-full border border-border px-5 py-2.5 text-sm font-semibold hover:border-cta"
+        >
+          {t("home.custom.edit", { price: 150 })}
+        </button>
+      )}
+      {picker && (
+        <CustomPicker
+          options={picker.series}
+          initial={picker.picked}
+          onClose={() => setPicker(null)}
+          onSaved={() => setSavedNow(true)}
+        />
       )}
       {left !== null && left > 0 && (
         <p className="text-center font-mono text-xs text-common">

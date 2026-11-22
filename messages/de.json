@@ -3,6 +3,15 @@
     "name": "Kizuna"
   },
   "home": {
+    "custom": {
+      "create": "Booster erstellen · {price}",
+      "edit": "Bearbeiten · {price}",
+      "title": "Wähle deine 10 Serien",
+      "search": "Serie suchen",
+      "count": "{count}/10",
+      "confirm": "Speichern · {price}",
+      "cards": "{count} Karten"
+    },
     "title": "Sammle deine liebsten Anime-Charaktere",
     "endsOn": "Endet am {date}",
     "hero": {
@@ -207,6 +216,8 @@
     "brokenHint": "Bitte deine Freundin oder deinen Freund, dir den Link erneut zu schicken."
   },
   "errors": {
+    "custom_not_set": "Wähle zuerst deine 10 Serien.",
+    "invalid_selection": "Wähle genau 10 verschiedene Serien.",
     "not_friends": "Du kannst nur Freunden schreiben.",
     "rate_limited": "Das geht zu schnell. Warte kurz und versuche es erneut.",
     "invalid_message": "Diese Nachricht ist ungültig.",
@@ -453,6 +464,10 @@
     "button": "Wunschliste"
   },
   "packs": {
+    "custom": {
+      "name": "Eigenes",
+      "tagline": "Deine 10 Lieblingsserien"
+    },
     "mix": {
       "name": "Mix",
       "tagline": "Charaktere aus allen Serien"
