@@ -1033,7 +1033,8 @@
     "referral_joined": "{user} присоединился по твоей ссылке",
     "admin_grant": "Ты получил {amount} валюты от администратора игры",
     "admin_card": "Администратор игры отправил тебе {count} × {name}",
-    "referral_rewarded": "{user} открыл 50 бустеров за 3 дня: тебе +{boosters, plural, one {# бустер} few {# бустера} many {# бустеров} other {# бустера}} и +500"
+    "referral_rewarded": "{user} открыл 50 бустеров за 3 дня: тебе +{boosters, plural, one {# бустер} few {# бустера} many {# бустеров} other {# бустера}} и +500",
+    "referral_milestone": "{invites} подтверждённых друзей: вы получаете {rarity, select, mythic {случайную мифическую карту} other {{count} случайные легендарные карты}}"
   },
   "inspector": {
     "hint": "Двигай, чтобы наклонить · нажми, чтобы перевернуть",
@@ -1079,7 +1080,10 @@
     "joinedOn": "Присоединился {date}",
     "totalJoined": "{count, plural, one {Присоединился # друг} few {Присоединились # друга} many {Присоединились # друзей} other {Присоединились # друга}}",
     "totalRewarded": "Награждено: {count}",
-    "totalEarned": "+{boosters, number} бустеров · +{currency, number}"
+    "totalEarned": "+{boosters, number} бустеров · +{currency, number}",
+    "milestonesTitle": "Этапы приглашений",
+    "milestonesHint": "Друг засчитывается, когда награда за его приглашение открыта.",
+    "milestoneReward": "{invites} подтверждённых друзей: {count, plural, one {# случайная} few {# случайные} other {# случайных}} <r>{rarity, select, mythic {{count, plural, one {мифическая карта} few {мифические карты} other {мифических карт}}} other {{count, plural, one {легендарная карта} few {легендарные карты} other {легендарных карт}}}}</r>"
   },
   "admin": {
     "title": "Админка",

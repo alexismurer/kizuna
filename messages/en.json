@@ -1033,7 +1033,8 @@
     "referral_joined": "{user} joined with your link",
     "admin_grant": "You received {amount} currency from the game admin",
     "admin_card": "The game admin sent you {count} × {name}",
-    "referral_rewarded": "{user} played 50 boosters over 3 days: +{boosters} boosters and +500 for you"
+    "referral_rewarded": "{user} played 50 boosters over 3 days: +{boosters} boosters and +500 for you",
+    "referral_milestone": "{invites} confirmed friends: you received {rarity, select, mythic {a random Mythic card} other {{count} random Legendary cards}}"
   },
   "inspector": {
     "hint": "Move to tilt · tap to flip",
@@ -1079,7 +1080,10 @@
     "joinedOn": "Joined {date}",
     "totalJoined": "{count, plural, one {# friend joined} other {# friends joined}}",
     "totalRewarded": "{count} rewarded",
-    "totalEarned": "+{boosters, number} boosters · +{currency, number}"
+    "totalEarned": "+{boosters, number} boosters · +{currency, number}",
+    "milestonesTitle": "Invite milestones",
+    "milestonesHint": "A friend counts once their invite reward is unlocked.",
+    "milestoneReward": "{invites} confirmed friends: {count} random <r>{rarity, select, mythic {Mythic {count, plural, one {card} other {cards}}} other {Legendary {count, plural, one {card} other {cards}}}}</r>"
   },
   "admin": {
     "title": "Admin",

@@ -1033,7 +1033,8 @@
     "referral_joined": "{user}さんがあなたのリンクから参加しました",
     "admin_grant": "ゲーム管理者から通貨{amount}を受け取りました",
     "admin_card": "ゲーム管理者から{name}を{count}枚受け取りました",
-    "referral_rewarded": "{user}さんが3日間でブースターを50個開けました：あなたにブースター+{boosters}と+500"
+    "referral_rewarded": "{user}さんが3日間でブースターを50個開けました：あなたにブースター+{boosters}と+500",
+    "referral_milestone": "確定した友達が {invites} 人に：{rarity, select, mythic {ランダムなミシックカード 1 枚} other {ランダムなレジェンダリーカード {count} 枚}}を獲得しました"
   },
   "inspector": {
     "hint": "動かして傾ける · タップでめくる",
@@ -1079,7 +1080,10 @@
     "joinedOn": "{date}に参加",
     "totalJoined": "{count}人のフレンドが参加",
     "totalRewarded": "報酬獲得 {count}人",
-    "totalEarned": "ブースター+{boosters, number} · +{currency, number}"
+    "totalEarned": "ブースター+{boosters, number} · +{currency, number}",
+    "milestonesTitle": "招待マイルストーン",
+    "milestonesHint": "招待報酬が解放された友達がカウントされます。",
+    "milestoneReward": "確定した友達 {invites} 人：ランダムな<r>{rarity, select, mythic {ミシック} other {レジェンダリー}}</r>カード {count} 枚"
   },
   "admin": {
     "title": "管理",

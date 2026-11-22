@@ -1033,7 +1033,8 @@
     "referral_joined": "{user} a rejoint le jeu grâce à ton lien",
     "admin_grant": "Tu as reçu {amount} de monnaie de la part de l'administrateur du jeu",
     "admin_card": "L'administrateur du jeu t'a envoyé {count} × {name}",
-    "referral_rewarded": "{user} a ouvert 50 boosters sur 3 jours : +{boosters} boosters et +500 pour toi"
+    "referral_rewarded": "{user} a ouvert 50 boosters sur 3 jours : +{boosters} boosters et +500 pour toi",
+    "referral_milestone": "{invites} amis confirmés : tu reçois {rarity, select, mythic {une carte Mythique aléatoire} other {{count} cartes Légendaires aléatoires}}"
   },
   "inspector": {
     "hint": "Bouge pour incliner · touche pour retourner",
@@ -1079,7 +1080,10 @@
     "joinedOn": "Inscrit le {date}",
     "totalJoined": "{count, plural, one {# ami a rejoint le jeu} other {# amis ont rejoint le jeu}}",
     "totalRewarded": "{count} récompensés",
-    "totalEarned": "+{boosters, number} boosters · +{currency, number}"
+    "totalEarned": "+{boosters, number} boosters · +{currency, number}",
+    "milestonesTitle": "Paliers de parrainage",
+    "milestonesHint": "Un ami compte dès que sa récompense de parrainage est débloquée.",
+    "milestoneReward": "{invites} amis confirmés : {count, plural, one {# carte} other {# cartes}} <r>{rarity, select, mythic {{count, plural, one {Mythique} other {Mythiques}}} other {{count, plural, one {Légendaire} other {Légendaires}}}}</r> {count, plural, one {aléatoire} other {aléatoires}}"
   },
   "admin": {
     "title": "Admin",

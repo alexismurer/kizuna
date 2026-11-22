@@ -5,6 +5,7 @@ import { Gift } from "lucide-react";
 import { getFormatter, getTranslations, setRequestLocale } from "next-intl/server";
 import { ReferralLink } from "@/components/referrals/ReferralLink";
 import { ReferralList, type Invited } from "@/components/referrals/ReferralList";
+import { ReferralMilestones, type Milestone } from "@/components/referrals/ReferralMilestones";
 import { createServerClient } from "@/lib/supabase/server";
 import { REFERRAL_BOOSTERS } from "@/config/app";
 
@@ -12,6 +13,7 @@ type MyReferrals = {
   code: string;
   invited: Invited[];
   totals: { joined: number; rewarded: number; boostersEarned: number; currencyEarned: number };
+  milestones: Milestone[];
 };
 
 async function requestOrigin() {
@@ -28,7 +30,7 @@ async function InviteContent() {
   const supabase = await createServerClient();
   const { data, error } = await supabase.rpc("my_referrals");
   if (error || !data) notFound();
-  const { code, invited, totals } = data as unknown as MyReferrals;
+  const { code, invited, totals, milestones } = data as unknown as MyReferrals;
   const origin = await requestOrigin();
   return (
     <>
@@ -45,6 +47,11 @@ async function InviteContent() {
             </li>
           ))}
         </ol>
+      </section>
+      <section className="flex flex-col gap-3">
+        <h2 className="font-display text-xl font-bold">{t("milestonesTitle")}</h2>
+        <p className="text-sm text-white/70">{t("milestonesHint")}</p>
+        <ReferralMilestones milestones={milestones} confirmed={totals.rewarded} />
       </section>
       <section className="flex flex-col gap-3">
         <h2 className="font-display text-xl font-bold">{t("invitedTitle")}</h2>

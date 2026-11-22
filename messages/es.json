@@ -1033,7 +1033,8 @@
     "referral_joined": "{user} se ha unido con tu enlace",
     "admin_grant": "Has recibido {amount} de moneda del administrador del juego",
     "admin_card": "El administrador del juego te ha enviado {count} × {name}",
-    "referral_rewarded": "{user} ha abierto 50 sobres en 3 días: +{boosters} sobres y +500 para ti"
+    "referral_rewarded": "{user} ha abierto 50 sobres en 3 días: +{boosters} sobres y +500 para ti",
+    "referral_milestone": "{invites} amigos confirmados: recibes {rarity, select, mythic {una carta Mítica aleatoria} other {{count} cartas Legendarias aleatorias}}"
   },
   "inspector": {
     "hint": "Mueve para inclinar · toca para girar",
@@ -1079,7 +1080,10 @@
     "joinedOn": "Se unió el {date}",
     "totalJoined": "{count, plural, one {# amigo se ha unido} other {# amigos se han unido}}",
     "totalRewarded": "{count} recompensados",
-    "totalEarned": "+{boosters, number} sobres · +{currency, number}"
+    "totalEarned": "+{boosters, number} sobres · +{currency, number}",
+    "milestonesTitle": "Hitos de invitación",
+    "milestonesHint": "Un amigo cuenta en cuanto se desbloquea su recompensa de invitación.",
+    "milestoneReward": "{invites} amigos confirmados: {count, plural, one {# carta} other {# cartas}} <r>{rarity, select, mythic {{count, plural, one {Mítica} other {Míticas}}} other {{count, plural, one {Legendaria} other {Legendarias}}}}</r> {count, plural, one {aleatoria} other {aleatorias}}"
   },
   "admin": {
     "title": "Admin",

@@ -1033,7 +1033,8 @@
     "referral_joined": "{user} dołącza z twojego linku",
     "admin_grant": "Otrzymujesz {amount} waluty od administratora gry",
     "admin_card": "Administrator gry wysyła ci {count} × {name}",
-    "referral_rewarded": "{user} otworzył(a) 50 boosterów w 3 dni: +{boosters} boosterów i +500 dla ciebie"
+    "referral_rewarded": "{user} otworzył(a) 50 boosterów w 3 dni: +{boosters} boosterów i +500 dla ciebie",
+    "referral_milestone": "{invites} potwierdzonych znajomych: otrzymujesz {rarity, select, mythic {losową mityczną kartę} other {{count} losowe legendarne karty}}"
   },
   "inspector": {
     "hint": "Porusz, aby przechylić · dotknij, aby odwrócić",
@@ -1079,7 +1080,10 @@
     "joinedOn": "Dołączył(a) {date}",
     "totalJoined": "{count, plural, one {# znajomy dołączył} few {# znajomych dołączyło} many {# znajomych dołączyło} other {# znajomego dołączyło}}",
     "totalRewarded": "Nagrodzeni: {count}",
-    "totalEarned": "+{boosters, number} boosterów · +{currency, number}"
+    "totalEarned": "+{boosters, number} boosterów · +{currency, number}",
+    "milestonesTitle": "Progi zaproszeń",
+    "milestonesHint": "Znajomy liczy się, gdy jego nagroda za zaproszenie zostanie odblokowana.",
+    "milestoneReward": "{invites} potwierdzonych znajomych: {count, plural, one {# losowa} few {# losowe} other {# losowych}} <r>{rarity, select, mythic {{count, plural, one {mityczna karta} few {mityczne karty} other {mitycznych kart}}} other {{count, plural, one {legendarna karta} few {legendarne karty} other {legendarnych kart}}}}</r>"
   },
   "admin": {
     "title": "Admin",

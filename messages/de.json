@@ -1033,7 +1033,8 @@
     "referral_joined": "{user} ist über deinen Link beigetreten",
     "admin_grant": "Du hast {amount} Währung vom Spiel-Admin erhalten",
     "admin_card": "Der Spiel-Admin hat dir {count} × {name} geschickt",
-    "referral_rewarded": "{user} hat 50 Booster an 3 Tagen geöffnet: +{boosters} Booster und +500 für dich"
+    "referral_rewarded": "{user} hat 50 Booster an 3 Tagen geöffnet: +{boosters} Booster und +500 für dich",
+    "referral_milestone": "{invites} bestätigte Freunde: Du erhältst {rarity, select, mythic {eine zufällige mythische Karte} other {{count} zufällige legendäre Karten}}"
   },
   "inspector": {
     "hint": "Bewegen zum Neigen · tippen zum Umdrehen",
@@ -1079,7 +1080,10 @@
     "joinedOn": "Beigetreten am {date}",
     "totalJoined": "{count, plural, one {# Freund beigetreten} other {# Freunde beigetreten}}",
     "totalRewarded": "{count} belohnt",
-    "totalEarned": "+{boosters, number} Booster · +{currency, number}"
+    "totalEarned": "+{boosters, number} Booster · +{currency, number}",
+    "milestonesTitle": "Einladungs-Meilensteine",
+    "milestonesHint": "Ein Freund zählt, sobald seine Einladungsbelohnung freigeschaltet ist.",
+    "milestoneReward": "{invites} bestätigte Freunde: {count} zufällige <r>{rarity, select, mythic {mythische {count, plural, one {Karte} other {Karten}}} other {legendäre {count, plural, one {Karte} other {Karten}}}}</r>"
   },
   "admin": {
     "title": "Admin",

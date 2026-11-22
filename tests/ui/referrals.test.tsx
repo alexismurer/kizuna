@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NotificationList } from "@/components/notifications/NotificationList";
 import { ReferralLink } from "@/components/referrals/ReferralLink";
 import { ReferralList, type Invited } from "@/components/referrals/ReferralList";
+import { ReferralMilestones, type Milestone } from "@/components/referrals/ReferralMilestones";
 import { referralUrl } from "@/lib/referrals/link";
 import { copyOrShare } from "@/lib/referrals/share";
 import messages from "../../messages/en.json";
@@ -142,6 +143,22 @@ describe("ReferralList", () => {
   });
 });
 
+const milestones: Milestone[] = [
+  { invites: 5, rarity: "legendary", cards: 3, reached: true, won: [{ name: "Asuka", imageUrl: null }, { name: "Rei", imageUrl: null }, { name: "Shinji", imageUrl: null }] },
+  { invites: 10, rarity: "mythic", cards: 1, reached: false, won: [] },
+];
+
+describe("ReferralMilestones", () => {
+  it("shows won cards for reached tiers and progress for the rest", () => {
+    wrap(<ReferralMilestones milestones={milestones} confirmed={7} />);
+    expect(screen.getByText(/5 confirmed friends: 3 random/)).toHaveTextContent("5 confirmed friends: 3 random Legendary cards");
+    expect(screen.getByText("Legendary cards")).toHaveClass("text-legendary");
+    expect(screen.getByText("Asuka · Rei · Shinji")).toBeInTheDocument();
+    expect(screen.getByText(/10 confirmed friends/)).toHaveTextContent("10 confirmed friends: 1 random Mythic card");
+    expect(screen.getByText("7/10")).toBeInTheDocument();
+  });
+});
+
 describe("invite friends page", () => {
   it("shows totals, the 3 steps and a link on the request origin", async () => {
     rpc.mockResolvedValue({
@@ -149,6 +166,7 @@ describe("invite friends page", () => {
         code: "ABCD2345",
         invited: [invited[1]],
         totals: { joined: 1, rewarded: 1, boostersEarned: 3, currencyEarned: 500 },
+        milestones,
       },
       error: null,
     });
@@ -164,6 +182,7 @@ describe("invite friends page", () => {
     expect(screen.getAllByRole("listitem").filter((li) => li.closest("ol"))).toHaveLength(3);
     expect(screen.getByRole("textbox")).toHaveValue("https://kizuna.test/join/ABCD2345");
     expect(screen.getByText(/3 different days/)).toBeInTheDocument();
+    expect(screen.getByText("Invite milestones")).toBeInTheDocument();
   });
 });
 
@@ -183,6 +202,16 @@ describe("referral notifications", () => {
       "/invite-friends",
     ],
     [n(3, "referral_gift", { username: "mika" }), "mika sent you a gift: 30 Mix boosters", "/profile/mika"],
+    [
+      n(4, "referral_milestone", { invites: 5, rarity: "legendary", count: 3 }),
+      "5 confirmed friends: you received 3 random Legendary cards",
+      "/collection",
+    ],
+    [
+      n(5, "referral_milestone", { invites: 10, rarity: "mythic", count: 1 }),
+      "10 confirmed friends: you received a random Mythic card",
+      "/collection",
+    ],
   ])("renders %#", (item, text, href) => {
     wrap(<NotificationList items={[item]} names={{}} onNavigate={() => {}} />);
     const link = screen.getByRole("link");

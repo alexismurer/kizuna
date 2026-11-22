@@ -21,6 +21,7 @@ const HREF: Record<string, string> = {
   referral_joined: "/profile",
   referral_gift: "/profile",
   referral_rewarded: "/invite-friends",
+  referral_milestone: "/collection",
   admin_grant: "/",
   admin_card: "/collection",
 };
@@ -60,6 +61,8 @@ export function NotificationList({
           count: num("count"),
           user: String(p.from_username ?? p.to_username ?? p.username ?? ""),
           boosters: REFERRAL_BOOSTERS,
+          invites: num("invites"),
+          rarity: String(p.rarity ?? ""),
         });
         return (
           <li key={i.id}>

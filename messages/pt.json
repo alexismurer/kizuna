@@ -1033,7 +1033,8 @@
     "referral_joined": "{user} entrou com seu link",
     "admin_grant": "Você recebeu {amount} de moeda do administrador do jogo",
     "admin_card": "O administrador do jogo enviou {count} × {name} para você",
-    "referral_rewarded": "{user} abriu 50 boosters em 3 dias: +{boosters} boosters e +500 para você"
+    "referral_rewarded": "{user} abriu 50 boosters em 3 dias: +{boosters} boosters e +500 para você",
+    "referral_milestone": "{invites} amigos confirmados: você recebeu {rarity, select, mythic {uma carta Mítica aleatória} other {{count} cartas Lendárias aleatórias}}"
   },
   "inspector": {
     "hint": "Mova para inclinar · toque para virar",
@@ -1079,7 +1080,10 @@
     "joinedOn": "Entrou em {date}",
     "totalJoined": "{count, plural, one {# amigo entrou} other {# amigos entraram}}",
     "totalRewarded": "{count} recompensados",
-    "totalEarned": "+{boosters, number} boosters · +{currency, number}"
+    "totalEarned": "+{boosters, number} boosters · +{currency, number}",
+    "milestonesTitle": "Marcos de convite",
+    "milestonesHint": "Um amigo conta assim que a recompensa do convite é desbloqueada.",
+    "milestoneReward": "{invites} amigos confirmados: {count, plural, one {# carta} other {# cartas}} <r>{rarity, select, mythic {{count, plural, one {Mítica} other {Míticas}}} other {{count, plural, one {Lendária} other {Lendárias}}}}</r> {count, plural, one {aleatória} other {aleatórias}}"
   },
   "admin": {
     "title": "Admin",

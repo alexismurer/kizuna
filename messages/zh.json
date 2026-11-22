@@ -1033,7 +1033,8 @@
     "referral_joined": "{user} 通过你的链接加入了",
     "admin_grant": "你收到了游戏管理员发放的 {amount} 货币",
     "admin_card": "游戏管理员送给你 {count} × {name}",
-    "referral_rewarded": "{user} 在 3 天内打开了 50 个卡包：你获得 +{boosters} 个卡包和 +500"
+    "referral_rewarded": "{user} 在 3 天内打开了 50 个卡包：你获得 +{boosters} 个卡包和 +500",
+    "referral_milestone": "已确认好友达到 {invites} 位：你获得了{rarity, select, mythic {1 张随机神话卡牌} other {{count} 张随机传说卡牌}}"
   },
   "inspector": {
     "hint": "移动以倾斜 · 点击以翻转",
@@ -1079,7 +1080,10 @@
     "joinedOn": "{date}加入",
     "totalJoined": "{count, plural, other {# 位好友已加入}}",
     "totalRewarded": "{count} 位已奖励",
-    "totalEarned": "+{boosters, number} 个卡包 · +{currency, number}"
+    "totalEarned": "+{boosters, number} 个卡包 · +{currency, number}",
+    "milestonesTitle": "邀请里程碑",
+    "milestonesHint": "好友的邀请奖励解锁后即计入。",
+    "milestoneReward": "{invites} 位已确认好友：{count} 张随机<r>{rarity, select, mythic {神话} other {传说}}</r>卡牌"
   },
   "admin": {
     "title": "管理",

@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { describe, expect, it } from 'vitest'
-import { admin, anonKey, giveCards, newInvite, newPlayer, signedInClient, url } from './helpers'
+import { admin, anonKey, giveCards, inventoryOf, newInvite, newPlayer, signedInClient, url } from './helpers'
 
 function anon() {
   return createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } })
@@ -286,5 +286,88 @@ describe('referral reads', () => {
       expect(r.error).toBeNull()
       expect(r.data).toBeNull()
     }
+  })
+})
+
+async function confirmReferrals(inviterId: string, n: number) {
+  for (let i = 0; i < n; i++) {
+    const f = await newReferral(inviterId)
+    await openings(f.userId, spread(50, [D1, D2, D3]))
+  }
+}
+
+async function milestoneRows(id: string) {
+  const { data, error } = await admin.from('ledger').select('*').eq('player_id', id).eq('kind', 'referral_milestone')
+  if (error) throw error
+  return data!
+}
+
+async function raritiesOf(ids: number[]) {
+  const { data, error } = await admin.from('cards').select('id, rarity').in('id', ids)
+  if (error) throw error
+  return data!.map((c) => c.rarity as string)
+}
+
+describe('referral milestones', () => {
+  it('3 legendaries at 5 confirmed, 1 mythic at 10, each once', async () => {
+    const inviter = await newPlayer()
+    await confirmReferrals(inviter.userId, 4)
+    // a joined but unconfirmed invitee does not count
+    const pending = await newReferral(inviter.userId)
+    await openings(pending.userId, spread(10, [D1]))
+    expect(await milestoneRows(inviter.userId)).toHaveLength(0)
+
+    await confirmReferrals(inviter.userId, 1)
+    const five = await milestoneRows(inviter.userId)
+    expect(five).toHaveLength(3)
+    expect(five.every((r) => r.ref === '5' && r.card_delta === 1)).toBe(true)
+    expect(new Set(five.map((r) => r.card_id)).size).toBe(3)
+    expect(await raritiesOf(five.map((r) => r.card_id as number))).toEqual(['legendary', 'legendary', 'legendary'])
+    const inv = await inventoryOf(inviter.userId)
+    for (const r of five) expect(inv.get(r.card_id as number)?.count).toBeGreaterThanOrEqual(1)
+
+    await confirmReferrals(inviter.userId, 4)
+    expect(await milestoneRows(inviter.userId)).toHaveLength(3)
+    await confirmReferrals(inviter.userId, 1)
+    const ten = (await milestoneRows(inviter.userId)).filter((r) => r.ref === '10')
+    expect(ten).toHaveLength(1)
+    expect(await raritiesOf([ten[0].card_id as number])).toEqual(['mythic'])
+
+    await confirmReferrals(inviter.userId, 1)
+    expect(await milestoneRows(inviter.userId)).toHaveLength(4)
+
+    const { data: notes } = await admin
+      .from('notifications')
+      .select('payload')
+      .eq('player_id', inviter.userId)
+      .eq('kind', 'referral_milestone')
+    expect(notes!.map((n) => n.payload.invites).sort((a, b) => a - b)).toEqual([5, 10])
+
+    const { data } = await inviter.client.rpc('my_referrals')
+    expect(data.milestones).toHaveLength(2)
+    expect(data.milestones[0]).toMatchObject({ invites: 5, rarity: 'legendary', cards: 3, reached: true })
+    expect(data.milestones[0].won).toHaveLength(3)
+    expect(data.milestones[1]).toMatchObject({ invites: 10, rarity: 'mythic', cards: 1, reached: true })
+    expect(data.milestones[1].won).toHaveLength(1)
+  }, 120_000)
+
+  it('two invitees confirmed at once still reach the tier', async () => {
+    const inviter = await newPlayer()
+    await confirmReferrals(inviter.userId, 3)
+    const a = await newReferral(inviter.userId)
+    const b = await newReferral(inviter.userId)
+    await openings(a.userId, spread(49, [D1, D2, D3]))
+    await openings(b.userId, spread(49, [D1, D2, D3]))
+    await Promise.all([openings(a.userId, [D4]), openings(b.userId, [D4])])
+    expect(await milestoneRows(inviter.userId)).toHaveLength(3)
+  }, 120_000)
+
+  it('my_referrals shows unreached tiers', async () => {
+    const p = await newPlayer()
+    const { data } = await p.client.rpc('my_referrals')
+    expect(data.milestones).toEqual([
+      { invites: 5, rarity: 'legendary', cards: 3, reached: false, won: [] },
+      { invites: 10, rarity: 'mythic', cards: 1, reached: false, won: [] },
+    ])
   })
 })
