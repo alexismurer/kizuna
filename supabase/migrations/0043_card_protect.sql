@@ -390,3 +390,39 @@ $$;
 
 revoke execute on function accept_trade(bigint) from public, anon;
 grant execute on function accept_trade(bigint) to authenticated;
+
+-- from 0025_market_fixes.sql
+create or replace function player_tradable_cards(p_player uuid, p_query text default null, p_card_id int default null) returns table(
+  card_id int,
+  free int,
+  name text,
+  number int,
+  image_url text,
+  rarity text,
+  series_title text
+)
+language plpgsql stable security definer set search_path = public as $$
+declare
+  v_q text := nullif(btrim(coalesce(p_query, '')), '');
+begin
+  if not is_player() then
+    raise exception 'not_a_player';
+  end if;
+  if v_q is not null then
+    v_q := '%' || replace(replace(replace(v_q, '\', '\\'), '%', '\%'), '_', '\_') || '%';
+  end if;
+  return query
+    select c.id, i.count - i.locked, c.name, c.number, c.image_url, c.rarity::text, s.title
+    from inventory i
+    join cards c on c.id = i.card_id
+    join series s on s.id = c.series_id
+    where i.player_id = p_player and i.count - i.locked > 0 and not i.protected
+      and (p_card_id is null or i.card_id = p_card_id)
+      and (v_q is null or c.name ilike v_q or c.native_name ilike v_q or s.title ilike v_q)
+    order by c.rarity desc, s.title, c.number
+    limit 200;
+end;
+$$;
+
+revoke execute on function player_tradable_cards(uuid, text, int) from public, anon;
+grant execute on function player_tradable_cards(uuid, text, int) to authenticated;

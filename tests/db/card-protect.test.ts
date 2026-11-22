@@ -130,3 +130,24 @@ describe('bulk recycle skips locked cards', () => {
     expect(inv.get(free)!.count).toBe(1)
   })
 })
+
+describe('player_tradable_cards hides locked cards', () => {
+  it('a locked card is not offered, and comes back when unlocked', async () => {
+    const me = await newPlayer()
+    const other = await newPlayer()
+    const card = await cardAt(9)
+    await giveCards(other.userId, card, 3)
+    const ids = async () => {
+      const { data, error } = await me.client.rpc('player_tradable_cards', { p_player: other.userId })
+      if (error) throw error
+      return (data as Array<{ card_id: number }>).map((r) => r.card_id)
+    }
+    expect(await ids()).toContain(card)
+
+    expect((await other.client.rpc('set_card_protected', { p_card_id: card, p_on: true })).error).toBeNull()
+    expect(await ids()).not.toContain(card)
+
+    expect((await other.client.rpc('set_card_protected', { p_card_id: card, p_on: false })).error).toBeNull()
+    expect(await ids()).toContain(card)
+  })
+})
