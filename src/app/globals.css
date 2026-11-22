@@ -345,15 +345,17 @@ body {
   }
 }
 
-/* While a page's content is still streaming in, its <main> holds only React's <template>
-   placeholders: show the logo in the middle and hide the footer instead of a lone footer. */
+/* While a page's content is loading, its <main> holds only React's <template> placeholders
+   (first load) or only children React hid with an inline display:none (revisiting a page while
+   its data refreshes): show the logo in the middle and hide the footer instead of a lone footer.
+   Mains of other pages that Next keeps hidden (inline display:none on the main) are ignored. */
 @keyframes page-loading-pulse {
   50% {
     opacity: 0.35;
     transform: scale(0.94);
   }
 }
-main:not(:has(> :not(template)))::before {
+main:not([style*="display: none"]):not(:has(> :not(template, [style*="display: none"])))::before {
   content: "";
   margin: auto;
   width: 64px;
@@ -362,6 +364,6 @@ main:not(:has(> :not(template)))::before {
   animation: page-loading-pulse 1.4s ease-in-out infinite;
 }
 /* (:has cannot nest, so the footer is reached as main's later sibling in <body>) */
-main:not(:has(> :not(template))) ~ footer {
+main:not([style*="display: none"]):not(:has(> :not(template, [style*="display: none"]))) ~ footer {
   display: none;
 }
