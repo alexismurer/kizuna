@@ -13,7 +13,13 @@ const RAYS = new Set(["legendary", "mythic"]);
 
 // A card shown large: tilt it with the pointer, tap to flip it to its back
 // (owners count, owned since, link to the card page). Esc / ✕ / backdrop close it.
-export function CardInspector({ card, onClose }: { card: CardFace & { id: number }; onClose: () => void }) {
+export function CardInspector({
+  card,
+  onClose,
+}: {
+  card: CardFace & { id: number; sourceId: number };
+  onClose: () => void;
+}) {
   const t = useTranslations("inspector");
   const tr = useTranslations("rarity");
   const format = useFormatter();
@@ -167,7 +173,7 @@ export function CardInspector({ card, onClose }: { card: CardFace & { id: number
               </div>
             </div>
             <Link
-              href={`/card/${card.number}`}
+              href={`/wiki/${card.sourceId}`}
               onClick={(e) => e.stopPropagation()}
               className="mt-auto text-sm font-bold text-accent hover:underline"
             >

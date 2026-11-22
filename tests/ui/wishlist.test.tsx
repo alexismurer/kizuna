@@ -94,8 +94,9 @@ describe("CardViewTracker", () => {
   });
 });
 
-const card = (id: number, number: number, name: string): CardData => ({
+const card = (id: number, number: number, name: string): CardData & { sourceId: number } => ({
   id,
+  sourceId: id * 100,
   number,
   name,
   nativeName: null,
@@ -119,7 +120,7 @@ describe("WishlistGrid", () => {
       />,
     );
     const links = screen.getAllByRole("link");
-    expect(links.map((l) => l.getAttribute("href"))).toEqual(["/card/12", "/card/30"]);
+    expect(links.map((l) => l.getAttribute("href"))).toEqual(["/wiki/700", "/wiki/900"]);
     const items = screen.getAllByRole("listitem");
     expect(items[0]).toHaveTextContent(messages.collection.owned);
     expect(items[1]).not.toHaveTextContent(messages.collection.owned);

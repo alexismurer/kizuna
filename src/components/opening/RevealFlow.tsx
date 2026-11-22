@@ -15,7 +15,7 @@ import { SeriesScene } from "./SeriesScene";
 import { SlotStrip } from "./SlotStrip";
 
 export type RevealCard = {
-  card: CardFace & { id?: number; seriesId?: number };
+  card: CardFace & { id?: number; seriesId?: number; sourceId?: number };
   rarity: Rarity;
   isNew: boolean;
   packIndex: number;

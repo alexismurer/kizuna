@@ -110,7 +110,17 @@
     "notifications": "Powiadomienia",
     "friends": "Znajomi i wiadomości",
     "myProfile": "Mój profil",
-    "invite": "Zaproś znajomych"
+    "invite": "Zaproś znajomych",
+    "wiki": "Wiki",
+    "leaderboard": "Ranking",
+    "rebirth": "Odrodzenie",
+    "moreMenu": {
+      "friends": "Znajomi",
+      "friendsHint": "Twoi znajomi i wiadomości",
+      "leaderboardHint": "Najlepsi kolekcjonerzy",
+      "rebirthHint": "Przywróć swój album do gry",
+      "wikiHint": "Każda strona postaci"
+    }
   },
   "topbar": {
     "freeBoosters": "Darmowe boostery",

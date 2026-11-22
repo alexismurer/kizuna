@@ -110,7 +110,17 @@
     "notifications": "Уведомления",
     "friends": "Друзья и сообщения",
     "myProfile": "Мой профиль",
-    "invite": "Пригласить друзей"
+    "invite": "Пригласить друзей",
+    "wiki": "Вики",
+    "leaderboard": "Рейтинг",
+    "rebirth": "Перерождение",
+    "moreMenu": {
+      "friends": "Друзья",
+      "friendsHint": "Ваши друзья и сообщения",
+      "leaderboardHint": "Лучшие коллекционеры",
+      "rebirthHint": "Верните свой альбом в игру",
+      "wikiHint": "Все страницы персонажей"
+    }
   },
   "topbar": {
     "freeBoosters": "Бесплатные бустеры",

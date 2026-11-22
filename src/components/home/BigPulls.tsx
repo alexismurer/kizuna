@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type RefObject } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { COLOR } from "@/components/card/CardView";
+import { Link } from "@/i18n/navigation";
 import type { Rarity } from "@/lib/game/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 
@@ -10,8 +11,8 @@ const LIMIT = 12;
 const POLL_MS = 30_000;
 
 type FeedRow = { card_id: number; rarity: Rarity; username: string; pulled_at: string };
-type CardRow = { id: number; name: string; image_url: string | null };
-type Pull = FeedRow & { name: string; imageUrl: string | null };
+type CardRow = { id: number; source_id: number; name: string; image_url: string | null };
+type Pull = FeedRow & { name: string; imageUrl: string | null; sourceId: number | null };
 
 function ago(iso: string, now: number, locale: string, justNow: string) {
   const s = Math.round((now - Date.parse(iso)) / 1000);
@@ -24,13 +25,16 @@ function ago(iso: string, now: number, locale: string, justNow: string) {
 
 const hueOf = (name: string) => [...name].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
 
-// mouse drag scrolls the row; touch already scrolls it natively
-function dragScroll(e: ReactPointerEvent<HTMLElement>) {
+// mouse drag scrolls the row; touch already scrolls it natively.
+// `dragged` turns true past 5 px so the click that ends the drag doesn't open a page.
+function dragScroll(e: ReactPointerEvent<HTMLElement>, dragged: RefObject<boolean>) {
+  dragged.current = false;
   if (e.pointerType !== "mouse" || e.button !== 0) return;
   const el = e.currentTarget;
   const startX = e.clientX;
   const startScroll = el.scrollLeft;
   const move = (ev: PointerEvent) => {
+    if (Math.abs(ev.clientX - startX) > 5) dragged.current = true;
     el.scrollLeft = startScroll - (ev.clientX - startX);
   };
   const up = () => {
@@ -46,6 +50,7 @@ export function BigPulls() {
   const t = useTranslations();
   const locale = useLocale();
   const [feed, setFeed] = useState<{ pulls: Pull[]; at: number } | null>(null);
+  const dragged = useRef(false);
 
   useEffect(() => {
     let alive = true;
@@ -67,7 +72,7 @@ export function BigPulls() {
       if (rows.length > 0) {
         const res = await supabase
           .from("cards")
-          .select("id, name, image_url")
+          .select("id, source_id, name, image_url")
           .in("id", [...new Set(rows.map((r) => r.card_id))]);
         if (!current()) return;
         if (res.error) return failed();
@@ -79,6 +84,7 @@ export function BigPulls() {
           ...r,
           name: cards.get(r.card_id)?.name ?? "",
           imageUrl: cards.get(r.card_id)?.image_url ?? null,
+          sourceId: cards.get(r.card_id)?.source_id ?? null,
         })),
       });
     }
@@ -117,14 +123,19 @@ export function BigPulls() {
         ) : (
           <ul
             className="flex cursor-grab select-none gap-4 overflow-x-auto [scrollbar-width:none] active:cursor-grabbing [&::-webkit-scrollbar]:hidden"
-            onPointerDown={dragScroll}
+            onPointerDown={(e) => dragScroll(e, dragged)}
+            onClickCapture={(e) => {
+              if (dragged.current) e.preventDefault();
+              dragged.current = false;
+            }}
           >
-            {feed.pulls.map((p, i) => (
-              <li key={`${p.pulled_at}-${i}`} className="flex w-32 shrink-0 flex-col gap-1.5">
-                <div
-                  className="relative aspect-[2/3] overflow-hidden rounded-xl border-2 bg-border"
-                  style={{ borderColor: COLOR[p.rarity], boxShadow: `0 0 16px -4px ${COLOR[p.rarity]}` }}
-                >
+            {feed.pulls.map((p, i) => {
+              const tile = {
+                className: "relative block aspect-[2/3] overflow-hidden rounded-xl border-2 bg-border",
+                style: { borderColor: COLOR[p.rarity], boxShadow: `0 0 16px -4px ${COLOR[p.rarity]}` },
+              };
+              const face = (
+                <>
                   {p.imageUrl && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={p.imageUrl} alt="" loading="lazy" draggable={false} className="h-full w-full object-cover" />
@@ -138,22 +149,34 @@ export function BigPulls() {
                   <span className="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/90 to-transparent px-2 pb-1.5 pt-6 text-xs font-semibold">
                     {p.name}
                   </span>
-                </div>
-                <div className="flex min-w-0 items-center gap-1.5 text-sm">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-black"
-                    style={{ background: `hsl(${hueOf(p.username)} 70% 65%)` }}
-                  >
-                    {p.username.charAt(0).toUpperCase()}
-                  </span>
-                  <span className="truncate">{p.username}</span>
-                </div>
-                <p className="font-mono text-xs text-common">
-                  {ago(p.pulled_at, feed.at, locale, t("home.bigPulls.justNow"))}
-                </p>
-              </li>
-            ))}
+                </>
+              );
+              return (
+                <li key={`${p.pulled_at}-${i}`} className="flex w-32 shrink-0 flex-col gap-1.5">
+                  {p.sourceId === null ? (
+                    <div {...tile}>{face}</div>
+                  ) : (
+                    // a link drags natively unless told not to, which would stop the row from scrolling
+                    <Link href={`/wiki/${p.sourceId}`} draggable={false} {...tile}>
+                      {face}
+                    </Link>
+                  )}
+                  <div className="flex min-w-0 items-center gap-1.5 text-sm">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-black"
+                      style={{ background: `hsl(${hueOf(p.username)} 70% 65%)` }}
+                    >
+                      {p.username.charAt(0).toUpperCase()}
+                    </span>
+                    <span className="truncate">{p.username}</span>
+                  </div>
+                  <p className="font-mono text-xs text-common">
+                    {ago(p.pulled_at, feed.at, locale, t("home.bigPulls.justNow"))}
+                  </p>
+                </li>
+              );
+            })}
           </ul>
         ))}
     </section>

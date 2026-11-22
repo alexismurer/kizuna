@@ -106,6 +106,12 @@ describe("ProfileHeader + tabs", () => {
     expect(screen.getByText("Hero 4")).toBeInTheDocument();
   });
 
+  it("links a card to its wiki page once its source id is known", () => {
+    wrap(<ProfileTabs profile={profile({ showcase: [card(1, { sourceId: 81929 }), card(2)] })} />);
+    expect(screen.getByText("Hero 1").closest("a")).toHaveAttribute("href", "/wiki/81929");
+    expect(screen.getByText("Hero 2").closest("a")).toBeNull();
+  });
+
   it("has sensible empty states for a player with nothing", () => {
     const p = profile({ uniqueCards: 0, mythics: 0, boostersOpened: 0, showcase: [], wishlist: [], recentPulls: [] });
     wrap(<ProfileHeader profile={p} owned={[]} />);

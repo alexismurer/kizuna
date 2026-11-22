@@ -110,7 +110,17 @@
     "notifications": "通知",
     "friends": "好友与消息",
     "myProfile": "我的主页",
-    "invite": "邀请好友"
+    "invite": "邀请好友",
+    "wiki": "百科",
+    "leaderboard": "排行榜",
+    "rebirth": "转生",
+    "moreMenu": {
+      "friends": "好友",
+      "friendsHint": "你的好友和消息",
+      "leaderboardHint": "最强收藏家",
+      "rebirthHint": "让你的相册重新投入游戏",
+      "wikiHint": "所有角色页面"
+    }
   },
   "topbar": {
     "freeBoosters": "免费卡包",

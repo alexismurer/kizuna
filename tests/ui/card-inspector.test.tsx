@@ -24,6 +24,7 @@ import { CardInspector } from "@/components/card/CardInspector";
 
 const card = {
   id: 42,
+  sourceId: 81929,
   number: 843,
   total: 5000,
   name: "Celestia",
@@ -62,7 +63,7 @@ describe("CardInspector", () => {
     expect(await screen.findByText("2")).toBeInTheDocument();
     expect(screen.getByText("Players who have it")).toBeInTheDocument();
     expect(await screen.findByText("November 17, 2026")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "See the card page" })).toHaveAttribute("href", "/card/843");
+    expect(screen.getByRole("link", { name: "See the card page" })).toHaveAttribute("href", "/wiki/81929");
     expect(rpc).toHaveBeenCalledWith("card_owners", { p_card_id: 42 });
   });
 

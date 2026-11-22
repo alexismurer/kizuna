@@ -6,6 +6,7 @@ import { loadNotifications } from "@/lib/market/notifications";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { createServerClient } from "@/lib/supabase/server";
 import { AccountMenu } from "./AccountMenu";
+import { MoreMenu } from "./MoreMenu";
 import { NotificationBell } from "./notifications/NotificationBell";
 import { SignOutButton } from "./SignOutButton";
 import { StockPopover } from "./StockPopover";
@@ -27,7 +28,7 @@ export async function TopBar() {
     ? await supabase.from("player_directory").select("username, avatar_url").eq("id", claims.claims.sub).maybeSingle()
     : { data: null };
 
-  const disabled = ["play", "more"] as const;
+  const disabled = ["play"] as const;
 
   return (
     <header className="flex items-center gap-3 border-b border-border bg-panel px-3 py-3 sm:gap-4 sm:px-6 lg:gap-6">
@@ -61,6 +62,7 @@ export async function TopBar() {
             {t(`nav.${k}`)}
           </span>
         ))}
+        <MoreMenu />
       </nav>
       <StockPopover status={status} />
       <Link

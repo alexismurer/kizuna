@@ -12,6 +12,8 @@ export type ProfileCard = {
   seriesTitle: string;
   pow: number;
   aura: number;
+  // the wiki page id; the profile page adds it to the cards public_profile returns
+  sourceId?: number;
 };
 
 export type ProfileData = {

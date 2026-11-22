@@ -24,9 +24,13 @@ function Grid({
     <ul className="grid grid-cols-2 justify-items-center gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {cards.map(({ card, at }, i) => (
         <li key={`${card.id}-${i}`} className="flex flex-col items-center gap-1">
-          <Link href={`/card/${card.number}`}>
+          {card.sourceId === undefined ? (
             <CardView card={{ ...card, total }} size="md" />
-          </Link>
+          ) : (
+            <Link href={`/wiki/${card.sourceId}`}>
+              <CardView card={{ ...card, total }} size="md" />
+            </Link>
+          )}
           {at && <span className="text-xs text-common">{format.relativeTime(new Date(at))}</span>}
         </li>
       ))}

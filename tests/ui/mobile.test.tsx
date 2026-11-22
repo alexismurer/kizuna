@@ -140,6 +140,7 @@ describe("More sheet", () => {
     const friends = within(sheet).getByRole("link", { name: /Friends & messages/ });
     expect(friends).toHaveAttribute("href", "/friends");
     expect(friends).toHaveTextContent("3");
+    expect(within(sheet).getByRole("link", { name: "Wiki" })).toHaveAttribute("href", "/wiki");
   });
 
   it("encodes the username in My profile", () => {
@@ -230,6 +231,7 @@ describe("Collection on phones", () => {
   const owned = (id: number, rarity: "rare" | "common") => ({
     card: {
       id,
+      sourceId: id,
       number: id,
       name: `Card ${id}`,
       nativeName: null,

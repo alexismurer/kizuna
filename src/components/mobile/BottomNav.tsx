@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Ellipsis, Gamepad2, Gift, House, Layers, ListChecks, MessageCircle, Package, Store, User } from "lucide-react";
+import { Bell, BookOpen, Ellipsis, Gamepad2, Gift, House, Layers, ListChecks, MessageCircle, Package, Store, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SignOutButton } from "@/components/SignOutButton";
 import { LanguageSelect } from "@/components/LanguageSelect";
@@ -162,6 +162,14 @@ export function BottomNav({
                   <span className="sr-only">{tb("messagesUnread", { count: unread })}</span>
                 </>
               )}
+            </Link>
+            <Link
+              href="/wiki"
+              onClick={() => setSheet(null)}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+            >
+              <BookOpen className="h-5 w-5" aria-hidden />
+              <span className="flex-1">{t("wiki")}</span>
             </Link>
             <button
               type="button"

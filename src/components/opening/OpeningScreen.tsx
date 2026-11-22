@@ -28,7 +28,7 @@ export type OpeningPack = Pick<PackType, "id" | "kind" | "price" | "slotFloors">
 };
 
 export type OpenedCard = {
-  card: CardData;
+  card: CardData & { sourceId: number };
   rarity: Rarity;
   isNew: boolean;
   packIndex: number;
@@ -51,6 +51,7 @@ type OpenRow = {
 };
 type CardRow = {
   id: number;
+  source_id: number;
   number: number;
   name: string;
   native_name: string | null;
@@ -67,7 +68,7 @@ const CONTROLS =
   'button, a, input, select, textarea, header, [role="radio"], [role="switch"], [role="menuitem"], [role="dialog"], [role="alertdialog"]';
 
 const CARD_COLUMNS =
-  "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title, cover_url)";
+  "id, source_id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title, cover_url)";
 
 export function OpeningScreen({
   pack,
@@ -227,6 +228,7 @@ export function OpeningScreen({
               slot: r.slot,
               card: {
                 id: c.id,
+                sourceId: c.source_id,
                 number: c.number,
                 name: c.name,
                 nativeName: c.native_name,

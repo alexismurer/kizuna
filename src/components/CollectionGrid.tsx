@@ -12,7 +12,7 @@ import type { SellableCard } from "@/lib/market/types";
 import { CardView, type CardData } from "./card/CardView";
 
 // sellable = count - locked; value = estimated value (null without sales)
-export type OwnedCard = { card: CardData; count: number; sellable?: number; value?: number | null };
+export type OwnedCard = { card: CardData & { sourceId: number }; count: number; sellable?: number; value?: number | null };
 export type MissingCard = { missing: { id: number; number: number; rarity: Rarity } };
 export type GridEntry = OwnedCard | MissingCard;
 
@@ -34,7 +34,7 @@ export function CollectionGrid({
   const t = useTranslations();
   const [selling, setSelling] = useState<SellableCard | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [inspecting, setInspecting] = useState<CardData | null>(null);
+  const [inspecting, setInspecting] = useState<OwnedCard["card"] | null>(null);
   const format = useFormatter();
   const router = useRouter();
 

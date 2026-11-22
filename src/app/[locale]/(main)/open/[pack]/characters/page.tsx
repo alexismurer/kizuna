@@ -13,6 +13,7 @@ const PER_PAGE = 60;
 
 type CardRow = {
   id: number;
+  source_id: number;
   number: number;
   name: string;
   native_name: string | null;
@@ -60,7 +61,7 @@ async function CharactersContent({
       supabase,
       p,
       today?.series_ids ?? null,
-      "id, number, name, native_name, image_url, rarity, pow, aura, series(title)",
+      "id, source_id, number, name, native_name, image_url, rarity, pow, aura, series(title)",
     ).range(from, from + PER_PAGE - 1);
     cards = (res.data ?? []) as unknown as CardRow[];
     count = res.count ?? 0;
@@ -104,7 +105,7 @@ async function CharactersContent({
             return (
               <li key={c.id} className="relative">
                 <Link
-                  href={`/card/${c.number}`}
+                  href={`/wiki/${c.source_id}`}
                   className={copies ? "block" : "block opacity-35 grayscale hover:opacity-60"}
                 >
                   <CardView

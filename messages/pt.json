@@ -110,7 +110,17 @@
     "notifications": "Notificações",
     "friends": "Amigos e mensagens",
     "myProfile": "Meu perfil",
-    "invite": "Convidar amigos"
+    "invite": "Convidar amigos",
+    "wiki": "Wiki",
+    "leaderboard": "Classificação",
+    "rebirth": "Renascimento",
+    "moreMenu": {
+      "friends": "Amigos",
+      "friendsHint": "Seus amigos e mensagens",
+      "leaderboardHint": "Os melhores colecionadores",
+      "rebirthHint": "Coloque seu álbum de volta no jogo",
+      "wikiHint": "Todas as páginas de personagens"
+    }
   },
   "topbar": {
     "freeBoosters": "Boosters grátis",

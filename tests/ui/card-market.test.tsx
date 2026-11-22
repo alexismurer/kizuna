@@ -23,6 +23,7 @@ import { CollectionGrid } from "@/components/CollectionGrid";
 
 const card = (id: number, name: string) => ({
   id,
+  sourceId: id,
   number: id,
   name,
   nativeName: null,

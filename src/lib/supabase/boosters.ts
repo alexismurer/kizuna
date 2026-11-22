@@ -21,6 +21,7 @@ type PackRow = {
   ends_at: string | null;
 };
 export type TopCardRow = {
+  source_id: number;
   number: number;
   name: string;
   native_name: string | null;
@@ -75,7 +76,7 @@ async function loadPacks<C extends { image_url: string | null }>(columns: string
   return { pool, packs, topCards };
 }
 
-const CARD_COLUMNS = "number, name, native_name, image_url, rarity, pow, aura, series(title)";
+const CARD_COLUMNS = "source_id, number, name, native_name, image_url, rarity, pow, aura, series(title)";
 
 // Home: status plus every booster with its top cards for the hero.
 export async function loadBoosters() {

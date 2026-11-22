@@ -110,7 +110,17 @@
     "notifications": "お知らせ",
     "friends": "フレンドとメッセージ",
     "myProfile": "マイプロフィール",
-    "invite": "フレンドを招待"
+    "invite": "フレンドを招待",
+    "wiki": "Wiki",
+    "leaderboard": "ランキング",
+    "rebirth": "転生",
+    "moreMenu": {
+      "friends": "フレンド",
+      "friendsHint": "フレンドとメッセージ",
+      "leaderboardHint": "トップコレクター",
+      "rebirthHint": "アルバムをもう一度ゲームに戻す",
+      "wikiHint": "すべてのキャラクターページ"
+    }
   },
   "topbar": {
     "freeBoosters": "無料ブースター",

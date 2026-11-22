@@ -109,6 +109,7 @@ afterEach(() => {
 
 const card = (n: number) => ({
   number: n,
+  sourceId: 1000 + n,
   total: 100,
   name: `Hero ${n}`,
   imageUrl: null,
@@ -136,6 +137,7 @@ describe("Hero", () => {
       "/open/daily",
     );
     expect(screen.getByText("Hero 2")).toBeInTheDocument();
+    expect(screen.getByText("Hero 2").closest("a")).toHaveAttribute("href", "/wiki/1002");
   });
 
   it("shows the daily tagline on the daily slide and the seasonal one on seasonal slides", () => {
@@ -398,8 +400,8 @@ describe("BigPulls", () => {
     });
     inIds.mockResolvedValue({
       data: [
-        { id: 7, name: "Hero 7", image_url: null },
-        { id: 8, name: "Hero 8", image_url: null },
+        { id: 7, source_id: 81929, name: "Hero 7", image_url: null },
+        { id: 8, source_id: 17, name: "Hero 8", image_url: null },
       ],
       error: null,
     });
@@ -408,6 +410,37 @@ describe("BigPulls", () => {
     expect(screen.getByText("kenji")).toBeInTheDocument();
     expect(screen.getByText("3 minutes ago")).toBeInTheDocument();
     expect(rpc).toHaveBeenCalledWith("recent_big_pulls", { p_limit: 12 });
+  });
+
+  it("links each pull to the character's wiki page", async () => {
+    rpc.mockResolvedValue({
+      data: [{ card_id: 7, rarity: "mythic", username: "sakura", pulled_at: new Date().toISOString() }],
+      error: null,
+    });
+    inIds.mockResolvedValue({ data: [{ id: 7, source_id: 81929, name: "Hero 7", image_url: null }], error: null });
+    wrap(<BigPulls />);
+    const link = (await screen.findByText("Hero 7")).closest("a");
+    expect(link).toHaveAttribute("href", "/wiki/81929");
+    expect(fireEvent.click(link!)).toBe(true);
+  });
+
+  it("does not open the page after a mouse drag", async () => {
+    rpc.mockResolvedValue({
+      data: [{ card_id: 7, rarity: "mythic", username: "sakura", pulled_at: new Date().toISOString() }],
+      error: null,
+    });
+    inIds.mockResolvedValue({ data: [{ id: 7, source_id: 81929, name: "Hero 7", image_url: null }], error: null });
+    wrap(<BigPulls />);
+    const link = (await screen.findByText("Hero 7")).closest("a")!;
+    fireEvent.pointerDown(link, { pointerType: "mouse", button: 0, clientX: 100 });
+    fireEvent.pointerMove(window, { pointerType: "mouse", clientX: 60 });
+    fireEvent.pointerUp(window, { pointerType: "mouse", clientX: 60 });
+    // fireEvent returns false when the click's default was prevented
+    expect(fireEvent.click(link)).toBe(false);
+    // the next plain click opens it again
+    fireEvent.pointerDown(link, { pointerType: "mouse", button: 0, clientX: 100 });
+    fireEvent.pointerUp(window, { pointerType: "mouse", clientX: 102 });
+    expect(fireEvent.click(link)).toBe(true);
   });
 
   it("shows the empty state when the first load fails", async () => {

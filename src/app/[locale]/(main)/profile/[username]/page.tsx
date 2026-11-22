@@ -39,6 +39,17 @@ async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile
   if (error || !data) notFound();
   const profile = data as unknown as ProfileData;
 
+  // public_profile has no source id: read it for the cards links point at
+  const shown = [...profile.showcase, ...profile.wishlist, ...profile.recentPulls.map((p) => p.card)];
+  if (shown.length > 0) {
+    const { data: ids } = await supabase
+      .from("cards")
+      .select("id, source_id")
+      .in("id", [...new Set(shown.map((c) => c.id))]);
+    const sourceOf = new Map(((ids ?? []) as { id: number; source_id: number }[]).map((r) => [r.id, r.source_id]));
+    for (const c of shown) c.sourceId = sourceOf.get(c.id);
+  }
+
   let owned: ProfileCard[] = [];
   if (profile.isMe) {
     const rows = (await fetchAll((from, to) =>

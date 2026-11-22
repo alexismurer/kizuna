@@ -12,7 +12,7 @@ export type HeroSlide = {
   packId: string;
   title: string;
   // the pack's three most popular characters
-  cards: CardFace[];
+  cards: (CardFace & { sourceId: number })[];
   // pack whose characters "See the booster" lists (mix when there is no daily pool)
   seePack: string;
   noPool: boolean;
@@ -128,7 +128,7 @@ export function Hero({
           return (
             <Link
               key={c.number}
-              href={`/card/${c.number}`}
+              href={`/wiki/${c.sourceId}`}
               tabIndex={-1}
               className="hero-card absolute left-1/2 top-1/2 -ml-[85px] -mt-[119px] aspect-[5/7] w-[170px] overflow-hidden rounded-xl bg-[#1c1a23]"
               style={{

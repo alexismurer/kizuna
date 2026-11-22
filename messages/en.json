@@ -110,7 +110,17 @@
     "notifications": "Notifications",
     "friends": "Friends & messages",
     "myProfile": "My profile",
-    "invite": "Invite friends"
+    "invite": "Invite friends",
+    "wiki": "Wiki",
+    "leaderboard": "Leaderboard",
+    "rebirth": "Rebirth",
+    "moreMenu": {
+      "friends": "Friends",
+      "friendsHint": "Your friends and messages",
+      "leaderboardHint": "The best collectors",
+      "rebirthHint": "Send your album back into play",
+      "wikiHint": "Every character page"
+    }
   },
   "topbar": {
     "freeBoosters": "Free boosters",

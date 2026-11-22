@@ -81,18 +81,18 @@ export function Summary({
   }, []);
   const [toast, setToast] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
-  const [inspecting, setInspecting] = useState<(CardFace & { id: number }) | null>(null);
+  const [inspecting, setInspecting] = useState<(CardFace & { id: number; sourceId: number }) | null>(null);
 
-  // a card opens up close when it knows its id
+  // a card opens up close when it knows its ids
   function inspectable(c: RevealCard, node: React.ReactNode) {
-    const id = c.card.id;
-    if (id === undefined) return node;
+    const { id, sourceId } = c.card;
+    if (id === undefined || sourceId === undefined) return node;
     return (
       <button
         type="button"
         aria-haspopup="dialog"
         aria-label={t("inspect", { name: c.card.name })}
-        onClick={() => setInspecting({ ...c.card, id })}
+        onClick={() => setInspecting({ ...c.card, id, sourceId })}
         className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white"
       >
         {node}

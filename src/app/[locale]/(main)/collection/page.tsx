@@ -18,6 +18,7 @@ import { createServerClient } from "@/lib/supabase/server";
 
 type CardRow = {
   id: number;
+  source_id: number;
   number: number;
   name: string;
   native_name: string | null;
@@ -40,11 +41,12 @@ type AlbumRow = {
 };
 
 const PAGE_SIZE = 48;
-const CARD_COLUMNS = "id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title)";
+const CARD_COLUMNS = "id, source_id, number, name, native_name, image_url, series_id, rarity, pow, aura, series(title)";
 
-function toCard(c: CardRow): CardData {
+function toCard(c: CardRow): CardData & { sourceId: number } {
   return {
     id: c.id,
+    sourceId: c.source_id,
     number: c.number,
     name: c.name,
     nativeName: c.native_name,

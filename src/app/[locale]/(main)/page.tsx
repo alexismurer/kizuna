@@ -1,6 +1,5 @@
 import { Suspense, use } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import type { CardFace } from "@/components/card/CardView";
 import { BigPulls } from "@/components/home/BigPulls";
 import { BoosterGrid } from "@/components/home/BoosterGrid";
 import { Hero, type HeroSlide } from "@/components/home/Hero";
@@ -16,7 +15,8 @@ async function HomeContent() {
   if (!boosters) return null;
   const { status, pool, packs, topCards } = boosters;
 
-  const face = (c: TopCardRow): CardFace => ({
+  const face = (c: TopCardRow): HeroSlide["cards"][number] => ({
+    sourceId: c.source_id,
     number: c.number,
     total,
     name: c.name,
