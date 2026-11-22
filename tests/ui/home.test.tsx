@@ -169,6 +169,15 @@ describe("BoosterGrid", () => {
     expect(within(mix.parentElement!).getByText("150")).toBeInTheDocument();
   });
 
+  it("shows when a live custom booster ends, and keeps every price label on one line at the bottom of its tile", () => {
+    const custom = pack("custom", "free", { fallbackPrice: 175, customSet: true, endsAt: "2026-11-29T20:00:00Z" });
+    wrap(<BoosterGrid packs={[...PACKS, custom]} status={status()} dailyName="Test Pool" />);
+    fireEvent.click(screen.getByRole("tab", { name: messages.home.tabs.daily }));
+    const tile = screen.getByRole("button", { name: /^Custom/ }).parentElement!;
+    expect(within(tile).getByText(/Ends Nov 29, 2026/)).toBeInTheDocument();
+    expect(within(tile).getByText(messages.home.grid.free).parentElement).toHaveClass("mt-auto");
+  });
+
   it("lists the Custom booster in the Daily & limited tab with its 175 fallback price", () => {
     const custom = pack("custom", "free", { fallbackPrice: 175, customSet: true });
     wrap(<BoosterGrid packs={[...PACKS, custom]} status={status({ freeStock: 0 })} dailyName="Test Pool" />);
@@ -289,6 +298,16 @@ describe("PackSidePanel", () => {
     panel(pack("custom", "free", { fallbackPrice: 175, customSet: false }), status());
     expect(screen.getByRole("button", { name: "Create your booster · 250" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^Open/ })).toBeNull();
+  });
+
+  it("Create shows a spinner and is busy while the series list loads", async () => {
+    customActions.getCustomOptions.mockReturnValue(new Promise(() => {}));
+    panel(pack("custom", "free", { fallbackPrice: 175, customSet: false }), status());
+    const create = screen.getByRole("button", { name: /Create your booster · 250/ });
+    fireEvent.click(create);
+    expect(create).toHaveAttribute("aria-busy", "true");
+    expect(create).toBeDisabled();
+    expect(within(create).getByTestId("spinner")).toBeInTheDocument();
   });
 
   it("custom booster with picks: the usual Open link plus Edit for 150", () => {

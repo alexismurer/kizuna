@@ -39,3 +39,15 @@ export async function customSeries(supabase: Client): Promise<number[]> {
   const { data } = await supabase.from("player_custom_series").select("series_id");
   return ((data ?? []) as { series_id: number }[]).map((r) => r.series_id);
 }
+
+// The signed-in player's custom booster: their picks and when it ends. It can be
+// opened only while live (one week from creation).
+export async function customBooster(supabase: Client) {
+  const [series, me] = await Promise.all([
+    customSeries(supabase),
+    supabase.from("players").select("custom_ends_at").maybeSingle(),
+  ]);
+  const endsAt = (me.data as { custom_ends_at: string | null } | null)?.custom_ends_at ?? null;
+  const live = series.length > 0 && endsAt !== null && new Date(endsAt) > new Date();
+  return { series, endsAt: live ? endsAt : null, live };
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Package } from "lucide-react";
+import { Loader2, Package } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { EMBLEM, HUE } from "@/components/PackArt";
 import { RewardBadge } from "@/components/RewardBadge";
@@ -105,13 +105,20 @@ export function PackSidePanel({
   const custom = pack.id === "custom";
   const [savedNow, setSavedNow] = useState(false);
   const customSet = pack.customSet || savedNow;
-  const [picker, setPicker] = useState<{ series: CustomOption[]; picked: number[] } | null>(null);
+  const [picker, setPicker] = useState<{ series: CustomOption[]; picked: number[]; live: boolean } | null>(null);
   const [loading, setLoading] = useState(false);
   const openPicker = async () => {
     setLoading(true);
-    setPicker(await getCustomOptions());
-    setLoading(false);
+    try {
+      setPicker(await getCustomOptions());
+    } finally {
+      setLoading(false);
+    }
   };
+  // the series list takes a moment to load: the button says so
+  const spinner = loading && (
+    <Loader2 data-testid="spinner" aria-hidden className="mr-2 h-4 w-4 animate-spin" />
+  );
 
   return (
     <aside className={`flex flex-col gap-4 ${bare ? "" : "rounded-2xl border border-border bg-panel p-5"}`}>
@@ -193,7 +200,14 @@ export function PackSidePanel({
       </div>
 
       {custom && !customSet ? (
-        <button type="button" disabled={loading} onClick={openPicker} className={`${cta} hover:brightness-110`}>
+        <button
+          type="button"
+          disabled={loading}
+          aria-busy={loading}
+          onClick={openPicker}
+          className={`${cta} hover:brightness-110 disabled:opacity-70`}
+        >
+          {spinner}
           {t("home.custom.create", { price: 250 })}
         </button>
       ) : open.disabled ? (
@@ -209,9 +223,11 @@ export function PackSidePanel({
         <button
           type="button"
           disabled={loading}
+          aria-busy={loading}
           onClick={openPicker}
-          className="flex w-full items-center justify-center rounded-full border border-border px-5 py-2.5 text-sm font-semibold hover:border-cta"
+          className="flex w-full items-center justify-center rounded-full border border-border px-5 py-2.5 text-sm font-semibold hover:border-cta disabled:opacity-70"
         >
+          {spinner}
           {t("home.custom.edit", { price: 150 })}
         </button>
       )}
@@ -219,6 +235,7 @@ export function PackSidePanel({
         <CustomPicker
           options={picker.series}
           initial={picker.picked}
+          live={picker.live}
           onClose={() => setPicker(null)}
           onSaved={() => setSavedNow(true)}
         />

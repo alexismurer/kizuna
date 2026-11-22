@@ -17,10 +17,10 @@ const OPTIONS = Array.from({ length: 60 }, (_, i) => ({
   cards: 10 + i,
 }));
 
-function wrap(initial: number[] = [], onClose = vi.fn()) {
+function wrap(initial: number[] = [], onClose = vi.fn(), live = initial.length > 0) {
   render(
     <NextIntlClientProvider locale="en" messages={messages}>
-      <CustomPicker options={OPTIONS} initial={initial} onClose={onClose} />
+      <CustomPicker options={OPTIONS} initial={initial} live={live} onClose={onClose} />
     </NextIntlClientProvider>,
   );
   return onClose;
@@ -106,6 +106,19 @@ describe("CustomPicker", () => {
     fireEvent.click(box("Series 10"));
     fireEvent.click(box("Series 11"));
     expect(save).toBeEnabled();
+  });
+
+  it("an expired booster is created again for 250 with its last picks pre-ticked, saving them unchanged is allowed", () => {
+    wrap([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], vi.fn(), false);
+    expect(screen.getByText("10/10")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Save · 250" })).toBeEnabled();
+  });
+
+  it("shows the picks three per row (two on phones), centred", () => {
+    wrap([1, 2, 3]);
+    const picks = screen.getByRole("region", { name: messages.home.custom.picks });
+    expect(picks).toHaveClass("justify-center");
+    for (const chip of picks.children) expect(chip.className).toContain("sm:basis-[calc((100%-0.75rem)/3)]");
   });
 
   it("keeps each hidden checkbox inside its own row, so focusing it never scrolls the whole dialog", () => {

@@ -75,6 +75,32 @@ describe('custom booster', () => {
     expect((await currencyOf(p.userId)).currency).toBe(600)
   })
 
+  it('lasts one week from creation; an edit keeps the end date', async () => {
+    const p = await player({ currency: 1000 })
+    const before = Date.now()
+    await p.client.rpc('set_custom_series', { p_series: A() })
+    const endsAt = async () =>
+      new Date((await admin.from('players').select('custom_ends_at').eq('id', p.userId).single()).data!.custom_ends_at).getTime()
+    const first = await endsAt()
+    expect(first - before).toBeGreaterThan(7 * 86400_000 - 60_000)
+    expect(first - before).toBeLessThan(7 * 86400_000 + 60_000)
+    await p.client.rpc('set_custom_series', { p_series: [...A().slice(0, 9), B()[0]] })
+    expect(await endsAt()).toBe(first)
+  })
+
+  it('cannot be opened once expired; creating it again costs 250 even with the same picks', async () => {
+    const p = await player({ currency: 1000, freeStock: 5 })
+    await p.client.rpc('set_custom_series', { p_series: A() })
+    const expire = await admin.from('players').update({ custom_ends_at: '2000-01-01T00:00:00Z' }).eq('id', p.userId)
+    expect(expire.error).toBeNull()
+    const r = await p.client.rpc('open_packs', { p_pack: 'custom', p_count: 1 })
+    expect(r.error?.message).toContain('custom_not_set')
+    expect((await currencyOf(p.userId)).free_stock).toBe(5)
+    const again = await p.client.rpc('set_custom_series', { p_series: A() })
+    expect(again.data).toBe(500)
+    expect((await p.client.rpc('open_packs', { p_pack: 'custom', p_count: 1 })).error).toBeNull()
+  })
+
   it('rejects 9, 11, duplicates and unknown ids without charging', async () => {
     const p = await player({ currency: 1000 })
     for (const bad of [

@@ -24,16 +24,20 @@ function Cover({ src, className }: { src: string | null; className: string }) {
 
 // Pick exactly 10 series for the custom booster: the 50 most popular are
 // suggested (options arrive most popular first), any other one is found by
-// typing its name. Saving costs 250 the first time and 150 after; saving the
-// same 10 is not offered.
+// typing its name. Creating costs 250 (also again once the week is over, with
+// the last picks pre-ticked); editing a live booster costs 150, and saving the
+// same 10 then is not offered.
 export function CustomPicker({
   options,
   initial,
+  live,
   onClose,
   onSaved,
 }: {
   options: CustomOption[];
   initial: number[];
+  // the booster is live: saving is an edit
+  live: boolean;
   onClose: () => void;
   // called after a successful save (the booster sheet keeps its own copy of the packs)
   onSaved?: () => void;
@@ -54,8 +58,8 @@ export function CustomPicker({
     () => (q ? options.filter((o) => o.title.toLowerCase().includes(q)).slice(0, MATCHES) : []),
     [options, q],
   );
-  const cost = initial.length === 0 ? CREATE_COST : EDIT_COST;
-  const unchanged = picked.length === initial.length && picked.every((id) => initial.includes(id));
+  const cost = live ? EDIT_COST : CREATE_COST;
+  const unchanged = live && picked.length === initial.length && picked.every((id) => initial.includes(id));
   const full = picked.length >= PICKS;
 
   const toggle = (id: number) => {
@@ -149,17 +153,20 @@ export function CustomPicker({
         </div>
 
         {picked.length > 0 && (
-          <section aria-label={t("home.custom.picks")} className="flex flex-wrap gap-1.5">
+          <section
+            aria-label={t("home.custom.picks")}
+            className="flex flex-wrap justify-center gap-1.5"
+          >
             {picked.map((id) => {
               const o = byId.get(id);
               if (!o) return null;
               return (
                 <span
                   key={id}
-                  className="flex items-center gap-1.5 rounded-full border border-cta bg-cta/10 py-1 pl-1 pr-1.5 text-xs font-semibold"
+                  className="flex min-w-0 basis-[calc((100%-0.375rem)/2)] items-center gap-1.5 rounded-full border border-cta sm:basis-[calc((100%-0.75rem)/3)] bg-cta/10 py-1 pl-1 pr-1.5 text-xs font-semibold"
                 >
                   <Cover src={o.cover} className="h-6 w-6 rounded-full" />
-                  <span className="max-w-[10rem] truncate">{o.title}</span>
+                  <span className="min-w-0 flex-1 truncate">{o.title}</span>
                   <button
                     type="button"
                     aria-label={t("home.custom.remove", { title: o.title })}

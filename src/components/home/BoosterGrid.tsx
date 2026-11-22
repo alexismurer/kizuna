@@ -131,17 +131,20 @@ export function BoosterGrid({
                   >
                     <PackArt pack={p} cards={p.slotFloors.length} selected={on} name={nameOf(p)} />
                   </button>
-                  {p.endsAt && <EndsOn endsAt={p.endsAt} />}
-                  {rewards > 0 ? (
-                    <RewardBadge count={rewards} />
-                  ) : cost === null ? (
-                    <span className="text-sm font-semibold text-uncommon">{t("home.grid.free")}</span>
-                  ) : (
-                    <span className="flex items-center gap-1 text-sm font-semibold text-cta">
-                      <Coins className="h-4 w-4" aria-hidden="true" />
-                      <span className="font-mono">{cost}</span>
-                    </span>
-                  )}
+                  {/* the price sits at the bottom so it lines up across tiles of different heights */}
+                  <div className="mt-auto flex flex-col items-center gap-3">
+                    {p.endsAt && <EndsOn endsAt={p.endsAt} />}
+                    {rewards > 0 ? (
+                      <RewardBadge count={rewards} />
+                    ) : cost === null ? (
+                      <span className="text-sm font-semibold text-uncommon">{t("home.grid.free")}</span>
+                    ) : (
+                      <span className="flex items-center gap-1 text-sm font-semibold text-cta">
+                        <Coins className="h-4 w-4" aria-hidden="true" />
+                        <span className="font-mono">{cost}</span>
+                      </span>
+                    )}
+                  </div>
                 </li>
               );
             })}
