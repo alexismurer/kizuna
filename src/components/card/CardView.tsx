@@ -92,7 +92,8 @@ export function CardView({
               {card.nativeName}
             </p>
           )}
-          <div className="relative min-h-0 flex-1 overflow-hidden rounded bg-border">
+          {/* fixed 2:3 art box: the image's own size must not change the card's height */}
+          <div className="relative aspect-[2/3] shrink-0 overflow-hidden rounded bg-border">
             {card.imageUrl && !broken ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -100,10 +101,10 @@ export function CardView({
                 alt=""
                 loading="lazy"
                 onError={() => setBroken(true)}
-                className="h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
-              <div className="flex h-full items-center justify-center text-common">
+              <div className="absolute inset-0 flex items-center justify-center text-common">
                 {t("card.noArt")}
               </div>
             )}

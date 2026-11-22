@@ -5,6 +5,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import { CardView } from "@/components/card/CardView";
 import { valueDelta } from "@/lib/market/format";
 import type { Listing } from "@/lib/market/types";
+import { MarketCardLink } from "./MarketCardLink";
 
 export function ListingCard({
   listing,
@@ -23,10 +24,12 @@ export function ListingCard({
 
   return (
     <li className="flex w-40 flex-col gap-2">
-      <CardView card={{ ...listing.card, total }} size="md" glow={false} />
+      <MarketCardLink sourceId={listing.sourceId} name={listing.card.name}>
+        <CardView card={{ ...listing.card, total }} size="md" glow={false} />
+      </MarketCardLink>
       <div className="flex flex-col gap-1 text-xs">
-        <div className="flex items-center justify-between gap-1">
-          <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wide text-common">
+        <div className="flex flex-wrap items-center justify-between gap-1">
+          <span className="whitespace-nowrap rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wide text-common">
             {t("fixedPrice")}
           </span>
           {delta !== null && (
@@ -51,7 +54,7 @@ export function ListingCard({
             type="button"
             onClick={onBuy}
             aria-label={t("buy", { name: listing.card.name })}
-            className="rounded-lg bg-cta py-1.5 font-bold text-black"
+            className="rounded-lg bg-cta py-1.5 font-bold text-black transition hover:brightness-110 active:scale-[0.97]"
           >
             {t("buyButton")}
           </button>

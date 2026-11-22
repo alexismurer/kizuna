@@ -1012,7 +1012,8 @@
       "listingCancelled": "Angebot abgebrochen.",
       "auctionCancelled": "Auktion abgebrochen.",
       "orderCancelled": "Kaufauftrag abgebrochen."
-    }
+    },
+    "openCard": "{name} öffnen"
   },
   "notifications": {
     "title": "Benachrichtigungen",

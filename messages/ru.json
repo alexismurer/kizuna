@@ -1012,7 +1012,8 @@
       "listingCancelled": "Лот отменён.",
       "auctionCancelled": "Аукцион отменён.",
       "orderCancelled": "Заказ на покупку отменён."
-    }
+    },
+    "openCard": "Открыть {name}"
   },
   "notifications": {
     "title": "Уведомления",

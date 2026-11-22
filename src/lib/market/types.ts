@@ -27,6 +27,7 @@ export type Listing = {
   seller: string;
   value: number | null;
   card: CardData;
+  sourceId?: number; // wiki page of the card
 };
 
 // One of the player's cards with copies that can be sold (count - locked >= 1)
@@ -45,6 +46,7 @@ export type Auction = {
   seller: string;
   value: number | null;
   card: CardData;
+  sourceId?: number; // wiki page of the card
 };
 
 // The few card fields trade and activity rows show

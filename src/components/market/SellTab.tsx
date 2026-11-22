@@ -42,7 +42,7 @@ export function SellTab({
                 type="button"
                 aria-haspopup="dialog"
                 onClick={() => setSelling(i)}
-                className="flex w-40 flex-col gap-2 text-left"
+                className="flex w-40 flex-col gap-2 rounded-xl text-left transition-transform duration-[180ms] hover:-translate-y-[3px]"
               >
                 <CardView card={{ ...i.card, total }} size="md" glow={false} />
                 <span className="text-xs text-common">{t("copies", { count: i.sellable })}</span>

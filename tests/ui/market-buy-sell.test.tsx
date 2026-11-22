@@ -84,6 +84,20 @@ describe("BuyTab", () => {
     expect(screen.queryByRole("button", { name: messages.market.loadMore })).toBeNull();
   });
 
+  it("links a listed card to its wiki page", () => {
+    wrap(
+      <BuyTab
+        filters={filters}
+        initial={[listing(1, { sourceId: 4242 })]}
+        initialMore={false}
+        currency={500}
+        me="me"
+        total={100}
+      />,
+    );
+    expect(screen.getByRole("link", { name: "Open Card 1" })).toHaveAttribute("href", "/wiki/4242");
+  });
+
   it("confirms with the balance after and calls buy_listing once", async () => {
     let resolve: (v: unknown) => void = () => {};
     rpc.mockReturnValue(new Promise((r) => (resolve = r)));

@@ -11,6 +11,7 @@ import type { Auction, MarketFilters } from "@/lib/market/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { BidDialog } from "./BidDialog";
 import { Toast } from "./Dialog";
+import { MarketCardLink } from "./MarketCardLink";
 import { useMarketLive } from "./useMarketLive";
 
 const SOON_MS = 5 * 60 * 1000;
@@ -142,10 +143,12 @@ function AuctionCard({
 
   return (
     <li className="flex w-40 flex-col gap-2">
-      <CardView card={{ ...auction.card, total }} size="md" glow={false} />
+      <MarketCardLink sourceId={auction.sourceId} name={auction.card.name}>
+        <CardView card={{ ...auction.card, total }} size="md" glow={false} />
+      </MarketCardLink>
       <div className="flex flex-col gap-1 text-xs">
-        <div className="flex items-center justify-between gap-1">
-          <span className="rounded-full border border-accent px-2 py-0.5 text-[10px] uppercase tracking-wide text-accent">
+        <div className="flex flex-wrap items-center justify-between gap-1">
+          <span className="whitespace-nowrap rounded-full border border-accent px-2 py-0.5 text-[10px] uppercase tracking-wide text-accent">
             {t("auction.tag")}
           </span>
           {delta !== null && (
@@ -163,8 +166,8 @@ function AuctionCard({
           <Coins className="h-4 w-4" aria-hidden />
           {format.number(price)}
         </p>
-        <div className="flex items-center justify-between gap-1">
-          <span className="text-common">{t("auction.bids", { count: auction.bidCount })}</span>
+        <div className="flex flex-wrap items-center justify-between gap-1">
+          <span className="whitespace-nowrap text-common">{t("auction.bids", { count: auction.bidCount })}</span>
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3 text-common" aria-hidden />
             {countdown && <span className="sr-only">{t("auction.endsIn")}</span>}
@@ -190,7 +193,7 @@ function AuctionCard({
             type="button"
             onClick={onBid}
             aria-label={t("auction.bid", { name: auction.card.name })}
-            className="rounded-lg bg-cta py-1.5 font-bold text-black"
+            className="rounded-lg bg-cta py-1.5 font-bold text-black transition hover:brightness-110 active:scale-[0.97]"
           >
             {t("auction.bidButton")}
           </button>

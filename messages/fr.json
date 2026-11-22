@@ -1012,7 +1012,8 @@
       "listingCancelled": "Annonce annulée.",
       "auctionCancelled": "Enchère annulée.",
       "orderCancelled": "Ordre d'achat annulé."
-    }
+    },
+    "openCard": "Ouvrir {name}"
   },
   "notifications": {
     "title": "Notifications",

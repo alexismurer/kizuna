@@ -18,7 +18,7 @@ type Row = {
   series_title: string;
   value: number | null;
 };
-type Stats = { id: number; series_id: number; pow: number; aura: number };
+type Stats = { id: number; series_id: number; pow: number; aura: number; source_id: number };
 
 // One page of open listings (server or browser client); `more` tells if
 // another page follows.
@@ -41,7 +41,7 @@ export async function loadListings(
   // the RPC has no POW / AURA: read them from the catalogue
   const ids = [...new Set(rows.map((r) => r.card_id))];
   const { data: stats } = ids.length
-    ? await supabase.from("cards").select("id, series_id, pow, aura").in("id", ids)
+    ? await supabase.from("cards").select("id, series_id, pow, aura, source_id").in("id", ids)
     : { data: [] };
   const byId = new Map(((stats ?? []) as Stats[]).map((s) => [s.id, s]));
   return {
@@ -54,6 +54,7 @@ export async function loadListings(
         sellerId: r.seller_id,
         seller: r.seller_username,
         value: r.value,
+        sourceId: s?.source_id,
         card: {
           id: r.card_id,
           number: r.number,

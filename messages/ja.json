@@ -1012,7 +1012,8 @@
       "listingCancelled": "出品をキャンセルしました。",
       "auctionCancelled": "オークションをキャンセルしました。",
       "orderCancelled": "購入注文をキャンセルしました。"
-    }
+    },
+    "openCard": "{name} を開く"
   },
   "notifications": {
     "title": "お知らせ",

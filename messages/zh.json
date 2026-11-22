@@ -1012,7 +1012,8 @@
       "listingCancelled": "挂单已取消。",
       "auctionCancelled": "拍卖已取消。",
       "orderCancelled": "求购单已取消。"
-    }
+    },
+    "openCard": "打开 {name}"
   },
   "notifications": {
     "title": "通知",
