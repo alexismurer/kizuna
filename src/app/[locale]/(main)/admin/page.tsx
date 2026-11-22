@@ -1,18 +1,20 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, Coins, Gift, MessagesSquare, ShieldCheck, Sparkles, Ticket, type LucideIcon } from "lucide-react";
+import { ArrowLeft, CalendarDays, Coins, Gift, MessagesSquare, ShieldCheck, Sparkles, Ticket, Users, type LucideIcon } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ChatPanel } from "@/components/admin/ChatPanel";
 import { GrantCardPanel } from "@/components/admin/GrantCardPanel";
 import { GrantPanel } from "@/components/admin/GrantPanel";
 import { InvitesPanel } from "@/components/admin/InvitesPanel";
+import { PlayersPanel } from "@/components/admin/PlayersPanel";
 import { PoolsPanel } from "@/components/admin/PoolsPanel";
 import { SeasonalPanel } from "@/components/admin/SeasonalPanel";
 import { Link } from "@/i18n/navigation";
-import type { AdminChatMessage, AdminInvite, AdminPool, AdminSeasonal } from "@/lib/actions/admin";
+import type { AdminChatMessage, AdminInvite, AdminPlayers, AdminPool, AdminSeasonal } from "@/lib/actions/admin";
 import { createServerClient } from "@/lib/supabase/server";
 
-const SECTIONS: [id: "invites" | "currency" | "cards" | "pools" | "seasonal" | "chat", Icon: LucideIcon, color: string][] = [
+const SECTIONS: [id: "players" | "invites" | "currency" | "cards" | "pools" | "seasonal" | "chat", Icon: LucideIcon, color: string][] = [
+  ["players", Users, "var(--color-legendary)"],
   ["invites", Ticket, "var(--color-rare)"],
   ["currency", Coins, "var(--color-legendary)"],
   ["cards", Gift, "var(--color-epic)"],
@@ -34,16 +36,22 @@ async function AdminContent({ params }: { params: PageProps<"/[locale]/admin">["
   if (admin !== true) notFound();
 
   const t = await getTranslations("admin");
-  const [invites, chat, pools, seasonals] = await Promise.all([
+  const [invites, chat, pools, seasonals, players] = await Promise.all([
     supabase.rpc("admin_invites"),
     supabase.rpc("admin_chat_recent"),
     supabase.rpc("admin_pools"),
     supabase.rpc("admin_seasonals"),
+    supabase.rpc("admin_players"),
   ]);
   const inviteRows = (invites.data as AdminInvite[] | null) ?? [];
   const chatRows = (chat.data as AdminChatMessage[] | null) ?? [];
   const poolRows = (pools.data as AdminPool[] | null) ?? [];
   const seasonalRows = (seasonals.data as AdminSeasonal[] | null) ?? [];
+  const playerData = (players.data as AdminPlayers | null) ?? {
+    catalogSize: 0,
+    totals: { players: 0, active24h: 0, active7d: 0, new7d: 0, referred: 0, boostersOpened: 0 },
+    players: [],
+  };
   // admin_seasonals returns series ids only; players can read `series`, so resolve titles for the chips.
   const ids = [...new Set(seasonalRows.flatMap((s) => s.seriesIds))];
   const seriesTitles: Record<number, string> = {};
@@ -116,6 +124,7 @@ async function AdminContent({ params }: { params: PageProps<"/[locale]/admin">["
           </ul>
         </nav>
         <div className="flex min-w-0 flex-col gap-6">
+          <PlayersPanel data={playerData} />
           <div className="grid gap-6 xl:grid-cols-2">
             <InvitesPanel initial={inviteRows} />
             <GrantPanel />

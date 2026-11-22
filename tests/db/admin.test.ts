@@ -36,6 +36,7 @@ describe('admin gate', () => {
       ['admin_series_search', { p_query: 'a' }],
       ['admin_chat_recent', {}],
       ['admin_delete_chat', { p_id: 1 }],
+      ['admin_players', {}],
     ]
     for (const [fn, args] of calls) {
       const { error } = await client.rpc(fn, args)
@@ -226,5 +227,28 @@ describe('admin lookups and card grant', () => {
     ] as const) {
       expect((await client.rpc(fn, args)).error?.message, fn).toContain('not_admin')
     }
+  })
+})
+
+describe('admin players', () => {
+  it('lists every player with progress and referral counts', async () => {
+    const a = await newAdmin()
+    const inviter = await newPlayer()
+    const invitee = await newPlayer()
+    await admin.from('players').update({ currency: 1234, referred_by: inviter.userId }).eq('id', invitee.userId)
+    const { data, error } = await a.client.rpc('admin_players')
+    expect(error).toBeNull()
+    expect(data.catalogSize).toBeGreaterThanOrEqual(0)
+    expect(data.totals.players).toBe(data.players.length)
+    const inviterName = await usernameOf(inviter.userId)
+    const inviteeName = await usernameOf(invitee.userId)
+    const row = data.players.find((p: { username: string }) => p.username === inviteeName)
+    expect(row).toMatchObject({ currency: 1234, referredBy: inviterName, invited: 0, boostersOpened: 0 })
+    expect(Object.keys(row).sort()).toEqual(
+      ['boostersOpened', 'currency', 'invited', 'invitedRewarded', 'joinedAt', 'lastSeenAt', 'logins', 'referredBy',
+        'streak', 'totalCards', 'uniqueCards', 'username'].sort(),
+    )
+    const inv = data.players.find((p: { username: string }) => p.username === inviterName)
+    expect(inv).toMatchObject({ invited: 1, invitedRewarded: 0, referredBy: null })
   })
 })

@@ -10,6 +10,8 @@ import { AdminSection, danger, errorText, input, label, primary, row, secondary,
 
 type Pool = { id: number; name: string; series: AdminSeries[] };
 
+const PAGE = 20;
+
 export function PoolsPanel({ initial }: { initial: Pool[] }) {
   const t = useTranslations("admin");
   const [pools, setPools] = useState(initial);
@@ -18,6 +20,7 @@ export function PoolsPanel({ initial }: { initial: Pool[] }) {
   const [series, setSeries] = useState<AdminSeries[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
+  const [shown, setShown] = useState(PAGE);
 
   const reset = () => {
     setEditing(null);
@@ -59,7 +62,7 @@ export function PoolsPanel({ initial }: { initial: Pool[] }) {
         <p className="py-6 text-center text-sm text-white/45">{t("pools.empty")}</p>
       ) : (
         <ul className="grid gap-2 md:grid-cols-2">
-          {pools.map((p) => (
+          {pools.slice(0, shown).map((p) => (
             <li key={p.id} className={`${row} flex flex-col gap-2 text-sm ${editing === p.id ? "border-accent/50" : ""}`}>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-bold break-words">{p.name}</span>
@@ -82,6 +85,11 @@ export function PoolsPanel({ initial }: { initial: Pool[] }) {
             </li>
           ))}
         </ul>
+      )}
+      {shown < pools.length && (
+        <button type="button" onClick={() => setShown((n) => n + PAGE)} className={`${secondary} self-center`}>
+          {t("pools.more", { count: Math.min(PAGE, pools.length - shown), left: pools.length - shown })}
+        </button>
       )}
       <form onSubmit={save} className="flex flex-col gap-3 rounded-xl border border-dashed border-border p-4">
         <h3 className="text-sm font-bold">{editing === null ? t("pools.new") : t("pools.editing")}</h3>

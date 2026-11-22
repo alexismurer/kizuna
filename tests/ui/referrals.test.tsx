@@ -124,13 +124,13 @@ describe("ReferralLink", () => {
 
 const invited: Invited[] = [
   { username: "Mia", avatarUrl: null, joinedAt: "2026-11-10T10:00:00Z", boostersOpened: 7, daysPlayed: 2, rewarded: false },
-  { username: "Leo", avatarUrl: null, joinedAt: "2026-11-01T10:00:00Z", boostersOpened: 10, daysPlayed: 3, rewarded: true },
+  { username: "Leo", avatarUrl: null, joinedAt: "2026-11-01T10:00:00Z", boostersOpened: 50, daysPlayed: 3, rewarded: true },
 ];
 
 describe("ReferralList", () => {
   it("shows progress and the rewarded state", () => {
     wrap(<ReferralList invited={invited} />);
-    expect(screen.getByText("7/10 boosters")).toBeInTheDocument();
+    expect(screen.getByText("7/50 boosters")).toBeInTheDocument();
     expect(screen.getByText("2/3 days")).toBeInTheDocument();
     expect(screen.getByText("Rewarded")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Mia" })).toHaveAttribute("href", "/profile/Mia");
@@ -179,7 +179,7 @@ describe("referral notifications", () => {
     [n(1, "referral_joined", { username: "mika" }), "mika joined with your link", "/profile/mika"],
     [
       n(2, "referral_rewarded", { username: "mika" }),
-      "mika played 10 boosters over 3 days: +30 boosters and +500 for you",
+      "mika played 50 boosters over 3 days: +30 boosters and +500 for you",
       "/invite-friends",
     ],
     [n(3, "referral_gift", { username: "mika" }), "mika sent you a gift: 30 Mix boosters", "/profile/mika"],

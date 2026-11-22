@@ -1033,7 +1033,7 @@
     "referral_joined": "{user}さんがあなたのリンクから参加しました",
     "admin_grant": "ゲーム管理者から通貨{amount}を受け取りました",
     "admin_card": "ゲーム管理者から{name}を{count}枚受け取りました",
-    "referral_rewarded": "{user}さんが3日間でブースターを10個開けました：あなたにブースター+{boosters}と+500"
+    "referral_rewarded": "{user}さんが3日間でブースターを50個開けました：あなたにブースター+{boosters}と+500"
   },
   "inspector": {
     "hint": "動かして傾ける · タップでめくる",
@@ -1070,10 +1070,10 @@
     "howTitle": "しくみ",
     "step1": "フレンドにリンクを送る。",
     "step2": "フレンドが参加すると無料ブースターを{boosters}個もらえ、2人はフレンドになります。",
-    "step3": "フレンドが3日以上にわたってブースターを10個開けると、あなたにブースター{boosters}個と+500。",
+    "step3": "フレンドが3日以上にわたってブースターを50個開けると、あなたにブースター{boosters}個と+500。",
     "invitedTitle": "招待したフレンド",
     "empty": "まだ誰もいません：リンクを共有しよう",
-    "boosters": "ブースター {count}/10",
+    "boosters": "ブースター {count}/50",
     "days": "{count}/3日",
     "rewarded": "報酬獲得",
     "joinedOn": "{date}に参加",
@@ -1093,6 +1093,7 @@
     },
     "nav": {
       "label": "セクション",
+      "players": "プレイヤー",
       "invites": "招待",
       "currency": "通貨",
       "cards": "カード",
@@ -1154,6 +1155,35 @@
       "remove": "{title}を外す",
       "cards": "{count}枚"
     },
+    "players": {
+      "title": "プレイヤー",
+      "description": "全プレイヤー（最近見かけた順）。",
+      "empty": "まだプレイヤーがいません。",
+      "never": "なし",
+      "via": "{name}から",
+      "copies": "{count}枚",
+      "logins": "ログイン{count}回",
+      "rewarded": "報酬{count}件",
+      "more": "さらに{count}件表示（残り{left}件）",
+      "totals": {
+        "players": "プレイヤー",
+        "active24h": "24時間アクティブ",
+        "active7d": "7日間アクティブ",
+        "new7d": "今週の新規",
+        "referred": "招待で参加",
+        "boostersOpened": "開けたブースター"
+      },
+      "cols": {
+        "player": "プレイヤー",
+        "lastSeen": "最終アクセス",
+        "joined": "登録日",
+        "currency": "通貨",
+        "cards": "カード",
+        "boosters": "ブースター",
+        "streak": "連続",
+        "invited": "招待"
+      }
+    },
     "pools": {
       "title": "デイリーセレクション",
       "empty": "セレクションはまだありません。",
@@ -1163,6 +1193,7 @@
       "save": "セレクションを保存",
       "cancel": "キャンセル",
       "edit": "編集",
+      "more": "さらに{count}件表示（残り{left}件）",
       "delete": "削除"
     },
     "seasonal": {

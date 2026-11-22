@@ -1033,7 +1033,7 @@
     "referral_joined": "{user} a rejoint le jeu grâce à ton lien",
     "admin_grant": "Tu as reçu {amount} de monnaie de la part de l'administrateur du jeu",
     "admin_card": "L'administrateur du jeu t'a envoyé {count} × {name}",
-    "referral_rewarded": "{user} a ouvert 10 boosters sur 3 jours : +{boosters} boosters et +500 pour toi"
+    "referral_rewarded": "{user} a ouvert 50 boosters sur 3 jours : +{boosters} boosters et +500 pour toi"
   },
   "inspector": {
     "hint": "Bouge pour incliner · touche pour retourner",
@@ -1070,10 +1070,10 @@
     "howTitle": "Comment ça marche",
     "step1": "Envoie ton lien à un ami.",
     "step2": "Il rejoint le jeu, reçoit {boosters} boosters gratuits et vous devenez amis.",
-    "step3": "Quand il a ouvert 10 boosters sur 3 jours différents, tu reçois {boosters} boosters et +500.",
+    "step3": "Quand il a ouvert 50 boosters sur 3 jours différents, tu reçois {boosters} boosters et +500.",
     "invitedTitle": "Tes amis invités",
     "empty": "Personne pour l'instant : partage ton lien",
-    "boosters": "{count}/10 boosters",
+    "boosters": "{count}/50 boosters",
     "days": "{count}/3 jours",
     "rewarded": "Récompensé",
     "joinedOn": "Inscrit le {date}",
@@ -1093,6 +1093,7 @@
     },
     "nav": {
       "label": "Sections",
+      "players": "Joueurs",
       "invites": "Invitations",
       "currency": "Monnaie",
       "cards": "Cartes",
@@ -1154,6 +1155,35 @@
       "remove": "Retirer {title}",
       "cards": "{count} cartes"
     },
+    "players": {
+      "title": "Joueurs",
+      "description": "Tous les inscrits, les plus récemment vus en premier.",
+      "empty": "Aucun joueur pour l’instant.",
+      "never": "Jamais",
+      "via": "via {name}",
+      "copies": "{count, plural, one {# exemplaire} other {# exemplaires}}",
+      "logins": "{count, plural, one {# connexion} other {# connexions}}",
+      "rewarded": "{count} récompensé(s)",
+      "more": "Afficher {count} de plus ({left} restants)",
+      "totals": {
+        "players": "Joueurs",
+        "active24h": "Actifs 24 h",
+        "active7d": "Actifs 7 jours",
+        "new7d": "Nouveaux cette semaine",
+        "referred": "Venus par invitation",
+        "boostersOpened": "Boosters ouverts"
+      },
+      "cols": {
+        "player": "Joueur",
+        "lastSeen": "Vu",
+        "joined": "Inscrit",
+        "currency": "Monnaie",
+        "cards": "Cartes",
+        "boosters": "Boosters",
+        "streak": "Série",
+        "invited": "Invités"
+      }
+    },
     "pools": {
       "title": "Sélections du jour",
       "empty": "Aucune sélection pour l'instant.",
@@ -1163,6 +1193,7 @@
       "save": "Enregistrer la sélection",
       "cancel": "Annuler",
       "edit": "Modifier",
+      "more": "Afficher {count} de plus ({left} restants)",
       "delete": "Supprimer"
     },
     "seasonal": {

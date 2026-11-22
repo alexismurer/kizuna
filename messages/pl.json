@@ -1033,7 +1033,7 @@
     "referral_joined": "{user} dołącza z twojego linku",
     "admin_grant": "Otrzymujesz {amount} waluty od administratora gry",
     "admin_card": "Administrator gry wysyła ci {count} × {name}",
-    "referral_rewarded": "{user} otworzył(a) 10 boosterów w 3 dni: +{boosters} boosterów i +500 dla ciebie"
+    "referral_rewarded": "{user} otworzył(a) 50 boosterów w 3 dni: +{boosters} boosterów i +500 dla ciebie"
   },
   "inspector": {
     "hint": "Porusz, aby przechylić · dotknij, aby odwrócić",
@@ -1070,10 +1070,10 @@
     "howTitle": "Jak to działa",
     "step1": "Wyślij swój link znajomemu.",
     "step2": "Znajomy dołącza, dostaje darmowe boostery ({boosters}) i zostajecie znajomymi.",
-    "step3": "Gdy otworzy 10 boosterów w 3 różne dni, dostajesz boostery ({boosters}) i +500.",
+    "step3": "Gdy otworzy 50 boosterów w 3 różne dni, dostajesz boostery ({boosters}) i +500.",
     "invitedTitle": "Twoi zaproszeni znajomi",
     "empty": "Jeszcze nikogo — udostępnij swój link",
-    "boosters": "Boostery: {count}/10",
+    "boosters": "Boostery: {count}/50",
     "days": "Dni: {count}/3",
     "rewarded": "Nagrodzono",
     "joinedOn": "Dołączył(a) {date}",
@@ -1093,6 +1093,7 @@
     },
     "nav": {
       "label": "Sekcje",
+      "players": "Gracze",
       "invites": "Zaproszenia",
       "currency": "Waluta",
       "cards": "Karty",
@@ -1154,6 +1155,35 @@
       "remove": "Usuń {title}",
       "cards": "Karty: {count}"
     },
+    "players": {
+      "title": "Gracze",
+      "description": "Wszyscy gracze, ostatnio widziani najpierw.",
+      "empty": "Jeszcze brak graczy.",
+      "never": "Nigdy",
+      "via": "przez {name}",
+      "copies": "Kopie: {count}",
+      "logins": "Logowania: {count}",
+      "rewarded": "Nagrodzeni: {count}",
+      "more": "Pokaż {count} więcej (zostało {left})",
+      "totals": {
+        "players": "Gracze",
+        "active24h": "Aktywni 24 h",
+        "active7d": "Aktywni 7 dni",
+        "new7d": "Nowi w tym tygodniu",
+        "referred": "Z zaproszenia",
+        "boostersOpened": "Otwarte boostery"
+      },
+      "cols": {
+        "player": "Gracz",
+        "lastSeen": "Ostatnio",
+        "joined": "Dołączył",
+        "currency": "Waluta",
+        "cards": "Karty",
+        "boosters": "Boostery",
+        "streak": "Seria",
+        "invited": "Zaproszeni"
+      }
+    },
     "pools": {
       "title": "Pule dzienne",
       "empty": "Brak pul.",
@@ -1163,6 +1193,7 @@
       "save": "Zapisz pulę",
       "cancel": "Anuluj",
       "edit": "Edytuj",
+      "more": "Pokaż {count} więcej (zostało {left})",
       "delete": "Usuń"
     },
     "seasonal": {

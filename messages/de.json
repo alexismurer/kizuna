@@ -1033,7 +1033,7 @@
     "referral_joined": "{user} ist über deinen Link beigetreten",
     "admin_grant": "Du hast {amount} Währung vom Spiel-Admin erhalten",
     "admin_card": "Der Spiel-Admin hat dir {count} × {name} geschickt",
-    "referral_rewarded": "{user} hat 10 Booster an 3 Tagen geöffnet: +{boosters} Booster und +500 für dich"
+    "referral_rewarded": "{user} hat 50 Booster an 3 Tagen geöffnet: +{boosters} Booster und +500 für dich"
   },
   "inspector": {
     "hint": "Bewegen zum Neigen · tippen zum Umdrehen",
@@ -1070,10 +1070,10 @@
     "howTitle": "So funktioniert’s",
     "step1": "Schick deinen Link an einen Freund.",
     "step2": "Er tritt bei, bekommt {boosters} Gratis-Booster, und ihr werdet Freunde.",
-    "step3": "Sobald er 10 Booster an 3 verschiedenen Tagen geöffnet hat, bekommst du {boosters} Booster und +500.",
+    "step3": "Sobald er 50 Booster an 3 verschiedenen Tagen geöffnet hat, bekommst du {boosters} Booster und +500.",
     "invitedTitle": "Deine eingeladenen Freunde",
     "empty": "Noch niemand – teile deinen Link",
-    "boosters": "{count}/10 Booster",
+    "boosters": "{count}/50 Booster",
     "days": "{count}/3 Tage",
     "rewarded": "Belohnt",
     "joinedOn": "Beigetreten am {date}",
@@ -1093,6 +1093,7 @@
     },
     "nav": {
       "label": "Bereiche",
+      "players": "Spieler",
       "invites": "Einladungen",
       "currency": "Währung",
       "cards": "Karten",
@@ -1154,6 +1155,35 @@
       "remove": "{title} entfernen",
       "cards": "{count} Karten"
     },
+    "players": {
+      "title": "Spieler",
+      "description": "Alle Spieler, zuletzt gesehene zuerst.",
+      "empty": "Noch keine Spieler.",
+      "never": "Nie",
+      "via": "über {name}",
+      "copies": "{count, plural, one {# Exemplar} other {# Exemplare}}",
+      "logins": "{count, plural, one {# Login} other {# Logins}}",
+      "rewarded": "{count} belohnt",
+      "more": "{count} weitere anzeigen (noch {left})",
+      "totals": {
+        "players": "Spieler",
+        "active24h": "Aktiv 24 h",
+        "active7d": "Aktiv 7 Tage",
+        "new7d": "Neu diese Woche",
+        "referred": "Per Einladung",
+        "boostersOpened": "Geöffnete Booster"
+      },
+      "cols": {
+        "player": "Spieler",
+        "lastSeen": "Zuletzt gesehen",
+        "joined": "Beigetreten",
+        "currency": "Währung",
+        "cards": "Karten",
+        "boosters": "Booster",
+        "streak": "Serie",
+        "invited": "Eingeladen"
+      }
+    },
     "pools": {
       "title": "Tagespools",
       "empty": "Noch keine Pools.",
@@ -1163,6 +1193,7 @@
       "save": "Pool speichern",
       "cancel": "Abbrechen",
       "edit": "Bearbeiten",
+      "more": "{count} weitere anzeigen (noch {left})",
       "delete": "Löschen"
     },
     "seasonal": {

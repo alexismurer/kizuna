@@ -16,6 +16,25 @@ export type AdminResult<T> = { ok: true; data: T } | { ok: false; error: string 
 
 export type AdminInvite = { code: string; createdAt: string; usedBy: string | null; usedAt: string | null };
 export type AdminChatMessage = { id: number; room: string; author: string; body: string; createdAt: string };
+export type AdminPlayer = {
+  username: string;
+  joinedAt: string;
+  lastSeenAt: string | null;
+  currency: number;
+  uniqueCards: number;
+  totalCards: number;
+  boostersOpened: number;
+  streak: number;
+  logins: number;
+  invited: number;
+  invitedRewarded: number;
+  referredBy: string | null;
+};
+export type AdminPlayers = {
+  catalogSize: number;
+  totals: { players: number; active24h: number; active7d: number; new7d: number; referred: number; boostersOpened: number };
+  players: AdminPlayer[];
+};
 
 // Every admin RPC checks is_admin() itself; the RPC's exception message is the error code.
 async function call<T>(fn: string, args?: Record<string, unknown>): Promise<AdminResult<T>> {

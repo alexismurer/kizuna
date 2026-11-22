@@ -1033,7 +1033,7 @@
     "referral_joined": "{user} joined with your link",
     "admin_grant": "You received {amount} currency from the game admin",
     "admin_card": "The game admin sent you {count} × {name}",
-    "referral_rewarded": "{user} played 10 boosters over 3 days: +{boosters} boosters and +500 for you"
+    "referral_rewarded": "{user} played 50 boosters over 3 days: +{boosters} boosters and +500 for you"
   },
   "inspector": {
     "hint": "Move to tilt · tap to flip",
@@ -1070,10 +1070,10 @@
     "howTitle": "How it works",
     "step1": "Send your link to a friend.",
     "step2": "They join and get {boosters} free boosters, and you become friends.",
-    "step3": "Once they have opened 10 boosters over 3 different days, you get {boosters} boosters and +500.",
+    "step3": "Once they have opened 50 boosters over 3 different days, you get {boosters} boosters and +500.",
     "invitedTitle": "Your invited friends",
     "empty": "No one yet — share your link",
-    "boosters": "{count}/10 boosters",
+    "boosters": "{count}/50 boosters",
     "days": "{count}/3 days",
     "rewarded": "Rewarded",
     "joinedOn": "Joined {date}",
@@ -1093,6 +1093,7 @@
     },
     "nav": {
       "label": "Sections",
+      "players": "Players",
       "invites": "Invites",
       "currency": "Currency",
       "cards": "Cards",
@@ -1154,6 +1155,35 @@
       "remove": "Remove {title}",
       "cards": "{count} cards"
     },
+    "players": {
+      "title": "Players",
+      "description": "Everyone who joined, most recently seen first.",
+      "empty": "No players yet.",
+      "never": "Never",
+      "via": "via {name}",
+      "copies": "{count, plural, one {# copy} other {# copies}}",
+      "logins": "{count, plural, one {# login} other {# logins}}",
+      "rewarded": "{count} rewarded",
+      "more": "Show {count} more ({left} left)",
+      "totals": {
+        "players": "Players",
+        "active24h": "Active 24h",
+        "active7d": "Active 7 days",
+        "new7d": "New this week",
+        "referred": "Joined by invite",
+        "boostersOpened": "Boosters opened"
+      },
+      "cols": {
+        "player": "Player",
+        "lastSeen": "Last seen",
+        "joined": "Joined",
+        "currency": "Currency",
+        "cards": "Cards",
+        "boosters": "Boosters",
+        "streak": "Streak",
+        "invited": "Invited"
+      }
+    },
     "pools": {
       "title": "Daily pools",
       "empty": "No pools yet.",
@@ -1163,6 +1193,7 @@
       "save": "Save pool",
       "cancel": "Cancel",
       "edit": "Edit",
+      "more": "Show {count} more ({left} left)",
       "delete": "Delete"
     },
     "seasonal": {

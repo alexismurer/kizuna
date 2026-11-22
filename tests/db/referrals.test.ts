@@ -161,13 +161,13 @@ const D3 = '2026-01-03'
 const D4 = '2026-01-04'
 
 describe('inviter reward', () => {
-  it('no reward at 10 boosters on 1 or 2 days', async () => {
+  it('no reward at 50 boosters on 1 or 2 days', async () => {
     const inviter = await newPlayer()
     const before = await currencyOf(inviter.userId)
     const a = await newReferral(inviter.userId)
-    await openings(a.userId, spread(10, [D1]))
+    await openings(a.userId, spread(50, [D1]))
     const b = await newReferral(inviter.userId)
-    await openings(b.userId, spread(10, [D1, D2]))
+    await openings(b.userId, spread(50, [D1, D2]))
     expect(await currencyOf(inviter.userId)).toBe(before)
     expect(await rewardedAt(a.userId)).toBeNull()
     expect(await rewardedAt(b.userId)).toBeNull()
@@ -175,12 +175,12 @@ describe('inviter reward', () => {
     expect(await rewardRows(b.userId)).toHaveLength(0)
   })
 
-  it('reward when 10 boosters span 3 days', async () => {
+  it('reward when 50 boosters span 3 days', async () => {
     const inviter = await newPlayer()
     const before = await currencyOf(inviter.userId)
     const packsBefore = await mixPacks(inviter.userId)
     const f = await newReferral(inviter.userId)
-    await openings(f.userId, spread(9, [D1, D2, D3]))
+    await openings(f.userId, spread(49, [D1, D2, D3]))
     expect(await rewardedAt(f.userId)).toBeNull()
     await openings(f.userId, [D3])
     expect(await currencyOf(inviter.userId)).toBe(before + 500)
@@ -202,7 +202,7 @@ describe('inviter reward', () => {
   it('the day condition can be met last', async () => {
     const inviter = await newPlayer()
     const f = await newReferral(inviter.userId)
-    await openings(f.userId, spread(12, [D1, D2]))
+    await openings(f.userId, spread(52, [D1, D2]))
     expect(await rewardedAt(f.userId)).toBeNull()
     await openings(f.userId, [D3])
     expect(await rewardedAt(f.userId)).not.toBeNull()
@@ -212,28 +212,28 @@ describe('inviter reward', () => {
   it('paid once', async () => {
     const inviter = await newPlayer()
     const f = await newReferral(inviter.userId)
-    await openings(f.userId, spread(10, [D1, D2, D3]))
+    await openings(f.userId, spread(50, [D1, D2, D3]))
     await openings(f.userId, spread(5, [D4]))
     expect(await rewardRows(f.userId)).toHaveLength(1)
 
     // two parallel openings crossing the threshold pay exactly once
     const before = await currencyOf(inviter.userId)
     const g = await newReferral(inviter.userId)
-    await openings(g.userId, spread(9, [D1, D2, D3]))
+    await openings(g.userId, spread(49, [D1, D2, D3]))
     await Promise.all([openings(g.userId, [D4]), openings(g.userId, [D4])])
     expect(await rewardRows(g.userId)).toHaveLength(1)
     expect(await currencyOf(inviter.userId)).toBe(before + 500)
 
-    // 8 + two parallel: the second waits for the first and still sees the 10th row
+    // 48 + two parallel: the second waits for the first and still sees the 50th row
     const h = await newReferral(inviter.userId)
-    await openings(h.userId, spread(8, [D1, D2, D3]))
+    await openings(h.userId, spread(48, [D1, D2, D3]))
     await Promise.all([openings(h.userId, [D4]), openings(h.userId, [D4])])
     expect(await rewardRows(h.userId)).toHaveLength(1)
   })
 
   it('owner-code players never pay anyone', async () => {
     const p = await newPlayer()
-    await openings(p.userId, spread(10, [D1, D2, D3]))
+    await openings(p.userId, spread(50, [D1, D2, D3]))
     expect(await rewardRows(p.userId)).toHaveLength(0)
     expect(await rewardedAt(p.userId)).toBeNull()
   })
@@ -243,7 +243,7 @@ describe('referral reads', () => {
   it('my_referrals shape', async () => {
     const inviter = await newPlayer()
     const a = await newReferral(inviter.userId)
-    await openings(a.userId, spread(12, [D1, D2, D3, D4]))
+    await openings(a.userId, spread(52, [D1, D2, D3, D4]))
     const b = await newReferral(inviter.userId)
     await openings(b.userId, spread(2, [D1]))
     const { data, error } = await inviter.client.rpc('my_referrals')
@@ -255,7 +255,7 @@ describe('referral reads', () => {
       ['avatarUrl', 'boostersOpened', 'daysPlayed', 'joinedAt', 'rewarded', 'username'].sort(),
     )
     expect(data.invited[0]).toMatchObject({ boostersOpened: 2, daysPlayed: 1, rewarded: false })
-    expect(data.invited[1]).toMatchObject({ boostersOpened: 10, daysPlayed: 3, rewarded: true })
+    expect(data.invited[1]).toMatchObject({ boostersOpened: 50, daysPlayed: 3, rewarded: true })
     expect(data.totals).toEqual({ joined: 2, rewarded: 1, boostersEarned: 30, currencyEarned: 500 })
 
     const other = await newPlayer()

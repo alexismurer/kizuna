@@ -1033,7 +1033,7 @@
     "referral_joined": "{user} 通过你的链接加入了",
     "admin_grant": "你收到了游戏管理员发放的 {amount} 货币",
     "admin_card": "游戏管理员送给你 {count} × {name}",
-    "referral_rewarded": "{user} 在 3 天内打开了 10 个卡包：你获得 +{boosters} 个卡包和 +500"
+    "referral_rewarded": "{user} 在 3 天内打开了 50 个卡包：你获得 +{boosters} 个卡包和 +500"
   },
   "inspector": {
     "hint": "移动以倾斜 · 点击以翻转",
@@ -1070,10 +1070,10 @@
     "howTitle": "玩法介绍",
     "step1": "把你的链接发给朋友。",
     "step2": "对方加入后获得 {boosters} 个免费卡包，你们会自动成为好友。",
-    "step3": "当对方在 3 个不同的日子里打开 10 个卡包后，你将获得 {boosters} 个卡包和 +500。",
+    "step3": "当对方在 3 个不同的日子里打开 50 个卡包后，你将获得 {boosters} 个卡包和 +500。",
     "invitedTitle": "你邀请的好友",
     "empty": "还没有人——快分享你的链接吧",
-    "boosters": "{count}/10 个卡包",
+    "boosters": "{count}/50 个卡包",
     "days": "{count}/3 天",
     "rewarded": "已奖励",
     "joinedOn": "{date}加入",
@@ -1093,6 +1093,7 @@
     },
     "nav": {
       "label": "栏目",
+      "players": "玩家",
       "invites": "邀请码",
       "currency": "货币",
       "cards": "卡牌",
@@ -1154,6 +1155,35 @@
       "remove": "移除 {title}",
       "cards": "{count} 张卡"
     },
+    "players": {
+      "title": "玩家",
+      "description": "所有玩家，最近上线的排在前面。",
+      "empty": "还没有玩家。",
+      "never": "从未",
+      "via": "由 {name} 邀请",
+      "copies": "{count} 张",
+      "logins": "登录 {count} 次",
+      "rewarded": "已奖励 {count}",
+      "more": "再显示 {count} 个（剩余 {left} 个）",
+      "totals": {
+        "players": "玩家",
+        "active24h": "24 小时活跃",
+        "active7d": "7 天活跃",
+        "new7d": "本周新增",
+        "referred": "通过邀请加入",
+        "boostersOpened": "已开卡包"
+      },
+      "cols": {
+        "player": "玩家",
+        "lastSeen": "最后上线",
+        "joined": "加入",
+        "currency": "货币",
+        "cards": "卡牌",
+        "boosters": "卡包",
+        "streak": "连续",
+        "invited": "邀请"
+      }
+    },
     "pools": {
       "title": "每日卡池",
       "empty": "还没有卡池。",
@@ -1163,6 +1193,7 @@
       "save": "保存卡池",
       "cancel": "取消",
       "edit": "编辑",
+      "more": "再显示 {count} 个（剩余 {left} 个）",
       "delete": "删除"
     },
     "seasonal": {
