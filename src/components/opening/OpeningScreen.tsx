@@ -8,6 +8,7 @@ import { BoosterSheet } from "@/components/mobile/BoosterSheet";
 import { EMBLEM, HUE } from "@/components/PackArt";
 import { Link, useRouter } from "@/i18n/navigation";
 import { usePrefs } from "@/lib/fx/prefs";
+import { playSfx } from "@/lib/fx/sound";
 import { rpcErrorKey } from "@/lib/game/errors";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
 import { bestRarity, newFlags, revealOrder } from "@/lib/opening/best";
@@ -256,18 +257,22 @@ export function OpeningScreen({
     [pack.id, router, animations],
   );
 
-  function requestOpen(again = false) {
+  // torn: the pack gesture already played the tear sound
+  function requestOpen(again = false, torn = false) {
     if (!n || busyRef.current) return;
     againRef.current = again;
     if (pay.cost > 0 && prefs.warnPaid) setConfirming(true);
-    else void open(n, pay.cost);
+    else {
+      if (!torn) playSfx("tear", prefs.sound);
+      void open(n, pay.cost);
+    }
   }
 
   // the tear / hold gesture: same flow as the Open button
   function tearOpen() {
     if (!n || busyRef.current) return;
     setTear("torn");
-    requestOpen();
+    requestOpen(false, true);
   }
 
   const onRevealed = useCallback(() => setRevealed(true), []);
@@ -481,6 +486,7 @@ export function OpeningScreen({
           }}
           onConfirm={() => {
             closeConfirm();
+            playSfx("tear", prefs.sound);
             void open(n, pay.cost);
           }}
         />

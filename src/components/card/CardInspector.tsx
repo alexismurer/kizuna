@@ -66,7 +66,8 @@ export function CardInspector({
   }, [card.id]);
 
   function onMove(e: React.PointerEvent<HTMLDivElement>) {
-    if (!prefs.animations) return;
+    // the back holds still so its text and link stay readable and clickable
+    if (!prefs.animations || flipped) return;
     const r = e.currentTarget.getBoundingClientRect();
     const { rx, ry } = tiltFor(e.clientX, e.clientY, r);
     setTilt({
@@ -118,7 +119,10 @@ export function CardInspector({
           aria-label={t("flip")}
           data-testid="inspector-card"
           data-flipped={flipped}
-          onClick={() => setFlipped((f) => !f)}
+          onClick={() => {
+            setFlipped((f) => !f);
+            setTilt({ rx: 0, ry: 0, gx: 50, gy: 50 });
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
@@ -132,7 +136,8 @@ export function CardInspector({
             transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry + (flipped ? 180 : 0)}deg)`,
           }}
         >
-          <div aria-hidden={flipped} className="backface-hidden">
+          {/* the hidden face takes no clicks: both faces share a plane, so it could steal the link's */}
+          <div aria-hidden={flipped} className={`backface-hidden ${flipped ? "pointer-events-none" : ""}`}>
             <CardView card={card} size="lg" />
             <div
               aria-hidden
@@ -144,7 +149,7 @@ export function CardInspector({
           </div>
           <div
             aria-hidden={!flipped}
-            className="backface-hidden absolute inset-0 flex flex-col gap-3 overflow-hidden rounded-xl border-2 p-5 text-left"
+            className={`backface-hidden absolute inset-0 flex flex-col gap-3 overflow-hidden rounded-xl border-2 p-5 text-left ${flipped ? "" : "pointer-events-none"}`}
             style={{
               transform: "rotateY(180deg)",
               borderColor: color,

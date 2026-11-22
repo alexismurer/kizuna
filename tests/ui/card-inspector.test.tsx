@@ -71,6 +71,18 @@ describe("CardInspector", () => {
     expect(rpc).toHaveBeenCalledWith("card_owners", { p_card_id: 42 });
   });
 
+  it("holds the back still and lets the card page link take the click", () => {
+    setup();
+    const cardEl = screen.getByTestId("inspector-card");
+    fireEvent.click(cardEl);
+    fireEvent.pointerMove(cardEl.parentElement!, { clientX: 5, clientY: 5 });
+    expect(cardEl.style.transform).toBe("rotateX(0deg) rotateY(180deg)");
+    // the hidden face must not catch clicks meant for the link
+    expect(cardEl.firstElementChild).toHaveClass("pointer-events-none");
+    fireEvent.click(screen.getByRole("link", { name: "See the card page" }));
+    expect(cardEl).toHaveAttribute("data-flipped", "true");
+  });
+
   it("closes with Escape and the close button", () => {
     const onClose = setup();
     fireEvent.keyDown(window, { key: "Escape" });
