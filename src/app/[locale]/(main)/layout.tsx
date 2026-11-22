@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { NewDayRefresh } from "@/components/NewDayRefresh";
 import { Footer } from "@/components/Footer";
 import { BottomNav } from "@/components/mobile/BottomNav";
+import { PushKeeper } from "@/components/push/PushKeeper";
 import { TopBar } from "@/components/TopBar";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { createServerClient } from "@/lib/supabase/server";
@@ -21,10 +22,16 @@ async function MobileNav() {
   return <BottomNav missionsClaimable={status.missionsClaimable} social={social} />;
 }
 
-// players only: a tab left open overnight refreshes into the new day
+// players only: a tab left open overnight refreshes into the new day, and the
+// push subscription and "in the game" marker stay current
 async function DailyLogin() {
   const status = await loadStatus();
-  return status ? <NewDayRefresh /> : null;
+  return status ? (
+    <>
+      <NewDayRefresh />
+      <PushKeeper />
+    </>
+  ) : null;
 }
 
 export default async function MainLayout({
