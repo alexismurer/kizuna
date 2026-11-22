@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { RecycleButton } from "@/components/RecycleButton";
@@ -80,7 +81,8 @@ export function CardInspector({
   const tile = "rounded-xl border border-white/10 bg-black/30 px-3 py-2";
   const tileLabel = "font-mono text-[10px] uppercase tracking-[0.15em] text-white/50";
 
-  return (
+  // on <body>, so it stacks above the (portalled) Dialog that may have opened it
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -202,6 +204,7 @@ export function CardInspector({
           <RecycleButton mode="one" cardId={card.id} estimate={RECYCLE_VALUE[card.rarity]} />
         </div>
       )}
-    </div>
+    </div>,
+    document.body,
   );
 }

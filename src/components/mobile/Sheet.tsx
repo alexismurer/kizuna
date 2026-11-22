@@ -41,6 +41,8 @@ export function Sheet({
       const first = items[0];
       const last = items[items.length - 1];
       const active = document.activeElement;
+      // a dialog opened from the sheet (portalled to <body>) runs its own trap
+      if (!panel.current.contains(active) && active?.closest('[aria-modal="true"]')) return;
       if (e.shiftKey && (active === first || !panel.current.contains(active))) {
         e.preventDefault();
         last?.focus();

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -9,7 +10,8 @@ const FOCUSABLE = `a[href], button:not([disabled]), ${FIELDS}, [tabindex]:not([t
 
 // A centred modal for market actions: Esc, the backdrop and the close button
 // close it; focus starts on the first field (else the panel), Tab stays
-// inside, and focus returns to the opener.
+// inside, and focus returns to the opener. Rendered on <body> so a sticky or
+// transformed ancestor (the market chat) cannot trap it under the page.
 export function Dialog({
   label,
   onClose,
@@ -73,7 +75,7 @@ export function Dialog({
     </button>
   );
 
-  return (
+  return createPortal(
     <div
       className="modal-back fixed inset-0 z-50 flex items-end justify-center bg-[rgb(8_7_11/0.8)] backdrop-blur-sm sm:items-center sm:p-4"
       onClick={onClose}
@@ -102,7 +104,8 @@ export function Dialog({
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
