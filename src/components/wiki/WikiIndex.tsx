@@ -35,13 +35,15 @@ export function WikiIndex({ initial, initialQuery = "" }: { initial: WikiIndexRe
   const [loading, setLoading] = useState(false);
   const first = useRef(true);
   const request = useRef(0);
+  // the query and filter that produced `data`; Show more continues that search
+  const shown = useRef({ q: initialQuery.trim(), only: false });
 
-  async function load(offset: number) {
+  async function load(offset: number, q: string, only: boolean) {
     const id = ++request.current;
     setLoading(true);
     const { data: res } = await createBrowserClient().rpc("wiki_index", {
-      p_query: query.trim(),
-      p_unlocked_only: unlockedOnly,
+      p_query: q,
+      p_unlocked_only: only,
       p_limit: PAGE,
       p_offset: offset,
     });
@@ -49,6 +51,7 @@ export function WikiIndex({ initial, initialQuery = "" }: { initial: WikiIndexRe
     setLoading(false);
     if (!res) return;
     const next = res as WikiIndexResult;
+    shown.current = { q, only };
     setData((prev) => (offset === 0 ? next : { ...next, rows: [...prev.rows, ...next.rows] }));
   }
 
@@ -58,9 +61,11 @@ export function WikiIndex({ initial, initialQuery = "" }: { initial: WikiIndexRe
       first.current = false;
       return;
     }
-    const timer = setTimeout(() => void load(0), 250);
+    // drop any response still in flight for the previous query
+    request.current++;
+    setLoading(false);
+    const timer = setTimeout(() => void load(0, query.trim(), unlockedOnly), 250);
     return () => clearTimeout(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- load reads the same two values
   }, [query, unlockedOnly]);
 
   const left = data.matches - data.rows.length;
@@ -129,7 +134,7 @@ export function WikiIndex({ initial, initialQuery = "" }: { initial: WikiIndexRe
         <button
           type="button"
           disabled={loading}
-          onClick={() => void load(data.rows.length)}
+          onClick={() => void load(data.rows.length, shown.current.q, shown.current.only)}
           className="mx-auto block rounded border border-border px-4 py-2 text-sm hover:border-white/40 disabled:opacity-60"
         >
           {t("more", { count: format.number(left) })}

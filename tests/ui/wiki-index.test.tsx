@@ -113,3 +113,71 @@ describe("WikiIndex", () => {
     expect(screen.getByPlaceholderText("Character or universe")).toHaveValue("One Punch Man");
   });
 });
+
+describe("WikiIndex consistency", () => {
+  const type = (v: string) =>
+    fireEvent.change(screen.getByPlaceholderText("Character or universe"), { target: { value: v } });
+  const tick = (ms: number) =>
+    act(async () => {
+      await vi.advanceTimersByTimeAsync(ms);
+    });
+
+  it("rapid typing makes exactly one call", async () => {
+    rpc.mockResolvedValue({ data: initial, error: null });
+    wrap(initial);
+    for (const v of ["g", "go", "goj", "gojo"]) {
+      type(v);
+      await tick(50);
+    }
+    await tick(300);
+    expect(rpc).toHaveBeenCalledTimes(1);
+    expect(rpc).toHaveBeenCalledWith("wiki_index", expect.objectContaining({ p_query: "gojo" }));
+  });
+
+  it("ignores an out-of-order response", async () => {
+    let resolveFirst: (v: unknown) => void = () => {};
+    rpc.mockImplementationOnce(() => new Promise((res) => (resolveFirst = res)));
+    rpc.mockResolvedValueOnce({ data: { ...initial, matches: 1, rows: [row(20)] }, error: null });
+    wrap(initial);
+    type("a");
+    await tick(300);
+    type("ab");
+    await tick(300);
+    expect(screen.getByText("Char 20")).toBeInTheDocument();
+    await act(async () => {
+      resolveFirst({ data: { ...initial, matches: 1, rows: [row(200)] }, error: null });
+    });
+    expect(screen.getByText("Char 20")).toBeInTheDocument();
+    expect(screen.queryByText("Char 200")).toBeNull();
+  });
+
+  it("drops a slow response that lands during the debounce window", async () => {
+    let resolveFirst: (v: unknown) => void = () => {};
+    rpc.mockImplementationOnce(() => new Promise((res) => (resolveFirst = res)));
+    wrap(initial);
+    type("a");
+    await tick(300);
+    type("ab");
+    await act(async () => {
+      resolveFirst({ data: { ...initial, matches: 1, rows: [row(200)] }, error: null });
+    });
+    expect(screen.queryByText("Char 200")).toBeNull();
+  });
+
+  it("a query change after Show more restarts at offset 0, and Show more keeps the shown query", async () => {
+    rpc.mockResolvedValueOnce({ data: { ...initial, rows: [row(61)] }, error: null });
+    rpc.mockResolvedValueOnce({ data: null, error: { message: "boom" } });
+    rpc.mockResolvedValueOnce({ data: { ...initial, rows: [row(62)] }, error: null });
+    wrap(initial, "abc");
+    fireEvent.click(screen.getByRole("button", { name: /Show more/ }));
+    await tick(0);
+    expect(rpc).toHaveBeenLastCalledWith("wiki_index", expect.objectContaining({ p_query: "abc", p_offset: 60 }));
+    type("xyz");
+    await tick(300);
+    expect(rpc).toHaveBeenLastCalledWith("wiki_index", expect.objectContaining({ p_query: "xyz", p_offset: 0 }));
+    // search failed: rows still belong to "abc", so Show more must keep using it
+    fireEvent.click(screen.getByRole("button", { name: /Show more/ }));
+    await tick(0);
+    expect(rpc).toHaveBeenLastCalledWith("wiki_index", expect.objectContaining({ p_query: "abc", p_offset: 61 }));
+  });
+});
