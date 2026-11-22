@@ -7,9 +7,16 @@ import messages from "../../messages/en.json";
 const slot = (n: number): Slot => ({
   rarity: "epic",
   imageUrl: null,
-  name: `Hero ${n}`,
-  series: "One Piece",
-  number: 1000 + n,
+  card: {
+    number: 1000 + n,
+    total: 5000,
+    name: `Hero ${n}`,
+    imageUrl: null,
+    seriesTitle: "One Piece",
+    rarity: "epic",
+    pow: 10,
+    aura: 20,
+  },
 });
 
 function wrap(filled = 1) {
@@ -28,14 +35,15 @@ afterEach(() => {
 });
 
 describe("SlotStrip preview", () => {
-  it("hovering a revealed slot with a mouse shows its name, series, rarity and number", () => {
+  it("hovering a revealed slot with a mouse shows the card itself, like everywhere else in the app", () => {
     wrap();
     fireEvent.pointerEnter(slots()[0], { pointerType: "mouse" });
     const tip = screen.getByRole("tooltip");
     expect(tip).toHaveTextContent("Hero 1");
     expect(tip).toHaveTextContent("One Piece");
-    expect(tip).toHaveTextContent(messages.rarity.epic);
     expect(tip).toHaveTextContent("#1001");
+    // the app's card face (5:7), not a picture with a caption under it
+    expect(tip.querySelector(".cv")?.className).toContain("aspect-[5/7]");
     fireEvent.pointerLeave(slots()[0], { pointerType: "mouse" });
     expect(screen.queryByRole("tooltip")).toBeNull();
   });

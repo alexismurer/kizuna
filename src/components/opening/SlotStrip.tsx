@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
-import { COLOR } from "@/components/card/CardView";
+import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import type { Rarity } from "@/lib/game/types";
 
-export type Slot = { rarity: Rarity; imageUrl: string | null; name: string; series: string; number: number };
+export type Slot = { rarity: Rarity; imageUrl: string | null; card: CardFace };
 
 const HOLD_MS = 400;
-const TIP_W = 144; // w-36
+const TIP_W = 160; // CardView "md" (w-40)
 
 // One small slot per card in reveal order; a slot shows the card's art once
 // that card has been revealed. Always one row (a ×10 open scrolls inside
@@ -24,7 +23,6 @@ export function SlotStrip({
   current: number;
   label: string;
 }) {
-  const t = useTranslations();
   const ref = useRef<HTMLDivElement>(null);
   const wrap = useRef<HTMLDivElement>(null);
   const hold = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -102,23 +100,10 @@ export function SlotStrip({
       {shown && tip && (
         <div
           role="tooltip"
-          className="pointer-events-none absolute bottom-full z-30 mb-2 w-36 -translate-x-1/2 overflow-hidden rounded-xl border-2 bg-panel shadow-[0_20px_40px_rgb(0_0_0/0.6)]"
-          style={{ left: tip.left, borderColor: COLOR[shown.rarity] }}
+          className="pointer-events-none absolute bottom-full z-30 mb-2 -translate-x-1/2 drop-shadow-[0_20px_30px_rgb(0_0_0/0.6)]"
+          style={{ left: tip.left }}
         >
-          <div className="aspect-[5/7] w-full" style={{ background: COLOR[shown.rarity] }}>
-            {shown.imageUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={shown.imageUrl} alt="" className="h-full w-full object-cover" />
-            )}
-          </div>
-          <div className="space-y-0.5 p-2 text-left">
-            <p className="truncate text-sm font-bold leading-tight">{shown.name}</p>
-            <p className="truncate text-xs text-white/60">{shown.series}</p>
-            <p className="flex justify-between font-mono text-[10px] uppercase tracking-wider">
-              <span style={{ color: COLOR[shown.rarity] }}>{t(`rarity.${shown.rarity}`)}</span>
-              <span className="text-white/60">#{shown.number}</span>
-            </p>
-          </div>
+          <CardView card={shown.card} size="md" />
         </div>
       )}
     </div>
