@@ -254,6 +254,37 @@ describe('card_value', () => {
     expect(many.data).toEqual(expect.arrayContaining([{ card_id: card, value: 6 }, { card_id: empty, value: 16 }]))
   })
 
+  it('scales the default by favourites within the rarity', async () => {
+    const { client } = await newPlayer()
+    // cards that never sold, so the default applies
+    const { data: sold } = await admin.from('market_sales').select('card_id')
+    const soldIds = new Set(sold!.map((s) => s.card_id as number))
+    const { data: legendary } = await admin.from('cards').select('id').eq('rarity', 'legendary').order('id')
+    const ids = legendary!.map((c) => c.id as number).filter((id) => !soldIds.has(id)).slice(0, 3)
+    expect(ids).toHaveLength(3)
+    const { data: before, error } = await admin.from('cards').select('id, favourites').in('id', ids)
+    expect(error).toBeNull()
+    const favs = [1000, 2000, 4000]
+    try {
+      for (let i = 0; i < 3; i++) await admin.from('cards').update({ favourites: favs[i] }).eq('id', ids[i])
+      // median favourites 2000 -> legendary base 150 x 0.5 / 1 / 2
+      const values = await Promise.all(ids.map((id) => client.rpc('card_value', { p_card_id: id })))
+      expect(values.map((v) => v.data)).toEqual([75, 150, 300])
+      const many = await client.rpc('card_values', { p_card_ids: [...ids, -1] })
+      expect(many.error).toBeNull()
+      expect(many.data).toEqual(
+        expect.arrayContaining([
+          { card_id: ids[0], value: 75 },
+          { card_id: ids[1], value: 150 },
+          { card_id: ids[2], value: 300 },
+          { card_id: -1, value: null },
+        ]),
+      )
+    } finally {
+      for (const row of before!) await admin.from('cards').update({ favourites: row.favourites }).eq('id', row.id)
+    }
+  })
+
   it('market_sales are readable by players', async () => {
     const { client } = await newPlayer()
     const { error } = await client.from('market_sales').select('id').limit(1)
