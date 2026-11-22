@@ -93,3 +93,36 @@ export async function fetchMedia(ids: number[]): Promise<Media[]> {
   const data = await request<{ Page: { media: Media[] } }>(query, { ids })
   return data.Page.media
 }
+
+export type CharacterDetails = {
+  id: number
+  favourites: number
+  age: string | null
+  media: {
+    edges: {
+      voiceActors: { name: { full: string } }[]
+      node: { type: 'ANIME' | 'MANGA'; title: { english: string | null; romaji: string | null } }
+    }[]
+  }
+}
+
+export async function fetchCharacterDetails(ids: number[]): Promise<CharacterDetails[]> {
+  if (ids.length > 50) throw new Error('fetchCharacterDetails: at most 50 ids')
+  const query = `query ($ids: [Int]) {
+    Page(page: 1, perPage: 50) {
+      characters(id_in: $ids) {
+        id
+        favourites
+        age
+        media(sort: POPULARITY_DESC, perPage: 25) {
+          edges {
+            voiceActors(language: JAPANESE, sort: RELEVANCE) { name { full } }
+            node { type title { english romaji } }
+          }
+        }
+      }
+    }
+  }`
+  const data = await request<{ Page: { characters: CharacterDetails[] } }>(query, { ids })
+  return data.Page.characters
+}

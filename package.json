@@ -11,7 +11,8 @@
     "test:db": "vitest run --project db",
     "db:reset": "supabase db reset",
     "import": "tsx scripts/import-anilist/index.ts",
-    "catalog:dev": "supabase db reset && tsx scripts/clear-test-data.ts && tsx scripts/import-anilist/index.ts --limit 5000",
+    "catalog:dev": "supabase db reset && tsx scripts/clear-test-data.ts && tsx scripts/import-anilist/index.ts --limit 5000 && tsx scripts/import-anilist/backfill-wiki.ts",
+    "wiki:backfill": "tsx scripts/import-anilist/backfill-wiki.ts",
     "invite": "tsx scripts/create-invite.ts",
     "admin": "tsx scripts/make-admin.ts"
   },
