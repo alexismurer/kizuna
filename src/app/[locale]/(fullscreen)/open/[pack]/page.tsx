@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { OpeningScreen } from "@/components/opening/OpeningScreen";
+import { PushKeeper } from "@/components/push/PushKeeper";
 import { isLive } from "@/lib/game/seasonal";
 import type { PackType, Status } from "@/lib/game/types";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
@@ -48,19 +49,23 @@ async function OpeningContent({
     name = (pool as { name: string } | null)?.name ?? undefined;
   }
 
+  // PushKeeper: opening boosters counts as being in the game
   return (
-    <OpeningScreen
-      pack={{
-        id: p.id,
-        kind: p.kind,
-        price: p.price,
-        fallbackPrice: p.fallback_price,
-        slotFloors: p.slot_floors,
-      }}
-      status={status as Status}
-      total={total}
-      name={name}
-    />
+    <>
+      <OpeningScreen
+        pack={{
+          id: p.id,
+          kind: p.kind,
+          price: p.price,
+          fallbackPrice: p.fallback_price,
+          slotFloors: p.slot_floors,
+        }}
+        status={status as Status}
+        total={total}
+        name={name}
+      />
+      <PushKeeper />
+    </>
   );
 }
 

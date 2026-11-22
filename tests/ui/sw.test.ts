@@ -169,6 +169,16 @@ describe("service worker", () => {
     expect(self.clients.openWindow).not.toHaveBeenCalled();
   });
 
+  it("opens a new window when the open one can't be navigated", async () => {
+    const { handlers, self } = load();
+    const client = { url: "https://app.test/", navigate: vi.fn(async () => Promise.reject(new TypeError("not controlled"))), focus: vi.fn() };
+    self.clients.matchAll.mockResolvedValue([client]);
+    const { e, done } = waitEvent({ notification: { close: vi.fn(), data: { url: "/open" } } });
+    handlers.notificationclick(e);
+    await done();
+    expect(self.clients.openWindow).toHaveBeenCalledWith("/open");
+  });
+
   it("opens a new window on click when the game is closed", async () => {
     const { handlers, self } = load();
     const close = vi.fn();

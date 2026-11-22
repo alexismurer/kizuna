@@ -178,3 +178,22 @@ describe('push_config', () => {
     expect(data ?? []).toHaveLength(0)
   })
 })
+
+describe('push failures never block the game', () => {
+  it('a notification insert succeeds even when posting the push fails', async () => {
+    const { userId, client } = await newPlayer()
+    await subscribe(client)
+    await admin.from('push_config').upsert([
+      { key: 'url', value: 'not a url' },
+      { key: 'secret', value: 'x' },
+    ])
+    try {
+      const { error } = await admin.from('notifications').insert({ player_id: userId, kind: 'sold', payload: {} })
+      expect(error).toBeNull()
+      const { error: cronError } = await admin.rpc('_booster_push', { p_now: new Date().toISOString() })
+      expect(cronError).toBeNull()
+    } finally {
+      await admin.from('push_config').delete().in('key', ['url', 'secret'])
+    }
+  })
+})

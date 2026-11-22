@@ -61,9 +61,9 @@ describe("PushKeeper", () => {
     expect(touches()).toBe(2);
   });
 
-  it("keeps marking every 2 minutes while visible, not while hidden", () => {
+  it("keeps marking every minute while visible, not while hidden", () => {
     wrap(<PushKeeper />);
-    act(() => void vi.advanceTimersByTime(2 * 60_000));
+    act(() => void vi.advanceTimersByTime(60_000));
     expect(touches()).toBe(2);
     hidden = true;
     act(() => void vi.advanceTimersByTime(4 * 60_000));

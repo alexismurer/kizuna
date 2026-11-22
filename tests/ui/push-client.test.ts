@@ -12,13 +12,18 @@ type Sub = { endpoint: string; toJSON: () => unknown; unsubscribe: ReturnType<ty
 let current: Sub | null;
 const subscribe = vi.fn();
 
-function device({ ua = ANDROID, standalone = false, permission = "default", push = true } = {}) {
+function device({ ua = ANDROID, standalone = false, permission = "default", push = true, registered = true } = {}) {
+  const reg = { pushManager: { getSubscription: async () => current, subscribe } };
   vi.stubGlobal("navigator", {
     userAgent: ua,
     platform: "Linux",
     maxTouchPoints: 0,
     standalone,
-    serviceWorker: { ready: Promise.resolve({ pushManager: { getSubscription: async () => current, subscribe } }) },
+    // ready never settles without a registered worker (dev, blocked registration)
+    serviceWorker: {
+      ready: registered ? Promise.resolve(reg) : new Promise(() => {}),
+      getRegistration: async () => (registered ? reg : undefined),
+    },
   });
   vi.stubGlobal("matchMedia", (q: string) => ({ matches: standalone && q.includes("standalone") }));
   const N = Object.assign(vi.fn(), { permission, requestPermission: vi.fn(async () => permission) });
@@ -105,11 +110,21 @@ describe("disablePush / refreshPush / forgetDevice", () => {
     await refreshPush("fr");
     expect(rpc).toHaveBeenCalledWith("save_push_subscription", expect.objectContaining({ p_locale: "fr" }));
   });
-  it("forgetDevice keeps the browser subscription and never throws", async () => {
+  it("forgetDevice drops the device on both sides and never throws", async () => {
     device({ permission: "granted" });
     const s = (current = sub());
+    await forgetDevice();
+    expect(rpc).toHaveBeenCalledWith("delete_push_subscription", { p_endpoint: "https://push.test/1" });
+    expect(s.unsubscribe).toHaveBeenCalled();
     rpc.mockRejectedValue(new Error("offline"));
     await expect(forgetDevice()).resolves.toBeUndefined();
-    expect(s.unsubscribe).not.toHaveBeenCalled();
+  });
+
+  it("never hangs without a registered service worker", async () => {
+    device({ permission: "granted", registered: false });
+    await expect(forgetDevice()).resolves.toBeUndefined();
+    await expect(refreshPush("fr")).resolves.toBeUndefined();
+    expect(await getPushState()).toBe("unsupported");
+    expect(await enablePush("fr")).toBe("unsupported");
   });
 });

@@ -20,9 +20,15 @@ function supported(): boolean {
   return typeof PushManager !== "undefined" && typeof Notification !== "undefined" && "serviceWorker" in navigator;
 }
 
+// getRegistration, not ready: ready never settles when no worker registered
+// (dev, or a browser that blocks it), which would hang sign-out.
+async function registration(): Promise<ServiceWorkerRegistration | undefined> {
+  return navigator.serviceWorker.getRegistration();
+}
+
 async function currentSubscription(): Promise<PushSubscription | null> {
-  const reg = await navigator.serviceWorker.ready;
-  return reg.pushManager.getSubscription();
+  const reg = await registration();
+  return reg ? reg.pushManager.getSubscription() : null;
 }
 
 function vapidKey(): Uint8Array {
@@ -44,7 +50,7 @@ async function save(sub: PushSubscription, locale: string) {
 
 export async function getPushState(): Promise<PushState> {
   if (isIos() && !isStandalone()) return "ios-install";
-  if (!supported()) return "unsupported";
+  if (!supported() || !(await registration())) return "unsupported";
   if (Notification.permission === "denied") return "denied";
   if (Notification.permission === "default") return "default";
   return (await currentSubscription()) ? "on" : "off";
@@ -52,9 +58,10 @@ export async function getPushState(): Promise<PushState> {
 
 // Call from a tap: browsers (and iOS always) only show the prompt then.
 export async function enablePush(locale: string): Promise<PushState> {
+  const reg = await registration();
+  if (!reg) return "unsupported";
   const permission = await Notification.requestPermission();
   if (permission !== "granted") return permission === "denied" ? "denied" : "default";
-  const reg = await navigator.serviceWorker.ready;
   const sub =
     (await reg.pushManager.getSubscription()) ??
     (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: vapidKey() as BufferSource }));
@@ -77,12 +84,14 @@ export async function refreshPush(locale: string): Promise<void> {
   if (sub) await save(sub, locale);
 }
 
-// On sign-out: this account stops getting pushes here. The browser keeps its
-// subscription so the next account can claim it.
+// On sign-out: this device stops getting pushes, and the next account to sign
+// in here has to turn them on itself.
 export async function forgetDevice(): Promise<void> {
   try {
     if (!supported()) return;
     const sub = await currentSubscription();
-    if (sub) await createBrowserClient().rpc("delete_push_subscription", { p_endpoint: sub.endpoint });
+    if (!sub) return;
+    await Promise.resolve(createBrowserClient().rpc("delete_push_subscription", { p_endpoint: sub.endpoint })).catch(() => {});
+    await sub.unsubscribe();
   } catch {}
 }
