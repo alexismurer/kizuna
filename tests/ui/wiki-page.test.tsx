@@ -108,6 +108,22 @@ describe("CharacterPage", () => {
     expect(screen.getByText("?")).toBeInTheDocument();
   });
 
+  it("every copy sold: not-owned wording but the page stays unlocked", () => {
+    const { container } = wrap(
+      <CharacterPage character={{ ...owned, owned: { ...owned.owned!, count: 0 } }} />,
+    );
+    expect(screen.getByText("Not owned")).toBeInTheDocument();
+    expect(screen.getByText("Mythic · not owned")).toBeInTheDocument();
+    expect(screen.queryByText(/Owned ×|owned ×/)).toBeNull();
+    expect(within(screen.getByRole("table")).getAllByRole("row")).toHaveLength(7);
+    expect(screen.getByText("Gender")).toBeInTheDocument();
+    expect(screen.getByText("Age")).toBeInTheDocument();
+    expect(screen.getByText("Seiyū")).toBeInTheDocument();
+    expect(screen.getByText("Card obtained on November 20, 2026")).toBeInTheDocument();
+    expect(screen.queryByText("Page locked")).toBeNull();
+    expect(container.querySelector(".grayscale")).toBeNull();
+  });
+
   it("owned with missing info hides those rows and the table", () => {
     wrap(
       <CharacterPage

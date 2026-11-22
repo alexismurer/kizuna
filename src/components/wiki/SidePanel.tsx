@@ -63,7 +63,9 @@ export function SidePanel({ character }: { character: Character }) {
 
       <div className="flex items-baseline justify-between gap-2 text-sm">
         <span className="font-semibold" style={{ color }}>
-          {owned ? t("wiki.page.rarityOwned", { rarity, count: owned.count }) : t("wiki.page.rarityNotOwned", { rarity })}
+          {owned?.count
+            ? t("wiki.page.rarityOwned", { rarity, count: owned.count })
+            : t("wiki.page.rarityNotOwned", { rarity })}
         </span>
         {odds[0] && (
           <span className="font-mono text-xs text-common">

@@ -43,7 +43,7 @@ export function WikiHeader({ character }: { character: Character }) {
             {t(`rarity.${card.rarity}`)}
           </span>
           <span className="px-1 text-common">
-            {owned ? t("wiki.page.owned", { count: owned.count }) : t("wiki.page.notOwned")}
+            {owned?.count ? t("wiki.page.owned", { count: owned.count }) : t("wiki.page.notOwned")}
           </span>
         </div>
         <h1 className="break-words font-display text-4xl font-bold leading-tight sm:text-6xl">{card.name}</h1>

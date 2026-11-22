@@ -4,8 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CardViewTracker } from "@/components/CardViewTracker";
 import { CharacterPage } from "@/components/wiki/CharacterPage";
-import { createServerClient } from "@/lib/supabase/server";
-import { loadCharacter } from "@/lib/wiki/loadCharacter";
+import { findCard, loadCharacter } from "@/lib/wiki/loadCharacter";
 
 // wiki ids are AniList character ids (cards.source_id)
 function parseId(raw: string): number | null {
@@ -32,17 +31,10 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/wiki/[id
   const { locale, id } = await params;
   const sourceId = parseId(id);
   if (sourceId === null) return {};
-  const supabase = await createServerClient();
-  const { data } = await supabase
-    .from("cards")
-    .select("name")
-    .eq("source_id", sourceId)
-    .order("source")
-    .limit(1)
-    .maybeSingle();
-  if (!data) return {};
+  const card = await findCard(sourceId);
+  if (!card) return {};
   const t = await getTranslations({ locale });
-  return { title: t("wiki.page.metaTitle", { name: data.name, site: t("app.name") }) };
+  return { title: t("wiki.page.metaTitle", { name: card.name, site: t("app.name") }) };
 }
 
 export default function WikiCharacterPage({ params }: PageProps<"/[locale]/wiki/[id]">) {

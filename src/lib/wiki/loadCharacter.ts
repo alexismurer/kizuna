@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { Rarity } from "@/lib/game/types";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
@@ -79,8 +80,8 @@ const EMPTY_STATS: MarketStats = {
   auctions: 0,
 };
 
-// Everything the wiki page shows for one character (by AniList id), as the signed-in player sees it.
-export async function loadCharacter(sourceId: number): Promise<Character | null> {
+// The card behind a wiki id; cached so the page and its metadata share one query per request.
+export const findCard = cache(async (sourceId: number): Promise<CardRow | null> => {
   const supabase = await createServerClient();
   const { data } = await supabase
     .from("cards")
@@ -91,8 +92,14 @@ export async function loadCharacter(sourceId: number): Promise<Character | null>
     .order("source")
     .limit(1)
     .maybeSingle();
-  if (!data) return null;
-  const c = data as unknown as CardRow;
+  return (data as unknown as CardRow | null) ?? null;
+});
+
+// Everything the wiki page shows for one character (by AniList id), as the signed-in player sees it.
+export async function loadCharacter(sourceId: number): Promise<Character | null> {
+  const c = await findCard(sourceId);
+  if (!c) return null;
+  const supabase = await createServerClient();
 
   const ownedPart = supabase
     .from("inventory")
@@ -189,9 +196,10 @@ export async function loadCharacter(sourceId: number): Promise<Character | null>
       aura: c.aura,
       favourites: c.favourites,
       popularityRank: c.popularity_rank,
-      gender: c.gender,
-      age: c.age,
-      voiceActor: c.voice_actor,
+      // private fields stay off the locked page
+      gender: mine.owned ? c.gender : null,
+      age: mine.owned ? c.age : null,
+      voiceActor: mine.owned ? c.voice_actor : null,
     },
     total,
     owned: mine.owned,
