@@ -22,8 +22,8 @@ const GOLD = "#d9b45a";
 const CORNERS = [
   [10, 10],
   [190, 10],
-  [10, 290],
-  [190, 290],
+  [10, 270],
+  [190, 270],
 ];
 
 export function CardBack({
@@ -40,10 +40,10 @@ export function CardBack({
     <div
       role="img"
       aria-label={t("backAlt")}
-      className={`relative ${CARD_WIDTH[size]} aspect-[2/3] overflow-hidden rounded-xl border border-border bg-[#0d0d14] ${glow}`}
+      className={`relative ${CARD_WIDTH[size]} aspect-[5/7] overflow-hidden rounded-[min(15px,10%)/min(15px,7.1%)] border border-border bg-[#0d0d14] ${glow}`}
     >
       <svg
-        viewBox="0 0 200 300"
+        viewBox="0 0 200 280"
         className="absolute inset-0 h-full w-full"
         aria-hidden="true"
       >
@@ -63,12 +63,12 @@ export function CardBack({
             />
           </pattern>
         </defs>
-        <rect x="10" y="10" width="180" height="280" fill={`url(#${patternId})`} />
+        <rect x="10" y="10" width="180" height="260" fill={`url(#${patternId})`} />
         <rect
           x="10"
           y="10"
           width="180"
-          height="280"
+          height="260"
           rx="4"
           fill="none"
           stroke={GOLD}
@@ -82,11 +82,11 @@ export function CardBack({
             fill={GOLD}
           />
         ))}
-        <circle cx="100" cy="140" r="50" fill="#0d0d14" />
-        <image href="/brand/kizuna-mark-gold.png" x="50" y="90" width="100" height="100" />
+        <circle cx="100" cy="130" r="50" fill="#0d0d14" />
+        <image href="/brand/kizuna-mark-gold.png" x="50" y="80" width="100" height="100" />
         <text
           x="100"
-          y="222"
+          y="212"
           textAnchor="middle"
           fontSize="13"
           letterSpacing="4"

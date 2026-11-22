@@ -10,7 +10,7 @@ export function MissingSlot({ number, rarity }: { number: number; rarity: Rarity
     <div
       role="img"
       aria-label={t("collection.missingCard", { number })}
-      className={`${CARD_WIDTH.md} flex aspect-[2/3] flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-border bg-panel/40`}
+      className={`${CARD_WIDTH.md} flex aspect-[5/7] flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-border bg-panel/40`}
     >
       <span aria-hidden className="font-display text-4xl text-white/20">
         ?

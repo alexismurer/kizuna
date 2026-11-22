@@ -131,7 +131,7 @@ export function BigPulls() {
           >
             {feed.pulls.map((p, i) => {
               const tile = {
-                className: "relative block aspect-[2/3] overflow-hidden rounded-xl border-2 bg-border",
+                className: "relative block aspect-[5/7] overflow-hidden rounded-xl border-2 bg-border",
                 style: { borderColor: COLOR[p.rarity], boxShadow: `0 0 16px -4px ${COLOR[p.rarity]}` },
               };
               const face = (

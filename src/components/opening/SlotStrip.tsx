@@ -44,7 +44,7 @@ export function SlotStrip({
             role="listitem"
             data-testid="slot"
             data-filled={on}
-            className={`${width} aspect-[2/3] shrink-0 overflow-hidden rounded-[3px] border ${
+            className={`${width} aspect-[5/7] shrink-0 overflow-hidden rounded-[3px] border ${
               i === current ? "ring-1 ring-white/70" : ""
             }`}
             style={{

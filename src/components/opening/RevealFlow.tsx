@@ -29,8 +29,8 @@ const FAST_MS = 150;
 const SWIPE_PX = 40;
 const SHAKE_MS = 250;
 const TITLE_MS = 1200;
-// 280×420 (CardView lg) when there is room; shrinks so a phone needs no scroll
-const CARD_HEIGHT = "min(420px, max(240px, calc(100dvh - 380px)))";
+// 280×392 (CardView lg) when there is room; shrinks so a phone needs no scroll
+const CARD_HEIGHT = "min(392px, max(224px, calc(100dvh - 380px)))";
 
 const TEASE = new Set<Rarity>(["rare", "epic", "legendary", "mythic"]);
 const SHAKE = new Set<Rarity>(["legendary", "mythic"]);
@@ -322,7 +322,7 @@ export function RevealFlow({
         onPointerCancel={() => (swipe.current = null)}
         className="relative flex w-full flex-1 touch-none select-none items-center justify-center"
       >
-        <div className="relative" style={{ height: CARD_HEIGHT, aspectRatio: "2 / 3" }}>
+        <div className="relative" style={{ height: CARD_HEIGHT, aspectRatio: "5 / 7" }}>
           {up && SEALED.has(current.rarity) && animations && (
             <div
               key={`rays-${index}`}

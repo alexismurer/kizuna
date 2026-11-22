@@ -434,3 +434,50 @@ main:not([style*="display: none"]):not(:has(> :not(template, [style*="display: n
   .modal-back, .modal-box, .tilt-card .tilt-aura { animation: none; }
   .tilt-card .tilt-sweep { display: none; }
 }
+
+/* Card face (CardView): 5:7, the art fills it; name + rarity seal over the top, series + number over the
+   bottom. Text scales with the card's width (container units), and small cards drop the extras. */
+.cv { container-type: inline-size; }
+.cv-frame { border-radius: min(15px, 10%) / min(15px, 7.1%); }
+.cv-face {
+  border-radius: min(11px, 8%) / min(11px, 5.7%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+}
+.cv-face img { object-position: 50% 18%; }
+.cv-shade {
+  background: linear-gradient(rgb(8 6 12 / 0.65), transparent 20%), linear-gradient(transparent 76%, rgb(8 6 12 / 0.7));
+}
+.cv-top, .cv-bottom {
+  position: absolute; left: 0; right: 0; z-index: 3; display: flex; align-items: center;
+  justify-content: space-between; gap: 6px; min-width: 0; padding: 8px 9px;
+}
+.cv-top { top: 0; }
+.cv-bottom { bottom: 0; }
+.cv-name {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--font-display); font-weight: 800; line-height: 1.15;
+  font-size: clamp(11px, 8cqi, 19px); text-shadow: 0 1px 3px rgb(0 0 0 / 0.6);
+}
+.cv-seal { width: 26px; height: 26px; font-size: 11px; box-shadow: 0 1px 3px rgb(0 0 0 / 0.45); }
+.cv-series {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: rgb(255 255 255 / 0.88); font-weight: 700; font-size: clamp(9px, 5.6cqi, 13px);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.6);
+}
+.cv-num { flex: 0 0 auto; font-family: var(--font-mono); font-size: 11px; color: rgb(255 255 255 / 0.75); }
+@container (max-width: 150px) {
+  .cv-top, .cv-bottom { gap: 4px; padding: 5px 6px; }
+  .cv-seal { width: 20px; height: 20px; font-size: 10px; }
+  .cv-num { display: none; }
+  .cv-series { font-size: 9px; }
+}
+@container (max-width: 100px) {
+  .cv-top { gap: 3px; padding: 3px 4px; }
+  .cv-name { font-size: 9.5px; }
+  .cv-seal { width: 16px; height: 16px; font-size: 8.5px; }
+}
+@container (max-width: 70px) {
+  .cv-name, .cv-bottom { display: none; }
+  .cv-top { justify-content: flex-end; padding: 2px; }
+  .cv-seal { width: 13px; height: 13px; font-size: 7.5px; }
+}

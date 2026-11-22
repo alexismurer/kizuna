@@ -51,10 +51,7 @@ export function LotTile({
             {flag.text}
           </span>
         )}
-        {/* phones fit two tiles a row: the card is drawn smaller there */}
-        <span className="flex justify-center max-sm:[zoom:0.8]">
-          <CardView card={{ ...card, total }} size="md" glow={false} />
-        </span>
+        <CardView card={{ ...card, total }} glow={false} fluid />
         <span className="flex flex-col gap-1.5 px-0.5 pb-0.5">
           <span className="flex items-center justify-between gap-2">
             <span

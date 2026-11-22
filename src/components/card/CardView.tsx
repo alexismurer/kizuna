@@ -33,99 +33,76 @@ const GLOW: Record<Rarity, number> = {
   mythic: 36,
 };
 
-const TEXT: Record<CardSize, string> = {
-  xs: "text-[6px]",
-  sm: "text-[10px]",
-  md: "text-xs",
-  lg: "text-base",
-};
-
-const BADGE: Record<CardSize, string> = {
-  xs: "h-2.5 w-2.5 text-[5px]",
-  sm: "h-4 w-4 text-[9px]",
-  md: "h-5 w-5 text-[10px]",
-  lg: "h-8 w-8 text-sm",
-};
-
 const MYTHIC_FRAME =
   "linear-gradient(135deg,var(--mythic-a),var(--mythic-b),var(--mythic-c))";
 
+// A card face, 5:7: the art fills it inside a rarity-coloured frame, the name and rarity seal over the
+// top, the series and number over the bottom (text scales with the card's width; see .cv-* in
+// globals.css). `fluid` makes it as wide as its container instead of the size's fixed width.
 export function CardView({
   card,
   size = "md",
   isNew = false,
   glow = true,
+  fluid = false,
 }: {
   card: CardFace;
   size?: CardSize;
   isNew?: boolean;
   glow?: boolean;
+  fluid?: boolean;
 }) {
   const t = useTranslations();
   const [broken, setBroken] = useState(false);
   const [prefs] = usePrefs();
   const color = COLOR[card.rarity];
   const epicPlus = ["epic", "legendary", "mythic"].includes(card.rarity);
-  const small = size === "xs" || size === "sm";
 
   return (
-    <div className={`relative ${CARD_WIDTH[size]} ${TEXT[size]} ${prefs.animations ? "" : "fx-still"}`}>
+    <div
+      className={`cv relative ${fluid ? "w-full" : CARD_WIDTH[size]} aspect-[5/7] ${prefs.animations ? "" : "fx-still"}`}
+    >
       <div
-        className={`relative h-full w-full overflow-hidden rounded-xl p-[2px] ${epicPlus ? "card-sheen" : ""}`}
+        className={`cv-frame absolute inset-0 overflow-hidden p-[4px] ${epicPlus ? "card-sheen" : ""}`}
         style={{
           background: card.rarity === "mythic" ? MYTHIC_FRAME : color,
           boxShadow:
             glow && GLOW[card.rarity]
               ? `0 0 ${GLOW[card.rarity]}px ${color}`
-              : undefined,
+              : "0 10px 26px rgb(0 0 0 / 0.55)",
         }}
       >
-        <div className="flex h-full flex-col gap-[3px] rounded-[10px] bg-[#0d0d14] p-[4%]">
-          <div className="flex items-center justify-between gap-1">
-            <span className="min-w-0 flex-1 truncate font-display font-bold">
-              {card.name}
-            </span>
-            <RarityBadge rarity={card.rarity} className={BADGE[size]} />
-          </div>
-          {!small && card.nativeName && (
-            <p className="truncate text-[0.85em] text-common">
-              {card.nativeName}
-            </p>
+        <div className="cv-face relative h-full w-full overflow-hidden bg-[#1c1a23]">
+          {card.imageUrl && !broken ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={card.imageUrl}
+              alt=""
+              loading="lazy"
+              onError={() => setBroken(true)}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-xs text-common">
+              {t("card.noArt")}
+            </div>
           )}
-          {/* fixed 2:3 art box: the image's own size must not change the card's height */}
-          <div className="relative aspect-[2/3] shrink-0 overflow-hidden rounded bg-border">
-            {card.imageUrl && !broken ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={card.imageUrl}
-                alt=""
-                loading="lazy"
-                onError={() => setBroken(true)}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-common">
-                {t("card.noArt")}
-              </div>
-            )}
-            <span className="absolute bottom-0.5 left-1 rounded bg-black/60 px-1 font-mono text-[0.8em]">
+          <div aria-hidden className="cv-shade absolute inset-0" />
+          <div className="cv-top">
+            <span className="cv-name">{card.name}</span>
+            <RarityBadge rarity={card.rarity} className="cv-seal" />
+          </div>
+          <div className="cv-bottom">
+            <span className="cv-series">{card.seriesTitle}</span>
+            <span className="cv-num">
               #{card.number}
               {card.total > 0 ? `/${card.total}` : ""}
-            </span>
-          </div>
-          <p className="truncate text-common">{card.seriesTitle}</p>
-          <div className="flex justify-between gap-1 whitespace-nowrap font-mono">
-            <span>
-              {t("card.pow")} {card.pow}
-            </span>
-            <span>
-              {t("card.aura")} {card.aura}
             </span>
           </div>
         </div>
       </div>
       {isNew && (
-        <span className="absolute left-1/2 top-0 z-30 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-white px-2 py-0.5 font-mono text-[0.8em] font-bold text-black">
+        <span className="absolute left-1/2 top-0 z-30 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-black">
           {t("reveal.new")}
         </span>
       )}

@@ -27,6 +27,7 @@ export function CardInspector({
 }) {
   const t = useTranslations("inspector");
   const tr = useTranslations("rarity");
+  const tc = useTranslations("card");
   const format = useFormatter();
   const [prefs] = usePrefs();
   const [flipped, setFlipped] = useState(false);
@@ -162,6 +163,14 @@ export function CardInspector({
               <p className="mt-1 text-sm text-white/70">{card.seriesTitle}</p>
             </div>
             <div className="grid grid-cols-2 gap-2">
+              <div className={tile}>
+                <p className={tileLabel}>{tc("pow")}</p>
+                <p className="font-mono text-lg font-bold">{card.pow}</p>
+              </div>
+              <div className={tile}>
+                <p className={tileLabel}>{tc("aura")}</p>
+                <p className="font-mono text-lg font-bold">{card.aura}</p>
+              </div>
               <div className={tile}>
                 <p className={tileLabel}>{t("owners")}</p>
                 <p className="font-mono text-lg font-bold">{owners === null ? "…" : format.number(owners)}</p>

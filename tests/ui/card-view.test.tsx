@@ -40,23 +40,19 @@ describe("CardView", () => {
     expect(sheen()).toHaveClass("fx-still");
   });
 
-  it("renders name, number, series, stats on one line and badge", () => {
-    wrap(<CardView card={card} />);
-    expect(screen.getByText("Hero")).toBeInTheDocument();
-    expect(screen.getByText("#12/5000")).toBeInTheDocument();
-    expect(screen.getByText("Great Series")).toBeInTheDocument();
-    const bar = screen.getByText(/POW 90/).parentElement!;
-    expect(bar).toHaveTextContent("POW 90");
-    expect(bar).toHaveTextContent("AURA 60");
-    expect(screen.getByLabelText("Epic")).toBeInTheDocument();
+  it("renders name and badge over the top, series and number over the bottom, no stats", () => {
+    const { container } = wrap(<CardView card={card} />);
+    expect(container.querySelector(".cv-top")).toHaveTextContent("Hero");
+    expect(screen.getByLabelText("Epic").closest(".cv-top")).not.toBeNull();
+    expect(container.querySelector(".cv-bottom")).toHaveTextContent("Great Series#12/5000");
+    expect(container.firstElementChild).toHaveClass("aspect-[5/7]");
+    expect(screen.queryByText(/POW/)).toBeNull();
+    expect(screen.queryByText("ヒーロー")).toBeNull();
   });
 
-  it("shows the native name at md but not at sm", () => {
-    wrap(<CardView card={card} size="md" />);
-    expect(screen.getByText("ヒーロー")).toBeInTheDocument();
-    cleanup();
-    wrap(<CardView card={card} size="sm" />);
-    expect(screen.queryByText("ヒーロー")).toBeNull();
+  it("fills its container when fluid", () => {
+    const { container } = wrap(<CardView card={card} fluid />);
+    expect(container.firstElementChild).toHaveClass("w-full");
   });
 
   it("omits the total when it is unknown", () => {

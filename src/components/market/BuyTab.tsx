@@ -99,7 +99,7 @@ export function BuyTab({
       {listings.length === 0 ? (
         <p className="text-common">{t("empty")}</p>
       ) : (
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))]">
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(13rem,1fr))]">
           {listings.map((l) => (
             <ListingCard
               key={l.id}

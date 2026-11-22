@@ -43,7 +43,7 @@ export function JoinLanding({
           {cards.map((c, i) => (
             <li
               key={i}
-              className="aspect-[2/3] w-20 overflow-hidden rounded-lg border-2 bg-border"
+              className="aspect-[5/7] w-20 overflow-hidden rounded-lg border-2 bg-border"
               style={{
                 borderColor: COLOR[c.rarity],
                 transform: `rotate(${(i - (cards.length - 1) / 2) * 8}deg)`,

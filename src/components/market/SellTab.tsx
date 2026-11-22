@@ -35,16 +35,16 @@ export function SellTab({
       {shown.length === 0 ? (
         <p className="text-common">{t("empty")}</p>
       ) : (
-        <ul className="grid grid-cols-2 justify-items-center gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,10rem)] sm:justify-between">
+        <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
           {shown.map((i) => (
             <li key={i.card.id}>
               <button
                 type="button"
                 aria-haspopup="dialog"
                 onClick={() => setSelling(i)}
-                className="relative block rounded-xl text-left transition-transform duration-150 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:hover:translate-y-0"
+                className="relative block w-full rounded-xl text-left transition-transform duration-150 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:hover:translate-y-0"
               >
-                <CardView card={{ ...i.card, total }} size="md" glow={false} />
+                <CardView card={{ ...i.card, total }} glow={false} fluid />
                 <span
                   aria-hidden
                   className="absolute -right-1.5 -top-1.5 z-10 rounded-full border border-white/25 bg-[#1c1a23] px-1.5 py-0.5 font-mono text-[11px] font-bold"

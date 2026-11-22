@@ -111,7 +111,7 @@ describe("Summary", () => {
     });
     const names = screen
       .getAllByTestId(/^summary-(card|best)$/)
-      .map((el) => el.querySelector(".font-display")?.textContent);
+      .map((el) => el.querySelector(".cv-name")?.textContent);
     expect(names).toEqual(["Hero 5", "Hero 8", "Hero 3", "Hero 4", "Hero 9", "Hero 2", "Hero 1"]);
   });
 
