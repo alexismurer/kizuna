@@ -69,7 +69,7 @@ export function CardView({
   const small = size === "xs" || size === "sm";
 
   return (
-    <div className={`relative ${CARD_WIDTH[size]} ${TEXT[size]} aspect-[2/3] ${prefs.animations ? "" : "fx-still"}`}>
+    <div className={`relative ${CARD_WIDTH[size]} ${TEXT[size]} ${prefs.animations ? "" : "fx-still"}`}>
       <div
         className={`relative h-full w-full overflow-hidden rounded-xl p-[2px] ${epicPlus ? "card-sheen" : ""}`}
         style={{
