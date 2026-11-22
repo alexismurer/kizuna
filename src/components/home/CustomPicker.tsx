@@ -73,7 +73,7 @@ export function CustomPicker({
             return (
               <li key={o.id}>
                 <label
-                  className={`flex cursor-pointer items-center gap-3 rounded-xl border p-2 ${on ? "border-cta bg-cta/10" : "border-border hover:border-white/30"} ${full ? "opacity-50" : ""}`}
+                  className={`relative flex cursor-pointer items-center gap-3 rounded-xl border p-2 ${on ? "border-cta bg-cta/10" : "border-border hover:border-white/30"} ${full ? "opacity-50" : ""}`}
                 >
                   <input
                     type="checkbox"

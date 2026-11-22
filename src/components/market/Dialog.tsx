@@ -31,6 +31,10 @@ export function Dialog({
 }) {
   const t = useTranslations("market.sell");
   const panel = useRef<HTMLDivElement>(null);
+  // a press that starts inside the panel and ends on the backdrop (e.g. selecting
+  // text in a field) makes the browser click the backdrop: only a press that
+  // started on the backdrop closes the dialog
+  const pressedBackdrop = useRef(false);
   const latest = useRef(onClose);
   useEffect(() => {
     latest.current = onClose;
@@ -78,7 +82,11 @@ export function Dialog({
   return createPortal(
     <div
       className="modal-back fixed inset-0 z-50 flex items-end justify-center bg-[rgb(8_7_11/0.8)] backdrop-blur-sm sm:items-center sm:p-4"
-      onClick={onClose}
+      onPointerDown={(e) => (pressedBackdrop.current = e.target === e.currentTarget)}
+      onClick={(e) => {
+        if (e.target === e.currentTarget && pressedBackdrop.current) onClose();
+        pressedBackdrop.current = false;
+      }}
     >
       <div
         ref={panel}

@@ -64,6 +64,12 @@ describe("CustomPicker", () => {
     expect(save).toBeEnabled();
   });
 
+  it("keeps each hidden checkbox inside its own row, so focusing it never scrolls the whole dialog", () => {
+    wrap();
+    // the sr-only checkbox is position:absolute: its row must be its containing block
+    for (const b of screen.getAllByRole("checkbox")) expect(b.closest("label")).toHaveClass("relative");
+  });
+
   it("filters the list by title, ignoring case", () => {
     wrap();
     fireEvent.change(screen.getByRole("searchbox", { name: messages.home.custom.search }), {
