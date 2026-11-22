@@ -1,3 +1,4 @@
+import { COLOR } from "@/components/card/rarityColor";
 import { useTranslations } from "next-intl";
 import type { Character } from "@/lib/wiki/loadCharacter";
 import { Appearances } from "./Appearances";
@@ -60,7 +61,7 @@ export function CharacterPage({ character }: { character: Character }) {
               latest={character.latest}
             />
           </div>
-          <SameUniverse seriesTitle={card.seriesTitle} cards={character.sameUniverse} />
+          <SameUniverse seriesTitle={card.seriesTitle} accent={COLOR[card.rarity]} cards={character.sameUniverse} />
         </div>
       </div>
     </>

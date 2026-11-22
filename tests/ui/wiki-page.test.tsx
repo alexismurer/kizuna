@@ -181,10 +181,11 @@ describe("SidePanel chances", () => {
 });
 
 describe("SameUniverse", () => {
-  it("links owned tiles and hides unowned ones", () => {
+  it("links every tile and hides unowned names", () => {
     wrap(
       <SameUniverse
         seriesTitle="One Punch Man"
+        accent="var(--mythic-a)"
         cards={[
           { sourceId: 99, name: "Saitama", imageUrl: "https://example.com/s.jpg", rarity: "legendary", owned: true },
           { sourceId: 98, name: "Genos", imageUrl: "https://example.com/g.jpg", rarity: "epic", owned: false },
@@ -198,6 +199,9 @@ describe("SameUniverse", () => {
     expect(screen.getByText("???")).toBeInTheDocument();
     expect(screen.getByText("Epic · to find")).toBeInTheDocument();
     expect(screen.queryByText("Genos")).toBeNull();
-    expect(screen.getAllByRole("link")).toHaveLength(1);
+    const hidden = screen.getByRole("link", { name: /\?\?\?/ });
+    expect(hidden).toHaveAttribute("href", "/wiki/98");
+    expect(hidden.querySelector("img")).toBeNull();
+    expect(screen.getAllByRole("link")).toHaveLength(2);
   });
 });
