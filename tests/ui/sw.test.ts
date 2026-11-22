@@ -31,7 +31,8 @@ function load() {
   const self = {
     addEventListener: (t: string, h: Handler) => (handlers[t] = h),
     skipWaiting: vi.fn(),
-    clients: { claim: vi.fn() },
+    clients: { claim: vi.fn(), matchAll: vi.fn(async () => [] as any[]), openWindow: vi.fn() },
+    registration: { showNotification: vi.fn(async () => {}) },
     location: { origin: "https://app.test" },
   };
   new Function("self", "caches", "fetch", readFileSync("public/sw.js", "utf8"))(self, caches, fetchFn);
@@ -114,11 +115,67 @@ describe("service worker", () => {
 
   it("drops old caches on activate and claims clients", async () => {
     const { handlers, caches, store, self } = load();
-    store.set("kizuna-v0", new Map());
+    store.set("kizuna-v1", new Map());
     let p: Promise<unknown> = Promise.resolve();
     handlers.activate({ waitUntil: (x: Promise<unknown>) => (p = x) });
     await p;
-    expect(caches.delete).toHaveBeenCalledWith("kizuna-v0");
+    expect(caches.delete).toHaveBeenCalledWith("kizuna-v1");
     expect(self.clients.claim).toHaveBeenCalled();
+  });
+
+  function waitEvent(extra: Record<string, unknown>) {
+    let p: Promise<unknown> = Promise.resolve();
+    return { e: { ...extra, waitUntil: (x: Promise<unknown>) => (p = x) }, done: () => p };
+  }
+
+  it("shows a pushed notification", async () => {
+    const { handlers, self } = load();
+    const msg = { title: "Kizuna", body: "Sold", url: "/market?tab=activity", tag: "sold:5" };
+    const { e, done } = waitEvent({ data: { json: () => msg } });
+    handlers.push(e);
+    await done();
+    expect(self.registration.showNotification).toHaveBeenCalledWith("Kizuna", {
+      body: "Sold",
+      tag: "sold:5",
+      icon: "/icons/192",
+      badge: "/icons/192",
+      data: { url: "/market?tab=activity" },
+    });
+  });
+
+  it("still shows something when the push has no readable data", async () => {
+    const { handlers, self } = load();
+    const { e, done } = waitEvent({ data: { json: () => { throw new SyntaxError("bad"); } } });
+    handlers.push(e);
+    await done();
+    expect(self.registration.showNotification).toHaveBeenCalledWith("Kizuna", expect.objectContaining({ data: { url: "/" } }));
+    const empty = waitEvent({ data: null });
+    handlers.push(empty.e);
+    await empty.done();
+    expect(self.registration.showNotification).toHaveBeenCalledTimes(2);
+  });
+
+  it("opens the page in an open game window on click", async () => {
+    const { handlers, self } = load();
+    const client = { url: "https://app.test/collection", navigate: vi.fn(async () => client), focus: vi.fn(async () => client) };
+    self.clients.matchAll.mockResolvedValue([client]);
+    const close = vi.fn();
+    const { e, done } = waitEvent({ notification: { close, data: { url: "/open" } } });
+    handlers.notificationclick(e);
+    await done();
+    expect(close).toHaveBeenCalled();
+    expect(client.navigate).toHaveBeenCalledWith("/open");
+    expect(client.focus).toHaveBeenCalled();
+    expect(self.clients.openWindow).not.toHaveBeenCalled();
+  });
+
+  it("opens a new window on click when the game is closed", async () => {
+    const { handlers, self } = load();
+    const close = vi.fn();
+    const { e, done } = waitEvent({ notification: { close, data: { url: "/open" } } });
+    handlers.notificationclick(e);
+    await done();
+    expect(close).toHaveBeenCalled();
+    expect(self.clients.openWindow).toHaveBeenCalledWith("/open");
   });
 });

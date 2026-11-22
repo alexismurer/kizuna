@@ -1,4 +1,4 @@
-const CACHE = "kizuna-v1";
+const CACHE = "kizuna-v2";
 const OFFLINE_URL = "/offline.html";
 
 self.addEventListener("install", (event) => {
@@ -38,4 +38,35 @@ self.addEventListener("fetch", (event) => {
       }),
     );
   }
+});
+
+// Push from /api/push: { title, body, url, tag }. iOS drops the subscription
+// of a worker that receives a push without showing anything, so always show.
+self.addEventListener("push", (event) => {
+  let msg = {};
+  try {
+    msg = event.data ? event.data.json() : {};
+  } catch {}
+  event.waitUntil(
+    self.registration.showNotification(msg.title || "Kizuna", {
+      body: msg.body || "",
+      tag: msg.tag,
+      icon: "/icons/192",
+      badge: "/icons/192",
+      data: { url: msg.url || "/" },
+    }),
+  );
+});
+
+// Tapping it brings the game forward on that page (or opens it).
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = (event.notification.data && event.notification.data.url) || "/";
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      const client = list.find((c) => new URL(c.url).origin === self.location.origin);
+      if (client) return client.navigate(url).then((c) => (c || client).focus());
+      return self.clients.openWindow(url);
+    }),
+  );
 });
