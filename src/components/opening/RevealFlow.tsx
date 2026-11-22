@@ -425,7 +425,13 @@ export function RevealFlow({
       </div>
 
       <SlotStrip
-        slots={cards.map((c) => ({ rarity: c.rarity, imageUrl: c.card.imageUrl }))}
+        slots={cards.map((c) => ({
+          rarity: c.rarity,
+          imageUrl: c.card.imageUrl,
+          name: c.card.name,
+          series: c.card.seriesTitle,
+          number: c.card.number,
+        }))}
         filled={up ? index + 1 : index}
         current={index}
         label={t("reveal.strip")}
