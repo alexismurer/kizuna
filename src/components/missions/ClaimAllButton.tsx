@@ -6,6 +6,8 @@ import { RewardToast } from "@/components/RewardToast";
 import { useRouter } from "@/i18n/navigation";
 import { claimAll, type ClaimAnswer } from "@/lib/game/missions";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { readPrefs } from "@/lib/fx/prefs";
+import { playSfx, primeAudio } from "@/lib/fx/sound";
 
 // Claims every claimable mission and achievement in one go, then shows what came back.
 // count: the server's claimable total (keys can lag behind it until the next refresh)
@@ -29,6 +31,8 @@ export function ClaimAllButton({
     if (pending.current) return;
     pending.current = true;
     setBusy(true);
+    const sound = readPrefs().sound;
+    primeAudio(sound);
     const supabase = createBrowserClient();
     const r = await claimAll(
       keys,
@@ -39,6 +43,7 @@ export function ClaimAllButton({
       },
     );
     setResult(r);
+    if (r.reward > 0 || r.boosters > 0) playSfx("claim", sound);
     setBusy(false);
     pending.current = false;
     router.refresh();

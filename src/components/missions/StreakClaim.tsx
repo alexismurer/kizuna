@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { rpcErrorKey } from "@/lib/game/errors";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { readPrefs } from "@/lib/fx/prefs";
+import { playSfx, primeAudio } from "@/lib/fx/sound";
 
 type Claim = { claimed: boolean; day: number; reward: number; goldenNext: boolean };
 
@@ -32,6 +34,8 @@ export function StreakClaim({ claimedToday }: { claimedToday: boolean }) {
     pending.current = true;
     setBusy(true);
     setError(null);
+    const sound = readPrefs().sound;
+    primeAudio(sound);
     try {
       const { data, error: rpcError } = await createBrowserClient().rpc("claim_login");
       if (rpcError) {
@@ -41,7 +45,10 @@ export function StreakClaim({ claimedToday }: { claimedToday: boolean }) {
       }
       const c = data as Claim | null;
       setDone(true);
-      if (c?.claimed) setToast(c);
+      if (c?.claimed) {
+        setToast(c);
+        playSfx("claim", sound);
+      }
       router.refresh();
     } catch {
       setError("errors.unknown");

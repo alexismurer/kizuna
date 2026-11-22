@@ -7,6 +7,8 @@ import { useMarketLive } from "@/components/market/useMarketLive";
 import { Sheet } from "@/components/mobile/Sheet";
 import type { Notification } from "@/lib/market/notifications";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { readPrefs } from "@/lib/fx/prefs";
+import { playSfx } from "@/lib/fx/sound";
 import { PushSettings } from "@/components/push/PushSettings";
 import { NotificationList } from "./NotificationList";
 
@@ -34,6 +36,14 @@ export function NotificationBell({
   // unread when the panel opened: they stay highlighted while it is open
   const [fresh, setFresh] = useState<number[]>([]);
   const box = useRef<HTMLDivElement>(null);
+
+  // a chime when a newer notification arrives live (not for the ones loaded with the page)
+  const newest = initial[0]?.id ?? 0;
+  const heard = useRef(newest);
+  useEffect(() => {
+    if (newest > heard.current) playSfx("notify", readPrefs().sound);
+    heard.current = Math.max(heard.current, newest);
+  }, [newest]);
 
   function show() {
     const wide = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 48rem)").matches;

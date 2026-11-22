@@ -5,6 +5,8 @@ import { useFormatter, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { rpcErrorKey } from "@/lib/game/errors";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { readPrefs } from "@/lib/fx/prefs";
+import { playSfx, primeAudio } from "@/lib/fx/sound";
 
 export function ClaimButton({ missionKey, reward }: { missionKey: string; reward: number }) {
   const t = useTranslations("missions.state");
@@ -22,6 +24,8 @@ export function ClaimButton({ missionKey, reward }: { missionKey: string; reward
     pending.current = true;
     setBusy(true);
     setError(null);
+    const sound = readPrefs().sound;
+    primeAudio(sound);
     try {
       const { error: rpcError } = await createBrowserClient().rpc("claim_mission", { p_key: missionKey });
       if (rpcError) {
@@ -29,6 +33,7 @@ export function ClaimButton({ missionKey, reward }: { missionKey: string; reward
         pending.current = false;
       } else {
         setDone(true);
+        playSfx("claim", sound);
       }
       router.refresh();
     } catch {
