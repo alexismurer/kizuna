@@ -46,7 +46,7 @@ export function LotTile({
       >
         {flag && (
           <span
-            className={`absolute left-1/2 top-1 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border-2 border-panel px-2.5 py-[3px] font-mono text-[11px] uppercase tracking-[0.06em] text-black ${flag.tone === "lead" ? "bg-uncommon" : "bg-white"}`}
+            className={`absolute -top-2.5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border-2 border-panel px-2.5 py-[3px] font-mono text-[11px] uppercase tracking-[0.06em] text-black ${flag.tone === "lead" ? "bg-uncommon" : "bg-white"}`}
           >
             {flag.text}
           </span>

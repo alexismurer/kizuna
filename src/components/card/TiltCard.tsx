@@ -49,7 +49,7 @@ export function TiltCard({
       onPointerMove={move}
       onPointerLeave={leave}
       data-rarity={rarity}
-      className={`tilt-card block w-full cursor-zoom-in rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white ${tilting ? "tilting" : ""} ${prefs.animations ? "" : "fx-still"}`}
+      className={`tilt-card block w-full cursor-zoom-in rounded-xl text-left outline-none focus-visible:ring-2 focus-visible:ring-white ${tilting ? "tilting" : ""} ${prefs.animations ? "" : "fx-still"}`}
       style={{ "--glow": COLOR[rarity] } as React.CSSProperties}
     >
       {prefs.animations && <span aria-hidden className="tilt-aura" />}
