@@ -916,7 +916,11 @@
         "confirm": "Confirm sale",
         "back": "Back"
       },
-      "close": "Close"
+      "close": "Close",
+      "sheetTitle": "List for sale",
+      "fixedHint": "The first buyer gets it",
+      "auctionHint": "The highest bidder at the end",
+      "cancel": "Cancel"
     },
     "trades": {
       "received": "Received",
@@ -1013,7 +1017,22 @@
       "auctionCancelled": "Auction cancelled.",
       "orderCancelled": "Buy order cancelled."
     },
-    "openCard": "Open {name}"
+    "openCard": "Open {name}",
+    "deltaShort": "{delta}% val.",
+    "lot": {
+      "zoom": "Zoom on {name}",
+      "seePage": "See the page",
+      "soldBy": "sold by <b>{name}</b>",
+      "owned": "You own {count, plural, one {# copy} other {# copies}}",
+      "notOwned": "You don’t have it yet",
+      "yours": "This is your lot",
+      "buyFor": "Buy · {price}",
+      "missing": "You are missing {amount}.",
+      "minBid": "Minimum {min}. The highest bid when the timer ends wins the card.",
+      "leading": "You hold the top bid.",
+      "prices": "Market prices",
+      "noSales": "No sales yet."
+    }
   },
   "notifications": {
     "title": "Notifications",

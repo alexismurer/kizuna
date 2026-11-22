@@ -916,7 +916,11 @@
         "confirm": "确认出售",
         "back": "返回"
       },
-      "close": "关闭"
+      "close": "关闭",
+      "sheetTitle": "上架出售",
+      "fixedHint": "第一位买家获得",
+      "auctionHint": "结束时出价最高者获得",
+      "cancel": "取消"
     },
     "trades": {
       "received": "收到的",
@@ -1013,7 +1017,22 @@
       "auctionCancelled": "拍卖已取消。",
       "orderCancelled": "求购单已取消。"
     },
-    "openCard": "打开 {name}"
+    "openCard": "打开 {name}",
+    "deltaShort": "较估值 {delta}%",
+    "lot": {
+      "zoom": "放大 {name}",
+      "seePage": "查看页面",
+      "soldBy": "卖家 <b>{name}</b>",
+      "owned": "你拥有 {count} 张",
+      "notOwned": "你还没有这张卡",
+      "yours": "这是你的拍品",
+      "buyFor": "购买 · {price}",
+      "missing": "还差 {amount}。",
+      "minBid": "最低 {min}。倒计时结束时出价最高者获得卡牌。",
+      "leading": "你是最高出价者。",
+      "prices": "市场价格",
+      "noSales": "暂无成交。"
+    }
   },
   "notifications": {
     "title": "通知",

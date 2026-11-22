@@ -14,11 +14,17 @@ export function Dialog({
   label,
   onClose,
   wide = false,
+  title,
+  size,
   children,
 }: {
   label: string;
   onClose: () => void;
   wide?: boolean;
+  // a sticky header with this title and the close button
+  title?: string;
+  // "lot": the wide market lot panel; "sheet": the sell form
+  size?: "lot" | "sheet";
   children: React.ReactNode;
 }) {
   const t = useTranslations("market.sell");
@@ -56,9 +62,20 @@ export function Dialog({
     };
   }, []);
 
+  const close = (
+    <button
+      type="button"
+      aria-label={t("close")}
+      onClick={onClose}
+      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border transition-colors hover:border-white/40 hover:bg-white/5 ${title ? "" : "absolute right-3 top-3"}`}
+    >
+      <X className="h-4 w-4" aria-hidden />
+    </button>
+  );
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center sm:p-4"
+      className="modal-back fixed inset-0 z-50 flex items-end justify-center bg-[rgb(8_7_11/0.8)] backdrop-blur-sm sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
@@ -68,17 +85,22 @@ export function Dialog({
         aria-label={label}
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className={`relative max-h-[92dvh] w-full ${wide ? "max-w-3xl" : "max-w-md"} overflow-y-auto rounded-t-2xl border border-border bg-panel p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl outline-none sm:rounded-2xl`}
+        className={`modal-box relative max-h-[92dvh] w-full ${size === "lot" ? "max-w-[980px]" : size === "sheet" ? "max-w-[560px]" : wide ? "max-w-3xl" : "max-w-md"} overflow-y-auto overscroll-contain rounded-t-[18px] border border-border bg-panel shadow-[0_30px_80px_rgb(0_0_0/0.6)] outline-none sm:rounded-[18px] ${title ? "" : "p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]"}`}
       >
-        <button
-          type="button"
-          aria-label={t("close")}
-          onClick={onClose}
-          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-border hover:border-cta"
-        >
-          <X className="h-4 w-4" aria-hidden />
-        </button>
-        {children}
+        {title ? (
+          <>
+            <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-border bg-panel py-3.5 pl-6 pr-5 sm:pt-[18px]">
+              <h2 className="min-w-0 truncate font-display text-lg font-bold">{title}</h2>
+              {close}
+            </div>
+            <div className="p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-6">{children}</div>
+          </>
+        ) : (
+          <>
+            {close}
+            {children}
+          </>
+        )}
       </div>
     </div>
   );

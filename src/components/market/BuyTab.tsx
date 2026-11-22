@@ -7,9 +7,10 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import { loadListings } from "@/lib/market/listings";
 import type { Listing, MarketFilters } from "@/lib/market/types";
 import { createBrowserClient } from "@/lib/supabase/client";
-import { BuyConfirm } from "./BuyConfirm";
+import { BuyAction } from "./BuyAction";
 import { Toast } from "./Dialog";
 import { ListingCard } from "./ListingCard";
+import { LotModal } from "./LotModal";
 import { useMarketLive } from "./useMarketLive";
 
 export function BuyTab({
@@ -98,14 +99,14 @@ export function BuyTab({
       {listings.length === 0 ? (
         <p className="text-common">{t("empty")}</p>
       ) : (
-        <ul className="grid grid-cols-2 justify-items-center gap-x-3 gap-y-5 md:grid-cols-[repeat(auto-fill,10rem)] md:justify-start">
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))]">
           {listings.map((l) => (
             <ListingCard
               key={l.id}
               listing={l}
               total={total}
               mine={l.sellerId === me}
-              onBuy={() => {
+              onOpen={() => {
                 setError(null);
                 setBuying(l);
               }}
@@ -125,15 +126,27 @@ export function BuyTab({
       )}
 
       {buying && (
-        <BuyConfirm
-          name={buying.card.name}
+        <LotModal
+          card={buying.card}
+          sourceId={buying.sourceId}
+          total={total}
+          auction={false}
+          seller={buying.seller}
+          priceLabel={t("buyConfirm.price")}
           price={buying.price}
-          currency={currency}
-          busy={busy}
-          error={error}
-          onConfirm={() => buy(buying)}
+          status={null}
           onClose={() => setBuying(null)}
-        />
+        >
+          <BuyAction
+            name={buying.card.name}
+            price={buying.price}
+            currency={currency}
+            mine={buying.sellerId === me}
+            busy={busy}
+            error={error}
+            onConfirm={() => buy(buying)}
+          />
+        </LotModal>
       )}
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
     </div>

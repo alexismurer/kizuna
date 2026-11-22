@@ -3,8 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Coins } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { CardView } from "@/components/card/CardView";
-import { RarityBadge } from "@/components/RarityBadge";
+import { CardView, COLOR } from "@/components/card/CardView";
 import { rpcErrorKey } from "@/lib/game/errors";
 import { MAX_PRICE, MIN_PRICE, marketFee, net, validPrice } from "@/lib/market/format";
 import type { SellableCard } from "@/lib/market/types";
@@ -104,25 +103,22 @@ export function SellDialog({
     );
   }
 
-  const seg = (active: boolean) =>
-    `flex-1 rounded-lg px-3 py-2 text-sm font-bold ${active ? "bg-cta text-black" : "text-common"}`;
+  const ghost = "rounded-lg border border-border transition-colors hover:border-white/40";
+  const cta = "rounded-lg bg-cta font-bold text-black transition hover:brightness-110 disabled:opacity-50 disabled:hover:brightness-100";
 
   return (
-    <Dialog label={t("title", { name: card.name })} onClose={onClose}>
-      <div className="flex gap-4 pr-8">
+    <Dialog label={t("title", { name: card.name })} title={t("sheetTitle")} size="sheet" onClose={onClose}>
+      <div className="mb-[18px] flex items-center gap-4">
         <div className="shrink-0">
           <CardView card={{ ...card, total }} size="sm" glow={false} />
         </div>
-        <div className="flex min-w-0 flex-col gap-1.5 text-sm">
-          <h2 className="font-display text-lg font-bold leading-tight">{card.name}</h2>
-          <p className="flex items-center gap-1.5">
-            <RarityBadge rarity={card.rarity} className="h-5 w-5 text-[10px]" />
-            {tr(card.rarity)}
-          </p>
-          <p className="text-common">{t("copies", { count: item.sellable })}</p>
-          <dl className="flex gap-1">
-            <dt className="text-common">{t("value")}:</dt>
-            <dd className="font-mono">{value === undefined ? "…" : value === null ? t("noValue") : format.number(value)}</dd>
+        <div className="flex min-w-0 flex-col gap-1 text-sm font-bold">
+          <h3 className="font-display text-lg leading-tight">{card.name}</h3>
+          <p style={{ color: COLOR[card.rarity] }}>{tr(card.rarity)}</p>
+          <p className="font-mono text-xs font-medium text-common">{t("copies", { count: item.sellable })}</p>
+          <dl className="flex gap-1 font-mono text-xs font-medium text-common">
+            <dt>{t("value")}:</dt>
+            <dd>{value === undefined ? "…" : value === null ? t("noValue") : format.number(value)}</dd>
           </dl>
         </div>
       </div>
@@ -131,7 +127,7 @@ export function SellDialog({
         <div
           role="group"
           aria-label={t("sellNowConfirm.title")}
-          className="mt-4 flex flex-col gap-2 rounded-xl border border-cta p-3 text-sm"
+          className="mb-4 flex flex-col gap-2.5 rounded-[14px] border border-cta/60 bg-white/[0.03] p-3.5 text-sm"
         >
           <p className="font-bold">{t("sellNowConfirm.title")}</p>
           <dl className="flex flex-col gap-1.5">
@@ -143,11 +139,11 @@ export function SellDialog({
             </div>
             <div className="flex justify-between">
               <dt className="text-common">{t("fee")}</dt>
-              <dd data-testid="sell-now-fee" className="font-mono text-red-400">
+              <dd data-testid="sell-now-fee" className="font-mono">
                 −{format.number(marketFee(best.price))}
               </dd>
             </div>
-            <div className="flex justify-between font-bold">
+            <div className="flex justify-between border-t border-border pt-2 font-bold">
               <dt>{t("net")}</dt>
               <dd data-testid="sell-now-net" className="font-mono text-cta">
                 {format.number(net(best.price))}
@@ -155,26 +151,17 @@ export function SellDialog({
             </div>
           </dl>
           <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              onClick={() => setConfirming(false)}
-              className="rounded-lg border border-border px-3 py-1.5"
-            >
+            <button type="button" onClick={() => setConfirming(false)} className={`${ghost} px-3 py-1.5`}>
               {t("sellNowConfirm.back")}
             </button>
-            <button
-              type="button"
-              onClick={() => sellNow(best)}
-              disabled={busy}
-              className="rounded-lg bg-cta px-3 py-1.5 font-bold text-black disabled:opacity-50"
-            >
+            <button type="button" onClick={() => sellNow(best)} disabled={busy} className={`${cta} px-3 py-1.5`}>
               {t("sellNowConfirm.confirm")}
             </button>
           </div>
         </div>
       )}
       {best && !confirming && (
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border p-3 text-sm">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-[14px] border border-border bg-bg px-3.5 py-3 text-sm">
           <span className="text-common">
             {t("bestOrder")}: <span className="font-mono text-white">{format.number(best.price)}</span>
           </span>
@@ -182,57 +169,57 @@ export function SellDialog({
             type="button"
             onClick={() => setConfirming(true)}
             disabled={busy}
-            className="rounded-lg border border-cta px-3 py-1.5 font-bold text-cta disabled:opacity-50"
+            className="rounded-full border border-cta px-3 py-1.5 text-xs font-bold text-cta transition-colors hover:bg-cta hover:text-black disabled:opacity-50"
           >
             {t("sellNow", { price: format.number(best.price) })}
           </button>
         </div>
       )}
 
-      <form onSubmit={submit} className="mt-4 flex flex-col gap-4">
-        <div role="radiogroup" aria-label={t("mode")} className="flex gap-1 rounded-xl border border-border bg-bg p-1">
+      <form onSubmit={submit} className="flex flex-col gap-4">
+        <div role="radiogroup" aria-label={t("mode")} className="grid grid-cols-2 gap-2">
           {(["fixed", "auction"] as const).map((m) => (
             <button
               key={m}
               type="button"
               role="radio"
               aria-checked={mode === m}
+              aria-label={t(m)}
               onClick={() => setMode(m)}
-              className={seg(mode === m)}
+              className={`flex flex-col gap-0.5 rounded-[14px] border-2 px-3.5 py-3 text-left transition-colors ${mode === m ? "border-accent bg-white/[0.04]" : "border-border bg-bg hover:border-white/25"}`}
             >
-              {t(m)}
+              <span className="font-bold">{t(m)}</span>
+              <span className="text-xs text-common">{t(m === "fixed" ? "fixedHint" : "auctionHint")}</span>
             </button>
           ))}
         </div>
 
-        <div className="flex flex-col gap-1 text-sm">
-          <label htmlFor={priceId} className="font-bold">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor={priceId} className="flex items-center gap-1 text-[13px] font-bold text-white/70">
             {mode === "fixed" ? t("price") : t("startPrice")}
+            <Coins className="h-3.5 w-3.5 text-cta" aria-hidden />
           </label>
-          <span className="flex items-center gap-2 rounded-lg border border-border bg-bg px-3 focus-within:border-cta">
-            <Coins className="h-4 w-4 text-cta" aria-hidden />
-            <input
-              id={priceId}
-              aria-describedby={`${priceId}-hint`}
-              type="number"
-              inputMode="numeric"
-              min={MIN_PRICE}
-              max={MAX_PRICE}
-              step={1}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="w-full bg-transparent py-2 font-mono outline-none"
-            />
-          </span>
+          <input
+            id={priceId}
+            aria-describedby={`${priceId}-hint`}
+            type="number"
+            inputMode="numeric"
+            min={MIN_PRICE}
+            max={MAX_PRICE}
+            step={1}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="h-11 min-w-0 rounded-[10px] border border-border bg-bg px-3 font-mono text-base outline-none focus:border-white/40"
+          />
           <span id={`${priceId}-hint`} className="text-xs text-common">
             {t("minimum")}
           </span>
         </div>
 
         {mode === "auction" && (
-          <div className="flex flex-col gap-1 text-sm">
-            <span className="font-bold">{t("duration")}</span>
-            <div role="radiogroup" aria-label={t("duration")} className="flex gap-2">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[13px] font-bold text-white/70">{t("duration")}</span>
+            <div role="radiogroup" aria-label={t("duration")} className="flex flex-wrap gap-2">
               {DURATIONS.map((h) => (
                 <button
                   key={h}
@@ -240,7 +227,7 @@ export function SellDialog({
                   role="radio"
                   aria-checked={duration === h}
                   onClick={() => setDuration(h)}
-                  className={`flex-1 rounded-full border px-3 py-1.5 ${duration === h ? "border-cta text-cta" : "border-border"}`}
+                  className={`inline-flex h-10 items-center rounded-full border px-4 text-sm font-bold transition-colors ${duration === h ? "border-white bg-white text-black" : "border-border hover:border-white/40"}`}
                 >
                   {t("hours", { count: h })}
                 </button>
@@ -249,14 +236,14 @@ export function SellDialog({
           </div>
         )}
 
-        <dl className="flex flex-col gap-1.5 border-t border-border pt-3 text-sm">
-          <div className="flex justify-between">
-            <dt className="text-common">{t("fee")}</dt>
-            <dd data-testid="fee" className="font-mono text-red-400">
+        <dl className="rounded-[14px] border border-border bg-bg px-3.5 py-3 text-[13px] text-white/70">
+          <div className="flex justify-between gap-3 py-1">
+            <dt>{t("fee")}</dt>
+            <dd data-testid="fee" className="font-mono">
               {ok ? `−${format.number(marketFee(price))}` : "—"}
             </dd>
           </div>
-          <div className="flex justify-between font-bold">
+          <div className="mt-1.5 flex justify-between gap-3 border-t border-border pt-2.5 text-sm font-bold text-white">
             <dt>{t("net")}</dt>
             <dd data-testid="net" className="font-mono text-cta">
               {ok ? format.number(net(price)) : "—"}
@@ -270,13 +257,14 @@ export function SellDialog({
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={!ok || busy}
-          className="rounded-xl bg-cta py-3 font-bold text-black disabled:opacity-50"
-        >
-          {mode === "fixed" ? t("list") : t("start")}
-        </button>
+        <div className="flex flex-wrap justify-end gap-2">
+          <button type="button" onClick={onClose} className={`${ghost} h-11 px-5 font-bold`}>
+            {t("cancel")}
+          </button>
+          <button type="submit" disabled={!ok || busy} className={`${cta} h-11 px-5`}>
+            {mode === "fixed" ? t("list") : t("start")}
+          </button>
+        </div>
       </form>
     </Dialog>
   );

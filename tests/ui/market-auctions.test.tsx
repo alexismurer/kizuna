@@ -127,11 +127,10 @@ describe("AuctionsTab", () => {
     const items = screen.getAllByRole("listitem");
     expect(items[0]).toHaveTextContent("120");
     expect(items[0]).toHaveTextContent("2 bids");
-    expect(items[0]).toHaveTextContent("+20 % vs value");
+    expect(items[0]).toHaveTextContent("+20% val.");
     expect(within(items[0]).getByText("1:02:03")).not.toHaveClass("text-red-400");
     expect(within(items[0]).getByRole("button", { name: "Bid on Card 1" })).toBeInTheDocument();
 
-    expect(items[1]).toHaveTextContent(messages.market.auction.startPrice);
     expect(items[1]).toHaveTextContent("No bids");
     expect(within(items[1]).getByText("4:00")).toHaveClass("text-red-400");
 
@@ -143,7 +142,7 @@ describe("AuctionsTab", () => {
   });
 });
 
-describe("BidDialog", () => {
+describe("auction lot modal", () => {
   // the fixtures end relative to NOW: pin the clock or they read as ended
   beforeEach(() => vi.useFakeTimers({ toFake: ["Date"], now: NOW }));
 

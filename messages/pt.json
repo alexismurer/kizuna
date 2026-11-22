@@ -916,7 +916,11 @@
         "confirm": "Confirmar venda",
         "back": "Voltar"
       },
-      "close": "Fechar"
+      "close": "Fechar",
+      "sheetTitle": "Pôr à venda",
+      "fixedHint": "O primeiro comprador leva",
+      "auctionHint": "O maior lance no final",
+      "cancel": "Cancelar"
     },
     "trades": {
       "received": "Recebidas",
@@ -1013,7 +1017,22 @@
       "auctionCancelled": "Leilão cancelado.",
       "orderCancelled": "Ordem de compra cancelada."
     },
-    "openCard": "Abrir {name}"
+    "openCard": "Abrir {name}",
+    "deltaShort": "{delta}% val.",
+    "lot": {
+      "zoom": "Ampliar {name}",
+      "seePage": "Ver a página",
+      "soldBy": "vendido por <b>{name}</b>",
+      "owned": "Você tem {count, plural, one {# cópia} other {# cópias}}",
+      "notOwned": "Você ainda não tem",
+      "yours": "Este é o seu lote",
+      "buyFor": "Comprar · {price}",
+      "missing": "Faltam {amount}.",
+      "minBid": "Mínimo {min}. O maior lance quando o tempo acabar leva a carta.",
+      "leading": "Você tem o maior lance.",
+      "prices": "Preços de mercado",
+      "noSales": "Ainda sem vendas."
+    }
   },
   "notifications": {
     "title": "Notificações",

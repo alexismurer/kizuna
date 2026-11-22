@@ -916,7 +916,11 @@
         "confirm": "Подтвердить продажу",
         "back": "Назад"
       },
-      "close": "Закрыть"
+      "close": "Закрыть",
+      "sheetTitle": "Выставить на продажу",
+      "fixedHint": "Достаётся первому покупателю",
+      "auctionHint": "Самой высокой ставке в конце",
+      "cancel": "Отмена"
     },
     "trades": {
       "received": "Входящие",
@@ -1013,7 +1017,22 @@
       "auctionCancelled": "Аукцион отменён.",
       "orderCancelled": "Заказ на покупку отменён."
     },
-    "openCard": "Открыть {name}"
+    "openCard": "Открыть {name}",
+    "deltaShort": "{delta} % ст.",
+    "lot": {
+      "zoom": "Увеличить {name}",
+      "seePage": "Открыть страницу",
+      "soldBy": "продаёт <b>{name}</b>",
+      "owned": "У тебя {count, plural, one {# копия} few {# копии} many {# копий} other {# копии}}",
+      "notOwned": "У тебя её ещё нет",
+      "yours": "Это твой лот",
+      "buyFor": "Купить · {price}",
+      "missing": "Не хватает {amount}.",
+      "minBid": "Минимум {min}. Карту получает самая высокая ставка по окончании таймера.",
+      "leading": "Твоя ставка самая высокая.",
+      "prices": "Рыночные цены",
+      "noSales": "Продаж пока нет."
+    }
   },
   "notifications": {
     "title": "Уведомления",

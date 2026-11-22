@@ -916,7 +916,11 @@
         "confirm": "Confirmar venta",
         "back": "Volver"
       },
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "sheetTitle": "Poner a la venta",
+      "fixedHint": "El primer comprador se la lleva",
+      "auctionHint": "La puja más alta al final",
+      "cancel": "Cancelar"
     },
     "trades": {
       "received": "Recibidas",
@@ -1013,7 +1017,22 @@
       "auctionCancelled": "Subasta cancelada.",
       "orderCancelled": "Orden de compra cancelada."
     },
-    "openCard": "Abrir {name}"
+    "openCard": "Abrir {name}",
+    "deltaShort": "{delta} % val.",
+    "lot": {
+      "zoom": "Ampliar {name}",
+      "seePage": "Ver la página",
+      "soldBy": "vendido por <b>{name}</b>",
+      "owned": "Tienes {count, plural, one {# copia} other {# copias}}",
+      "notOwned": "Aún no la tienes",
+      "yours": "Es tu lote",
+      "buyFor": "Comprar · {price}",
+      "missing": "Te faltan {amount}.",
+      "minBid": "Mínimo {min}. La puja más alta al acabar el tiempo gana la carta.",
+      "leading": "Tienes la puja más alta.",
+      "prices": "Precios de mercado",
+      "noSales": "Aún no hay ventas."
+    }
   },
   "notifications": {
     "title": "Notificaciones",

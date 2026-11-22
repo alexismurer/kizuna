@@ -916,7 +916,11 @@
         "confirm": "売却を確定",
         "back": "戻る"
       },
-      "close": "閉じる"
+      "close": "閉じる",
+      "sheetTitle": "出品する",
+      "fixedHint": "最初の購入者が獲得",
+      "auctionHint": "終了時の最高入札者が獲得",
+      "cancel": "キャンセル"
     },
     "trades": {
       "received": "受信",
@@ -1013,7 +1017,22 @@
       "auctionCancelled": "オークションをキャンセルしました。",
       "orderCancelled": "購入注文をキャンセルしました。"
     },
-    "openCard": "{name} を開く"
+    "openCard": "{name} を開く",
+    "deltaShort": "価値比 {delta}%",
+    "lot": {
+      "zoom": "{name} を拡大",
+      "seePage": "ページを見る",
+      "soldBy": "出品者 <b>{name}</b>",
+      "owned": "{count}枚所持",
+      "notOwned": "まだ持っていません",
+      "yours": "あなたの出品です",
+      "buyFor": "購入 · {price}",
+      "missing": "{amount} 足りません。",
+      "minBid": "最低 {min}。終了時の最高入札者がカードを獲得します。",
+      "leading": "あなたが最高入札者です。",
+      "prices": "相場",
+      "noSales": "まだ取引がありません。"
+    }
   },
   "notifications": {
     "title": "お知らせ",

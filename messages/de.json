@@ -916,7 +916,11 @@
         "confirm": "Verkauf bestätigen",
         "back": "Zurück"
       },
-      "close": "Schließen"
+      "close": "Schließen",
+      "sheetTitle": "Zum Verkauf anbieten",
+      "fixedHint": "Der erste Käufer bekommt sie",
+      "auctionHint": "Das höchste Gebot am Ende",
+      "cancel": "Abbrechen"
     },
     "trades": {
       "received": "Erhalten",
@@ -1013,7 +1017,22 @@
       "auctionCancelled": "Auktion abgebrochen.",
       "orderCancelled": "Kaufauftrag abgebrochen."
     },
-    "openCard": "{name} öffnen"
+    "openCard": "{name} öffnen",
+    "deltaShort": "{delta} % Wert",
+    "lot": {
+      "zoom": "{name} vergrößern",
+      "seePage": "Zur Seite",
+      "soldBy": "verkauft von <b>{name}</b>",
+      "owned": "Du hast {count, plural, one {# Exemplar} other {# Exemplare}}",
+      "notOwned": "Du hast sie noch nicht",
+      "yours": "Das ist dein Angebot",
+      "buyFor": "Kaufen · {price}",
+      "missing": "Dir fehlen {amount}.",
+      "minBid": "Mindestens {min}. Das höchste Gebot bei Ablauf gewinnt die Karte.",
+      "leading": "Du hast das Höchstgebot.",
+      "prices": "Marktpreise",
+      "noSales": "Noch keine Verkäufe."
+    }
   },
   "notifications": {
     "title": "Benachrichtigungen",

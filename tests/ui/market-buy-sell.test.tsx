@@ -77,14 +77,14 @@ describe("BuyTab", () => {
     expect(items).toHaveLength(2);
     expect(within(items[0]).getByText("Card 1")).toBeInTheDocument();
     expect(items[0]).toHaveTextContent("rival");
-    expect(items[0]).toHaveTextContent("+5 % vs value");
+    expect(items[0]).toHaveTextContent("+5% val.");
     expect(within(items[0]).getByRole("button", { name: /buy/i })).toBeInTheDocument();
     expect(within(items[1]).queryByRole("button", { name: /buy/i })).toBeNull();
     expect(items[1]).toHaveTextContent(messages.market.yours);
     expect(screen.queryByRole("button", { name: messages.market.loadMore })).toBeNull();
   });
 
-  it("links a listed card to its wiki page", () => {
+  it("opens the lot with a link to the card page", () => {
     wrap(
       <BuyTab
         filters={filters}
@@ -95,7 +95,9 @@ describe("BuyTab", () => {
         total={100}
       />,
     );
-    expect(screen.getByRole("link", { name: "Open Card 1" })).toHaveAttribute("href", "/wiki/4242");
+    fireEvent.click(screen.getByRole("button", { name: "Buy Card 1" }));
+    const dialog = screen.getByRole("dialog");
+    expect(within(dialog).getByRole("link", { name: messages.market.lot.seePage })).toHaveAttribute("href", "/wiki/4242");
   });
 
   it("confirms with the balance after and calls buy_listing once", async () => {
@@ -104,6 +106,7 @@ describe("BuyTab", () => {
     wrap(<BuyTab filters={filters} initial={[listing(7)]} initialMore={false} currency={500} me="me" total={100} />);
     fireEvent.click(screen.getByRole("button", { name: /buy/i }));
     const dialog = screen.getByRole("dialog");
+    fireEvent.click(within(dialog).getByRole("button", { name: "Buy · 105" }));
     expect(dialog).toHaveTextContent("105");
     expect(dialog).toHaveTextContent("395");
     const confirm = within(dialog).getByRole("button", { name: messages.market.buyConfirm.confirm });
@@ -121,14 +124,15 @@ describe("BuyTab", () => {
     wrap(<BuyTab filters={filters} initial={[listing(7)]} initialMore={false} currency={50} me="me" total={100} />);
     fireEvent.click(screen.getByRole("button", { name: /buy/i }));
     const dialog = screen.getByRole("dialog");
-    expect(dialog).toHaveTextContent(messages.errors.insufficient_currency);
-    expect(within(dialog).getByRole("button", { name: messages.market.buyConfirm.confirm })).toBeDisabled();
+    expect(dialog).toHaveTextContent("You are missing 55.");
+    expect(within(dialog).getByRole("button", { name: "Buy · 105" })).toBeDisabled();
   });
 
   it("shows a mapped error", async () => {
     rpc.mockResolvedValue({ data: null, error: { message: "not_open" } });
     wrap(<BuyTab filters={filters} initial={[listing(7)]} initialMore={false} currency={500} me="me" total={100} />);
     fireEvent.click(screen.getByRole("button", { name: /buy/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Buy · 105" }));
     fireEvent.click(screen.getByRole("button", { name: messages.market.buyConfirm.confirm }));
     expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.not_open);
     // sold meanwhile: the list reloads
@@ -139,6 +143,7 @@ describe("BuyTab", () => {
     rpc.mockResolvedValue({ data: null, error: { message: "insufficient_currency" } });
     wrap(<BuyTab filters={filters} initial={[listing(7)]} initialMore={false} currency={500} me="me" total={100} />);
     fireEvent.click(screen.getByRole("button", { name: /buy/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Buy · 105" }));
     fireEvent.click(screen.getByRole("button", { name: messages.market.buyConfirm.confirm }));
     expect(await screen.findByRole("alert")).toHaveTextContent(messages.errors.insufficient_currency);
     expect(refresh).not.toHaveBeenCalled();

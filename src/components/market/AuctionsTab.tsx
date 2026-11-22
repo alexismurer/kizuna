@@ -1,17 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Clock, Coins } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { CardView } from "@/components/card/CardView";
 import { useRouter } from "@/i18n/navigation";
 import { loadAuctions } from "@/lib/market/auctions";
 import { formatCountdown, valueDelta } from "@/lib/market/format";
 import type { Auction, MarketFilters } from "@/lib/market/types";
 import { createBrowserClient } from "@/lib/supabase/client";
-import { BidDialog } from "./BidDialog";
+import { BidAction } from "./BidAction";
 import { Toast } from "./Dialog";
-import { MarketCardLink } from "./MarketCardLink";
+import { LotModal } from "./LotModal";
+import { LotTile } from "./LotTile";
 import { useMarketLive } from "./useMarketLive";
 
 const SOON_MS = 5 * 60 * 1000;
@@ -67,7 +66,7 @@ export function AuctionsTab({
     }
   }
 
-  // the dialog follows live changes of the auction it bids on
+  // the modal follows live changes of the auction it shows
   const target = bidding ? (auctions.find((a) => a.id === bidding.id) ?? bidding) : null;
 
   return (
@@ -80,16 +79,9 @@ export function AuctionsTab({
       {auctions.length === 0 ? (
         <p className="text-common">{t("auction.empty")}</p>
       ) : (
-        <ul className="grid grid-cols-2 justify-items-center gap-x-3 gap-y-5 md:grid-cols-[repeat(auto-fill,10rem)] md:justify-start">
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))]">
           {auctions.map((a) => (
-            <AuctionCard
-              key={a.id}
-              auction={a}
-              total={total}
-              now={now}
-              me={me}
-              onBid={() => setBidding(a)}
-            />
+            <AuctionCard key={a.id} auction={a} total={total} now={now} me={me} onOpen={() => setBidding(a)} />
           ))}
         </ul>
       )}
@@ -105,8 +97,11 @@ export function AuctionsTab({
       )}
 
       {target && (
-        <BidDialog
+        <AuctionModal
           auction={target}
+          total={total}
+          now={now}
+          me={me}
           currency={currency}
           onClose={() => setBidding(null)}
           onPlaced={(amount) => {
@@ -126,79 +121,96 @@ function AuctionCard({
   total,
   now,
   me,
-  onBid,
+  onOpen,
 }: {
   auction: Auction;
   total: number;
   now: number;
   me: string | null;
-  onBid: () => void;
+  onOpen: () => void;
 }) {
   const t = useTranslations("market");
-  const format = useFormatter();
   const price = auction.topBid ?? auction.startPrice;
-  const delta = valueDelta(price, auction.value);
   const left = Date.parse(auction.endsAt) - now;
   const countdown = formatCountdown(left);
+  const mine = auction.sellerId === me;
+  // only an open auction of someone else takes bids
+  const biddable = !mine && countdown !== null;
 
   return (
-    <li className="flex w-40 flex-col gap-2">
-      <MarketCardLink sourceId={auction.sourceId} name={auction.card.name}>
-        <CardView card={{ ...auction.card, total }} size="md" glow={false} />
-      </MarketCardLink>
-      <div className="flex flex-col gap-1 text-xs">
-        <div className="flex flex-wrap items-center justify-between gap-1">
-          <span className="whitespace-nowrap rounded-full border border-accent px-2 py-0.5 text-[10px] uppercase tracking-wide text-accent">
-            {t("auction.tag")}
-          </span>
-          {delta !== null && (
-            <span
-              className={`font-mono ${delta > 0 ? "text-red-400" : delta < 0 ? "text-uncommon" : "text-common"}`}
-            >
-              {t("delta", { delta: format.number(delta, { signDisplay: "exceptZero" }) })}
-            </span>
+    <LotTile
+      card={auction.card}
+      total={total}
+      label={biddable ? t("auction.bid", { name: auction.card.name }) : t("openCard", { name: auction.card.name })}
+      onOpen={onOpen}
+      auction
+      time={{ text: countdown ?? t("auction.ended"), urgent: countdown === null || left < SOON_MS }}
+      price={price}
+      bids={t("auction.bids", { count: auction.bidCount })}
+      seller={auction.seller}
+      delta={valueDelta(price, auction.value)}
+      flag={
+        mine
+          ? { text: t("yours"), tone: "mine" }
+          : countdown !== null && auction.topBidder === me
+            ? { text: t("auction.leading"), tone: "lead" }
+            : undefined
+      }
+    />
+  );
+}
+
+function AuctionModal({
+  auction,
+  total,
+  now,
+  me,
+  currency,
+  onClose,
+  onPlaced,
+}: {
+  auction: Auction;
+  total: number;
+  now: number;
+  me: string | null;
+  currency: number;
+  onClose: () => void;
+  onPlaced: (amount: number) => void;
+}) {
+  const t = useTranslations("market");
+  const left = Date.parse(auction.endsAt) - now;
+  const countdown = formatCountdown(left);
+  const mine = auction.sellerId === me;
+
+  return (
+    <LotModal
+      card={auction.card}
+      sourceId={auction.sourceId}
+      total={total}
+      auction
+      seller={auction.seller}
+      priceLabel={auction.topBid === null ? t("auction.startPrice") : t("auction.currentBid")}
+      price={auction.topBid ?? auction.startPrice}
+      priceNote={t("auction.bids", { count: auction.bidCount })}
+      status={{
+        label: t("auction.endsIn"),
+        value: countdown ?? t("auction.ended"),
+        urgent: countdown === null || left < SOON_MS,
+      }}
+      onClose={onClose}
+    >
+      {mine ? (
+        <p className="rounded-xl border border-accent py-3 text-center font-bold text-accent">{t("lot.yours")}</p>
+      ) : countdown === null ? null : (
+        <>
+          {auction.topBidder === me && (
+            <p className="rounded-xl border border-uncommon/50 bg-uncommon/10 px-3 py-2 text-sm font-bold text-uncommon">
+              {t("lot.leading")}
+            </p>
           )}
-        </div>
-        <p className="text-[10px] uppercase tracking-wide text-common">
-          {auction.topBid === null ? t("auction.startPrice") : t("auction.currentBid")}
-        </p>
-        <p className="flex items-center gap-1 font-mono text-base font-bold text-cta">
-          <Coins className="h-4 w-4" aria-hidden />
-          {format.number(price)}
-        </p>
-        <div className="flex flex-wrap items-center justify-between gap-1">
-          <span className="whitespace-nowrap text-common">{t("auction.bids", { count: auction.bidCount })}</span>
-          <span className="flex items-center gap-1">
-            <Clock className="h-3 w-3 text-common" aria-hidden />
-            {countdown && <span className="sr-only">{t("auction.endsIn")}</span>}
-            <span
-              suppressHydrationWarning
-              className={`font-mono ${countdown === null ? "text-common" : left < SOON_MS ? "text-red-400" : ""}`}
-            >
-              {countdown ?? t("auction.ended")}
-            </span>
-          </span>
-        </div>
-        <p className="truncate text-common">{t("seller", { name: auction.seller })}</p>
-        {auction.sellerId === me ? (
-          <span className="rounded-lg border border-accent py-1.5 text-center font-bold text-accent">
-            {t("yours")}
-          </span>
-        ) : countdown === null ? null : auction.topBidder === me ? (
-          <span className="rounded-lg border border-cta py-1.5 text-center font-bold text-cta">
-            {t("auction.leading")}
-          </span>
-        ) : (
-          <button
-            type="button"
-            onClick={onBid}
-            aria-label={t("auction.bid", { name: auction.card.name })}
-            className="rounded-lg bg-cta py-1.5 font-bold text-black transition hover:brightness-110 active:scale-[0.97]"
-          >
-            {t("auction.bidButton")}
-          </button>
-        )}
-      </div>
-    </li>
+          <BidAction auction={auction} currency={currency} onPlaced={onPlaced} />
+        </>
+      )}
+    </LotModal>
   );
 }

@@ -916,7 +916,11 @@
         "confirm": "Potwierdź sprzedaż",
         "back": "Wróć"
       },
-      "close": "Zamknij"
+      "close": "Zamknij",
+      "sheetTitle": "Wystaw na sprzedaż",
+      "fixedHint": "Pierwszy kupujący ją dostaje",
+      "auctionHint": "Najwyższa oferta na końcu",
+      "cancel": "Anuluj"
     },
     "trades": {
       "received": "Otrzymane",
@@ -1013,7 +1017,22 @@
       "auctionCancelled": "Aukcja anulowana.",
       "orderCancelled": "Zlecenie kupna anulowane."
     },
-    "openCard": "Otwórz {name}"
+    "openCard": "Otwórz {name}",
+    "deltaShort": "{delta}% wart.",
+    "lot": {
+      "zoom": "Powiększ {name}",
+      "seePage": "Zobacz stronę",
+      "soldBy": "sprzedaje <b>{name}</b>",
+      "owned": "Masz {count, plural, one {# kopię} few {# kopie} many {# kopii} other {# kopii}}",
+      "notOwned": "Jeszcze jej nie masz",
+      "yours": "To twoja oferta",
+      "buyFor": "Kup · {price}",
+      "missing": "Brakuje ci {amount}.",
+      "minBid": "Minimum {min}. Najwyższa oferta po upływie czasu wygrywa kartę.",
+      "leading": "Masz najwyższą ofertę.",
+      "prices": "Ceny rynkowe",
+      "noSales": "Brak sprzedaży."
+    }
   },
   "notifications": {
     "title": "Powiadomienia",
