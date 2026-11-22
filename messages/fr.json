@@ -1190,11 +1190,7 @@
       "cancel": "Annuler",
       "edit": "Modifier",
       "endNow": "Terminer maintenant",
-      "status": {
-        "live": "En cours",
-        "scheduled": "Programmé",
-        "ended": "Terminé"
-      }
+      "status": { "live": "En cours", "scheduled": "Programmé", "ended": "Terminé" }
     },
     "chat": {
       "title": "Modération du chat",

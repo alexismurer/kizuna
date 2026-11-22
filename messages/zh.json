@@ -1190,11 +1190,7 @@
       "cancel": "取消",
       "edit": "编辑",
       "endNow": "立即结束",
-      "status": {
-        "live": "进行中",
-        "scheduled": "已排期",
-        "ended": "已结束"
-      }
+      "status": { "live": "进行中", "scheduled": "已排期", "ended": "已结束" }
     },
     "chat": {
       "title": "聊天管理",

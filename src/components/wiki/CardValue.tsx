@@ -72,8 +72,8 @@ export function CardValue({
         <details>
           <summary className="cursor-pointer text-sm">{t("latest")}</summary>
           <ul className="mt-2 space-y-1 text-sm">
-            {latest.slice(0, 10).map((s) => (
-              <li key={s.sold_at} className="flex justify-between gap-4">
+            {latest.slice(0, 10).map((s, i) => (
+              <li key={`${s.sold_at}-${i}`} className="flex justify-between gap-4">
                 <span className="opacity-60">
                   {format.dateTime(new Date(s.sold_at), { dateStyle: "medium" })}
                 </span>

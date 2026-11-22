@@ -1190,11 +1190,7 @@
       "cancel": "キャンセル",
       "edit": "編集",
       "endNow": "今すぐ終了",
-      "status": {
-        "live": "開催中",
-        "scheduled": "予定",
-        "ended": "終了"
-      }
+      "status": { "live": "開催中", "scheduled": "予定", "ended": "終了" }
     },
     "chat": {
       "title": "チャットのモデレーション",

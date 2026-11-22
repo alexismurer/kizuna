@@ -100,7 +100,7 @@ export function ValueChart({
           fill="currentColor"
           fillOpacity={0.6}
         >
-          {format.dateTime(new Date(`${points[i].day}T00:00:00Z`), { month: "short", day: "numeric" })}
+          {format.dateTime(new Date(`${points[i].day}T00:00:00Z`), { month: "short", day: "numeric", timeZone: "UTC" })}
         </text>
       ))}
     </svg>
