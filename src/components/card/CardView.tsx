@@ -6,6 +6,7 @@ import type { Card, Rarity } from "@/lib/game/types";
 import { usePrefs } from "@/lib/fx/prefs";
 import { RarityBadge } from "../RarityBadge";
 import { CARD_WIDTH, type CardSize } from "./CardBack";
+import { COLOR } from "./rarityColor";
 
 export type CardData = Card & { seriesTitle: string };
 
@@ -21,14 +22,7 @@ export type CardFace = {
   aura: number;
 };
 
-export const COLOR: Record<Rarity, string> = {
-  common: "var(--color-common)",
-  uncommon: "var(--color-uncommon)",
-  rare: "var(--color-rare)",
-  epic: "var(--color-epic)",
-  legendary: "var(--color-legendary)",
-  mythic: "var(--mythic-a)",
-};
+export { COLOR };
 
 const GLOW: Record<Rarity, number> = {
   common: 0,

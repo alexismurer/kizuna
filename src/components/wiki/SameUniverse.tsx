@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { COLOR } from "@/components/card/CardView";
+import { COLOR } from "@/components/card/rarityColor";
 import { Link } from "@/i18n/navigation";
 import type { Character } from "@/lib/wiki/loadCharacter";
 

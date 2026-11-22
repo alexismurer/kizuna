@@ -1,6 +1,7 @@
 import { Coins } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { CardView, COLOR } from "@/components/card/CardView";
+import { CardView } from "@/components/card/CardView";
+import { COLOR } from "@/components/card/rarityColor";
 import { packName } from "@/lib/game/packName";
 import { formatChance } from "@/lib/wiki/chance";
 import type { Character } from "@/lib/wiki/loadCharacter";
