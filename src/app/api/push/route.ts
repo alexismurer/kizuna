@@ -1,9 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
-import webpush from "web-push";
+import { setVapidDetails } from "web-push";
 import { boosterPush, notificationPush } from "@/lib/push/payload";
 import { sendToPlayer } from "@/lib/push/send";
-
-export const runtime = "nodejs";
 
 // Called by the database (0047_push_dispatch.sql) with either one new
 // notification or the players whose free boosters just filled up.
@@ -11,7 +9,7 @@ export async function POST(req: Request) {
   const secret = process.env.PUSH_SECRET;
   if (!secret || req.headers.get("x-push-secret") !== secret) return new Response(null, { status: 401 });
 
-  webpush.setVapidDetails(
+  setVapidDetails(
     process.env.VAPID_SUBJECT!,
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
     process.env.VAPID_PRIVATE_KEY!,

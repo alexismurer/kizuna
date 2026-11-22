@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const { sendNotification } = vi.hoisted(() => ({ sendNotification: vi.fn() }));
-vi.mock("web-push", () => ({ default: { sendNotification, setVapidDetails: vi.fn() } }));
+vi.mock("web-push", () => ({ sendNotification, setVapidDetails: vi.fn() }));
 
 // tiny in-memory stand-in for the service-role client: the tables the route reads
 type Row = Record<string, unknown>;

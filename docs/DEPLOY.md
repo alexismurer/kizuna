@@ -99,7 +99,37 @@ Supabase project is not paused for inactivity. Nothing to set up: Vercel reads
 the file on deploy. Check it under Project > Settings > Cron Jobs, and open
 `https://<your-domain>/api/ping`; it should answer `{"ok":true}`.
 
-## 8. Smoke checklist
+## 8. Push notifications
+
+The database decides who gets a push (`0047_push_dispatch.sql`: a trigger on
+`notifications` and the `push-boosters` cron job) and posts to
+`/api/push`, which sends standard web push. Set it up once:
+
+1. Generate the keys on your machine: `npx web-push generate-vapid-keys`.
+2. Vercel > Project > Settings > Environment Variables (Production), then
+   redeploy:
+   - `NEXT_PUBLIC_VAPID_PUBLIC_KEY`: the public key
+   - `VAPID_PRIVATE_KEY`: the private key (secret)
+   - `VAPID_SUBJECT`: `mailto:` plus an address you read, or the site URL
+   - `PUSH_SECRET`: a random string of 32+ characters (secret)
+3. Supabase > SQL editor, with your domain and the same `PUSH_SECRET`:
+   ```sql
+   insert into push_config (key, value) values
+     ('url', 'https://<your-domain>/api/push'),
+     ('secret', '<PUSH_SECRET>')
+   on conflict (key) do update set value = excluded.value;
+   ```
+   Without these two rows nothing is sent (that is how local and test
+   databases stay quiet).
+4. Database > Extensions should list `pg_net`, and Database > Cron should
+   list `push-boosters`.
+
+Players turn alerts on from the bell panel or the home card. On iPhone this
+needs iOS 16.4+ and the Home Screen app (the guide in the app explains it).
+Installed apps pick up the new service worker on their next launch; nobody
+reinstalls.
+
+## 9. Smoke checklist
 
 After the first deploy, on the live site:
 
@@ -110,3 +140,8 @@ After the first deploy, on the live site:
 - [ ] Phone: open the site, use "Add to Home screen" and launch it from the new
       icon; it should open full screen. Turn on airplane mode and relaunch: the
       offline page should show instead of a browser error.
+- [ ] Push: turn on alerts on an Android phone and on the installed iPhone app.
+      From another account, buy one of your listed cards: the sale alert
+      arrives with the game closed and opens the market activity. With the
+      app closed, let the free stock reach 10 in daytime: the booster alert
+      arrives within a minute or two, and not again within 4 hours.

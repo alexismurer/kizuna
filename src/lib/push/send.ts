@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import webpush from "web-push";
+import { sendNotification } from "web-push";
 import type { PushMessage } from "./payload";
 
 type Subscription = { endpoint: string; p256dh: string; auth: string; locale: string };
@@ -21,7 +21,7 @@ export async function sendToPlayer(
     const msg = build(s.locale);
     if (!msg) continue;
     try {
-      await webpush.sendNotification(
+      await sendNotification(
         { endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } },
         JSON.stringify(msg),
         { TTL: 6 * 3600 },
