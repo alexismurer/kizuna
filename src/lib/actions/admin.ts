@@ -16,8 +16,13 @@ export type AdminResult<T> = { ok: true; data: T } | { ok: false; error: string 
 
 export type AdminInvite = { code: string; createdAt: string; usedBy: string | null; usedAt: string | null };
 export type AdminChatMessage = { id: number; room: string; author: string; body: string; createdAt: string };
+export type StaffRole = "player" | "moderator" | "admin";
 export type AdminPlayer = {
+  id: string;
   username: string;
+  avatarUrl: string | null;
+  role: StaffRole;
+  bannedAt: string | null;
   joinedAt: string;
   lastSeenAt: string | null;
   currency: number;
@@ -36,7 +41,7 @@ export type AdminPlayers = {
   players: AdminPlayer[];
 };
 
-// Every admin RPC checks is_admin() itself; the RPC's exception message is the error code.
+// Every staff RPC checks is_admin() / is_staff() itself; the RPC's exception message is the error code.
 async function call<T>(fn: string, args?: Record<string, unknown>): Promise<AdminResult<T>> {
   const supabase = await createServerClient();
   const { data, error } = await supabase.rpc(fn, args);
@@ -52,6 +57,16 @@ export async function adminInvites() {
 }
 export async function adminRevokeInvite(code: string) {
   return call<null>("admin_revoke_invite", { p_code: code });
+}
+// admins only (the RPCs check): edit a player, change their role, ban or unban
+export async function adminUpdatePlayer(id: string, username: string, currency: number, streak: number) {
+  return call<null>("admin_update_player", { p_id: id, p_username: username, p_currency: currency, p_streak: streak });
+}
+export async function adminSetRole(id: string, role: StaffRole) {
+  return call<null>("admin_set_role", { p_id: id, p_role: role });
+}
+export async function adminSetBan(id: string, banned: boolean) {
+  return call<null>("admin_set_ban", { p_id: id, p_banned: banned });
 }
 export async function adminGrantCurrency(username: string, amount: number, note: string | null) {
   return call<number>("admin_grant_currency", { p_username: username, p_amount: amount, p_note: note });

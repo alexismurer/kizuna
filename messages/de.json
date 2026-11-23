@@ -158,7 +158,7 @@
       "open": "Booster öffnen",
       "button": "{free} Gratis-Booster, {bonus} Bonus, {currency} Währung"
     },
-    "admin": "Admin"
+    "admin": "Team-Bereich"
   },
   "rarity": {
     "common": "Gewöhnlich",
@@ -1124,8 +1124,10 @@
     "milestoneReward": "{invites} bestätigte Freunde: {count} zufällige <r>{rarity, select, mythic {mythische {count, plural, one {Karte} other {Karten}}} other {legendäre {count, plural, one {Karte} other {Karten}}}}</r>"
   },
   "admin": {
-    "title": "Admin",
-    "subtitle": "Das Spiel verwalten: Einladungen, Währung, Tagespools, saisonale Booster und Chat.",
+    "title": "Team",
+    "subtitle": "Das Spiel verwalten: Spieler, Einladungen, Währung, Tagespools, saisonale Booster und Chat.",
+    "subtitleModerator": "Kümmere dich um die Spieler und den Chat. Booster und Pools sind für Moderatoren schreibgeschützt.",
+    "roles": { "player": "Spieler", "moderator": "Moderator", "admin": "Admin" },
     "back": "Zurück zum Spiel",
     "stats": {
       "invites": "Unbenutzte Einladungen",
@@ -1158,6 +1160,12 @@
       "seasonal_series": "Wähle mindestens eine Serie.",
       "seasonal_dates": "Das Ende muss nach dem Start liegen.",
       "suggest_failed": "AniList war für die Anime dieser Saison nicht erreichbar. Versuche es in einer Minute erneut.",
+      "invalid_username": "Benutzernamen haben 3 bis 20 Zeichen.",
+      "username_taken": "Dieser Benutzername ist vergeben.",
+      "invalid_value": "Dieser Wert ist nicht erlaubt.",
+      "cannot_edit_self": "Du kannst weder deine eigene Rolle ändern noch dich selbst sperren.",
+      "player_banned": "Hebe die Sperre dieses Spielers auf, bevor du ihm eine Team-Rolle gibst.",
+      "ban_staff": "Mache diesen Spieler zu einem normalen Spieler, bevor du ihn sperrst.",
       "generic": "Etwas ist schiefgelaufen. Versuche es erneut."
     },
     "invites": {
@@ -1206,6 +1214,20 @@
       "copies": "{count, plural, one {# Exemplar} other {# Exemplare}}",
       "logins": "{count, plural, one {# Login} other {# Logins}}",
       "rewarded": "{count} belohnt",
+      "search": "Nach Benutzername suchen",
+      "banned": "Gesperrt",
+      "edit": "Bearbeiten",
+      "editName": "{name} bearbeiten",
+      "save": "Änderungen speichern",
+      "saved": "Gespeichert.",
+      "banTitle": "Diesen Spieler sperren",
+      "banHint": "Er kann sich nicht mehr anmelden und wird überall abgemeldet. Du kannst das rückgängig machen.",
+      "bannedTitle": "Dieser Spieler ist gesperrt",
+      "unbanHint": "Wenn du die Sperre aufhebst, kann er sich wieder anmelden.",
+      "ban": "Sperren",
+      "confirmBan": "Ja, {name} sperren",
+      "unban": "Sperre aufheben",
+      "cancel": "Abbrechen",
       "more": "{count} weitere anzeigen (noch {left})",
       "totals": {
         "players": "Spieler",
@@ -1217,6 +1239,7 @@
       },
       "cols": {
         "player": "Spieler",
+        "role": "Rolle",
         "lastSeen": "Zuletzt gesehen",
         "joined": "Beigetreten",
         "currency": "Währung",
@@ -1504,5 +1527,176 @@
     "turnOn": "Einschalten",
     "how": "Wie?",
     "profileTitle": "Benachrichtigungen"
+  },
+  "duel": {
+    "eyebrow": "SPIELEN",
+    "title": "Duell",
+    "subtitle": "Mach aus deiner Sammlung eine Armee. Drei Reihen, drei Runden, zehn Karten für das ganze Match: Gewinne zwei Runden, um das Duell zu gewinnen.",
+    "board": "Spielfeld",
+    "hand": "Deine Hand",
+    "you": "du",
+    "opponent": "Gegner",
+    "pass": "Passen",
+    "passed": "Gepasst",
+    "play": "Ausspielen",
+    "pickRow": "Tippe auf eine deiner Reihen",
+    "yourTurn": "Du bist dran",
+    "youPassed": "Du hast gepasst",
+    "theirTurn": "{name} spielt…",
+    "round": "Runde {n}",
+    "roundN": "Runde {n}",
+    "roundCol": "Runde",
+    "roundWon": "Runde gewonnen",
+    "roundLost": "Runde verloren",
+    "roundDraw": "Runde unentschieden",
+    "over": "MATCH VORBEI",
+    "victory": "Sieg",
+    "defeat": "Niederlage",
+    "draw": "Unentschieden",
+    "rematch": "Revanche",
+    "leave": "Verlassen",
+    "total": "Gesamt {n}",
+    "cardsLeft": "{n, plural, one {# Karte} other {# Karten}} auf der Hand",
+    "deckLeft": "{n} im Deck",
+    "emptyHand": "Keine Karten mehr.",
+    "horn": "Reihe verdoppelt",
+    "hero": "Held: Wetter, Hörner, Boni und Brand wirken nicht auf ihn.",
+    "lastMoves": "Letzte Züge",
+    "row": {
+      "0": "Vorderreihe",
+      "1": "Mittelreihe",
+      "2": "Hinterreihe"
+    },
+    "ability": {
+      "spy": {
+        "name": "Infiltrator",
+        "text": "Wechselt auf die Seite des Gegners (seine Stärke zählt für ihn) und du ziehst 2 Karten."
+      },
+      "medic": {
+        "name": "Heiler",
+        "text": "Holt deine stärkste gefallene Einheit zurück aufs Feld."
+      },
+      "morale": {
+        "name": "Anfeuerung",
+        "text": "+1 für jede andere Einheit in seiner Reihe."
+      },
+      "muster": {
+        "name": "Sammeln",
+        "text": "Spielt außerdem alle Karten derselben Serie aus deinem Deck."
+      },
+      "scorch": {
+        "name": "Finisher",
+        "text": "Wenn die passende Reihe des Gegners 10 oder mehr zählt, wird ihre stärkste Einheit zerstört."
+      },
+      "horn": {
+        "name": "Sammelruf",
+        "text": "Verdoppelt die Stärke der anderen Einheiten in seiner Reihe."
+      }
+    },
+    "tactic": {
+      "frost": {
+        "name": "Blizzard",
+        "text": "Jede Einheit in der Vorderreihe fällt auf beiden Seiten auf 1."
+      },
+      "fog": {
+        "name": "Nebel",
+        "text": "Jede Einheit in der Mittelreihe fällt auf beiden Seiten auf 1."
+      },
+      "storm": {
+        "name": "Sturm",
+        "text": "Jede Einheit in der Hinterreihe fällt auf beiden Seiten auf 1."
+      },
+      "clear": {
+        "name": "Klarer Himmel",
+        "text": "Entfernt jedes Wetter."
+      },
+      "horn": {
+        "name": "Sammelhorn",
+        "text": "Verdoppelt eine deiner Reihen für diese Runde."
+      },
+      "burn": {
+        "name": "Brand",
+        "text": "Zerstört die stärkste(n) Einheit(en) auf dem ganzen Feld, auch deine eigenen."
+      }
+    },
+    "log": {
+      "play": "{who} hat {card} gespielt",
+      "pass": "{who} hat gepasst",
+      "destroy": "Zerstört: {cards}",
+      "revive": "{who} hat {card} wiederbelebt",
+      "muster": "{who} hat {n} weitere gesammelt",
+      "draw": "{who} hat {n} gezogen",
+      "round": "Runde {n}: {a} – {b}"
+    },
+    "redraw": {
+      "title": "Deine Starthand",
+      "text": "Das sind alle 10 Karten, die du für das Match bekommst. Tippe auf eine Karte, um sie zu tauschen (noch {n}), oder behalte deine Hand.",
+      "waiting": "Warte auf deinen Gegner…",
+      "keep": "Diese Hand behalten"
+    },
+    "deck": {
+      "title": "Dein Deck",
+      "collection": "Meine Sammlung",
+      "collectionText": "Deine 25 stärksten Karten und die 6 Taktiken.",
+      "tooFew": "Du besitzt {n} Karten, ein Deck braucht mindestens {min}. Öffne noch ein paar Booster!",
+      "starter": "Starterdeck",
+      "starterText": "25 zufällige Karten aus dem ganzen Katalog für einen fairen Kampf.",
+      "stats": "{n} Einheiten · Gesamtstärke {power}"
+    },
+    "ai": {
+      "title": "Gegen den Computer",
+      "text": "Übe gegen Sensei. Er spielt schnell und verschenkt kaum eine Runde.",
+      "start": "Duell starten",
+      "name": "Sensei"
+    },
+    "friend": {
+      "title": "Gegen einen Freund",
+      "text": "Erstelle einen Raum und schick den Link, oder gib den Code ein, den dein Freund dir gegeben hat.",
+      "create": "Raum erstellen",
+      "code": "Raumcode",
+      "codePlaceholder": "CODE",
+      "join": "Beitreten"
+    },
+    "room": {
+      "title": "RAUM",
+      "waiting": "Warte auf deinen Freund. Teile den Code oder den Link.",
+      "joining": "Raum wird betreten…",
+      "left": "Dein Gegner hat den Raum verlassen.",
+      "full": "Dieser Raum hat schon zwei Spieler.",
+      "notFound": "Niemand hostet diesen Raum. Prüfe den Code.",
+      "copy": "Einladungslink kopieren",
+      "copied": "Link kopiert"
+    },
+    "rules": {
+      "title": "So wird gespielt",
+      "basics": "Das Match",
+      "step1": "Du ziehst 10 Karten für das ganze Match und darfst vor dem Start bis zu 2 tauschen.",
+      "step2": "Die Spieler sind abwechselnd dran: Spiel eine Karte aus oder passe. Hast du gepasst, bist du bis zur nächsten Runde raus.",
+      "step3": "Haben beide Spieler gepasst, gewinnt die höhere Summe die Runde.",
+      "step4": "Verlierst du zwei Runden, verlierst du das Duell (eine unentschiedene Runde kostet beide Spieler ein Leben).",
+      "step5": "Karten auf dem Feld werden nach jeder Runde entfernt und du ziehst keine neuen: Eine Runde mit wenigen Karten zu gewinnen ist die wahre Kunst.",
+      "step6": "Wer eine Runde verliert, beginnt die nächste.",
+      "rows": "Reihen",
+      "rowsText": "Jede Karte gehört zu einer Reihe (auf der Karte angezeigt). Wetter und Hörner wirken auf eine ganze Reihe.",
+      "hero": "Mythische Karten sind Helden: Nichts ändert ihre Stärke und Brand kann sie nicht zerstören.",
+      "bondTitle": "Kizuna-Band.",
+      "bond": "Jede Einheit bekommt +1 für jede andere Einheit derselben Serie auf deiner Seite, so werden Serien-Sets gemeinsam stärker.",
+      "abilities": "Kartenfähigkeiten",
+      "tactics": "Taktiken (in jedem Deck)"
+    },
+    "errors": {
+      "unknown": "Dieser Zug ist nicht erlaubt.",
+      "notYourTurn": "Warte, bis du dran bist.",
+      "pickRow": "Wähle eine Reihe für das Horn.",
+      "hornTaken": "Diese Reihe hat schon ein Horn.",
+      "noRedraws": "Keine Tausche mehr übrig.",
+      "notInHand": "Diese Karte ist nicht auf deiner Hand.",
+      "emptyDeck": "Dein Deck ist leer."
+    }
+  },
+  "banned": {
+    "title": "Dein Konto ist gesperrt",
+    "text": "Ein Moderator hat dieses Konto gesperrt. Wenn du das für einen Fehler hältst, wende dich an das Team.",
+    "signOut": "Abmelden"
   }
 }

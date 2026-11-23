@@ -7,7 +7,7 @@ import { refCookie } from "./lib/referrals/link";
 const intl = createMiddleware(routing);
 
 // open to visitors: sign-in, joining, and the rules / rarities / legal pages
-const EXEMPT = ["/login", "/invite", "/auth", "/join", "/rules", "/rarities", "/terms", "/privacy"];
+const EXEMPT = ["/login", "/invite", "/auth", "/join", "/rules", "/rarities", "/terms", "/privacy", "/banned"];
 
 function stripLocale(pathname: string) {
   for (const l of routing.locales) {
@@ -86,10 +86,12 @@ export default async function proxy(request: NextRequest) {
 
   const { data: player } = await supabase
     .from("players")
-    .select("id")
+    .select("id, banned_at")
     .eq("id", user.id)
     .maybeSingle();
   if (!player) return redirectTo("/invite");
+  // a banned player's session may live on until its token expires: keep them out of the game
+  if (player.banned_at) return redirectTo("/banned");
 
   return response;
 }

@@ -158,7 +158,7 @@
       "open": "Abrir um booster",
       "button": "{free} boosters grátis, {bonus} bônus, {currency} de moeda"
     },
-    "admin": "Admin"
+    "admin": "Painel da equipe"
   },
   "rarity": {
     "common": "Comum",
@@ -1124,8 +1124,10 @@
     "milestoneReward": "{invites} amigos confirmados: {count, plural, one {# carta} other {# cartas}} <r>{rarity, select, mythic {{count, plural, one {Mítica} other {Míticas}}} other {{count, plural, one {Lendária} other {Lendárias}}}}</r> {count, plural, one {aleatória} other {aleatórias}}"
   },
   "admin": {
-    "title": "Admin",
-    "subtitle": "Gerencie o jogo: convites, moeda, seleções diárias, boosters sazonais e chat.",
+    "title": "Equipe",
+    "subtitle": "Gerencie o jogo: jogadores, convites, moeda, seleções diárias, boosters sazonais e chat.",
+    "subtitleModerator": "Cuide dos jogadores e do chat. Boosters e seleções são somente leitura para moderadores.",
+    "roles": { "player": "Jogador", "moderator": "Moderador", "admin": "Admin" },
     "back": "Voltar ao jogo",
     "stats": {
       "invites": "Convites não usados",
@@ -1158,6 +1160,12 @@
       "seasonal_series": "Escolha pelo menos uma série.",
       "seasonal_dates": "O fim deve ser depois do início.",
       "suggest_failed": "Não foi possível acessar o AniList para os animes desta temporada. Tente de novo em um minuto.",
+      "invalid_username": "Nomes de usuário têm de 3 a 20 caracteres.",
+      "username_taken": "Esse nome de usuário já está em uso.",
+      "invalid_value": "Esse valor não é permitido.",
+      "cannot_edit_self": "Você não pode alterar seu próprio cargo nem banir a si mesmo.",
+      "player_banned": "Desbana este jogador antes de dar a ele um cargo na equipe.",
+      "ban_staff": "Torne este jogador um jogador comum antes de bani-lo.",
       "generic": "Algo deu errado. Tente de novo."
     },
     "invites": {
@@ -1206,6 +1214,20 @@
       "copies": "{count, plural, one {# cópia} other {# cópias}}",
       "logins": "{count, plural, one {# login} other {# logins}}",
       "rewarded": "{count} recompensados",
+      "search": "Pesquisar por nome de usuário",
+      "banned": "Banido",
+      "edit": "Editar",
+      "editName": "Editar {name}",
+      "save": "Salvar alterações",
+      "saved": "Salvo.",
+      "banTitle": "Banir este jogador",
+      "banHint": "Ele não consegue mais entrar e é desconectado de todos os lugares. Você pode desfazer.",
+      "bannedTitle": "Este jogador está banido",
+      "unbanHint": "Desbanir permite que ele entre de novo.",
+      "ban": "Banir",
+      "confirmBan": "Sim, banir {name}",
+      "unban": "Desbanir",
+      "cancel": "Cancelar",
       "more": "Mostrar mais {count} (restam {left})",
       "totals": {
         "players": "Jogadores",
@@ -1217,6 +1239,7 @@
       },
       "cols": {
         "player": "Jogador",
+        "role": "Cargo",
         "lastSeen": "Visto",
         "joined": "Entrou",
         "currency": "Moeda",
@@ -1504,5 +1527,176 @@
     "turnOn": "Ativar",
     "how": "Como?",
     "profileTitle": "Notificações"
+  },
+  "duel": {
+    "eyebrow": "JOGAR",
+    "title": "Duelo",
+    "subtitle": "Transforme sua coleção em um exército. Três fileiras, três rodadas, dez cartas para a partida toda: vença duas rodadas para vencer o duelo.",
+    "board": "Tabuleiro",
+    "hand": "Sua mão",
+    "you": "você",
+    "opponent": "Oponente",
+    "pass": "Passar",
+    "passed": "Passou",
+    "play": "Jogar",
+    "pickRow": "Toque em uma das suas fileiras",
+    "yourTurn": "Sua vez",
+    "youPassed": "Você passou",
+    "theirTurn": "{name} está jogando…",
+    "round": "Rodada {n}",
+    "roundN": "Rodada {n}",
+    "roundCol": "Rodada",
+    "roundWon": "Rodada vencida",
+    "roundLost": "Rodada perdida",
+    "roundDraw": "Rodada empatada",
+    "over": "FIM DA PARTIDA",
+    "victory": "Vitória",
+    "defeat": "Derrota",
+    "draw": "Empate",
+    "rematch": "Revanche",
+    "leave": "Sair",
+    "total": "Total {n}",
+    "cardsLeft": "{n, plural, one {# carta} other {# cartas}} na mão",
+    "deckLeft": "{n} no baralho",
+    "emptyHand": "Não restam cartas.",
+    "horn": "Fileira dobrada",
+    "hero": "Herói: clima, cornetas, bônus e Queimar não o afetam.",
+    "lastMoves": "Últimas jogadas",
+    "row": {
+      "0": "Fileira da frente",
+      "1": "Fileira do meio",
+      "2": "Fileira de trás"
+    },
+    "ability": {
+      "spy": {
+        "name": "Infiltrado",
+        "text": "Vai para o lado do oponente (a força dele conta para o oponente) e você compra 2 cartas."
+      },
+      "medic": {
+        "name": "Curandeiro",
+        "text": "Traz de volta ao tabuleiro a sua unidade caída mais forte."
+      },
+      "morale": {
+        "name": "Ânimo",
+        "text": "+1 para cada outra unidade da sua fileira."
+      },
+      "muster": {
+        "name": "Reunir",
+        "text": "Também joga todas as cartas da mesma série do seu baralho."
+      },
+      "scorch": {
+        "name": "Finalizador",
+        "text": "Se a fileira correspondente do oponente somar 10 ou mais, destrói a unidade mais forte dela."
+      },
+      "horn": {
+        "name": "Convocação",
+        "text": "Dobra a força das outras unidades da sua fileira."
+      }
+    },
+    "tactic": {
+      "frost": {
+        "name": "Nevasca",
+        "text": "Toda unidade da fileira da frente, nos dois lados, cai para 1."
+      },
+      "fog": {
+        "name": "Neblina",
+        "text": "Toda unidade da fileira do meio, nos dois lados, cai para 1."
+      },
+      "storm": {
+        "name": "Tempestade",
+        "text": "Toda unidade da fileira de trás, nos dois lados, cai para 1."
+      },
+      "clear": {
+        "name": "Céu limpo",
+        "text": "Remove todo o clima."
+      },
+      "horn": {
+        "name": "Corneta de convocação",
+        "text": "Dobra uma das suas fileiras nesta rodada."
+      },
+      "burn": {
+        "name": "Queimar",
+        "text": "Destrói a(s) unidade(s) mais forte(s) de todo o tabuleiro, inclusive as suas."
+      }
+    },
+    "log": {
+      "play": "{who} jogou {card}",
+      "pass": "{who} passou",
+      "destroy": "Destruídas: {cards}",
+      "revive": "{who} reviveu {card}",
+      "muster": "{who} reuniu mais {n}",
+      "draw": "{who} comprou {n}",
+      "round": "Rodada {n}: {a} – {b}"
+    },
+    "redraw": {
+      "title": "Sua mão inicial",
+      "text": "Estas 10 cartas são tudo o que você terá na partida. Toque em uma carta para trocá-la (restam {n}) ou mantenha sua mão.",
+      "waiting": "Aguardando seu oponente…",
+      "keep": "Manter esta mão"
+    },
+    "deck": {
+      "title": "Seu baralho",
+      "collection": "Minha coleção",
+      "collectionText": "Suas 25 cartas mais fortes e as 6 táticas.",
+      "tooFew": "Você tem {n} cartas; um baralho precisa de pelo menos {min}. Abra mais alguns boosters!",
+      "starter": "Baralho inicial",
+      "starterText": "25 cartas aleatórias de todo o catálogo, para uma luta equilibrada.",
+      "stats": "{n} unidades · força total {power}"
+    },
+    "ai": {
+      "title": "Contra o computador",
+      "text": "Treine contra o Sensei. Ele joga rápido e raramente entrega uma rodada de graça.",
+      "start": "Começar um duelo",
+      "name": "Sensei"
+    },
+    "friend": {
+      "title": "Contra um amigo",
+      "text": "Crie uma sala e envie o link, ou digite o código que seu amigo te passou.",
+      "create": "Criar uma sala",
+      "code": "Código da sala",
+      "codePlaceholder": "CÓDIGO",
+      "join": "Entrar"
+    },
+    "room": {
+      "title": "SALA",
+      "waiting": "Aguardando seu amigo. Compartilhe o código ou o link.",
+      "joining": "Entrando na sala…",
+      "left": "Seu oponente saiu da sala.",
+      "full": "Esta sala já tem dois jogadores.",
+      "notFound": "Ninguém está hospedando esta sala. Confira o código.",
+      "copy": "Copiar o link de convite",
+      "copied": "Link copiado"
+    },
+    "rules": {
+      "title": "Como jogar",
+      "basics": "A partida",
+      "step1": "Você compra 10 cartas para a partida toda e pode trocar até 2 antes de começar.",
+      "step2": "Os jogadores se alternam: jogue uma carta ou passe. Depois de passar, você fica fora até a próxima rodada.",
+      "step3": "Quando os dois jogadores passam, o maior total vence a rodada.",
+      "step4": "Perca duas rodadas e você perde o duelo (uma rodada empatada custa uma vida para os dois).",
+      "step5": "As cartas do tabuleiro saem após cada rodada e você não compra novas: vencer uma rodada com poucas cartas é a verdadeira habilidade.",
+      "step6": "Quem perde uma rodada começa a seguinte.",
+      "rows": "Fileiras",
+      "rowsText": "Cada carta pertence a uma fileira (mostrada na carta). Clima e cornetas afetam uma fileira inteira.",
+      "hero": "Cartas Míticas são heróis: nada muda a força delas e Queimar não pode destruí-las.",
+      "bondTitle": "Laço Kizuna.",
+      "bond": "Cada unidade recebe +1 por cada outra unidade da mesma série do seu lado, então conjuntos de uma série ficam mais fortes juntos.",
+      "abilities": "Habilidades das cartas",
+      "tactics": "Táticas (em todo baralho)"
+    },
+    "errors": {
+      "unknown": "Essa jogada não é permitida.",
+      "notYourTurn": "Espere a sua vez.",
+      "pickRow": "Escolha uma fileira para a corneta.",
+      "hornTaken": "Essa fileira já tem uma corneta.",
+      "noRedraws": "Sem trocas restantes.",
+      "notInHand": "Essa carta não está na sua mão.",
+      "emptyDeck": "Seu baralho está vazio."
+    }
+  },
+  "banned": {
+    "title": "Sua conta foi banida",
+    "text": "Um moderador baniu esta conta. Se acha que foi um engano, fale com a equipe.",
+    "signOut": "Sair"
   }
 }

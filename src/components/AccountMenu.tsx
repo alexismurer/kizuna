@@ -14,13 +14,13 @@ export function AccountMenu({
   playerId,
   me,
   initialUnread,
-  isAdmin = false,
+  isStaff = false,
   children,
 }: {
   playerId: string | null;
   me: { username: string; avatar_url: string | null } | null;
   initialUnread: number;
-  isAdmin?: boolean;
+  isStaff?: boolean;
   children: React.ReactNode;
 }) {
   const t = useTranslations("topbar");
@@ -89,8 +89,8 @@ export function AccountMenu({
             {tr("inviteChip", { boosters: REFERRAL_BOOSTERS })}
           </span>
         </Link>
-        {isAdmin && (
-          <Link href="/admin" className="block px-3 py-2 text-sm hover:bg-border">
+        {isStaff && (
+          <Link href="/staff" className="block px-3 py-2 text-sm hover:bg-border">
             {t("admin")}
           </Link>
         )}

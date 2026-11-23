@@ -158,7 +158,7 @@
       "open": "Otwórz booster",
       "button": "Darmowe boostery: {free}, bonusowe: {bonus}, waluta: {currency}"
     },
-    "admin": "Admin"
+    "admin": "Panel zespołu"
   },
   "rarity": {
     "common": "Zwykła",
@@ -1124,8 +1124,10 @@
     "milestoneReward": "{invites} potwierdzonych znajomych: {count, plural, one {# losowa} few {# losowe} other {# losowych}} <r>{rarity, select, mythic {{count, plural, one {mityczna karta} few {mityczne karty} other {mitycznych kart}}} other {{count, plural, one {legendarna karta} few {legendarne karty} other {legendarnych kart}}}}</r>"
   },
   "admin": {
-    "title": "Admin",
-    "subtitle": "Zarządzaj grą: zaproszenia, waluta, pule dzienne, boostery sezonowe i czat.",
+    "title": "Zespół",
+    "subtitle": "Zarządzaj grą: gracze, zaproszenia, waluta, pule dzienne, boostery sezonowe i czat.",
+    "subtitleModerator": "Dbaj o graczy i czat. Boostery i pule są dla moderatorów tylko do odczytu.",
+    "roles": { "player": "Gracz", "moderator": "Moderator", "admin": "Admin" },
     "back": "Wróć do gry",
     "stats": {
       "invites": "Niewykorzystane zaproszenia",
@@ -1158,6 +1160,12 @@
       "seasonal_series": "Wybierz co najmniej jedną serię.",
       "seasonal_dates": "Koniec musi być po początku.",
       "suggest_failed": "Nie udało się pobrać anime z tego sezonu z AniList. Spróbuj ponownie za minutę.",
+      "invalid_username": "Nazwa użytkownika ma od 3 do 20 znaków.",
+      "username_taken": "Ta nazwa użytkownika jest zajęta.",
+      "invalid_value": "Ta wartość jest niedozwolona.",
+      "cannot_edit_self": "Nie możesz zmienić własnej roli ani zbanować samego siebie.",
+      "player_banned": "Odbanuj tego gracza, zanim nadasz mu rolę w zespole.",
+      "ban_staff": "Zmień tego gracza na zwykłego gracza, zanim go zbanujesz.",
       "generic": "Coś poszło nie tak. Spróbuj ponownie."
     },
     "invites": {
@@ -1206,6 +1214,20 @@
       "copies": "Kopie: {count}",
       "logins": "Logowania: {count}",
       "rewarded": "Nagrodzeni: {count}",
+      "search": "Szukaj po nazwie użytkownika",
+      "banned": "Zbanowany",
+      "edit": "Edytuj",
+      "editName": "Edytuj: {name}",
+      "save": "Zapisz zmiany",
+      "saved": "Zapisano.",
+      "banTitle": "Zbanuj tego gracza",
+      "banHint": "Nie może się już logować i zostaje wylogowany wszędzie. Możesz to cofnąć.",
+      "bannedTitle": "Ten gracz jest zbanowany",
+      "unbanHint": "Po odbanowaniu będzie mógł się znowu logować.",
+      "ban": "Zbanuj",
+      "confirmBan": "Tak, zbanuj: {name}",
+      "unban": "Odbanuj",
+      "cancel": "Anuluj",
       "more": "Pokaż {count} więcej (zostało {left})",
       "totals": {
         "players": "Gracze",
@@ -1217,6 +1239,7 @@
       },
       "cols": {
         "player": "Gracz",
+        "role": "Rola",
         "lastSeen": "Ostatnio",
         "joined": "Dołączył",
         "currency": "Waluta",
@@ -1504,5 +1527,176 @@
     "turnOn": "Włącz",
     "how": "Jak?",
     "profileTitle": "Powiadomienia"
+  },
+  "duel": {
+    "eyebrow": "GRAJ",
+    "title": "Pojedynek",
+    "subtitle": "Zamień swoją kolekcję w armię. Trzy rzędy, trzy rundy, dziesięć kart na cały mecz: wygraj dwie rundy, aby wygrać pojedynek.",
+    "board": "Plansza",
+    "hand": "Twoja ręka",
+    "you": "ty",
+    "opponent": "Przeciwnik",
+    "pass": "Pas",
+    "passed": "Spasował",
+    "play": "Zagraj",
+    "pickRow": "Stuknij jeden ze swoich rzędów",
+    "yourTurn": "Twoja kolej",
+    "youPassed": "Spasowałeś",
+    "theirTurn": "{name} gra…",
+    "round": "Runda {n}",
+    "roundN": "Runda {n}",
+    "roundCol": "Runda",
+    "roundWon": "Runda wygrana",
+    "roundLost": "Runda przegrana",
+    "roundDraw": "Runda zremisowana",
+    "over": "KONIEC MECZU",
+    "victory": "Zwycięstwo",
+    "defeat": "Porażka",
+    "draw": "Remis",
+    "rematch": "Rewanż",
+    "leave": "Wyjdź",
+    "total": "Razem {n}",
+    "cardsLeft": "{n, plural, one {# karta} few {# karty} many {# kart} other {# karty}} na ręce",
+    "deckLeft": "{n} w talii",
+    "emptyHand": "Brak kart.",
+    "horn": "Rząd podwojony",
+    "hero": "Bohater: pogoda, rogi, wzmocnienia i Podpalenie go nie dotyczą.",
+    "lastMoves": "Ostatnie ruchy",
+    "row": {
+      "0": "Pierwszy rząd",
+      "1": "Środkowy rząd",
+      "2": "Tylny rząd"
+    },
+    "ability": {
+      "spy": {
+        "name": "Infiltrator",
+        "text": "Przechodzi na stronę przeciwnika (jego siła liczy się jemu), a ty dobierasz 2 karty."
+      },
+      "medic": {
+        "name": "Medyk",
+        "text": "Przywraca na planszę twoją najsilniejszą poległą jednostkę."
+      },
+      "morale": {
+        "name": "Otucha",
+        "text": "+1 dla każdej innej jednostki w jego rzędzie."
+      },
+      "muster": {
+        "name": "Zbiórka",
+        "text": "Zagrywa też wszystkie karty z tej samej serii z twojej talii."
+      },
+      "scorch": {
+        "name": "Egzekutor",
+        "text": "Jeśli odpowiedni rząd przeciwnika ma w sumie 10 lub więcej, niszczy jego najsilniejszą jednostkę."
+      },
+      "horn": {
+        "name": "Zew bitwy",
+        "text": "Podwaja siłę innych jednostek w jego rzędzie."
+      }
+    },
+    "tactic": {
+      "frost": {
+        "name": "Zamieć",
+        "text": "Każda jednostka w pierwszym rzędzie po obu stronach spada do 1."
+      },
+      "fog": {
+        "name": "Mgła",
+        "text": "Każda jednostka w środkowym rzędzie po obu stronach spada do 1."
+      },
+      "storm": {
+        "name": "Burza",
+        "text": "Każda jednostka w tylnym rzędzie po obu stronach spada do 1."
+      },
+      "clear": {
+        "name": "Czyste niebo",
+        "text": "Usuwa całą pogodę."
+      },
+      "horn": {
+        "name": "Róg bitewny",
+        "text": "Podwaja jeden z twoich rzędów na tę rundę."
+      },
+      "burn": {
+        "name": "Podpalenie",
+        "text": "Niszczy najsilniejsze jednostki na całej planszy, także twoje."
+      }
+    },
+    "log": {
+      "play": "{who} zagrał(a) {card}",
+      "pass": "{who} spasował(a)",
+      "destroy": "Zniszczone: {cards}",
+      "revive": "{who} wskrzesił(a) {card}",
+      "muster": "{who} zebrał(a) jeszcze {n}",
+      "draw": "{who} dobrał(a) {n}",
+      "round": "Runda {n}: {a} – {b}"
+    },
+    "redraw": {
+      "title": "Twoja ręka startowa",
+      "text": "Te 10 kart to wszystko, co dostajesz na mecz. Stuknij kartę, aby ją wymienić (zostało {n}), albo zostaw rękę.",
+      "waiting": "Czekam na przeciwnika…",
+      "keep": "Zostaw tę rękę"
+    },
+    "deck": {
+      "title": "Twoja talia",
+      "collection": "Moja kolekcja",
+      "collectionText": "Twoje 25 najsilniejszych kart i 6 taktyk.",
+      "tooFew": "Masz {n} kart, a talia potrzebuje co najmniej {min}. Otwórz jeszcze kilka boosterów!",
+      "starter": "Talia startowa",
+      "starterText": "25 losowych kart z całego katalogu, na wyrównaną walkę.",
+      "stats": "{n} jednostek · łączna siła {power}"
+    },
+    "ai": {
+      "title": "Z komputerem",
+      "text": "Poćwicz z Sensei. Gra szybko i rzadko oddaje rundę za darmo.",
+      "start": "Zacznij pojedynek",
+      "name": "Sensei"
+    },
+    "friend": {
+      "title": "Z przyjacielem",
+      "text": "Stwórz pokój i wyślij link albo wpisz kod, który dał ci przyjaciel.",
+      "create": "Stwórz pokój",
+      "code": "Kod pokoju",
+      "codePlaceholder": "KOD",
+      "join": "Dołącz"
+    },
+    "room": {
+      "title": "POKÓJ",
+      "waiting": "Czekam na przyjaciela. Udostępnij kod albo link.",
+      "joining": "Dołączanie do pokoju…",
+      "left": "Twój przeciwnik opuścił pokój.",
+      "full": "W tym pokoju są już dwaj gracze.",
+      "notFound": "Nikt nie prowadzi tego pokoju. Sprawdź kod.",
+      "copy": "Skopiuj link z zaproszeniem",
+      "copied": "Link skopiowany"
+    },
+    "rules": {
+      "title": "Jak grać",
+      "basics": "Mecz",
+      "step1": "Dobierasz 10 kart na cały mecz i możesz wymienić do 2 przed startem.",
+      "step2": "Gracze wykonują ruchy na zmianę: zagraj kartę albo spasuj. Po spasowaniu odpadasz do następnej rundy.",
+      "step3": "Gdy obaj gracze spasują, rundę wygrywa wyższa suma.",
+      "step4": "Przegraj dwie rundy, a przegrywasz pojedynek (zremisowana runda kosztuje obu graczy życie).",
+      "step5": "Karty z planszy znikają po każdej rundzie i nie dobierasz nowych: wygranie rundy za pomocą niewielu kart to prawdziwa sztuka.",
+      "step6": "Przegrany w rundzie zaczyna następną.",
+      "rows": "Rzędy",
+      "rowsText": "Każda karta należy do jednego rzędu (widać to na karcie). Pogoda i rogi działają na cały rząd.",
+      "hero": "Mityczne karty to bohaterowie: nic nie zmienia ich siły, a Podpalenie ich nie niszczy.",
+      "bondTitle": "Więź Kizuna.",
+      "bond": "Każda jednostka dostaje +1 za każdą inną jednostkę z tej samej serii po twojej stronie, więc zestawy z jednej serii wzmacniają się razem.",
+      "abilities": "Zdolności kart",
+      "tactics": "Taktyki (w każdej talii)"
+    },
+    "errors": {
+      "unknown": "Ten ruch jest niedozwolony.",
+      "notYourTurn": "Poczekaj na swoją kolej.",
+      "pickRow": "Wybierz rząd dla rogu.",
+      "hornTaken": "Ten rząd ma już róg.",
+      "noRedraws": "Brak wymian.",
+      "notInHand": "Tej karty nie ma na twojej ręce.",
+      "emptyDeck": "Twoja talia jest pusta."
+    }
+  },
+  "banned": {
+    "title": "Twoje konto jest zbanowane",
+    "text": "Moderator zbanował to konto. Jeśli uważasz, że to pomyłka, skontaktuj się z zespołem.",
+    "signOut": "Wyloguj się"
   }
 }

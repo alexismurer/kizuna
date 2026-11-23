@@ -17,18 +17,18 @@ export async function TopBar() {
   if (!status) return null;
   const { missionsClaimable } = status;
   const supabase = await createServerClient();
-  const [notifications, { data: claims }, { data: unreadTotal }, { data: isAdmin }] = await Promise.all([
+  const [notifications, { data: claims }, { data: unreadTotal }, { data: role }] = await Promise.all([
     loadNotifications(supabase),
     supabase.auth.getClaims(),
     supabase.rpc("dm_unread_total"),
-    supabase.rpc("is_admin"),
+    supabase.rpc("my_role"),
   ]);
   const unread = typeof unreadTotal === "number" ? unreadTotal : 0;
   const { data: me } = claims
     ? await supabase.from("player_directory").select("username, avatar_url").eq("id", claims.claims.sub).maybeSingle()
     : { data: null };
 
-  const disabled = ["play"] as const;
+  const staff = role === "admin" || role === "moderator";
 
   return (
     <header className="flex items-center gap-3 border-b border-border bg-panel px-3 py-3 sm:gap-4 sm:px-6 lg:gap-6">
@@ -52,16 +52,20 @@ export async function TopBar() {
         <Link href="/market" className="hover:text-accent">
           {t("nav.market")}
         </Link>
-        {disabled.map((k) => (
+        {/* Duel is in testing: staff only for now */}
+        {staff ? (
+          <Link href="/play" className="hover:text-accent">
+            {t("nav.play")}
+          </Link>
+        ) : (
           <span
-            key={k}
             title={t("nav.soon")}
             aria-disabled="true"
             className="hidden cursor-not-allowed text-common opacity-60 lg:inline"
           >
-            {t(`nav.${k}`)}
+            {t("nav.play")}
           </span>
-        ))}
+        )}
         <MoreMenu />
       </nav>
       <StockPopover status={status} />
@@ -88,7 +92,7 @@ export async function TopBar() {
       {claims && (
         <NotificationBell playerId={claims.claims.sub} initial={notifications.items} names={notifications.names} />
       )}
-      <AccountMenu playerId={claims?.claims.sub ?? null} me={me} initialUnread={unread} isAdmin={isAdmin === true}>
+      <AccountMenu playerId={claims?.claims.sub ?? null} me={me} initialUnread={unread} isStaff={staff}>
         <SignOutButton />
       </AccountMenu>
     </header>

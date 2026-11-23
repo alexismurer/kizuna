@@ -13,13 +13,17 @@ async function MobileNav() {
   const status = await loadStatus();
   if (!status) return null;
   const supabase = await createServerClient();
-  const [{ data: claims }, { data: unread }] = await Promise.all([supabase.auth.getClaims(), supabase.rpc("dm_unread_total")]);
+  const [{ data: claims }, { data: unread }, { data: role }] = await Promise.all([
+    supabase.auth.getClaims(),
+    supabase.rpc("dm_unread_total"),
+    supabase.rpc("my_role"),
+  ]);
   const { data: me } = claims
     ? await supabase.from("player_directory").select("username").eq("id", claims.claims.sub).maybeSingle()
     : { data: null };
   const social =
     claims && me ? { playerId: claims.claims.sub, username: me.username, unread: typeof unread === "number" ? unread : 0 } : undefined;
-  return <BottomNav missionsClaimable={status.missionsClaimable} social={social} />;
+  return <BottomNav missionsClaimable={status.missionsClaimable} social={social} canPlay={role === "admin" || role === "moderator"} />;
 }
 
 // players only: a tab left open overnight refreshes into the new day, and the

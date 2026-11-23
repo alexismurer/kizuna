@@ -5,7 +5,7 @@ type SetAll = (c: { name: string; value: string; options?: object }[]) => void;
 
 const state = {
   user: null as { id: string } | null,
-  player: null as { id: string } | null,
+  player: null as { id: string; banned_at?: string | null } | null,
   refresh: null as { name: string; value: string } | null,
 };
 
@@ -55,6 +55,14 @@ describe("proxy gate", () => {
     const res = await run(path);
     expect(res.status).toBe(307);
     expect(location(res)).toBe("/login");
+  });
+
+  it("sends banned players to /banned", async () => {
+    state.user = { id: "u1" };
+    state.player = { id: "u1", banned_at: "2026-11-23T00:00:00Z" };
+    const res = await run("/collection");
+    expect(res.status).toBe(307);
+    expect(location(res)).toBe("/banned");
   });
 
   it("redirects signed-in users without a player row to /invite", async () => {

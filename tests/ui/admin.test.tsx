@@ -14,6 +14,9 @@ const actions = vi.hoisted(() => ({
   adminCardSearch: vi.fn(),
   adminGrantCard: vi.fn(),
   adminDeleteChat: vi.fn(),
+  adminUpdatePlayer: vi.fn(),
+  adminSetRole: vi.fn(),
+  adminSetBan: vi.fn(),
 }));
 vi.mock("@/lib/actions/admin", () => actions);
 vi.mock("@/i18n/navigation", () => ({
@@ -46,7 +49,9 @@ import { ChatPanel } from "@/components/admin/ChatPanel";
 import { GrantCardPanel } from "@/components/admin/GrantCardPanel";
 import { GrantPanel } from "@/components/admin/GrantPanel";
 import { InvitesPanel } from "@/components/admin/InvitesPanel";
-import AdminPage from "@/app/[locale]/(main)/admin/page";
+import { PlayersPanel } from "@/components/admin/PlayersPanel";
+import type { AdminPlayers } from "@/lib/actions/admin";
+import StaffPage from "@/app/[locale]/(main)/staff/page";
 
 const wrap = (ui: React.ReactNode) =>
   render(
@@ -234,22 +239,22 @@ describe("ChatPanel", () => {
 describe("AccountMenu", () => {
   const menu = (isAdmin?: boolean) =>
     wrap(
-      <AccountMenu playerId="p" me={{ username: "a", avatar_url: null }} initialUnread={0} isAdmin={isAdmin}>
+      <AccountMenu playerId="p" me={{ username: "a", avatar_url: null }} initialUnread={0} isStaff={isAdmin}>
         <span />
       </AccountMenu>,
     );
-  it("shows Admin only for admins", () => {
+  it("shows the Staff panel link only for staff", () => {
     menu(true);
-    expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/admin");
+    expect(screen.getByRole("link", { name: "Staff panel" })).toHaveAttribute("href", "/staff");
     cleanup();
     menu(false);
-    expect(screen.queryByRole("link", { name: "Admin" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Staff panel" })).not.toBeInTheDocument();
   });
 });
 
-describe("admin page", () => {
+describe("staff page", () => {
   async function run() {
-    const page = (await AdminPage({ params: Promise.resolve({ locale: "en" }) } as never)) as ReactElement<{
+    const page = (await StaffPage({ params: Promise.resolve({ locale: "en" }) } as never)) as ReactElement<{
       children: ReactElement<{ children: ReactElement }>;
     }>;
     const content = page.props.children.props.children;
@@ -257,15 +262,71 @@ describe("admin page", () => {
     return (content.type as (p: unknown) => Promise<unknown>)(content.props);
   }
 
-  it("is a 404 for non-admins", async () => {
-    rpc.mockResolvedValue({ data: false, error: null });
+  it("is a 404 for players", async () => {
+    rpc.mockResolvedValue({ data: null, error: null });
     await expect(run()).rejects.toThrow("NEXT_NOT_FOUND");
-    expect(rpc).toHaveBeenCalledWith("is_admin");
+    expect(rpc).toHaveBeenCalledWith("my_role");
   });
 
-  it("renders for admins", async () => {
-    rpc.mockImplementation(async (fn: string) => ({ data: fn === "is_admin" ? true : [], error: null }));
-    await run();
+  it("renders every section for admins", async () => {
+    rpc.mockImplementation(async (fn: string) => ({ data: fn === "my_role" ? "admin" : fn === "admin_players" ? null : [], error: null }));
+    wrap((await run()) as React.ReactNode);
     expect(notFound).not.toHaveBeenCalled();
+    expect(rpc).toHaveBeenCalledWith("admin_invites");
+    expect(screen.getByRole("heading", { name: "Grant currency" })).toBeInTheDocument();
+  });
+
+  it("gives moderators players, seasonals, pools and chat only, read-only", async () => {
+    rpc.mockImplementation(async (fn: string) => ({ data: fn === "my_role" ? "moderator" : fn === "admin_players" ? null : [], error: null }));
+    wrap((await run()) as React.ReactNode);
+    expect(rpc).not.toHaveBeenCalledWith("admin_invites");
+    expect(screen.getByText("Moderator")).toBeInTheDocument();
+    for (const name of ["Invite codes", "Grant currency", "Give a card"]) {
+      expect(screen.queryByRole("heading", { name })).not.toBeInTheDocument();
+    }
+    expect(screen.getByRole("heading", { name: "Seasonal boosters" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Save pool" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Suggest from airing anime/ })).not.toBeInTheDocument();
+  });
+});
+
+describe("PlayersPanel", () => {
+  const data: AdminPlayers = {
+    catalogSize: 100,
+    totals: { players: 1, active24h: 1, active7d: 1, new7d: 1, referred: 0, boostersOpened: 3 },
+    players: [
+      {
+        id: "p1", username: "kenji", avatarUrl: null, role: "player", bannedAt: null, joinedAt: "2026-11-01T00:00:00Z",
+        lastSeenAt: null, currency: 50, uniqueCards: 10, totalCards: 12, boostersOpened: 3, streak: 2, logins: 4,
+        invited: 0, invitedRewarded: 0, referredBy: null,
+      },
+    ],
+  };
+
+  it("shows the role and no edit button for moderators", () => {
+    wrap(<PlayersPanel data={data} />);
+    expect(screen.getAllByText("Player")).toHaveLength(2); // the column and the role badge
+    expect(screen.queryByRole("button", { name: "Edit kenji" })).not.toBeInTheDocument();
+  });
+
+  it("lets admins edit fields, change the role and ban in two steps", async () => {
+    actions.adminUpdatePlayer.mockResolvedValue({ ok: true, data: null });
+    actions.adminSetRole.mockResolvedValue({ ok: true, data: null });
+    actions.adminSetBan.mockResolvedValue({ ok: true, data: null });
+    wrap(<PlayersPanel data={data} canEdit />);
+    fireEvent.click(screen.getByRole("button", { name: "Edit kenji" }));
+    fireEvent.change(screen.getByRole("spinbutton", { name: "Currency" }), { target: { value: "900" } });
+    fireEvent.change(screen.getByRole("combobox", { name: "Role" }), { target: { value: "moderator" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save changes" }));
+    await waitFor(() => expect(screen.getByText("Saved.")).toBeInTheDocument());
+    expect(actions.adminUpdatePlayer).toHaveBeenCalledWith("p1", "kenji", 900, 2);
+    expect(actions.adminSetRole).toHaveBeenCalledWith("p1", "moderator");
+
+    await waitFor(() => expect(screen.getByRole("button", { name: "Ban" })).toBeEnabled());
+    fireEvent.click(screen.getByRole("button", { name: "Ban" }));
+    expect(actions.adminSetBan).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "Yes, ban kenji" }));
+    await waitFor(() => expect(actions.adminSetBan).toHaveBeenCalledWith("p1", true));
+    await waitFor(() => expect(screen.getByRole("button", { name: "Unban" })).toBeInTheDocument());
   });
 });

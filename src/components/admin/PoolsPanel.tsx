@@ -12,7 +12,8 @@ type Pool = { id: number; name: string; series: AdminSeries[] };
 
 const PAGE = 20;
 
-export function PoolsPanel({ initial }: { initial: Pool[] }) {
+// readOnly: moderators see the pools but can't create, edit or delete
+export function PoolsPanel({ initial, readOnly = false }: { initial: Pool[]; readOnly?: boolean }) {
   const t = useTranslations("admin");
   const [pools, setPools] = useState(initial);
   const [editing, setEditing] = useState<number | null>(null);
@@ -66,14 +67,16 @@ export function PoolsPanel({ initial }: { initial: Pool[] }) {
             <li key={p.id} className={`${row} flex flex-col gap-2 text-sm ${editing === p.id ? "border-accent/50" : ""}`}>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-bold break-words">{p.name}</span>
-                <span className="flex gap-2">
-                  <button type="button" disabled={pending} onClick={() => edit(p)} className={small}>
-                    {t("pools.edit")}
-                  </button>
-                  <button type="button" disabled={pending} onClick={() => remove(p.id)} className={danger}>
-                    {t("pools.delete")}
-                  </button>
-                </span>
+                {!readOnly && (
+                  <span className="flex gap-2">
+                    <button type="button" disabled={pending} onClick={() => edit(p)} className={small}>
+                      {t("pools.edit")}
+                    </button>
+                    <button type="button" disabled={pending} onClick={() => remove(p.id)} className={danger}>
+                      {t("pools.delete")}
+                    </button>
+                  </span>
+                )}
               </div>
               <ul className="flex flex-wrap gap-1.5">
                 {p.series.map((s) => (
@@ -91,24 +94,26 @@ export function PoolsPanel({ initial }: { initial: Pool[] }) {
           {t("pools.more", { count: Math.min(PAGE, pools.length - shown), left: pools.length - shown })}
         </button>
       )}
-      <form onSubmit={save} className="flex flex-col gap-3 rounded-xl border border-dashed border-border p-4">
-        <h3 className="text-sm font-bold">{editing === null ? t("pools.new") : t("pools.editing")}</h3>
-        <label className={label}>
-          {t("pools.name")}
-          <input className={input} value={name} maxLength={40} onChange={(e) => setName(e.target.value)} />
-        </label>
-        <SeriesPicker value={series} onChange={setSeries} />
-        <div className="flex gap-2">
-          <button type="submit" disabled={pending} className={primary}>
-            {t("pools.save")}
-          </button>
-          {editing !== null && (
-            <button type="button" onClick={reset} className={secondary}>
-              {t("pools.cancel")}
+      {!readOnly && (
+        <form onSubmit={save} className="flex flex-col gap-3 rounded-xl border border-dashed border-border p-4">
+          <h3 className="text-sm font-bold">{editing === null ? t("pools.new") : t("pools.editing")}</h3>
+          <label className={label}>
+            {t("pools.name")}
+            <input className={input} value={name} maxLength={40} onChange={(e) => setName(e.target.value)} />
+          </label>
+          <SeriesPicker value={series} onChange={setSeries} />
+          <div className="flex gap-2">
+            <button type="submit" disabled={pending} className={primary}>
+              {t("pools.save")}
             </button>
-          )}
-        </div>
-      </form>
+            {editing !== null && (
+              <button type="button" onClick={reset} className={secondary}>
+                {t("pools.cancel")}
+              </button>
+            )}
+          </div>
+        </form>
+      )}
       {error && (
         <p role="alert" className={errorText}>
           {t(`errors.${adminErrorKey(error)}`)}

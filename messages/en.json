@@ -158,7 +158,7 @@
       "open": "Open a booster",
       "button": "{free} free boosters, {bonus} bonus, {currency} currency"
     },
-    "admin": "Admin"
+    "admin": "Staff panel"
   },
   "rarity": {
     "common": "Common",
@@ -1124,8 +1124,10 @@
     "milestoneReward": "{invites} confirmed friends: {count} random <r>{rarity, select, mythic {Mythic {count, plural, one {card} other {cards}}} other {Legendary {count, plural, one {card} other {cards}}}}</r>"
   },
   "admin": {
-    "title": "Admin",
-    "subtitle": "Run the game: invites, currency, daily pools, seasonal boosters and chat.",
+    "title": "Staff",
+    "subtitle": "Run the game: players, invites, currency, daily pools, seasonal boosters and chat.",
+    "subtitleModerator": "Look after the players and the chat. Boosters and pools are read-only for moderators.",
+    "roles": { "player": "Player", "moderator": "Moderator", "admin": "Admin" },
     "back": "Back to the game",
     "stats": {
       "invites": "Unused invites",
@@ -1158,6 +1160,12 @@
       "seasonal_series": "Pick at least one series.",
       "seasonal_dates": "The end must be after the start.",
       "suggest_failed": "Couldn't reach AniList for this season's anime. Try again in a minute.",
+      "invalid_username": "Usernames are 3 to 20 characters.",
+      "username_taken": "That username is taken.",
+      "invalid_value": "That value isn't allowed.",
+      "cannot_edit_self": "You can't change your own role or ban yourself.",
+      "player_banned": "Unban this player before giving them a staff role.",
+      "ban_staff": "Make this player a regular player before banning them.",
       "generic": "Something went wrong. Try again."
     },
     "invites": {
@@ -1206,6 +1214,20 @@
       "copies": "{count, plural, one {# copy} other {# copies}}",
       "logins": "{count, plural, one {# login} other {# logins}}",
       "rewarded": "{count} rewarded",
+      "search": "Search by username",
+      "banned": "Banned",
+      "edit": "Edit",
+      "editName": "Edit {name}",
+      "save": "Save changes",
+      "saved": "Saved.",
+      "banTitle": "Ban this player",
+      "banHint": "They can't sign in any more and are signed out everywhere. You can undo it.",
+      "bannedTitle": "This player is banned",
+      "unbanHint": "Unbanning lets them sign in again.",
+      "ban": "Ban",
+      "confirmBan": "Yes, ban {name}",
+      "unban": "Unban",
+      "cancel": "Cancel",
       "more": "Show {count} more ({left} left)",
       "totals": {
         "players": "Players",
@@ -1217,6 +1239,7 @@
       },
       "cols": {
         "player": "Player",
+        "role": "Role",
         "lastSeen": "Last seen",
         "joined": "Joined",
         "currency": "Currency",
@@ -1504,5 +1527,176 @@
     "turnOn": "Turn on",
     "how": "How?",
     "profileTitle": "Notifications"
+  },
+  "duel": {
+    "eyebrow": "PLAY",
+    "title": "Duel",
+    "subtitle": "Turn your collection into an army. Three rows, three rounds, ten cards for the whole match: win two rounds to win the duel.",
+    "board": "Board",
+    "hand": "Your hand",
+    "you": "you",
+    "opponent": "Opponent",
+    "pass": "Pass",
+    "passed": "Passed",
+    "play": "Play",
+    "pickRow": "Tap one of your rows",
+    "yourTurn": "Your turn",
+    "youPassed": "You passed",
+    "theirTurn": "{name} is playing…",
+    "round": "Round {n}",
+    "roundN": "Round {n}",
+    "roundCol": "Round",
+    "roundWon": "Round won",
+    "roundLost": "Round lost",
+    "roundDraw": "Round drawn",
+    "over": "MATCH OVER",
+    "victory": "Victory",
+    "defeat": "Defeat",
+    "draw": "Draw",
+    "rematch": "Rematch",
+    "leave": "Leave",
+    "total": "Total {n}",
+    "cardsLeft": "{n, plural, one {# card} other {# cards}} in hand",
+    "deckLeft": "{n} in deck",
+    "emptyHand": "No cards left.",
+    "horn": "Row doubled",
+    "hero": "Hero: weather, horns, boosts and burns don't touch it.",
+    "lastMoves": "Last moves",
+    "row": {
+      "0": "Front row",
+      "1": "Middle row",
+      "2": "Back row"
+    },
+    "ability": {
+      "spy": {
+        "name": "Infiltrator",
+        "text": "Goes to the opponent's side (its strength counts for them) and you draw 2 cards."
+      },
+      "medic": {
+        "name": "Healer",
+        "text": "Brings your strongest fallen unit back onto the board."
+      },
+      "morale": {
+        "name": "Cheer",
+        "text": "+1 to every other unit in its row."
+      },
+      "muster": {
+        "name": "Gather",
+        "text": "Also plays every card of the same series from your deck."
+      },
+      "scorch": {
+        "name": "Finisher",
+        "text": "If the opponent's matching row totals 10 or more, destroys its strongest unit."
+      },
+      "horn": {
+        "name": "Rally",
+        "text": "Doubles the strength of the other units in its row."
+      }
+    },
+    "tactic": {
+      "frost": {
+        "name": "Blizzard",
+        "text": "Every front-row unit on both sides drops to 1."
+      },
+      "fog": {
+        "name": "Fog",
+        "text": "Every middle-row unit on both sides drops to 1."
+      },
+      "storm": {
+        "name": "Storm",
+        "text": "Every back-row unit on both sides drops to 1."
+      },
+      "clear": {
+        "name": "Clear sky",
+        "text": "Removes all weather."
+      },
+      "horn": {
+        "name": "Rally horn",
+        "text": "Doubles one of your rows for this round."
+      },
+      "burn": {
+        "name": "Burn",
+        "text": "Destroys the strongest unit(s) on the whole board, yours included."
+      }
+    },
+    "log": {
+      "play": "{who} played {card}",
+      "pass": "{who} passed",
+      "destroy": "Destroyed: {cards}",
+      "revive": "{who} revived {card}",
+      "muster": "{who} gathered {n} more",
+      "draw": "{who} drew {n}",
+      "round": "Round {n}: {a} – {b}"
+    },
+    "redraw": {
+      "title": "Your starting hand",
+      "text": "These 10 cards are all you get for the match. Tap a card to swap it ({n} left), or keep your hand.",
+      "waiting": "Waiting for your opponent…",
+      "keep": "Keep this hand"
+    },
+    "deck": {
+      "title": "Your deck",
+      "collection": "My collection",
+      "collectionText": "Your 25 strongest cards and the 6 tactics.",
+      "tooFew": "You own {n} cards; a deck needs at least {min}. Open a few more boosters!",
+      "starter": "Starter deck",
+      "starterText": "25 random cards from the whole catalog, for an even fight.",
+      "stats": "{n} units · total strength {power}"
+    },
+    "ai": {
+      "title": "Against the computer",
+      "text": "Practise against Sensei. It plays fast and rarely gives a round away for free.",
+      "start": "Start a duel",
+      "name": "Sensei"
+    },
+    "friend": {
+      "title": "Against a friend",
+      "text": "Create a room and send the link, or enter the code your friend gave you.",
+      "create": "Create a room",
+      "code": "Room code",
+      "codePlaceholder": "CODE",
+      "join": "Join"
+    },
+    "room": {
+      "title": "ROOM",
+      "waiting": "Waiting for your friend. Share the code or the link.",
+      "joining": "Joining the room…",
+      "left": "Your opponent left the room.",
+      "full": "This room already has two players.",
+      "notFound": "Nobody is hosting this room. Check the code.",
+      "copy": "Copy the invite link",
+      "copied": "Link copied"
+    },
+    "rules": {
+      "title": "How to play",
+      "basics": "The match",
+      "step1": "You draw 10 cards for the whole match and may swap up to 2 before it starts.",
+      "step2": "Players take turns: play one card, or pass. Once you pass, you're out until the next round.",
+      "step3": "When both players have passed, the higher total wins the round.",
+      "step4": "Lose two rounds and you lose the duel (a drawn round costs both players a life).",
+      "step5": "Cards on the board are cleared after each round, and you don't draw new ones: winning a round with few cards is the real skill.",
+      "step6": "The loser of a round starts the next one.",
+      "rows": "Rows",
+      "rowsText": "Each card belongs to one row (shown on the card). Weather and horns affect a whole row.",
+      "hero": "Mythic cards are heroes: nothing changes their strength and Burn can't destroy them.",
+      "bondTitle": "Kizuna bond.",
+      "bond": "Each unit gets +1 for every other unit of the same series on your side, so series sets get stronger together.",
+      "abilities": "Card abilities",
+      "tactics": "Tactics (in every deck)"
+    },
+    "errors": {
+      "unknown": "That move isn't allowed.",
+      "notYourTurn": "Wait for your turn.",
+      "pickRow": "Choose a row for the horn.",
+      "hornTaken": "That row already has a horn.",
+      "noRedraws": "No swaps left.",
+      "notInHand": "That card isn't in your hand.",
+      "emptyDeck": "Your deck is empty."
+    }
+  },
+  "banned": {
+    "title": "Your account is banned",
+    "text": "A moderator banned this account. If you think it's a mistake, contact the team.",
+    "signOut": "Sign out"
   }
 }

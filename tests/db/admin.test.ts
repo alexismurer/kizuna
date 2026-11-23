@@ -245,7 +245,7 @@ describe('admin players', () => {
     const row = data.players.find((p: { username: string }) => p.username === inviteeName)
     expect(row).toMatchObject({ currency: 1234, referredBy: inviterName, invited: 0, boostersOpened: 0 })
     expect(Object.keys(row).sort()).toEqual(
-      ['boostersOpened', 'currency', 'invited', 'invitedRewarded', 'joinedAt', 'lastSeenAt', 'logins', 'referredBy',
+      ['avatarUrl', 'bannedAt', 'boostersOpened', 'currency', 'id', 'invited', 'invitedRewarded', 'joinedAt', 'lastSeenAt', 'logins', 'referredBy', 'role',
         'streak', 'totalCards', 'uniqueCards', 'username'].sort(),
     )
     const inv = data.players.find((p: { username: string }) => p.username === inviterName)

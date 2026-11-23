@@ -38,9 +38,12 @@ const toLocalInput = (iso: string) => {
 export function SeasonalPanel({
   initial,
   seriesTitles,
+  readOnly = false,
 }: {
   initial: AdminSeasonal[];
   seriesTitles: Record<number, string>;
+  // moderators see the list but can't create, edit or end
+  readOnly?: boolean;
 }) {
   const t = useTranslations("admin");
   const format = useFormatter();
@@ -144,10 +147,12 @@ export function SeasonalPanel({
       title={t("seasonal.title")}
       description={t("seasonal.description")}
       actions={
-        <button type="button" disabled={suggesting} onClick={suggest} className={secondary}>
-          <Tv className="h-4 w-4" aria-hidden />
-          {suggesting ? t("seasonal.suggesting") : t("seasonal.suggest")}
-        </button>
+        !readOnly && (
+          <button type="button" disabled={suggesting} onClick={suggest} className={secondary}>
+            <Tv className="h-4 w-4" aria-hidden />
+            {suggesting ? t("seasonal.suggesting") : t("seasonal.suggest")}
+          </button>
+        )
       }
     >
       {suggestions && (
@@ -232,61 +237,65 @@ export function SeasonalPanel({
                   {format.dateTime(new Date(s.startsAt), { dateStyle: "medium", timeStyle: "short" })} –{" "}
                   {format.dateTime(new Date(s.endsAt), { dateStyle: "medium", timeStyle: "short" })}
                 </p>
-                <div className="flex gap-2">
-                  <button type="button" disabled={pending} onClick={() => edit(s)} className={small}>
-                    {t("seasonal.edit")}
-                  </button>
-                  {st === "live" && (
-                    <button type="button" disabled={pending} onClick={() => end(s.id)} className={danger}>
-                      {t("seasonal.endNow")}
+                {!readOnly && (
+                  <div className="flex gap-2">
+                    <button type="button" disabled={pending} onClick={() => edit(s)} className={small}>
+                      {t("seasonal.edit")}
                     </button>
-                  )}
-                </div>
+                    {st === "live" && (
+                      <button type="button" disabled={pending} onClick={() => end(s.id)} className={danger}>
+                        {t("seasonal.endNow")}
+                      </button>
+                    )}
+                  </div>
+                )}
               </li>
             );
           })}
         </ul>
       )}
-      <form id="seasonal-form" onSubmit={save} className="flex flex-col gap-3 rounded-xl border border-dashed border-border p-4">
-        <h3 className="text-sm font-bold">{editing ? t("seasonal.editing") : t("seasonal.new")}</h3>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className={label}>
-            {t("seasonal.slug")}
-            <input
-              className={input}
-              value={slug}
-              readOnly={editing}
-              maxLength={30}
-              onChange={(e) => setSlug(e.target.value)}
-            />
-          </label>
-          <label className={label}>
-            {t("seasonal.titleLabel")}
-            <input className={input} value={title} maxLength={40} onChange={(e) => setTitle(e.target.value)} />
-          </label>
-        </div>
-        <SeriesPicker value={series} onChange={setSeries} />
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className={label}>
-            {t("seasonal.starts")}
-            <input className={input} type="datetime-local" value={starts} onChange={(e) => setStarts(e.target.value)} />
-          </label>
-          <label className={label}>
-            {t("seasonal.ends")}
-            <input className={input} type="datetime-local" value={ends} onChange={(e) => setEnds(e.target.value)} />
-          </label>
-        </div>
-        <div className="flex gap-2">
-          <button type="submit" disabled={pending} className={primary}>
-            {t("seasonal.save")}
-          </button>
-          {editing && (
-            <button type="button" onClick={reset} className={secondary}>
-              {t("seasonal.cancel")}
+      {!readOnly && (
+        <form id="seasonal-form" onSubmit={save} className="flex flex-col gap-3 rounded-xl border border-dashed border-border p-4">
+          <h3 className="text-sm font-bold">{editing ? t("seasonal.editing") : t("seasonal.new")}</h3>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className={label}>
+              {t("seasonal.slug")}
+              <input
+                className={input}
+                value={slug}
+                readOnly={editing}
+                maxLength={30}
+                onChange={(e) => setSlug(e.target.value)}
+              />
+            </label>
+            <label className={label}>
+              {t("seasonal.titleLabel")}
+              <input className={input} value={title} maxLength={40} onChange={(e) => setTitle(e.target.value)} />
+            </label>
+          </div>
+          <SeriesPicker value={series} onChange={setSeries} />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className={label}>
+              {t("seasonal.starts")}
+              <input className={input} type="datetime-local" value={starts} onChange={(e) => setStarts(e.target.value)} />
+            </label>
+            <label className={label}>
+              {t("seasonal.ends")}
+              <input className={input} type="datetime-local" value={ends} onChange={(e) => setEnds(e.target.value)} />
+            </label>
+          </div>
+          <div className="flex gap-2">
+            <button type="submit" disabled={pending} className={primary}>
+              {t("seasonal.save")}
             </button>
-          )}
-        </div>
-      </form>
+            {editing && (
+              <button type="button" onClick={reset} className={secondary}>
+                {t("seasonal.cancel")}
+              </button>
+            )}
+          </div>
+        </form>
+      )}
       {error && (
         <p role="alert" className={errorText}>
           {t(`errors.${adminErrorKey(error)}`)}

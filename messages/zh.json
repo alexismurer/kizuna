@@ -158,7 +158,7 @@
       "open": "打开卡包",
       "button": "免费卡包 {free} 个，奖励卡包 {bonus} 个，货币 {currency}"
     },
-    "admin": "管理"
+    "admin": "管理团队面板"
   },
   "rarity": {
     "common": "普通",
@@ -1124,8 +1124,10 @@
     "milestoneReward": "{invites} 位已确认好友：{count} 张随机<r>{rarity, select, mythic {神话} other {传说}}</r>卡牌"
   },
   "admin": {
-    "title": "管理",
-    "subtitle": "管理游戏：邀请码、货币、每日卡池、季节限定卡包和聊天。",
+    "title": "管理团队",
+    "subtitle": "管理游戏：玩家、邀请码、货币、每日卡池、季节限定卡包和聊天。",
+    "subtitleModerator": "照看玩家和聊天。卡包和卡池对版主为只读。",
+    "roles": { "player": "玩家", "moderator": "版主", "admin": "管理员" },
     "back": "返回游戏",
     "stats": {
       "invites": "未使用的邀请码",
@@ -1158,6 +1160,12 @@
       "seasonal_series": "请至少选择一部作品。",
       "seasonal_dates": "结束时间必须晚于开始时间。",
       "suggest_failed": "无法从 AniList 获取本季动画。请一分钟后重试。",
+      "invalid_username": "用户名需为 3 到 20 个字符。",
+      "username_taken": "该用户名已被占用。",
+      "invalid_value": "不允许使用该值。",
+      "cannot_edit_self": "你不能更改自己的角色或封禁自己。",
+      "player_banned": "请先解除该玩家的封禁，再授予管理团队角色。",
+      "ban_staff": "请先将该玩家改为普通玩家，再封禁。",
       "generic": "出了点问题。请重试。"
     },
     "invites": {
@@ -1206,6 +1214,20 @@
       "copies": "{count} 张",
       "logins": "登录 {count} 次",
       "rewarded": "已奖励 {count}",
+      "search": "按用户名搜索",
+      "banned": "已封禁",
+      "edit": "编辑",
+      "editName": "编辑 {name}",
+      "save": "保存更改",
+      "saved": "已保存。",
+      "banTitle": "封禁该玩家",
+      "banHint": "他们将无法再登录，并会在所有设备上退出登录。可以撤销。",
+      "bannedTitle": "该玩家已被封禁",
+      "unbanHint": "解除封禁后，他们可以再次登录。",
+      "ban": "封禁",
+      "confirmBan": "是，封禁 {name}",
+      "unban": "解除封禁",
+      "cancel": "取消",
       "more": "再显示 {count} 个（剩余 {left} 个）",
       "totals": {
         "players": "玩家",
@@ -1217,6 +1239,7 @@
       },
       "cols": {
         "player": "玩家",
+        "role": "角色",
         "lastSeen": "最后上线",
         "joined": "加入",
         "currency": "货币",
@@ -1504,5 +1527,176 @@
     "turnOn": "开启",
     "how": "怎么做？",
     "profileTitle": "通知"
+  },
+  "duel": {
+    "eyebrow": "对战",
+    "title": "决斗",
+    "subtitle": "把你的收藏变成一支军队。三排、三回合、整场只有十张牌：赢下两个回合即可赢得决斗。",
+    "board": "战场",
+    "hand": "你的手牌",
+    "you": "你",
+    "opponent": "对手",
+    "pass": "跳过",
+    "passed": "已跳过",
+    "play": "出牌",
+    "pickRow": "点按你的一排",
+    "yourTurn": "轮到你了",
+    "youPassed": "你已跳过",
+    "theirTurn": "{name}正在出牌…",
+    "round": "第{n}回合",
+    "roundN": "第{n}回合",
+    "roundCol": "回合",
+    "roundWon": "本回合获胜",
+    "roundLost": "本回合失败",
+    "roundDraw": "本回合平局",
+    "over": "对局结束",
+    "victory": "胜利",
+    "defeat": "失败",
+    "draw": "平局",
+    "rematch": "再来一局",
+    "leave": "离开",
+    "total": "总计 {n}",
+    "cardsLeft": "手牌{n, plural, other {#张}}",
+    "deckLeft": "牌库剩余 {n}",
+    "emptyHand": "没有手牌了。",
+    "horn": "该排翻倍",
+    "hero": "英雄：不受天气、号角、增益和焚烧影响。",
+    "lastMoves": "最近的出牌",
+    "row": {
+      "0": "前排",
+      "1": "中排",
+      "2": "后排"
+    },
+    "ability": {
+      "spy": {
+        "name": "潜入者",
+        "text": "转到对手一方（其力量算给对手），你抽 2 张牌。"
+      },
+      "medic": {
+        "name": "治疗者",
+        "text": "将你最强的阵亡单位带回战场。"
+      },
+      "morale": {
+        "name": "鼓舞",
+        "text": "同排其他每个单位 +1。"
+      },
+      "muster": {
+        "name": "集结",
+        "text": "同时打出你牌库中同系列的所有牌。"
+      },
+      "scorch": {
+        "name": "终结者",
+        "text": "如果对手对应排的总和达到 10 或以上，摧毁其中最强的单位。"
+      },
+      "horn": {
+        "name": "集结号令",
+        "text": "使同排其他单位的力量翻倍。"
+      }
+    },
+    "tactic": {
+      "frost": {
+        "name": "暴风雪",
+        "text": "双方前排的每个单位都降为 1。"
+      },
+      "fog": {
+        "name": "迷雾",
+        "text": "双方中排的每个单位都降为 1。"
+      },
+      "storm": {
+        "name": "风暴",
+        "text": "双方后排的每个单位都降为 1。"
+      },
+      "clear": {
+        "name": "晴空",
+        "text": "清除所有天气。"
+      },
+      "horn": {
+        "name": "集结号角",
+        "text": "本回合使你的一排翻倍。"
+      },
+      "burn": {
+        "name": "焚烧",
+        "text": "摧毁全场最强的单位，包括你自己的。"
+      }
+    },
+    "log": {
+      "play": "{who}打出了{card}",
+      "pass": "{who}跳过了",
+      "destroy": "已摧毁：{cards}",
+      "revive": "{who}复活了{card}",
+      "muster": "{who}又集结了{n}张",
+      "draw": "{who}抽了{n}张",
+      "round": "第{n}回合：{a} – {b}"
+    },
+    "redraw": {
+      "title": "你的起手牌",
+      "text": "这 10 张牌就是整场对局你能用的全部。点按一张牌可以更换（还剩 {n} 次），或者保留手牌。",
+      "waiting": "等待对手…",
+      "keep": "保留这手牌"
+    },
+    "deck": {
+      "title": "你的牌库",
+      "collection": "我的收藏",
+      "collectionText": "你最强的 25 张牌和 6 张战术牌。",
+      "tooFew": "你拥有 {n} 张牌，牌库至少需要 {min} 张。再多开几个卡包吧！",
+      "starter": "新手牌库",
+      "starterText": "从整个图鉴中随机抽取 25 张牌，保证势均力敌。",
+      "stats": "{n} 个单位 · 总力量 {power}"
+    },
+    "ai": {
+      "title": "对战电脑",
+      "text": "和 Sensei 练练手。它出牌很快，很少白送一个回合。",
+      "start": "开始决斗",
+      "name": "Sensei"
+    },
+    "friend": {
+      "title": "对战好友",
+      "text": "创建房间并发送链接，或输入好友给你的房间码。",
+      "create": "创建房间",
+      "code": "房间码",
+      "codePlaceholder": "CODE",
+      "join": "加入"
+    },
+    "room": {
+      "title": "房间",
+      "waiting": "正在等待好友。分享房间码或链接。",
+      "joining": "正在加入房间…",
+      "left": "你的对手离开了房间。",
+      "full": "这个房间已经有两名玩家了。",
+      "notFound": "没有人开设这个房间。请检查房间码。",
+      "copy": "复制邀请链接",
+      "copied": "链接已复制"
+    },
+    "rules": {
+      "title": "玩法",
+      "basics": "对局",
+      "step1": "整场对局你抽 10 张牌，开始前最多可以更换 2 张。",
+      "step2": "玩家轮流行动：出一张牌，或者跳过。一旦跳过，你就退出本回合，直到下一回合。",
+      "step3": "双方都跳过后，总和更高的一方赢得本回合。",
+      "step4": "输掉两个回合就输掉决斗（平局的回合会让双方各失去一条命）。",
+      "step5": "每回合结束后，场上的牌会被清除，你也不会抽新牌：用很少的牌赢下一回合才是真本事。",
+      "step6": "输掉回合的一方先手进入下一回合。",
+      "rows": "排",
+      "rowsText": "每张牌属于一排（显示在卡牌上）。天气和号角会影响整排。",
+      "hero": "神话卡牌是英雄：没有任何效果能改变它们的力量，焚烧也无法摧毁它们。",
+      "bondTitle": "Kizuna 羁绊。",
+      "bond": "你这一方每有一个同系列的其他单位，每个单位就 +1，所以同系列的套组会一起变强。",
+      "abilities": "卡牌能力",
+      "tactics": "战术牌（每个牌库都有）"
+    },
+    "errors": {
+      "unknown": "这个操作不被允许。",
+      "notYourTurn": "请等到你的回合。",
+      "pickRow": "请为号角选择一排。",
+      "hornTaken": "该排已经有号角了。",
+      "noRedraws": "没有剩余更换次数了。",
+      "notInHand": "这张牌不在你的手牌中。",
+      "emptyDeck": "你的牌库是空的。"
+    }
+  },
+  "banned": {
+    "title": "你的账号已被封禁",
+    "text": "版主封禁了此账号。如果你认为这是误判，请联系团队。",
+    "signOut": "退出登录"
   }
 }
