@@ -7,6 +7,7 @@ import type { CardData } from "@/components/card/CardView";
 import { starterDeck } from "@/lib/duel/cards";
 
 vi.mock("@/i18n/navigation", () => ({
+  Link: ({ href, children }: { href: string; children: React.ReactNode }) => <a href={href}>{children}</a>,
   useRouter: () => ({ replace: vi.fn() }),
   usePathname: () => "/play",
 }));

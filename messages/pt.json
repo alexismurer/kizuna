@@ -1532,6 +1532,7 @@
     "eyebrow": "JOGAR",
     "title": "Duelo",
     "subtitle": "Transforme sua coleção em um exército. Três fileiras, três rodadas, dez cartas para a partida toda: vença duas rodadas para vencer o duelo.",
+    "backToRoom": "Sala de jogos",
     "board": "Tabuleiro",
     "hand": "Sua mão",
     "you": "você",
@@ -1698,5 +1699,34 @@
     "title": "Sua conta foi banida",
     "text": "Um moderador baniu esta conta. Se acha que foi um engano, fale com a equipe.",
     "signOut": "Sair"
+  },
+  "games": {
+    "eyebrow": "JOGAR · 遊び",
+    "title": "Sala de jogos",
+    "subtitle": "Jogos com as suas cartas. Mais estão a caminho.",
+    "play": "Jogar",
+    "solo": "Solo",
+    "multi": "Multi",
+    "more": "Mais jogos",
+    "tickets": {
+      "label": "Tickets de fliperama",
+      "soon": "Em breve",
+      "text": "Vença partidas para ganhar tickets e troque-os por boosters no balcão de prêmios.",
+      "counter": "Balcão de prêmios"
+    },
+    "duel": {
+      "name": "Duelo",
+      "tag": "1 x 1",
+      "pitch": "Três fileiras, três rodadas, dez cartas para a partida inteira. Monte seu deck com sua coleção e supere o adversário."
+    },
+    "soon": {
+      "title": "Novo jogo",
+      "text": "Outro jogo está sendo preparado para esta sala."
+    },
+    "boss": {
+      "eyebrow": "CHEFE DA SEMANA",
+      "soon": "Em breve",
+      "text": "Cada ticket ganho pela comunidade vai atingir um chefe semanal. Derrube-o antes de segunda-feira para ganhar uma recompensa."
+    }
   }
 }

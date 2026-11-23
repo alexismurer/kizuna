@@ -1532,6 +1532,7 @@
     "eyebrow": "JUGAR",
     "title": "Duelo",
     "subtitle": "Convierte tu colección en un ejército. Tres filas, tres rondas, diez cartas para toda la partida: gana dos rondas para ganar el duelo.",
+    "backToRoom": "Sala de juegos",
     "board": "Tablero",
     "hand": "Tu mano",
     "you": "tú",
@@ -1698,5 +1699,34 @@
     "title": "Tu cuenta está baneada",
     "text": "Un moderador ha baneado esta cuenta. Si crees que es un error, ponte en contacto con el equipo.",
     "signOut": "Cerrar sesión"
+  },
+  "games": {
+    "eyebrow": "JUGAR · 遊び",
+    "title": "Sala de juegos",
+    "subtitle": "Juegos con tus cartas. Vienen más en camino.",
+    "play": "Jugar",
+    "solo": "Solo",
+    "multi": "Multi",
+    "more": "Más juegos",
+    "tickets": {
+      "label": "Tickets de arcade",
+      "soon": "Próximamente",
+      "text": "Gana partidas para conseguir tickets y cámbialos por sobres en el mostrador de premios.",
+      "counter": "Mostrador de premios"
+    },
+    "duel": {
+      "name": "Duelo",
+      "tag": "1 c 1",
+      "pitch": "Tres filas, tres rondas, diez cartas para toda la partida. Arma tu mazo con tu colección y supera al rival."
+    },
+    "soon": {
+      "title": "Nuevo juego",
+      "text": "Se está preparando otro juego para esta sala."
+    },
+    "boss": {
+      "eyebrow": "JEFE DE LA SEMANA",
+      "soon": "Próximamente",
+      "text": "Cada ticket que gane la comunidad golpeará a un jefe semanal. Derríbalo antes del lunes para obtener una recompensa."
+    }
   }
 }

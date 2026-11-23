@@ -1532,6 +1532,7 @@
     "eyebrow": "SPIELEN",
     "title": "Duell",
     "subtitle": "Mach aus deiner Sammlung eine Armee. Drei Reihen, drei Runden, zehn Karten für das ganze Match: Gewinne zwei Runden, um das Duell zu gewinnen.",
+    "backToRoom": "Spielraum",
     "board": "Spielfeld",
     "hand": "Deine Hand",
     "you": "du",
@@ -1698,5 +1699,34 @@
     "title": "Dein Konto ist gesperrt",
     "text": "Ein Moderator hat dieses Konto gesperrt. Wenn du das für einen Fehler hältst, wende dich an das Team.",
     "signOut": "Abmelden"
+  },
+  "games": {
+    "eyebrow": "SPIELEN · 遊び",
+    "title": "Spielraum",
+    "subtitle": "Spiele mit deinen Karten. Weitere sind unterwegs.",
+    "play": "Spielen",
+    "solo": "Solo",
+    "multi": "Multi",
+    "more": "Weitere Spiele",
+    "tickets": {
+      "label": "Arcade-Tickets",
+      "soon": "Bald verfügbar",
+      "text": "Gewinne Spiele, um Tickets zu verdienen, und tausche sie am Preisschalter gegen Booster.",
+      "counter": "Preisschalter"
+    },
+    "duel": {
+      "name": "Duell",
+      "tag": "1 gg. 1",
+      "pitch": "Drei Reihen, drei Runden, zehn Karten für das ganze Match. Baue dein Deck aus deiner Sammlung und überliste die Gegenseite."
+    },
+    "soon": {
+      "title": "Neues Spiel",
+      "text": "Ein weiteres Spiel für diesen Raum ist in Arbeit."
+    },
+    "boss": {
+      "eyebrow": "BOSS DER WOCHE",
+      "soon": "Bald verfügbar",
+      "text": "Jedes Ticket, das die Community verdient, trifft einen wöchentlichen Boss. Besiegt ihn vor Montag für eine Belohnung."
+    }
   }
 }

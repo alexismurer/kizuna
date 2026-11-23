@@ -1532,6 +1532,7 @@
     "eyebrow": "JOUER",
     "title": "Duel",
     "subtitle": "Transforme ta collection en armée. Trois rangées, trois manches, dix cartes pour toute la partie : gagne deux manches pour remporter le duel.",
+    "backToRoom": "Salle de jeux",
     "board": "Plateau",
     "hand": "Ta main",
     "you": "toi",
@@ -1698,5 +1699,34 @@
     "title": "Ton compte est banni",
     "text": "Un modérateur a banni ce compte. Si tu penses que c’est une erreur, contacte l’équipe.",
     "signOut": "Se déconnecter"
+  },
+  "games": {
+    "eyebrow": "JOUER · 遊び",
+    "title": "Salle de jeux",
+    "subtitle": "Des jeux avec tes cartes. D’autres arrivent bientôt.",
+    "play": "Jouer",
+    "solo": "Solo",
+    "multi": "Multi",
+    "more": "Autres jeux",
+    "tickets": {
+      "label": "Tickets d’arcade",
+      "soon": "Bientôt",
+      "text": "Gagne des parties pour obtenir des tickets, puis échange-les contre des boosters au comptoir des prix.",
+      "counter": "Comptoir des prix"
+    },
+    "duel": {
+      "name": "Duel",
+      "tag": "1 c 1",
+      "pitch": "Trois rangées, trois manches, dix cartes pour tout le match. Compose ton deck avec ta collection et surpasse ton adversaire."
+    },
+    "soon": {
+      "title": "Nouveau jeu",
+      "text": "Un autre jeu est en préparation pour cette salle."
+    },
+    "boss": {
+      "eyebrow": "BOSS DE LA SEMAINE",
+      "soon": "Bientôt",
+      "text": "Chaque ticket gagné par la communauté frappera un boss hebdomadaire. Abats-le avant lundi pour une récompense."
+    }
   }
 }

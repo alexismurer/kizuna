@@ -1532,6 +1532,7 @@
     "eyebrow": "GRAJ",
     "title": "Pojedynek",
     "subtitle": "Zamień swoją kolekcję w armię. Trzy rzędy, trzy rundy, dziesięć kart na cały mecz: wygraj dwie rundy, aby wygrać pojedynek.",
+    "backToRoom": "Salon gier",
     "board": "Plansza",
     "hand": "Twoja ręka",
     "you": "ty",
@@ -1698,5 +1699,34 @@
     "title": "Twoje konto jest zbanowane",
     "text": "Moderator zbanował to konto. Jeśli uważasz, że to pomyłka, skontaktuj się z zespołem.",
     "signOut": "Wyloguj się"
+  },
+  "games": {
+    "eyebrow": "GRAJ · 遊び",
+    "title": "Salon gier",
+    "subtitle": "Gry z twoimi kartami. Kolejne są w drodze.",
+    "play": "Graj",
+    "solo": "Solo",
+    "multi": "Multi",
+    "more": "Więcej gier",
+    "tickets": {
+      "label": "Żetony arcade",
+      "soon": "Wkrótce",
+      "text": "Wygrywaj gry, by zdobywać żetony, i wymieniaj je na boostery w punkcie nagród.",
+      "counter": "Punkt nagród"
+    },
+    "duel": {
+      "name": "Pojedynek",
+      "tag": "1 na 1",
+      "pitch": "Trzy rzędy, trzy rundy, dziesięć kart na cały mecz. Zbuduj talię ze swojej kolekcji i przechytrz rywala."
+    },
+    "soon": {
+      "title": "Nowa gra",
+      "text": "Kolejna gra do tego salonu jest w przygotowaniu."
+    },
+    "boss": {
+      "eyebrow": "BOSS TYGODNIA",
+      "soon": "Wkrótce",
+      "text": "Każdy żeton zdobyty przez społeczność uderzy w cotygodniowego bossa. Pokonajcie go przed poniedziałkiem, by zdobyć nagrodę."
+    }
   }
 }

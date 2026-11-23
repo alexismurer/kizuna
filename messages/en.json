@@ -1532,6 +1532,7 @@
     "eyebrow": "PLAY",
     "title": "Duel",
     "subtitle": "Turn your collection into an army. Three rows, three rounds, ten cards for the whole match: win two rounds to win the duel.",
+    "backToRoom": "Game room",
     "board": "Board",
     "hand": "Your hand",
     "you": "you",
@@ -1698,5 +1699,34 @@
     "title": "Your account is banned",
     "text": "A moderator banned this account. If you think it's a mistake, contact the team.",
     "signOut": "Sign out"
+  },
+  "games": {
+    "eyebrow": "PLAY · 遊び",
+    "title": "Game room",
+    "subtitle": "Games played with your cards. More are on the way.",
+    "play": "Play",
+    "solo": "Solo",
+    "multi": "Multi",
+    "more": "More games",
+    "tickets": {
+      "label": "Arcade tickets",
+      "soon": "Coming soon",
+      "text": "Win games to earn tickets, then trade them for boosters at the prize counter.",
+      "counter": "Prize counter"
+    },
+    "duel": {
+      "name": "Duel",
+      "tag": "1 v 1",
+      "pitch": "Three rows, three rounds, ten cards for the whole match. Build your deck from your collection and outplay the other side."
+    },
+    "soon": {
+      "title": "New game",
+      "text": "Another game is being made for this room."
+    },
+    "boss": {
+      "eyebrow": "BOSS OF THE WEEK",
+      "soon": "Coming soon",
+      "text": "Every ticket the community earns will hit a weekly boss. Bring it down before Monday for a reward."
+    }
   }
 }

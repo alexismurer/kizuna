@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Bot, Check, Copy, Swords, Users } from "lucide-react";
+import { ArrowLeft, Bot, Check, Copy, Swords, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/navigation";
+import { Link, useRouter, usePathname } from "@/i18n/navigation";
 import { MIN_DECK, type DeckCard, type UnitCard } from "@/lib/duel/cards";
 import { DuelBoard } from "./DuelBoard";
 import { DuelCardChip } from "./DuelCardChip";
@@ -54,6 +54,10 @@ export function PlayLobby({
   return (
     <div className="flex flex-col gap-6">
       <header>
+        <Link href="/play" className="mb-3 inline-flex items-center gap-1.5 text-sm text-common hover:text-white">
+          <ArrowLeft className="h-4 w-4" aria-hidden />
+          {t("backToRoom")}
+        </Link>
         <p className="text-xs font-bold tracking-[0.25em] text-accent">{t("eyebrow")}</p>
         <h1 className="font-display text-3xl font-extrabold sm:text-5xl">{t("title")}</h1>
         <p className="mt-2 max-w-2xl text-sm text-common">{t("subtitle")}</p>
