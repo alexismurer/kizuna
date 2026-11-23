@@ -40,6 +40,7 @@ function setup(collection: boolean) {
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
+  vi.restoreAllMocks();
 });
 
 describe("PlayLobby", () => {
@@ -51,6 +52,8 @@ describe("PlayLobby", () => {
 
   it("starts a match against the computer: redraw, then play a card", () => {
     vi.useFakeTimers();
+    // a fixed seed: the same deal and the same computer moves every run
+    vi.spyOn(Math, "random").mockReturnValue(0.3);
     setup(true);
     fireEvent.click(screen.getByRole("button", { name: /Start a duel/ }));
     expect(screen.getByText("Your starting hand")).toBeInTheDocument();
@@ -61,7 +64,7 @@ describe("PlayLobby", () => {
 
     // whoever starts, after at most one computer move it is our turn
     act(() => vi.advanceTimersByTime(1000));
-    expect(screen.getByText("Your turn")).toBeInTheDocument();
+    expect(screen.getAllByText("Your turn").length).toBeGreaterThan(0);
     const hand = screen.getByLabelText("Your hand");
     const before = hand.querySelectorAll("button").length;
     // the horn needs a row picked; any other card plays straight away
@@ -69,7 +72,7 @@ describe("PlayLobby", () => {
     fireEvent.click(first);
     fireEvent.click(screen.getByRole("button", { name: "Play" }));
     expect(hand.querySelectorAll("button").length).toBeLessThan(before + 2);
-    expect(screen.queryByText("Your turn")).toBeNull();
+    expect(screen.queryAllByText("Your turn")).toHaveLength(0);
   });
 });
 

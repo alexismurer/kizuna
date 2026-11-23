@@ -7,8 +7,12 @@ export const HAND_SIZE = 10;
 export const REDRAWS = 2;
 export const LIVES = 2;
 
+// the strongest card of a deck, shown as the player's portrait
+export type Captain = { name: string; imageUrl: string | null; rarity: UnitCard["rarity"] };
+
 export type PlayerState = {
   name: string;
+  captain: Captain | null;
   hand: DuelCard[];
   deck: DuelCard[];
   discard: UnitCard[];
@@ -70,8 +74,12 @@ function shuffle<T>(state: GameState, list: T[]): T[] {
 }
 
 function newPlayer(name: string, deck: DuelCard[]): PlayerState {
+  const best = deck
+    .filter((c): c is UnitCard => c.kind === "unit")
+    .sort((a, b) => b.base - a.base || Number(b.hero) - Number(a.hero))[0];
   return {
     name,
+    captain: best ? { name: best.name, imageUrl: best.imageUrl, rarity: best.rarity } : null,
     hand: [],
     deck,
     discard: [],
