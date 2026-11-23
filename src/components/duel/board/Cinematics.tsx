@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Ticket } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { motion } from "motion/react";
@@ -86,12 +86,15 @@ export function GameOver({
   state,
   side,
   animate,
+  reward,
   onRematch,
   onExit,
 }: {
   state: GameState;
   side: Side;
   animate: boolean;
+  // tickets earned for this match (null while the result is being saved)
+  reward: number | null;
   onRematch: () => void;
   onExit: () => void;
 }) {
@@ -176,6 +179,12 @@ export function GameOver({
             </div>
           ))}
         </div>
+        {reward !== null && (
+          <p className="gs-row mt-4 flex items-center justify-center gap-2 rounded-full border border-accent/40 bg-accent/10 py-2 text-sm font-bold">
+            <Ticket className="h-4 w-4 text-accent" aria-hidden />
+            {reward > 0 ? t("tickets", { n: reward }) : t("noTickets")}
+          </p>
+        )}
         <div className="mt-6 flex gap-2">
           <button type="button" onClick={onRematch} className="gs-btn flex flex-1 items-center justify-center gap-2 rounded-full bg-cta py-3 font-extrabold text-black">
             <RotateCcw className="h-4 w-4" aria-hidden />

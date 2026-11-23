@@ -1,11 +1,13 @@
-import { Lock, Skull, Swords, Ticket, User, Users } from "lucide-react";
+import { Lock, Swords, User, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import type { GameRoomStatus } from "@/lib/actions/games";
 import { GAMES } from "@/lib/games/registry";
+import { BossCard } from "./BossCard";
+import { TicketsBar } from "./TicketsBar";
 
 // The Play landing: tickets, the games (Duel first), the boss of the week.
-// Tickets and the boss arrive in a later step; until then they show what's coming.
-export function GameRoom({ art }: { art: string[] }) {
+export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatus | null }) {
   const t = useTranslations("games");
   const duel = GAMES[0];
 
@@ -17,25 +19,7 @@ export function GameRoom({ art }: { art: string[] }) {
         <p className="mt-2 max-w-xl text-sm text-common">{t("subtitle")}</p>
       </header>
 
-      {/* tickets */}
-      <section className="relative overflow-hidden rounded-2xl border border-accent/30 bg-panel p-4 sm:p-5">
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_0%_0%,color-mix(in_srgb,var(--color-accent)_16%,transparent),transparent_70%)]" />
-        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-accent/40 bg-accent/10 text-accent">
-              <Ticket className="h-6 w-6" aria-hidden />
-            </span>
-            <div>
-              <p className="text-xs font-semibold text-common">{t("tickets.label")}</p>
-              <p className="font-display text-2xl font-extrabold">{t("tickets.soon")}</p>
-            </div>
-          </div>
-          <p className="flex-1 text-sm text-common">{t("tickets.text")}</p>
-          <span className="inline-flex h-11 items-center justify-center rounded-full border border-border px-5 text-sm font-bold text-common">
-            {t("tickets.counter")}
-          </span>
-        </div>
-      </section>
+      {status && <TicketsBar status={status} />}
 
       {/* featured: Duel */}
       <Link
@@ -92,17 +76,7 @@ export function GameRoom({ art }: { art: string[] }) {
         </ul>
       </section>
 
-      {/* boss of the week */}
-      <section className="flex flex-col gap-4 rounded-2xl border border-border bg-panel p-5 sm:flex-row sm:items-center">
-        <span className="flex aspect-[5/7] w-24 shrink-0 items-center justify-center rounded-xl border-2 border-dashed border-border bg-bg text-common">
-          <Skull className="h-8 w-8" aria-hidden />
-        </span>
-        <div className="flex flex-col gap-1">
-          <p className="text-xs font-bold tracking-[0.25em] text-accent">{t("boss.eyebrow")}</p>
-          <p className="font-display text-xl font-bold">{t("boss.soon")}</p>
-          <p className="max-w-2xl text-sm text-common">{t("boss.text")}</p>
-        </div>
-      </section>
+      <BossCard boss={status?.boss ?? null} />
     </div>
   );
 }

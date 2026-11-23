@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { GameRoom } from "@/components/games/GameRoom";
+import type { GameRoomStatus } from "@/lib/actions/games";
 import { createServerClient } from "@/lib/supabase/server";
 
 export default async function PlayPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -21,14 +22,17 @@ async function Room() {
   // the game room is staff-only while the games are tested
   const { data: role } = await supabase.rpc("my_role");
   if (role !== "admin" && role !== "moderator") notFound();
-  // a few famous faces for the Duel tile
-  const { data } = await supabase
-    .from("cards")
-    .select("image_url")
-    .in("rarity", ["mythic", "legendary"])
-    .not("image_url", "is", null)
-    .order("popularity_rank")
-    .limit(3);
+  const [{ data: status }, { data }] = await Promise.all([
+    supabase.rpc("game_room_status"),
+    // a few famous faces for the Duel tile
+    supabase
+      .from("cards")
+      .select("image_url")
+      .in("rarity", ["mythic", "legendary"])
+      .not("image_url", "is", null)
+      .order("popularity_rank")
+      .limit(3),
+  ]);
   const art = (data ?? []).map((c) => c.image_url as string);
-  return <GameRoom art={art} />;
+  return <GameRoom art={art} status={status as GameRoomStatus | null} />;
 }

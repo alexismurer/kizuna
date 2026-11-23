@@ -11,6 +11,8 @@ import { createBrowserClient } from "@/lib/supabase/client";
 export type RoomStatus = "connecting" | "waiting" | "playing" | "left" | "full" | "notFound";
 
 export type DuelSession = {
+  // which kind of match this is (tickets pay more against a friend)
+  mode: "ai" | "friend";
   view: GameState | null;
   side: Side;
   act: (a: Action) => void;
@@ -51,7 +53,7 @@ export function useLocalDuel(deck: DeckCard[], aiDeck: DeckCard[], names: [strin
 
   const rematch = useCallback(() => setState(createGame({ decks: [deck, aiDeck], names, seed: seed() })), [deck, aiDeck, names]);
 
-  return { view: viewFor(state, 0), side: 0, act, error, status: "playing", rematch };
+  return { mode: "ai", view: viewFor(state, 0), side: 0, act, error, status: "playing", rematch };
 }
 
 // ---------- vs friend: the host's browser runs the match ----------
@@ -217,5 +219,5 @@ export function useRoomDuel(opts: {
     send.current({ t: "state", to: g.guest.id, view: viewFor(next, 1) });
   }, [host, me.id, me.name]);
 
-  return { view, side, act, error, status, rematch };
+  return { mode: "friend", view, side, act, error, status, rematch };
 }

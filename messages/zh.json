@@ -1555,6 +1555,8 @@
     "defeat": "失败",
     "draw": "平局",
     "rematch": "再来一局",
+    "tickets": "+{n} 张票券",
+    "noTickets": "本场比赛没有票券：比赛太短，或你已达到今日上限。",
     "leave": "离开",
     "total": "总计 {n}",
     "cardsLeft": "手牌{n, plural, other {#张}}",
@@ -1739,9 +1741,17 @@
     "more": "更多游戏",
     "tickets": {
       "label": "街机票",
-      "soon": "即将推出",
-      "text": "赢得游戏来获得票券，然后在奖品柜台兑换卡包。",
-      "counter": "奖品柜台"
+      "today": "今天",
+      "week": "本周",
+      "text": "赢得游戏来获得票券（每天最多 60 张，每周最多 300 张），然后在奖品柜台兑换。这里的东西都不能用钱购买。",
+      "counter": "奖品柜台",
+      "balance": "你有 {n} 张票券。",
+      "prizeBoosters": "{n, plural, other {# 个卡包}}",
+      "redeemed": "完成！你的奖品正等着你。",
+      "errors": {
+        "not_enough_tickets": "票券还不够。",
+        "generic": "出了点问题，请再试一次。"
+      }
     },
     "duel": {
       "name": "对决",
@@ -1754,8 +1764,15 @@
     },
     "boss": {
       "eyebrow": "本周首领",
-      "soon": "即将推出",
-      "text": "社区赚到的每一张票都会攻击每周首领。在周一前击败它即可获得奖励。"
+      "none": "本周没有首领。",
+      "defeatedStamp": "已击败",
+      "defeated": "已击败！大家打得漂亮。",
+      "hp": "剩余生命值，总计 {max}",
+      "rule": "社区赚到的每一张票都会扣除它一点生命值。如果它在周一前倒下，所有对它造成 {share} 的玩家都能获得 {reward} 张奖励票。",
+      "yours": "你本周的伤害：{n}（占比起点 {share}）",
+      "claim": "领取 {reward} 张票",
+      "claimed": "你已获得 {reward} 张奖励票。",
+      "claimError": "无法领取奖励，请再试一次。"
     }
   }
 }

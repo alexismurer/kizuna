@@ -1555,6 +1555,8 @@
     "defeat": "Derrota",
     "draw": "Empate",
     "rematch": "Revancha",
+    "tickets": "+{n} tickets",
+    "noTickets": "Sin tickets en esta partida: fue demasiado corta o alcanzaste el límite de hoy.",
     "leave": "Salir",
     "total": "Total {n}",
     "cardsLeft": "{n, plural, one {# carta} other {# cartas}} en la mano",
@@ -1739,9 +1741,17 @@
     "more": "Más juegos",
     "tickets": {
       "label": "Tickets de arcade",
-      "soon": "Próximamente",
-      "text": "Gana partidas para conseguir tickets y cámbialos por sobres en el mostrador de premios.",
-      "counter": "Mostrador de premios"
+      "today": "Hoy",
+      "week": "Esta semana",
+      "text": "Gana partidas para conseguir tickets (hasta 60 al día y 300 por semana) y cámbialos en el mostrador de premios. Aquí no se compra nada con dinero.",
+      "counter": "Mostrador de premios",
+      "balance": "Tienes {n} tickets.",
+      "prizeBoosters": "{n, plural, one {# sobre} many {# de sobres} other {# sobres}}",
+      "redeemed": "¡Listo! Tu premio te está esperando.",
+      "errors": {
+        "not_enough_tickets": "Todavía no tienes suficientes tickets.",
+        "generic": "Algo salió mal. Inténtalo de nuevo."
+      }
     },
     "duel": {
       "name": "Duelo",
@@ -1754,8 +1764,15 @@
     },
     "boss": {
       "eyebrow": "JEFE DE LA SEMANA",
-      "soon": "Próximamente",
-      "text": "Cada ticket que gane la comunidad golpeará a un jefe semanal. Derríbalo antes del lunes para obtener una recompensa."
+      "none": "No hay jefe esta semana.",
+      "defeatedStamp": "DERROTADO",
+      "defeated": "¡Derrotado! Bien jugado, todos.",
+      "hp": "puntos de vida restantes de {max}",
+      "rule": "Cada ticket que gane la comunidad le quita un punto de vida. Si cae antes del lunes, todos los que le quitaron {share} reciben {reward} tickets extra.",
+      "yours": "Tu daño esta semana: {n} (tu parte desde {share})",
+      "claim": "Reclamar {reward} tickets",
+      "claimed": "Recibiste tus {reward} tickets extra.",
+      "claimError": "No se pudo reclamar la recompensa. Inténtalo de nuevo."
     }
   }
 }

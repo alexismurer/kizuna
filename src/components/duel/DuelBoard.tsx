@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Flag, LogOut, Megaphone, Volume2, VolumeX } from "lucide-react";
 import { AnimatePresence, LayoutGroup, motion, MotionConfig } from "motion/react";
 import { useTranslations } from "next-intl";
+import { gameFinish, gameStart } from "@/lib/actions/games";
 import { primeAudio } from "@/lib/fx/sound";
 import { usePrefs } from "@/lib/fx/prefs";
 import { ROWS, WEATHER, type DuelCard, type Row } from "@/lib/duel/cards";
@@ -35,6 +36,7 @@ export function DuelBoard({ session, onExit }: { session: DuelSession; onExit: (
   const banner = rounds > 0 && rounds !== seen ? (view!.log.findLast((e) => e.kind === "round") as RoundEntry) : null;
 
   useDuelSounds(view, side, prefs.sound);
+  const reward = useMatchReward(view, side, session.mode);
 
   if (!view) return null;
   const me = view.players[side];
@@ -219,10 +221,46 @@ export function DuelBoard({ session, onExit }: { session: DuelSession; onExit: (
 
         {view.phase === "redraw" && <Redraw view={view} side={side} act={act} />}
         {banner && view.phase !== "over" && <RoundBanner entry={banner} side={side} animate={prefs.animations} />}
-        {view.phase === "over" && <GameOver state={view} side={side} animate={prefs.animations} onRematch={session.rematch} onExit={onExit} />}
+        {view.phase === "over" && <GameOver state={view} side={side} animate={prefs.animations} reward={reward} onRematch={session.rematch} onExit={onExit} />}
       </LayoutGroup>
     </MotionConfig>
   );
+}
+
+// Registers each match when play begins and reports the result at the end; returns the tickets earned.
+function useMatchReward(view: GameState | null, side: Side, mode: "ai" | "friend"): number | null {
+  const match = useRef<Promise<string | null> | null>(null);
+  const [reward, setReward] = useState<number | null>(null);
+  const phase = view?.phase;
+  const winner = view?.winner;
+  useEffect(() => {
+    if (phase === "redraw") {
+      match.current = null;
+      return;
+    }
+    if (phase === "play" && !match.current) {
+      setRewardLater(setReward, null);
+      match.current = gameStart("duel", mode)
+        .then((r) => (r.ok ? r.data : null))
+        .catch(() => null);
+    }
+    if (phase === "over" && match.current) {
+      const pending = match.current;
+      match.current = Promise.resolve(null);
+      const result = winner === null ? "draw" : winner === side ? "win" : "loss";
+      void pending.then(async (id) => {
+        if (!id) return;
+        const r = await gameFinish(id, result).catch(() => null);
+        if (r?.ok) setReward(r.data.earned);
+      });
+    }
+  }, [phase, winner, side, mode]);
+  return reward;
+}
+
+// clears the last reward outside the effect's synchronous body
+function setRewardLater(set: (v: number | null) => void, v: number | null) {
+  queueMicrotask(() => set(v));
 }
 
 // Plays a sound for every new event in the log (works the same vs the computer and online).

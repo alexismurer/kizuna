@@ -1555,6 +1555,8 @@
     "defeat": "Niederlage",
     "draw": "Unentschieden",
     "rematch": "Revanche",
+    "tickets": "+{n} Tickets",
+    "noTickets": "Keine Tickets für dieses Match: Es war zu kurz, oder du hast das heutige Limit erreicht.",
     "leave": "Verlassen",
     "total": "Gesamt {n}",
     "cardsLeft": "{n, plural, one {# Karte} other {# Karten}} auf der Hand",
@@ -1739,9 +1741,17 @@
     "more": "Weitere Spiele",
     "tickets": {
       "label": "Arcade-Tickets",
-      "soon": "Bald verfügbar",
-      "text": "Gewinne Spiele, um Tickets zu verdienen, und tausche sie am Preisschalter gegen Booster.",
-      "counter": "Preisschalter"
+      "today": "Heute",
+      "week": "Diese Woche",
+      "text": "Gewinne Spiele, um Tickets zu verdienen (bis zu 60 pro Tag und 300 pro Woche), und tausche sie am Preisschalter ein. Hier wird nichts mit Geld gekauft.",
+      "counter": "Preisschalter",
+      "balance": "Du hast {n} Tickets.",
+      "prizeBoosters": "{n, plural, one {# Booster} other {# Booster}}",
+      "redeemed": "Geschafft! Dein Preis wartet auf dich.",
+      "errors": {
+        "not_enough_tickets": "Noch nicht genug Tickets.",
+        "generic": "Etwas ist schiefgelaufen. Versuch es noch einmal."
+      }
     },
     "duel": {
       "name": "Duell",
@@ -1754,8 +1764,15 @@
     },
     "boss": {
       "eyebrow": "BOSS DER WOCHE",
-      "soon": "Bald verfügbar",
-      "text": "Jedes Ticket, das die Community verdient, trifft einen wöchentlichen Boss. Besiegt ihn vor Montag für eine Belohnung."
+      "none": "Diese Woche gibt es keinen Boss.",
+      "defeatedStamp": "BESIEGT",
+      "defeated": "Besiegt! Gut gespielt, ihr alle.",
+      "hp": "Lebenspunkte übrig von {max}",
+      "rule": "Jedes Ticket, das die Community verdient, nimmt ihm einen Lebenspunkt. Fällt er vor Montag, bekommt jeder, der {share} davon beigetragen hat, {reward} Bonus-Tickets.",
+      "yours": "Dein Schaden diese Woche: {n} (dein Anteil ab {share})",
+      "claim": "{reward} Tickets abholen",
+      "claimed": "Du hast deine {reward} Bonus-Tickets erhalten.",
+      "claimError": "Die Belohnung konnte nicht abgeholt werden. Versuch es noch einmal."
     }
   }
 }

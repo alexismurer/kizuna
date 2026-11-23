@@ -1555,6 +1555,8 @@
     "defeat": "Porażka",
     "draw": "Remis",
     "rematch": "Rewanż",
+    "tickets": "+{n} żetonów",
+    "noTickets": "Brak żetonów za ten mecz: był zbyt krótki albo osiągnięto dzisiejszy limit.",
     "leave": "Wyjdź",
     "total": "Razem {n}",
     "cardsLeft": "{n, plural, one {# karta} few {# karty} many {# kart} other {# karty}} na ręce",
@@ -1739,9 +1741,17 @@
     "more": "Więcej gier",
     "tickets": {
       "label": "Żetony arcade",
-      "soon": "Wkrótce",
-      "text": "Wygrywaj gry, by zdobywać żetony, i wymieniaj je na boostery w punkcie nagród.",
-      "counter": "Punkt nagród"
+      "today": "Dziś",
+      "week": "W tym tygodniu",
+      "text": "Wygrywaj gry, by zdobywać żetony (do 60 dziennie i 300 tygodniowo), i wymieniaj je w punkcie nagród. Nic tu nie kupisz za pieniądze.",
+      "counter": "Punkt nagród",
+      "balance": "Masz {n} żetonów.",
+      "prizeBoosters": "{n, plural, one {# booster} few {# boostery} many {# boosterów} other {# boostera}}",
+      "redeemed": "Gotowe! Twoja nagroda na ciebie czeka.",
+      "errors": {
+        "not_enough_tickets": "Masz jeszcze za mało żetonów.",
+        "generic": "Coś poszło nie tak. Spróbuj ponownie."
+      }
     },
     "duel": {
       "name": "Pojedynek",
@@ -1754,8 +1764,15 @@
     },
     "boss": {
       "eyebrow": "BOSS TYGODNIA",
-      "soon": "Wkrótce",
-      "text": "Każdy żeton zdobyty przez społeczność uderzy w cotygodniowego bossa. Pokonajcie go przed poniedziałkiem, by zdobyć nagrodę."
+      "none": "W tym tygodniu nie ma bossa.",
+      "defeatedStamp": "POKONANY",
+      "defeated": "Pokonany! Dobra robota, wszyscy.",
+      "hp": "punktów życia zostało z {max}",
+      "rule": "Każdy żeton zdobyty przez społeczność zabiera mu jeden punkt życia. Jeśli padnie przed poniedziałkiem, każdy, kto zabrał mu {share}, dostanie {reward} bonusowych żetonów.",
+      "yours": "Twoje obrażenia w tym tygodniu: {n} (twój udział od {share})",
+      "claim": "Odbierz {reward} żetonów",
+      "claimed": "Odebrano {reward} bonusowych żetonów.",
+      "claimError": "Nie udało się odebrać nagrody. Spróbuj ponownie."
     }
   }
 }

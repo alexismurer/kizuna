@@ -1555,6 +1555,8 @@
     "defeat": "Defeat",
     "draw": "Draw",
     "rematch": "Rematch",
+    "tickets": "+{n} tickets",
+    "noTickets": "No tickets for this match: it was too short, or you reached today's cap.",
     "leave": "Leave",
     "total": "Total {n}",
     "cardsLeft": "{n, plural, one {# card} other {# cards}} in hand",
@@ -1739,9 +1741,17 @@
     "more": "More games",
     "tickets": {
       "label": "Arcade tickets",
-      "soon": "Coming soon",
-      "text": "Win games to earn tickets, then trade them for boosters at the prize counter.",
-      "counter": "Prize counter"
+      "today": "Today",
+      "week": "This week",
+      "text": "Win games to earn tickets (up to 60 a day and 300 a week), then trade them at the prize counter. Nothing here is bought with money.",
+      "counter": "Prize counter",
+      "balance": "You have {n} tickets.",
+      "prizeBoosters": "{n, plural, one {# booster} other {# boosters}}",
+      "redeemed": "Done! Your prize is waiting for you.",
+      "errors": {
+        "not_enough_tickets": "Not enough tickets yet.",
+        "generic": "Something went wrong. Try again."
+      }
     },
     "duel": {
       "name": "Duel",
@@ -1754,8 +1764,15 @@
     },
     "boss": {
       "eyebrow": "BOSS OF THE WEEK",
-      "soon": "Coming soon",
-      "text": "Every ticket the community earns will hit a weekly boss. Bring it down before Monday for a reward."
+      "none": "No boss this week.",
+      "defeatedStamp": "DEFEATED",
+      "defeated": "Defeated! Well played, everyone.",
+      "hp": "health points left of {max}",
+      "rule": "Every ticket the community earns takes one health point. If it falls before Monday, everyone who took {share} from it gets {reward} bonus tickets.",
+      "yours": "Your damage this week: {n} (your share from {share})",
+      "claim": "Claim {reward} tickets",
+      "claimed": "You got your {reward} bonus tickets.",
+      "claimError": "Couldn't claim the reward. Try again."
     }
   }
 }

@@ -1555,6 +1555,8 @@
     "defeat": "Défaite",
     "draw": "Égalité",
     "rematch": "Revanche",
+    "tickets": "+{n} tickets",
+    "noTickets": "Pas de tickets pour ce match : il était trop court, ou tu as atteint le plafond du jour.",
     "leave": "Quitter",
     "total": "Total {n}",
     "cardsLeft": "{n, plural, one {# carte} other {# cartes}} en main",
@@ -1739,9 +1741,17 @@
     "more": "Autres jeux",
     "tickets": {
       "label": "Tickets d’arcade",
-      "soon": "Bientôt",
-      "text": "Gagne des parties pour obtenir des tickets, puis échange-les contre des boosters au comptoir des prix.",
-      "counter": "Comptoir des prix"
+      "today": "Aujourd’hui",
+      "week": "Cette semaine",
+      "text": "Gagne des parties pour obtenir des tickets (jusqu’à 60 par jour et 300 par semaine), puis échange-les au comptoir des prix. Rien ici ne s’achète avec de l’argent.",
+      "counter": "Comptoir des prix",
+      "balance": "Tu as {n} tickets.",
+      "prizeBoosters": "{n, plural, one {# booster} many {# de boosters} other {# boosters}}",
+      "redeemed": "C’est fait ! Ton prix t’attend.",
+      "errors": {
+        "not_enough_tickets": "Pas encore assez de tickets.",
+        "generic": "Une erreur s’est produite. Réessaie."
+      }
     },
     "duel": {
       "name": "Duel",
@@ -1754,8 +1764,15 @@
     },
     "boss": {
       "eyebrow": "BOSS DE LA SEMAINE",
-      "soon": "Bientôt",
-      "text": "Chaque ticket gagné par la communauté frappera un boss hebdomadaire. Abats-le avant lundi pour une récompense."
+      "none": "Pas de boss cette semaine.",
+      "defeatedStamp": "VAINCU",
+      "defeated": "Vaincu ! Bien joué, tout le monde.",
+      "hp": "points de vie restants sur {max}",
+      "rule": "Chaque ticket gagné par la communauté lui retire un point de vie. S’il tombe avant lundi, tous ceux qui lui ont retiré {share} reçoivent {reward} tickets bonus.",
+      "yours": "Tes dégâts cette semaine : {n} (ta part à partir de {share})",
+      "claim": "Récupérer {reward} tickets",
+      "claimed": "Tu as reçu tes {reward} tickets bonus.",
+      "claimError": "Impossible de récupérer la récompense. Réessaie."
     }
   }
 }

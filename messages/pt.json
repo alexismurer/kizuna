@@ -1555,6 +1555,8 @@
     "defeat": "Derrota",
     "draw": "Empate",
     "rematch": "Revanche",
+    "tickets": "+{n} tickets",
+    "noTickets": "Sem tickets nesta partida: ela foi curta demais ou você atingiu o limite de hoje.",
     "leave": "Sair",
     "total": "Total {n}",
     "cardsLeft": "{n, plural, one {# carta} other {# cartas}} na mão",
@@ -1739,9 +1741,17 @@
     "more": "Mais jogos",
     "tickets": {
       "label": "Tickets de fliperama",
-      "soon": "Em breve",
-      "text": "Vença partidas para ganhar tickets e troque-os por boosters no balcão de prêmios.",
-      "counter": "Balcão de prêmios"
+      "today": "Hoje",
+      "week": "Esta semana",
+      "text": "Vença partidas para ganhar tickets (até 60 por dia e 300 por semana) e troque-os no balcão de prêmios. Nada aqui é comprado com dinheiro.",
+      "counter": "Balcão de prêmios",
+      "balance": "Você tem {n} tickets.",
+      "prizeBoosters": "{n, plural, one {# booster} many {# de boosters} other {# boosters}}",
+      "redeemed": "Pronto! Seu prêmio está esperando por você.",
+      "errors": {
+        "not_enough_tickets": "Você ainda não tem tickets suficientes.",
+        "generic": "Algo deu errado. Tente novamente."
+      }
     },
     "duel": {
       "name": "Duelo",
@@ -1754,8 +1764,15 @@
     },
     "boss": {
       "eyebrow": "CHEFE DA SEMANA",
-      "soon": "Em breve",
-      "text": "Cada ticket ganho pela comunidade vai atingir um chefe semanal. Derrube-o antes de segunda-feira para ganhar uma recompensa."
+      "none": "Não há chefe esta semana.",
+      "defeatedStamp": "DERROTADO",
+      "defeated": "Derrotado! Bom jogo, pessoal.",
+      "hp": "pontos de vida restantes de {max}",
+      "rule": "Cada ticket que a comunidade ganha tira um ponto de vida dele. Se ele cair antes de segunda-feira, todos que tiraram {share} dele ganham {reward} tickets de bônus.",
+      "yours": "Seu dano esta semana: {n} (sua parte a partir de {share})",
+      "claim": "Resgatar {reward} tickets",
+      "claimed": "Você recebeu seus {reward} tickets de bônus.",
+      "claimError": "Não foi possível resgatar a recompensa. Tente novamente."
     }
   }
 }

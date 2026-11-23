@@ -12,6 +12,10 @@ vi.mock("@/i18n/navigation", () => ({
   usePathname: () => "/play",
 }));
 vi.mock("@/lib/supabase/client", () => ({ createBrowserClient: vi.fn() }));
+vi.mock("@/lib/actions/games", () => ({
+  gameStart: vi.fn().mockResolvedValue({ ok: true, data: "m1" }),
+  gameFinish: vi.fn().mockResolvedValue({ ok: true, data: { earned: 10, tickets: 10, today: 10, week: 10 } }),
+}));
 
 import { PlayLobby } from "@/components/duel/PlayLobby";
 
