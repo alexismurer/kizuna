@@ -1533,6 +1533,18 @@
     "title": "Duell",
     "subtitle": "Mach aus deiner Sammlung eine Armee. Drei Reihen, drei Runden, zehn Karten für das ganze Match: Gewinne zwei Runden, um das Duell zu gewinnen.",
     "backToRoom": "Spielraum",
+    "lobby": {
+      "facts": {
+        "rows": "3 Reihen",
+        "rounds": "Best of 3 Runden",
+        "cards": "10 Karten für das ganze Match"
+      },
+      "opponent": "Wähle deinen Gegner",
+      "solo": "Solo",
+      "multi": "Multi",
+      "ticketsAi": "Bis zu 10 Tickets",
+      "ticketsFriend": "Bis zu 15 Tickets"
+    },
     "board": "Spielfeld",
     "hand": "Deine Hand",
     "you": "du",
@@ -1772,6 +1784,17 @@
       "yours": "Dein Schaden diese Woche: {n} (dein Anteil ab {share})",
       "claim": "{reward} Tickets abholen",
       "claimed": "Du hast deine {reward} Bonus-Tickets erhalten.",
+      "claimError": "Die Belohnung konnte nicht abgeholt werden. Versuch es noch einmal."
+    },
+    "secret": {
+      "eyebrow": "GEHEIMER BOSS",
+      "appeared": "Der Boss der Woche ist gefallen… ein geheimer Boss ist aufgetaucht!",
+      "defeated": "Auch der geheime Boss ist gefallen! Unglaublich.",
+      "hp": "Lebenspunkte übrig von {max}",
+      "rule": "Jedes Ticket, das seit seinem Auftauchen verdient wurde, nimmt ihm einen Lebenspunkt. Fällt er vor Montag, bekommt jeder, der seit seinem Auftauchen {share} Tickets verdient hat, einen goldenen Booster.",
+      "yours": "Dein Schaden seit seinem Auftauchen: {n} (dein Anteil ab {share})",
+      "claim": "Goldenen Booster abholen",
+      "claimed": "Dein nächster Booster wird golden!",
       "claimError": "Die Belohnung konnte nicht abgeholt werden. Versuch es noch einmal."
     }
   }

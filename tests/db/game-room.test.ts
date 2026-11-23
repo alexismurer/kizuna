@@ -82,3 +82,61 @@ describe('boss of the week', () => {
     await admin.from('bosses').update({ defeated_at: null }).eq('week_start', rows![0].week_start)
   })
 })
+
+describe('secret boss', () => {
+  it('appears when the weekly boss falls, takes new tickets, and pays a golden booster', async () => {
+    const p = await newPlayer()
+    // this week's boss row, set so it is about to fall
+    await p.client.rpc('game_room_status')
+    const { data: rows } = await admin.from('bosses').select('*').order('week_start', { ascending: false }).limit(1)
+    const week = rows![0].week_start as string
+    const saved = rows![0]
+    const status0 = (await p.client.rpc('game_room_status')).data as { boss: { damage: number } }
+    await admin
+      .from('bosses')
+      .update({ hp: status0.boss.damage + 10, defeated_at: null, secret_at: null, secret_hp: null, secret_card_id: null, secret_defeated_at: null })
+      .eq('week_start', week)
+
+    try {
+    // 15 tickets: the weekly boss falls and the secret boss appears
+    await finish(p, await played(p, 'friend'), 'win')
+    let s = (await p.client.rpc('game_room_status')).data as {
+      boss: { defeated: boolean; hp: number }
+      secret: { hp: number; damage: number; mine: number; defeated: boolean; rarity: string } | null
+    }
+    expect(s.boss.defeated).toBe(true)
+    expect(s.secret).not.toBeNull()
+    expect(s.secret!.hp).toBe(s.boss.hp * 3)
+    expect(s.secret!.rarity).toBe('mythic')
+    expect(s.secret!.mine).toBe(0)
+
+    // knock the secret boss down with tickets earned after it appeared
+    await admin.from('bosses').update({ secret_hp: 20 }).eq('week_start', week)
+    expect((await p.client.rpc('boss_claim', { p_kind: 'secret' })).error?.message).toContain('boss_alive')
+    await finish(p, await played(p, 'friend'), 'win')
+    await finish(p, await played(p, 'friend'), 'win')
+    s = (await p.client.rpc('game_room_status')).data as typeof s
+    expect(s.secret!.defeated).toBe(true)
+    expect(s.secret!.mine).toBe(30)
+
+    await admin.from('players').update({ golden_next: false }).eq('id', p.userId)
+    expect((await p.client.rpc('boss_claim', { p_kind: 'secret' })).error).toBeNull()
+    const { data: me } = await admin.from('players').select('golden_next').eq('id', p.userId).single()
+    expect(me!.golden_next).toBe(true)
+    expect((await p.client.rpc('boss_claim', { p_kind: 'secret' })).error?.message).toContain('already_claimed')
+
+    } finally {
+    // put the week back as it was
+    await admin
+      .from('bosses')
+      .update({ hp: saved.hp, defeated_at: saved.defeated_at, secret_at: saved.secret_at, secret_hp: saved.secret_hp, secret_card_id: saved.secret_card_id, secret_defeated_at: saved.secret_defeated_at })
+      .eq('week_start', week)
+    }
+  })
+
+  it('gives the weekly boss at least 1500 health', async () => {
+    const p = await newPlayer()
+    const s = (await p.client.rpc('game_room_status')).data as { boss: { hp: number } }
+    expect(s.boss.hp).toBeGreaterThanOrEqual(1500)
+  })
+})

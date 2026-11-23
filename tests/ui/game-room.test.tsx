@@ -26,6 +26,7 @@ describe("GameRoom", () => {
     dayCap: 60,
     weekCap: 300,
     boss: { name: "Armin", imageUrl: null, rarity: "mythic", series: "AoT", hp: 400, damage: 100, mine: 45, share: 30, reward: 40, defeated: true, claimed: false },
+    secret: { name: "Shouko", imageUrl: null, rarity: "mythic", series: "A Silent Voice", hp: 1200, damage: 200, mine: 12, share: 30, defeated: false, claimed: false },
     prizes: [{ id: "booster1", cost: 60, boosters: 1 }, { id: "booster3", cost: 160, boosters: 3 }],
   };
 
@@ -41,6 +42,8 @@ describe("GameRoom", () => {
     expect(screen.getByText("20 / 60")).toBeInTheDocument();
     expect(screen.getByText("BOSS OF THE WEEK")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Claim 40 tickets" })).toBeInTheDocument();
+    expect(screen.getByText("SECRET BOSS")).toBeInTheDocument();
+    expect(screen.getByText("1000")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Prize counter" }));
     expect(screen.getByRole("button", { name: "160" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "60" })).toBeEnabled();

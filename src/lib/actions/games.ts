@@ -18,6 +18,8 @@ export type Boss = {
   defeated: boolean;
   claimed: boolean;
 };
+// appears when the weekly boss falls; its reward is a golden booster
+export type SecretBoss = Omit<Boss, "reward">;
 export type GameRoomStatus = {
   tickets: number;
   today: number;
@@ -25,6 +27,7 @@ export type GameRoomStatus = {
   dayCap: number;
   weekCap: number;
   boss: Boss | null;
+  secret: SecretBoss | null;
   prizes: Prize[];
 };
 export type Finish = { earned: number; tickets: number; today: number; week: number };
@@ -45,6 +48,6 @@ export async function gameFinish(match: string, result: "win" | "loss" | "draw")
 export async function redeemPrize(prize: string) {
   return call<number>("redeem_prize", { p_prize: prize });
 }
-export async function bossClaim() {
-  return call<number>("boss_claim");
+export async function bossClaim(kind: "weekly" | "secret" = "weekly") {
+  return call<number>("boss_claim", { p_kind: kind });
 }

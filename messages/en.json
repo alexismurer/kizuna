@@ -1533,6 +1533,18 @@
     "title": "Duel",
     "subtitle": "Turn your collection into an army. Three rows, three rounds, ten cards for the whole match: win two rounds to win the duel.",
     "backToRoom": "Game room",
+    "lobby": {
+      "facts": {
+        "rows": "3 rows",
+        "rounds": "Best of 3 rounds",
+        "cards": "10 cards for the whole match"
+      },
+      "opponent": "Choose your opponent",
+      "solo": "Solo",
+      "multi": "Multi",
+      "ticketsAi": "Up to 10 tickets",
+      "ticketsFriend": "Up to 15 tickets"
+    },
     "board": "Board",
     "hand": "Your hand",
     "you": "you",
@@ -1772,6 +1784,17 @@
       "yours": "Your damage this week: {n} (your share from {share})",
       "claim": "Claim {reward} tickets",
       "claimed": "You got your {reward} bonus tickets.",
+      "claimError": "Couldn't claim the reward. Try again."
+    },
+    "secret": {
+      "eyebrow": "SECRET BOSS",
+      "appeared": "The weekly boss fell… a secret boss appeared!",
+      "defeated": "The secret boss fell too! Incredible.",
+      "hp": "health points left of {max}",
+      "rule": "Every ticket earned since it appeared takes one health point. If it falls before Monday, everyone who earned {share} tickets since it appeared gets a golden booster.",
+      "yours": "Your damage since it appeared: {n} (your share from {share})",
+      "claim": "Claim your golden booster",
+      "claimed": "Your next booster will be golden!",
       "claimError": "Couldn't claim the reward. Try again."
     }
   }

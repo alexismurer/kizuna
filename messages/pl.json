@@ -1533,6 +1533,18 @@
     "title": "Pojedynek",
     "subtitle": "Zamień swoją kolekcję w armię. Trzy rzędy, trzy rundy, dziesięć kart na cały mecz: wygraj dwie rundy, aby wygrać pojedynek.",
     "backToRoom": "Salon gier",
+    "lobby": {
+      "facts": {
+        "rows": "3 rzędy",
+        "rounds": "Do 2 wygranych rund z 3",
+        "cards": "10 kart na cały mecz"
+      },
+      "opponent": "Wybierz przeciwnika",
+      "solo": "Solo",
+      "multi": "Multi",
+      "ticketsAi": "Do 10 żetonów",
+      "ticketsFriend": "Do 15 żetonów"
+    },
     "board": "Plansza",
     "hand": "Twoja ręka",
     "you": "ty",
@@ -1772,6 +1784,17 @@
       "yours": "Twoje obrażenia w tym tygodniu: {n} (twój udział od {share})",
       "claim": "Odbierz {reward} żetonów",
       "claimed": "Odebrano {reward} bonusowych żetonów.",
+      "claimError": "Nie udało się odebrać nagrody. Spróbuj ponownie."
+    },
+    "secret": {
+      "eyebrow": "SEKRETNY BOSS",
+      "appeared": "Boss tygodnia padł… pojawił się sekretny boss!",
+      "defeated": "Sekretny boss też padł! Niesamowite.",
+      "hp": "punktów życia zostało z {max}",
+      "rule": "Każdy żeton zdobyty od jego pojawienia się zabiera mu jeden punkt życia. Jeśli padnie przed poniedziałkiem, każdy, kto zdobył {share} żetonów od jego pojawienia się, dostanie złoty booster.",
+      "yours": "Twoje obrażenia od jego pojawienia się: {n} (twój udział od {share})",
+      "claim": "Odbierz złoty booster",
+      "claimed": "Twój następny booster będzie złoty!",
       "claimError": "Nie udało się odebrać nagrody. Spróbuj ponownie."
     }
   }

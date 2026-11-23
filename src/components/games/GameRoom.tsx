@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { GameRoomStatus } from "@/lib/actions/games";
 import { GAMES } from "@/lib/games/registry";
-import { BossCard } from "./BossCard";
+import { BossCard, SecretBossCard } from "./BossCard";
 import { TicketsBar } from "./TicketsBar";
 
 // The Play landing: tickets, the games (Duel first), the boss of the week.
@@ -77,6 +77,7 @@ export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatu
       </section>
 
       <BossCard boss={status?.boss ?? null} />
+      {status?.secret && <SecretBossCard boss={status.secret} />}
     </div>
   );
 }

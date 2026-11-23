@@ -1533,6 +1533,18 @@
     "title": "Duelo",
     "subtitle": "Transforme sua coleção em um exército. Três fileiras, três rodadas, dez cartas para a partida toda: vença duas rodadas para vencer o duelo.",
     "backToRoom": "Sala de jogos",
+    "lobby": {
+      "facts": {
+        "rows": "3 fileiras",
+        "rounds": "Melhor de 3 rodadas",
+        "cards": "10 cartas para a partida toda"
+      },
+      "opponent": "Escolha seu oponente",
+      "solo": "Solo",
+      "multi": "Multi",
+      "ticketsAi": "Até 10 tickets",
+      "ticketsFriend": "Até 15 tickets"
+    },
     "board": "Tabuleiro",
     "hand": "Sua mão",
     "you": "você",
@@ -1772,6 +1784,17 @@
       "yours": "Seu dano esta semana: {n} (sua parte a partir de {share})",
       "claim": "Resgatar {reward} tickets",
       "claimed": "Você recebeu seus {reward} tickets de bônus.",
+      "claimError": "Não foi possível resgatar a recompensa. Tente novamente."
+    },
+    "secret": {
+      "eyebrow": "CHEFE SECRETO",
+      "appeared": "O chefe da semana caiu… um chefe secreto apareceu!",
+      "defeated": "O chefe secreto também caiu! Incrível.",
+      "hp": "pontos de vida restantes de {max}",
+      "rule": "Cada ticket ganho desde que ele apareceu tira um ponto de vida dele. Se ele cair antes de segunda-feira, todos que ganharam {share} tickets desde que ele apareceu recebem um booster dourado.",
+      "yours": "Seu dano desde que ele apareceu: {n} (sua parte a partir de {share})",
+      "claim": "Resgatar seu booster dourado",
+      "claimed": "Seu próximo booster será dourado!",
       "claimError": "Não foi possível resgatar a recompensa. Tente novamente."
     }
   }

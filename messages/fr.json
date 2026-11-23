@@ -1533,6 +1533,18 @@
     "title": "Duel",
     "subtitle": "Transforme ta collection en armée. Trois rangées, trois manches, dix cartes pour toute la partie : gagne deux manches pour remporter le duel.",
     "backToRoom": "Salle de jeux",
+    "lobby": {
+      "facts": {
+        "rows": "3 rangées",
+        "rounds": "Au meilleur des 3 manches",
+        "cards": "10 cartes pour toute la partie"
+      },
+      "opponent": "Choisis ton adversaire",
+      "solo": "Solo",
+      "multi": "Multi",
+      "ticketsAi": "Jusqu’à 10 tickets",
+      "ticketsFriend": "Jusqu’à 15 tickets"
+    },
     "board": "Plateau",
     "hand": "Ta main",
     "you": "toi",
@@ -1772,6 +1784,17 @@
       "yours": "Tes dégâts cette semaine : {n} (ta part à partir de {share})",
       "claim": "Récupérer {reward} tickets",
       "claimed": "Tu as reçu tes {reward} tickets bonus.",
+      "claimError": "Impossible de récupérer la récompense. Réessaie."
+    },
+    "secret": {
+      "eyebrow": "BOSS SECRET",
+      "appeared": "Le boss de la semaine est tombé… un boss secret est apparu !",
+      "defeated": "Le boss secret est tombé lui aussi ! Incroyable.",
+      "hp": "points de vie restants sur {max}",
+      "rule": "Chaque ticket gagné depuis son apparition lui retire un point de vie. S’il tombe avant lundi, tous ceux qui ont gagné {share} tickets depuis son apparition reçoivent un booster doré.",
+      "yours": "Tes dégâts depuis son apparition : {n} (ta part à partir de {share})",
+      "claim": "Récupérer ton booster doré",
+      "claimed": "Ton prochain booster sera doré !",
       "claimError": "Impossible de récupérer la récompense. Réessaie."
     }
   }
