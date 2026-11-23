@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import type { CardData } from "@/components/card/CardView";
 import { chooseAction } from "@/lib/duel/ai";
-import { abilityOf, bestDeck, strengthOf, toUnit, type DeckCard, type UnitCard } from "@/lib/duel/cards";
+import { abilityOf, strengthOf, toUnit, type DeckCard, type UnitCard } from "@/lib/duel/cards";
+import { autoList, toDeck } from "@/lib/duel/deck";
 import { apply, createGame, legalActions, score, unitStrength, type GameState, type Side } from "@/lib/duel/engine";
 import { viewFor } from "@/lib/duel/view";
 import type { Rarity } from "@/lib/game/types";
@@ -61,15 +62,10 @@ describe("card stats", () => {
     }
   });
 
-  it("makes mythics heroes and builds the deck from the strongest cards plus 6 tactics", () => {
-    const owned = Array.from({ length: 40 }, (_, i) => card(i + 1, { pow: 41 + i }));
-    owned[0] = card(1, { pow: 99, rarity: "mythic" });
-    const d = bestDeck(owned);
-    expect(d).toHaveLength(31);
-    expect(d.filter((c) => c.kind === "tactic")).toHaveLength(6);
-    const first = d[0] as UnitCard;
-    expect(first.hero).toBe(true);
-    expect(first.base).toBe(10);
+  it("makes mythics heroes with full strength", () => {
+    const u = toUnit(card(1, { pow: 99, rarity: "mythic" }));
+    expect(u.hero).toBe(true);
+    expect(u.base).toBe(10);
   });
 });
 
@@ -236,7 +232,10 @@ describe("view", () => {
 describe("ai", () => {
   it("finishes whole matches against itself without errors", () => {
     for (let seed = 1; seed <= 30; seed++) {
-      const mk = (from: number) => bestDeck(Array.from({ length: 30 }, (_, i) => card(from + i, { pow: 45 + ((i * 7) % 55), rarity: (["common", "uncommon", "rare", "epic", "legendary", "mythic"] as Rarity[])[i % 6], seriesId: (from + i) % 5 })));
+      const mk = (from: number) => {
+        const owned = Array.from({ length: 40 }, (_, i) => card(from + i, { pow: 45 + ((i * 7) % 55), rarity: (["common", "uncommon", "rare", "epic", "legendary", "mythic"] as Rarity[])[i % 6], seriesId: (from + i) % 5 }));
+        return toDeck(autoList(owned), new Map(owned.map((c) => [c.id, c])));
+      };
       let s = createGame({ decks: [mk(1), mk(500)], names: ["A", "B"], seed });
       let guard = 0;
       while (s.phase !== "over" && guard++ < 500) {

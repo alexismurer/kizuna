@@ -18,6 +18,9 @@ export function HowToPlay() {
               <li key={k}>{t(`rules.step${k}`)}</li>
             ))}
           </ol>
+          <p className="text-common">
+            <b className="text-white">{t("rules.deckTitle")}</b> {t("rules.deck")}
+          </p>
           <h3 className="mt-2 font-bold text-cta">{t("rules.rows")}</h3>
           <ul className="flex flex-col gap-1 text-common">
             {([0, 1, 2] as Row[]).map((r) => {

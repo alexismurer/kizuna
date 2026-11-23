@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import type { CardData } from "@/components/card/CardView";
 import { PlayLobby } from "@/components/duel/PlayLobby";
-import { bestDeck, DECK_SIZE, MIN_DECK, starterDeck } from "@/lib/duel/cards";
+import { starterDeck } from "@/lib/duel/cards";
+import { fetchAll } from "@/lib/supabase/fetchAll";
 import type { Rarity } from "@/lib/game/types";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -65,26 +66,28 @@ async function Lobby() {
   const me = claims?.claims.sub ?? null;
 
   const [owned, { data: profile }, starterPool] = await Promise.all([
-    // your strongest cards (RLS keeps inventory to your own rows)
-    supabase
-      .from("cards")
-      .select(`${COLUMNS}, inventory!inner(count)`)
-      .gt("inventory.count", 0)
-      .order("pow", { ascending: false })
-      .order("number")
-      .limit(DECK_SIZE),
+    // every card you own, for the deck builder (RLS keeps inventory to your own rows)
+    fetchAll((from, to) =>
+      supabase
+        .from("cards")
+        .select(`${COLUMNS}, inventory!inner(count)`)
+        .gt("inventory.count", 0)
+        .order("pow", { ascending: false })
+        .order("number")
+        .range(from, to),
+    ),
     me
-      ? supabase.from("player_directory").select("username").eq("id", me).maybeSingle()
+      ? supabase.from("player_directory").select("username, avatar_url").eq("id", me).maybeSingle()
       : Promise.resolve({ data: null }),
     loadStarterPool(supabase),
   ]);
 
-  const mine = ((owned.data ?? []) as unknown as CardRow[]).map(toCard);
+  const mine = (owned as unknown as CardRow[]).map(toCard);
+  const p = profile as { username?: string; avatar_url?: string | null } | null;
   return (
     <PlayLobby
-      me={{ id: me ?? "guest", name: (profile as { username?: string } | null)?.username ?? "Player" }}
-      collectionDeck={mine.length >= MIN_DECK ? bestDeck(mine) : null}
-      ownedCount={mine.length}
+      me={{ id: me ?? "guest", name: p?.username ?? "Player", avatarUrl: p?.avatar_url ?? null }}
+      owned={mine}
       starterDeck={starterDeck(starterPool)}
     />
   );

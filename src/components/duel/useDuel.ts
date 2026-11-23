@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { chooseAction } from "@/lib/duel/ai";
 import type { DeckCard } from "@/lib/duel/cards";
+import { deckOk } from "@/lib/duel/deck";
 import { apply, createGame, DuelError, type Action, type GameState, type Side } from "@/lib/duel/engine";
 import { viewFor } from "@/lib/duel/view";
 import { createBrowserClient } from "@/lib/supabase/client";
@@ -99,6 +100,8 @@ export function useRoomDuel(opts: {
     const onMsg = (m: Msg) => {
       if (host) {
         if (m.t === "join") {
+          // a deck that breaks the rules (rarity caps, size) can't join
+          if (!deckOk(m.deck)) return send.current({ t: "error", to: m.id, code: "invalidDeck" });
           const g = game.current;
           if (g && g.guest.id !== m.id) return send.current({ t: "full", to: m.id });
           if (!g) {

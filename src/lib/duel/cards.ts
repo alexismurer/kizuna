@@ -85,12 +85,6 @@ export function toUnit(card: CardData): Omit<UnitCard, "uid"> {
 
 const tactics = (): DeckCard[] => TACTICS.map((tactic) => ({ kind: "tactic" as const, tactic }));
 
-// Your strongest owned cards (pow breaks ties) plus the tactics kit.
-export function bestDeck(owned: CardData[]): DeckCard[] {
-  const units = [...owned].sort((a, b) => b.pow - a.pow || a.number - b.number).slice(0, DECK_SIZE);
-  return [...units.map(toUnit), ...tactics()];
-}
-
 // A random deck drawn from a pool of catalog cards (the page picks a balanced pool).
 export function starterDeck(pool: CardData[], rand: () => number = Math.random): DeckCard[] {
   const left = [...pool];

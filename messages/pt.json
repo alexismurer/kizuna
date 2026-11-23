@@ -1637,12 +1637,37 @@
     },
     "deck": {
       "title": "Seu baralho",
-      "collection": "Minha coleção",
-      "collectionText": "Suas 25 cartas mais fortes e as 6 táticas.",
+      "collection": "Meu baralho",
+      "collectionText": "Suas próprias cartas: de 22 a 25, com no máximo 1 Mítica, 2 Lendárias e 4 Épicas.",
       "tooFew": "Você tem {n} cartas; um baralho precisa de pelo menos {min}. Abra mais alguns boosters!",
       "starter": "Baralho inicial",
       "starterText": "25 cartas aleatórias de todo o catálogo, para uma luta equilibrada.",
-      "stats": "{n} unidades · força total {power}"
+      "stats": "{n} unidades · força total {power}",
+      "edit": "Editar baralho",
+      "invalid": "Este baralho quebra as regras de baralho. Edite-o para jogar com ele."
+    },
+    "builder": {
+      "eyebrow": "DUELO · BARALHO",
+      "title": "Monte seu baralho",
+      "cancel": "Cancelar",
+      "save": "Salvar baralho",
+      "units": "Unidades {n} / {min}–{max}",
+      "tactics": "Táticas {n}/{max}",
+      "strength": "Força total {n}",
+      "bonds": "{n, plural, one {# laço Kizuna} other {# laços Kizuna}}",
+      "collection": "Coleção",
+      "deck": "Baralho ({n})",
+      "search": "Busque uma carta ou uma série",
+      "all": "Todas",
+      "hint": "Toque em uma carta para adicioná-la e toque de novo para tirá-la. Cartas esmaecidas ultrapassariam um limite.",
+      "more": "Mostrar mais (faltam {n})",
+      "auto": "Preencher automaticamente",
+      "clear": "Limpar",
+      "tacticsTitle": "Táticas (até 6, 2 iguais)",
+      "less": "Uma {name} a menos",
+      "add": "Mais uma {name}",
+      "empty": "Ainda não há cartas: toque em cartas da sua coleção.",
+      "remove": "Remover {name}"
     },
     "ai": {
       "title": "Contra o computador",
@@ -1682,6 +1707,8 @@
       "hero": "Cartas Míticas são heróis: nada muda a força delas e Queimar não pode destruí-las.",
       "bondTitle": "Laço Kizuna.",
       "bond": "Cada unidade recebe +1 por cada outra unidade da mesma série do seu lado, então conjuntos de uma série ficam mais fortes juntos.",
+      "deckTitle": "Baralho.",
+      "deck": "De 22 a 25 das suas próprias cartas, com no máximo 1 Mítica, 2 Lendárias e 4 Épicas, mais até 6 táticas (2 iguais no máximo).",
       "abilities": "Habilidades das cartas",
       "tactics": "Táticas (em todo baralho)"
     },
@@ -1692,7 +1719,8 @@
       "hornTaken": "Essa fileira já tem uma corneta.",
       "noRedraws": "Sem trocas restantes.",
       "notInHand": "Essa carta não está na sua mão.",
-      "emptyDeck": "Seu baralho está vazio."
+      "emptyDeck": "Seu baralho está vazio.",
+      "invalidDeck": "Seu baralho quebra as regras de baralho. Corrija-o no construtor de baralho."
     }
   },
   "banned": {

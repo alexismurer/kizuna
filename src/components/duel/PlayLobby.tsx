@@ -1,37 +1,44 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Bot, Check, Copy, Swords, Users } from "lucide-react";
+import { ArrowLeft, Bot, Check, Copy, Pencil, Swords, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter, usePathname } from "@/i18n/navigation";
+import type { CardData } from "@/components/card/CardView";
 import { MIN_DECK, type DeckCard, type UnitCard } from "@/lib/duel/cards";
+import { autoList, deckIssues, sanitize, toDeck, type DeckList } from "@/lib/duel/deck";
+import { loadDeck, saveDeck } from "@/lib/duel/deckStore";
+import { DeckBuilder } from "./DeckBuilder";
 import { DuelBoard } from "./DuelBoard";
 import { DuelCardChip } from "./DuelCardChip";
 import { HowToPlay } from "./HowToPlay";
 import { useLocalDuel, useRoomDuel } from "./useDuel";
 
-type Me = { id: string; name: string };
+type Me = { id: string; name: string; avatarUrl?: string | null };
 type Mode = { kind: "ai" } | { kind: "room"; code: string; host: boolean };
 
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const newCode = () => Array.from({ length: 6 }, () => CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]).join("");
 const cleanCode = (s: string) => s.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
 
-export function PlayLobby({
-  me,
-  collectionDeck,
-  ownedCount,
-  starterDeck,
-}: {
-  me: Me;
-  collectionDeck: DeckCard[] | null;
-  ownedCount: number;
-  starterDeck: DeckCard[];
-}) {
+export function PlayLobby({ me, owned, starterDeck }: { me: Me; owned: CardData[]; starterDeck: DeckCard[] }) {
   const t = useTranslations("duel");
   const router = useRouter();
   const pathname = usePathname();
-  const [deckKind, setDeckKind] = useState<"collection" | "starter">(collectionDeck ? "collection" : "starter");
+  const byId = useMemo(() => new Map(owned.map((c) => [c.id, c])), [owned]);
+  const canBuild = owned.length >= MIN_DECK;
+  // your saved deck (this browser), else the strongest legal one
+  const [list, setList] = useState<DeckList>(() => autoList(owned));
+  const [building, setBuilding] = useState(false);
+  useEffect(() => {
+    const saved = loadDeck(me.id);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- read storage after hydration
+    if (saved) setList(sanitize(saved, byId));
+  }, [me.id, byId]);
+  const units = list.cards.map((id) => byId.get(id)!).filter(Boolean);
+  const listOk = canBuild && deckIssues(units, list.tactics).length === 0;
+  const collectionDeck = useMemo(() => (listOk ? toDeck(list, byId) : null), [listOk, list, byId]);
+  const [deckKind, setDeckKind] = useState<"collection" | "starter">(canBuild ? "collection" : "starter");
   const [mode, setMode] = useState<Mode | null>(null);
   const [joinCode, setJoinCode] = useState("");
   const deck = deckKind === "collection" && collectionDeck ? collectionDeck : starterDeck;
@@ -48,6 +55,21 @@ export function PlayLobby({
     router.replace(pathname);
   };
 
+  if (building) {
+    return (
+      <DeckBuilder
+        owned={owned}
+        initial={list}
+        onCancel={() => setBuilding(false)}
+        onSave={(next) => {
+          setList(next);
+          saveDeck(me.id, next);
+          setDeckKind("collection");
+          setBuilding(false);
+        }}
+      />
+    );
+  }
   if (mode?.kind === "ai") return <AiMatch me={me} deck={deck} aiDeck={starterDeck} onExit={exit} />;
   if (mode?.kind === "room") return <RoomMatch me={me} deck={deck} code={mode.code} host={mode.host} onExit={exit} />;
 
@@ -68,10 +90,17 @@ export function PlayLobby({
         <div className="grid gap-3 md:grid-cols-2">
           <DeckTile
             title={t("deck.collection")}
-            text={collectionDeck ? t("deck.collectionText") : t("deck.tooFew", { n: ownedCount, min: MIN_DECK })}
+            text={
+              !canBuild
+                ? t("deck.tooFew", { n: owned.length, min: MIN_DECK })
+                : collectionDeck
+                  ? t("deck.collectionText")
+                  : t("deck.invalid")
+            }
             deck={collectionDeck}
-            active={deckKind === "collection"}
+            active={deckKind === "collection" && !!collectionDeck}
             onPick={collectionDeck ? () => setDeckKind("collection") : undefined}
+            onEdit={canBuild ? () => setBuilding(true) : undefined}
           />
           <DeckTile
             title={t("deck.starter")}
@@ -144,42 +173,54 @@ function DeckTile({
   deck,
   active,
   onPick,
+  onEdit,
 }: {
   title: string;
   text: string;
   deck: DeckCard[] | null;
   active: boolean;
   onPick?: () => void;
+  onEdit?: () => void;
 }) {
   const t = useTranslations("duel");
   const units = useMemo(() => (deck ?? []).filter((c): c is Omit<UnitCard, "uid"> => c.kind === "unit"), [deck]);
   const power = units.reduce((s, u) => s + u.base, 0);
   return (
-    <button
-      type="button"
-      disabled={!onPick}
-      onClick={onPick}
-      aria-pressed={active}
-      className={`flex flex-col gap-3 rounded-2xl border-2 bg-panel p-4 text-left transition-colors disabled:opacity-50 ${
-        active ? "border-cta" : "border-border hover:border-white/30"
-      }`}
-    >
-      <span className="flex items-center justify-between gap-2">
-        <span className="font-display text-lg font-bold">{title}</span>
-        {active && <Check className="h-5 w-5 text-cta" aria-hidden />}
-      </span>
-      <span className="text-sm text-common">{text}</span>
-      {units.length > 0 && (
-        <>
-          <span className="flex gap-1.5 overflow-hidden">
-            {units.slice(0, 6).map((u, i) => (
-              <DuelCardChip key={i} card={{ ...u, uid: `p${i}` }} size="hand" />
-            ))}
-          </span>
-          <span className="text-xs text-common">{t("deck.stats", { n: units.length, power })}</span>
-        </>
+    <div className={`flex flex-col rounded-2xl border-2 bg-panel transition-colors ${active ? "border-cta" : "border-border hover:border-white/30"}`}>
+      <button
+        type="button"
+        disabled={!onPick}
+        onClick={onPick}
+        aria-pressed={active}
+        className="flex flex-1 flex-col gap-3 p-4 text-left disabled:cursor-default"
+      >
+        <span className="flex items-center justify-between gap-2">
+          <span className="font-display text-lg font-bold">{title}</span>
+          {active && <Check className="h-5 w-5 text-cta" aria-hidden />}
+        </span>
+        <span className="text-sm text-common">{text}</span>
+        {units.length > 0 && (
+          <>
+            <span className="flex gap-1.5 overflow-hidden">
+              {units.slice(0, 6).map((u, i) => (
+                <DuelCardChip key={i} card={{ ...u, uid: `p${i}` }} size="hand" />
+              ))}
+            </span>
+            <span className="text-xs text-common">{t("deck.stats", { n: units.length, power })}</span>
+          </>
+        )}
+      </button>
+      {onEdit && (
+        <button
+          type="button"
+          onClick={onEdit}
+          className="mx-4 mb-4 flex items-center justify-center gap-2 rounded-full border border-border py-2 text-sm font-bold hover:border-white/40"
+        >
+          <Pencil className="h-4 w-4" aria-hidden />
+          {t("deck.edit")}
+        </button>
       )}
-    </button>
+    </div>
   );
 }
 
@@ -216,6 +257,11 @@ function RoomMatch({ me, deck, code, host, onExit }: { me: Me; deck: DeckCard[];
       <p className="text-sm text-common" role="status">
         {message}
       </p>
+      {session.error && (
+        <p role="alert" className="text-sm text-accent">
+          {t.has(`errors.${session.error}`) ? t(`errors.${session.error}`) : t("errors.unknown")}
+        </p>
+      )}
       {host && session.status !== "left" && (
         <button
           type="button"

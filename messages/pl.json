@@ -1637,12 +1637,37 @@
     },
     "deck": {
       "title": "Twoja talia",
-      "collection": "Moja kolekcja",
-      "collectionText": "Twoje 25 najsilniejszych kart i 6 taktyk.",
+      "collection": "Moja talia",
+      "collectionText": "Twoje własne karty: od 22 do 25, w tym najwyżej 1 Mityczna, 2 Legendarne i 4 Epickie.",
       "tooFew": "Masz {n} kart, a talia potrzebuje co najmniej {min}. Otwórz jeszcze kilka boosterów!",
       "starter": "Talia startowa",
       "starterText": "25 losowych kart z całego katalogu, na wyrównaną walkę.",
-      "stats": "{n} jednostek · łączna siła {power}"
+      "stats": "{n} jednostek · łączna siła {power}",
+      "edit": "Edytuj talię",
+      "invalid": "Ta talia łamie zasady budowy talii. Edytuj ją, aby nią zagrać."
+    },
+    "builder": {
+      "eyebrow": "POJEDYNEK · TALIA",
+      "title": "Zbuduj swoją talię",
+      "cancel": "Anuluj",
+      "save": "Zapisz talię",
+      "units": "Jednostki {n} / {min}–{max}",
+      "tactics": "Taktyki {n}/{max}",
+      "strength": "Łączna siła {n}",
+      "bonds": "{n, plural, one {# więź Kizuna} few {# więzi Kizuna} many {# więzi Kizuna} other {# więzi Kizuna}}",
+      "collection": "Kolekcja",
+      "deck": "Talia ({n})",
+      "search": "Szukaj karty lub serii",
+      "all": "Wszystkie",
+      "hint": "Stuknij kartę, aby ją dodać, i stuknij ponownie, aby ją usunąć. Wyszarzone karty przekroczyłyby limit.",
+      "more": "Pokaż więcej (zostało {n})",
+      "auto": "Uzupełnij automatycznie",
+      "clear": "Wyczyść",
+      "tacticsTitle": "Taktyki (do 6, po 2 takie same)",
+      "less": "Jedna {name} mniej",
+      "add": "Jedna {name} więcej",
+      "empty": "Brak kart: stukaj karty w swojej kolekcji.",
+      "remove": "Usuń {name}"
     },
     "ai": {
       "title": "Z komputerem",
@@ -1682,6 +1707,8 @@
       "hero": "Mityczne karty to bohaterowie: nic nie zmienia ich siły, a Podpalenie ich nie niszczy.",
       "bondTitle": "Więź Kizuna.",
       "bond": "Każda jednostka dostaje +1 za każdą inną jednostkę z tej samej serii po twojej stronie, więc zestawy z jednej serii wzmacniają się razem.",
+      "deckTitle": "Talia.",
+      "deck": "Od 22 do 25 twoich własnych kart, w tym najwyżej 1 Mityczna, 2 Legendarne i 4 Epickie, plus do 6 taktyk (po 2 takie same).",
       "abilities": "Zdolności kart",
       "tactics": "Taktyki (w każdej talii)"
     },
@@ -1692,7 +1719,8 @@
       "hornTaken": "Ten rząd ma już róg.",
       "noRedraws": "Brak wymian.",
       "notInHand": "Tej karty nie ma na twojej ręce.",
-      "emptyDeck": "Twoja talia jest pusta."
+      "emptyDeck": "Twoja talia jest pusta.",
+      "invalidDeck": "Twoja talia łamie zasady budowy talii. Popraw ją w kreatorze talii."
     }
   },
   "banned": {

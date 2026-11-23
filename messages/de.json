@@ -1637,12 +1637,37 @@
     },
     "deck": {
       "title": "Dein Deck",
-      "collection": "Meine Sammlung",
-      "collectionText": "Deine 25 stärksten Karten und die 6 Taktiken.",
+      "collection": "Mein Deck",
+      "collectionText": "Deine eigenen Karten: 22 bis 25, mit höchstens 1 Mythischen, 2 Legendären und 4 Epischen.",
       "tooFew": "Du besitzt {n} Karten, ein Deck braucht mindestens {min}. Öffne noch ein paar Booster!",
       "starter": "Starterdeck",
       "starterText": "25 zufällige Karten aus dem ganzen Katalog für einen fairen Kampf.",
-      "stats": "{n} Einheiten · Gesamtstärke {power}"
+      "stats": "{n} Einheiten · Gesamtstärke {power}",
+      "edit": "Deck bearbeiten",
+      "invalid": "Dieses Deck verstößt gegen die Deckregeln. Bearbeite es, um damit zu spielen."
+    },
+    "builder": {
+      "eyebrow": "DUELL · DECK",
+      "title": "Baue dein Deck",
+      "cancel": "Abbrechen",
+      "save": "Deck speichern",
+      "units": "Einheiten {n} / {min}–{max}",
+      "tactics": "Taktiken {n}/{max}",
+      "strength": "Gesamtstärke {n}",
+      "bonds": "{n, plural, one {# Kizuna-Band} other {# Kizuna-Bänder}}",
+      "collection": "Sammlung",
+      "deck": "Deck ({n})",
+      "search": "Karte oder Serie suchen",
+      "all": "Alle",
+      "hint": "Tippe auf eine Karte, um sie hinzuzufügen, und noch einmal, um sie zu entfernen. Ausgegraute Karten würden eine Grenze überschreiten.",
+      "more": "Mehr anzeigen (noch {n})",
+      "auto": "Automatisch füllen",
+      "clear": "Leeren",
+      "tacticsTitle": "Taktiken (bis zu 6, je 2 gleiche)",
+      "less": "Ein {name} weniger",
+      "add": "Ein {name} mehr",
+      "empty": "Noch keine Karten: tippe auf Karten in deiner Sammlung.",
+      "remove": "{name} entfernen"
     },
     "ai": {
       "title": "Gegen den Computer",
@@ -1682,6 +1707,8 @@
       "hero": "Mythische Karten sind Helden: Nichts ändert ihre Stärke und Brand kann sie nicht zerstören.",
       "bondTitle": "Kizuna-Band.",
       "bond": "Jede Einheit bekommt +1 für jede andere Einheit derselben Serie auf deiner Seite, so werden Serien-Sets gemeinsam stärker.",
+      "deckTitle": "Deck.",
+      "deck": "22 bis 25 deiner eigenen Karten, mit höchstens 1 Mythischen, 2 Legendären und 4 Epischen, dazu bis zu 6 Taktiken (je 2 gleiche).",
       "abilities": "Kartenfähigkeiten",
       "tactics": "Taktiken (in jedem Deck)"
     },
@@ -1692,7 +1719,8 @@
       "hornTaken": "Diese Reihe hat schon ein Horn.",
       "noRedraws": "Keine Tausche mehr übrig.",
       "notInHand": "Diese Karte ist nicht auf deiner Hand.",
-      "emptyDeck": "Dein Deck ist leer."
+      "emptyDeck": "Dein Deck ist leer.",
+      "invalidDeck": "Dein Deck verstößt gegen die Deckregeln. Korrigiere es im Deckbauer."
     }
   },
   "banned": {

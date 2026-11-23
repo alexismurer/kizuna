@@ -1637,12 +1637,37 @@
     },
     "deck": {
       "title": "Your deck",
-      "collection": "My collection",
-      "collectionText": "Your 25 strongest cards and the 6 tactics.",
+      "collection": "My deck",
+      "collectionText": "Your own cards: 22 to 25, with at most 1 Mythic, 2 Legendary and 4 Epic.",
       "tooFew": "You own {n} cards; a deck needs at least {min}. Open a few more boosters!",
       "starter": "Starter deck",
       "starterText": "25 random cards from the whole catalog, for an even fight.",
-      "stats": "{n} units · total strength {power}"
+      "stats": "{n} units · total strength {power}",
+      "edit": "Edit deck",
+      "invalid": "This deck breaks the deck rules. Edit it to play with it."
+    },
+    "builder": {
+      "eyebrow": "DUEL · DECK",
+      "title": "Build your deck",
+      "cancel": "Cancel",
+      "save": "Save deck",
+      "units": "Units {n} / {min}–{max}",
+      "tactics": "Tactics {n}/{max}",
+      "strength": "Total strength {n}",
+      "bonds": "{n, plural, one {# series bond} other {# series bonds}}",
+      "collection": "Collection",
+      "deck": "Deck ({n})",
+      "search": "Search a card or a series",
+      "all": "All",
+      "hint": "Tap a card to add it, tap it again to take it out. Greyed-out cards would break a cap.",
+      "more": "Show more ({n} left)",
+      "auto": "Auto-fill",
+      "clear": "Clear",
+      "tacticsTitle": "Tactics (up to 6, 2 of a kind)",
+      "less": "One less {name}",
+      "add": "One more {name}",
+      "empty": "No cards yet: tap cards in your collection.",
+      "remove": "Remove {name}"
     },
     "ai": {
       "title": "Against the computer",
@@ -1682,6 +1707,8 @@
       "hero": "Mythic cards are heroes: nothing changes their strength and Burn can't destroy them.",
       "bondTitle": "Kizuna bond.",
       "bond": "Each unit gets +1 for every other unit of the same series on your side, so series sets get stronger together.",
+      "deckTitle": "Deck.",
+      "deck": "22 to 25 of your own cards, with at most 1 Mythic, 2 Legendary and 4 Epic, plus up to 6 tactics (2 of a kind).",
       "abilities": "Card abilities",
       "tactics": "Tactics (in every deck)"
     },
@@ -1692,7 +1719,8 @@
       "hornTaken": "That row already has a horn.",
       "noRedraws": "No swaps left.",
       "notInHand": "That card isn't in your hand.",
-      "emptyDeck": "Your deck is empty."
+      "emptyDeck": "Your deck is empty.",
+      "invalidDeck": "Your deck breaks the deck rules. Fix it in the deck builder."
     }
   },
   "banned": {

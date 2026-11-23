@@ -1637,12 +1637,37 @@
     },
     "deck": {
       "title": "Ton deck",
-      "collection": "Ma collection",
-      "collectionText": "Tes 25 cartes les plus fortes et les 6 tactiques.",
+      "collection": "Mon deck",
+      "collectionText": "Tes propres cartes : de 22 à 25, avec au plus 1 Mythique, 2 Légendaires et 4 Épiques.",
       "tooFew": "Tu possèdes {n} cartes ; un deck en demande au moins {min}. Ouvre encore quelques boosters !",
       "starter": "Deck de départ",
       "starterText": "25 cartes au hasard dans tout le catalogue, pour un combat équilibré.",
-      "stats": "{n} unités · force totale {power}"
+      "stats": "{n} unités · force totale {power}",
+      "edit": "Modifier le deck",
+      "invalid": "Ce deck enfreint les règles de deck. Modifie-le pour jouer avec."
+    },
+    "builder": {
+      "eyebrow": "DUEL · DECK",
+      "title": "Construis ton deck",
+      "cancel": "Annuler",
+      "save": "Enregistrer le deck",
+      "units": "Unités {n} / {min}–{max}",
+      "tactics": "Tactiques {n}/{max}",
+      "strength": "Force totale {n}",
+      "bonds": "{n, plural, one {# lien Kizuna} other {# liens Kizuna}}",
+      "collection": "Collection",
+      "deck": "Deck ({n})",
+      "search": "Cherche une carte ou une série",
+      "all": "Toutes",
+      "hint": "Touche une carte pour l’ajouter, touche-la encore pour la retirer. Les cartes grisées dépasseraient une limite.",
+      "more": "Afficher plus ({n} restantes)",
+      "auto": "Remplir auto",
+      "clear": "Vider",
+      "tacticsTitle": "Tactiques (jusqu’à 6, 2 identiques)",
+      "less": "Un {name} de moins",
+      "add": "Un {name} de plus",
+      "empty": "Aucune carte pour l’instant : touche des cartes dans ta collection.",
+      "remove": "Retirer {name}"
     },
     "ai": {
       "title": "Contre l’ordinateur",
@@ -1682,6 +1707,8 @@
       "hero": "Les cartes Mythiques sont des héros : rien ne change leur force et Brûlure ne peut pas les détruire.",
       "bondTitle": "Lien Kizuna.",
       "bond": "Chaque unité gagne +1 pour chaque autre unité de la même série de ton côté : les séries complètes se renforcent ensemble.",
+      "deckTitle": "Deck.",
+      "deck": "De 22 à 25 de tes propres cartes, avec au plus 1 Mythique, 2 Légendaires et 4 Épiques, plus jusqu’à 6 tactiques (2 identiques au maximum).",
       "abilities": "Capacités des cartes",
       "tactics": "Tactiques (dans chaque deck)"
     },
@@ -1692,7 +1719,8 @@
       "hornTaken": "Cette rangée a déjà un cor.",
       "noRedraws": "Plus d’échanges.",
       "notInHand": "Cette carte n’est pas dans ta main.",
-      "emptyDeck": "Ton deck est vide."
+      "emptyDeck": "Ton deck est vide.",
+      "invalidDeck": "Ton deck enfreint les règles de deck. Corrige-le dans le constructeur de deck."
     }
   },
   "banned": {

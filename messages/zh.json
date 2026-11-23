@@ -1637,12 +1637,37 @@
     },
     "deck": {
       "title": "你的牌库",
-      "collection": "我的收藏",
-      "collectionText": "你最强的 25 张牌和 6 张战术牌。",
+      "collection": "我的牌库",
+      "collectionText": "你自己的牌：22 到 25 张，最多 1 张神话、2 张传说和 4 张史诗。",
       "tooFew": "你拥有 {n} 张牌，牌库至少需要 {min} 张。再多开几个卡包吧！",
       "starter": "新手牌库",
       "starterText": "从整个图鉴中随机抽取 25 张牌，保证势均力敌。",
-      "stats": "{n} 个单位 · 总力量 {power}"
+      "stats": "{n} 个单位 · 总力量 {power}",
+      "edit": "编辑牌库",
+      "invalid": "这个牌库违反了牌库规则。请先编辑再使用。"
+    },
+    "builder": {
+      "eyebrow": "决斗 · 牌库",
+      "title": "构筑你的牌库",
+      "cancel": "取消",
+      "save": "保存牌库",
+      "units": "单位 {n} / {min}–{max}",
+      "tactics": "战术 {n}/{max}",
+      "strength": "总力量 {n}",
+      "bonds": "{n, plural, other {# 个 Kizuna 羁绊}}",
+      "collection": "收藏",
+      "deck": "牌库（{n}）",
+      "search": "搜索卡牌或系列",
+      "all": "全部",
+      "hint": "点按卡牌即可加入，再点按一次即可移出。灰色的卡牌会超出上限。",
+      "more": "显示更多（还有 {n} 张）",
+      "auto": "自动填充",
+      "clear": "清空",
+      "tacticsTitle": "战术牌（最多 6 张，同名 2 张）",
+      "less": "少一张{name}",
+      "add": "多一张{name}",
+      "empty": "还没有卡牌：点按你收藏中的卡牌。",
+      "remove": "移出{name}"
     },
     "ai": {
       "title": "对战电脑",
@@ -1682,6 +1707,8 @@
       "hero": "神话卡牌是英雄：没有任何效果能改变它们的力量，焚烧也无法摧毁它们。",
       "bondTitle": "Kizuna 羁绊。",
       "bond": "你这一方每有一个同系列的其他单位，每个单位就 +1，所以同系列的套组会一起变强。",
+      "deckTitle": "牌库。",
+      "deck": "你自己的 22 到 25 张牌，最多 1 张神话、2 张传说和 4 张史诗，外加最多 6 张战术牌（同名最多 2 张）。",
       "abilities": "卡牌能力",
       "tactics": "战术牌（每个牌库都有）"
     },
@@ -1692,7 +1719,8 @@
       "hornTaken": "该排已经有号角了。",
       "noRedraws": "没有剩余更换次数了。",
       "notInHand": "这张牌不在你的手牌中。",
-      "emptyDeck": "你的牌库是空的。"
+      "emptyDeck": "你的牌库是空的。",
+      "invalidDeck": "你的牌库违反了牌库规则。请到牌库构筑器中修正。"
     }
   },
   "banned": {

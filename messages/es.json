@@ -1637,12 +1637,37 @@
     },
     "deck": {
       "title": "Tu mazo",
-      "collection": "Mi colección",
-      "collectionText": "Tus 25 cartas más fuertes y las 6 tácticas.",
+      "collection": "Mi mazo",
+      "collectionText": "Tus propias cartas: de 22 a 25, con como máximo 1 Mítica, 2 Legendarias y 4 Épicas.",
       "tooFew": "Tienes {n} cartas; un mazo necesita al menos {min}. ¡Abre unos cuantos sobres más!",
       "starter": "Mazo inicial",
       "starterText": "25 cartas al azar de todo el catálogo, para un combate parejo.",
-      "stats": "{n} unidades · fuerza total {power}"
+      "stats": "{n} unidades · fuerza total {power}",
+      "edit": "Editar mazo",
+      "invalid": "Este mazo incumple las reglas de mazo. Edítalo para jugar con él."
+    },
+    "builder": {
+      "eyebrow": "DUELO · MAZO",
+      "title": "Construye tu mazo",
+      "cancel": "Cancelar",
+      "save": "Guardar mazo",
+      "units": "Unidades {n} / {min}–{max}",
+      "tactics": "Tácticas {n}/{max}",
+      "strength": "Fuerza total {n}",
+      "bonds": "{n, plural, one {# vínculo Kizuna} other {# vínculos Kizuna}}",
+      "collection": "Colección",
+      "deck": "Mazo ({n})",
+      "search": "Busca una carta o una serie",
+      "all": "Todas",
+      "hint": "Toca una carta para añadirla y tócala otra vez para quitarla. Las cartas en gris superarían un límite.",
+      "more": "Mostrar más (quedan {n})",
+      "auto": "Rellenar solo",
+      "clear": "Vaciar",
+      "tacticsTitle": "Tácticas (hasta 6, 2 iguales)",
+      "less": "Una {name} menos",
+      "add": "Una {name} más",
+      "empty": "Aún no hay cartas: toca cartas de tu colección.",
+      "remove": "Quitar {name}"
     },
     "ai": {
       "title": "Contra el ordenador",
@@ -1682,6 +1707,8 @@
       "hero": "Las cartas Míticas son héroes: nada cambia su fuerza y Quemar no puede destruirlas.",
       "bondTitle": "Vínculo Kizuna.",
       "bond": "Cada unidad recibe +1 por cada otra unidad de la misma serie en tu lado, así que los conjuntos de una serie se fortalecen juntos.",
+      "deckTitle": "Mazo.",
+      "deck": "De 22 a 25 de tus propias cartas, con como máximo 1 Mítica, 2 Legendarias y 4 Épicas, más hasta 6 tácticas (2 iguales como máximo).",
       "abilities": "Habilidades de las cartas",
       "tactics": "Tácticas (en todos los mazos)"
     },
@@ -1692,7 +1719,8 @@
       "hornTaken": "Esa fila ya tiene un cuerno.",
       "noRedraws": "No quedan cambios.",
       "notInHand": "Esa carta no está en tu mano.",
-      "emptyDeck": "Tu mazo está vacío."
+      "emptyDeck": "Tu mazo está vacío.",
+      "invalidDeck": "Tu mazo incumple las reglas de mazo. Arréglalo en el constructor de mazos."
     }
   },
   "banned": {

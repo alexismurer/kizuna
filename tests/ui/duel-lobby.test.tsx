@@ -32,7 +32,7 @@ function setup(collection: boolean) {
   const deck = starterDeck(pool);
   render(
     <NextIntlClientProvider locale="en" messages={messages}>
-      <PlayLobby me={{ id: "u1", name: "kenji" }} collectionDeck={collection ? deck : null} ownedCount={collection ? 25 : 3} starterDeck={deck} />
+      <PlayLobby me={{ id: "u1", name: "kenji" }} owned={collection ? pool : pool.slice(0, 3)} starterDeck={deck} />
     </NextIntlClientProvider>,
   );
 }
@@ -70,5 +70,26 @@ describe("PlayLobby", () => {
     fireEvent.click(screen.getByRole("button", { name: "Play" }));
     expect(hand.querySelectorAll("button").length).toBeLessThan(before + 2);
     expect(screen.queryByText("Your turn")).toBeNull();
+  });
+});
+
+describe("deck builder", () => {
+  it("opens from the lobby, keeps the caps, and saves", () => {
+    const owned = pool.map((c, i) => ({ ...c, rarity: (i < 5 ? "legendary" : "common") as CardData["rarity"], pow: i < 5 ? 99 : c.pow }));
+    render(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <PlayLobby me={{ id: "u9", name: "kenji" }} owned={owned} starterDeck={starterDeck(pool)} />
+      </NextIntlClientProvider>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /Edit deck/ }));
+    expect(screen.getByRole("heading", { name: "Build your deck" })).toBeInTheDocument();
+    // the auto deck holds 2 of the 5 legendaries
+    expect(screen.getByText("Legendary 2/2")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+    expect(screen.getByRole("button", { name: /Save deck/ })).toBeDisabled();
+    fireEvent.click(screen.getByRole("button", { name: /Auto-fill/ }));
+    fireEvent.click(screen.getByRole("button", { name: /Save deck/ }));
+    expect(screen.getByRole("button", { name: /My deck/ })).toHaveAttribute("aria-pressed", "true");
+    expect(JSON.parse(localStorage.getItem("kizuna.duel.deck.u9")!).cards).toHaveLength(25);
   });
 });
