@@ -2019,6 +2019,19 @@
       "seeResult": "Voir le résultat",
       "share": "J’ai fait {score} à Qui est-ce ? sur Kizuna !",
       "rules": "Un personnage apparaît zoomé et flou, puis se dévoile en 10 secondes. Choisis son nom parmi les quatre : plus tu réponds vite, plus tu marques (jusqu’à 100 points). Une mauvaise réponse ne rapporte rien. Une partie fait 10 personnages, tirés parmi les plus aimés."
+    },
+    "seriesRush": {
+      "name": "Série express",
+      "chip": "10 séries",
+      "pitch": "Trois personnages d’un même anime apparaissent un par un : trouve la série au plus vite.",
+      "series": "Série",
+      "question": "De quel anime viennent-ils ?",
+      "right": "Bien vu ! +{n}",
+      "wrong": "Raté !",
+      "next": "Suivant",
+      "seeResult": "Voir le résultat",
+      "share": "J’ai fait {score} à Série express sur Kizuna !",
+      "rules": "Trois personnages d’une même série apparaissent un par un, toutes les 4 secondes (le nom de la série est caché sur les cartes). Choisis l’anime parmi les quatre : plus tu réponds tôt, plus tu marques (jusqu’à 100 points). Une mauvaise réponse ne rapporte rien. Une partie fait 10 séries parmi les plus connues."
     }
   }
 }

@@ -2019,6 +2019,19 @@
       "seeResult": "Zobacz wynik",
       "share": "Zdobyłem {score} w Kto to? na Kizuna!",
       "rules": "Postać pojawia się powiększona i rozmazana, a w 10 sekund staje się wyraźna. Wybierz jej imię z czterech: im szybciej, tym więcej punktów (do 100). Zła odpowiedź nic nie daje. Gra to 10 postaci spośród najbardziej lubianych."
+    },
+    "seriesRush": {
+      "name": "Serialowy sprint",
+      "chip": "10 serii",
+      "pitch": "Trzy postacie z jednego anime pojawiają się po kolei: jak najszybciej nazwij serię.",
+      "series": "Seria",
+      "question": "Z jakiego anime pochodzą?",
+      "right": "Dobrze! +{n}",
+      "wrong": "Źle!",
+      "next": "Dalej",
+      "seeResult": "Zobacz wynik",
+      "share": "Zdobyłem {score} w Serialowym sprincie na Kizuna!",
+      "rules": "Trzy postacie z jednej serii pojawiają się po kolei co 4 sekundy (nazwa serii jest ukryta na kartach). Wybierz anime z czterech: im wcześniej, tym więcej punktów (do 100). Zła odpowiedź nic nie daje. Gra to 10 najbardziej znanych serii."
     }
   }
 }

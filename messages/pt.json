@@ -2019,6 +2019,19 @@
       "seeResult": "Ver o resultado",
       "share": "Fiz {score} no Quem é? do Kizuna!",
       "rules": "Um personagem aparece ampliado e borrado e fica nítido em 10 segundos. Escolha o nome entre quatro: quanto mais rápido, mais pontos (até 100). Resposta errada não pontua. Um jogo tem 10 personagens entre os mais queridos."
+    },
+    "seriesRush": {
+      "name": "Série relâmpago",
+      "chip": "10 séries",
+      "pitch": "Três personagens de um anime aparecem um a um: diga a série o mais rápido possível.",
+      "series": "Série",
+      "question": "De qual anime eles são?",
+      "right": "Acertou! +{n}",
+      "wrong": "Errou!",
+      "next": "Próximo",
+      "seeResult": "Ver o resultado",
+      "share": "Fiz {score} no Série relâmpago do Kizuna!",
+      "rules": "Três personagens de uma série aparecem um a um, a cada 4 segundos (o nome da série fica escondido nas cartas). Escolha o anime entre quatro: quanto antes responder, mais pontos (até 100). Resposta errada não pontua. Um jogo tem 10 séries entre as mais conhecidas."
     }
   }
 }

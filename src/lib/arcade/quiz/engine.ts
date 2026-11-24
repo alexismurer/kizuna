@@ -31,6 +31,8 @@ export type QuizView = {
   reveal?: number[];
   askedMsAgo: number | null;
   answered: null | { choice: number; right: boolean; points: number; answer: number; cards: QuizCard[] };
+  // name and rarity of the cards already on screen (games that show them before the answer)
+  faces?: { name: string; rarity: Rarity }[];
   score: number;
   over: boolean;
 };
@@ -79,19 +81,21 @@ export function visibleSlots(q: QuizQuestion, msAgo: number | null): number {
   return q.reveal.filter((at) => msAgo >= at).length;
 }
 
-export function quizView(s: QuizState, now: number): QuizView {
+export function quizView(s: QuizState, now: number, opts: { faces?: boolean } = {}): QuizView {
   const q = s.questions[s.i];
   const a = s.answers[s.i];
   const msAgo = s.askedAt === null ? null : Math.max(0, now - s.askedAt);
+  const slots = a ? q.cards.length : visibleSlots(q, msAgo);
   return {
     index: s.i,
     total: s.over ? s.answers.length : s.questions.length,
     options: q.options,
-    slots: a ? q.cards.length : visibleSlots(q, msAgo),
+    slots,
     cards: q.cards.length,
     reveal: q.reveal,
     askedMsAgo: msAgo,
     answered: a ? { ...a, answer: q.answer, cards: q.cards } : null,
+    ...(opts.faces ? { faces: q.cards.slice(0, slots).map((c) => ({ name: c.name, rarity: c.rarity })) } : {}),
     score: s.score,
     over: s.over,
   };

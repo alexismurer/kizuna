@@ -2019,6 +2019,19 @@
       "seeResult": "See the result",
       "share": "I scored {score} at Who’s that? on Kizuna!",
       "rules": "A character shows up zoomed in and blurred, then comes into view over 10 seconds. Pick their name among the four: the quicker you answer, the more you score (up to 100 points). A wrong answer scores nothing. A game is 10 characters, drawn among the most loved."
+    },
+    "seriesRush": {
+      "name": "Series rush",
+      "chip": "10 series",
+      "pitch": "Three characters from one anime show up one by one: name the series as fast as you can.",
+      "series": "Series",
+      "question": "Which anime are they from?",
+      "right": "Well spotted! +{n}",
+      "wrong": "Wrong!",
+      "next": "Next",
+      "seeResult": "See the result",
+      "share": "I scored {score} at Series rush on Kizuna!",
+      "rules": "Three characters from one series come into view one by one, every 4 seconds (the series name is hidden on the cards). Pick the anime among the four: the sooner you answer, the more you score (up to 100 points). A wrong answer scores nothing. A game is 10 series, among the best known."
     }
   }
 }

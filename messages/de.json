@@ -2019,6 +2019,19 @@
       "seeResult": "Ergebnis ansehen",
       "share": "Ich habe {score} bei Wer ist das? auf Kizuna geschafft!",
       "rules": "Eine Figur erscheint vergrößert und verschwommen und wird in 10 Sekunden scharf. Wähle ihren Namen aus vier: Je schneller du antwortest, desto mehr Punkte (bis zu 100). Eine falsche Antwort bringt nichts. Ein Spiel hat 10 Figuren aus den beliebtesten."
+    },
+    "seriesRush": {
+      "name": "Serien-Sprint",
+      "chip": "10 Serien",
+      "pitch": "Drei Figuren aus einem Anime erscheinen nacheinander: Nenne die Serie so schnell du kannst.",
+      "series": "Serie",
+      "question": "Aus welchem Anime stammen sie?",
+      "right": "Gut erkannt! +{n}",
+      "wrong": "Falsch!",
+      "next": "Weiter",
+      "seeResult": "Ergebnis ansehen",
+      "share": "Ich habe {score} beim Serien-Sprint auf Kizuna geschafft!",
+      "rules": "Drei Figuren einer Serie erscheinen nacheinander, alle 4 Sekunden (der Serienname ist auf den Karten verdeckt). Wähle den Anime aus vier: Je früher du antwortest, desto mehr Punkte (bis zu 100). Falsch bringt nichts. Ein Spiel hat 10 der bekanntesten Serien."
     }
   }
 }

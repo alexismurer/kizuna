@@ -2019,6 +2019,19 @@
       "seeResult": "Ver el resultado",
       "share": "¡Hice {score} en ¿Quién es? en Kizuna!",
       "rules": "Un personaje aparece ampliado y borroso, y se aclara en 10 segundos. Elige su nombre entre cuatro: cuanto antes respondas, más puntos (hasta 100). Una respuesta incorrecta no suma. Una partida son 10 personajes de los más queridos."
+    },
+    "seriesRush": {
+      "name": "Serie exprés",
+      "chip": "10 series",
+      "pitch": "Tres personajes de un anime aparecen uno a uno: di la serie lo antes posible.",
+      "series": "Serie",
+      "question": "¿De qué anime son?",
+      "right": "¡Bien visto! +{n}",
+      "wrong": "¡Fallaste!",
+      "next": "Siguiente",
+      "seeResult": "Ver el resultado",
+      "share": "¡Hice {score} en Serie exprés en Kizuna!",
+      "rules": "Tres personajes de una serie aparecen uno a uno, cada 4 segundos (el nombre de la serie está oculto en las cartas). Elige el anime entre cuatro: cuanto antes respondas, más puntos (hasta 100). Una respuesta incorrecta no suma. Una partida son 10 series de las más conocidas."
     }
   }
 }
