@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, Coins, Gift, MessagesSquare, ShieldCheck, Sparkles, Ticket, Users, type LucideIcon } from "lucide-react";
+import { ArrowLeft, CalendarDays, Coins, Gift, Images, MessagesSquare, ShieldCheck, Sparkles, Ticket, Users, type LucideIcon } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ChatPanel } from "@/components/admin/ChatPanel";
 import { GrantCardPanel } from "@/components/admin/GrantCardPanel";
@@ -129,6 +129,13 @@ async function StaffContent({ params }: { params: Promise<{ locale: string }> })
               </li>
             ))}
           </ul>
+          <Link
+            href="/staff/art"
+            className="mt-2 flex items-center gap-2.5 rounded-lg border border-epic/40 bg-epic/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-epic/20"
+          >
+            <Images className="h-4 w-4 text-epic" aria-hidden />
+            {t("nav.art")}
+          </Link>
         </nav>
         <div className="flex min-w-0 flex-col gap-6">
           <PlayersPanel data={playerData} canEdit={isAdmin} />

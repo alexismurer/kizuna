@@ -116,6 +116,50 @@ export async function fetchCharacterThemeSources(ids: number[]): Promise<Charact
   return data.Page.characters
 }
 
+export type MalMedia = Media & { idMal: number; type: 'ANIME' | 'MANGA' }
+
+export async function fetchMediaByMal(idMals: number[], type: 'ANIME' | 'MANGA'): Promise<MalMedia[]> {
+  if (idMals.length > 50) throw new Error('fetchMediaByMal: at most 50 ids')
+  const query = `query ($ids: [Int], $type: MediaType) {
+    Page(page: 1, perPage: 50) { media(idMal_in: $ids, type: $type) { idMal type ${MEDIA_FIELDS} } }
+  }`
+  const data = await request<{ Page: { media: MalMedia[] } }>(query, { ids: idMals, type })
+  return data.Page.media
+}
+
+export type MediaCharacter = {
+  id: number
+  name: { full: string; native: string | null; alternative: string[] }
+  gender: string | null
+  favourites: number
+}
+
+const MEDIA_CHARACTER_FIELDS = 'id name { full native alternative } gender favourites'
+
+// the 25 most favourited characters of each media
+export async function fetchMediaCharacters(ids: number[]): Promise<Map<number, MediaCharacter[]>> {
+  if (ids.length > 10) throw new Error('fetchMediaCharacters: at most 10 ids')
+  const query = `query ($ids: [Int]) {
+    Page(page: 1, perPage: 10) {
+      media(id_in: $ids) { id characters(sort: FAVOURITES_DESC, perPage: 25) { nodes { ${MEDIA_CHARACTER_FIELDS} } } }
+    }
+  }`
+  const data = await request<{ Page: { media: { id: number; characters: { nodes: MediaCharacter[] } }[] } }>(query, { ids })
+  return new Map(data.Page.media.map((m) => [m.id, m.characters.nodes]))
+}
+
+export type SearchedCharacter = MediaCharacter & { media: { nodes: { idMal: number | null }[] } }
+
+export async function searchCharacters(search: string): Promise<SearchedCharacter[]> {
+  const query = `query ($search: String) {
+    Page(page: 1, perPage: 10) {
+      characters(search: $search) { ${MEDIA_CHARACTER_FIELDS} media(perPage: 25) { nodes { idMal } } }
+    }
+  }`
+  const data = await request<{ Page: { characters: SearchedCharacter[] } }>(query, { search })
+  return data.Page.characters
+}
+
 export type CharacterDetails = {
   id: number
   favourites: number

@@ -29,6 +29,7 @@ npm-debug.log*
 
 # importer cache
 scripts/import-anilist/.cache/
+scripts/import-mal/.cache/
 
 # phone layout check output
 .phone-check/

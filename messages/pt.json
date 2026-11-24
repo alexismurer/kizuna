@@ -1127,7 +1127,11 @@
     "title": "Equipe",
     "subtitle": "Gerencie o jogo: jogadores, convites, moeda, seleções diárias, boosters sazonais e chat.",
     "subtitleModerator": "Cuide dos jogadores e do chat. Boosters e seleções são somente leitura para moderadores.",
-    "roles": { "player": "Jogador", "moderator": "Moderador", "admin": "Admin" },
+    "roles": {
+      "player": "Jogador",
+      "moderator": "Moderador",
+      "admin": "Admin"
+    },
     "back": "Voltar ao jogo",
     "stats": {
       "invites": "Convites não usados",
@@ -1143,7 +1147,8 @@
       "cards": "Cartas",
       "pools": "Seleções diárias",
       "seasonal": "Sazonais",
-      "chat": "Chat"
+      "chat": "Chat",
+      "art": "Imagens das cartas"
     },
     "errors": {
       "not_admin": "Você não é administrador.",
@@ -1166,7 +1171,13 @@
       "cannot_edit_self": "Você não pode alterar seu próprio cargo nem banir a si mesmo.",
       "player_banned": "Desbana este jogador antes de dar a ele um cargo na equipe.",
       "ban_staff": "Torne este jogador um jogador comum antes de bani-lo.",
-      "generic": "Algo deu errado. Tente de novo."
+      "generic": "Algo deu errado. Tente de novo.",
+      "mal_taken": "Esse personagem do MAL já está ligado a outra carta.",
+      "invalid_image": "Essa imagem não é deste personagem.",
+      "candidate_not_found": "Esse personagem não está mais na lista.",
+      "card_exists": "Este personagem já é uma carta.",
+      "invalid_status": "Já foi decidido sobre este personagem.",
+      "gallery_failed": "Não foi possível carregar as imagens do MyAnimeList. Tente de novo em um minuto."
     },
     "invites": {
       "title": "Códigos de convite",
@@ -1283,13 +1294,72 @@
       "cancel": "Cancelar",
       "edit": "Editar",
       "endNow": "Encerrar agora",
-      "status": { "live": "Ativo", "scheduled": "Agendado", "ended": "Encerrado" }
+      "status": {
+        "live": "Ativo",
+        "scheduled": "Agendado",
+        "ended": "Encerrado"
+      }
     },
     "chat": {
       "title": "Moderação do chat",
       "empty": "Nenhuma mensagem.",
       "delete": "Excluir",
       "room": "Sala {room}"
+    },
+    "art": {
+      "title": "Imagens das cartas",
+      "subtitle": "Escolha a imagem de cada carta no MyAnimeList e os novos personagens a adicionar.",
+      "back": "Staff",
+      "tabs": {
+        "cards": "Cartas existentes",
+        "new": "Novos personagens"
+      },
+      "filters": {
+        "todo": "A revisar",
+        "unlinked": "Sem ligação MAL",
+        "reviewed": "Revisadas",
+        "all": "Todas",
+        "new": "Novos",
+        "proposed": "Propostos",
+        "rejected": "Recusados",
+        "accepted": "Aceitos"
+      },
+      "search": "Buscar nome ou série",
+      "total": "{count, plural, one {# item} other {# itens}}",
+      "prev": "Página anterior",
+      "next": "Próxima página",
+      "pictureN": "Imagem {n}",
+      "current": "Atual",
+      "original": "Original",
+      "proposed": "Proposta",
+      "main": "Principal do MAL",
+      "loading": "Carregando…",
+      "emptyCards": "Nada aqui. Tente outro filtro.",
+      "emptyNew": "Nenhum personagem aqui. Tente outro filtro.",
+      "reviewedBy": "revisada por {name}",
+      "unlinkedHelp": "Não conseguimos ligar esta carta ao MyAnimeList sozinhos. Cole o link MAL do personagem para carregar as imagens, ou mantenha a atual.",
+      "malLink": "Link do personagem no MyAnimeList",
+      "link": "Carregar imagens",
+      "fetching": "Carregando imagens do MyAnimeList…",
+      "noPictures": "O MyAnimeList não tem outras imagens deste personagem.",
+      "keep": "Manter a atual",
+      "use": "Usar esta imagem",
+      "skip": "Pular",
+      "keys": "Dica: ← → escolhe uma imagem, Enter salva e passa para a próxima. Clique duplo também funciona.",
+      "kept": "Imagem de {name} mantida.",
+      "saved": "Nova imagem salva para {name}.",
+      "linked": "{name} ligado ao MyAnimeList.",
+      "newHelp": "Escolha a melhor imagem e proponha o personagem. Um admin adiciona os personagens propostos como cartas.",
+      "newHelpAdmin": "Aceitar adiciona o personagem como carta na hora (ele pode sair dos boosters). Os moderadores preenchem a lista de Propostos.",
+      "newSeries": "álbum novo",
+      "proposedBy": "proposto por {name}",
+      "decidedBy": "decidido por {name}",
+      "accept": "Adicionar como carta",
+      "propose": "Propor",
+      "reject": "Recusar",
+      "proposedOk": "{name} proposto.",
+      "acceptedOk": "{name} agora é uma carta.",
+      "rejectedOk": "{name} recusado."
     }
   },
   "pages": {

@@ -1127,7 +1127,11 @@
     "title": "Team",
     "subtitle": "Das Spiel verwalten: Spieler, Einladungen, Währung, Tagespools, saisonale Booster und Chat.",
     "subtitleModerator": "Kümmere dich um die Spieler und den Chat. Booster und Pools sind für Moderatoren schreibgeschützt.",
-    "roles": { "player": "Spieler", "moderator": "Moderator", "admin": "Admin" },
+    "roles": {
+      "player": "Spieler",
+      "moderator": "Moderator",
+      "admin": "Admin"
+    },
     "back": "Zurück zum Spiel",
     "stats": {
       "invites": "Unbenutzte Einladungen",
@@ -1143,7 +1147,8 @@
       "cards": "Karten",
       "pools": "Tagespools",
       "seasonal": "Saisonal",
-      "chat": "Chat"
+      "chat": "Chat",
+      "art": "Kartenbilder"
     },
     "errors": {
       "not_admin": "Du bist kein Admin.",
@@ -1166,7 +1171,13 @@
       "cannot_edit_self": "Du kannst weder deine eigene Rolle ändern noch dich selbst sperren.",
       "player_banned": "Hebe die Sperre dieses Spielers auf, bevor du ihm eine Team-Rolle gibst.",
       "ban_staff": "Mache diesen Spieler zu einem normalen Spieler, bevor du ihn sperrst.",
-      "generic": "Etwas ist schiefgelaufen. Versuche es erneut."
+      "generic": "Etwas ist schiefgelaufen. Versuche es erneut.",
+      "mal_taken": "Dieser MAL-Charakter ist schon mit einer anderen Karte verknüpft.",
+      "invalid_image": "Dieses Bild gehört nicht zu diesem Charakter.",
+      "candidate_not_found": "Dieser Charakter ist nicht mehr in der Liste.",
+      "card_exists": "Dieser Charakter ist bereits eine Karte.",
+      "invalid_status": "Über diesen Charakter wurde schon entschieden.",
+      "gallery_failed": "Die Bilder von MyAnimeList konnten nicht geladen werden. Versuch es in einer Minute erneut."
     },
     "invites": {
       "title": "Einladungscodes",
@@ -1283,13 +1294,72 @@
       "cancel": "Abbrechen",
       "edit": "Bearbeiten",
       "endNow": "Jetzt beenden",
-      "status": { "live": "Aktiv", "scheduled": "Geplant", "ended": "Beendet" }
+      "status": {
+        "live": "Aktiv",
+        "scheduled": "Geplant",
+        "ended": "Beendet"
+      }
     },
     "chat": {
       "title": "Chat-Moderation",
       "empty": "Keine Nachrichten.",
       "delete": "Löschen",
       "room": "Raum {room}"
+    },
+    "art": {
+      "title": "Kartenbilder",
+      "subtitle": "Wähle das Bild jeder Karte von MyAnimeList und neue Charaktere zum Hinzufügen.",
+      "back": "Staff",
+      "tabs": {
+        "cards": "Vorhandene Karten",
+        "new": "Neue Charaktere"
+      },
+      "filters": {
+        "todo": "Zu prüfen",
+        "unlinked": "Kein MAL-Treffer",
+        "reviewed": "Geprüft",
+        "all": "Alle",
+        "new": "Neu",
+        "proposed": "Vorgeschlagen",
+        "rejected": "Abgelehnt",
+        "accepted": "Angenommen"
+      },
+      "search": "Name oder Serie suchen",
+      "total": "{count, plural, one {# Eintrag} other {# Einträge}}",
+      "prev": "Vorherige Seite",
+      "next": "Nächste Seite",
+      "pictureN": "Bild {n}",
+      "current": "Aktuell",
+      "original": "Original",
+      "proposed": "Vorgeschlagen",
+      "main": "MAL-Hauptbild",
+      "loading": "Lädt…",
+      "emptyCards": "Hier ist nichts. Probier einen anderen Filter.",
+      "emptyNew": "Keine Charaktere hier. Probier einen anderen Filter.",
+      "reviewedBy": "geprüft von {name}",
+      "unlinkedHelp": "Diese Karte konnte nicht automatisch mit MyAnimeList verknüpft werden. Füge den MAL-Link des Charakters ein, um seine Bilder zu laden, oder behalte das aktuelle Bild.",
+      "malLink": "MyAnimeList-Link des Charakters",
+      "link": "Bilder laden",
+      "fetching": "Bilder von MyAnimeList werden geladen…",
+      "noPictures": "MyAnimeList hat keine weiteren Bilder dieses Charakters.",
+      "keep": "Aktuelles behalten",
+      "use": "Dieses Bild nehmen",
+      "skip": "Überspringen",
+      "keys": "Tipp: ← → wählt ein Bild, Enter speichert und geht zum nächsten. Doppelklick geht auch.",
+      "kept": "Bild von {name} behalten.",
+      "saved": "Neues Bild für {name} gespeichert.",
+      "linked": "{name} ist mit MyAnimeList verknüpft.",
+      "newHelp": "Wähle das beste Bild und schlage den Charakter vor. Ein Admin fügt vorgeschlagene Charaktere als Karten hinzu.",
+      "newHelpAdmin": "Annehmen fügt den Charakter sofort als Karte hinzu (er kann aus Boostern kommen). Moderatoren füllen die Liste „Vorgeschlagen“.",
+      "newSeries": "neues Album",
+      "proposedBy": "vorgeschlagen von {name}",
+      "decidedBy": "entschieden von {name}",
+      "accept": "Als Karte hinzufügen",
+      "propose": "Vorschlagen",
+      "reject": "Ablehnen",
+      "proposedOk": "{name} vorgeschlagen.",
+      "acceptedOk": "{name} ist jetzt eine Karte.",
+      "rejectedOk": "{name} abgelehnt."
     }
   },
   "pages": {

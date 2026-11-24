@@ -1127,7 +1127,11 @@
     "title": "管理团队",
     "subtitle": "管理游戏：玩家、邀请码、货币、每日卡池、季节限定卡包和聊天。",
     "subtitleModerator": "照看玩家和聊天。卡包和卡池对版主为只读。",
-    "roles": { "player": "玩家", "moderator": "版主", "admin": "管理员" },
+    "roles": {
+      "player": "玩家",
+      "moderator": "版主",
+      "admin": "管理员"
+    },
     "back": "返回游戏",
     "stats": {
       "invites": "未使用的邀请码",
@@ -1143,7 +1147,8 @@
       "cards": "卡牌",
       "pools": "每日卡池",
       "seasonal": "季节限定",
-      "chat": "聊天"
+      "chat": "聊天",
+      "art": "卡牌图片"
     },
     "errors": {
       "not_admin": "你不是管理员。",
@@ -1166,7 +1171,13 @@
       "cannot_edit_self": "你不能更改自己的角色或封禁自己。",
       "player_banned": "请先解除该玩家的封禁，再授予管理团队角色。",
       "ban_staff": "请先将该玩家改为普通玩家，再封禁。",
-      "generic": "出了点问题。请重试。"
+      "generic": "出了点问题。请重试。",
+      "mal_taken": "该 MAL 角色已关联到另一张卡牌。",
+      "invalid_image": "这张图片不属于该角色。",
+      "candidate_not_found": "该角色已不在列表中。",
+      "card_exists": "该角色已经是卡牌了。",
+      "invalid_status": "该角色已有决定。",
+      "gallery_failed": "无法从 MyAnimeList 加载图片，请一分钟后重试。"
     },
     "invites": {
       "title": "邀请码",
@@ -1283,13 +1294,72 @@
       "cancel": "取消",
       "edit": "编辑",
       "endNow": "立即结束",
-      "status": { "live": "进行中", "scheduled": "已排期", "ended": "已结束" }
+      "status": {
+        "live": "进行中",
+        "scheduled": "已排期",
+        "ended": "已结束"
+      }
     },
     "chat": {
       "title": "聊天管理",
       "empty": "没有消息。",
       "delete": "删除",
       "room": "聊天室 {room}"
+    },
+    "art": {
+      "title": "卡牌图片",
+      "subtitle": "从 MyAnimeList 为每张卡牌选图，并挑选要加入的新角色。",
+      "back": "管理",
+      "tabs": {
+        "cards": "现有卡牌",
+        "new": "新角色"
+      },
+      "filters": {
+        "todo": "待检查",
+        "unlinked": "未匹配 MAL",
+        "reviewed": "已检查",
+        "all": "全部",
+        "new": "新的",
+        "proposed": "已提议",
+        "rejected": "已拒绝",
+        "accepted": "已接受"
+      },
+      "search": "搜索名称或系列",
+      "total": "{count} 项",
+      "prev": "上一页",
+      "next": "下一页",
+      "pictureN": "图片 {n}",
+      "current": "当前",
+      "original": "原图",
+      "proposed": "提议",
+      "main": "MAL 主图",
+      "loading": "加载中…",
+      "emptyCards": "这里没有内容，换个筛选试试。",
+      "emptyNew": "这里没有角色，换个筛选试试。",
+      "reviewedBy": "由 {name} 检查",
+      "unlinkedHelp": "这张卡牌无法自动匹配到 MyAnimeList。粘贴角色的 MAL 链接来加载图片，或保留当前图片。",
+      "malLink": "MyAnimeList 角色链接",
+      "link": "加载图片",
+      "fetching": "正在从 MyAnimeList 加载图片…",
+      "noPictures": "MyAnimeList 没有该角色的其他图片。",
+      "keep": "保留当前",
+      "use": "使用这张",
+      "skip": "跳过",
+      "keys": "提示：← → 选择图片，Enter 保存并进入下一个。双击也可以。",
+      "kept": "已保留 {name} 的图片。",
+      "saved": "已为 {name} 保存新图片。",
+      "linked": "已将 {name} 关联到 MyAnimeList。",
+      "newHelp": "选出最好的图片并提议该角色。管理员会把提议的角色加为卡牌。",
+      "newHelpAdmin": "接受后角色会立即成为卡牌（可从卡包中抽到）。版主负责填充“已提议”列表。",
+      "newSeries": "新图鉴",
+      "proposedBy": "由 {name} 提议",
+      "decidedBy": "由 {name} 决定",
+      "accept": "加为卡牌",
+      "propose": "提议",
+      "reject": "拒绝",
+      "proposedOk": "已提议 {name}。",
+      "acceptedOk": "{name} 现在是卡牌了。",
+      "rejectedOk": "已拒绝 {name}。"
     }
   },
   "pages": {

@@ -1127,7 +1127,11 @@
     "title": "Zespół",
     "subtitle": "Zarządzaj grą: gracze, zaproszenia, waluta, pule dzienne, boostery sezonowe i czat.",
     "subtitleModerator": "Dbaj o graczy i czat. Boostery i pule są dla moderatorów tylko do odczytu.",
-    "roles": { "player": "Gracz", "moderator": "Moderator", "admin": "Admin" },
+    "roles": {
+      "player": "Gracz",
+      "moderator": "Moderator",
+      "admin": "Admin"
+    },
     "back": "Wróć do gry",
     "stats": {
       "invites": "Niewykorzystane zaproszenia",
@@ -1143,7 +1147,8 @@
       "cards": "Karty",
       "pools": "Pule dzienne",
       "seasonal": "Sezonowe",
-      "chat": "Czat"
+      "chat": "Czat",
+      "art": "Obrazki kart"
     },
     "errors": {
       "not_admin": "Nie jesteś administratorem.",
@@ -1166,7 +1171,13 @@
       "cannot_edit_self": "Nie możesz zmienić własnej roli ani zbanować samego siebie.",
       "player_banned": "Odbanuj tego gracza, zanim nadasz mu rolę w zespole.",
       "ban_staff": "Zmień tego gracza na zwykłego gracza, zanim go zbanujesz.",
-      "generic": "Coś poszło nie tak. Spróbuj ponownie."
+      "generic": "Coś poszło nie tak. Spróbuj ponownie.",
+      "mal_taken": "Ta postać z MAL jest już połączona z inną kartą.",
+      "invalid_image": "Ten obrazek nie należy do tej postaci.",
+      "candidate_not_found": "Tej postaci nie ma już na liście.",
+      "card_exists": "Ta postać jest już kartą.",
+      "invalid_status": "O tej postaci już zdecydowano.",
+      "gallery_failed": "Nie udało się wczytać obrazków z MyAnimeList. Spróbuj ponownie za minutę."
     },
     "invites": {
       "title": "Kody zaproszeń",
@@ -1283,13 +1294,72 @@
       "cancel": "Anuluj",
       "edit": "Edytuj",
       "endNow": "Zakończ teraz",
-      "status": { "live": "Aktywny", "scheduled": "Zaplanowany", "ended": "Zakończony" }
+      "status": {
+        "live": "Aktywny",
+        "scheduled": "Zaplanowany",
+        "ended": "Zakończony"
+      }
     },
     "chat": {
       "title": "Moderacja czatu",
       "empty": "Brak wiadomości.",
       "delete": "Usuń",
       "room": "Pokój {room}"
+    },
+    "art": {
+      "title": "Obrazki kart",
+      "subtitle": "Wybierz obrazek każdej karty z MyAnimeList i nowe postacie do dodania.",
+      "back": "Staff",
+      "tabs": {
+        "cards": "Istniejące karty",
+        "new": "Nowe postacie"
+      },
+      "filters": {
+        "todo": "Do sprawdzenia",
+        "unlinked": "Bez dopasowania MAL",
+        "reviewed": "Sprawdzone",
+        "all": "Wszystkie",
+        "new": "Nowe",
+        "proposed": "Zaproponowane",
+        "rejected": "Odrzucone",
+        "accepted": "Przyjęte"
+      },
+      "search": "Szukaj nazwy lub serii",
+      "total": "{count, plural, one {# pozycja} few {# pozycje} many {# pozycji} other {# pozycji}}",
+      "prev": "Poprzednia strona",
+      "next": "Następna strona",
+      "pictureN": "Obrazek {n}",
+      "current": "Obecny",
+      "original": "Oryginalny",
+      "proposed": "Zaproponowany",
+      "main": "Główny z MAL",
+      "loading": "Wczytywanie…",
+      "emptyCards": "Nic tu nie ma. Spróbuj innego filtra.",
+      "emptyNew": "Brak postaci. Spróbuj innego filtra.",
+      "reviewedBy": "sprawdził(a) {name}",
+      "unlinkedHelp": "Nie udało się automatycznie połączyć tej karty z MyAnimeList. Wklej link MAL postaci, aby wczytać jej obrazki, albo zostaw obecny.",
+      "malLink": "Link do postaci na MyAnimeList",
+      "link": "Wczytaj obrazki",
+      "fetching": "Wczytywanie obrazków z MyAnimeList…",
+      "noPictures": "MyAnimeList nie ma innych obrazków tej postaci.",
+      "keep": "Zostaw obecny",
+      "use": "Użyj tego obrazka",
+      "skip": "Pomiń",
+      "keys": "Wskazówka: ← → wybiera obrazek, Enter zapisuje i przechodzi dalej. Podwójne kliknięcie też działa.",
+      "kept": "Zostawiono obrazek {name}.",
+      "saved": "Zapisano nowy obrazek dla {name}.",
+      "linked": "Połączono {name} z MyAnimeList.",
+      "newHelp": "Wybierz najlepszy obrazek i zaproponuj postać. Admin dodaje zaproponowane postacie jako karty.",
+      "newHelpAdmin": "Przyjęcie od razu dodaje postać jako kartę (może wypaść z boosterów). Moderatorzy wypełniają listę Zaproponowane.",
+      "newSeries": "nowy album",
+      "proposedBy": "zaproponował(a) {name}",
+      "decidedBy": "zdecydował(a) {name}",
+      "accept": "Dodaj jako kartę",
+      "propose": "Zaproponuj",
+      "reject": "Odrzuć",
+      "proposedOk": "Zaproponowano {name}.",
+      "acceptedOk": "{name} jest teraz kartą.",
+      "rejectedOk": "Odrzucono {name}."
     }
   },
   "pages": {

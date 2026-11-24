@@ -1127,7 +1127,11 @@
     "title": "スタッフ",
     "subtitle": "ゲームの運営：プレイヤー、招待、通貨、デイリーセレクション、シーズンブースター、チャット。",
     "subtitleModerator": "プレイヤーとチャットを見守ります。ブースターとセレクションはモデレーターには閲覧のみです。",
-    "roles": { "player": "プレイヤー", "moderator": "モデレーター", "admin": "管理者" },
+    "roles": {
+      "player": "プレイヤー",
+      "moderator": "モデレーター",
+      "admin": "管理者"
+    },
     "back": "ゲームに戻る",
     "stats": {
       "invites": "未使用の招待",
@@ -1143,7 +1147,8 @@
       "cards": "カード",
       "pools": "デイリーセレクション",
       "seasonal": "シーズン",
-      "chat": "チャット"
+      "chat": "チャット",
+      "art": "カードの画像"
     },
     "errors": {
       "not_admin": "管理者ではありません。",
@@ -1166,7 +1171,13 @@
       "cannot_edit_self": "自分のロールを変更したり、自分をBANしたりすることはできません。",
       "player_banned": "スタッフのロールを付与する前に、このプレイヤーのBANを解除してください。",
       "ban_staff": "BANする前に、このプレイヤーを一般プレイヤーに戻してください。",
-      "generic": "問題が発生しました。もう一度お試しください。"
+      "generic": "問題が発生しました。もう一度お試しください。",
+      "mal_taken": "そのMALキャラクターはすでに別のカードに紐付いています。",
+      "invalid_image": "その画像はこのキャラクターのものではありません。",
+      "candidate_not_found": "そのキャラクターはもうリストにありません。",
+      "card_exists": "このキャラクターはすでにカードです。",
+      "invalid_status": "このキャラクターはすでに判定済みです。",
+      "gallery_failed": "MyAnimeListから画像を読み込めませんでした。1分後にもう一度お試しください。"
     },
     "invites": {
       "title": "招待コード",
@@ -1283,13 +1294,72 @@
       "cancel": "キャンセル",
       "edit": "編集",
       "endNow": "今すぐ終了",
-      "status": { "live": "開催中", "scheduled": "予定", "ended": "終了" }
+      "status": {
+        "live": "開催中",
+        "scheduled": "予定",
+        "ended": "終了"
+      }
     },
     "chat": {
       "title": "チャットのモデレーション",
       "empty": "メッセージはありません。",
       "delete": "削除",
       "room": "ルーム {room}"
+    },
+    "art": {
+      "title": "カードの画像",
+      "subtitle": "MyAnimeListから各カードの画像を選び、追加する新キャラクターを選びます。",
+      "back": "スタッフ",
+      "tabs": {
+        "cards": "既存のカード",
+        "new": "新キャラクター"
+      },
+      "filters": {
+        "todo": "未確認",
+        "unlinked": "MAL未紐付け",
+        "reviewed": "確認済み",
+        "all": "すべて",
+        "new": "新規",
+        "proposed": "提案済み",
+        "rejected": "却下",
+        "accepted": "承認済み"
+      },
+      "search": "名前・シリーズで検索",
+      "total": "{count}件",
+      "prev": "前のページ",
+      "next": "次のページ",
+      "pictureN": "画像{n}",
+      "current": "現在",
+      "original": "元の画像",
+      "proposed": "提案",
+      "main": "MALメイン",
+      "loading": "読み込み中…",
+      "emptyCards": "該当なし。別のフィルターをお試しください。",
+      "emptyNew": "キャラクターがいません。別のフィルターをお試しください。",
+      "reviewedBy": "{name}が確認",
+      "unlinkedHelp": "このカードはMyAnimeListと自動で紐付けできませんでした。キャラクターのMALリンクを貼ると画像を読み込めます。今の画像のままでもOKです。",
+      "malLink": "MyAnimeListのキャラクターリンク",
+      "link": "画像を読み込む",
+      "fetching": "MyAnimeListから画像を読み込み中…",
+      "noPictures": "MyAnimeListにこのキャラクターの他の画像はありません。",
+      "keep": "今のままにする",
+      "use": "この画像にする",
+      "skip": "スキップ",
+      "keys": "ヒント：← →で画像を選び、Enterで保存して次へ。ダブルクリックでもOK。",
+      "kept": "{name}の画像をそのままにしました。",
+      "saved": "{name}の新しい画像を保存しました。",
+      "linked": "{name}をMyAnimeListに紐付けました。",
+      "newHelp": "一番いい画像を選んでキャラクターを提案してください。提案されたキャラクターは管理者がカードとして追加します。",
+      "newHelpAdmin": "承認するとすぐにカードとして追加されます（ブースターから出ます）。「提案済み」リストはモデレーターが作ります。",
+      "newSeries": "新アルバム",
+      "proposedBy": "{name}が提案",
+      "decidedBy": "{name}が判定",
+      "accept": "カードとして追加",
+      "propose": "提案する",
+      "reject": "却下",
+      "proposedOk": "{name}を提案しました。",
+      "acceptedOk": "{name}がカードになりました。",
+      "rejectedOk": "{name}を却下しました。"
     }
   },
   "pages": {

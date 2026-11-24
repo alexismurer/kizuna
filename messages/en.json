@@ -1127,7 +1127,11 @@
     "title": "Staff",
     "subtitle": "Run the game: players, invites, currency, daily pools, seasonal boosters and chat.",
     "subtitleModerator": "Look after the players and the chat. Boosters and pools are read-only for moderators.",
-    "roles": { "player": "Player", "moderator": "Moderator", "admin": "Admin" },
+    "roles": {
+      "player": "Player",
+      "moderator": "Moderator",
+      "admin": "Admin"
+    },
     "back": "Back to the game",
     "stats": {
       "invites": "Unused invites",
@@ -1143,7 +1147,8 @@
       "cards": "Cards",
       "pools": "Daily pools",
       "seasonal": "Seasonal",
-      "chat": "Chat"
+      "chat": "Chat",
+      "art": "Card art"
     },
     "errors": {
       "not_admin": "You are not an admin.",
@@ -1166,7 +1171,13 @@
       "cannot_edit_self": "You can't change your own role or ban yourself.",
       "player_banned": "Unban this player before giving them a staff role.",
       "ban_staff": "Make this player a regular player before banning them.",
-      "generic": "Something went wrong. Try again."
+      "generic": "Something went wrong. Try again.",
+      "mal_taken": "That MAL character is already linked to another card.",
+      "invalid_image": "That picture isn't one of this character's.",
+      "candidate_not_found": "That character is no longer in the list.",
+      "card_exists": "This character is already a card.",
+      "invalid_status": "This character was already decided.",
+      "gallery_failed": "Couldn't load the pictures from MyAnimeList. Try again in a minute."
     },
     "invites": {
       "title": "Invite codes",
@@ -1283,13 +1294,72 @@
       "cancel": "Cancel",
       "edit": "Edit",
       "endNow": "End now",
-      "status": { "live": "Live", "scheduled": "Scheduled", "ended": "Ended" }
+      "status": {
+        "live": "Live",
+        "scheduled": "Scheduled",
+        "ended": "Ended"
+      }
     },
     "chat": {
       "title": "Chat moderation",
       "empty": "No messages.",
       "delete": "Delete",
       "room": "Room {room}"
+    },
+    "art": {
+      "title": "Card art",
+      "subtitle": "Pick each card's picture from MyAnimeList, and choose new characters to add.",
+      "back": "Staff",
+      "tabs": {
+        "cards": "Existing cards",
+        "new": "New characters"
+      },
+      "filters": {
+        "todo": "To review",
+        "unlinked": "No MAL match",
+        "reviewed": "Reviewed",
+        "all": "All",
+        "new": "New",
+        "proposed": "Proposed",
+        "rejected": "Rejected",
+        "accepted": "Accepted"
+      },
+      "search": "Search name or series",
+      "total": "{count, plural, one {# entry} other {# entries}}",
+      "prev": "Previous page",
+      "next": "Next page",
+      "pictureN": "Picture {n}",
+      "current": "Current",
+      "original": "Original",
+      "proposed": "Proposed",
+      "main": "MAL main",
+      "loading": "Loading…",
+      "emptyCards": "Nothing here. Try another filter.",
+      "emptyNew": "No characters here. Try another filter.",
+      "reviewedBy": "reviewed by {name}",
+      "unlinkedHelp": "We couldn't match this card to MyAnimeList on our own. Paste its MAL character link to load its pictures, or keep the current picture.",
+      "malLink": "MyAnimeList character link",
+      "link": "Load pictures",
+      "fetching": "Loading pictures from MyAnimeList…",
+      "noPictures": "MyAnimeList has no other pictures for this character.",
+      "keep": "Keep current",
+      "use": "Use this picture",
+      "skip": "Skip",
+      "keys": "Tip: ← → pick a picture, Enter saves and moves to the next one. Double-click works too.",
+      "kept": "Kept the picture of {name}.",
+      "saved": "New picture saved for {name}.",
+      "linked": "Linked {name} to MyAnimeList.",
+      "newHelp": "Pick the best picture and propose the character. An admin adds proposed characters as cards.",
+      "newHelpAdmin": "Accepting adds the character as a card right away (it can drop from boosters). Moderators fill the Proposed list.",
+      "newSeries": "new album",
+      "proposedBy": "proposed by {name}",
+      "decidedBy": "decided by {name}",
+      "accept": "Add as card",
+      "propose": "Propose",
+      "reject": "Reject",
+      "proposedOk": "Proposed {name}.",
+      "acceptedOk": "{name} is now a card.",
+      "rejectedOk": "Rejected {name}."
     }
   },
   "pages": {
