@@ -171,6 +171,7 @@
   "login": {
     "title": "Вход",
     "discord": "Продолжить с Discord",
+    "google": "Продолжить с Google",
     "devHeading": "Вход для разработчиков",
     "email": "Эл. почта",
     "password": "Пароль",

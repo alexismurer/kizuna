@@ -171,6 +171,7 @@
   "login": {
     "title": "Entrar",
     "discord": "Continuar com o Discord",
+    "google": "Continuar com o Google",
     "devHeading": "Login de desenvolvedor",
     "email": "E-mail",
     "password": "Senha",

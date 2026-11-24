@@ -23,6 +23,7 @@ describe("LoginPanel", () => {
     wrap(<LoginPanel devLogin={false} />);
     expect(screen.getByRole("heading", { name: "Sign in" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Continue with Discord" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Continue with Google" })).toBeInTheDocument();
     expect(screen.getByText(/pick a username/)).toBeInTheDocument();
     expect(screen.getByText(/AniList/)).toBeInTheDocument();
   });

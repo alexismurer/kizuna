@@ -171,6 +171,7 @@
   "login": {
     "title": "Zaloguj się",
     "discord": "Kontynuuj z Discordem",
+    "google": "Kontynuuj z Google",
     "devHeading": "Logowanie deweloperskie",
     "email": "E-mail",
     "password": "Hasło",

@@ -171,6 +171,7 @@
   "login": {
     "title": "ログイン",
     "discord": "Discordで続ける",
+    "google": "Googleで続ける",
     "devHeading": "開発者ログイン",
     "email": "メールアドレス",
     "password": "パスワード",
