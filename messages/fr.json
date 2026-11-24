@@ -305,7 +305,13 @@
     "save": "Enregistrer",
     "defaultAvatar": "Utiliser ma meilleure carte",
     "noMatches": "Aucune carte ne correspond.",
-    "noCards": "Tu n'as encore aucune carte."
+    "noCards": "Tu n'as encore aucune carte.",
+    "appearance": "Apparence",
+    "appearanceTitle": "Ton look",
+    "frame": "Cadre",
+    "title": "Titre",
+    "none": "Aucun",
+    "noCosmetics": "Gagne des tickets dans la salle de jeux et échange-les au comptoir contre des titres et des cadres."
   },
   "friends": {
     "title": "Amis et messages",
@@ -1835,14 +1841,7 @@
       "today": "Aujourd’hui",
       "week": "Cette semaine",
       "text": "Gagne des parties pour obtenir des tickets (jusqu’à 60 par jour et 300 par semaine), puis échange-les au comptoir des prix. Rien ici ne s’achète avec de l’argent.",
-      "counter": "Comptoir des prix",
-      "balance": "Tu as {n} tickets.",
-      "prizeBoosters": "{n, plural, one {# booster} many {# de boosters} other {# boosters}}",
-      "redeemed": "C’est fait ! Ton prix t’attend.",
-      "errors": {
-        "not_enough_tickets": "Pas encore assez de tickets.",
-        "generic": "Une erreur s’est produite. Réessaie."
-      }
+      "counter": "Comptoir des prix"
     },
     "duel": {
       "name": "Duel",
@@ -1875,6 +1874,60 @@
       "claim": "Récupérer ton booster doré",
       "claimed": "Ton prochain booster sera doré !",
       "claimError": "Impossible de récupérer la récompense. Réessaie."
+    },
+    "prizes": {
+      "title": "Comptoir des lots",
+      "pitch": "Échange tes tickets contre des boosters et des cosmétiques. Rien ici ne s'achète avec de l'argent ou de la monnaie.",
+      "caps": "Aujourd'hui : {today} / {dayCap} · Cette semaine : {week} / {weekCap}",
+      "capReached": "Plafond du jour atteint : plus de tickets avant minuit.",
+      "ticketsWord": "tickets",
+      "tiers": {
+        "big": "Gros lots",
+        "bigNote": "chaque mois, ou une fois pour toutes",
+        "medium": "Lots moyens",
+        "mediumNote": "chaque semaine",
+        "small": "Petits lots",
+        "smallNote": "chaque jour"
+      },
+      "items": {
+        "legendary_booster": {
+          "name": "Booster Légendaire garanti",
+          "text": "5 cartes, une Légendaire ou mieux garantie."
+        },
+        "mythic_booster": {
+          "name": "Booster Mythique garanti",
+          "text": "4 cartes, une Mythique garantie."
+        },
+        "golden3": {
+          "name": "Tes 3 prochains boosters dorés",
+          "text": "Pas de boosters en plus : les 3 prochains que tu ouvres deviennent dorés, chacun avec au moins une Épique."
+        },
+        "bonus5": {
+          "name": "5 boosters bonus",
+          "text": "À ouvrir quand tu veux, en plus de ton stock gratuit."
+        },
+        "titles": {
+          "name": "Titres d'arcade"
+        },
+        "titleText": "Un titre affiché sous ton nom.",
+        "frameText": "Un cadre pour ton avatar."
+      },
+      "once": "Une seule fois",
+      "owned": "Possédé",
+      "equip": "Équiper",
+      "equipped": "Équipé",
+      "doneBooster": "C'est fait ! Tes boosters t'attendent sur la page des boosters.",
+      "doneGolden": "C'est fait ! Tes prochains boosters seront dorés.",
+      "doneCosmetic": "Il est à toi ! Équipe-le pour le montrer.",
+      "errors": {
+        "not_enough_tickets": "Pas encore assez de tickets.",
+        "limit_reached": "Tu as atteint la limite de ce lot pour l'instant.",
+        "already_owned": "Tu l'as déjà.",
+        "generic": "Un problème est survenu. Réessaie."
+      },
+      "limitDay": "{limit} par jour · {left} restant",
+      "limitWeek": "{limit} par semaine · {left} restant",
+      "limitMonth": "{limit} par mois · {left} restant"
     }
   },
   "cosmetics": {

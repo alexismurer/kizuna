@@ -305,7 +305,13 @@
     "save": "Speichern",
     "defaultAvatar": "Meine beste Karte verwenden",
     "noMatches": "Keine passenden Karten.",
-    "noCards": "Du hast noch keine Karten."
+    "noCards": "Du hast noch keine Karten.",
+    "appearance": "Aussehen",
+    "appearanceTitle": "Dein Look",
+    "frame": "Rahmen",
+    "title": "Titel",
+    "none": "Keiner",
+    "noCosmetics": "Gewinne Tickets im Spielraum und tausche sie an der Preistheke gegen Titel und Rahmen."
   },
   "friends": {
     "title": "Freunde & Nachrichten",
@@ -1835,14 +1841,7 @@
       "today": "Heute",
       "week": "Diese Woche",
       "text": "Gewinne Spiele, um Tickets zu verdienen (bis zu 60 pro Tag und 300 pro Woche), und tausche sie am Preisschalter ein. Hier wird nichts mit Geld gekauft.",
-      "counter": "Preisschalter",
-      "balance": "Du hast {n} Tickets.",
-      "prizeBoosters": "{n, plural, one {# Booster} other {# Booster}}",
-      "redeemed": "Geschafft! Dein Preis wartet auf dich.",
-      "errors": {
-        "not_enough_tickets": "Noch nicht genug Tickets.",
-        "generic": "Etwas ist schiefgelaufen. Versuch es noch einmal."
-      }
+      "counter": "Preisschalter"
     },
     "duel": {
       "name": "Duell",
@@ -1875,6 +1874,60 @@
       "claim": "Goldenen Booster abholen",
       "claimed": "Dein nächster Booster wird golden!",
       "claimError": "Die Belohnung konnte nicht abgeholt werden. Versuch es noch einmal."
+    },
+    "prizes": {
+      "title": "Preistheke",
+      "pitch": "Tausche deine Tickets gegen Booster und Kosmetik. Hier wird nichts mit Geld oder Währung gekauft.",
+      "caps": "Heute: {today} / {dayCap} · Diese Woche: {week} / {weekCap}",
+      "capReached": "Tageslimit erreicht: bis Mitternacht keine Tickets mehr.",
+      "ticketsWord": "Tickets",
+      "tiers": {
+        "big": "Große Preise",
+        "bigNote": "jeden Monat oder einmalig",
+        "medium": "Mittlere Preise",
+        "mediumNote": "jede Woche",
+        "small": "Kleine Preise",
+        "smallNote": "jeden Tag"
+      },
+      "items": {
+        "legendary_booster": {
+          "name": "Garantierter Legendär-Booster",
+          "text": "5 Karten, eine Legendäre oder besser garantiert."
+        },
+        "mythic_booster": {
+          "name": "Garantierter Mythisch-Booster",
+          "text": "4 Karten, eine Mythische garantiert."
+        },
+        "golden3": {
+          "name": "Deine nächsten 3 Booster golden",
+          "text": "Keine zusätzlichen Booster: Die nächsten 3, die du öffnest, werden golden, jeder mit mindestens einer Epischen."
+        },
+        "bonus5": {
+          "name": "5 Bonus-Booster",
+          "text": "Öffne sie, wann du willst, zusätzlich zu deinem Gratisvorrat."
+        },
+        "titles": {
+          "name": "Arcade-Titel"
+        },
+        "titleText": "Ein Titel unter deinem Namen.",
+        "frameText": "Ein Rahmen für deinen Avatar."
+      },
+      "once": "Nur einmal",
+      "owned": "Im Besitz",
+      "equip": "Anlegen",
+      "equipped": "Angelegt",
+      "doneBooster": "Erledigt! Deine Booster warten auf der Booster-Seite.",
+      "doneGolden": "Erledigt! Deine nächsten Booster werden golden.",
+      "doneCosmetic": "Gehört dir! Lege es an, um es zu zeigen.",
+      "errors": {
+        "not_enough_tickets": "Noch nicht genug Tickets.",
+        "limit_reached": "Das Limit für diesen Preis ist vorerst erreicht.",
+        "already_owned": "Das hast du schon.",
+        "generic": "Etwas ist schiefgelaufen. Versuch es noch einmal."
+      },
+      "limitDay": "{limit} pro Tag · noch {left}",
+      "limitWeek": "{limit} pro Woche · noch {left}",
+      "limitMonth": "{limit} pro Monat · noch {left}"
     }
   },
   "cosmetics": {

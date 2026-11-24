@@ -51,7 +51,10 @@ async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile
   }
 
   let owned: ProfileCard[] = [];
+  let cosmetics: string[] = [];
   if (profile.isMe) {
+    const { data: mine } = await supabase.from("player_cosmetics").select("cosmetic_id");
+    cosmetics = ((mine ?? []) as { cosmetic_id: string }[]).map((r) => r.cosmetic_id);
     const rows = (await fetchAll((from, to) =>
       supabase
         .from("inventory")
@@ -77,7 +80,7 @@ async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile
 
   return (
     <div className="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
-      <ProfileHeader profile={profile} owned={owned} />
+      <ProfileHeader profile={profile} owned={owned} cosmetics={cosmetics} />
       <ProfileTabs profile={profile} />
     </div>
   );

@@ -305,7 +305,13 @@
     "save": "保存",
     "defaultAvatar": "使用我最好的卡",
     "noMatches": "没有匹配的卡。",
-    "noCards": "你还没有卡牌。"
+    "noCards": "你还没有卡牌。",
+    "appearance": "外观",
+    "appearanceTitle": "你的造型",
+    "frame": "边框",
+    "title": "称号",
+    "none": "无",
+    "noCosmetics": "在游戏厅赢取奖券，到奖品柜台兑换称号和边框。"
   },
   "friends": {
     "title": "好友与消息",
@@ -1835,14 +1841,7 @@
       "today": "今天",
       "week": "本周",
       "text": "赢得游戏来获得票券（每天最多 60 张，每周最多 300 张），然后在奖品柜台兑换。这里的东西都不能用钱购买。",
-      "counter": "奖品柜台",
-      "balance": "你有 {n} 张票券。",
-      "prizeBoosters": "{n, plural, other {# 个卡包}}",
-      "redeemed": "完成！你的奖品正等着你。",
-      "errors": {
-        "not_enough_tickets": "票券还不够。",
-        "generic": "出了点问题，请再试一次。"
-      }
+      "counter": "奖品柜台"
     },
     "duel": {
       "name": "对决",
@@ -1875,6 +1874,60 @@
       "claim": "领取你的黄金卡包",
       "claimed": "你的下一个卡包将是黄金卡包！",
       "claimError": "无法领取奖励，请再试一次。"
+    },
+    "prizes": {
+      "title": "奖品柜台",
+      "pitch": "用奖券兑换卡包和装饰。这里的东西都不能用钱或货币购买。",
+      "caps": "今天：{today} / {dayCap} · 本周：{week} / {weekCap}",
+      "capReached": "已达今日上限：午夜前不再获得奖券。",
+      "ticketsWord": "奖券",
+      "tiers": {
+        "big": "大奖",
+        "bigNote": "每月一次，或永久一次",
+        "medium": "中奖",
+        "mediumNote": "每周",
+        "small": "小奖",
+        "smallNote": "每天"
+      },
+      "items": {
+        "legendary_booster": {
+          "name": "必出传说卡包",
+          "text": "5张卡，必出一张传说或更高。"
+        },
+        "mythic_booster": {
+          "name": "必出神话卡包",
+          "text": "4张卡，必出一张神话。"
+        },
+        "golden3": {
+          "name": "接下来3个卡包变金色",
+          "text": "不会额外送卡包：你接下来开的3个卡包会变成金色，每个至少有一张史诗。"
+        },
+        "bonus5": {
+          "name": "5个额外卡包",
+          "text": "随时开启，不占免费库存。"
+        },
+        "titles": {
+          "name": "街机称号"
+        },
+        "titleText": "显示在你名字下方的称号。",
+        "frameText": "头像边框。"
+      },
+      "once": "仅一次",
+      "owned": "已拥有",
+      "equip": "装备",
+      "equipped": "已装备",
+      "doneBooster": "完成！卡包已在卡包页面等你。",
+      "doneGolden": "完成！你接下来的卡包会是金色的。",
+      "doneCosmetic": "归你了！装备它来展示吧。",
+      "errors": {
+        "not_enough_tickets": "奖券还不够。",
+        "limit_reached": "这个奖品暂时已达上限。",
+        "already_owned": "你已经拥有了。",
+        "generic": "出了点问题，请重试。"
+      },
+      "limitDay": "每天{limit}次 · 剩余{left}",
+      "limitWeek": "每周{limit}次 · 剩余{left}",
+      "limitMonth": "每月{limit}次 · 剩余{left}"
     }
   },
   "cosmetics": {

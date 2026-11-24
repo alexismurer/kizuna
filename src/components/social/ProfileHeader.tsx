@@ -8,6 +8,7 @@ import { completionPct } from "@/lib/social/format";
 import type { Friendship, ProfileCard, ProfileData } from "@/lib/social/types";
 import { Avatar } from "./Avatar";
 import { PlayerTitle } from "./PlayerTitle";
+import { AppearancePicker } from "./AppearancePicker";
 import { AvatarPicker } from "./AvatarPicker";
 import { FriendButton } from "./FriendButton";
 import { ShowcasePicker } from "./ShowcasePicker";
@@ -36,12 +37,21 @@ function Ring({ pct }: { pct: number }) {
 }
 
 // Left column of a profile: identity, stats and the buttons that fit who is looking.
-export function ProfileHeader({ profile, owned }: { profile: ProfileData; owned: ProfileCard[] }) {
+export function ProfileHeader({
+  profile,
+  owned,
+  cosmetics = [],
+}: {
+  profile: ProfileData;
+  owned: ProfileCard[];
+  // ids of the titles and frames the player owns (own profile only)
+  cosmetics?: string[];
+}) {
   const t = useTranslations("profile");
   const tPush = useTranslations("push");
   const format = useFormatter();
   const [friendship, setFriendship] = useState<Friendship>(profile.friendship);
-  const [picker, setPicker] = useState<"avatar" | "showcase" | null>(null);
+  const [picker, setPicker] = useState<"avatar" | "showcase" | "appearance" | null>(null);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState(false);
   const pct = completionPct(profile.uniqueCards, profile.catalogSize);
@@ -122,6 +132,16 @@ export function ProfileHeader({ profile, owned }: { profile: ProfileData; owned:
                   >
                     {t("editShowcase")}
                   </button>
+                  <button
+                    type="button"
+                    className="w-full px-3 py-2 text-left text-sm hover:bg-border"
+                    onClick={() => {
+                      setMenu(false);
+                      setPicker("appearance");
+                    }}
+                  >
+                    {t("appearance")}
+                  </button>
                 </div>
               )}
             </div>
@@ -151,6 +171,13 @@ export function ProfileHeader({ profile, owned }: { profile: ProfileData; owned:
 
       {profile.isMe && <PushSettings title={tPush("profileTitle")} className="" />}
 
+      {picker === "appearance" && (
+        <AppearancePicker
+          owned={cosmetics}
+          me={{ username: profile.username, avatarUrl: profile.avatarUrl, frameId: profile.frameId ?? null, titleId: profile.titleId ?? null }}
+          onClose={() => setPicker(null)}
+        />
+      )}
       {picker === "avatar" && <AvatarPicker owned={owned} total={profile.catalogSize} onClose={() => setPicker(null)} />}
       {picker === "showcase" && (
         <ShowcasePicker

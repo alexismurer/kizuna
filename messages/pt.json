@@ -305,7 +305,13 @@
     "save": "Salvar",
     "defaultAvatar": "Usar minha melhor carta",
     "noMatches": "Nenhuma carta corresponde.",
-    "noCards": "Você ainda não tem cartas."
+    "noCards": "Você ainda não tem cartas.",
+    "appearance": "Aparência",
+    "appearanceTitle": "Seu visual",
+    "frame": "Moldura",
+    "title": "Título",
+    "none": "Nenhum",
+    "noCosmetics": "Ganhe tickets na sala de jogos e troque no balcão por títulos e molduras."
   },
   "friends": {
     "title": "Amigos e mensagens",
@@ -1835,14 +1841,7 @@
       "today": "Hoje",
       "week": "Esta semana",
       "text": "Vença partidas para ganhar tickets (até 60 por dia e 300 por semana) e troque-os no balcão de prêmios. Nada aqui é comprado com dinheiro.",
-      "counter": "Balcão de prêmios",
-      "balance": "Você tem {n} tickets.",
-      "prizeBoosters": "{n, plural, one {# booster} many {# de boosters} other {# boosters}}",
-      "redeemed": "Pronto! Seu prêmio está esperando por você.",
-      "errors": {
-        "not_enough_tickets": "Você ainda não tem tickets suficientes.",
-        "generic": "Algo deu errado. Tente novamente."
-      }
+      "counter": "Balcão de prêmios"
     },
     "duel": {
       "name": "Duelo",
@@ -1875,6 +1874,60 @@
       "claim": "Resgatar seu booster dourado",
       "claimed": "Seu próximo booster será dourado!",
       "claimError": "Não foi possível resgatar a recompensa. Tente novamente."
+    },
+    "prizes": {
+      "title": "Balcão de prêmios",
+      "pitch": "Troque seus tickets por boosters e cosméticos. Nada aqui é comprado com dinheiro ou moeda.",
+      "caps": "Hoje: {today} / {dayCap} · Esta semana: {week} / {weekCap}",
+      "capReached": "Limite diário atingido: sem tickets até a meia-noite.",
+      "ticketsWord": "tickets",
+      "tiers": {
+        "big": "Grandes prêmios",
+        "bigNote": "todo mês, ou uma vez só",
+        "medium": "Prêmios médios",
+        "mediumNote": "toda semana",
+        "small": "Pequenos prêmios",
+        "smallNote": "todo dia"
+      },
+      "items": {
+        "legendary_booster": {
+          "name": "Booster Lendário garantido",
+          "text": "5 cartas, uma Lendária ou melhor garantida."
+        },
+        "mythic_booster": {
+          "name": "Booster Mítico garantido",
+          "text": "4 cartas, uma Mítica garantida."
+        },
+        "golden3": {
+          "name": "Seus próximos 3 boosters dourados",
+          "text": "Sem boosters extras: os próximos 3 que você abrir ficam dourados, cada um com pelo menos uma Épica."
+        },
+        "bonus5": {
+          "name": "5 boosters bônus",
+          "text": "Abra quando quiser, além do seu estoque grátis."
+        },
+        "titles": {
+          "name": "Títulos de arcade"
+        },
+        "titleText": "Um título exibido sob seu nome.",
+        "frameText": "Uma moldura para seu avatar."
+      },
+      "once": "Só uma vez",
+      "owned": "Seu",
+      "equip": "Equipar",
+      "equipped": "Equipado",
+      "doneBooster": "Pronto! Seus boosters esperam na página de boosters.",
+      "doneGolden": "Pronto! Seus próximos boosters serão dourados.",
+      "doneCosmetic": "É seu! Equipe para exibir.",
+      "errors": {
+        "not_enough_tickets": "Ainda não há tickets suficientes.",
+        "limit_reached": "Você atingiu o limite deste prêmio por enquanto.",
+        "already_owned": "Você já tem este.",
+        "generic": "Algo deu errado. Tente de novo."
+      },
+      "limitDay": "{limit} por dia · restam {left}",
+      "limitWeek": "{limit} por semana · restam {left}",
+      "limitMonth": "{limit} por mês · restam {left}"
     }
   },
   "cosmetics": {

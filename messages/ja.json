@@ -305,7 +305,13 @@
     "save": "保存",
     "defaultAvatar": "ベストカードを使う",
     "noMatches": "一致するカードがありません。",
-    "noCards": "まだカードを持っていません。"
+    "noCards": "まだカードを持っていません。",
+    "appearance": "見た目",
+    "appearanceTitle": "あなたの見た目",
+    "frame": "フレーム",
+    "title": "称号",
+    "none": "なし",
+    "noCosmetics": "ゲームルームでチケットを稼ぎ、景品カウンターで称号やフレームと交換しよう。"
   },
   "friends": {
     "title": "フレンドとメッセージ",
@@ -1835,14 +1841,7 @@
       "today": "今日",
       "week": "今週",
       "text": "ゲームに勝ってチケットを集め（1日60枚、1週間300枚まで）、景品カウンターで交換しましょう。ここではお金で買えるものはありません。",
-      "counter": "景品カウンター",
-      "balance": "チケットを{n}枚持っています。",
-      "prizeBoosters": "{n, plural, other {ブースター#個}}",
-      "redeemed": "完了！景品があなたを待っています。",
-      "errors": {
-        "not_enough_tickets": "チケットがまだ足りません。",
-        "generic": "問題が発生しました。もう一度お試しください。"
-      }
+      "counter": "景品カウンター"
     },
     "duel": {
       "name": "デュエル",
@@ -1875,6 +1874,60 @@
       "claim": "ゴールデンブースターを受け取る",
       "claimed": "次のブースターはゴールデンになります！",
       "claimError": "報酬を受け取れませんでした。もう一度お試しください。"
+    },
+    "prizes": {
+      "title": "景品カウンター",
+      "pitch": "チケットをブースターやコスメと交換しよう。ここではお金や通貨では何も買えません。",
+      "caps": "今日：{today} / {dayCap} · 今週：{week} / {weekCap}",
+      "capReached": "今日の上限に達しました：深夜0時までチケットは増えません。",
+      "ticketsWord": "チケット",
+      "tiers": {
+        "big": "大景品",
+        "bigNote": "毎月、または一度きり",
+        "medium": "中景品",
+        "mediumNote": "毎週",
+        "small": "小景品",
+        "smallNote": "毎日"
+      },
+      "items": {
+        "legendary_booster": {
+          "name": "レジェンド確定ブースター",
+          "text": "5枚入り、レジェンド以上1枚確定。"
+        },
+        "mythic_booster": {
+          "name": "ミシック確定ブースター",
+          "text": "4枚入り、ミシック1枚確定。"
+        },
+        "golden3": {
+          "name": "次の3パックがゴールデン",
+          "text": "追加ブースターではありません：次に開ける3パックがゴールデンになり、それぞれエピック以上が1枚入ります。"
+        },
+        "bonus5": {
+          "name": "ボーナスブースター5個",
+          "text": "無料ストックとは別に、好きな時に開けられます。"
+        },
+        "titles": {
+          "name": "アーケード称号"
+        },
+        "titleText": "名前の下に表示される称号。",
+        "frameText": "アバター用のフレーム。"
+      },
+      "once": "一度きり",
+      "owned": "所持",
+      "equip": "装備",
+      "equipped": "装備中",
+      "doneBooster": "完了！ブースターはブースターページで待っています。",
+      "doneGolden": "完了！次のブースターはゴールデンになります。",
+      "doneCosmetic": "手に入れました！装備して見せびらかそう。",
+      "errors": {
+        "not_enough_tickets": "チケットがまだ足りません。",
+        "limit_reached": "この景品は今は上限に達しています。",
+        "already_owned": "もう持っています。",
+        "generic": "問題が発生しました。もう一度お試しください。"
+      },
+      "limitDay": "1日{limit}回 · 残り{left}",
+      "limitWeek": "1週間に{limit}回 · 残り{left}",
+      "limitMonth": "1か月に{limit}回 · 残り{left}"
     }
   },
   "cosmetics": {

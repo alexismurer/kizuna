@@ -305,7 +305,13 @@
     "save": "Guardar",
     "defaultAvatar": "Usar mi mejor carta",
     "noMatches": "Ninguna carta coincide.",
-    "noCards": "Aún no tienes cartas."
+    "noCards": "Aún no tienes cartas.",
+    "appearance": "Apariencia",
+    "appearanceTitle": "Tu estilo",
+    "frame": "Marco",
+    "title": "Título",
+    "none": "Ninguno",
+    "noCosmetics": "Gana tickets en la sala de juegos y cámbialos en el mostrador por títulos y marcos."
   },
   "friends": {
     "title": "Amigos y mensajes",
@@ -1835,14 +1841,7 @@
       "today": "Hoy",
       "week": "Esta semana",
       "text": "Gana partidas para conseguir tickets (hasta 60 al día y 300 por semana) y cámbialos en el mostrador de premios. Aquí no se compra nada con dinero.",
-      "counter": "Mostrador de premios",
-      "balance": "Tienes {n} tickets.",
-      "prizeBoosters": "{n, plural, one {# sobre} many {# de sobres} other {# sobres}}",
-      "redeemed": "¡Listo! Tu premio te está esperando.",
-      "errors": {
-        "not_enough_tickets": "Todavía no tienes suficientes tickets.",
-        "generic": "Algo salió mal. Inténtalo de nuevo."
-      }
+      "counter": "Mostrador de premios"
     },
     "duel": {
       "name": "Duelo",
@@ -1875,6 +1874,60 @@
       "claim": "Reclamar tu sobre dorado",
       "claimed": "¡Tu próximo sobre será dorado!",
       "claimError": "No se pudo reclamar la recompensa. Inténtalo de nuevo."
+    },
+    "prizes": {
+      "title": "Mostrador de premios",
+      "pitch": "Cambia tus tickets por sobres y cosméticos. Aquí nada se compra con dinero ni moneda.",
+      "caps": "Hoy: {today} / {dayCap} · Esta semana: {week} / {weekCap}",
+      "capReached": "Límite diario alcanzado: no más tickets hasta medianoche.",
+      "ticketsWord": "tickets",
+      "tiers": {
+        "big": "Grandes premios",
+        "bigNote": "cada mes, o una sola vez",
+        "medium": "Premios medianos",
+        "mediumNote": "cada semana",
+        "small": "Pequeños premios",
+        "smallNote": "cada día"
+      },
+      "items": {
+        "legendary_booster": {
+          "name": "Sobre Legendario garantizado",
+          "text": "5 cartas, una Legendaria o mejor garantizada."
+        },
+        "mythic_booster": {
+          "name": "Sobre Mítico garantizado",
+          "text": "4 cartas, una Mítica garantizada."
+        },
+        "golden3": {
+          "name": "Tus próximos 3 sobres dorados",
+          "text": "Sin sobres extra: los próximos 3 que abras serán dorados, cada uno con al menos una Épica."
+        },
+        "bonus5": {
+          "name": "5 sobres extra",
+          "text": "Ábrelos cuando quieras, además de tu reserva gratis."
+        },
+        "titles": {
+          "name": "Títulos arcade"
+        },
+        "titleText": "Un título que aparece bajo tu nombre.",
+        "frameText": "Un marco para tu avatar."
+      },
+      "once": "Solo una vez",
+      "owned": "Tuyo",
+      "equip": "Equipar",
+      "equipped": "Equipado",
+      "doneBooster": "¡Hecho! Tus sobres te esperan en la página de sobres.",
+      "doneGolden": "¡Hecho! Tus próximos sobres serán dorados.",
+      "doneCosmetic": "¡Es tuyo! Equípalo para lucirlo.",
+      "errors": {
+        "not_enough_tickets": "Aún no tienes suficientes tickets.",
+        "limit_reached": "Has alcanzado el límite de este premio por ahora.",
+        "already_owned": "Ya lo tienes.",
+        "generic": "Algo salió mal. Inténtalo de nuevo."
+      },
+      "limitDay": "{limit} por día · quedan {left}",
+      "limitWeek": "{limit} por semana · quedan {left}",
+      "limitMonth": "{limit} por mes · quedan {left}"
     }
   },
   "cosmetics": {

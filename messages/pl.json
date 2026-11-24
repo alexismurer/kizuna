@@ -305,7 +305,13 @@
     "save": "Zapisz",
     "defaultAvatar": "Użyj mojej najlepszej karty",
     "noMatches": "Brak pasujących kart.",
-    "noCards": "Nie masz jeszcze kart."
+    "noCards": "Nie masz jeszcze kart.",
+    "appearance": "Wygląd",
+    "appearanceTitle": "Twój wygląd",
+    "frame": "Ramka",
+    "title": "Tytuł",
+    "none": "Brak",
+    "noCosmetics": "Zdobywaj bilety w salonie gier i wymieniaj je przy ladzie na tytuły i ramki."
   },
   "friends": {
     "title": "Znajomi i wiadomości",
@@ -1835,14 +1841,7 @@
       "today": "Dziś",
       "week": "W tym tygodniu",
       "text": "Wygrywaj gry, by zdobywać żetony (do 60 dziennie i 300 tygodniowo), i wymieniaj je w punkcie nagród. Nic tu nie kupisz za pieniądze.",
-      "counter": "Punkt nagród",
-      "balance": "Masz {n} żetonów.",
-      "prizeBoosters": "{n, plural, one {# booster} few {# boostery} many {# boosterów} other {# boostera}}",
-      "redeemed": "Gotowe! Twoja nagroda na ciebie czeka.",
-      "errors": {
-        "not_enough_tickets": "Masz jeszcze za mało żetonów.",
-        "generic": "Coś poszło nie tak. Spróbuj ponownie."
-      }
+      "counter": "Punkt nagród"
     },
     "duel": {
       "name": "Pojedynek",
@@ -1875,6 +1874,60 @@
       "claim": "Odbierz złoty booster",
       "claimed": "Twój następny booster będzie złoty!",
       "claimError": "Nie udało się odebrać nagrody. Spróbuj ponownie."
+    },
+    "prizes": {
+      "title": "Lada z nagrodami",
+      "pitch": "Wymieniaj bilety na boostery i kosmetyki. Niczego tu nie kupuje się za pieniądze ani walutę.",
+      "caps": "Dziś: {today} / {dayCap} · W tym tygodniu: {week} / {weekCap}",
+      "capReached": "Dzienny limit osiągnięty: bilety dopiero po północy.",
+      "ticketsWord": "biletów",
+      "tiers": {
+        "big": "Duże nagrody",
+        "bigNote": "co miesiąc lub raz na zawsze",
+        "medium": "Średnie nagrody",
+        "mediumNote": "co tydzień",
+        "small": "Małe nagrody",
+        "smallNote": "codziennie"
+      },
+      "items": {
+        "legendary_booster": {
+          "name": "Gwarantowany booster Legendarny",
+          "text": "5 kart, jedna Legendarna lub lepsza gwarantowana."
+        },
+        "mythic_booster": {
+          "name": "Gwarantowany booster Mityczny",
+          "text": "4 karty, jedna Mityczna gwarantowana."
+        },
+        "golden3": {
+          "name": "3 kolejne boostery złote",
+          "text": "Bez dodatkowych boosterów: 3 następne, które otworzysz, będą złote, każdy z co najmniej jedną Epicką."
+        },
+        "bonus5": {
+          "name": "5 boosterów bonusowych",
+          "text": "Otwieraj kiedy chcesz, poza darmowym zapasem."
+        },
+        "titles": {
+          "name": "Tytuły arcade"
+        },
+        "titleText": "Tytuł pod twoją nazwą.",
+        "frameText": "Ramka na twój awatar."
+      },
+      "once": "Tylko raz",
+      "owned": "Posiadane",
+      "equip": "Załóż",
+      "equipped": "Założone",
+      "doneBooster": "Gotowe! Boostery czekają na stronie boosterów.",
+      "doneGolden": "Gotowe! Twoje następne boostery będą złote.",
+      "doneCosmetic": "Twoje! Załóż, żeby się pochwalić.",
+      "errors": {
+        "not_enough_tickets": "Jeszcze za mało biletów.",
+        "limit_reached": "Na razie osiągnięto limit tej nagrody.",
+        "already_owned": "Już to masz.",
+        "generic": "Coś poszło nie tak. Spróbuj ponownie."
+      },
+      "limitDay": "{limit} na dzień · zostało {left}",
+      "limitWeek": "{limit} na tydzień · zostało {left}",
+      "limitMonth": "{limit} na miesiąc · zostało {left}"
     }
   },
   "cosmetics": {

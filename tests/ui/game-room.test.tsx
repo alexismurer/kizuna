@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import messages from "../../messages/en.json";
 
-vi.mock("@/lib/actions/games", () => ({ redeemPrize: vi.fn(), bossClaim: vi.fn() }));
+vi.mock("@/lib/actions/games", () => ({ bossClaim: vi.fn() }));
 vi.mock("@/i18n/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn() }),
   Link: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) => (
@@ -27,7 +27,6 @@ describe("GameRoom", () => {
     weekCap: 300,
     boss: { name: "Armin", imageUrl: null, rarity: "mythic", series: "AoT", hp: 400, damage: 100, mine: 45, share: 30, reward: 40, defeated: true, claimed: false },
     secret: { name: "Shouko", imageUrl: null, rarity: "mythic", series: "A Silent Voice", hp: 1200, damage: 200, mine: 12, share: 30, defeated: false, claimed: false },
-    prizes: [{ id: "booster1", cost: 60, boosters: 1 }, { id: "booster3", cost: 160, boosters: 3 }],
   };
 
   it("leads to Duel and shows tickets, caps and the boss", () => {
@@ -44,8 +43,6 @@ describe("GameRoom", () => {
     expect(screen.getByRole("button", { name: "Claim 40 tickets" })).toBeInTheDocument();
     expect(screen.getByText("SECRET BOSS")).toBeInTheDocument();
     expect(screen.getByText("1000")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Prize counter" }));
-    expect(screen.getByRole("button", { name: "160" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "60" })).toBeEnabled();
+    expect(screen.getByRole("link", { name: "Prize counter" })).toHaveAttribute("href", "/play/prizes");
   });
 });

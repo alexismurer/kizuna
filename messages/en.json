@@ -305,7 +305,13 @@
     "save": "Save",
     "defaultAvatar": "Use my best card",
     "noMatches": "No cards match.",
-    "noCards": "You have no cards yet."
+    "noCards": "You have no cards yet.",
+    "appearance": "Appearance",
+    "appearanceTitle": "Your look",
+    "frame": "Frame",
+    "title": "Title",
+    "none": "None",
+    "noCosmetics": "Win tickets in the game room and trade them at the prize counter for titles and frames."
   },
   "friends": {
     "title": "Friends & messages",
@@ -1835,14 +1841,7 @@
       "today": "Today",
       "week": "This week",
       "text": "Win games to earn tickets (up to 60 a day and 300 a week), then trade them at the prize counter. Nothing here is bought with money.",
-      "counter": "Prize counter",
-      "balance": "You have {n} tickets.",
-      "prizeBoosters": "{n, plural, one {# booster} other {# boosters}}",
-      "redeemed": "Done! Your prize is waiting for you.",
-      "errors": {
-        "not_enough_tickets": "Not enough tickets yet.",
-        "generic": "Something went wrong. Try again."
-      }
+      "counter": "Prize counter"
     },
     "duel": {
       "name": "Duel",
@@ -1875,6 +1874,60 @@
       "claim": "Claim your golden booster",
       "claimed": "Your next booster will be golden!",
       "claimError": "Couldn't claim the reward. Try again."
+    },
+    "prizes": {
+      "title": "Prize counter",
+      "pitch": "Trade your tickets for boosters and cosmetics. Nothing here is bought with money or currency.",
+      "caps": "Today: {today} / {dayCap} · This week: {week} / {weekCap}",
+      "capReached": "Daily cap reached: no more tickets until midnight.",
+      "ticketsWord": "tickets",
+      "tiers": {
+        "big": "Big prizes",
+        "bigNote": "every month, or once for good",
+        "medium": "Medium prizes",
+        "mediumNote": "every week",
+        "small": "Small prizes",
+        "smallNote": "every day"
+      },
+      "items": {
+        "legendary_booster": {
+          "name": "Guaranteed Legendary booster",
+          "text": "5 cards, one Legendary or better guaranteed."
+        },
+        "mythic_booster": {
+          "name": "Guaranteed Mythic booster",
+          "text": "4 cards, one Mythic guaranteed."
+        },
+        "golden3": {
+          "name": "Your next 3 boosters golden",
+          "text": "No extra boosters: the next 3 boosters you open turn golden, each with at least one Epic."
+        },
+        "bonus5": {
+          "name": "5 bonus boosters",
+          "text": "Open them whenever you like, on top of your free stock."
+        },
+        "titles": {
+          "name": "Arcade titles"
+        },
+        "titleText": "A title shown under your name.",
+        "frameText": "A frame for your avatar."
+      },
+      "once": "Once only",
+      "owned": "Owned",
+      "equip": "Equip",
+      "equipped": "Equipped",
+      "doneBooster": "Done! Your boosters are waiting on the boosters page.",
+      "doneGolden": "Done! Your next boosters will be golden.",
+      "doneCosmetic": "It's yours! Equip it to show it off.",
+      "errors": {
+        "not_enough_tickets": "Not enough tickets yet.",
+        "limit_reached": "You've reached this prize's limit for now.",
+        "already_owned": "You already own this one.",
+        "generic": "Something went wrong. Try again."
+      },
+      "limitDay": "{limit} a day · {left} left",
+      "limitWeek": "{limit} a week · {left} left",
+      "limitMonth": "{limit} a month · {left} left"
     }
   },
   "cosmetics": {
