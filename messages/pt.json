@@ -536,6 +536,14 @@
     "seasonal": {
       "name": "Sazonal",
       "tagline": "Só por tempo limitado"
+    },
+    "prize_legendary": {
+      "name": "Prêmio Lendário",
+      "tagline": "Uma Lendária ou melhor"
+    },
+    "prize_mythic": {
+      "name": "Selo Mítico",
+      "tagline": "Uma Mítica garantida"
     }
   },
   "collection": {

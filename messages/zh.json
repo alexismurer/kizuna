@@ -536,6 +536,14 @@
     "seasonal": {
       "name": "季节限定",
       "tagline": "限时提供"
+    },
+    "prize_legendary": {
+      "name": "传说奖品",
+      "tagline": "一张传说或更高"
+    },
+    "prize_mythic": {
+      "name": "神话之印",
+      "tagline": "必出一张神话"
     }
   },
   "collection": {

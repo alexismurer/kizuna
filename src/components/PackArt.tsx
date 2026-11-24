@@ -14,6 +14,7 @@ import {
   Sparkles,
   Star,
   Swords,
+  Ticket,
   Trophy,
   type LucideIcon,
 } from "lucide-react";
@@ -37,6 +38,8 @@ export const EMBLEM: Record<string, LucideIcon> = {
   chest: Archive,
   prestige: Star,
   daily: CalendarDays,
+  prize_legendary: Ticket,
+  prize_mythic: Ticket,
 };
 
 export const HUE: Record<string, number> = {
@@ -56,6 +59,8 @@ export const HUE: Record<string, number> = {
   chest: 30,
   prestige: 50,
   daily: 55,
+  prize_legendary: 42,
+  prize_mythic: 5,
 };
 
 // A tall foil booster: metallic gradient in the pack's hue, crimped seals,

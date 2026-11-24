@@ -129,3 +129,12 @@ describe("paymentFor", () => {
     });
   });
 });
+
+describe("prize boosters", () => {
+  const prize = { id: "prize_mythic", kind: "prize" as const, price: null, fallbackPrice: null };
+  it("can open only the ones held, for free", () => {
+    expect(quantityOptions(prize, st(10, 99999, false, { prize_mythic: 2 }))).toEqual([1, 2]);
+    expect(quantityOptions(prize, st(10, 99999))).toEqual([]);
+    expect(paymentFor(prize, st(10, 99999, false, { prize_mythic: 2 }), 2)).toEqual({ reward: 2, free: 0, paid: 0, cost: 0 });
+  });
+});

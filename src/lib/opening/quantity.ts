@@ -25,6 +25,9 @@ function maxOpenable(p: QuantityPack, s: QuantityStatus): number {
     max = s.freeStock + (p.fallbackPrice ? Math.floor(s.currency / p.fallbackPrice) : 0);
   } else if (p.kind === "shop") {
     max = p.price ? Math.floor(s.currency / p.price) : MAX_OPEN;
+  } else if (p.kind === "prize") {
+    // prize boosters only come from the prize counter
+    max = 0;
   } else {
     max = s.dailyOpenedToday ? 0 : 1;
   }
@@ -52,5 +55,6 @@ export function paymentFor(p: QuantityPack, s: QuantityStatus, n: number) {
   const granted = rewardsFor(p, s);
   if (isFreeKind(p.kind)) return splitPayment(n, granted, s.freeStock, p.fallbackPrice ?? 0);
   if (p.kind === "shop") return splitPayment(n, granted, 0, p.price ?? 0);
+  if (p.kind === "prize") return splitPayment(n, granted, 0, 0);
   return splitPayment(n, 0, n, 0);
 }

@@ -22,3 +22,12 @@ describe("isLive", () => {
     expect(isLive(row("seasonal", null, null), now)).toBe(false);
   });
 });
+
+describe("isLive for prize boosters", () => {
+  const prize = { id: "prize_legendary", kind: "prize", starts_at: null, ends_at: null };
+  it("shows a prize booster only while the player holds one", () => {
+    expect(isLive(prize, now)).toBe(false);
+    expect(isLive(prize, now, { prize_legendary: 0 })).toBe(false);
+    expect(isLive(prize, now, { prize_legendary: 1 })).toBe(true);
+  });
+});

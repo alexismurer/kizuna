@@ -536,6 +536,14 @@
     "seasonal": {
       "name": "Sezonowa",
       "tagline": "Tylko przez ograniczony czas"
+    },
+    "prize_legendary": {
+      "name": "Nagroda legendarna",
+      "tagline": "Jedna Legendarna lub lepsza"
+    },
+    "prize_mythic": {
+      "name": "Mityczna pieczęć",
+      "tagline": "Jedna Mityczna gwarantowana"
     }
   },
   "collection": {

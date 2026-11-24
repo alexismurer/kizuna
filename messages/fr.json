@@ -536,6 +536,14 @@
     "seasonal": {
       "name": "Saisonnier",
       "tagline": "Pour une durée limitée"
+    },
+    "prize_legendary": {
+      "name": "Lot légendaire",
+      "tagline": "Une Légendaire ou mieux"
+    },
+    "prize_mythic": {
+      "name": "Sceau mythique",
+      "tagline": "Une Mythique garantie"
     }
   },
   "collection": {

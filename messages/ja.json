@@ -536,6 +536,14 @@
     "seasonal": {
       "name": "シーズン",
       "tagline": "期間限定"
+    },
+    "prize_legendary": {
+      "name": "レジェンド賞",
+      "tagline": "レジェンド以上が1枚"
+    },
+    "prize_mythic": {
+      "name": "ミシックの封印",
+      "tagline": "ミシック1枚確定"
     }
   },
   "collection": {

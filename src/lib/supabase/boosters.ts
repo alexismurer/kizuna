@@ -51,7 +51,8 @@ async function loadPacks<C extends { image_url: string | null }>(columns: string
   ]);
   const pool = poolRes.data as Pool;
   const now = new Date();
-  const rows = ((packsRes.data ?? []) as PackRow[]).filter((p) => isLive(p, now));
+  const held = (await loadStatus())?.rewardPacks ?? {};
+  const rows = ((packsRes.data ?? []) as PackRow[]).filter((p) => isLive(p, now, held));
 
   const tops = await Promise.all(
     rows.map(async (p) => {

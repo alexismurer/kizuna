@@ -15,7 +15,7 @@ export interface Card {
 
 export interface PackType {
   id: string
-  kind: 'free' | 'shop' | 'daily' | 'seasonal'
+  kind: 'free' | 'shop' | 'daily' | 'seasonal' | 'prize'
   price: number | null
   slotFloors: Rarity[]
   multipliers: Partial<Record<Rarity, number>>

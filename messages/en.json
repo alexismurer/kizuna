@@ -536,6 +536,14 @@
     "seasonal": {
       "name": "Seasonal",
       "tagline": "Limited time only"
+    },
+    "prize_legendary": {
+      "name": "Legendary Prize",
+      "tagline": "One Legendary or better"
+    },
+    "prize_mythic": {
+      "name": "Mythic Seal",
+      "tagline": "One Mythic guaranteed"
     }
   },
   "collection": {

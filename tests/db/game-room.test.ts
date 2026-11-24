@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { admin, newPlayer } from './helpers'
+import { admin, newPlayer, setPlayer } from './helpers'
 
 type P = Awaited<ReturnType<typeof newPlayer>>
 
@@ -41,18 +41,90 @@ describe('tickets', () => {
 })
 
 describe('prize counter', () => {
-  it('trades tickets for boosters or coins and refuses when short', async () => {
+  type PrizeRow = { id: string; tier: string; kind: string; cost: number; left: number; owned: boolean }
+  const counter = async (p: P) => (await p.client.rpc('prize_counter')).data as { prizes: PrizeRow[]; titleId: string | null }
+  const redeem = (p: P, id: string) => p.client.rpc('redeem_prize', { p_prize: id })
+  const granted = async (p: P, pack: string) =>
+    ((await admin.from('granted_packs').select('count').eq('player_id', p.userId).eq('pack_type_id', pack).maybeSingle()).data?.count ?? 0) as number
+  const player = async (p: P) =>
+    (await admin.from('players').select('tickets, golden_next, golden_left, title_id, frame_id').eq('id', p.userId).single()).data!
+
+  it('lists the three tiers with their limits', async () => {
     const p = await newPlayer()
-    await admin.from('players').update({ tickets: 200, currency: 0 }).eq('id', p.userId)
-    expect((await p.client.rpc('redeem_prize', { p_prize: 'booster3' })).data).toBe(40)
-    const { data: packs } = await admin.from('granted_packs').select('count').eq('player_id', p.userId).eq('pack_type_id', 'mix').single()
-    expect(packs!.count).toBeGreaterThanOrEqual(3)
-    expect((await p.client.rpc('redeem_prize', { p_prize: 'booster1' })).error?.message).toContain('not_enough_tickets')
-    await admin.from('players').update({ tickets: 50 }).eq('id', p.userId)
-    expect((await p.client.rpc('redeem_prize', { p_prize: 'coins150' })).data).toBe(0)
-    const { data: me } = await admin.from('players').select('currency').eq('id', p.userId).single()
-    expect(me!.currency).toBe(150)
-    expect((await p.client.rpc('redeem_prize', { p_prize: 'nope' })).error?.message).toContain('unknown_prize')
+    const { prizes } = await counter(p)
+    expect(prizes).toHaveLength(12)
+    expect(prizes.find((x) => x.id === 'legendary_booster')).toMatchObject({ tier: 'big', cost: 200, left: 1 })
+    expect(prizes.find((x) => x.id === 'bonus5')).toMatchObject({ tier: 'small', cost: 30, left: 2 })
+    expect(prizes.find((x) => x.id === 'frame_neon')).toMatchObject({ tier: 'medium', kind: 'frame', owned: false })
+  })
+
+  it('sells a guaranteed legendary booster once a week, again the next week', async () => {
+    const p = await newPlayer()
+    await setPlayer(p.userId, { tickets: 1000 })
+    expect((await redeem(p, 'legendary_booster')).data).toBe(800)
+    expect(await granted(p, 'prize_legendary')).toBe(1)
+    expect((await redeem(p, 'legendary_booster')).error?.message).toContain('limit_reached')
+    expect((await counter(p)).prizes.find((x) => x.id === 'legendary_booster')!.left).toBe(0)
+    await admin.from('ticket_log').update({ created_at: new Date(Date.now() - 8 * 86400e3).toISOString() })
+      .eq('player_id', p.userId).eq('source', 'prize_legendary_booster')
+    expect((await redeem(p, 'legendary_booster')).data).toBe(600)
+  })
+
+  it('opens a prize booster with its guaranteed card, and never without the grant', async () => {
+    const p = await newPlayer()
+    await setPlayer(p.userId, { tickets: 1000 })
+    await redeem(p, 'legendary_booster')
+    const { data, error } = await p.client.rpc('open_packs', { p_pack: 'prize_legendary', p_count: 1 })
+    expect(error).toBeNull()
+    const rows = data as { rarity: string }[]
+    expect(rows).toHaveLength(5)
+    expect(['legendary', 'mythic']).toContain(rows[rows.length - 1].rarity)
+    expect((await p.client.rpc('open_packs', { p_pack: 'prize_legendary', p_count: 1 })).error?.message).toContain('pack_unavailable')
+  })
+
+  it('adds three golden boosters, spending golden_next first', async () => {
+    const p = await newPlayer({ freeStock: 10 })
+    await setPlayer(p.userId, { tickets: 100, golden_next: false })
+    await redeem(p, 'golden3')
+    expect((await player(p)).golden_left).toBe(3)
+    const open = async () => (await p.client.rpc('open_packs', { p_pack: 'mix', p_count: 1 })).data as { golden: boolean }[]
+    expect((await open()).every((r) => r.golden)).toBe(true)
+    expect((await player(p)).golden_left).toBe(2)
+    await setPlayer(p.userId, { golden_next: true })
+    await open()
+    expect(await player(p)).toMatchObject({ golden_next: false, golden_left: 2 })
+  })
+
+  it('sells cosmetics once and equips only what you own', async () => {
+    const p = await newPlayer()
+    await setPlayer(p.userId, { tickets: 300 })
+    expect((await redeem(p, 'title_ace21')).data).toBe(180)
+    expect((await redeem(p, 'title_ace21')).error?.message).toContain('already_owned')
+    expect((await player(p)).tickets).toBe(180)
+    expect((await counter(p)).prizes.find((x) => x.id === 'title_ace21')).toMatchObject({ owned: true, left: 0 })
+    expect((await p.client.rpc('equip_cosmetic', { p_kind: 'title', p_id: 'title_ace21' })).error).toBeNull()
+    expect((await player(p)).title_id).toBe('title_ace21')
+    expect((await p.client.rpc('equip_cosmetic', { p_kind: 'frame', p_id: 'frame_gold' })).error?.message).toContain('not_owned')
+    expect((await p.client.rpc('equip_cosmetic', { p_kind: 'frame', p_id: 'title_ace21' })).error?.message).toContain('invalid_kind')
+    expect((await p.client.rpc('equip_cosmetic', { p_kind: 'title', p_id: null })).error).toBeNull()
+    expect((await player(p)).title_id).toBeNull()
+  })
+
+  it('gives five bonus boosters, twice a day', async () => {
+    const p = await newPlayer()
+    await setPlayer(p.userId, { tickets: 100 })
+    const before = await granted(p, 'mix')
+    await redeem(p, 'bonus5')
+    await redeem(p, 'bonus5')
+    expect(await granted(p, 'mix')).toBe(before + 10)
+    expect((await redeem(p, 'bonus5')).error?.message).toContain('limit_reached')
+  })
+
+  it('refuses when short or unknown', async () => {
+    const p = await newPlayer()
+    await setPlayer(p.userId, { tickets: 10 })
+    expect((await redeem(p, 'bonus5')).error?.message).toContain('not_enough_tickets')
+    expect((await redeem(p, 'nope')).error?.message).toContain('unknown_prize')
   })
 })
 
