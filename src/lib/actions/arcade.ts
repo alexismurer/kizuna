@@ -198,13 +198,25 @@ export async function pokerStart(mode: PokerMode): Promise<ArcadeResult<{ run: s
     const game = POKER_GAME[m];
     if (m === "daily") {
       const day = parisDay();
+      const resume = async (mine: Run<PkState>) => {
+        // a daily that ended but failed to record is recorded now
+        if (mine.state.over && !mine.finished) await finish(mine, game, mine.state.score);
+        return { run: mine.id, view: pokerView(mine.state), help: [], dailyDone: mine.finished || mine.state.over };
+      };
       const mine = await findRun<PkState>(player, game, day);
-      if (mine) return { run: mine.id, view: pokerView(mine.state), help: [], dailyDone: mine.finished || mine.state.over };
+      if (mine) return resume(mine);
       const offered = (await randomCards(52)).map((c) => c.id);
-      const ids = await dailyDeck(game, day, offered);
-      const deck = (await cardsByIds(ids)).map(toPk);
-      const run = await createRun<PkState>(player, game, "daily", 0, startPoker(deck));
-      return { run: run.id, view: pokerView(run.state), help: [] };
+      const deck = (await cardsByIds(await dailyDeck(game, day, offered))).map(toPk);
+      if (deck.length < 20) throw new ArcadeError("not_enough_cards");
+      try {
+        const run = await createRun<PkState>(player, game, "daily", 0, startPoker(deck));
+        return { run: run.id, view: pokerView(run.state), help: [] };
+      } catch (e) {
+        // another tab started today's hand at the same moment: continue that one
+        const other = e instanceof ArcadeError && e.message === "daily_taken" ? await findRun<PkState>(player, game, day) : null;
+        if (other) return resume(other);
+        throw e;
+      }
     }
     const seed = newSeed();
     const cards = await randomCards(52);

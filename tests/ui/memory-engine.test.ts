@@ -39,7 +39,9 @@ describe("memory engine", () => {
     const [c, d] = posOf(s, 2);
     s = flip(flip(s, a), c);
     expect(memoryView(s).lastMiss).toBe(true);
-    expect(() => flip(s, a)).toThrow("invalid_action");
+    // the missed tiles have turned back on screen: tapping one starts the next move
+    const again = flip(s, a);
+    expect(again.open).toEqual([a]);
     s = flip(s, d);
     expect(s.open).toEqual([d]);
     expect(memoryView(s).tiles[a]).toBeNull();

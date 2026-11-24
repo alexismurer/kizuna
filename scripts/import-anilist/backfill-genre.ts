@@ -40,9 +40,15 @@ async function main() {
   }
   dotenv.config({ path: arg('--env') ?? '.env.local', quiet: true })
   const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } })
-  const { data, error } = await db.from('series').select('id, source_id').eq('source', 'anilist').is('genre', null)
-  if (error) throw error
-  const genres = await genresOf(data as { id: number; source_id: number }[])
+  // page through: PostgREST returns at most 1000 rows a call
+  const data: { id: number; source_id: number }[] = []
+  for (let from = 0; ; from += 1000) {
+    const { data: page, error } = await db.from('series').select('id, source_id').eq('source', 'anilist').is('genre', null).order('id').range(from, from + 999)
+    if (error) throw error
+    data.push(...page)
+    if (page.length < 1000) break
+  }
+  const genres = await genresOf(data)
   for (const [id, genre] of genres) {
     const { error: e } = await db.from('series').update({ genre }).eq('id', id)
     if (e) throw e

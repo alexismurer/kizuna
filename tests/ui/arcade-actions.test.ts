@@ -4,21 +4,25 @@ const store = vi.hoisted(() => ({
   loadRun: vi.fn(),
   saveRun: vi.fn(),
   recordRun: vi.fn(),
+  findRun: vi.fn(),
+  createRun: vi.fn(),
+  randomCards: vi.fn(),
+  dailyDeck: vi.fn(),
+  cardsByIds: vi.fn(),
 }));
 vi.mock("@/lib/arcade/server", async () => {
   class ArcadeError extends Error {}
   return {
     ArcadeError,
     requirePlayer: vi.fn(async () => "me"),
-    createRun: vi.fn(),
-    randomCards: vi.fn(),
     secondsSince: () => 120,
+    parisDay: () => "2026-11-25",
     ...store,
   };
 });
 vi.mock("@/lib/supabase/server", () => ({ createServerClient: vi.fn() }));
 
-import { bjAct, quizAnswer, quizPeek } from "@/lib/actions/arcade";
+import { bjAct, pokerStart, quizAnswer, quizPeek } from "@/lib/actions/arcade";
 
 const RUN = "8d5c2a2e-4a6f-4a43-9a51-1d7a0b0c1e2f";
 const overState = {
@@ -60,5 +64,33 @@ describe("arcade actions", () => {
     store.loadRun.mockResolvedValue({ id: RUN, game: "whos-that", state: { over: false }, finished: false });
     expect(await quizPeek("series-rush", RUN)).toEqual({ ok: false, error: "run_not_found" });
     expect(store.saveRun).not.toHaveBeenCalled();
+  });
+
+  it("records a daily hand that ended but was never recorded, instead of only saying it was played", async () => {
+    store.findRun.mockResolvedValue({ id: RUN, game: "daily-hand", mode: "daily", finished: false, startedAt: new Date().toISOString(), state: { hand: [], handsLeft: 0, discardsLeft: 3, score: 900, played: [], over: true, deck: [], next: 0 } });
+    store.recordRun.mockResolvedValue(result);
+    const r = await pokerStart("daily");
+    expect(store.recordRun).toHaveBeenCalledOnce();
+    expect(r.ok && r.data.dailyDone).toBe(true);
+  });
+
+  it("resumes the run that won the race when two daily starts happen at once", async () => {
+    store.findRun.mockResolvedValueOnce(null).mockResolvedValueOnce({ id: RUN, game: "daily-hand", mode: "daily", finished: false, startedAt: new Date().toISOString(), state: { hand: [], handsLeft: 4, discardsLeft: 3, score: 0, played: [], over: false, deck: [], next: 0 } });
+    const cards = Array.from({ length: 52 }, (_, i) => ({ id: i + 1, name: "c", rarity: "rare", imageUrl: "x", series: "s", seriesId: 1, genre: "battle", pow: 50 }));
+    store.randomCards.mockResolvedValue(cards);
+    store.dailyDeck.mockResolvedValue(cards.map((c) => c.id));
+    store.cardsByIds.mockResolvedValue(cards);
+    const { ArcadeError } = await import("@/lib/arcade/server");
+    store.createRun.mockRejectedValue(new ArcadeError("daily_taken"));
+    const r = await pokerStart("daily");
+    expect(r.ok && r.data.run).toBe(RUN);
+  });
+
+  it("refuses a daily deck that is too small", async () => {
+    store.findRun.mockResolvedValue(null);
+    store.randomCards.mockResolvedValue([]);
+    store.dailyDeck.mockResolvedValue([]);
+    store.cardsByIds.mockResolvedValue([]);
+    expect(await pokerStart("daily")).toEqual({ ok: false, error: "not_enough_cards" });
   });
 });

@@ -26,7 +26,7 @@ describe('arcade runs', () => {
   it('keeps the weekly best and the first daily score', async () => {
     const p = await newPlayer()
     await record(await run(p, 'twenty-one', 'daily'), 50, 1, 0)
-    await record(await run(p, 'twenty-one', 'daily'), 80, 2, 0)
+    await record(await run(p, 'twenty-one', 'practice'), 80, 2, 0)
     const { data } = await admin.from('arcade_scores').select('period, score').eq('player_id', p.userId).eq('game', 'twenty-one')
     const byKind = Object.fromEntries((data ?? []).map((r) => [r.period[0], r.score]))
     expect(byKind).toEqual({ w: 80, d: 50 })
@@ -62,6 +62,14 @@ describe('arcade runs', () => {
     expect(cards.every((c) => c.imageUrl)).toBe(true)
     const top = (await admin.rpc('arcade_cards', { p_n: 4, p_min_rarity: 'epic' })).data as { rarity: string }[]
     expect(top.every((c) => ['epic', 'legendary', 'mythic'].includes(c.rarity))).toBe(true)
+  })
+})
+
+describe('one daily run a day', () => {
+  it('refuses a second daily run of a game on the same day', async () => {
+    const p = await newPlayer()
+    await run(p, 'daily-hand', 'daily')
+    await expect(run(p, 'daily-hand', 'daily')).rejects.toMatchObject({ code: '23505' })
   })
 })
 

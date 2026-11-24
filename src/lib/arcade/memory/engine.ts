@@ -29,7 +29,8 @@ export function startMemory(cards: MemCard[], r: () => number): MemState {
 
 export function flip(s: MemState, pos: number): MemState {
   if (s.over || !Number.isInteger(pos) || pos < 0 || pos >= s.tiles.length) return fail();
-  if (s.matched[pos] || s.open.includes(pos)) return fail();
+  // a missed pair (two open) has turned back on screen: any of its tiles may start the next move
+  if (s.matched[pos] || (s.open.length < 2 && s.open.includes(pos))) return fail();
   // a missed pair is still up: it turns back now
   const open = s.open.length === 2 ? [pos] : [...s.open, pos];
   if (open.length < 2) return { ...s, open };

@@ -92,6 +92,8 @@ export async function createRun<S>(player: string, game: ArcadeGameId, mode: "pr
     .insert({ player_id: player, game, mode, day, seed, state })
     .select("*")
     .single();
+  // one daily run per player, game and day (a unique index)
+  if (error?.code === "23505") throw new ArcadeError("daily_taken");
   if (error) throw new ArcadeError(error.message);
   return toRun<S>(data as Row);
 }
