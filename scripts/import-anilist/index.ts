@@ -1,7 +1,7 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 import { fetchCharacterPage, fetchMedia, type CharacterNode, type Media } from './anilist'
-import { rarityForRank, statsForRank, themesFor } from './derive'
+import { genreFor, rarityForRank, statsForRank, themesFor } from './derive'
 import { MAX_LIMIT, effectiveLimit, poolsToCreate, type SeriesStat } from './plan'
 import { albumDisplay, createMediaStore, franchiseRoot } from './franchise'
 
@@ -126,6 +126,7 @@ async function main() {
           {
             source: SOURCE,
             source_id: root.id,
+            genre: genreFor(root.genres),
             ...albumDisplay(root, [...(visitedByRoot.get(root.id)?.values() ?? [])]),
           },
           { onConflict: 'source,source_id', ignoreDuplicates: true },

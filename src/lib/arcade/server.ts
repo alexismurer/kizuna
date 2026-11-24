@@ -36,10 +36,15 @@ export type ArcadeCard = {
   imageUrl: string;
   seriesId: number;
   series: string;
+  genre: Genre;
   gender: string | null;
   rank: number;
+  pow: number;
   fans: number | null;
 };
+
+export type Genre = "battle" | "fantasy" | "romance" | "slice_of_life" | "thrills" | "scifi_sport";
+export const GENRES: Genre[] = ["battle", "fantasy", "romance", "slice_of_life", "thrills", "scifi_sport"];
 
 export class ArcadeError extends Error {}
 
@@ -115,6 +120,19 @@ export async function recordRun(run: Run<unknown>, score: number, stars: number,
   const { data, error } = await service().rpc("arcade_record", { p_run: run.id, p_score: score, p_stars: stars, p_tickets: tickets });
   if (error) throw new ArcadeError(error.message);
   return data as RunResult;
+}
+
+export async function cardsByIds(ids: number[]): Promise<ArcadeCard[]> {
+  const { data, error } = await service().rpc("arcade_cards_by_ids", { p_ids: ids });
+  if (error) throw new ArcadeError(error.message);
+  return data as ArcadeCard[];
+}
+
+// the deck of a daily game: the first one offered for the day is kept for everyone
+export async function dailyDeck(game: ArcadeGameId, day: string, ids: number[]): Promise<number[]> {
+  const { data, error } = await service().rpc("arcade_daily_deck", { p_game: game, p_day: day, p_ids: ids });
+  if (error) throw new ArcadeError(error.message);
+  return data as number[];
 }
 
 export async function randomCards(n: number, opts: { minRarity?: Rarity; top?: number } = {}): Promise<ArcadeCard[]> {

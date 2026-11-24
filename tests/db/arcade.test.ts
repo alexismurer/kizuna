@@ -64,3 +64,30 @@ describe('arcade runs', () => {
     expect(top.every((c) => ['epic', 'legendary', 'mythic'].includes(c.rarity))).toBe(true)
   })
 })
+
+describe('genres and daily decks', () => {
+  it('draws cards with their series genre', async () => {
+    const { data: s } = await admin.from('series').select('id').limit(1).single()
+    await admin.from('series').update({ genre: 'romance' }).eq('id', s!.id)
+    const { data } = await admin.rpc('arcade_cards', { p_n: 500 })
+    const c = (data as { seriesId: number; genre: string }[]).find((x) => x.seriesId === s!.id)
+    if (c) expect(c.genre).toBe('romance')
+    expect((data as { genre: string }[]).every((x) => typeof x.genre === 'string')).toBe(true)
+  })
+
+  it('keeps one deck per game and day: the first one stored wins', async () => {
+    const day = '2000-01-0' + (1 + Math.floor(Math.random() * 9))
+    const game = `test-${Math.random().toString(36).slice(2, 8)}`
+    const a = await admin.rpc('arcade_daily_deck', { p_game: game, p_day: day, p_ids: [1, 2, 3] })
+    const b = await admin.rpc('arcade_daily_deck', { p_game: game, p_day: day, p_ids: [9, 8, 7] })
+    expect(a.data).toEqual([1, 2, 3])
+    expect(b.data).toEqual([1, 2, 3])
+  })
+
+  it('reads cards by id, in the order asked', async () => {
+    const { data: ids } = await admin.from('cards').select('id').not('image_url', 'is', null).limit(3)
+    const want = ids!.map((r) => r.id).reverse()
+    const { data } = await admin.rpc('arcade_cards_by_ids', { p_ids: want })
+    expect((data as { id: number }[]).map((c) => c.id)).toEqual(want)
+  })
+})

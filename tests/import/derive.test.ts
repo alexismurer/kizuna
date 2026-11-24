@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { rarityForRank, statsForRank, themesFor } from '../../scripts/import-anilist/derive'
+import { genreFor, rarityForRank, statsForRank, themesFor } from '../../scripts/import-anilist/derive'
 
 describe('rarityForRank', () => {
   const T = 6736
@@ -36,5 +36,30 @@ describe('themesFor', () => {
   it('ignores spoiler tags', () => {
     expect(themesFor({ genres: [], tags: [tag('Isekai', 90, { isMediaSpoiler: true })] }, null)).toEqual([])
     expect(themesFor({ genres: [], tags: [tag('Isekai', 90, { isGeneralSpoiler: true })] }, null)).toEqual([])
+  })
+})
+
+describe('genreFor', () => {
+  it.each([
+    [['Action', 'Sports'], 'scifi_sport'],
+    [['Action', 'Mecha', 'Sci-Fi'], 'scifi_sport'],
+    [['Action', 'Mystery', 'Psychological'], 'battle'],
+    [['Mystery', 'Psychological', 'Thriller'], 'thrills'],
+    [['Action', 'Sci-Fi'], 'scifi_sport'],
+    [['Action', 'Supernatural', 'Fantasy'], 'battle'],
+    [['Drama', 'Romance'], 'romance'],
+    [['Action', 'Romance'], 'battle'],
+    [['Comedy', 'Slice of Life'], 'slice_of_life'],
+    [['Comedy', 'Fantasy'], 'fantasy'],
+    [['Comedy', 'Romance'], 'romance'],
+    [['Sci-Fi', 'Drama'], 'scifi_sport'],
+    [['Supernatural', 'Drama'], 'fantasy'],
+    [['Action', 'Adventure', 'Fantasy'], 'battle'],
+    [['Adventure', 'Fantasy', 'Romance'], 'romance'],
+    [['Action', 'Adventure'], 'battle'],
+    [['Music'], 'slice_of_life'],
+    [[], 'slice_of_life'],
+  ])('%j -> %s', (genres, expected) => {
+    expect(genreFor(genres as string[])).toBe(expected)
   })
 })

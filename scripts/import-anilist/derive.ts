@@ -48,3 +48,17 @@ export function themesFor(
   if (gender && GENDER_THEMES[gender]) out.push(GENDER_THEMES[gender])
   return [...new Set(out)]
 }
+
+export type Genre = 'battle' | 'fantasy' | 'romance' | 'slice_of_life' | 'thrills' | 'scifi_sport'
+
+// One genre per series, from its AniList genres, first rule that matches wins.
+// Action comes early so the big fighting series land in Battle, as players expect.
+export function genreFor(genres: string[]): Genre {
+  const has = (...gs: string[]) => gs.some((g) => genres.includes(g))
+  if (has('Sports', 'Mecha', 'Sci-Fi')) return 'scifi_sport'
+  if (has('Action')) return 'battle'
+  if (has('Horror', 'Psychological', 'Mystery', 'Thriller')) return 'thrills'
+  if (has('Romance')) return 'romance'
+  if (has('Fantasy', 'Supernatural', 'Adventure')) return 'fantasy'
+  return 'slice_of_life'
+}

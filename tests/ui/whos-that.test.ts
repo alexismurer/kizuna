@@ -10,6 +10,8 @@ const pool: ArcadeCard[] = Array.from({ length: 40 }, (_, i) => ({
   imageUrl: `https://img/${i + 1}.png`,
   seriesId: i % 7,
   series: `Series ${i % 7}`,
+  genre: "battle" as const,
+  pow: 50,
   gender: i % 2 ? "Female" : "Male",
   rank: i + 1,
   fans: 1000 - i,

@@ -13,12 +13,14 @@ const pool: ArcadeCard[] = [
     imageUrl: `https://img/${i + 1}.png`,
     seriesId: Math.floor(i / 4),
     series: `Series ${Math.floor(i / 4)}`,
+    genre: "battle" as const,
+    pow: 50,
     gender: null,
     rank: i + 1,
     fans: null,
   })),
-  { id: 900, name: "Lone", rarity: "rare", imageUrl: "https://img/900.png", seriesId: 99, series: "Small", gender: null, rank: 5, fans: null },
-  { id: 901, name: "Lone2", rarity: "rare", imageUrl: "https://img/901.png", seriesId: 99, series: "Small", gender: null, rank: 6, fans: null },
+  { id: 900, name: "Lone", rarity: "rare", imageUrl: "https://img/900.png", seriesId: 99, series: "Small", genre: "battle", pow: 50, gender: null, rank: 5, fans: null },
+  { id: 901, name: "Lone2", rarity: "rare", imageUrl: "https://img/901.png", seriesId: 99, series: "Small", genre: "battle", pow: 50, gender: null, rank: 6, fans: null },
 ];
 
 describe("Series rush questions", () => {
