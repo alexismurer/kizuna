@@ -249,15 +249,22 @@ function TitlesCard({ titles, buy, equip, tickets, pending, me }: Actions & { ti
         <h3 className="font-display text-base font-bold">{t("items.titles.name")}</h3>
         <p className="text-sm text-common">{t("items.titleText")}</p>
         <ul className="mt-2 flex flex-col gap-1" onMouseLeave={() => setHover(null)}>
-          {titles.map((p) => (
+          {titles.map((p) => {
+            // unaffordable titles stay focusable so their preview still shows
+            const locked = !p.owned && (tickets < p.cost || p.left < 1);
+            return (
             <li key={p.id} className={`flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 ${shown === p.id ? "bg-white/5" : ""}`}>
               <button
                 type="button"
                 onMouseEnter={() => setHover(p.id)}
                 onFocus={() => setHover(p.id)}
-                onClick={() => (p.owned ? equip(p, !p.equipped) : buy(p))}
-                disabled={pending || (!p.owned && (tickets < p.cost || p.left < 1))}
-                className="flex min-w-0 flex-1 items-center justify-between gap-2 text-left text-sm font-semibold disabled:cursor-not-allowed"
+                onClick={() => {
+                  if (locked || pending) return;
+                  if (p.owned) equip(p, !p.equipped);
+                  else buy(p);
+                }}
+                aria-disabled={locked || pending}
+                className={`flex min-w-0 flex-1 items-center justify-between gap-2 text-left text-sm font-semibold ${locked ? "cursor-not-allowed" : ""}`}
               >
                 <span className="truncate">{name(p)}</span>
                 {p.owned ? (
@@ -270,7 +277,8 @@ function TitlesCard({ titles, buy, equip, tickets, pending, me }: Actions & { ti
                 )}
               </button>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </div>
     </article>

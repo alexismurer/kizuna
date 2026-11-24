@@ -1,7 +1,7 @@
 import { cache } from "react";
 import type { HomePack } from "@/components/home/BoosterGrid";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
-import { isLive } from "@/lib/game/seasonal";
+import { isListed } from "@/lib/game/seasonal";
 import { customBooster, packPool } from "./packPool";
 import { createServerClient } from "./server";
 
@@ -52,7 +52,7 @@ async function loadPacks<C extends { image_url: string | null }>(columns: string
   const pool = poolRes.data as Pool;
   const now = new Date();
   const held = (await loadStatus())?.rewardPacks ?? {};
-  const rows = ((packsRes.data ?? []) as PackRow[]).filter((p) => isLive(p, now, held));
+  const rows = ((packsRes.data ?? []) as PackRow[]).filter((p) => isListed(p, now, held));
 
   const tops = await Promise.all(
     rows.map(async (p) => {

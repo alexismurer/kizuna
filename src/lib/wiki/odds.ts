@@ -31,7 +31,7 @@ export async function loadCardOdds(
   const dailySeries = pool?.series_ids ?? null;
   const now = new Date();
   const rows = ((packsRes.data ?? []) as PackRow[]).filter(
-    (p) => isLive(p, now) && (p.kind !== "daily" || dailySeries),
+    (p) => p.kind !== "prize" && isLive(p, now) && (p.kind !== "daily" || dailySeries),
   );
 
   const odds = await Promise.all(

@@ -78,4 +78,20 @@ describe("PrizeCounter", () => {
     await Promise.resolve();
     expect(screen.getByRole("button", { name: /240/ }).className).toContain("bg-white/90");
   });
+
+  it("lets you preview a title you can't afford yet, without buying it", () => {
+    vi.mocked(redeemPrize).mockClear();
+    render(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <PrizeCounter data={{ ...data, tickets: 50 }} me={{ username: "ann", avatarUrl: null }} />
+      </NextIntlClientProvider>,
+    );
+    const row = screen.getByRole("button", { name: /Ace of 21/ });
+    expect(row).not.toBeDisabled();
+    expect(row).toHaveAttribute("aria-disabled", "true");
+    fireEvent.focus(row);
+    expect(within(screen.getByTestId("title-preview")).getByText("Ace of 21")).toBeInTheDocument();
+    fireEvent.click(row);
+    expect(redeemPrize).not.toHaveBeenCalled();
+  });
 });

@@ -21,16 +21,19 @@ export function AppearancePicker({
 }) {
   const t = useTranslations("profile");
   const tc = useTranslations("cosmetics");
+  const tg = useTranslations("games.prizes");
   const router = useRouter();
   const [frame, setFrame] = useState(me.frameId);
   const [title, setTitle] = useState(me.titleId);
   const [pending, start] = useTransition();
+  const [failed, setFailed] = useState(false);
   const frames = owned.filter((id) => FRAMES[id]);
   const titles = owned.filter((id) => TITLES[id]);
 
   const pick = (kind: "frame" | "title", id: string | null) =>
     start(async () => {
       const r = await equipCosmetic(kind, id);
+      setFailed(!r.ok);
       if (!r.ok) return;
       if (kind === "frame") setFrame(id);
       else setTitle(id);
@@ -49,6 +52,11 @@ export function AppearancePicker({
           <PlayerTitle id={title} />
         </span>
       </div>
+      {failed && (
+        <p role="alert" className="mb-3 text-sm text-accent">
+          {tg("errors.generic")}
+        </p>
+      )}
       {owned.length === 0 ? (
         <p className="text-sm text-common">
           {t("noCosmetics")}{" "}
