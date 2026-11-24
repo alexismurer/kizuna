@@ -2133,6 +2133,149 @@
       "thrills": "Suspense",
       "scifi_sport": "Sci-fi e esporte"
     },
-    "rankingToday": "Ranking de hoje"
+    "rankingToday": "Ranking de hoje",
+    "raid": {
+      "wave": "Onda",
+      "damage": "Dano",
+      "already": "Você já jogou o raid de hoje:",
+      "waves": "{n, plural, one {# onda} other {# ondas}}",
+      "comeBack": "Novo raid à meia-noite (Paris). Enquanto isso, treine com o Raid Kizuna.",
+      "practice": "Jogar Raid Kizuna",
+      "damageDealt": "{n} de dano causado.",
+      "starting": "O raid está começando…",
+      "seeResult": "Ver o resultado",
+      "pickMore": "Escolha mais {n} cartas",
+      "start": "Começar o raid",
+      "atkBonus": "+{n}% de ataque",
+      "genreBonus": {
+        "battle": "crits +{n}%",
+        "fantasy": "hits the next one ({n}%)",
+        "romance": "heals {n}% per blow",
+        "slice_of_life": "health +{n}%",
+        "thrills": "double strike {n}%",
+        "scifi_sport": "attacks {n}% faster"
+      },
+      "perks": {
+        "heal": {
+          "name": "Heal",
+          "text": "Standing cards get half their health back."
+        },
+        "stamina": {
+          "name": "Stamina",
+          "text": "+20% health for the whole team (a little less each time you take it again)."
+        },
+        "training": {
+          "name": "Training",
+          "text": "+15% attack for the whole team (a little less each time you take it again)."
+        },
+        "adrenaline": {
+          "name": "Adrenaline",
+          "text": "The whole team attacks 12% faster."
+        },
+        "shield": {
+          "name": "Shield",
+          "text": "Every wave, each card blocks the first blow it takes, up to half its health."
+        },
+        "precision": {
+          "name": "Precision",
+          "text": "+10% critical chance, and critical hits hurt more."
+        },
+        "vampire": {
+          "name": "Vampire",
+          "text": "Each blow heals the striker by 8% of its damage."
+        },
+        "reinforcements": {
+          "name": "Reinforcements",
+          "text": "Fallen cards come back with half their health."
+        },
+        "focus": {
+          "name": "{genre} focus",
+          "text": "+40% attack for the team's {genre} cards (a little less each time you take it again)."
+        },
+        "evo_bloodlust": {
+          "name": "Bloodlust",
+          "text": "Vampire + Precision: every critical hit heals the whole team."
+        },
+        "evo_fortress": {
+          "name": "Fortress",
+          "text": "Shield + Stamina: every knock-out recharges the whole team's shield."
+        },
+        "evo_frenzy": {
+          "name": "Frenzy",
+          "text": "Adrenaline + Training: every knock-out speeds the team up until the end of the wave."
+        }
+      },
+      "relics": {
+        "dragon_heart": {
+          "name": "Dragon heart",
+          "text": "+40% health and the whole team comes back to full, fallen cards too."
+        },
+        "hourglass": {
+          "name": "Hourglass",
+          "text": "For the first 5 seconds of each wave, the team attacks twice as fast."
+        },
+        "totem": {
+          "name": "Totem",
+          "text": "Every wave, the first card to fall gets up with 40% health."
+        }
+      },
+      "rarity": {
+        "common": "Common",
+        "rare": "Rare",
+        "epic": "Epic",
+        "evolution": "Evolution",
+        "relic": "Relic"
+      },
+      "relicTitle": "Chefe derrotado: escolha uma relíquia",
+      "perkTitle": "Onda {n} vencida: escolha um bônus",
+      "waveOf": "Onda {n}",
+      "skip": "Pular",
+      "boss": {
+        "enraged": "Enraged",
+        "regeneration": "Regeneration",
+        "thorns": "Thorns"
+      },
+      "elite": {
+        "armoured": "Armoured",
+        "fast": "Fast",
+        "healer": "Healer",
+        "explosive": "Explosive"
+      },
+      "areaWarn": "O chefe está preparando um ataque em área!",
+      "powers": {
+        "blade": "Blade storm",
+        "meteor": "Meteor",
+        "healing": "Healing wave",
+        "rampart": "Rampart",
+        "terror": "Terror",
+        "overdrive": "Overdrive"
+      },
+      "rules": {
+        "recruit": "Recruit: pick 5 cards out of 8.",
+        "auto": "Auto battle: your team strikes the enemies on its own, wave after wave. A wave lost ends the raid.",
+        "bonus": "After each wave, pick one bonus out of three, common to epic: heal, reinforcements, shield, vampire…",
+        "boss": "A boss every 5 waves: one very tough card with two minions and a trait (Enraged, Regeneration or Thorns). It gathers an area strike every 9 seconds; the warning shows just before.",
+        "stats": "Attack and health by rarity: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. A card's power adds up to 33%.",
+        "series": "Same anime: 2 cards +40% attack for them, 3 cards +80%.",
+        "genres": "Genres (2 cards / 3 or more): Battle crits +12/24% · Fantasy hits the next one 35/70% · Romance heals 4/8% per blow · Slice of life health +25/50% · Thrills double strike 12/24% · Sci-fi & Sport attacks 20/40% faster.",
+        "stars": "Cards evolve: a star at 3, 8 and 15 knock-outs, +25% attack and health each (a boss counts as 5).",
+        "powers": "Legendary and Mythic powers: Blade storm, Meteor, Healing wave, Rampart, Terror, Overdrive. A Legendary uses it every 11 seconds, a Mythic every 8 and 50% stronger.",
+        "elites": "Elite enemies: Armoured (takes 40% less), Fast, Healer, Explosive (blows up on your team when it falls).",
+        "relics": "After each boss, pick a relic out of three: powerful bonuses found nowhere else.",
+        "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10."
+      }
+    },
+    "dailyRaid": {
+      "name": "Raid do dia",
+      "chip": "Ranqueado",
+      "pitch": "As mesmas 8 cartas e as mesmas ondas para todos, todo dia. Seu primeiro raid do dia conta no ranking.",
+      "share": "Passei {n} ondas no Raid do dia do Kizuna!"
+    },
+    "kizunaRaid": {
+      "name": "Raid Kizuna",
+      "chip": "Combate auto",
+      "pitch": "Monte um time de 5 cartas e veja-o enfrentar sozinho ondas de inimigos.",
+      "share": "Passei {n} ondas no Raid Kizuna!"
+    }
   }
 }

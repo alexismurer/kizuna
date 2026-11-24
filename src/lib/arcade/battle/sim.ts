@@ -15,7 +15,7 @@ export type BEvent = {
   v?: number;
   p?: Power;
 };
-export type WaveResult = { won: boolean; events: BEvent[]; team: Member[]; t: number; damage: number };
+export type WaveResult = { won: boolean; events: BEvent[]; team: Member[]; t: number; damage: number; teamMax: number[]; teamStart: number[] };
 
 const TICK = 100;
 const MAX_T = 90_000;
@@ -126,6 +126,8 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
       alive: true,
     };
   });
+  const teamMax = players.map((p) => Math.round(p.max));
+  const teamStart = players.map((p) => Math.round(p.hp));
   const alive = (fs: F[]) => fs.filter((f) => f.alive);
   let overdriveUntil = 0;
   let frenzy = 0;
@@ -288,6 +290,8 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
     events,
     t,
     damage: Math.round(damage),
+    teamMax,
+    teamStart,
     team: players.map((p, i) => ({ card: team[i].card, hp: p.alive ? Math.max(0, Math.min(1, p.hp / p.max)) : 0, kos: p.kos, alive: p.alive })),
   };
 }

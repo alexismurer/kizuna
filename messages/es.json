@@ -2133,6 +2133,149 @@
       "thrills": "Suspense",
       "scifi_sport": "Ciencia ficción y deporte"
     },
-    "rankingToday": "Clasificación de hoy"
+    "rankingToday": "Clasificación de hoy",
+    "raid": {
+      "wave": "Oleada",
+      "damage": "Daño",
+      "already": "Ya jugaste el raid de hoy:",
+      "waves": "{n, plural, one {# oleada} other {# oleadas}}",
+      "comeBack": "Nuevo raid a medianoche (París). Mientras, practica con Raid Kizuna.",
+      "practice": "Jugar a Raid Kizuna",
+      "damageDealt": "{n} de daño infligido.",
+      "starting": "El raid empieza…",
+      "seeResult": "Ver el resultado",
+      "pickMore": "Elige {n} cartas más",
+      "start": "Empezar el raid",
+      "atkBonus": "+{n} % de ataque",
+      "genreBonus": {
+        "battle": "críticos +{n} %",
+        "fantasy": "golpea al siguiente ({n} %)",
+        "romance": "cura {n} % por golpe",
+        "slice_of_life": "vida +{n} %",
+        "thrills": "golpe doble {n} %",
+        "scifi_sport": "ataca {n} % más rápido"
+      },
+      "perks": {
+        "heal": {
+          "name": "Curación",
+          "text": "Las cartas en pie recuperan la mitad de su vida."
+        },
+        "stamina": {
+          "name": "Aguante",
+          "text": "+20 % de vida para todo el equipo (un poco menos cada vez)."
+        },
+        "training": {
+          "name": "Entrenamiento",
+          "text": "+15 % de ataque para todo el equipo (un poco menos cada vez)."
+        },
+        "adrenaline": {
+          "name": "Adrenalina",
+          "text": "Todo el equipo ataca un 12 % más rápido."
+        },
+        "shield": {
+          "name": "Escudo",
+          "text": "Cada oleada, cada carta bloquea el primer golpe, hasta la mitad de su vida."
+        },
+        "precision": {
+          "name": "Precisión",
+          "text": "+10 % de probabilidad de crítico, y los críticos duelen más."
+        },
+        "vampire": {
+          "name": "Vampiro",
+          "text": "Cada golpe cura al atacante un 8 % del daño."
+        },
+        "reinforcements": {
+          "name": "Refuerzos",
+          "text": "Las cartas caídas vuelven con la mitad de su vida."
+        },
+        "focus": {
+          "name": "Enfoque {genre}",
+          "text": "+40 % de ataque para las cartas {genre} del equipo (un poco menos cada vez)."
+        },
+        "evo_bloodlust": {
+          "name": "Sed de sangre",
+          "text": "Vampiro + Precisión: cada crítico cura a todo el equipo."
+        },
+        "evo_fortress": {
+          "name": "Fortaleza",
+          "text": "Escudo + Aguante: cada K.O. recarga el escudo del equipo."
+        },
+        "evo_frenzy": {
+          "name": "Frenesí",
+          "text": "Adrenalina + Entrenamiento: cada K.O. acelera al equipo hasta el final de la oleada."
+        }
+      },
+      "relics": {
+        "dragon_heart": {
+          "name": "Corazón de dragón",
+          "text": "+40 % de vida y todo el equipo vuelve al máximo, caídos incluidos."
+        },
+        "hourglass": {
+          "name": "Reloj de arena",
+          "text": "Los primeros 5 segundos de cada oleada, el equipo ataca el doble de rápido."
+        },
+        "totem": {
+          "name": "Tótem",
+          "text": "Cada oleada, la primera carta que cae se levanta con 40 % de vida."
+        }
+      },
+      "rarity": {
+        "common": "Común",
+        "rare": "Rara",
+        "epic": "Épica",
+        "evolution": "Evolución",
+        "relic": "Reliquia"
+      },
+      "relicTitle": "Jefe derrotado: elige una reliquia",
+      "perkTitle": "Oleada {n} superada: elige un bonus",
+      "waveOf": "Oleada {n}",
+      "skip": "Saltar",
+      "boss": {
+        "enraged": "Furioso",
+        "regeneration": "Regeneración",
+        "thorns": "Espinas"
+      },
+      "elite": {
+        "armoured": "Blindado",
+        "fast": "Rápido",
+        "healer": "Sanador",
+        "explosive": "Explosivo"
+      },
+      "areaWarn": "¡El jefe prepara un ataque de área!",
+      "powers": {
+        "blade": "Tormenta de cuchillas",
+        "meteor": "Meteoro",
+        "healing": "Ola curativa",
+        "rampart": "Muralla",
+        "terror": "Terror",
+        "overdrive": "Sobremarcha"
+      },
+      "rules": {
+        "recruit": "Recluta: elige 5 cartas de 8.",
+        "auto": "Combate automático: tu equipo golpea solo, oleada tras oleada. Una oleada perdida termina el raid.",
+        "bonus": "Tras cada oleada, elige un bonus de tres, de común a épico: curación, refuerzos, escudo, vampiro…",
+        "boss": "Un jefe cada 5 oleadas: una carta muy dura con dos secuaces y un rasgo (Furioso, Regeneración o Espinas). Prepara un ataque de área cada 9 segundos; el aviso aparece justo antes.",
+        "stats": "Ataque y vida según rareza: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. El poder de la carta suma hasta un 33 %.",
+        "series": "Mismo anime: 2 cartas +40 % de ataque, 3 cartas +80 %.",
+        "genres": "Géneros (2 cartas / 3 o más): Combate críticos +12/24 % · Fantasía golpea al siguiente 35/70 % · Romance cura 4/8 % por golpe · Vida cotidiana vida +25/50 % · Suspense golpe doble 12/24 % · Ciencia ficción y deporte ataca 20/40 % más rápido.",
+        "stars": "Las cartas evolucionan: una estrella a los 3, 8 y 15 K.O., +25 % de ataque y vida cada una (un jefe cuenta como 5).",
+        "powers": "Poderes de Legendarias y Míticas: Tormenta de cuchillas, Meteoro, Ola curativa, Muralla, Terror, Sobremarcha. Una Legendaria lo usa cada 11 segundos, una Mítica cada 8 y un 50 % más fuerte.",
+        "elites": "Enemigos élite: Blindado (recibe un 40 % menos), Rápido, Sanador, Explosivo (estalla sobre tu equipo al caer).",
+        "relics": "Tras cada jefe, elige una reliquia de tres: bonus poderosos que no hay en ningún otro sitio.",
+        "score": "Tu puntuación es el número de oleadas superadas. Estrellas en las oleadas 3, 6 y 10."
+      }
+    },
+    "dailyRaid": {
+      "name": "Raid del día",
+      "chip": "Clasificatorio",
+      "pitch": "Las mismas 8 cartas y las mismas oleadas para todos, cada día. Tu primer raid del día cuenta en la clasificación.",
+      "share": "¡Superé {n} oleadas en el Raid del día de Kizuna!"
+    },
+    "kizunaRaid": {
+      "name": "Raid Kizuna",
+      "chip": "Combate auto",
+      "pitch": "Forma un equipo de 5 cartas y míralo luchar solo contra oleadas de enemigos.",
+      "share": "¡Superé {n} oleadas en Raid Kizuna!"
+    }
   }
 }

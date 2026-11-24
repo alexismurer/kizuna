@@ -3,6 +3,8 @@
 import { ARCADE, type ArcadeGameId } from "@/lib/arcade/registry";
 import { starsFor, ticketsFor } from "@/lib/arcade/payout";
 import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
+import { choose as raidEngineChoose, fight as raidEngineFight, pickTeam, raidView, startRaid, type RaidState, type RaidView } from "@/lib/arcade/battle/raid";
+import type { BCard } from "@/lib/arcade/battle/stats";
 import { bestHands, discard as pokerDiscard, play as pokerPlay, pokerView, startPoker, type HandName, type PkCard, type PkState, type PkView } from "@/lib/arcade/poker/engine";
 import { ArcadeError, cardsByIds, createRun, dailyDeck, findRun, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
@@ -239,6 +241,64 @@ export async function pokerAct(
     const pick = Array.isArray(idx) ? idx.map(Number) : [];
     const r = await step<PkState, PkView>(id, POKER_GAME[m], (s) => (move === "play" ? pokerPlay(s, pick) : pokerDiscard(s, pick)), (s) => s.score, pokerView);
     return { ...r, help: m === "practice" && !r.view.over ? bestHands(r.view.hand) : [] };
+  });
+}
+
+// ---------- raids: Daily raid (ranked, one a day) and Raid (practice) ----------
+
+export type RaidMode = "daily" | "practice";
+const RAID_GAME = { daily: "daily-raid", practice: "raid" } as const;
+const raidMode = (m: unknown): RaidMode => checkAction(m, ["daily", "practice"] as const);
+const toB = (c: ArcadeCard): BCard => ({ id: c.id, name: c.name, rarity: c.rarity, imageUrl: c.imageUrl, series: c.series, seriesId: c.seriesId, genre: c.genre, pow: c.pow });
+
+// Today's daily raid (the same 8 cards and waves for everyone, one run a day), or a new raid.
+export async function raidStart(mode: RaidMode): Promise<ArcadeResult<{ run: string; view: RaidView; dailyDone?: boolean; score?: number }>> {
+  return attempt(async () => {
+    const m = raidMode(mode);
+    const player = await requirePlayer();
+    const game = RAID_GAME[m];
+    if (m === "daily") {
+      const day = parisDay();
+      const resume = async (mine: Run<RaidState>) => {
+        if (mine.state.over && !mine.finished) await finish(mine, game, mine.state.cleared);
+        return { run: mine.id, view: raidView(mine.state), dailyDone: mine.finished || mine.state.over, score: mine.state.cleared };
+      };
+      const mine = await findRun<RaidState>(player, game, day);
+      if (mine) return resume(mine);
+      const offered = [...(await randomCards(8)), ...(await randomCards(200))].map((c) => c.id);
+      const cards = (await cardsByIds(await dailyDeck(game, day, offered))).map(toB);
+      if (cards.length < 20) throw new ArcadeError("not_enough_cards");
+      // the day's seed: everyone fights the same waves
+      const seed = Number(day.replaceAll("-", ""));
+      try {
+        const run = await createRun<RaidState>(player, game, "daily", seed, startRaid(cards.slice(0, 8), cards.slice(8), seed));
+        return { run: run.id, view: raidView(run.state) };
+      } catch (e) {
+        const other = e instanceof ArcadeError && e.message === "daily_taken" ? await findRun<RaidState>(player, game, day) : null;
+        if (other) return resume(other);
+        throw e;
+      }
+    }
+    const seed = newSeed();
+    const [offer, pool] = await Promise.all([randomCards(8), randomCards(200)]);
+    if (offer.length < 8 || pool.length < 10) throw new ArcadeError("not_enough_cards");
+    const run = await createRun<RaidState>(player, game, "practice", seed, startRaid(offer.map(toB), pool.map(toB), seed));
+    return { run: run.id, view: raidView(run.state) };
+  });
+}
+
+export async function raidAct(
+  mode: RaidMode,
+  id: string,
+  a: "pick" | "fight" | "choose",
+  arg?: number[] | number,
+): Promise<ArcadeResult<{ view: RaidView; result?: FinishResult }>> {
+  return attempt(async () => {
+    const m = raidMode(mode);
+    const move = checkAction(a, ["pick", "fight", "choose"] as const);
+    const apply = (s: RaidState) =>
+      move === "pick" ? pickTeam(s, Array.isArray(arg) ? arg.map(Number) : []) : move === "fight" ? raidEngineFight(s) : raidEngineChoose(s, Number(arg));
+    return step<RaidState, RaidView>(id, RAID_GAME[m], apply, (s) => s.cleared, raidView);
   });
 }
 

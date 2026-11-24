@@ -1,5 +1,5 @@
 // Per-game arcade settings: minimum time for tickets and the star thresholds.
-export type ArcadeGameId = "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory-8" | "memory-12" | "memory-18" | "daily-hand" | "kizuna-hand";
+export type ArcadeGameId = "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory-8" | "memory-12" | "memory-18" | "daily-hand" | "kizuna-hand" | "raid" | "daily-raid";
 
 export const ARCADE: Record<ArcadeGameId, { minSeconds: number; stars: [number, number, number]; daily: boolean }> = {
   "twenty-one": { minSeconds: 60, stars: [50, 80, 110], daily: false },
@@ -12,4 +12,7 @@ export const ARCADE: Record<ArcadeGameId, { minSeconds: number; stars: [number, 
   "memory-18": { minSeconds: 20, stars: [364, 500, 667], daily: false },
   "daily-hand": { minSeconds: 45, stars: [600, 1200, 1800], daily: true },
   "kizuna-hand": { minSeconds: 45, stars: [600, 1200, 1800], daily: false },
+  // score = waves cleared
+  raid: { minSeconds: 30, stars: [3, 6, 10], daily: false },
+  "daily-raid": { minSeconds: 30, stars: [3, 6, 10], daily: true },
 };

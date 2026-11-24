@@ -110,7 +110,7 @@ function Modes({ solo, multi }: { solo: boolean; multi: boolean }) {
   );
 }
 
-const ICONS: Record<GameEntry["icon"], LucideIcon> = { swords: Swords, spade: Spade, face: ScanFace, tv: Tv, heart: Heart, grid: Grid2x2, calendar: CalendarDays, shuffle: Shuffle };
+const ICONS: Record<GameEntry["icon"], LucideIcon> = { swords: Swords, spade: Spade, face: ScanFace, tv: Tv, heart: Heart, grid: Grid2x2, calendar: CalendarDays, shuffle: Shuffle, sword: Swords };
 
 // values for game texts with a placeholder (Memory shows its first level)
 const TILE_VALUES = { n: 8 };

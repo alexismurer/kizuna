@@ -2133,6 +2133,149 @@
       "thrills": "Nervenkitzel",
       "scifi_sport": "Sci-Fi & Sport"
     },
-    "rankingToday": "Rangliste des Tages"
+    "rankingToday": "Rangliste des Tages",
+    "raid": {
+      "wave": "Welle",
+      "damage": "Schaden",
+      "already": "Du hast den Raid heute schon gespielt:",
+      "waves": "{n, plural, one {# Welle} other {# Wellen}}",
+      "comeBack": "Neuer Raid um Mitternacht (Paris). Übe bis dahin mit dem Kizuna-Raid.",
+      "practice": "Kizuna-Raid spielen",
+      "damageDealt": "{n} Schaden verursacht.",
+      "starting": "Der Raid beginnt…",
+      "seeResult": "Ergebnis ansehen",
+      "pickMore": "Wähle noch {n} Karten",
+      "start": "Raid starten",
+      "atkBonus": "+{n} % Angriff",
+      "genreBonus": {
+        "battle": "Krits +{n} %",
+        "fantasy": "trifft den Nächsten ({n} %)",
+        "romance": "heilt {n} % pro Schlag",
+        "slice_of_life": "Leben +{n} %",
+        "thrills": "Doppelschlag {n} %",
+        "scifi_sport": "greift {n} % schneller an"
+      },
+      "perks": {
+        "heal": {
+          "name": "Heilung",
+          "text": "Stehende Karten bekommen die Hälfte ihres Lebens zurück."
+        },
+        "stamina": {
+          "name": "Ausdauer",
+          "text": "+20 % Leben fürs ganze Team (jedes Mal etwas weniger)."
+        },
+        "training": {
+          "name": "Training",
+          "text": "+15 % Angriff fürs ganze Team (jedes Mal etwas weniger)."
+        },
+        "adrenaline": {
+          "name": "Adrenalin",
+          "text": "Das ganze Team greift 12 % schneller an."
+        },
+        "shield": {
+          "name": "Schild",
+          "text": "Jede Welle blockt jede Karte den ersten Treffer, bis zur Hälfte ihres Lebens."
+        },
+        "precision": {
+          "name": "Präzision",
+          "text": "+10 % Kritchance, und Krits treffen härter."
+        },
+        "vampire": {
+          "name": "Vampir",
+          "text": "Jeder Schlag heilt den Angreifer um 8 % seines Schadens."
+        },
+        "reinforcements": {
+          "name": "Verstärkung",
+          "text": "Gefallene Karten kehren mit halbem Leben zurück."
+        },
+        "focus": {
+          "name": "{genre}-Fokus",
+          "text": "+40 % Angriff für die {genre}-Karten des Teams (jedes Mal etwas weniger)."
+        },
+        "evo_bloodlust": {
+          "name": "Blutdurst",
+          "text": "Vampir + Präzision: Jeder Krit heilt das ganze Team."
+        },
+        "evo_fortress": {
+          "name": "Festung",
+          "text": "Schild + Ausdauer: Jeder K.O. lädt den Schild des Teams auf."
+        },
+        "evo_frenzy": {
+          "name": "Raserei",
+          "text": "Adrenalin + Training: Jeder K.O. beschleunigt das Team bis zum Ende der Welle."
+        }
+      },
+      "relics": {
+        "dragon_heart": {
+          "name": "Drachenherz",
+          "text": "+40 % Leben und das ganze Team ist wieder voll, Gefallene auch."
+        },
+        "hourglass": {
+          "name": "Sanduhr",
+          "text": "In den ersten 5 Sekunden jeder Welle greift das Team doppelt so schnell an."
+        },
+        "totem": {
+          "name": "Totem",
+          "text": "Jede Welle steht die erste gefallene Karte mit 40 % Leben wieder auf."
+        }
+      },
+      "rarity": {
+        "common": "Gewöhnlich",
+        "rare": "Selten",
+        "epic": "Episch",
+        "evolution": "Evolution",
+        "relic": "Relikt"
+      },
+      "relicTitle": "Boss besiegt: Wähle ein Relikt",
+      "perkTitle": "Welle {n} geschafft: Wähle einen Bonus",
+      "waveOf": "Welle {n}",
+      "skip": "Überspringen",
+      "boss": {
+        "enraged": "Wütend",
+        "regeneration": "Regeneration",
+        "thorns": "Dornen"
+      },
+      "elite": {
+        "armoured": "Gepanzert",
+        "fast": "Schnell",
+        "healer": "Heiler",
+        "explosive": "Explosiv"
+      },
+      "areaWarn": "Der Boss holt zum Flächenschlag aus!",
+      "powers": {
+        "blade": "Klingensturm",
+        "meteor": "Meteor",
+        "healing": "Heilwelle",
+        "rampart": "Bollwerk",
+        "terror": "Schrecken",
+        "overdrive": "Overdrive"
+      },
+      "rules": {
+        "recruit": "Rekrutieren: Wähle 5 von 8 Karten.",
+        "auto": "Automatischer Kampf: Dein Team schlägt allein zu, Welle um Welle. Eine verlorene Welle beendet den Raid.",
+        "bonus": "Nach jeder Welle wählst du einen von drei Boni, gewöhnlich bis episch: Heilung, Verstärkung, Schild, Vampir…",
+        "boss": "Alle 5 Wellen ein Boss: eine sehr zähe Karte mit zwei Helfern und einer Eigenschaft (Wütend, Regeneration oder Dornen). Alle 9 Sekunden holt er zum Flächenschlag aus; die Warnung erscheint kurz vorher.",
+        "stats": "Angriff und Leben nach Seltenheit: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. Die Kartenstärke gibt bis zu 33 % dazu.",
+        "series": "Gleicher Anime: 2 Karten +40 % Angriff, 3 Karten +80 %.",
+        "genres": "Genres (2 Karten / 3 oder mehr): Kampf Krits +12/24 % · Fantasy trifft den Nächsten 35/70 % · Romantik heilt 4/8 % pro Schlag · Alltag Leben +25/50 % · Nervenkitzel Doppelschlag 12/24 % · Sci-Fi & Sport greift 20/40 % schneller an.",
+        "stars": "Karten entwickeln sich: ein Stern bei 3, 8 und 15 K.O.s, je +25 % Angriff und Leben (ein Boss zählt 5).",
+        "powers": "Kräfte der Legendären und Mythischen: Klingensturm, Meteor, Heilwelle, Bollwerk, Schrecken, Overdrive. Legendär alle 11 Sekunden, Mythisch alle 8 und 50 % stärker.",
+        "elites": "Elite-Gegner: Gepanzert (nimmt 40 % weniger), Schnell, Heiler, Explosiv (explodiert beim Fallen auf dein Team).",
+        "relics": "Nach jedem Boss wählst du eines von drei Relikten: starke Boni, die es sonst nicht gibt.",
+        "score": "Dein Ergebnis ist die Zahl der geschafften Wellen. Sterne bei Welle 3, 6 und 10."
+      }
+    },
+    "dailyRaid": {
+      "name": "Tagesraid",
+      "chip": "Gewertet",
+      "pitch": "Dieselben 8 Karten und Wellen für alle, jeden Tag. Dein erster Raid des Tages zählt in der Rangliste.",
+      "share": "Ich habe beim Tagesraid auf Kizuna {n} Wellen geschafft!"
+    },
+    "kizunaRaid": {
+      "name": "Kizuna-Raid",
+      "chip": "Autokampf",
+      "pitch": "Stell ein Team aus 5 Karten zusammen und sieh zu, wie es allein gegen Wellen von Gegnern kämpft.",
+      "share": "Ich habe beim Kizuna-Raid {n} Wellen geschafft!"
+    }
   }
 }

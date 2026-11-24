@@ -2133,6 +2133,149 @@
       "thrills": "Frissons",
       "scifi_sport": "SF & Sport"
     },
-    "rankingToday": "Classement du jour"
+    "rankingToday": "Classement du jour",
+    "raid": {
+      "wave": "Vague",
+      "damage": "Dégâts",
+      "already": "Tu as déjà joué le raid du jour :",
+      "waves": "{n, plural, one {# vague} other {# vagues}}",
+      "comeBack": "Nouveau raid à minuit (Paris). En attendant, entraîne-toi avec Raid Kizuna.",
+      "practice": "Jouer à Raid Kizuna",
+      "damageDealt": "{n} dégâts infligés.",
+      "starting": "Le raid commence…",
+      "seeResult": "Voir le résultat",
+      "pickMore": "Choisis encore {n} cartes",
+      "start": "Lancer le raid",
+      "atkBonus": "+{n} % d’attaque",
+      "genreBonus": {
+        "battle": "critiques +{n} %",
+        "fantasy": "touche le suivant ({n} %)",
+        "romance": "soigne {n} % par coup",
+        "slice_of_life": "santé +{n} %",
+        "thrills": "double frappe {n} %",
+        "scifi_sport": "attaque {n} % plus vite"
+      },
+      "perks": {
+        "heal": {
+          "name": "Soin",
+          "text": "Les cartes debout récupèrent la moitié de leur santé."
+        },
+        "stamina": {
+          "name": "Endurance",
+          "text": "+20 % de santé pour toute l’équipe (un peu moins à chaque fois)."
+        },
+        "training": {
+          "name": "Entraînement",
+          "text": "+15 % d’attaque pour toute l’équipe (un peu moins à chaque fois)."
+        },
+        "adrenaline": {
+          "name": "Adrénaline",
+          "text": "Toute l’équipe attaque 12 % plus vite."
+        },
+        "shield": {
+          "name": "Bouclier",
+          "text": "À chaque vague, chaque carte bloque le premier coup reçu, jusqu’à la moitié de sa santé."
+        },
+        "precision": {
+          "name": "Précision",
+          "text": "+10 % de chances de critique, et les critiques font plus mal."
+        },
+        "vampire": {
+          "name": "Vampire",
+          "text": "Chaque coup soigne l’attaquant de 8 % de ses dégâts."
+        },
+        "reinforcements": {
+          "name": "Renforts",
+          "text": "Les cartes tombées reviennent avec la moitié de leur santé."
+        },
+        "focus": {
+          "name": "Focus {genre}",
+          "text": "+40 % d’attaque pour les cartes {genre} de l’équipe (un peu moins à chaque fois)."
+        },
+        "evo_bloodlust": {
+          "name": "Soif de sang",
+          "text": "Vampire + Précision : chaque critique soigne toute l’équipe."
+        },
+        "evo_fortress": {
+          "name": "Forteresse",
+          "text": "Bouclier + Endurance : chaque K.O. recharge le bouclier de l’équipe."
+        },
+        "evo_frenzy": {
+          "name": "Frénésie",
+          "text": "Adrénaline + Entraînement : chaque K.O. accélère l’équipe jusqu’à la fin de la vague."
+        }
+      },
+      "relics": {
+        "dragon_heart": {
+          "name": "Cœur de dragon",
+          "text": "+40 % de santé et toute l’équipe revient à fond, cartes tombées comprises."
+        },
+        "hourglass": {
+          "name": "Sablier",
+          "text": "Pendant les 5 premières secondes de chaque vague, l’équipe attaque deux fois plus vite."
+        },
+        "totem": {
+          "name": "Totem",
+          "text": "À chaque vague, la première carte qui tombe se relève avec 40 % de santé."
+        }
+      },
+      "rarity": {
+        "common": "Commun",
+        "rare": "Rare",
+        "epic": "Épique",
+        "evolution": "Évolution",
+        "relic": "Relique"
+      },
+      "relicTitle": "Boss vaincu : choisis une relique",
+      "perkTitle": "Vague {n} réussie : choisis un bonus",
+      "waveOf": "Vague {n}",
+      "skip": "Passer",
+      "boss": {
+        "enraged": "Enragé",
+        "regeneration": "Régénération",
+        "thorns": "Épines"
+      },
+      "elite": {
+        "armoured": "Blindé",
+        "fast": "Rapide",
+        "healer": "Soigneur",
+        "explosive": "Explosif"
+      },
+      "areaWarn": "Le boss prépare une attaque de zone !",
+      "powers": {
+        "blade": "Tempête de lames",
+        "meteor": "Météore",
+        "healing": "Vague de soin",
+        "rampart": "Rempart",
+        "terror": "Terreur",
+        "overdrive": "Surrégime"
+      },
+      "rules": {
+        "recruit": "Recrutement : choisis 5 cartes parmi 8.",
+        "auto": "Combat automatique : ton équipe frappe seule, vague après vague. Une vague perdue termine le raid.",
+        "bonus": "Après chaque vague, choisis un bonus parmi trois, de commun à épique : soin, renforts, bouclier, vampire…",
+        "boss": "Un boss toutes les 5 vagues : une carte très coriace avec deux sbires et un trait (Enragé, Régénération ou Épines). Il prépare une attaque de zone toutes les 9 secondes ; l’alerte s’affiche juste avant.",
+        "stats": "Attaque et santé selon la rareté : C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. La puissance de la carte ajoute jusqu’à 33 %.",
+        "series": "Même anime : 2 cartes +40 % d’attaque pour elles, 3 cartes +80 %.",
+        "genres": "Genres (2 cartes / 3 ou plus) : Combat critiques +12/24 % · Fantasy touche le suivant 35/70 % · Romance soigne 4/8 % par coup · Tranche de vie santé +25/50 % · Frissons double frappe 12/24 % · SF & Sport attaque 20/40 % plus vite.",
+        "stars": "Les cartes évoluent : une étoile à 3, 8 et 15 K.O., +25 % d’attaque et de santé chacune (un boss compte pour 5).",
+        "powers": "Pouvoirs des Légendaires et Mythiques : Tempête de lames, Météore, Vague de soin, Rempart, Terreur, Surrégime. Une Légendaire l’utilise toutes les 11 secondes, une Mythique toutes les 8, 50 % plus fort.",
+        "elites": "Ennemis d’élite : Blindé (prend 40 % de moins), Rapide, Soigneur, Explosif (explose sur ton équipe en tombant).",
+        "relics": "Après chaque boss, choisis une relique parmi trois : des bonus puissants introuvables ailleurs.",
+        "score": "Ton score est le nombre de vagues réussies. Étoiles aux vagues 3, 6 et 10."
+      }
+    },
+    "dailyRaid": {
+      "name": "Raid du jour",
+      "chip": "Classé",
+      "pitch": "Les mêmes 8 cartes et les mêmes vagues pour tout le monde, chaque jour. Ton premier raid du jour compte au classement.",
+      "share": "J’ai passé {n} vagues au Raid du jour sur Kizuna !"
+    },
+    "kizunaRaid": {
+      "name": "Raid Kizuna",
+      "chip": "Combat auto",
+      "pitch": "Forme une équipe de 5 cartes et regarde-la affronter seule des vagues d’ennemis.",
+      "share": "J’ai passé {n} vagues au Raid Kizuna !"
+    }
   }
 }

@@ -11,6 +11,9 @@ export type FoughtWave = {
   wave: number;
   enemies: { card: BCard; max: number; trait?: EliteTrait; boss?: BossTrait }[];
   start: Member[];
+  // each card’s max and starting health in this wave (for the health bars)
+  teamMax: number[];
+  teamStart: number[];
   events: BEvent[];
   won: boolean;
   t: number;
@@ -106,6 +109,8 @@ export function fight(s: RaidState): RaidState {
     wave: s.wave,
     enemies: enemies.map((e) => ({ card: e.card, max: Math.round(baseStats(e.card).hp * e.mult * (e.boss ? BOSS_HP : 1)), trait: e.trait, boss: e.boss })),
     start: s.team,
+    teamMax: res.teamMax,
+    teamStart: res.teamStart,
     events: res.events,
     won: res.won,
     t: res.t,
@@ -134,6 +139,5 @@ export function choose(s: RaidState, i: number): RaidState {
 }
 
 export function raidView(s: RaidState): RaidView {
-  const { seed: _seed, pool: _pool, ...view } = s;
-  return view;
+  return { offer: s.offer, team: s.team, phase: s.phase, wave: s.wave, cleared: s.cleared, damage: s.damage, perks: s.perks, relics: s.relics, choice: s.choice, last: s.last, over: s.over };
 }
