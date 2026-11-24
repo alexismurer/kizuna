@@ -148,6 +148,13 @@ export async function cardsByIds(ids: number[]): Promise<ArcadeCard[]> {
 }
 
 // the deck of a daily game: the first one offered for the day is kept for everyone
+// the day's stored deck, if someone already made it
+export async function storedDeck(game: ArcadeGameId, day: string): Promise<number[] | null> {
+  const { data, error } = await service().from("arcade_daily").select("ids").eq("game", game).eq("day", day).maybeSingle();
+  if (error) throw new ArcadeError(error.message);
+  return (data?.ids as number[] | undefined) ?? null;
+}
+
 export async function dailyDeck(game: ArcadeGameId, day: string, ids: number[]): Promise<number[]> {
   const { data, error } = await service().rpc("arcade_daily_deck", { p_game: game, p_day: day, p_ids: ids });
   if (error) throw new ArcadeError(error.message);

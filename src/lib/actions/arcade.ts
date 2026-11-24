@@ -5,9 +5,9 @@ import { starsFor, ticketsFor } from "@/lib/arcade/payout";
 import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
 import { choose as raidEngineChoose, fight as raidEngineFight, pickTeam, raidView, startRaid, type RaidState, type RaidView } from "@/lib/arcade/battle/raid";
 import type { BCard } from "@/lib/arcade/battle/stats";
-import { connScore, connView, fromCards as connFromCards, generate as connGenerate, guess as connEngineGuess, type CCard, type ConnState, type ConnView } from "@/lib/arcade/connections/engine";
+import { connScore, connView, fromCards as connFromCards, fromGroups as connFromGroups, generate as connGenerate, groupOrder as connGroupOrder, guess as connEngineGuess, type CCard, type ConnState, type ConnView } from "@/lib/arcade/connections/engine";
 import { bestHands, discard as pokerDiscard, play as pokerPlay, pokerView, startPoker, type HandName, type PkCard, type PkState, type PkView } from "@/lib/arcade/poker/engine";
-import { ArcadeError, cardsByIds, createRun, dailyDeck, findRun, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
+import { ArcadeError, cardsByIds, createRun, dailyDeck, findRun, storedDeck, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
 import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
@@ -325,10 +325,16 @@ export async function connStart(mode: ConnMode): Promise<ArcadeResult<{ run: str
       };
       const mine = await findRun<ConnState>(player, game, day);
       if (mine) return resume(mine);
-      // the first board made today is everyone's: its 16 cards are stored, the answer is recomputed
-      const made = connGenerate((await randomCards(500)).map(toC), rng(Number(day.replaceAll("-", ""))));
-      const ids = await dailyDeck(game, day, made.cards.map((c) => c.id));
-      const state = connFromCards((await cardsByIds(ids)).map(toC));
+      // the first board made today is everyone's: its 16 ids are stored group by group
+      const dayRng = () => rng(Number(day.replaceAll("-", "")));
+      const ids = (await storedDeck(game, day)) ?? (await dailyDeck(game, day, connGroupOrder(connGenerate((await randomCards(500)).map(toC), dayRng()))));
+      const cards = (await cardsByIds(ids)).map(toC);
+      let state: ConnState;
+      try {
+        state = connFromGroups(cards, dayRng());
+      } catch {
+        state = connFromCards(cards);
+      }
       try {
         const run = await createRun<ConnState>(player, game, "daily", 0, state);
         return { run: run.id, view: connView(run.state) };

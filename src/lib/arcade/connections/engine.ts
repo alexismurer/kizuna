@@ -89,27 +89,39 @@ function attempt(pool: CCard[], r: () => number): ConnState | null {
   // genre group (not the series' genre) + a 5th card of that genre (decoy, in the theme group)
   const genres = shuffle([...new Set(pool.map((c) => c.genre))].filter((g) => g !== decoyS.genre), r);
   for (const G of genres) {
-    const gFive = distinctSeries(pool, (c) => c.genre === G && c.themes.some((t) => THEMES.includes(t)), 5, ids, new Set([X]), r);
-    if (!gFive) continue;
+    // R is the rarity group's rarity: one genre card wears it too (6 visible letters)
+    const R = decoyS.rarity;
+    const themed = (c: CCard) => c.themes.some((t) => THEMES.includes(t));
+    const gR = distinctSeries(pool, (c) => c.genre === G && c.rarity === R, 1, ids, new Set([X]), r);
+    if (!gR) continue;
+    const gOthers = distinctSeries(pool, (c) => c.genre === G && c.rarity !== R && themed(c), 4, new Set([...ids, gR[0].id]), new Set([X, gR[0].seriesId]), r);
+    if (!gOthers) continue;
+    const gFive = [gR[0], ...gOthers];
     const genre = gFive.slice(0, 4);
     const decoyG = gFive[4];
     const ids2 = new Set([...ids, ...gFive.map((c) => c.id)]);
     const usedSeries = new Set([X, ...gFive.map((c) => c.seriesId)]);
     // rarity group: the series decoy + 3 cards of its rarity
-    const R = decoyS.rarity;
     const rarityRest = distinctSeries(pool, (c) => c.rarity === R && c.genre !== G, 3, ids2, usedSeries, r);
     if (!rarityRest) continue;
     const ids3 = new Set([...ids2, ...rarityRest.map((c) => c.id)]);
     const usedSeries3 = new Set([...usedSeries, ...rarityRest.map((c) => c.seriesId)]);
     // theme group: the genre decoy + 3 cards sharing one of its themes
     for (const T of shuffle(decoyG.themes.filter((t) => THEMES.includes(t)), r)) {
-      const themeRest = distinctSeries(pool, (c) => c.themes.includes(T) && c.genre !== G && c.rarity !== R, 3, ids3, usedSeries3, r);
-      if (!themeRest) continue;
+      // one more card of the genre and one more of the rarity hide in the theme group (6 seals, 6 letters)
+      const tG = distinctSeries(pool, (c) => c.themes.includes(T) && c.genre === G && c.rarity !== R && c.rarity !== decoyG.rarity, 1, ids3, usedSeries3, r);
+      if (!tG) continue;
+      const tR = distinctSeries(pool, (c) => c.themes.includes(T) && c.genre !== G && c.rarity === R, 1, new Set([...ids3, tG[0].id]), new Set([...usedSeries3, tG[0].seriesId]), r);
+      if (!tR) continue;
+      const ids4 = new Set([...ids3, tG[0].id, tR[0].id]);
+      const t3 = distinctSeries(pool, (c) => c.themes.includes(T) && c.genre !== G && c.rarity !== R && c.rarity !== decoyG.rarity, 1, ids4, new Set([...usedSeries3, tG[0].seriesId, tR[0].seriesId]), r);
+      if (!t3) continue;
+      const themeRest = [tG[0], tR[0], t3[0]];
       const groups: Group[] = [
         { kind: "series", value: decoyS.series, ids: series.map((c) => c.id) },
         { kind: "genre", value: G, ids: genre.map((c) => c.id) },
         { kind: "rarity", value: R, ids: [decoyS, ...rarityRest].map((c) => c.id) },
-        { kind: "theme", value: T, ids: [decoyG, ...themeRest].map((c) => c.id) },
+        { kind: "theme", value: sharedTheme([decoyG, ...themeRest]), ids: [decoyG, ...themeRest].map((c) => c.id) },
       ];
       const cards = shuffle([...series, ...genre, decoyS, ...rarityRest, decoyG, ...themeRest], r);
       if (covers(cards) !== 1) continue;
@@ -127,7 +139,27 @@ export function generate(pool: CCard[], r: () => number): ConnState {
   throw new Error("not_enough_cards");
 }
 
-// The board from 16 known cards (the daily stores only the ids): its one solution.
+const sharedTheme = (cs: CCard[]) => THEMES.find((t) => cs.every((c) => c.themes.includes(t)))!;
+
+// The daily stores the 16 ids group by group (series, genre, rarity, theme)...
+export const groupOrder = (s: ConnState) => s.groups.flatMap((g) => g.ids);
+
+// ...and everyone's board is rebuilt from them, with the same groups and labels.
+export function fromGroups(cards: CCard[], r: () => number): ConnState {
+  if (cards.length !== 16) throw new Error("not_enough_cards");
+  const kinds: GroupKind[] = ["series", "genre", "rarity", "theme"];
+  const groups = kinds.map((kind, i): Group => {
+    const four = cards.slice(4 * i, 4 * i + 4);
+    const [a] = four;
+    const ok = kind === "series" ? four.every((c) => c.seriesId === a.seriesId) : kind === "genre" ? four.every((c) => c.genre === a.genre) : kind === "rarity" ? four.every((c) => c.rarity === a.rarity) : !!sharedTheme(four);
+    if (!ok) throw new Error("not_enough_cards");
+    const value = kind === "series" ? a.series : kind === "genre" ? a.genre : kind === "rarity" ? a.rarity : sharedTheme(four);
+    return { kind, value, ids: four.map((c) => c.id) };
+  });
+  return { cards: shuffle(cards, r), groups, solved: [], mistakes: 0, guesses: [], lastOneAway: false, over: false };
+}
+
+// The board from 16 known cards in any order (dailies stored before group order): its one solution.
 export function fromCards(cards: CCard[]): ConnState {
   const found: Group[] = [];
   const used = new Set<number>();

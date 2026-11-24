@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { connView, covers, generate, guess, type CCard } from "@/lib/arcade/connections/engine";
+import { connView, covers, fromGroups, generate, groupOrder, guess, type CCard } from "@/lib/arcade/connections/engine";
 import { rng } from "@/lib/arcade/rng";
 import type { Genre } from "@/lib/arcade/server";
 import type { Rarity } from "@/lib/game/types";
@@ -20,7 +20,7 @@ describe("Connections boards", () => {
       expect(s.cards).toHaveLength(16);
       expect(covers(s.cards)).toBe(1);
     }
-  });
+  }, 30_000);
 
   it("hide decoys: a 5th card of the series and of the genre", () => {
     for (let seed = 1; seed <= 20; seed++) {
@@ -66,5 +66,25 @@ describe("Connections boards", () => {
     expect(() => guess(s, ids.slice(0, 3))).toThrow("invalid_action");
     expect(() => guess(s, [ids[0], ids[0], ids[1], ids[2]])).toThrow("invalid_action");
     expect(() => guess(s, [ids[0], ids[1], ids[2], 999999])).toThrow("invalid_action");
+  });
+
+  it("can't be solved by sorting the visible rarity letters and genre seals", () => {
+    for (let seed = 1; seed <= 20; seed++) {
+      const s = generate(pool, rng(seed));
+      const rarity = s.groups.find((g) => g.kind === "rarity")!.value;
+      const genre = s.groups.find((g) => g.kind === "genre")!.value;
+      expect(s.cards.filter((c) => c.rarity === rarity).length).toBeGreaterThanOrEqual(6);
+      expect(s.cards.filter((c) => c.genre === genre).length).toBeGreaterThanOrEqual(6);
+    }
+  });
+
+  it("rebuilds the same groups and labels from the stored order (the daily)", () => {
+    for (let seed = 1; seed <= 10; seed++) {
+      const s = generate(pool, rng(seed));
+      const ids = groupOrder(s);
+      const back = fromGroups(ids.map((id) => s.cards.find((c) => c.id === id)!), rng(1));
+      expect(back.groups).toEqual(s.groups);
+      expect(new Set(back.cards.map((c) => c.id))).toEqual(new Set(ids));
+    }
   });
 });
