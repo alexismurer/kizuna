@@ -1876,5 +1876,19 @@
       "claimed": "¡Tu próximo sobre será dorado!",
       "claimError": "No se pudo reclamar la recompensa. Inténtalo de nuevo."
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "Pilar de la sala",
+      "title_arcade": "Jugador arcade",
+      "title_ace21": "As del 21",
+      "title_eagle": "Ojo de águila",
+      "title_memory": "Memoria de elefante",
+      "title_encyclopedia": "Enciclopedia anime"
+    },
+    "frames": {
+      "frame_gold": "Boleto dorado",
+      "frame_neon": "Neón"
+    }
   }
 }

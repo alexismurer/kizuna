@@ -25,7 +25,7 @@ export async function TopBar() {
   ]);
   const unread = typeof unreadTotal === "number" ? unreadTotal : 0;
   const { data: me } = claims
-    ? await supabase.from("player_directory").select("username, avatar_url").eq("id", claims.claims.sub).maybeSingle()
+    ? await supabase.from("player_directory").select("username, avatar_url, frame_id").eq("id", claims.claims.sub).maybeSingle()
     : { data: null };
 
   const staff = role === "admin" || role === "moderator";

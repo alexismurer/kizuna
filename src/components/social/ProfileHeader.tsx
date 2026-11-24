@@ -7,6 +7,7 @@ import { PushSettings } from "@/components/push/PushSettings";
 import { completionPct } from "@/lib/social/format";
 import type { Friendship, ProfileCard, ProfileData } from "@/lib/social/types";
 import { Avatar } from "./Avatar";
+import { PlayerTitle } from "./PlayerTitle";
 import { AvatarPicker } from "./AvatarPicker";
 import { FriendButton } from "./FriendButton";
 import { ShowcasePicker } from "./ShowcasePicker";
@@ -58,9 +59,10 @@ export function ProfileHeader({ profile, owned }: { profile: ProfileData; owned:
   return (
     <aside className="flex flex-col gap-5 rounded-2xl border border-border bg-panel p-5">
       <div className="flex items-center gap-4">
-        <Avatar url={profile.avatarUrl} username={profile.username} size={72} />
+        <Avatar url={profile.avatarUrl} username={profile.username} size={72} frame={profile.frameId} />
         <div className="min-w-0">
           <h1 className="truncate font-display text-2xl leading-tight">{profile.username}</h1>
+          <PlayerTitle id={profile.titleId} className="text-sm" />
           <p className="text-sm text-common">
             {t("memberSince", { date: format.dateTime(new Date(profile.memberSince), { dateStyle: "medium" }) })}
           </p>

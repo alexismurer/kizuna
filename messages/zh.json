@@ -1876,5 +1876,19 @@
       "claimed": "你的下一个卡包将是黄金卡包！",
       "claimError": "无法领取奖励，请再试一次。"
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "游戏厅支柱",
+      "title_arcade": "街机玩家",
+      "title_ace21": "21点王牌",
+      "title_eagle": "鹰眼",
+      "title_memory": "过目不忘",
+      "title_encyclopedia": "动漫百科"
+    },
+    "frames": {
+      "frame_gold": "金色门票",
+      "frame_neon": "霓虹"
+    }
   }
 }

@@ -20,6 +20,8 @@ export type ProfileData = {
   id: string;
   username: string;
   avatarUrl: string | null;
+  frameId?: string | null;
+  titleId?: string | null;
   memberSince: string;
   uniqueCards: number;
   catalogSize: number;
@@ -32,7 +34,15 @@ export type ProfileData = {
   friendship: Friendship;
 };
 
-export type FriendEntry = { id: string; username: string; avatarUrl: string | null; since: string; unread: number };
+export type FriendEntry = {
+  id: string;
+  username: string;
+  avatarUrl: string | null;
+  frameId?: string | null;
+  titleId?: string | null;
+  since: string;
+  unread: number;
+};
 export type RequestEntry = { username: string; avatarUrl: string | null; at: string };
 export type FriendsData = { friends: FriendEntry[]; incoming: RequestEntry[]; outgoing: RequestEntry[] };
 
@@ -56,7 +66,7 @@ export type ThreadMessage = {
 export type ChatMessage = {
   id: number;
   room: string;
-  author: { id: string; username: string; avatarUrl: string | null };
+  author: { id: string; username: string; avatarUrl: string | null; frameId?: string | null; titleId?: string | null };
   body: string;
   card: ProfileCard | null;
   tag: MessageTag | null;

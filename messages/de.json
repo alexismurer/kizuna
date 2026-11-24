@@ -1876,5 +1876,19 @@
       "claimed": "Dein nächster Booster wird golden!",
       "claimError": "Die Belohnung konnte nicht abgeholt werden. Versuch es noch einmal."
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "Säule der Spielhalle",
+      "title_arcade": "Arcade-Spieler",
+      "title_ace21": "Ass der 21",
+      "title_eagle": "Adlerauge",
+      "title_memory": "Elefantengedächtnis",
+      "title_encyclopedia": "Anime-Lexikon"
+    },
+    "frames": {
+      "frame_gold": "Goldenes Ticket",
+      "frame_neon": "Neon"
+    }
   }
 }

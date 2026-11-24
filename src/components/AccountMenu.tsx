@@ -18,7 +18,7 @@ export function AccountMenu({
   children,
 }: {
   playerId: string | null;
-  me: { username: string; avatar_url: string | null } | null;
+  me: { username: string; avatar_url: string | null; frame_id?: string | null } | null;
   initialUnread: number;
   isStaff?: boolean;
   children: React.ReactNode;
@@ -57,7 +57,7 @@ export function AccountMenu({
         aria-label={t("account")}
         className="relative flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-full bg-accent font-bold text-black"
       >
-        {me ? <Avatar url={me.avatar_url} username={me.username} size={32} /> : <User className="h-4 w-4" aria-hidden />}
+        {me ? <Avatar url={me.avatar_url} username={me.username} size={me.frame_id ? 28 : 32} frame={me.frame_id} /> : <User className="h-4 w-4" aria-hidden />}
         {unread > 0 && (
           <>
             <span

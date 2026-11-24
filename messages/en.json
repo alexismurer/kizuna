@@ -1876,5 +1876,19 @@
       "claimed": "Your next booster will be golden!",
       "claimError": "Couldn't claim the reward. Try again."
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "Pillar of the room",
+      "title_arcade": "Arcade player",
+      "title_ace21": "Ace of 21",
+      "title_eagle": "Eagle eye",
+      "title_memory": "Elephant memory",
+      "title_encyclopedia": "Anime encyclopedia"
+    },
+    "frames": {
+      "frame_gold": "Golden ticket",
+      "frame_neon": "Neon"
+    }
   }
 }

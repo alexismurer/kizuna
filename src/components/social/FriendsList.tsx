@@ -8,6 +8,7 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import type { FriendsData, RequestEntry } from "@/lib/social/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { Avatar } from "./Avatar";
+import { PlayerTitle } from "./PlayerTitle";
 import { PlayerSearch } from "./PlayerSearch";
 
 export type FriendsTab = "friends" | "requests" | "find";
@@ -138,11 +139,12 @@ export function FriendsList({
           <ul className="flex flex-col gap-2">
             {data.friends.map((f) => (
               <li key={f.id} className="flex items-center gap-3 rounded-xl border border-border bg-panel p-3">
-                <Avatar url={f.avatarUrl} username={f.username} size={40} />
+                <Avatar url={f.avatarUrl} username={f.username} size={40} frame={f.frameId} />
                 <span className="flex min-w-0 flex-1 flex-col">
                   <Link href={`/profile/${encodeURIComponent(f.username)}`} className="truncate font-bold hover:text-accent">
                     {f.username}
                   </Link>
+                  <PlayerTitle id={f.titleId} />
                   <span className="text-xs text-common">
                     {t("since", { date: format.dateTime(new Date(f.since), { dateStyle: "medium" }) })}
                   </span>

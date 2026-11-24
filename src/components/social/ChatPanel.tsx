@@ -242,7 +242,7 @@ export function ChatPanel({ playerId }: { playerId: string }) {
         {!loading && !error && items.length === 0 && <p className="m-auto text-sm text-common">{t("empty")}</p>}
         {items.map((m) => (
           <div key={m.id} data-pending={m.pending ? "" : undefined} className={`flex gap-2 ${m.pending ? "opacity-60" : ""}`}>
-            <Avatar url={m.author.avatarUrl} username={m.author.username || "?"} size={28} />
+            <Avatar url={m.author.avatarUrl} username={m.author.username || "?"} size={28} frame={m.author.frameId} />
             <div className="min-w-0 flex-1 text-sm">
               <div className="flex items-baseline gap-2">
                 {m.author.username ? (

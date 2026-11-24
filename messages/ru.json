@@ -1876,5 +1876,19 @@
       "claimed": "Твой следующий бустер будет золотым!",
       "claimError": "Не удалось забрать награду. Попробуй ещё раз."
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "Опора зала",
+      "title_arcade": "Аркадный игрок",
+      "title_ace21": "Ас двадцати одного",
+      "title_eagle": "Орлиный глаз",
+      "title_memory": "Слоновья память",
+      "title_encyclopedia": "Аниме-энциклопедия"
+    },
+    "frames": {
+      "frame_gold": "Золотой билет",
+      "frame_neon": "Неон"
+    }
   }
 }

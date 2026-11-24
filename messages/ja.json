@@ -1876,5 +1876,19 @@
       "claimed": "次のブースターはゴールデンになります！",
       "claimError": "報酬を受け取れませんでした。もう一度お試しください。"
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "ゲームセンターの柱",
+      "title_arcade": "アーケードプレイヤー",
+      "title_ace21": "21のエース",
+      "title_eagle": "鷹の目",
+      "title_memory": "象の記憶",
+      "title_encyclopedia": "アニメ百科"
+    },
+    "frames": {
+      "frame_gold": "ゴールデンチケット",
+      "frame_neon": "ネオン"
+    }
   }
 }

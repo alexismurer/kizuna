@@ -1876,5 +1876,19 @@
       "claimed": "Seu próximo booster será dourado!",
       "claimError": "Não foi possível resgatar a recompensa. Tente novamente."
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "Pilar do salão",
+      "title_arcade": "Jogador de arcade",
+      "title_ace21": "Ás do 21",
+      "title_eagle": "Olho de águia",
+      "title_memory": "Memória de elefante",
+      "title_encyclopedia": "Enciclopédia de anime"
+    },
+    "frames": {
+      "frame_gold": "Bilhete dourado",
+      "frame_neon": "Neon"
+    }
   }
 }

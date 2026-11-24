@@ -1876,5 +1876,19 @@
       "claimed": "Twój następny booster będzie złoty!",
       "claimError": "Nie udało się odebrać nagrody. Spróbuj ponownie."
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "Filar salonu",
+      "title_arcade": "Gracz arcade",
+      "title_ace21": "As 21",
+      "title_eagle": "Sokole oko",
+      "title_memory": "Pamięć słonia",
+      "title_encyclopedia": "Encyklopedia anime"
+    },
+    "frames": {
+      "frame_gold": "Złoty bilet",
+      "frame_neon": "Neon"
+    }
   }
 }

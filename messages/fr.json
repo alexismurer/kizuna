@@ -1876,5 +1876,19 @@
       "claimed": "Ton prochain booster sera doré !",
       "claimError": "Impossible de récupérer la récompense. Réessaie."
     }
+  },
+  "cosmetics": {
+    "titles": {
+      "title_pillar": "Pilier de la salle",
+      "title_arcade": "Joueur d’arcade",
+      "title_ace21": "As du 21",
+      "title_eagle": "Œil de lynx",
+      "title_memory": "Mémoire d’éléphant",
+      "title_encyclopedia": "Encyclopédie anime"
+    },
+    "frames": {
+      "frame_gold": "Ticket doré",
+      "frame_neon": "Néon"
+    }
   }
 }
