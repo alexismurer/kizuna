@@ -1,9 +1,13 @@
 // Per-game arcade settings: minimum time for tickets and the star thresholds.
-export type ArcadeGameId = "twenty-one" | "whos-that" | "series-rush" | "most-loved";
+export type ArcadeGameId = "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory-8" | "memory-12" | "memory-18";
 
 export const ARCADE: Record<ArcadeGameId, { minSeconds: number; stars: [number, number, number]; daily: boolean }> = {
   "twenty-one": { minSeconds: 60, stars: [50, 80, 110], daily: false },
   "whos-that": { minSeconds: 45, stars: [400, 600, 800], daily: false },
   "series-rush": { minSeconds: 45, stars: [400, 600, 800], daily: false },
   "most-loved": { minSeconds: 20, stars: [3, 6, 10], daily: false },
+  // score = 1000 × pairs / moves; stars at 2.75, 2 and 1.5 moves a pair
+  "memory-8": { minSeconds: 20, stars: [364, 500, 667], daily: false },
+  "memory-12": { minSeconds: 20, stars: [364, 500, 667], daily: false },
+  "memory-18": { minSeconds: 20, stars: [364, 500, 667], daily: false },
 };
