@@ -63,7 +63,8 @@ export function answer(s: QuizState, choice: number, now: number, rules: QuizRul
     ...s,
     answers: [...s.answers, { choice, right, points, ms }],
     score: s.score + points,
-    over: rules.scoring === "streak" ? !right : last,
+    // a streak ends at the first miss, or when the questions run out
+    over: rules.scoring === "streak" ? !right || s.i + 1 >= s.questions.length : last,
   };
 }
 
@@ -71,8 +72,6 @@ export function next(s: QuizState): QuizState {
   if (s.over || !answered(s) || !s.questions[s.i + 1]) return fail();
   return { ...s, i: s.i + 1, askedAt: null };
 }
-
-export const addQuestion = (s: QuizState, q: QuizQuestion): QuizState => ({ ...s, questions: [...s.questions, q] });
 
 // cards of the open question that may be on screen `ms` after the ask
 export function visibleSlots(q: QuizQuestion, msAgo: number | null): number {

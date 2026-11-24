@@ -2032,6 +2032,22 @@
       "seeResult": "Ergebnis ansehen",
       "share": "Ich habe {score} beim Serien-Sprint auf Kizuna geschafft!",
       "rules": "Drei Figuren einer Serie erscheinen nacheinander, alle 4 Sekunden (der Serienname ist auf den Karten verdeckt). Wähle den Anime aus vier: Je früher du antwortest, desto mehr Punkte (bis zu 100). Falsch bringt nichts. Ein Spiel hat 10 der bekanntesten Serien."
+    },
+    "mostLoved": {
+      "name": "Wer ist beliebter?",
+      "chip": "6 Sekunden pro Frage",
+      "pitch": "Zwei Figuren gleicher Seltenheit: Rate, wer mehr Fans hat.",
+      "rarity": "Seltenheit",
+      "streak": "Serie",
+      "best": "Bestwert",
+      "question": "Wer hat mehr Fans?",
+      "right": "Gut erkannt!",
+      "wrong": "Falsch! {name} hat mehr Fans.",
+      "next": "Weiter",
+      "seeResult": "Ergebnis ansehen",
+      "inARow": "{n} in Folge",
+      "share": "Ich habe bei Wer ist beliebter? auf Kizuna {n} in Folge erraten!",
+      "rules": "Zwei Figuren gleicher Seltenheit erscheinen: Wähle die mit mehr Fans (Favoriten auf MyAnimeList). Du hast 6 Sekunden. Jede richtige Antwort verlängert deine Serie; der erste Fehler beendet das Spiel."
     }
   }
 }

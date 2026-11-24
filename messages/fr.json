@@ -2032,6 +2032,22 @@
       "seeResult": "Voir le résultat",
       "share": "J’ai fait {score} à Série express sur Kizuna !",
       "rules": "Trois personnages d’une même série apparaissent un par un, toutes les 4 secondes (le nom de la série est caché sur les cartes). Choisis l’anime parmi les quatre : plus tu réponds tôt, plus tu marques (jusqu’à 100 points). Une mauvaise réponse ne rapporte rien. Une partie fait 10 séries parmi les plus connues."
+    },
+    "mostLoved": {
+      "name": "Le plus aimé ?",
+      "chip": "6 secondes par question",
+      "pitch": "Deux personnages de même rareté : devine lequel a le plus de fans.",
+      "rarity": "Rareté",
+      "streak": "Série",
+      "best": "Record",
+      "question": "Qui a le plus de fans ?",
+      "right": "Bien vu !",
+      "wrong": "Raté ! {name} a plus de fans.",
+      "next": "Suivant",
+      "seeResult": "Voir le résultat",
+      "inARow": "{n} d’affilée",
+      "share": "J’en ai trouvé {n} d’affilée à Le plus aimé ? sur Kizuna !",
+      "rules": "Deux personnages de même rareté apparaissent : choisis celui qui a le plus de fans (favoris sur MyAnimeList). Tu as 6 secondes. Chaque bonne réponse allonge ta série ; la première erreur termine la partie."
     }
   }
 }

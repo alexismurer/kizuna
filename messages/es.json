@@ -2032,6 +2032,22 @@
       "seeResult": "Ver el resultado",
       "share": "¡Hice {score} en Serie exprés en Kizuna!",
       "rules": "Tres personajes de una serie aparecen uno a uno, cada 4 segundos (el nombre de la serie está oculto en las cartas). Elige el anime entre cuatro: cuanto antes respondas, más puntos (hasta 100). Una respuesta incorrecta no suma. Una partida son 10 series de las más conocidas."
+    },
+    "mostLoved": {
+      "name": "¿El más querido?",
+      "chip": "6 segundos por pregunta",
+      "pitch": "Dos personajes de la misma rareza: adivina cuál tiene más fans.",
+      "rarity": "Rareza",
+      "streak": "Racha",
+      "best": "Récord",
+      "question": "¿Quién tiene más fans?",
+      "right": "¡Bien visto!",
+      "wrong": "¡Fallaste! {name} tiene más fans.",
+      "next": "Siguiente",
+      "seeResult": "Ver el resultado",
+      "inARow": "{n} seguidos",
+      "share": "¡Acerté {n} seguidos en ¿El más querido? en Kizuna!",
+      "rules": "Aparecen dos personajes de la misma rareza: elige el que tiene más fans (favoritos en MyAnimeList). Tienes 6 segundos. Cada acierto suma a tu racha; el primer fallo termina la partida."
     }
   }
 }

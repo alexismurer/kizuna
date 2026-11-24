@@ -2032,6 +2032,22 @@
       "seeResult": "Ver o resultado",
       "share": "Fiz {score} no Série relâmpago do Kizuna!",
       "rules": "Três personagens de uma série aparecem um a um, a cada 4 segundos (o nome da série fica escondido nas cartas). Escolha o anime entre quatro: quanto antes responder, mais pontos (até 100). Resposta errada não pontua. Um jogo tem 10 séries entre as mais conhecidas."
+    },
+    "mostLoved": {
+      "name": "O mais amado?",
+      "chip": "6 segundos por pergunta",
+      "pitch": "Dois personagens da mesma raridade: adivinhe qual tem mais fãs.",
+      "rarity": "Raridade",
+      "streak": "Sequência",
+      "best": "Recorde",
+      "question": "Quem tem mais fãs?",
+      "right": "Acertou!",
+      "wrong": "Errou! {name} tem mais fãs.",
+      "next": "Próximo",
+      "seeResult": "Ver o resultado",
+      "inARow": "{n} seguidos",
+      "share": "Acertei {n} seguidos no O mais amado? do Kizuna!",
+      "rules": "Aparecem dois personagens da mesma raridade: escolha o que tem mais fãs (favoritos no MyAnimeList). Você tem 6 segundos. Cada acerto aumenta a sequência; o primeiro erro encerra o jogo."
     }
   }
 }

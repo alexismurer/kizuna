@@ -2032,6 +2032,22 @@
       "seeResult": "See the result",
       "share": "I scored {score} at Series rush on Kizuna!",
       "rules": "Three characters from one series come into view one by one, every 4 seconds (the series name is hidden on the cards). Pick the anime among the four: the sooner you answer, the more you score (up to 100 points). A wrong answer scores nothing. A game is 10 series, among the best known."
+    },
+    "mostLoved": {
+      "name": "Most loved?",
+      "chip": "6 seconds a question",
+      "pitch": "Two characters of the same rarity: guess which one has more fans.",
+      "rarity": "Rarity",
+      "streak": "Streak",
+      "best": "Best",
+      "question": "Who has more fans?",
+      "right": "Well spotted!",
+      "wrong": "Wrong! {name} has more fans.",
+      "next": "Next",
+      "seeResult": "See the result",
+      "inARow": "{n} in a row",
+      "share": "I guessed {n} in a row at Most loved? on Kizuna!",
+      "rules": "Two characters of the same rarity show up: pick the one with more fans (favourites on MyAnimeList). You have 6 seconds. Every right answer adds one to your streak; the first miss ends the game."
     }
   }
 }

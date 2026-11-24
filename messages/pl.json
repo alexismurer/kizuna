@@ -2032,6 +2032,22 @@
       "seeResult": "Zobacz wynik",
       "share": "Zdobyłem {score} w Serialowym sprincie na Kizuna!",
       "rules": "Trzy postacie z jednej serii pojawiają się po kolei co 4 sekundy (nazwa serii jest ukryta na kartach). Wybierz anime z czterech: im wcześniej, tym więcej punktów (do 100). Zła odpowiedź nic nie daje. Gra to 10 najbardziej znanych serii."
+    },
+    "mostLoved": {
+      "name": "Kto bardziej lubiany?",
+      "chip": "6 sekund na pytanie",
+      "pitch": "Dwie postacie tej samej rzadkości: zgadnij, która ma więcej fanów.",
+      "rarity": "Rzadkość",
+      "streak": "Seria",
+      "best": "Rekord",
+      "question": "Kto ma więcej fanów?",
+      "right": "Dobrze!",
+      "wrong": "Źle! {name} ma więcej fanów.",
+      "next": "Dalej",
+      "seeResult": "Zobacz wynik",
+      "inARow": "{n} z rzędu",
+      "share": "Zgadłem {n} z rzędu w Kto bardziej lubiany? na Kizuna!",
+      "rules": "Pojawiają się dwie postacie tej samej rzadkości: wybierz tę z większą liczbą fanów (ulubione na MyAnimeList). Masz 6 sekund. Każda dobra odpowiedź wydłuża serię; pierwszy błąd kończy grę."
     }
   }
 }

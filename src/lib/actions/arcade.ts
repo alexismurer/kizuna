@@ -6,6 +6,7 @@ import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
 import { ArcadeError, createRun, loadRun, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type Run, type RunResult } from "@/lib/arcade/server";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
 import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
+import { buildMostLoved } from "@/lib/arcade/quiz/mostLoved";
 import { buildSeriesRush } from "@/lib/arcade/quiz/seriesRush";
 import { buildWhosThat } from "@/lib/arcade/quiz/whosThat";
 import { createServerClient } from "@/lib/supabase/server";
@@ -85,7 +86,7 @@ export async function bjAct(id: string, a: "hit" | "stand" | "next"): Promise<Ar
 
 // ---------- quizzes ----------
 
-export type QuizGameId = "whos-that" | "series-rush";
+export type QuizGameId = "whos-that" | "series-rush" | "most-loved";
 const QUIZ: Record<QuizGameId, { rules: QuizRules; faces?: boolean; build: (r: () => number) => Promise<QuizState["questions"]> }> = {
   "whos-that": {
     rules: { windowMs: 10_000, scoring: "speed", total: 10 },
@@ -95,6 +96,11 @@ const QUIZ: Record<QuizGameId, { rules: QuizRules; faces?: boolean; build: (r: (
     rules: { windowMs: 12_000, scoring: "speed", total: 10 },
     faces: true,
     build: async (r) => buildSeriesRush(await randomCards(500, { top: 1500 }), r),
+  },
+  "most-loved": {
+    rules: { windowMs: 6_000, scoring: "streak", total: null },
+    faces: true,
+    build: async (r) => buildMostLoved(await randomCards(300), r, 50),
   },
 };
 const quizGame = (g: unknown): QuizGameId => checkAction(g, Object.keys(QUIZ) as QuizGameId[]);
