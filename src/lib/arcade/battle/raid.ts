@@ -63,7 +63,7 @@ const TIERS: BCard["rarity"][][] = [
 const tierOf = (wave: number) => TIERS[Math.min(TIERS.length - 1, wave <= 2 ? 0 : wave <= 4 ? 1 : wave <= 7 ? 2 : wave <= 11 ? 3 : 4)];
 
 // the enemies of a wave: more and stronger as the waves go, a boss every 5
-export function waveEnemies(pool: BCard[], wave: number, r: () => number): Enemy[] {
+export function waveEnemies(pool: BCard[], wave: number, r: () => number, boss = wave % 5 === 0): Enemy[] {
   const pickOf = (rarities: BCard["rarity"][]) => {
     const fits = pool.filter((c) => rarities.includes(c.rarity));
     const from = fits.length > 0 ? fits : pool;
@@ -71,7 +71,7 @@ export function waveEnemies(pool: BCard[], wave: number, r: () => number): Enemy
   };
   // a little steeper as it goes, so no team lasts forever
   const mult = 1 + 0.14 * (wave - 1) + 0.03 * Math.max(0, wave - 10) ** 2;
-  if (wave % 5 === 0) {
+  if (boss) {
     const traits: BossTrait[] = ["enraged", "regeneration", "thorns"];
     return [
       { card: pickOf(["legendary", "mythic"]), mult, boss: traits[Math.floor(r() * 3)] },

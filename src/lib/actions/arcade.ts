@@ -7,7 +7,23 @@ import { choose as raidEngineChoose, fight as raidEngineFight, pickTeam, raidVie
 import type { BCard } from "@/lib/arcade/battle/stats";
 import { connScore, connView, fromCards as connFromCards, fromGroups as connFromGroups, generate as connGenerate, groupOrder as connGroupOrder, guess as connEngineGuess, type CCard, type ConnState, type ConnView } from "@/lib/arcade/connections/engine";
 import { bestHands, discard as pokerDiscard, play as pokerPlay, pokerView, startPoker, type HandName, type PkCard, type PkState, type PkView } from "@/lib/arcade/poker/engine";
-import { ArcadeError, cardsByIds, createRun, dailyDeck, findRun, storedDeck, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
+import {
+  buy as expBuy,
+  choose as expChoose,
+  enterChapter as expEnterChapter,
+  expView,
+  giveUp as expGiveUp,
+  go as expGo,
+  leave as expLeave,
+  needsChapter as expNeedsChapter,
+  rankOf,
+  startExpedition,
+  swap as expEngineSwap,
+  useItem as expUse,
+  type ExpState,
+  type ExpView,
+} from "@/lib/arcade/expedition/engine";
+import { addExpeditionXp, ArcadeError, cardsByIds, expeditionXp, latestRun, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, storedDeck, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
 import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
@@ -371,5 +387,131 @@ export async function arcadeRanking(game: ArcadeGameId, today = false): Promise<
     const { data, error } = await supabase.rpc("arcade_ranking", { p_game: game, p_period: today ? `d:${parisDay()}` : null });
     if (error) throw new ArcadeError(error.message);
     return data as Ranking;
+  });
+}
+
+// ---------- The Expedition (one at a time, it lasts across days) ----------
+
+const EXP = "expedition" as const;
+const RARITIES = ["common", "uncommon", "rare", "epic", "legendary", "mythic"] as const;
+
+// a new chapter: a series to fight (most enemies come from it) and the other enemies
+async function withChapter(s: ExpState): Promise<ExpState> {
+  if (!expNeedsChapter(s)) return s;
+  const pool = (await randomCards(150)).map(toB);
+  if (pool.length < 10) throw new ArcadeError("not_enough_cards");
+  const pick = pool[Math.floor(rng(newSeed())() * pool.length)];
+  const own = (await searchCards(pick.series, null)).map(toB).filter((c) => c.seriesId === pick.seriesId);
+  const ids = new Set(pool.map((c) => c.id));
+  return expEnterChapter(s, [...pool, ...own.filter((c) => !ids.has(c.id))], { id: pick.seriesId, title: pick.series });
+}
+
+async function finishExp(run: Run<ExpState>): Promise<FinishResult> {
+  const score = run.state.cleared;
+  const stars = starsFor(score, ARCADE[EXP].stars);
+  // tickets were paid case by case
+  return { ...(await recordRun(run, score, stars, 0)), stars };
+}
+
+// the player's expedition in progress, if any
+export async function expCurrent(): Promise<ArcadeResult<{ run: string | null; view: ExpView | null }>> {
+  return attempt(async () => {
+    const player = await requirePlayer();
+    const run = await latestRun<ExpState>(player, EXP);
+    if (!run || run.finished) return { run: null, view: null };
+    if (run.state.over) {
+      await finishExp(run);
+      return { run: null, view: null };
+    }
+    return { run: run.id, view: { ...expView(run.state), last: null } };
+  });
+}
+
+// the whole catalogue for the team picker, with the player's ranks
+export async function expSearch(q: string, rarity: string | null): Promise<ArcadeResult<{ cards: BCard[]; ranks: Record<number, number> }>> {
+  return attempt(async () => {
+    const player = await requirePlayer();
+    const r = rarity === null ? null : checkAction(rarity, RARITIES);
+    const cards = (await searchCards(typeof q === "string" ? q : "", r)).map(toB);
+    const xp = await expeditionXp(player, cards.map((c) => c.id));
+    return { cards, ranks: Object.fromEntries(cards.map((c) => [c.id, rankOf(xp[c.id] ?? 0)])) };
+  });
+}
+
+export async function expStart(ids: number[]): Promise<ArcadeResult<{ run: string; view: ExpView }>> {
+  return attempt(async () => {
+    const player = await requirePlayer();
+    const prev = await latestRun<ExpState>(player, EXP);
+    if (prev && !prev.finished) {
+      if (!prev.state.over) throw new ArcadeError("expedition_open");
+      await finishExp(prev);
+    }
+    const pick = Array.isArray(ids) ? [...new Set(ids.map(Number).filter(Number.isInteger))] : [];
+    if (pick.length !== 5) throw new ArcadeError("invalid_action");
+    const cards = (await cardsByIds(pick)).map(toB);
+    const day = parisDay();
+    // the day's fights count across expeditions (giving up doesn't reset them)
+    const fightsToday = prev && prev.state.day === day ? prev.state.fightsToday : 0;
+    const seed = newSeed();
+    const state = await withChapter(startExpedition(cards, await expeditionXp(player, pick), seed, day, fightsToday));
+    try {
+      const run = await createRun<ExpState>(player, EXP, "practice", seed, state);
+      return { run: run.id, view: expView(run.state) };
+    } catch (e) {
+      // a second tab started one at the same time
+      if (e instanceof ArcadeError && e.message === "daily_taken") throw new ArcadeError("expedition_open");
+      throw e;
+    }
+  });
+}
+
+export async function expAct(
+  id: string,
+  a: "go" | "choose" | "buy" | "leave" | "use" | "giveUp",
+  arg?: number,
+): Promise<ArcadeResult<{ view: ExpView; result?: FinishResult; paid?: number }>> {
+  return attempt(async () => {
+    const move = checkAction(a, ["go", "choose", "buy", "leave", "use", "giveUp"] as const);
+    const player = await requirePlayer();
+    const run = await loadRun<ExpState>(player, checkRun(id));
+    if (run.game !== EXP) throw new ArcadeError("run_not_found");
+    if (run.finished) throw new ArcadeError("run_over");
+    if (run.state.over) return { view: expView(run.state), result: await finishExp(run) };
+    const s0 = run.state;
+    const n = Number(arg);
+    const next =
+      move === "go" ? expGo(s0, parisDay()) : move === "choose" ? expChoose(s0, n) : move === "buy" ? expBuy(s0, n) : move === "leave" ? expLeave(s0) : move === "use" ? expUse(s0, n) : expGiveUp(s0);
+    const s = await withChapter(next);
+    const saved = await saveRun(run, s);
+    // the case's rewards, once: a replayed request fails on the save above
+    let paid: number | undefined;
+    const l = s.last;
+    if (move === "go" && l && l.caseNo === s0.caseNo) {
+      if (l.kind === "fight" && l.won) {
+        await addExpeditionXp(player, s0.team.map((m) => m.card.id), l.xp);
+        paid = await payRun(saved, l.tickets, "case");
+      }
+      if (l.kind === "treasure") paid = await payRun(saved, l.tickets, "treasure");
+    }
+    if (s.cleared > s0.cleared) await progressRun(saved, s.cleared);
+    const result = s.over ? await finishExp(saved) : undefined;
+    const view = expView(s);
+    // the fight's events only travel with the fight that made them
+    return { view: move === "go" ? view : { ...view, last: null }, result, paid };
+  });
+}
+
+export async function expSwap(id: string, slot: number, cardId: number): Promise<ArcadeResult<{ view: ExpView }>> {
+  return attempt(async () => {
+    const player = await requirePlayer();
+    const run = await loadRun<ExpState>(player, checkRun(id));
+    if (run.game !== EXP) throw new ArcadeError("run_not_found");
+    if (run.finished || run.state.over) throw new ArcadeError("run_over");
+    const [card] = (await cardsByIds([Number(cardId)])).map(toB);
+    if (!card) throw new ArcadeError("invalid_action");
+    const xp = await expeditionXp(player, [card.id]);
+    const s = expEngineSwap(run.state, Number(slot), card, xp[card.id] ?? 0);
+    await saveRun(run, s);
+    return { view: { ...expView(s), last: null } };
   });
 }

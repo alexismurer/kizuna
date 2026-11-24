@@ -2,7 +2,8 @@
 // random source. Returns what happened (events for the client to replay) and the team.
 import { baseStats, modsOf, powerOf, starsFromKos, synergies, type BCard, type Mods, type Power } from "./stats";
 
-export type Member = { card: BCard; hp: number /* share of max, 0–1 */; kos: number; alive: boolean };
+// boost: attack and health (Expedition ranks); atkMult: attack only (chapter series)
+export type Member = { card: BCard; hp: number /* share of max, 0–1 */; kos: number; alive: boolean; boost?: number; atkMult?: number };
 export type EliteTrait = "armoured" | "fast" | "healer" | "explosive";
 export type BossTrait = "enraged" | "regeneration" | "thorns";
 export type Enemy = { card: BCard; mult: number; trait?: EliteTrait; boss?: BossTrait };
@@ -75,7 +76,7 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
     const b = baseStats(m.card);
     const stars = starsFromKos(m.kos);
     const starMult = 1 + 0.25 * stars;
-    const max = b.hp * (1 + genreValue("slice_of_life")) * mods.hp * starMult;
+    const max = b.hp * (1 + genreValue("slice_of_life")) * mods.hp * starMult * (m.boost ?? 1);
     const power = powerOf(m.card);
     const every = m.card.rarity === "mythic" ? 8000 : 11000;
     return {
@@ -84,7 +85,7 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
       card: m.card,
       max,
       hp: m.alive ? Math.max(1, m.hp * max) : 0,
-      atk: b.atk * (1 + seriesAtk(m.card.seriesId)) * mods.atk * (1 + (mods.focus[m.card.genre] ?? 0)) * starMult,
+      atk: b.atk * (1 + seriesAtk(m.card.seriesId)) * mods.atk * (1 + (mods.focus[m.card.genre] ?? 0)) * starMult * (m.boost ?? 1) * (m.atkMult ?? 1),
       interval: BASE_INTERVAL / (1 + genreValue("scifi_sport")) / mods.speed,
       next: BASE_INTERVAL * (0.3 + 0.1 * i),
       crit: 0.05 + genreValue("battle") + mods.crit,
@@ -306,6 +307,6 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
     damage: Math.round(damage),
     teamMax,
     teamStart,
-    team: players.map((p, i) => ({ card: team[i].card, hp: p.alive ? Math.max(0, Math.min(1, p.hp / p.max)) : 0, kos: p.kos, alive: p.alive })),
+    team: players.map((p, i) => ({ ...team[i], hp: p.alive ? Math.max(0, Math.min(1, p.hp / p.max)) : 0, kos: p.kos, alive: p.alive })),
   };
 }

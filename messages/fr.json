@@ -1973,7 +1973,11 @@
       "stale_run": "Cette partie a avancé dans un autre onglet.",
       "run_not_found": "Partie introuvable.",
       "forbidden": "La salle de jeux n'est pas encore ouverte.",
-      "not_signed_in": "Connecte-toi pour jouer."
+      "not_signed_in": "Connecte-toi pour jouer.",
+      "over_budget": "Cette équipe coûte plus de 20.",
+      "come_back_tomorrow": "Cinq combats par jour : reviens demain.",
+      "not_enough_shards": "Pas assez d’éclats.",
+      "expedition_open": "Tu as déjà une expédition en cours."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2310,6 +2314,103 @@
       "chip": "Classé",
       "pitch": "Les mêmes seize cartes pour tout le monde, une nouvelle grille chaque jour. Ton premier essai du jour compte au classement.",
       "share": "J’ai résolu les Connexions du jour sur Kizuna avec {mistakes} erreurs !"
+    },
+    "expedition": {
+      "name": "L’Expédition",
+      "chip": "Aventure",
+      "pitch": "Achète une équipe de 5 cartes avec un budget, puis voyage chapitre après chapitre : combats, trésors, boutiques et boss. Tes cartes gagnent des rangs qui restent.",
+      "share": "Mon expédition sur Kizuna a passé {n} cases !",
+      "again": "Nouvelle expédition",
+      "cleared": "Cases",
+      "shards": "Éclats",
+      "cases": "{n} cases",
+      "setOff": "Partir",
+      "pickTeam": "Compose ton équipe",
+      "remove": "Retirer {name}",
+      "search": "Chercher une carte ou une série",
+      "all": "Toutes",
+      "rank": "R{n}",
+      "xp": "{n} XP",
+      "swapPick": "Choisis une carte pour remplacer {name}",
+      "cancel": "Annuler",
+      "chapter": "Chapitre {n} · {series}",
+      "caseOf": "Case {n}",
+      "fightsToday": "Combats aujourd’hui : {n}/{max}",
+      "next": "Prochaines cases",
+      "go": "Aller : {kind}",
+      "kinds": {
+        "fight": "Combat",
+        "treasure": "Trésor",
+        "shop": "Boutique",
+        "boss": "Boss"
+      },
+      "comeBack": "Ton équipe se repose : cinq combats par jour. Reviens demain (minuit, Paris).",
+      "giveUp": "Abandonner l’expédition",
+      "seeResult": "Voir le résultat",
+      "treasure": "Trésor ! +{shards} éclats, +{tickets} tickets et : {item}",
+      "won": "Case réussie ! +{shards} éclats · +{xp} XP à l’équipe · +{tickets} tickets",
+      "lost": "Ton équipe est tombée. L’expédition est terminée.",
+      "swap": "Changer",
+      "swapOne": "Changer {name}",
+      "bag": "Sac",
+      "use": "Utiliser {item}",
+      "tonicOn": "Tonique prêt",
+      "items": {
+        "potion": {
+          "name": "Potion",
+          "text": "Soigne l’équipe de 50 % de sa vie."
+        },
+        "tonic": {
+          "name": "Tonique",
+          "text": "+15 % d’attaque pour la prochaine case."
+        },
+        "phoenix": {
+          "name": "Phénix",
+          "text": "Ramène les cartes tombées à moitié de vie."
+        }
+      },
+      "bonusTitle": "Choisis un bonus",
+      "shopTitle": "Boutique",
+      "shardsLeft": "Tu as {n} éclats",
+      "price": "{n} éclats",
+      "bought": "Acheté",
+      "leave": "Partir",
+      "shop": {
+        "heal": {
+          "name": "Soin",
+          "text": "Soigne l’équipe de 50 % tout de suite."
+        },
+        "potion": {
+          "name": "Potion",
+          "text": "Va dans ton sac : soigne 50 % quand tu en as besoin."
+        },
+        "tonic": {
+          "name": "Tonique",
+          "text": "Va dans ton sac : +15 % d’attaque pour une case."
+        },
+        "training": {
+          "name": "Entraînement",
+          "text": "+15 % d’attaque jusqu’à la fin du chapitre."
+        },
+        "stamina": {
+          "name": "Endurance",
+          "text": "+20 % de vie jusqu’à la fin du chapitre."
+        },
+        "adrenaline": {
+          "name": "Adrénaline",
+          "text": "Attaques plus rapides jusqu’à la fin du chapitre."
+        }
+      },
+      "rules": {
+        "team": "Compose une équipe de 5 cartes différentes parmi tout le catalogue avec un budget de 20 : Commune 1, Peu commune 2, Rare 3, Épique 5, Légendaire 8, Mythique 12.",
+        "route": "Chaque chapitre a 10 cases : combat, trésor, combat, boutique, boss, combat, trésor, combat, boutique, boss. Tu ne vois que les deux prochaines. Chaque chapitre suit une série : ses cartes forment la plupart des ennemis, et tes cartes de cette série frappent 20 % plus fort.",
+        "fights": "Un combat dure 3 vagues, le boss attend dans la dernière vague d’une case boss. Ton équipe se bat seule, comme dans les raids. La vie se garde de vague en vague et de case en case : perds une case et l’expédition s’arrête.",
+        "rewards": "Un combat gagné donne 30 éclats, 22 XP à chaque carte de l’équipe, des tickets (6, puis un de plus par chapitre, jusqu’à 10) et un bonus à choisir. Les bonus durent jusqu’à la fin du chapitre ; battre son dernier boss soigne l’équipe.",
+        "shop": "Les trésors donnent 40 éclats, 3 tickets et un objet (Potion, Tonique ou Phénix). Les boutiques vendent trois offres contre des éclats. Entre deux cases, tu peux utiliser tes objets et changer une carte (budget toujours de 20).",
+        "ranks": "Les cartes gardent leur expérience d’une expédition à l’autre : rang 1 à 30 XP, 2 à 90, 3 à 200, 4 à 400, 5 à 700. Chaque rang ajoute 12 % d’attaque et de vie.",
+        "daily": "Cinq combats par jour (boss compris) ; trésors et boutiques ne comptent pas. L’expédition t’attend d’un jour à l’autre.",
+        "score": "Ton score est le nombre de cases passées ; le classement de la semaine garde ta plus longue expédition."
+      }
     }
   }
 }

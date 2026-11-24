@@ -1,5 +1,5 @@
 // Per-game arcade settings: minimum time for tickets and the star thresholds.
-export type ArcadeGameId = "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory-8" | "memory-12" | "memory-18" | "daily-hand" | "kizuna-hand" | "raid" | "daily-raid" | "connections" | "daily-connections";
+export type ArcadeGameId = "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory-8" | "memory-12" | "memory-18" | "daily-hand" | "kizuna-hand" | "raid" | "daily-raid" | "connections" | "daily-connections" | "expedition";
 
 export const ARCADE: Record<ArcadeGameId, { minSeconds: number; stars: [number, number, number]; daily: boolean }> = {
   "twenty-one": { minSeconds: 60, stars: [50, 80, 110], daily: false },
@@ -18,4 +18,6 @@ export const ARCADE: Record<ArcadeGameId, { minSeconds: number; stars: [number, 
   // 100 a group − 25 a mistake: ★★★ no mistake, ★★ 1–2, ★ 3
   connections: { minSeconds: 30, stars: [325, 350, 400], daily: false },
   "daily-connections": { minSeconds: 30, stars: [325, 350, 400], daily: true },
+  // score = cases cleared; tickets are paid case by case
+  expedition: { minSeconds: 0, stars: [5, 10, 20], daily: false },
 };

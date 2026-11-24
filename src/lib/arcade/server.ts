@@ -119,6 +119,43 @@ export async function findRun<S>(player: string, game: ArcadeGameId, day: string
   return data ? toRun<S>(data as Row) : null;
 }
 
+// A player's open run of a game (the Expedition lasts across days), else their latest one.
+export async function latestRun<S>(player: string, game: ArcadeGameId): Promise<Run<S> | null> {
+  const { data } = await service().from("arcade_runs").select("*").eq("player_id", player).eq("game", game).order("started_at", { ascending: false }).limit(1).maybeSingle();
+  return data ? toRun<S>(data as Row) : null;
+}
+
+// Expedition ranks: experience per player and card, kept between runs.
+export async function expeditionXp(player: string, ids: number[]): Promise<Record<number, number>> {
+  if (ids.length === 0) return {};
+  const { data, error } = await service().from("expedition_cards").select("card_id, xp").eq("player_id", player).in("card_id", ids);
+  if (error) throw new ArcadeError(error.message);
+  return Object.fromEntries((data ?? []).map((r) => [r.card_id as number, r.xp as number]));
+}
+
+export async function addExpeditionXp(player: string, ids: number[], xp: number): Promise<void> {
+  const { error } = await service().rpc("expedition_add_xp", { p_player: player, p_card_ids: ids, p_xp: xp });
+  if (error) throw new ArcadeError(error.message);
+}
+
+// tickets for a run that goes on, and its progress on this week's board
+export async function payRun(run: Run<unknown>, amount: number, source: string): Promise<number> {
+  const { data, error } = await service().rpc("arcade_pay", { p_run: run.id, p_amount: amount, p_source: source });
+  if (error) throw new ArcadeError(error.message);
+  return data as number;
+}
+
+export async function progressRun(run: Run<unknown>, score: number): Promise<void> {
+  const { error } = await service().rpc("arcade_progress", { p_run: run.id, p_score: score });
+  if (error) throw new ArcadeError(error.message);
+}
+
+export async function searchCards(q: string, rarity: Rarity | null): Promise<ArcadeCard[]> {
+  const { data, error } = await service().rpc("arcade_search_cards", { p_q: q.slice(0, 40), p_rarity: rarity, p_limit: 60 });
+  if (error) throw new ArcadeError(error.message);
+  return data as ArcadeCard[];
+}
+
 export const parisDay = () => new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Paris" });
 
 // Saves a new state; a second tab acting on the same run at the same time loses.

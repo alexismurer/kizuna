@@ -106,3 +106,40 @@ describe('card themes for the arcade', () => {
     expect((data as { themes: unknown }[]).every((c) => Array.isArray(c.themes))).toBe(true)
   })
 })
+
+describe('expedition support', () => {
+  it('pays tickets for a run without closing it, within the caps', async () => {
+    const p = await newPlayer()
+    const id = await run(p, 'expedition')
+    expect((await admin.rpc('arcade_pay', { p_run: id, p_amount: 8, p_source: 'case' })).data).toBe(8)
+    const { data: r } = await admin.from('arcade_runs').select('finished_at').eq('id', id).single()
+    expect(r!.finished_at).toBeNull()
+    expect((await p.client.rpc('arcade_pay', { p_run: id, p_amount: 8, p_source: 'case' })).error).not.toBeNull()
+  })
+
+  it('files progress on the weekly board, keeping the furthest', async () => {
+    const p = await newPlayer()
+    const id = await run(p, 'expedition')
+    await admin.rpc('arcade_progress', { p_run: id, p_score: 7 })
+    await admin.rpc('arcade_progress', { p_run: id, p_score: 3 })
+    const { data } = await p.client.rpc('arcade_best', { p_game: 'expedition' })
+    expect(data).toMatchObject({ weekBest: 7 })
+  })
+
+  it('adds experience to cards and keeps it', async () => {
+    const p = await newPlayer()
+    const { data: c } = await admin.from('cards').select('id').limit(2)
+    const ids = c!.map((x) => x.id)
+    await admin.rpc('expedition_add_xp', { p_player: p.userId, p_card_ids: ids, p_xp: 22 })
+    const { data } = await admin.rpc('expedition_add_xp', { p_player: p.userId, p_card_ids: ids, p_xp: 22 })
+    expect((data as { xp: number }[]).every((r) => r.xp === 44)).toBe(true)
+  })
+
+  it('searches the catalogue by name or series', async () => {
+    const { data: c } = await admin.from('cards').select('name').not('image_url', 'is', null).limit(1).single()
+    const p = await newPlayer()
+    const { data, error } = await p.client.rpc('arcade_search_cards', { p_q: c!.name.slice(0, 4), p_rarity: null, p_limit: 20 })
+    expect(error).toBeNull()
+    expect((data as { name: string }[]).some((x) => x.name === c!.name)).toBe(true)
+  })
+})

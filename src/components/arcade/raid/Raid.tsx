@@ -20,7 +20,7 @@ import { ResultScreen } from "../ResultScreen";
 import { StartScreen } from "../StartScreen";
 
 const COLORS = { daily: "var(--color-accent)", practice: "var(--color-mythic)" };
-const TAG: Record<string, string> = {
+export const TAG: Record<string, string> = {
   common: "text-common border-white/15",
   rare: "text-rare border-rare/50",
   epic: "text-epic border-epic/50",
@@ -205,7 +205,7 @@ function Rules() {
   );
 }
 
-function BattleCard({ card, small = false, hp, max, kos, dead = false, badge }: { card: BCard; small?: boolean; hp?: number; max?: number; kos?: number; dead?: boolean; badge?: React.ReactNode }) {
+export function BattleCard({ card, small = false, hp, max, kos, dead = false, badge }: { card: BCard; small?: boolean; hp?: number; max?: number; kos?: number; dead?: boolean; badge?: React.ReactNode }) {
   const color = RARITY_COLOR[card.rarity];
   const seal = SEAL[card.genre as Genre];
   const Seal = seal.icon;
@@ -284,7 +284,7 @@ function Recruit({ offer, picked, setPicked, busy, onStart, color }: { offer: BC
   );
 }
 
-function Synergies({ cards, perks, relics }: { cards: BCard[]; perks: Record<string, number>; relics: string[] }) {
+export function Synergies({ cards, perks, relics }: { cards: BCard[]; perks: Record<string, number>; relics: string[] }) {
   const tr = useTranslations("arcade.raid");
   const tgn = useTranslations("arcade.genres");
   const syn = useMemo(() => synergies(cards), [cards]);
@@ -317,7 +317,7 @@ function Synergies({ cards, perks, relics }: { cards: BCard[]; perks: Record<str
   );
 }
 
-function PerkName({ id }: { id: string }) {
+export function PerkName({ id }: { id: string }) {
   const tr = useTranslations("arcade.raid");
   const tgn = useTranslations("arcade.genres");
   return <>{id.startsWith("focus_") ? tr("perks.focus.name", { genre: tgn(id.slice(6)) }) : tr(`perks.${id}.name`)}</>;
@@ -356,7 +356,7 @@ function Choice({ choice, wave, busy, onPick }: { choice: NonNullable<RaidView["
 type Unit = { hp: number; max: number; dead: boolean; flash?: { v: number; crit: boolean; heal: boolean; at: number } };
 
 // Replays a fought wave from its events: health bars, floating numbers, knock-outs.
-function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boolean; onEnd: () => void }) {
+export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boolean; onEnd: () => void }) {
   const tr = useTranslations("arcade.raid");
   const [clock, setClock] = useState(playing ? 0 : wave.t);
   const [speed, setSpeed] = useState(2);
