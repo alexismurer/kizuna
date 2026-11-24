@@ -1,32 +1,64 @@
 "use client";
 
+import { useState } from "react";
 import { Check, X } from "lucide-react";
 import type { QuizView } from "@/lib/arcade/quiz/engine";
 
-// A bar that empties over what's left of the answer window (a CSS animation, restarted per question).
-export function TimerBar({ view, windowMs, color }: { view: QuizView; windowMs: number; color: string }) {
-  const left = Math.max(0, windowMs - (view.askedMsAgo ?? 0));
-  const done = view.answered !== null;
+// A bar that empties over what's left of the answer window: a CSS animation timed
+// from the first view of each question (later views of it don't restart it).
+export function TimerBar({
+  view,
+  windowMs,
+  color,
+}: {
+  view: QuizView;
+  windowMs: number;
+  color: string;
+}) {
   return (
     <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-      <div
-        key={view.index}
-        className="h-full origin-left rounded-full"
-        style={
-          {
-            background: `linear-gradient(90deg, ${color}, var(--color-legendary))`,
-            "--from": left / windowMs,
-            transform: done ? "scaleX(0)" : undefined,
-            animation: done ? "none" : `arcade-drain ${left}ms linear forwards`,
-          } as React.CSSProperties
-        }
-      />
+      <Drain key={view.index} view={view} windowMs={windowMs} color={color} />
     </div>
   );
 }
 
+function Drain({
+  view,
+  windowMs,
+  color,
+}: {
+  view: QuizView;
+  windowMs: number;
+  color: string;
+}) {
+  const [left] = useState(() => Math.max(0, windowMs - (view.askedMsAgo ?? 0)));
+  const done = view.answered !== null;
+  return (
+    <div
+      data-timer
+      className="h-full origin-left rounded-full"
+      style={
+        {
+          background: `linear-gradient(90deg, ${color}, var(--color-legendary))`,
+          "--from": left / windowMs,
+          transform: done ? "scaleX(0)" : undefined,
+          animation: done ? "none" : `arcade-drain ${left}ms linear forwards`,
+        } as React.CSSProperties
+      }
+    />
+  );
+}
+
 // The answer buttons: after answering, the right one turns green and a wrong pick red.
-export function Options({ view, onPick, disabled }: { view: QuizView; onPick: (i: number) => void; disabled: boolean }) {
+export function Options({
+  view,
+  onPick,
+  disabled,
+}: {
+  view: QuizView;
+  onPick: (i: number) => void;
+  disabled: boolean;
+}) {
   const a = view.answered;
   return (
     <div className="flex w-full flex-col gap-2">

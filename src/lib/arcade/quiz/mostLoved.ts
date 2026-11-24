@@ -5,12 +5,13 @@ import type { ArcadeCard } from "../server";
 import type { QuizQuestion } from "./engine";
 import { toQuizCard } from "./whosThat";
 
-const fansOf = (c: ArcadeCard) => c.fans ?? Math.max(0, 100000 - c.rank);
-
 export function buildMostLoved(all: ArcadeCard[], r: () => number, count = 50): QuizQuestion[] {
-  // real fan counts only, unless too few cards have one
+  // real fan counts only; when too few cards have one, popularity for every card
+  // (never a real count against a made-up one)
   const known = all.filter((c) => c.fans !== null);
-  const pool = known.length >= 20 ? known : all;
+  const real = known.length >= 20;
+  const pool = real ? known : all;
+  const fansOf = (c: ArcadeCard) => (real ? c.fans! : Math.max(0, 100000 - c.rank));
   const byRarity = new Map<string, ArcadeCard[]>();
   for (const c of pool) byRarity.set(c.rarity, [...(byRarity.get(c.rarity) ?? []), c]);
   const groups = [...byRarity.values()].filter((g) => new Set(g.map(fansOf)).size >= 2);

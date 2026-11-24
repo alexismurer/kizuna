@@ -49,3 +49,10 @@ describe("Most loved? questions", () => {
     expect(s.score).toBe(2);
   });
 });
+
+describe("Most loved? with few real fan counts", () => {
+  it("never compares a real count with a made-up one", () => {
+    const few = pool.map((c, i) => ({ ...c, fans: i < 5 ? 3000 + i : null }));
+    for (const q of buildMostLoved(few, rng(2), 30)) for (const c of q.cards) expect(c.fans).toBeGreaterThan(50_000);
+  });
+});

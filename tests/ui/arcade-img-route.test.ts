@@ -38,4 +38,11 @@ describe("quiz image route", () => {
     expect((await get("0")).status).toBe(404);
     expect((await get("0", "not-a-run")).status).toBe(404);
   });
+  it("only passes images through", async () => {
+    store.loadRun.mockResolvedValue({ state: state(5000) });
+    vi.mocked(fetch).mockResolvedValue(new Response("<script>", { headers: { "content-type": "text/html" } }));
+    expect((await get("0")).status).toBe(502);
+    vi.mocked(fetch).mockResolvedValue(new Response("png", { headers: { "content-type": "image/png" } }));
+    expect((await get("0")).headers.get("x-content-type-options")).toBe("nosniff");
+  });
 });

@@ -20,12 +20,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ run: st
     return new NextResponse(null, { status: 404 });
   }
   if (!url) return new NextResponse(null, { status: 404 });
-  const img = await fetch(url, { cache: "no-store" }).catch(() => null);
-  if (!img || !img.ok || !img.body) return new NextResponse(null, { status: 502 });
+  const img = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(8000) }).catch(() => null);
+  const type = img?.headers.get("content-type") ?? "";
+  // pictures only: anything else from a bad URL would be served from our origin
+  if (!img || !img.ok || !img.body || !type.startsWith("image/")) return new NextResponse(null, { status: 502 });
   return new NextResponse(img.body, {
-    headers: {
-      "content-type": img.headers.get("content-type") ?? "image/jpeg",
-      "cache-control": "private, no-store",
-    },
+    headers: { "content-type": type, "cache-control": "private, no-store", "x-content-type-options": "nosniff" },
   });
 }

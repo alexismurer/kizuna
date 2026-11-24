@@ -4,6 +4,7 @@ import { ARCADE, type ArcadeGameId } from "@/lib/arcade/registry";
 import { starsFor, ticketsFor } from "@/lib/arcade/payout";
 import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
 import { ArcadeError, createRun, loadRun, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type Run, type RunResult } from "@/lib/arcade/server";
+import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
 import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
 import { buildMostLoved } from "@/lib/arcade/quiz/mostLoved";
@@ -41,18 +42,20 @@ function checkAction<A extends string>(a: unknown, allowed: readonly A[]): A {
 // recorded on the next call instead of being stuck.
 async function step<S extends { over: boolean }, V>(
   id: unknown,
-  game: ArcadeGameId,
+  // the run must belong to this game (or one of these games)
+  game: ArcadeGameId | ((g: ArcadeGameId) => boolean),
   apply: (s: S) => S,
   score: (s: S) => number,
   view: (s: S) => V,
 ): Promise<{ view: V; result?: FinishResult }> {
   const player = await requirePlayer();
   const run = await loadRun<S>(player, checkRun(id));
+  if (typeof game === "function" ? !game(run.game) : run.game !== game) throw new ArcadeError("run_not_found");
   if (run.finished) throw new ArcadeError("run_over");
-  if (run.state.over) return { view: view(run.state), result: await finish(run, game, score(run.state)) };
+  if (run.state.over) return { view: view(run.state), result: await finish(run, run.game, score(run.state)) };
   const state = apply(run.state);
   const saved = await saveRun(run, state);
-  return { view: view(state), result: state.over ? await finish(saved, game, score(state)) : undefined };
+  return { view: view(state), result: state.over ? await finish(saved, run.game, score(state)) : undefined };
 }
 
 // Scores and pays a finished run.
@@ -142,8 +145,40 @@ export async function quizPeek(game: QuizGameId, id: string): Promise<ArcadeResu
     const g = quizGame(game);
     const player = await requirePlayer();
     const run = await loadRun<QuizState>(player, checkRun(id));
+    if (run.game !== g) throw new ArcadeError("run_not_found");
     return { view: quizView(run.state, Date.now(), { faces: QUIZ[g].faces }) };
   });
+}
+
+// ---------- Memory ----------
+
+const MEMORY_LEVELS = [8, 12, 18] as const;
+export type MemoryLevel = (typeof MEMORY_LEVELS)[number];
+const isMemory = (g: ArcadeGameId) => g === "memory-8" || g === "memory-12" || g === "memory-18";
+
+export async function memoryStart(level: MemoryLevel): Promise<ArcadeResult<{ run: string; view: MemView }>> {
+  return attempt(async () => {
+    const pairs = MEMORY_LEVELS.find((l) => l === Number(level));
+    if (!pairs) throw new ArcadeError("invalid_action");
+    const player = await requirePlayer();
+    const seed = newSeed();
+    // one card per name: two tiles of different characters must never look alike
+    const seen = new Set<string>();
+    const cards = (await randomCards(pairs * 3)).filter((c) => !seen.has(c.name) && seen.add(c.name)).slice(0, pairs);
+    if (cards.length < pairs) throw new ArcadeError("not_enough_cards");
+    const state = startMemory(
+      cards.map((c) => ({ id: c.id, name: c.name, rarity: c.rarity, imageUrl: c.imageUrl, series: c.series })),
+      rng(seed),
+    );
+    const run = await createRun<MemState>(player, `memory-${pairs}`, "practice", seed, state);
+    return { run: run.id, view: memoryView(run.state) };
+  });
+}
+
+export async function memoryFlip(id: string, pos: number): Promise<ArcadeResult<{ view: MemView; result?: FinishResult }>> {
+  return attempt(async () =>
+    step<MemState, MemView>(id, isMemory, (s) => memoryEngineFlip(s, Number(pos)), (s) => Math.round((1000 * (s.tiles.length / 2)) / Math.max(1, s.moves)), memoryView),
+  );
 }
 
 // ---------- shared ----------

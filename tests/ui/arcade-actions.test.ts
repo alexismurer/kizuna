@@ -18,7 +18,7 @@ vi.mock("@/lib/arcade/server", async () => {
 });
 vi.mock("@/lib/supabase/server", () => ({ createServerClient: vi.fn() }));
 
-import { bjAct } from "@/lib/actions/arcade";
+import { bjAct, quizAnswer, quizPeek } from "@/lib/actions/arcade";
 
 const RUN = "8d5c2a2e-4a6f-4a43-9a51-1d7a0b0c1e2f";
 const overState = {
@@ -38,7 +38,7 @@ beforeEach(() => vi.clearAllMocks());
 
 describe("arcade actions", () => {
   it("records a run that ended but was never recorded (a failed record is retried)", async () => {
-    store.loadRun.mockResolvedValue({ id: RUN, state: overState, finished: false, mode: "practice", startedAt: new Date().toISOString() });
+    store.loadRun.mockResolvedValue({ id: RUN, game: "twenty-one", state: overState, finished: false, mode: "practice", startedAt: new Date().toISOString() });
     store.recordRun.mockResolvedValue(result);
     const r = await bjAct(RUN, "next");
     expect(r.ok).toBe(true);
@@ -51,5 +51,14 @@ describe("arcade actions", () => {
     expect(await bjAct(RUN, "fly" as "hit")).toEqual({ ok: false, error: "invalid_action" });
     expect(await bjAct("x'; drop", "hit")).toEqual({ ok: false, error: "run_not_found" });
     expect(store.loadRun).not.toHaveBeenCalled();
+  });
+
+  it("refuses a run of another game", async () => {
+    store.loadRun.mockResolvedValue({ id: RUN, game: "series-rush", state: { over: false }, finished: false, mode: "practice", startedAt: new Date().toISOString() });
+    expect(await quizAnswer("whos-that", RUN, 0)).toEqual({ ok: false, error: "run_not_found" });
+    // peeking a Who's that? run as Series rush would show the hidden name
+    store.loadRun.mockResolvedValue({ id: RUN, game: "whos-that", state: { over: false }, finished: false });
+    expect(await quizPeek("series-rush", RUN)).toEqual({ ok: false, error: "run_not_found" });
+    expect(store.saveRun).not.toHaveBeenCalled();
   });
 });
