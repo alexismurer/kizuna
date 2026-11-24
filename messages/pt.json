@@ -2007,6 +2007,18 @@
         "tie": "+5",
         "loss": "0"
       }
+    },
+    "whosThat": {
+      "name": "Quem é?",
+      "chip": "10 personagens",
+      "pitch": "Um personagem famoso aparece borrado: descubra o nome antes que o tempo acabe.",
+      "character": "Personagem",
+      "right": "Acertou! +{n}",
+      "wrong": "Errou!",
+      "next": "Próximo",
+      "seeResult": "Ver o resultado",
+      "share": "Fiz {score} no Quem é? do Kizuna!",
+      "rules": "Um personagem aparece ampliado e borrado e fica nítido em 10 segundos. Escolha o nome entre quatro: quanto mais rápido, mais pontos (até 100). Resposta errada não pontua. Um jogo tem 10 personagens entre os mais queridos."
     }
   }
 }

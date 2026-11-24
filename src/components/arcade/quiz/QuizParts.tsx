@@ -1,0 +1,60 @@
+"use client";
+
+import { Check, X } from "lucide-react";
+import type { QuizView } from "@/lib/arcade/quiz/engine";
+
+// A bar that empties over what's left of the answer window (a CSS animation, restarted per question).
+export function TimerBar({ view, windowMs, color }: { view: QuizView; windowMs: number; color: string }) {
+  const left = Math.max(0, windowMs - (view.askedMsAgo ?? 0));
+  const done = view.answered !== null;
+  return (
+    <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+      <div
+        key={view.index}
+        className="h-full origin-left rounded-full"
+        style={
+          {
+            background: `linear-gradient(90deg, ${color}, var(--color-legendary))`,
+            "--from": left / windowMs,
+            transform: done ? "scaleX(0)" : undefined,
+            animation: done ? "none" : `arcade-drain ${left}ms linear forwards`,
+          } as React.CSSProperties
+        }
+      />
+    </div>
+  );
+}
+
+// The answer buttons: after answering, the right one turns green and a wrong pick red.
+export function Options({ view, onPick, disabled }: { view: QuizView; onPick: (i: number) => void; disabled: boolean }) {
+  const a = view.answered;
+  return (
+    <div className="flex w-full flex-col gap-2">
+      {view.options.map((o, i) => {
+        const right = a && i === a.answer;
+        const wrong = a && i === a.choice && !a.right;
+        return (
+          <button
+            key={`${view.index}-${o}`}
+            type="button"
+            disabled={disabled || a !== null}
+            onClick={() => onPick(i)}
+            className={`flex min-h-11 items-center justify-between gap-2 rounded-xl border px-4 py-2 text-left text-sm font-semibold transition ${
+              right
+                ? "border-uncommon bg-uncommon/15 text-white"
+                : wrong
+                  ? "border-accent bg-accent/15 text-white"
+                  : a
+                    ? "border-white/5 bg-white/[0.02] text-common/60"
+                    : "border-white/10 bg-white/[0.04] hover:border-white/40 hover:bg-white/[0.08]"
+            }`}
+          >
+            <span>{o}</span>
+            {right && <Check className="h-4 w-4 text-uncommon" aria-hidden />}
+            {wrong && <X className="h-4 w-4 text-accent" aria-hidden />}
+          </button>
+        );
+      })}
+    </div>
+  );
+}

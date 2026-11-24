@@ -2007,6 +2007,18 @@
         "tie": "+5",
         "loss": "0"
       }
+    },
+    "whosThat": {
+      "name": "Kto to?",
+      "chip": "10 postaci",
+      "pitch": "Znana postać pojawia się rozmazana: odgadnij jej imię, zanim skończy się czas.",
+      "character": "Postać",
+      "right": "Dobrze! +{n}",
+      "wrong": "Źle!",
+      "next": "Dalej",
+      "seeResult": "Zobacz wynik",
+      "share": "Zdobyłem {score} w Kto to? na Kizuna!",
+      "rules": "Postać pojawia się powiększona i rozmazana, a w 10 sekund staje się wyraźna. Wybierz jej imię z czterech: im szybciej, tym więcej punktów (do 100). Zła odpowiedź nic nie daje. Gra to 10 postaci spośród najbardziej lubianych."
     }
   }
 }

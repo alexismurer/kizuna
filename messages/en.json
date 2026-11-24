@@ -2007,6 +2007,18 @@
         "tie": "+5",
         "loss": "0"
       }
+    },
+    "whosThat": {
+      "name": "Who’s that?",
+      "chip": "10 characters",
+      "pitch": "A well-known character shows up blurred: find their name before time runs out.",
+      "character": "Character",
+      "right": "Well spotted! +{n}",
+      "wrong": "Wrong!",
+      "next": "Next",
+      "seeResult": "See the result",
+      "share": "I scored {score} at Who’s that? on Kizuna!",
+      "rules": "A character shows up zoomed in and blurred, then comes into view over 10 seconds. Pick their name among the four: the quicker you answer, the more you score (up to 100 points). A wrong answer scores nothing. A game is 10 characters, drawn among the most loved."
     }
   }
 }

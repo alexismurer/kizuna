@@ -2007,6 +2007,18 @@
         "tie": "+5",
         "loss": "0"
       }
+    },
+    "whosThat": {
+      "name": "¿Quién es?",
+      "chip": "10 personajes",
+      "pitch": "Un personaje conocido aparece borroso: encuentra su nombre antes de que acabe el tiempo.",
+      "character": "Personaje",
+      "right": "¡Bien visto! +{n}",
+      "wrong": "¡Fallaste!",
+      "next": "Siguiente",
+      "seeResult": "Ver el resultado",
+      "share": "¡Hice {score} en ¿Quién es? en Kizuna!",
+      "rules": "Un personaje aparece ampliado y borroso, y se aclara en 10 segundos. Elige su nombre entre cuatro: cuanto antes respondas, más puntos (hasta 100). Una respuesta incorrecta no suma. Una partida son 10 personajes de los más queridos."
     }
   }
 }

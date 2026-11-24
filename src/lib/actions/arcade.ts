@@ -5,6 +5,8 @@ import { starsFor, ticketsFor } from "@/lib/arcade/payout";
 import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
 import { ArcadeError, createRun, loadRun, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type Run, type RunResult } from "@/lib/arcade/server";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
+import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
+import { buildWhosThat } from "@/lib/arcade/quiz/whosThat";
 import { createServerClient } from "@/lib/supabase/server";
 
 export type ArcadeResult<T> = { ok: true; data: T } | { ok: false; error: string };
@@ -77,6 +79,48 @@ export async function bjAct(id: string, a: "hit" | "stand" | "next"): Promise<Ar
   return attempt(async () => {
     const move = checkAction(a, ["hit", "stand", "next"] as const);
     return step<BjState, BjView>(id, "twenty-one", (s) => bjEngineAct(s, move), (s) => s.score, bjView);
+  });
+}
+
+// ---------- quizzes ----------
+
+export type QuizGameId = "whos-that";
+const QUIZ: Record<QuizGameId, { rules: QuizRules; build: (r: () => number) => Promise<QuizState["questions"]> }> = {
+  "whos-that": {
+    rules: { windowMs: 10_000, scoring: "speed", total: 10 },
+    build: async (r) => buildWhosThat(await randomCards(40, { top: 200 }), r),
+  },
+};
+const quizGame = (g: unknown): QuizGameId => checkAction(g, Object.keys(QUIZ) as QuizGameId[]);
+
+// Starts a quiz and asks its first question at once.
+export async function quizStart(game: QuizGameId): Promise<ArcadeResult<{ run: string; view: QuizView }>> {
+  return attempt(async () => {
+    const g = quizGame(game);
+    const player = await requirePlayer();
+    const seed = newSeed();
+    const questions = await QUIZ[g].build(rng(seed));
+    if (questions.length === 0) throw new ArcadeError("not_enough_cards");
+    const now = Date.now();
+    const run = await createRun<QuizState>(player, g, "practice", seed, quizAsk(startQuiz(questions), now));
+    return { run: run.id, view: quizView(run.state, now) };
+  });
+}
+
+export async function quizAnswer(game: QuizGameId, id: string, choice: number): Promise<ArcadeResult<{ view: QuizView; result?: FinishResult }>> {
+  return attempt(async () => {
+    const g = quizGame(game);
+    const now = Date.now();
+    return step<QuizState, QuizView>(id, g, (s) => quizEngineAnswer(s, Number(choice), now, QUIZ[g].rules), (s) => s.score, (s) => quizView(s, now));
+  });
+}
+
+// The next question, asked at once.
+export async function quizNext(game: QuizGameId, id: string): Promise<ArcadeResult<{ view: QuizView; result?: FinishResult }>> {
+  return attempt(async () => {
+    const g = quizGame(game);
+    const now = Date.now();
+    return step<QuizState, QuizView>(id, g, (s) => quizAsk(quizEngineNext(s), now), (s) => s.score, (s) => quizView(s, now));
   });
 }
 

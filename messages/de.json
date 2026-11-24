@@ -2007,6 +2007,18 @@
         "tie": "+5",
         "loss": "0"
       }
+    },
+    "whosThat": {
+      "name": "Wer ist das?",
+      "chip": "10 Figuren",
+      "pitch": "Eine bekannte Figur erscheint verschwommen: Finde ihren Namen, bevor die Zeit abläuft.",
+      "character": "Figur",
+      "right": "Gut erkannt! +{n}",
+      "wrong": "Falsch!",
+      "next": "Weiter",
+      "seeResult": "Ergebnis ansehen",
+      "share": "Ich habe {score} bei Wer ist das? auf Kizuna geschafft!",
+      "rules": "Eine Figur erscheint vergrößert und verschwommen und wird in 10 Sekunden scharf. Wähle ihren Namen aus vier: Je schneller du antwortest, desto mehr Punkte (bis zu 100). Eine falsche Antwort bringt nichts. Ein Spiel hat 10 Figuren aus den beliebtesten."
     }
   }
 }

@@ -2007,6 +2007,18 @@
         "tie": "+5",
         "loss": "0"
       }
+    },
+    "whosThat": {
+      "name": "Qui est-ce ?",
+      "chip": "10 personnages",
+      "pitch": "Un personnage connu apparaît flou : trouve son nom avant la fin du temps.",
+      "character": "Personnage",
+      "right": "Bien vu ! +{n}",
+      "wrong": "Raté !",
+      "next": "Suivant",
+      "seeResult": "Voir le résultat",
+      "share": "J’ai fait {score} à Qui est-ce ? sur Kizuna !",
+      "rules": "Un personnage apparaît zoomé et flou, puis se dévoile en 10 secondes. Choisis son nom parmi les quatre : plus tu réponds vite, plus tu marques (jusqu’à 100 points). Une mauvaise réponse ne rapporte rien. Une partie fait 10 personnages, tirés parmi les plus aimés."
     }
   }
 }

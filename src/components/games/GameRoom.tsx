@@ -1,4 +1,4 @@
-import { ArrowRight, Lock, Spade, Swords, User, Users, type LucideIcon } from "lucide-react";
+import { ArrowRight, Lock, ScanFace, Spade, Swords, User, Users, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { GameRoomStatus } from "@/lib/actions/games";
@@ -110,7 +110,7 @@ function Modes({ solo, multi }: { solo: boolean; multi: boolean }) {
   );
 }
 
-const ICONS: Record<GameEntry["icon"], LucideIcon> = { swords: Swords, spade: Spade };
+const ICONS: Record<GameEntry["icon"], LucideIcon> = { swords: Swords, spade: Spade, face: ScanFace };
 
 // A game in the "More games" grid.
 function GameTile({ game }: { game: GameEntry }) {
