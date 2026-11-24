@@ -41,6 +41,7 @@ export type ArcadeCard = {
   rank: number;
   pow: number;
   fans: number | null;
+  themes?: string[];
 };
 
 export type Genre = "battle" | "fantasy" | "romance" | "slice_of_life" | "thrills" | "scifi_sport";

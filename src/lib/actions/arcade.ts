@@ -5,6 +5,7 @@ import { starsFor, ticketsFor } from "@/lib/arcade/payout";
 import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
 import { choose as raidEngineChoose, fight as raidEngineFight, pickTeam, raidView, startRaid, type RaidState, type RaidView } from "@/lib/arcade/battle/raid";
 import type { BCard } from "@/lib/arcade/battle/stats";
+import { connScore, connView, fromCards as connFromCards, generate as connGenerate, guess as connEngineGuess, type CCard, type ConnState, type ConnView } from "@/lib/arcade/connections/engine";
 import { bestHands, discard as pokerDiscard, play as pokerPlay, pokerView, startPoker, type HandName, type PkCard, type PkState, type PkView } from "@/lib/arcade/poker/engine";
 import { ArcadeError, cardsByIds, createRun, dailyDeck, findRun, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
@@ -301,6 +302,54 @@ export async function raidAct(
     const r = await step<RaidState, RaidView>(id, RAID_GAME[m], apply, (s) => s.cleared, raidView);
     // the wave's events only travel with the fight that made them
     return move === "fight" ? r : { ...r, view: { ...r.view, last: null } };
+  });
+}
+
+// ---------- Connections: daily (ranked, one a day) and practice ----------
+
+export type ConnMode = "daily" | "practice";
+const CONN_GAME = { daily: "daily-connections", practice: "connections" } as const;
+const connMode = (m: unknown): ConnMode => checkAction(m, ["daily", "practice"] as const);
+const toC = (c: ArcadeCard): CCard => ({ id: c.id, name: c.name, rarity: c.rarity, imageUrl: c.imageUrl, seriesId: c.seriesId, series: c.series, genre: c.genre, themes: c.themes ?? [] });
+
+export async function connStart(mode: ConnMode): Promise<ArcadeResult<{ run: string; view: ConnView; dailyDone?: boolean }>> {
+  return attempt(async () => {
+    const m = connMode(mode);
+    const player = await requirePlayer();
+    const game = CONN_GAME[m];
+    if (m === "daily") {
+      const day = parisDay();
+      const resume = async (mine: Run<ConnState>) => {
+        if (mine.state.over && !mine.finished) await finish(mine, game, connScore(mine.state));
+        return { run: mine.id, view: connView(mine.state), dailyDone: mine.finished || mine.state.over };
+      };
+      const mine = await findRun<ConnState>(player, game, day);
+      if (mine) return resume(mine);
+      // the first board made today is everyone's: its 16 cards are stored, the answer is recomputed
+      const made = connGenerate((await randomCards(500)).map(toC), rng(Number(day.replaceAll("-", ""))));
+      const ids = await dailyDeck(game, day, made.cards.map((c) => c.id));
+      const state = connFromCards((await cardsByIds(ids)).map(toC));
+      try {
+        const run = await createRun<ConnState>(player, game, "daily", 0, state);
+        return { run: run.id, view: connView(run.state) };
+      } catch (e) {
+        const other = e instanceof ArcadeError && e.message === "daily_taken" ? await findRun<ConnState>(player, game, day) : null;
+        if (other) return resume(other);
+        throw e;
+      }
+    }
+    const seed = newSeed();
+    const state = connGenerate((await randomCards(500)).map(toC), rng(seed));
+    const run = await createRun<ConnState>(player, game, "practice", seed, state);
+    return { run: run.id, view: connView(run.state) };
+  });
+}
+
+export async function connGuess(mode: ConnMode, id: string, ids: number[]): Promise<ArcadeResult<{ view: ConnView; result?: FinishResult }>> {
+  return attempt(async () => {
+    const m = connMode(mode);
+    const pick = Array.isArray(ids) ? ids.map(Number) : [];
+    return step<ConnState, ConnView>(id, CONN_GAME[m], (s) => connEngineGuess(s, pick), connScore, connView);
   });
 }
 

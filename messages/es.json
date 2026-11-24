@@ -2278,6 +2278,38 @@
       "chip": "Combate auto",
       "pitch": "Forma un equipo de 5 cartas y míralo luchar solo contra oleadas de enemigos.",
       "share": "¡Superé {n} oleadas en Raid Kizuna!"
+    },
+    "connections": {
+      "name": "Conexiones",
+      "chip": "4 grupos por encontrar",
+      "pitch": "Dieciséis cartas esconden cuatro grupos de cuatro. Descubre qué las une antes de quedarte sin intentos.",
+      "rules": "Dieciséis cartas esconden cuatro grupos de cuatro: la misma serie, el mismo género (el sello de abajo), la misma rareza (la letra de arriba) o el mismo tema (shonen, seinen, shojo, isekai, deporte, mecha). Elige cuatro cartas y envía. Algunas parecen encajar en dos grupos: solo una solución resuelve el tablero. Cuatro errores y se acaba. 100 puntos por grupo, 25 menos por error.",
+      "groups": "Grupos",
+      "tries": "Intentos",
+      "triesLeft": "Quedan {n} intentos",
+      "oneAway": "¡A una carta!",
+      "shuffle": "Mezclar",
+      "deselect": "Quitar selección",
+      "submit": "Enviar",
+      "seeResult": "Ver el resultado",
+      "already": "Ya resolviste el tablero de hoy:",
+      "comeBack": "Nuevo tablero a medianoche (París). Mientras, juega a Conexiones cuanto quieras.",
+      "practice": "Jugar a Conexiones",
+      "allFound": "Los cuatro grupos encontrados",
+      "outOfTries": "Sin intentos",
+      "kinds": {
+        "series": "Misma serie",
+        "genre": "Mismo género",
+        "rarity": "Misma rareza",
+        "theme": "Mismo tema"
+      },
+      "share": "¡Resolví Conexiones en Kizuna con {mistakes} errores!"
+    },
+    "dailyConnections": {
+      "name": "Conexiones del día",
+      "chip": "Clasificatorio",
+      "pitch": "Las mismas dieciséis cartas para todos, un tablero nuevo cada día. Tu primer intento del día cuenta.",
+      "share": "¡Resolví las Conexiones del día en Kizuna con {mistakes} errores!"
     }
   }
 }

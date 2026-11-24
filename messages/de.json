@@ -2278,6 +2278,38 @@
       "chip": "Autokampf",
       "pitch": "Stell ein Team aus 5 Karten zusammen und sieh zu, wie es allein gegen Wellen von Gegnern kämpft.",
       "share": "Ich habe beim Kizuna-Raid {n} Wellen geschafft!"
+    },
+    "connections": {
+      "name": "Verbindungen",
+      "chip": "4 Gruppen finden",
+      "pitch": "Sechzehn Karten verbergen vier Vierergruppen. Finde die Verbindung, bevor deine Versuche aufgebraucht sind.",
+      "rules": "Sechzehn Karten verbergen vier Vierergruppen: gleiche Serie, gleiches Genre (Siegel unten), gleiche Seltenheit (Buchstabe oben) oder gleiches Thema (Shonen, Seinen, Shojo, Isekai, Sport, Mecha). Wähle vier Karten und bestätige. Manche Karten scheinen in zwei Gruppen zu passen: Nur eine Lösung geht auf. Nach vier Fehlern ist Schluss. 100 Punkte pro Gruppe, 25 weniger pro Fehler.",
+      "groups": "Gruppen",
+      "tries": "Versuche",
+      "triesLeft": "noch {n} Versuche",
+      "oneAway": "Fast! Eine fehlt.",
+      "shuffle": "Mischen",
+      "deselect": "Abwählen",
+      "submit": "Bestätigen",
+      "seeResult": "Ergebnis ansehen",
+      "already": "Du hast das heutige Brett schon gelöst:",
+      "comeBack": "Neues Brett um Mitternacht (Paris). Spiel bis dahin Verbindungen, so oft du willst.",
+      "practice": "Verbindungen spielen",
+      "allFound": "Alle vier Gruppen gefunden",
+      "outOfTries": "Keine Versuche mehr",
+      "kinds": {
+        "series": "Gleiche Serie",
+        "genre": "Gleiches Genre",
+        "rarity": "Gleiche Seltenheit",
+        "theme": "Gleiches Thema"
+      },
+      "share": "Ich habe Verbindungen auf Kizuna mit {mistakes} Fehlern gelöst!"
+    },
+    "dailyConnections": {
+      "name": "Tagesverbindungen",
+      "chip": "Gewertet",
+      "pitch": "Dieselben sechzehn Karten für alle, jeden Tag ein neues Brett. Dein erster Versuch des Tages zählt.",
+      "share": "Ich habe die Tagesverbindungen auf Kizuna mit {mistakes} Fehlern gelöst!"
     }
   }
 }

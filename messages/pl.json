@@ -2278,6 +2278,38 @@
       "chip": "Walka auto",
       "pitch": "Złóż drużynę z 5 kart i patrz, jak sama walczy z falami wrogów.",
       "share": "Przeszedłem {n} fal w Raidzie Kizuna!"
+    },
+    "connections": {
+      "name": "Połączenia",
+      "chip": "4 grupy do znalezienia",
+      "pitch": "Szesnaście kart kryje cztery czwórki. Odkryj, co je łączy, zanim skończą się próby.",
+      "rules": "Szesnaście kart kryje cztery grupy po cztery: ta sama seria, ten sam gatunek (pieczęć na dole), ta sama rzadkość (litera na górze) lub ten sam motyw (shonen, seinen, shojo, isekai, sport, mecha). Wybierz cztery karty i zatwierdź. Niektóre pasują pozornie do dwóch grup: tylko jedno rozwiązanie działa. Cztery błędy kończą grę. 100 punktów za grupę, 25 mniej za błąd.",
+      "groups": "Grupy",
+      "tries": "Próby",
+      "triesLeft": "Zostało prób: {n}",
+      "oneAway": "Prawie! Brakuje jednej.",
+      "shuffle": "Przetasuj",
+      "deselect": "Odznacz",
+      "submit": "Zatwierdź",
+      "seeResult": "Zobacz wynik",
+      "already": "Dzisiejszą planszę już rozwiązałeś:",
+      "comeBack": "Nowa plansza o północy (Paryż). Do tego czasu graj w Połączenia, ile chcesz.",
+      "practice": "Zagraj w Połączenia",
+      "allFound": "Znalezione wszystkie cztery grupy",
+      "outOfTries": "Koniec prób",
+      "kinds": {
+        "series": "Ta sama seria",
+        "genre": "Ten sam gatunek",
+        "rarity": "Ta sama rzadkość",
+        "theme": "Ten sam motyw"
+      },
+      "share": "Rozwiązałem Połączenia na Kizuna z {mistakes} błędami!"
+    },
+    "dailyConnections": {
+      "name": "Połączenia dnia",
+      "chip": "Rankingowe",
+      "pitch": "Te same szesnaście kart dla wszystkich, codziennie nowa plansza. Pierwsza próba dnia się liczy.",
+      "share": "Rozwiązałem dzisiejsze Połączenia na Kizuna z {mistakes} błędami!"
     }
   }
 }

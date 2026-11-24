@@ -2278,6 +2278,38 @@
       "chip": "Auto battle",
       "pitch": "Build a team of 5 cards and watch it fight waves of enemies on its own.",
       "share": "I cleared {n} waves in Kizuna Raid!"
+    },
+    "connections": {
+      "name": "Connections",
+      "chip": "4 groups to find",
+      "pitch": "Sixteen cards hide four groups of four. Find what links them before you run out of tries.",
+      "rules": "Sixteen cards hide four groups of four: the same series, the same genre (the seal at the bottom), the same rarity (the letter at the top), or the same theme (shonen, seinen, shojo, isekai, sports, mecha). Pick four cards and submit. Some cards seem to belong to two groups: only one way solves the board. Four mistakes and the game is over. 100 points a group, 25 off a mistake.",
+      "groups": "Groups",
+      "tries": "Tries",
+      "triesLeft": "{n} tries left",
+      "oneAway": "One away!",
+      "shuffle": "Shuffle",
+      "deselect": "Deselect",
+      "submit": "Submit",
+      "seeResult": "See the result",
+      "already": "You already solved today's board:",
+      "comeBack": "A new board at midnight (Paris). Meanwhile, play Connections as much as you like.",
+      "practice": "Play Connections",
+      "allFound": "All four groups found",
+      "outOfTries": "Out of tries",
+      "kinds": {
+        "series": "Same series",
+        "genre": "Same genre",
+        "rarity": "Same rarity",
+        "theme": "Same theme"
+      },
+      "share": "I solved Connections on Kizuna with {mistakes} mistakes!"
+    },
+    "dailyConnections": {
+      "name": "Daily connections",
+      "chip": "Ranked",
+      "pitch": "The same sixteen cards for everyone, a new board every day. Your first try of the day counts in the ranking.",
+      "share": "I solved today's Connections on Kizuna with {mistakes} mistakes!"
     }
   }
 }
