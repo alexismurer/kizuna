@@ -1,8 +1,8 @@
-import { Lock, Swords, User, Users } from "lucide-react";
+import { ArrowRight, Lock, Spade, Swords, User, Users, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { GameRoomStatus } from "@/lib/actions/games";
-import { GAMES } from "@/lib/games/registry";
+import { GAMES, type GameEntry } from "@/lib/games/registry";
 import { BossCard, SecretBossCard } from "./BossCard";
 import { TicketsBar } from "./TicketsBar";
 
@@ -10,6 +10,7 @@ import { TicketsBar } from "./TicketsBar";
 export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatus | null }) {
   const t = useTranslations("games");
   const duel = GAMES[0];
+  const more = GAMES.filter((g) => g.msg);
 
   return (
     <div className="flex flex-col gap-6">
@@ -64,15 +65,21 @@ export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatu
       <section className="flex flex-col gap-3">
         <h2 className="font-display text-2xl font-bold">{t("more")}</h2>
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {[0, 1, 2].map((i) => (
-            <li key={i} className="flex min-h-40 flex-col gap-3 rounded-2xl border border-dashed border-border bg-panel/50 p-5">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-border text-common">
-                <Lock className="h-5 w-5" aria-hidden />
-              </span>
-              <p className="font-display text-lg font-bold text-common">{t("soon.title")}</p>
-              <p className="text-sm text-common/70">{t("soon.text")}</p>
+          {more.map((g) => (
+            <li key={g.id}>
+              <GameTile game={g} />
             </li>
           ))}
+          {more.length < 3 &&
+            Array.from({ length: 3 - more.length }, (_, i) => (
+              <li key={i} className="flex min-h-40 flex-col gap-3 rounded-2xl border border-dashed border-border bg-panel/50 p-5">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-border text-common">
+                  <Lock className="h-5 w-5" aria-hidden />
+                </span>
+                <p className="font-display text-lg font-bold text-common">{t("soon.title")}</p>
+                <p className="text-sm text-common/70">{t("soon.text")}</p>
+              </li>
+            ))}
         </ul>
       </section>
 
@@ -100,5 +107,40 @@ function Modes({ solo, multi }: { solo: boolean; multi: boolean }) {
         </>
       )}
     </span>
+  );
+}
+
+const ICONS: Record<GameEntry["icon"], LucideIcon> = { swords: Swords, spade: Spade };
+
+// A game in the "More games" grid.
+function GameTile({ game }: { game: GameEntry }) {
+  const t = useTranslations(game.msg!);
+  const Icon = ICONS[game.icon];
+  return (
+    <Link
+      href={game.href}
+      className="group relative flex h-full min-h-40 flex-col gap-3 overflow-hidden rounded-2xl border border-border bg-panel p-5 transition-colors hover:border-white/30"
+    >
+      <Icon aria-hidden className="pointer-events-none absolute -right-6 -bottom-6 h-32 w-32 opacity-[0.06]" style={{ color: game.color }} />
+      <div className="flex items-center justify-between gap-2">
+        <span
+          className="flex h-11 w-11 items-center justify-center rounded-xl border"
+          style={{
+            color: game.color,
+            borderColor: `color-mix(in srgb, ${game.color} 45%, transparent)`,
+            background: `color-mix(in srgb, ${game.color} 12%, transparent)`,
+          }}
+        >
+          <Icon className="h-5 w-5" aria-hidden />
+        </span>
+        <Modes solo={game.solo} multi={game.multi} />
+      </div>
+      <p className="font-display text-lg font-bold">{t("name")}</p>
+      <p className="line-clamp-2 text-sm text-common">{t("pitch")}</p>
+      <div className="mt-auto flex items-center justify-between">
+        <span className="rounded-full border border-white/15 px-2.5 py-1 text-xs font-semibold text-common">{t("chip")}</span>
+        <ArrowRight className="h-4 w-4 text-common transition group-hover:translate-x-0.5 group-hover:text-white" aria-hidden />
+      </div>
+    </Link>
   );
 }

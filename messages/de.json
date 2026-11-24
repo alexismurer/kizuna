@@ -1943,5 +1943,70 @@
       "frame_gold": "Goldenes Ticket",
       "frame_neon": "Neon"
     }
+  },
+  "arcade": {
+    "back": "Zurück zum Spielraum",
+    "tickets": "{n, number} Tickets",
+    "ranking": "Rangliste",
+    "rules": "Regeln",
+    "sound": "Ton",
+    "score": "Punkte",
+    "best": "Bestwert",
+    "playSolo": "Solo spielen",
+    "playSoloText": "Schlag deinen Bestwert und verdiene Tickets.",
+    "newGame": "Neues Spiel",
+    "copy": "Ergebnis kopieren",
+    "copied": "Kopiert!",
+    "earned": "+{n, number} Tickets",
+    "capReached": "Ticket-Limit erreicht: Dieses Spiel war nur zum Spaß.",
+    "tooQuick": "Keine Tickets: Das Spiel war zu schnell vorbei.",
+    "newBest": "Neuer Wochenrekord!",
+    "rankLine": "Platz {rank} von {players} diese Woche",
+    "rankingTitle": "Rangliste der Woche",
+    "rankingEmpty": "Diese Woche hat noch niemand gespielt. Sei der Erste!",
+    "players": "{n} Spieler diese Woche",
+    "myRank": "Du bist auf Platz {rank} mit {score}.",
+    "loading": "Lädt…",
+    "errors": {
+      "generic": "Etwas ist schiefgelaufen. Versuch es noch einmal.",
+      "run_over": "Dieses Spiel ist vorbei. Starte ein neues.",
+      "stale_run": "Dieses Spiel ging in einem anderen Tab weiter.",
+      "run_not_found": "Spiel nicht gefunden.",
+      "forbidden": "Der Spielraum ist noch nicht offen.",
+      "not_signed_in": "Melde dich an, um zu spielen."
+    },
+    "twentyOne": {
+      "name": "Kizuna 21",
+      "chip": "10 Runden",
+      "pitch": "Blackjack gegen die Bank, ohne Einsatz: Jede Karte zählt so viel, wie ihre Seltenheit sagt.",
+      "hand": "Runde",
+      "house": "Bank",
+      "you": "Du",
+      "hit": "Karte",
+      "stand": "Halten",
+      "nextHand": "Nächste Runde",
+      "seeResult": "Ergebnis ansehen",
+      "share": "Ich habe {score} bei Kizuna 21 geschafft!",
+      "rules": {
+        "goal": "Komm so nah wie möglich an 21, ohne drüber zu gehen, und schlag die Bank. „Karte“ zieht eine, „Halten“ lässt die Bank spielen.",
+        "values": "Eine Karte zählt nach Seltenheit: Gewöhnlich 2 bis 4, Ungewöhnlich 5 oder 6, Selten 7 oder 8, Episch 9, Legendär 10, Mythisch 11 oder 1.",
+        "house": "Die Bank zieht, bis sie 17 oder mehr hat. Eine 21 aus den ersten zwei Karten schlägt eine 21 aus drei oder mehr Karten, für dich wie für die Bank.",
+        "points": "Eine gewonnene Runde bringt 10 Punkte, eine 21 aus den ersten zwei Karten 15, ein Unentschieden 5, eine verlorene 0. Kein Einsatz, deine Punkte sinken nie. Ein Spiel hat 10 Runden."
+      },
+      "outcome": {
+        "win": "Gewonnen! +10",
+        "natural": "Sofort 21! +15",
+        "tie": "Unentschieden +5",
+        "loss": "Verloren",
+        "bust": "Über 21! Verloren",
+        "houseNatural": "Verloren: Die Bank hat sofort 21"
+      },
+      "short": {
+        "win": "+10",
+        "natural": "21! +15",
+        "tie": "+5",
+        "loss": "0"
+      }
+    }
   }
 }

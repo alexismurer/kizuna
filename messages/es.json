@@ -1943,5 +1943,70 @@
       "frame_gold": "Boleto dorado",
       "frame_neon": "Neón"
     }
+  },
+  "arcade": {
+    "back": "Volver a la sala de juegos",
+    "tickets": "{n, number} tickets",
+    "ranking": "Clasificación",
+    "rules": "Reglas",
+    "sound": "Sonido",
+    "score": "Puntos",
+    "best": "Récord",
+    "playSolo": "Jugar solo",
+    "playSoloText": "Supera tu récord y gana tickets.",
+    "newGame": "Nueva partida",
+    "copy": "Copiar resultado",
+    "copied": "¡Copiado!",
+    "earned": "+{n, number} tickets",
+    "capReached": "Límite de tickets alcanzado: esta partida fue solo por diversión.",
+    "tooQuick": "Sin tickets: la partida terminó demasiado rápido.",
+    "newBest": "¡Nuevo récord de la semana!",
+    "rankLine": "#{rank} de {players} esta semana",
+    "rankingTitle": "Clasificación de la semana",
+    "rankingEmpty": "Nadie ha jugado aún esta semana. ¡Sé el primero!",
+    "players": "{n} jugadores esta semana",
+    "myRank": "Eres #{rank} con {score}.",
+    "loading": "Cargando…",
+    "errors": {
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "run_over": "Esta partida terminó. Empieza otra.",
+      "stale_run": "Esta partida avanzó en otra pestaña.",
+      "run_not_found": "No se encuentra la partida.",
+      "forbidden": "La sala de juegos aún no está abierta.",
+      "not_signed_in": "Inicia sesión para jugar."
+    },
+    "twentyOne": {
+      "name": "Kizuna 21",
+      "chip": "10 manos",
+      "pitch": "Blackjack contra la casa, sin apuestas: cada carta vale lo que dice su rareza.",
+      "hand": "Mano",
+      "house": "Casa",
+      "you": "Tú",
+      "hit": "Pedir",
+      "stand": "Plantarse",
+      "nextHand": "Siguiente mano",
+      "seeResult": "Ver el resultado",
+      "share": "¡Hice {score} en Kizuna 21!",
+      "rules": {
+        "goal": "Acércate a 21 lo más posible sin pasarte, y gana a la casa. Pedir toma una carta, Plantarse deja jugar a la casa.",
+        "values": "Una carta vale según su rareza: Común 2 a 4, Poco común 5 o 6, Rara 7 u 8, Épica 9, Legendaria 10, Mítica 11 o 1.",
+        "house": "La casa roba hasta tener 17 o más. Un 21 con tus dos primeras cartas gana a un 21 hecho con tres cartas o más, para ti y para la casa.",
+        "points": "Una mano ganada da 10 puntos, un 21 con las dos primeras cartas 15, un empate 5, una mano perdida 0. No se apuesta nada y tu puntuación nunca baja. Una partida son 10 manos."
+      },
+      "outcome": {
+        "win": "¡Ganas! +10",
+        "natural": "¡21 de entrada! +15",
+        "tie": "Empate +5",
+        "loss": "Pierdes",
+        "bust": "¡Te pasaste! Pierdes",
+        "houseNatural": "Perdiste: la casa tiene 21 de entrada"
+      },
+      "short": {
+        "win": "+10",
+        "natural": "¡21! +15",
+        "tie": "+5",
+        "loss": "0"
+      }
+    }
   }
 }

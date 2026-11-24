@@ -1943,5 +1943,70 @@
       "frame_gold": "Golden ticket",
       "frame_neon": "Neon"
     }
+  },
+  "arcade": {
+    "back": "Back to the game room",
+    "tickets": "{n, number} tickets",
+    "ranking": "Ranking",
+    "rules": "Rules",
+    "sound": "Sound",
+    "score": "Score",
+    "best": "Best",
+    "playSolo": "Play solo",
+    "playSoloText": "Beat your best and earn tickets.",
+    "newGame": "New game",
+    "copy": "Copy result",
+    "copied": "Copied!",
+    "earned": "+{n, number} tickets",
+    "capReached": "Ticket cap reached: this game was just for fun.",
+    "tooQuick": "No tickets: the game ended too quickly.",
+    "newBest": "New best of the week!",
+    "rankLine": "#{rank} of {players} this week",
+    "rankingTitle": "This week's ranking",
+    "rankingEmpty": "Nobody has played this week yet. Be the first!",
+    "players": "{n} players this week",
+    "myRank": "You're #{rank} with {score}.",
+    "loading": "Loading…",
+    "errors": {
+      "generic": "Something went wrong. Try again.",
+      "run_over": "This game is over. Start a new one.",
+      "stale_run": "This game moved on in another tab.",
+      "run_not_found": "This game can't be found.",
+      "forbidden": "The game room isn't open yet.",
+      "not_signed_in": "Sign in to play."
+    },
+    "twentyOne": {
+      "name": "Kizuna 21",
+      "chip": "10 hands",
+      "pitch": "Blackjack against the house, nothing staked: each card is worth what its rarity says.",
+      "hand": "Hand",
+      "house": "House",
+      "you": "You",
+      "hit": "Hit",
+      "stand": "Stand",
+      "nextHand": "Next hand",
+      "seeResult": "See the result",
+      "share": "I scored {score} at Kizuna 21!",
+      "rules": {
+        "goal": "Get as close to 21 as you can without going over, and beat the house. Hit takes a card, Stand lets the house play.",
+        "values": "A card is worth what its rarity says: Common 2 to 4, Uncommon 5 or 6, Rare 7 or 8, Epic 9, Legendary 10, Mythic 11 or 1.",
+        "house": "The house draws until it has 17 or more. A 21 with your first two cards beats a 21 made with three cards or more, for you and for the house alike.",
+        "points": "A hand won scores 10 points, a 21 with your first two cards 15, a tie 5, a hand lost 0. Nothing is staked and your score never goes down. A game is 10 hands."
+      },
+      "outcome": {
+        "win": "You win! +10",
+        "natural": "21 straight away! +15",
+        "tie": "Tie +5",
+        "loss": "You lose",
+        "bust": "Bust! You lose",
+        "houseNatural": "Lost: the house has 21 straight away"
+      },
+      "short": {
+        "win": "+10",
+        "natural": "21! +15",
+        "tie": "+5",
+        "loss": "0"
+      }
+    }
   }
 }

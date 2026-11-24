@@ -1943,5 +1943,70 @@
       "frame_gold": "Złoty bilet",
       "frame_neon": "Neon"
     }
+  },
+  "arcade": {
+    "back": "Wróć do salonu gier",
+    "tickets": "{n, number} biletów",
+    "ranking": "Ranking",
+    "rules": "Zasady",
+    "sound": "Dźwięk",
+    "score": "Wynik",
+    "best": "Rekord",
+    "playSolo": "Graj solo",
+    "playSoloText": "Pobij swój rekord i zdobywaj bilety.",
+    "newGame": "Nowa gra",
+    "copy": "Kopiuj wynik",
+    "copied": "Skopiowano!",
+    "earned": "+{n, number} biletów",
+    "capReached": "Limit biletów osiągnięty: ta gra była dla zabawy.",
+    "tooQuick": "Brak biletów: gra skończyła się za szybko.",
+    "newBest": "Nowy rekord tygodnia!",
+    "rankLine": "#{rank} z {players} w tym tygodniu",
+    "rankingTitle": "Ranking tygodnia",
+    "rankingEmpty": "Nikt jeszcze nie grał w tym tygodniu. Bądź pierwszy!",
+    "players": "{n} graczy w tym tygodniu",
+    "myRank": "Jesteś #{rank} z wynikiem {score}.",
+    "loading": "Ładowanie…",
+    "errors": {
+      "generic": "Coś poszło nie tak. Spróbuj ponownie.",
+      "run_over": "Ta gra się skończyła. Zacznij nową.",
+      "stale_run": "Ta gra potoczyła się dalej w innej karcie.",
+      "run_not_found": "Nie znaleziono gry.",
+      "forbidden": "Salon gier nie jest jeszcze otwarty.",
+      "not_signed_in": "Zaloguj się, żeby grać."
+    },
+    "twentyOne": {
+      "name": "Kizuna 21",
+      "chip": "10 rozdań",
+      "pitch": "Blackjack przeciw krupierowi, bez stawek: każda karta jest warta tyle, ile mówi jej rzadkość.",
+      "hand": "Rozdanie",
+      "house": "Krupier",
+      "you": "Ty",
+      "hit": "Dobierz",
+      "stand": "Pas",
+      "nextHand": "Następne rozdanie",
+      "seeResult": "Zobacz wynik",
+      "share": "Zdobyłem {score} w Kizuna 21!",
+      "rules": {
+        "goal": "Zbliż się jak najbardziej do 21, nie przekraczając, i pokonaj krupiera. Dobierz bierze kartę, Pas oddaje ruch krupierowi.",
+        "values": "Karta jest warta tyle, co jej rzadkość: Zwykła 2 do 4, Niepospolita 5 lub 6, Rzadka 7 lub 8, Epicka 9, Legendarna 10, Mityczna 11 lub 1.",
+        "house": "Krupier dobiera, aż ma 17 lub więcej. 21 z pierwszych dwóch kart wygrywa z 21 z trzech lub więcej kart, dla ciebie i dla krupiera.",
+        "points": "Wygrane rozdanie daje 10 punktów, 21 z dwóch pierwszych kart 15, remis 5, przegrane 0. Nic nie stawiasz, a wynik nigdy nie spada. Gra to 10 rozdań."
+      },
+      "outcome": {
+        "win": "Wygrana! +10",
+        "natural": "21 od razu! +15",
+        "tie": "Remis +5",
+        "loss": "Przegrana",
+        "bust": "Za dużo! Przegrana",
+        "houseNatural": "Przegrana: krupier ma 21 od razu"
+      },
+      "short": {
+        "win": "+10",
+        "natural": "21! +15",
+        "tie": "+5",
+        "loss": "0"
+      }
+    }
   }
 }

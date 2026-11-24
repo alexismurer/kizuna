@@ -1943,5 +1943,70 @@
       "frame_gold": "金色门票",
       "frame_neon": "霓虹"
     }
+  },
+  "arcade": {
+    "back": "返回游戏厅",
+    "tickets": "{n, number} 奖券",
+    "ranking": "排行榜",
+    "rules": "规则",
+    "sound": "声音",
+    "score": "分数",
+    "best": "最佳",
+    "playSolo": "单人游戏",
+    "playSoloText": "刷新最佳成绩，赢取奖券。",
+    "newGame": "新游戏",
+    "copy": "复制结果",
+    "copied": "已复制！",
+    "earned": "+{n, number} 奖券",
+    "capReached": "奖券已达上限：这局只是娱乐。",
+    "tooQuick": "没有奖券：这局结束得太快了。",
+    "newBest": "本周新纪录！",
+    "rankLine": "本周 {players} 人中第 {rank} 名",
+    "rankingTitle": "本周排行榜",
+    "rankingEmpty": "本周还没人玩过。快来当第一个！",
+    "players": "本周 {n} 名玩家",
+    "myRank": "你以 {score} 分排第 {rank} 名。",
+    "loading": "加载中…",
+    "errors": {
+      "generic": "出了点问题，请重试。",
+      "run_over": "这局已结束，开新的一局吧。",
+      "stale_run": "这局已在另一个标签页继续。",
+      "run_not_found": "找不到这局游戏。",
+      "forbidden": "游戏厅尚未开放。",
+      "not_signed_in": "登录后即可游玩。"
+    },
+    "twentyOne": {
+      "name": "Kizuna 21",
+      "chip": "10 手",
+      "pitch": "与庄家对战的21点，不下注：每张卡的点数由稀有度决定。",
+      "hand": "手",
+      "house": "庄家",
+      "you": "你",
+      "hit": "要牌",
+      "stand": "停牌",
+      "nextHand": "下一手",
+      "seeResult": "查看结果",
+      "share": "我在 Kizuna 21 拿了 {score} 分！",
+      "rules": {
+        "goal": "在不超过21点的前提下尽量接近21点，并打败庄家。要牌就拿一张，停牌就轮到庄家。",
+        "values": "卡的点数看稀有度：普通 2 到 4，非凡 5 或 6，稀有 7 或 8，史诗 9，传说 10，神话 11 或 1。",
+        "house": "庄家会一直要牌直到 17 点或以上。前两张就凑成的21点胜过三张或更多张凑成的21点，你和庄家都一样。",
+        "points": "赢一手得 10 分，前两张就21点得 15 分，平局 5 分，输了 0 分。不用下注，分数不会减少。一局共 10 手。"
+      },
+      "outcome": {
+        "win": "你赢了！+10",
+        "natural": "直接21点！+15",
+        "tie": "平局 +5",
+        "loss": "你输了",
+        "bust": "爆牌！你输了",
+        "houseNatural": "输了：庄家直接21点"
+      },
+      "short": {
+        "win": "+10",
+        "natural": "21！+15",
+        "tie": "+5",
+        "loss": "0"
+      }
+    }
   }
 }

@@ -1943,5 +1943,70 @@
       "frame_gold": "Ticket doré",
       "frame_neon": "Néon"
     }
+  },
+  "arcade": {
+    "back": "Retour à la salle de jeux",
+    "tickets": "{n, number} tickets",
+    "ranking": "Classement",
+    "rules": "Règles",
+    "sound": "Son",
+    "score": "Score",
+    "best": "Record",
+    "playSolo": "Jouer en solo",
+    "playSoloText": "Bats ton record et gagne des tickets.",
+    "newGame": "Nouvelle partie",
+    "copy": "Copier le résultat",
+    "copied": "Copié !",
+    "earned": "+{n, number} tickets",
+    "capReached": "Plafond de tickets atteint : cette partie était pour le plaisir.",
+    "tooQuick": "Pas de tickets : la partie a été trop courte.",
+    "newBest": "Nouveau record de la semaine !",
+    "rankLine": "{rank}e sur {players} cette semaine",
+    "rankingTitle": "Classement de la semaine",
+    "rankingEmpty": "Personne n'a encore joué cette semaine. Sois le premier !",
+    "players": "{n} joueurs cette semaine",
+    "myRank": "Tu es {rank}e avec {score}.",
+    "loading": "Chargement…",
+    "errors": {
+      "generic": "Un problème est survenu. Réessaie.",
+      "run_over": "Cette partie est finie. Lance-en une nouvelle.",
+      "stale_run": "Cette partie a avancé dans un autre onglet.",
+      "run_not_found": "Partie introuvable.",
+      "forbidden": "La salle de jeux n'est pas encore ouverte.",
+      "not_signed_in": "Connecte-toi pour jouer."
+    },
+    "twentyOne": {
+      "name": "Kizuna 21",
+      "chip": "10 mains",
+      "pitch": "Blackjack contre la maison, sans mise : chaque carte vaut ce que dit sa rareté.",
+      "hand": "Main",
+      "house": "Maison",
+      "you": "Toi",
+      "hit": "Carte",
+      "stand": "Rester",
+      "nextHand": "Main suivante",
+      "seeResult": "Voir le résultat",
+      "share": "J'ai fait {score} à Kizuna 21 !",
+      "rules": {
+        "goal": "Approche-toi le plus possible de 21 sans dépasser, et bats la maison. « Carte » en prend une, « Rester » laisse jouer la maison.",
+        "values": "Une carte vaut ce que dit sa rareté : Commune 2 à 4, Peu commune 5 ou 6, Rare 7 ou 8, Épique 9, Légendaire 10, Mythique 11 ou 1.",
+        "house": "La maison tire jusqu'à avoir 17 ou plus. Un 21 avec tes deux premières cartes bat un 21 fait en trois cartes ou plus, pour toi comme pour la maison.",
+        "points": "Une main gagnée rapporte 10 points, un 21 avec les deux premières cartes 15, une égalité 5, une main perdue 0. Rien n'est misé et ton score ne baisse jamais. Une partie fait 10 mains."
+      },
+      "outcome": {
+        "win": "Gagné ! +10",
+        "natural": "21 d'entrée ! +15",
+        "tie": "Égalité +5",
+        "loss": "Perdu",
+        "bust": "Trop ! Perdu",
+        "houseNatural": "Perdu : la maison a 21 d'entrée"
+      },
+      "short": {
+        "win": "+10",
+        "natural": "21 ! +15",
+        "tie": "+5",
+        "loss": "0"
+      }
+    }
   }
 }

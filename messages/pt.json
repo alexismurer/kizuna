@@ -1943,5 +1943,70 @@
       "frame_gold": "Bilhete dourado",
       "frame_neon": "Neon"
     }
+  },
+  "arcade": {
+    "back": "Voltar à sala de jogos",
+    "tickets": "{n, number} tickets",
+    "ranking": "Ranking",
+    "rules": "Regras",
+    "sound": "Som",
+    "score": "Pontos",
+    "best": "Recorde",
+    "playSolo": "Jogar solo",
+    "playSoloText": "Supere seu recorde e ganhe tickets.",
+    "newGame": "Novo jogo",
+    "copy": "Copiar resultado",
+    "copied": "Copiado!",
+    "earned": "+{n, number} tickets",
+    "capReached": "Limite de tickets atingido: este jogo foi só por diversão.",
+    "tooQuick": "Sem tickets: o jogo acabou rápido demais.",
+    "newBest": "Novo recorde da semana!",
+    "rankLine": "#{rank} de {players} esta semana",
+    "rankingTitle": "Ranking da semana",
+    "rankingEmpty": "Ninguém jogou ainda esta semana. Seja o primeiro!",
+    "players": "{n} jogadores esta semana",
+    "myRank": "Você é #{rank} com {score}.",
+    "loading": "Carregando…",
+    "errors": {
+      "generic": "Algo deu errado. Tente de novo.",
+      "run_over": "Este jogo acabou. Comece outro.",
+      "stale_run": "Este jogo avançou em outra aba.",
+      "run_not_found": "Jogo não encontrado.",
+      "forbidden": "A sala de jogos ainda não abriu.",
+      "not_signed_in": "Entre para jogar."
+    },
+    "twentyOne": {
+      "name": "Kizuna 21",
+      "chip": "10 mãos",
+      "pitch": "Blackjack contra a casa, sem apostas: cada carta vale o que diz sua raridade.",
+      "hand": "Mão",
+      "house": "Casa",
+      "you": "Você",
+      "hit": "Pedir",
+      "stand": "Parar",
+      "nextHand": "Próxima mão",
+      "seeResult": "Ver o resultado",
+      "share": "Fiz {score} no Kizuna 21!",
+      "rules": {
+        "goal": "Chegue o mais perto de 21 sem passar e vença a casa. Pedir pega uma carta, Parar deixa a casa jogar.",
+        "values": "Uma carta vale conforme a raridade: Comum 2 a 4, Incomum 5 ou 6, Rara 7 ou 8, Épica 9, Lendária 10, Mítica 11 ou 1.",
+        "house": "A casa compra até ter 17 ou mais. Um 21 com as duas primeiras cartas vence um 21 feito com três cartas ou mais, para você e para a casa.",
+        "points": "Uma mão vencida vale 10 pontos, um 21 com as duas primeiras cartas 15, um empate 5, uma mão perdida 0. Nada é apostado e sua pontuação nunca cai. Um jogo tem 10 mãos."
+      },
+      "outcome": {
+        "win": "Você venceu! +10",
+        "natural": "21 de cara! +15",
+        "tie": "Empate +5",
+        "loss": "Você perdeu",
+        "bust": "Estourou! Você perdeu",
+        "houseNatural": "Perdeu: a casa tem 21 de cara"
+      },
+      "short": {
+        "win": "+10",
+        "natural": "21! +15",
+        "tie": "+5",
+        "loss": "0"
+      }
+    }
   }
 }
