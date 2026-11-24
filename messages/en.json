@@ -2048,6 +2048,21 @@
       "inARow": "{n} in a row",
       "share": "I guessed {n} in a row at Most loved? on Kizuna!",
       "rules": "Two characters of the same rarity show up: pick the one with more fans (favourites on MyAnimeList). You have 6 seconds. Every right answer adds one to your streak; the first miss ends the game."
+    },
+    "memory": {
+      "name": "Memory",
+      "chip": "{n} pairs",
+      "pitch": "Find the {n} pairs of cards in as few moves as you can.",
+      "best": "Best: {n} moves",
+      "level": "Level",
+      "moves": "Moves",
+      "pairs": "Pairs",
+      "time": "Time",
+      "faceDown": "Face-down card",
+      "movesLabel": "{n} moves",
+      "allPairs": "All pairs in {time}.",
+      "share": "I found {pairs} pairs in {moves} moves at Memory on Kizuna!",
+      "rules": "Flip two cards each move. Same character: the pair stays up; otherwise both flip back. Three levels: 8, 12 or 18 pairs. Find every pair in as few moves as you can: 3 stars up to 1.5 moves a pair, 2 up to 2, 1 up to 2.75."
     }
   }
 }

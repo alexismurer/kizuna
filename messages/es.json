@@ -2048,6 +2048,21 @@
       "inARow": "{n} seguidos",
       "share": "¡Acerté {n} seguidos en ¿El más querido? en Kizuna!",
       "rules": "Aparecen dos personajes de la misma rareza: elige el que tiene más fans (favoritos en MyAnimeList). Tienes 6 segundos. Cada acierto suma a tu racha; el primer fallo termina la partida."
+    },
+    "memory": {
+      "name": "Memoria",
+      "chip": "{n} parejas",
+      "pitch": "Encuentra las {n} parejas de cartas en el menor número de jugadas.",
+      "best": "Récord: {n} jugadas",
+      "level": "Nivel",
+      "moves": "Jugadas",
+      "pairs": "Parejas",
+      "time": "Tiempo",
+      "faceDown": "Carta boca abajo",
+      "movesLabel": "{n} jugadas",
+      "allPairs": "Todas las parejas en {time}.",
+      "share": "¡Encontré {pairs} parejas en {moves} jugadas en Memoria en Kizuna!",
+      "rules": "Da la vuelta a dos cartas por jugada. Mismo personaje: la pareja queda visible; si no, ambas vuelven boca abajo. Tres niveles: 8, 12 o 18 parejas. Encuentra todas en el menor número de jugadas: 3 estrellas hasta 1,5 jugadas por pareja, 2 hasta 2, 1 hasta 2,75."
     }
   }
 }

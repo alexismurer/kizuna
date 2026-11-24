@@ -2048,6 +2048,21 @@
       "inARow": "{n} z rzędu",
       "share": "Zgadłem {n} z rzędu w Kto bardziej lubiany? na Kizuna!",
       "rules": "Pojawiają się dwie postacie tej samej rzadkości: wybierz tę z większą liczbą fanów (ulubione na MyAnimeList). Masz 6 sekund. Każda dobra odpowiedź wydłuża serię; pierwszy błąd kończy grę."
+    },
+    "memory": {
+      "name": "Memory",
+      "chip": "{n} par",
+      "pitch": "Znajdź {n} par kart w jak najmniejszej liczbie ruchów.",
+      "best": "Rekord: {n} ruchów",
+      "level": "Poziom",
+      "moves": "Ruchy",
+      "pairs": "Pary",
+      "time": "Czas",
+      "faceDown": "Zakryta karta",
+      "movesLabel": "{n} ruchów",
+      "allPairs": "Wszystkie pary w {time}.",
+      "share": "Znalazłem {pairs} par w {moves} ruchach w Memory na Kizuna!",
+      "rules": "Odkryj dwie karty w każdym ruchu. Ta sama postać: para zostaje odkryta; inaczej obie się zakrywają. Trzy poziomy: 8, 12 lub 18 par. Znajdź wszystkie w jak najmniejszej liczbie ruchów: 3 gwiazdki do 1,5 ruchu na parę, 2 do 2, 1 do 2,75."
     }
   }
 }

@@ -39,6 +39,7 @@ describe("GameRoom", () => {
     expect(screen.getByRole("link", { name: /Duel/ })).toHaveAttribute("href", "/play/duel");
     expect(screen.getByText("120")).toBeInTheDocument();
     expect(screen.getByText("20 / 60")).toBeInTheDocument();
+    expect(screen.getByText("8 pairs")).toBeInTheDocument();
     expect(screen.getByText("BOSS OF THE WEEK")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Claim 40 tickets" })).toBeInTheDocument();
     expect(screen.getByText("SECRET BOSS")).toBeInTheDocument();

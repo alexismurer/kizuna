@@ -2048,6 +2048,21 @@
       "inARow": "{n} in Folge",
       "share": "Ich habe bei Wer ist beliebter? auf Kizuna {n} in Folge erraten!",
       "rules": "Zwei Figuren gleicher Seltenheit erscheinen: Wähle die mit mehr Fans (Favoriten auf MyAnimeList). Du hast 6 Sekunden. Jede richtige Antwort verlängert deine Serie; der erste Fehler beendet das Spiel."
+    },
+    "memory": {
+      "name": "Memory",
+      "chip": "{n} Paare",
+      "pitch": "Finde die {n} Kartenpaare mit möglichst wenigen Zügen.",
+      "best": "Bestwert: {n} Züge",
+      "level": "Stufe",
+      "moves": "Züge",
+      "pairs": "Paare",
+      "time": "Zeit",
+      "faceDown": "Verdeckte Karte",
+      "movesLabel": "{n} Züge",
+      "allPairs": "Alle Paare in {time}.",
+      "share": "Ich habe bei Memory auf Kizuna {pairs} Paare in {moves} Zügen gefunden!",
+      "rules": "Decke pro Zug zwei Karten auf. Gleiche Figur: Das Paar bleibt offen, sonst werden beide wieder umgedreht. Drei Stufen: 8, 12 oder 18 Paare. Finde alle Paare mit möglichst wenigen Zügen: 3 Sterne bis 1,5 Züge pro Paar, 2 bis 2, 1 bis 2,75."
     }
   }
 }

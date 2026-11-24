@@ -1,4 +1,4 @@
-import { ArrowRight, Heart, Lock, ScanFace, Spade, Swords, Tv, User, Users, type LucideIcon } from "lucide-react";
+import { ArrowRight, Grid2x2, Heart, Lock, ScanFace, Spade, Swords, Tv, User, Users, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { GameRoomStatus } from "@/lib/actions/games";
@@ -110,7 +110,10 @@ function Modes({ solo, multi }: { solo: boolean; multi: boolean }) {
   );
 }
 
-const ICONS: Record<GameEntry["icon"], LucideIcon> = { swords: Swords, spade: Spade, face: ScanFace, tv: Tv, heart: Heart };
+const ICONS: Record<GameEntry["icon"], LucideIcon> = { swords: Swords, spade: Spade, face: ScanFace, tv: Tv, heart: Heart, grid: Grid2x2 };
+
+// values for game texts with a placeholder (Memory shows its first level)
+const TILE_VALUES = { n: 8 };
 
 // A game in the "More games" grid.
 function GameTile({ game }: { game: GameEntry }) {
@@ -136,9 +139,9 @@ function GameTile({ game }: { game: GameEntry }) {
         <Modes solo={game.solo} multi={game.multi} />
       </div>
       <p className="font-display text-lg font-bold">{t("name")}</p>
-      <p className="line-clamp-2 text-sm text-common">{t("pitch")}</p>
+      <p className="line-clamp-2 text-sm text-common">{t("pitch", TILE_VALUES)}</p>
       <div className="mt-auto flex items-center justify-between">
-        <span className="rounded-full border border-white/15 px-2.5 py-1 text-xs font-semibold text-common">{t("chip")}</span>
+        <span className="rounded-full border border-white/15 px-2.5 py-1 text-xs font-semibold text-common">{t("chip", TILE_VALUES)}</span>
         <ArrowRight className="h-4 w-4 text-common transition group-hover:translate-x-0.5 group-hover:text-white" aria-hidden />
       </div>
     </Link>

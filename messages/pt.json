@@ -2048,6 +2048,21 @@
       "inARow": "{n} seguidos",
       "share": "Acertei {n} seguidos no O mais amado? do Kizuna!",
       "rules": "Aparecem dois personagens da mesma raridade: escolha o que tem mais fãs (favoritos no MyAnimeList). Você tem 6 segundos. Cada acerto aumenta a sequência; o primeiro erro encerra o jogo."
+    },
+    "memory": {
+      "name": "Memória",
+      "chip": "{n} pares",
+      "pitch": "Encontre os {n} pares de cartas com o menor número de jogadas.",
+      "best": "Recorde: {n} jogadas",
+      "level": "Nível",
+      "moves": "Jogadas",
+      "pairs": "Pares",
+      "time": "Tempo",
+      "faceDown": "Carta virada",
+      "movesLabel": "{n} jogadas",
+      "allPairs": "Todos os pares em {time}.",
+      "share": "Achei {pairs} pares em {moves} jogadas no Memória do Kizuna!",
+      "rules": "Vire duas cartas por jogada. Mesmo personagem: o par fica aberto; senão, as duas voltam. Três níveis: 8, 12 ou 18 pares. Encontre todos com o menor número de jogadas: 3 estrelas até 1,5 jogada por par, 2 até 2, 1 até 2,75."
     }
   }
 }

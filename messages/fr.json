@@ -2048,6 +2048,21 @@
       "inARow": "{n} d’affilée",
       "share": "J’en ai trouvé {n} d’affilée à Le plus aimé ? sur Kizuna !",
       "rules": "Deux personnages de même rareté apparaissent : choisis celui qui a le plus de fans (favoris sur MyAnimeList). Tu as 6 secondes. Chaque bonne réponse allonge ta série ; la première erreur termine la partie."
+    },
+    "memory": {
+      "name": "Mémoire",
+      "chip": "{n} paires",
+      "pitch": "Trouve les {n} paires de cartes en le moins de coups possible.",
+      "best": "Record : {n} coups",
+      "level": "Niveau",
+      "moves": "Coups",
+      "pairs": "Paires",
+      "time": "Temps",
+      "faceDown": "Carte face cachée",
+      "movesLabel": "{n} coups",
+      "allPairs": "Toutes les paires en {time}.",
+      "share": "J’ai trouvé {pairs} paires en {moves} coups à Mémoire sur Kizuna !",
+      "rules": "Retourne deux cartes par coup. Même personnage : la paire reste visible ; sinon les deux se retournent. Trois niveaux : 8, 12 ou 18 paires. Trouve toutes les paires en le moins de coups possible : 3 étoiles jusqu’à 1,5 coup par paire, 2 jusqu’à 2, 1 jusqu’à 2,75."
     }
   }
 }

@@ -1,5 +1,5 @@
 // The games in the game room. A new game is one entry here plus its page under /play/<id>.
-export type GameId = "duel" | "twenty-one" | "whos-that" | "series-rush" | "most-loved";
+export type GameId = "duel" | "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory";
 
 export type GameEntry = {
   id: GameId;
@@ -9,7 +9,7 @@ export type GameEntry = {
   // CSS colour used for the tile's accent
   color: string;
   // lucide icon name, mapped in the game room
-  icon: "swords" | "spade" | "face" | "tv" | "heart";
+  icon: "swords" | "spade" | "face" | "tv" | "heart" | "grid";
   // messages namespace with name, pitch and chip (arcade games)
   msg?: string;
 };
@@ -20,4 +20,5 @@ export const GAMES: GameEntry[] = [
   { id: "whos-that", href: "/play/whos-that", solo: true, multi: false, color: "var(--color-epic)", icon: "face", msg: "arcade.whosThat" },
   { id: "series-rush", href: "/play/series-rush", solo: true, multi: false, color: "var(--color-legendary)", icon: "tv", msg: "arcade.seriesRush" },
   { id: "most-loved", href: "/play/most-loved", solo: true, multi: false, color: "var(--color-mythic)", icon: "heart", msg: "arcade.mostLoved" },
+  { id: "memory", href: "/play/memory", solo: true, multi: false, color: "var(--color-uncommon)", icon: "grid", msg: "arcade.memory" },
 ];
