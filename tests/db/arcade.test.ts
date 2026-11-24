@@ -99,3 +99,10 @@ describe('genres and daily decks', () => {
     expect((data as { id: number }[]).map((c) => c.id)).toEqual(want)
   })
 })
+
+describe('card themes for the arcade', () => {
+  it('draws cards with their themes', async () => {
+    const { data } = await admin.rpc('arcade_cards', { p_n: 50 })
+    expect((data as { themes: unknown }[]).every((c) => Array.isArray(c.themes))).toBe(true)
+  })
+})
