@@ -21,6 +21,36 @@ async function attempt<T>(fn: () => Promise<T>): Promise<ArcadeResult<T>> {
   }
 }
 
+// Server actions are public endpoints: check what comes in before touching a run.
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function checkRun(id: unknown): string {
+  if (typeof id !== "string" || !UUID.test(id)) throw new ArcadeError("run_not_found");
+  return id;
+}
+function checkAction<A extends string>(a: unknown, allowed: readonly A[]): A {
+  if (!allowed.includes(a as A)) throw new ArcadeError("invalid_action");
+  return a as A;
+}
+
+// Loads a live run, applies one move, saves it, and records it once it is over. A run
+// that ended but failed to record (the save went through, the record did not) is
+// recorded on the next call instead of being stuck.
+async function step<S extends { over: boolean }, V>(
+  id: unknown,
+  game: ArcadeGameId,
+  apply: (s: S) => S,
+  score: (s: S) => number,
+  view: (s: S) => V,
+): Promise<{ view: V; result?: FinishResult }> {
+  const player = await requirePlayer();
+  const run = await loadRun<S>(player, checkRun(id));
+  if (run.finished) throw new ArcadeError("run_over");
+  if (run.state.over) return { view: view(run.state), result: await finish(run, game, score(run.state)) };
+  const state = apply(run.state);
+  const saved = await saveRun(run, state);
+  return { view: view(state), result: state.over ? await finish(saved, game, score(state)) : undefined };
+}
+
 // Scores and pays a finished run.
 async function finish(run: Run<unknown>, game: ArcadeGameId, score: number): Promise<FinishResult> {
   const cfg = ARCADE[game];
@@ -36,6 +66,7 @@ export async function bjStart(): Promise<ArcadeResult<{ run: string; view: BjVie
     const player = await requirePlayer();
     const seed = newSeed();
     const cards = await randomCards(60);
+    if (cards.length < 20) throw new ArcadeError("not_enough_cards");
     const deck: BjCard[] = shuffle(cards, rng(seed)).map((c) => ({ id: c.id, name: c.name, rarity: c.rarity, imageUrl: c.imageUrl, series: c.series }));
     const run = await createRun<BjState>(player, "twenty-one", "practice", seed, bjStartGame(deck));
     return { run: run.id, view: bjView(run.state) };
@@ -44,13 +75,8 @@ export async function bjStart(): Promise<ArcadeResult<{ run: string; view: BjVie
 
 export async function bjAct(id: string, a: "hit" | "stand" | "next"): Promise<ArcadeResult<{ view: BjView; result?: FinishResult }>> {
   return attempt(async () => {
-    const player = await requirePlayer();
-    const run = await loadRun<BjState>(player, id);
-    if (run.finished) throw new ArcadeError("run_over");
-    const state = bjEngineAct(run.state, a);
-    const saved = await saveRun(run, state);
-    const result = state.over ? await finish(saved, "twenty-one", state.score) : undefined;
-    return { view: bjView(state), result };
+    const move = checkAction(a, ["hit", "stand", "next"] as const);
+    return step<BjState, BjView>(id, "twenty-one", (s) => bjEngineAct(s, move), (s) => s.score, bjView);
   });
 }
 

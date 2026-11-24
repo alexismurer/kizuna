@@ -1,4 +1,5 @@
-// Seeded randomness for game engines (mulberry32): the same seed replays the same run.
+// Seeded randomness for game engines (mulberry32). Runs store their drawn cards in
+// their state, so the seed alone does not replay a run.
 export function rng(seed: number): () => number {
   let a = seed >>> 0;
   return () => {

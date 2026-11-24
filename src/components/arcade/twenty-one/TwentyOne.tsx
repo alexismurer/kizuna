@@ -56,6 +56,7 @@ export function TwentyOne({ best, tickets }: { best: number | null; tickets: num
   const move = (a: "hit" | "stand" | "next") =>
     start(async () => {
       if (!run) return;
+      setError(null);
       const r = await bjAct(run, a);
       if (!r.ok) return fail(r.error);
       setView(r.data.view);
