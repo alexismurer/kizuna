@@ -20,7 +20,9 @@ export type WaveResult = { won: boolean; events: BEvent[]; team: Member[]; t: nu
 const TICK = 100;
 const MAX_T = 90_000;
 const BASE_INTERVAL = 1200;
-const MAX_EVENTS = 3000;
+const MAX_EVENTS = 6000;
+// never dropped, whatever the cap: the replay needs them to end right
+const KEY_EVENTS = new Set(["ko", "star", "revive", "warn", "area", "power", "boom"]);
 export const BOSS_HP = 4;
 const BOSS_ATK = 1.35;
 const BOSS_AREA = 0.5;
@@ -39,7 +41,8 @@ type F = {
   ls: number;
   dbl: number;
   shield: number;
-  shieldOnce: boolean;
+  // the Shield perk: blocks the first blow of each wave, up to half the card's health
+  guard: number;
   stunUntil: number;
   power: Power | null;
   powerEvery: number;
@@ -51,17 +54,20 @@ type F = {
   alive: boolean;
 };
 
+// how hard a crit hits: Precision only helps the team
+export const critMultFor = (side: 0 | 1, mods: Mods) => (side === 0 ? mods.critMult : 2);
+
 export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<string, number>, relics: string[], r: () => number): WaveResult {
   const mods: Mods = modsOf(perks, relics as never[]);
   const syn = synergies(team.map((m) => m.card));
   const genreValue = (g: string) => syn.find((s) => s.kind === "genre" && s.genre === g)?.kind === "genre" ? (syn.find((s) => s.kind === "genre" && s.genre === g) as { value: number }).value : 0;
   const seriesAtk = (sid: number) => {
-    const s = syn.find((x) => x.kind === "series" && team.find((m) => m.card.seriesId === sid)?.card.series === x.series);
-    return s && s.kind === "series" ? s.atk : 0;
+    const n = team.filter((m) => m.card.seriesId === sid).length;
+    return n >= 3 ? 0.8 : n === 2 ? 0.4 : 0;
   };
   const events: BEvent[] = [];
   const log = (e: BEvent) => {
-    if (events.length < MAX_EVENTS) events.push(e);
+    if (events.length < MAX_EVENTS || KEY_EVENTS.has(e.k)) events.push(e);
   };
   let damage = 0;
 
@@ -85,8 +91,8 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
       cleave: genreValue("fantasy"),
       ls: genreValue("romance") + mods.lifesteal,
       dbl: genreValue("thrills"),
-      shield: mods.shield ? 0.5 * max : 0,
-      shieldOnce: mods.shield,
+      shield: 0,
+      guard: mods.shield ? 0.5 * max : 0,
       stunUntil: 0,
       power,
       powerEvery: every,
@@ -114,7 +120,7 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
       ls: 0,
       dbl: 0,
       shield: 0,
-      shieldOnce: false,
+      guard: 0,
       stunUntil: 0,
       power: null,
       powerEvery: 0,
@@ -146,7 +152,7 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
     def.hp = 0;
     log({ t, k: "ko", a: att.id, b: def.id });
     if (def.side === 1) {
-      if (att.side === 0) {
+      if (att.side === 0 && att.alive) {
         att.kos += def.boss ? 5 : 1;
         const stars = starsFromKos(att.kos);
         if (stars > att.stars) {
@@ -158,7 +164,7 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
           log({ t, k: "star", b: att.id, v: stars });
         }
       }
-      if (mods.fortress) for (const p of alive(players)) p.shield = Math.max(p.shield, 0.5 * p.max);
+      if (mods.fortress) for (const p of alive(players)) p.guard = Math.max(p.guard, 0.5 * p.max);
       if (mods.frenzy) frenzy += 0.06;
       if (def.trait === "explosive") {
         const hit = alive(players);
@@ -177,9 +183,15 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
     if (!def.alive) return;
     let v = amount;
     if (def.trait === "armoured") v *= 0.6;
-    if (def.shield > 0) {
+    if (def.guard > 0) {
+      const absorbed = Math.min(def.guard, v);
+      def.guard = 0;
+      v -= absorbed;
+      log({ t, k: "block", b: def.id, v: Math.round(absorbed) });
+    }
+    if (v > 0 && def.shield > 0) {
       const absorbed = Math.min(def.shield, v);
-      def.shield = def.shieldOnce ? 0 : def.shield - absorbed;
+      def.shield -= absorbed;
       v -= absorbed;
       log({ t, k: "block", b: def.id, v: Math.round(absorbed) });
     }
@@ -188,7 +200,9 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
     if (att.side === 0) damage += v;
     log({ t, k: crit ? "crit" : "hit", a: att.id, b: def.id, v: Math.round(v) });
     if (def.boss === "thorns" && att.side === 0 && att.alive) {
-      att.hp -= 0.15 * v;
+      const back = 0.15 * v;
+      att.hp -= back;
+      log({ t, k: "hit", a: def.id, b: att.id, v: Math.round(back) });
       if (att.hp <= 0) ko(def, att);
     }
     if (att.ls > 0) heal(att, att.ls * v);
@@ -199,7 +213,7 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
   const strike = (att: F, def: F) => {
     const crit = r() < att.crit;
     const enraged = att.boss === "enraged" && att.hp < att.max / 2 ? 1.5 : 1;
-    hurt(att, def, att.atk * enraged * (crit ? mods.critMult : 1) * (0.9 + 0.2 * r()), crit);
+    hurt(att, def, att.atk * enraged * (crit ? critMultFor(att.side, mods) : 1) * (0.9 + 0.2 * r()), crit);
   };
 
   const castPower = (f: F) => {
@@ -250,8 +264,8 @@ export function simulateWave(team: Member[], enemies: Enemy[], perks: Record<str
         const front = alive(foes);
         if (front.length === 0) break;
         strike(p, front[0]);
-        if (p.dbl > 0 && r() < p.dbl && alive(foes)[0]) strike(p, alive(foes)[0]);
-        if (p.cleave > 0 && r() < p.cleave) {
+        if (p.alive && p.dbl > 0 && r() < p.dbl && alive(foes)[0]) strike(p, alive(foes)[0]);
+        if (p.alive && p.cleave > 0 && r() < p.cleave) {
           const second = alive(foes)[1];
           if (second) strike(p, second);
         }

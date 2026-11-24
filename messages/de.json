@@ -2263,7 +2263,9 @@
         "elites": "Elite-Gegner: Gepanzert (nimmt 40 % weniger), Schnell, Heiler, Explosiv (explodiert beim Fallen auf dein Team).",
         "relics": "Nach jedem Boss wählst du eines von drei Relikten: starke Boni, die es sonst nicht gibt.",
         "score": "Dein Ergebnis ist die Zahl der geschafften Wellen. Sterne bei Welle 3, 6 und 10."
-      }
+      },
+      "ready": "Dein Team ist bereit.",
+      "fightWave": "Welle {n} kämpfen"
     },
     "dailyRaid": {
       "name": "Tagesraid",

@@ -2263,7 +2263,9 @@
         "elites": "Elite enemies: Armoured (takes 40% less), Fast, Healer, Explosive (blows up on your team when it falls).",
         "relics": "After each boss, pick a relic out of three: powerful bonuses found nowhere else.",
         "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10."
-      }
+      },
+      "ready": "Twoja drużyna jest gotowa.",
+      "fightWave": "Walcz z falą {n}"
     },
     "dailyRaid": {
       "name": "Raid dnia",

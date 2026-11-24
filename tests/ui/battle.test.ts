@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { choose, fight, pickTeam, raidView, startRaid, waveEnemies } from "@/lib/arcade/battle/raid";
-import { simulateWave, type Member } from "@/lib/arcade/battle/sim";
+import { critMultFor, simulateWave, type Member } from "@/lib/arcade/battle/sim";
 import { modsOf, synergies, type BCard } from "@/lib/arcade/battle/stats";
 import { rng } from "@/lib/arcade/rng";
 import type { Genre } from "@/lib/arcade/server";
@@ -93,5 +93,40 @@ describe("a raid", () => {
     expect(s.cleared).toBe(s.wave - 1);
     expect(raidView(s)).not.toHaveProperty("seed");
     expect(raidView(s)).not.toHaveProperty("pool");
+  });
+});
+
+describe("review fixes", () => {
+  const boss = (trait: "thorns" | "enraged" | "regeneration") => [{ card: card("mythic", 77, "battle", 99), mult: 3, boss: trait }];
+  it("keeps enemy crits at ×2 when the team took Precision", () => {
+    const mods = modsOf({ precision: 1 }, []);
+    expect(critMultFor(0, mods)).toBe(2.4);
+    expect(critMultFor(1, mods)).toBe(2);
+  });
+  it("lets Rampart absorb more than one blow even with the Shield perk", () => {
+    const rampart = Array.from({ length: 5 }, (_, i) => member({ ...card("legendary", 300 + i, "battle", 99), id: 6 * 100 + 3 }));
+    const r = simulateWave(rampart, [{ card: card("mythic", 78, "battle", 99), mult: 2, boss: "regeneration" }], { shield: 1, stamina: 8 }, [], rng(4));
+    const per = new Map<number, number>();
+    for (const e of r.events) if (e.k === "block" && e.b !== undefined && e.b < 10) per.set(e.b, (per.get(e.b) ?? 0) + 1);
+    expect(Math.max(...per.values())).toBeGreaterThan(1);
+  });
+  it("logs thorns damage and never lets a fallen card act", () => {
+    const r = simulateWave(plain(), boss("thorns"), { training: 5 }, [], rng(5));
+    // each blow on the thorns boss sends 15% back to the striker, logged at the same moment
+    const onBoss = r.events.filter((e) => (e.k === "hit" || e.k === "crit") && e.b === 10 && (e.a ?? 99) < 10).slice(0, 5);
+    expect(onBoss.length).toBeGreaterThan(0);
+    for (const h of onBoss) expect(r.events.some((e) => e.k === "hit" && e.a === 10 && e.b === h.a && e.t === h.t && Math.abs(e.v! - 0.15 * h.v!) <= 1)).toBe(true);
+    const koAt = new Map<number, number>();
+    for (const e of r.events) if (e.k === "ko" && e.b !== undefined && e.b < 10 && !koAt.has(e.b)) koAt.set(e.b, e.t);
+    for (const e of r.events) {
+      if (e.a === undefined || e.a >= 10 || !koAt.has(e.a)) continue;
+      const revived = r.events.some((x) => x.k === "revive" && x.b === e.a && x.t <= e.t);
+      if (!revived) expect(e.t).toBeLessThanOrEqual(koAt.get(e.a)!);
+    }
+  });
+  it("never drops knock-outs from a long wave", () => {
+    const team = Array.from({ length: 5 }, () => member(card("legendary", n, "romance", 99)));
+    const r = simulateWave(team, boss("regeneration"), { vampire: 3, stamina: 3 }, [], rng(6));
+    if (r.won) expect(r.events.some((e) => e.k === "ko" && e.b === 10)).toBe(true);
   });
 });

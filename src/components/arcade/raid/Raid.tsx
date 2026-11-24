@@ -49,9 +49,9 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
 
   const fail = (e: string) => setError(t.has(`errors.${e}`) ? t(`errors.${e}`) : t("errors.generic"));
 
-  const apply = (v: RaidView, r?: FinishResult) => {
+  const apply = (v: RaidView, r?: FinishResult, replay = false) => {
     setView(v);
-    if (v.last) setReplaying(true);
+    setReplaying(replay && v.last !== null);
     if (r) {
       setResult(r);
       setTicketsNow(r.tickets);
@@ -64,7 +64,7 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
       fail(r.error);
       return null;
     }
-    apply(r.data.view, r.data.result);
+    apply(r.data.view, r.data.result, a === "fight");
     return r.data.view;
   };
 
@@ -94,6 +94,11 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
       if (!run) return;
       const v = await act(run, "choose", i);
       if (v?.phase === "fight") await act(run, "fight");
+    });
+
+  const nextWave = () =>
+    start(async () => {
+      if (run) await act(run, "fight");
     });
 
   const replayEnd = () => {
@@ -157,8 +162,17 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
 
       {view && done === null && !showResult && view.phase !== "pick" && (
         <div className="relative flex min-h-[34rem] flex-col">
-          {view.last ? (
+          {view.last && replaying ? (
             <Arena key={view.last.wave} wave={view.last} playing={replaying} onEnd={replayEnd} />
+          ) : view.phase === "fight" ? (
+            <div className="m-auto flex flex-col items-center gap-3">
+              <p className="text-sm text-common">{tr("ready")}</p>
+              <button type="button" disabled={pending} onClick={nextWave} className="h-12 w-56 rounded-full font-extrabold text-white disabled:opacity-50" style={{ background: color }}>
+                {tr("fightWave", { n: view.wave })}
+              </button>
+            </div>
+          ) : view.last ? (
+            <Arena key={view.last.wave} wave={view.last} playing={false} onEnd={replayEnd} />
           ) : (
             <p className="m-auto text-sm text-common">{tr("starting")}</p>
           )}
@@ -355,6 +369,7 @@ function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boolean; o
   useEffect(() => {
     if (!playing) return;
     let raf = 0;
+    let done: ReturnType<typeof setTimeout> | undefined;
     let last = performance.now();
     const tick = (now: number) => {
       const dt = now - last;
@@ -363,14 +378,17 @@ function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boolean; o
         const n = Math.min(wave.t, c + dt * speed);
         if (n >= wave.t && !ended.current) {
           ended.current = true;
-          setTimeout(() => onEndRef.current(), 400);
+          done = setTimeout(() => onEndRef.current(), 400);
         }
         return n;
       });
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      if (done) clearTimeout(done);
+    };
   }, [playing, wave.t, speed]);
 
   const units = useMemo(() => {
@@ -390,6 +408,10 @@ function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boolean; o
       } else if (e.k === "ko") {
         b.hp = 0;
         b.dead = true;
+      } else if (e.k === "star" && e.v) {
+        const grow = (1 + 0.25 * e.v) / (1 + 0.25 * (e.v - 1));
+        b.max *= grow;
+        b.hp *= grow;
       } else if (e.k === "revive") {
         b.dead = false;
         b.hp = 0.4 * b.max;

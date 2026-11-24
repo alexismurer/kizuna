@@ -298,7 +298,9 @@ export async function raidAct(
     const move = checkAction(a, ["pick", "fight", "choose"] as const);
     const apply = (s: RaidState) =>
       move === "pick" ? pickTeam(s, Array.isArray(arg) ? arg.map(Number) : []) : move === "fight" ? raidEngineFight(s) : raidEngineChoose(s, Number(arg));
-    return step<RaidState, RaidView>(id, RAID_GAME[m], apply, (s) => s.cleared, raidView);
+    const r = await step<RaidState, RaidView>(id, RAID_GAME[m], apply, (s) => s.cleared, raidView);
+    // the wave's events only travel with the fight that made them
+    return move === "fight" ? r : { ...r, view: { ...r.view, last: null } };
   });
 }
 

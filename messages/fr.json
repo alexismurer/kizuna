@@ -2263,7 +2263,9 @@
         "elites": "Ennemis d’élite : Blindé (prend 40 % de moins), Rapide, Soigneur, Explosif (explose sur ton équipe en tombant).",
         "relics": "Après chaque boss, choisis une relique parmi trois : des bonus puissants introuvables ailleurs.",
         "score": "Ton score est le nombre de vagues réussies. Étoiles aux vagues 3, 6 et 10."
-      }
+      },
+      "ready": "Ton équipe est prête.",
+      "fightWave": "Combattre la vague {n}"
     },
     "dailyRaid": {
       "name": "Raid du jour",

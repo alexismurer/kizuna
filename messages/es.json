@@ -2263,7 +2263,9 @@
         "elites": "Enemigos élite: Blindado (recibe un 40 % menos), Rápido, Sanador, Explosivo (estalla sobre tu equipo al caer).",
         "relics": "Tras cada jefe, elige una reliquia de tres: bonus poderosos que no hay en ningún otro sitio.",
         "score": "Tu puntuación es el número de oleadas superadas. Estrellas en las oleadas 3, 6 y 10."
-      }
+      },
+      "ready": "Tu equipo está listo.",
+      "fightWave": "Luchar en la oleada {n}"
     },
     "dailyRaid": {
       "name": "Raid del día",

@@ -56,4 +56,15 @@ describe("Raid board", () => {
     await act(async () => fireEvent.click(await screen.findByRole("button", { name: /Adrenaline/ })));
     expect(raidAct).toHaveBeenCalledWith("practice", "r1", "choose", 0);
   });
+
+  it("lets a resumed run that waits for its next wave carry on", async () => {
+    const team = offer.slice(0, 5).map((c) => ({ card: c, hp: 1, kos: 0, alive: true }));
+    vi.mocked(raidStart).mockResolvedValue({ ok: true, data: { run: "r1", view: { ...pick, phase: "fight", team } } });
+    vi.mocked(raidAct).mockClear();
+    vi.mocked(raidAct).mockResolvedValue({ ok: false, error: "generic" });
+    show();
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: "Fight wave 1" })));
+    expect(raidAct).toHaveBeenCalledWith("practice", "r1", "fight", undefined);
+  });
 });
