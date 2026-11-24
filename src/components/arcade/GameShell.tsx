@@ -23,6 +23,7 @@ export function GameShell({
   stats,
   rules,
   ranked = true,
+  rankToday = false,
   children,
 }: {
   game: ArcadeGameId;
@@ -33,6 +34,8 @@ export function GameShell({
   stats: Stat[];
   rules: React.ReactNode;
   ranked?: boolean;
+  // the ranking shows today’s board (daily games)
+  rankToday?: boolean;
   children: React.ReactNode;
 }) {
   const t = useTranslations("arcade");
@@ -109,7 +112,7 @@ export function GameShell({
           <div className="flex flex-col gap-3 text-sm leading-relaxed text-common">{rules}</div>
         </Dialog>
       )}
-      {open === "ranking" && <RankingDialog game={game} onClose={() => setOpen(null)} />}
+      {open === "ranking" && <RankingDialog game={game} today={rankToday} onClose={() => setOpen(null)} />}
     </div>
   );
 }

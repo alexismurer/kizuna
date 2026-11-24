@@ -2063,6 +2063,76 @@
       "allPairs": "Todas las parejas en {time}.",
       "share": "¡Encontré {pairs} parejas en {moves} jugadas en Memoria en Kizuna!",
       "rules": "Da la vuelta a dos cartas por jugada. Mismo personaje: la pareja queda visible; si no, ambas vuelven boca abajo. Tres niveles: 8, 12 o 18 parejas. Encuentra todas en el menor número de jugadas: 3 estrellas hasta 1,5 jugadas por pareja, 2 hasta 2, 1 hasta 2,75."
-    }
+    },
+    "poker": {
+      "hands": "Manos",
+      "discards": "Descartes",
+      "hint": "Elige cartas que combinen: misma serie, mismo género (el sello de abajo) o rarezas seguidas. Luego Jugar.",
+      "bestHands": "Tus mejores manos",
+      "sort": "Ordenar",
+      "bySeries": "Serie",
+      "byRarity": "Rareza",
+      "handsTable": "Manos",
+      "helpOn": "Ayuda: sí",
+      "helpOff": "Ayuda: no",
+      "discard": "Descartar",
+      "play": "Jugar",
+      "sameSeries": "cartas de esta serie en tu mano",
+      "formula": "Una mano puntúa (fichas + poder de las cartas ÷ 10) × multiplicador; solo cuentan las cartas que forman la mano.",
+      "rules": {
+        "goal": "Forma grupos de cartas que combinen, como en el póker. Tienes 4 manos para puntuar al máximo y 3 descartes para cambiar las cartas que no quieras (hasta 5 a la vez).",
+        "series": "Misma serie: 2 cartas son pareja, 3 trío, 4 póker, 5 cinco de una serie.",
+        "genre": "Mismo género: el sello de abajo de la carta. 5 cartas del mismo género son color.",
+        "straight": "Letras seguidas: la letra de rareza arriba a la derecha. C U R E L (una Mítica cuenta como L) son escalera; del mismo género, escalera de color."
+      },
+      "hand": {
+        "five_of_a_series": "Cinco de una serie",
+        "straight_flush": "Escalera de color",
+        "four_of_a_kind": "Póker",
+        "flush": "Color",
+        "full_house": "Full",
+        "straight": "Escalera",
+        "three_of_a_kind": "Trío",
+        "two_pairs": "Doble pareja",
+        "pair": "Pareja",
+        "high_card": "Carta alta"
+      },
+      "handText": {
+        "five_of_a_series": "5 cartas de la misma serie",
+        "straight_flush": "rarezas seguidas, mismo género",
+        "four_of_a_kind": "4 cartas de la misma serie",
+        "flush": "5 cartas del mismo género",
+        "full_house": "3 de una serie + 2 de otra",
+        "straight": "5 rarezas seguidas (C U R E L)",
+        "three_of_a_kind": "3 cartas de la misma serie",
+        "two_pairs": "2 + 2 de dos series",
+        "pair": "2 cartas de la misma serie",
+        "high_card": "una carta, la más fuerte"
+      }
+    },
+    "dailyHand": {
+      "name": "Mano del día",
+      "chip": "Clasificatoria",
+      "pitch": "La misma mano para todos, una nueva cada día a medianoche (París). Tu primera puntuación del día cuenta en la clasificación.",
+      "already": "Ya jugaste la mano de hoy:",
+      "comeBack": "Nueva mano a medianoche (París). Mientras, practica con Mano Kizuna.",
+      "practice": "Jugar a Mano Kizuna",
+      "share": "¡Hice {score} en la Mano del día de Kizuna!"
+    },
+    "kizunaHand": {
+      "name": "Mano Kizuna",
+      "chip": "Práctica",
+      "pitch": "Póker de cartas: combina series, géneros y rarezas en una mano al azar, cuantas veces quieras, con ayuda si la necesitas.",
+      "share": "¡Hice {score} en Mano Kizuna!"
+    },
+    "genres": {
+      "battle": "Combate",
+      "fantasy": "Fantasía",
+      "romance": "Romance",
+      "slice_of_life": "Vida cotidiana",
+      "thrills": "Suspense",
+      "scifi_sport": "Ciencia ficción y deporte"
+    },
+    "rankingToday": "Clasificación de hoy"
   }
 }

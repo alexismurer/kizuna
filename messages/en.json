@@ -2063,6 +2063,76 @@
       "allPairs": "All pairs in {time}.",
       "share": "I found {pairs} pairs in {moves} moves at Memory on Kizuna!",
       "rules": "Flip two cards each move. Same character: the pair stays up; otherwise both flip back. Three levels: 8, 12 or 18 pairs. Find every pair in as few moves as you can: 3 stars up to 1.5 moves a pair, 2 up to 2, 1 up to 2.75."
-    }
+    },
+    "poker": {
+      "hands": "Hands",
+      "discards": "Discards",
+      "hint": "Pick the cards that go together: same series, same genre (the seal at the bottom) or rarities in a row. Then Play.",
+      "bestHands": "Your best hands",
+      "sort": "Sort",
+      "bySeries": "Series",
+      "byRarity": "Rarity",
+      "handsTable": "Hands",
+      "helpOn": "Help: on",
+      "helpOff": "Help: off",
+      "discard": "Discard",
+      "play": "Play",
+      "sameSeries": "cards of this series in your hand",
+      "formula": "A hand scores (chips + card power ÷ 10) × multiplier; only the cards that make the hand count.",
+      "rules": {
+        "goal": "Make groups of cards that go together, like in poker. You have 4 hands to score as much as you can, and 3 discards to swap the cards you don't want (up to 5 at a time).",
+        "series": "Same series: 2 cards make a pair, 3 three of a kind, 4 four of a kind, 5 five of a series.",
+        "genre": "Same genre: the seal at the bottom of the card. 5 cards of the same genre make a flush.",
+        "straight": "Letters in a row: the rarity letter at the top right. C U R E L (a Mythic counts as L) make a straight; with the same genre, a straight flush."
+      },
+      "hand": {
+        "five_of_a_series": "Five of a series",
+        "straight_flush": "Straight flush",
+        "four_of_a_kind": "Four of a kind",
+        "flush": "Flush",
+        "full_house": "Full house",
+        "straight": "Straight",
+        "three_of_a_kind": "Three of a kind",
+        "two_pairs": "Two pairs",
+        "pair": "Pair",
+        "high_card": "High card"
+      },
+      "handText": {
+        "five_of_a_series": "5 cards of the same series",
+        "straight_flush": "rarities in a row, same genre",
+        "four_of_a_kind": "4 cards of the same series",
+        "flush": "5 cards of the same genre",
+        "full_house": "3 of a series + 2 of another",
+        "straight": "5 rarities in a row (C U R E L)",
+        "three_of_a_kind": "3 cards of the same series",
+        "two_pairs": "2 + 2 of two series",
+        "pair": "2 cards of the same series",
+        "high_card": "one card, the strongest"
+      }
+    },
+    "dailyHand": {
+      "name": "Daily hand",
+      "chip": "Ranked",
+      "pitch": "The same hand for everyone, a new one every day at midnight (Paris). Your first score of the day counts in the ranking.",
+      "already": "You already played today's hand:",
+      "comeBack": "A new hand at midnight (Paris). Meanwhile, practise with Kizuna Hand.",
+      "practice": "Play Kizuna Hand",
+      "share": "I scored {score} on today's Daily hand on Kizuna!"
+    },
+    "kizunaHand": {
+      "name": "Kizuna Hand",
+      "chip": "Practice",
+      "pitch": "Card poker: combine series, genres and rarities on a random hand, as often as you like, with help if you need it.",
+      "share": "I scored {score} at Kizuna Hand!"
+    },
+    "genres": {
+      "battle": "Battle",
+      "fantasy": "Fantasy",
+      "romance": "Romance",
+      "slice_of_life": "Slice of life",
+      "thrills": "Thrills",
+      "scifi_sport": "Sci-fi & Sport"
+    },
+    "rankingToday": "Today's ranking"
   }
 }

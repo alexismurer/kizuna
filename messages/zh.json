@@ -2063,6 +2063,76 @@
       "allPairs": "用时 {time} 找到全部配对。",
       "share": "我在 Kizuna 的记忆翻牌用 {moves} 步找到了 {pairs} 对！",
       "rules": "每步翻开两张卡。同一角色则配对成功并保持翻开，否则两张都翻回去。三个难度：8、12 或 18 对。用尽可能少的步数找出全部配对：每对 1.5 步以内 3 星，2 步以内 2 星，2.75 步以内 1 星。"
-    }
+    },
+    "poker": {
+      "hands": "手数",
+      "discards": "弃牌",
+      "hint": "选出能组合的卡：同系列、同类型（底部的印章）或稀有度连续。然后点“出牌”。",
+      "bestHands": "你的最佳牌型",
+      "sort": "排序",
+      "bySeries": "系列",
+      "byRarity": "稀有度",
+      "handsTable": "牌型",
+      "helpOn": "提示：开",
+      "helpOff": "提示：关",
+      "discard": "弃牌",
+      "play": "出牌",
+      "sameSeries": "手中该系列的卡数",
+      "formula": "牌型得分 =（筹码 + 卡牌力量 ÷ 10）× 倍数；只计算组成牌型的卡。",
+      "rules": {
+        "goal": "像扑克一样组合卡牌。你有 4 手牌尽量得分，还有 3 次弃牌机会换掉不想要的卡（每次最多 5 张）。",
+        "series": "同系列：2 张一对，3 张三条，4 张四条，5 张同系列五张。",
+        "genre": "同类型：卡牌底部的印章。同类型 5 张为同花。",
+        "straight": "字母连续：右上角的稀有度字母。C U R E L（神话算作 L）为顺子；同类型则为同花顺。"
+      },
+      "hand": {
+        "five_of_a_series": "同系列五张",
+        "straight_flush": "同花顺",
+        "four_of_a_kind": "四条",
+        "flush": "同花",
+        "full_house": "葫芦",
+        "straight": "顺子",
+        "three_of_a_kind": "三条",
+        "two_pairs": "两对",
+        "pair": "一对",
+        "high_card": "高牌"
+      },
+      "handText": {
+        "five_of_a_series": "同一系列 5 张",
+        "straight_flush": "稀有度连续且同类型",
+        "four_of_a_kind": "同一系列 4 张",
+        "flush": "同一类型 5 张",
+        "full_house": "一个系列 3 张 + 另一个 2 张",
+        "straight": "5 个稀有度连续（C U R E L）",
+        "three_of_a_kind": "同一系列 3 张",
+        "two_pairs": "两个系列各 2 张",
+        "pair": "同一系列 2 张",
+        "high_card": "一张最强的卡"
+      }
+    },
+    "dailyHand": {
+      "name": "每日一手",
+      "chip": "排名",
+      "pitch": "所有人同一手牌，每天午夜（巴黎）更新。当天第一次的分数计入排行榜。",
+      "already": "你今天已经玩过每日一手：",
+      "comeBack": "午夜（巴黎）会有新牌。这之前去玩 Kizuna 手牌练习吧。",
+      "practice": "玩 Kizuna 手牌",
+      "share": "我在 Kizuna 的每日一手拿了 {score} 分！"
+    },
+    "kizunaHand": {
+      "name": "Kizuna 手牌",
+      "chip": "练习",
+      "pitch": "卡牌扑克：在随机手牌中组合系列、类型和稀有度，想玩几次都行，需要时有提示。",
+      "share": "我在 Kizuna 手牌拿了 {score} 分！"
+    },
+    "genres": {
+      "battle": "战斗",
+      "fantasy": "奇幻",
+      "romance": "恋爱",
+      "slice_of_life": "日常",
+      "thrills": "惊悚",
+      "scifi_sport": "科幻与运动"
+    },
+    "rankingToday": "今日排行榜"
   }
 }

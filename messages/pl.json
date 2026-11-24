@@ -2063,6 +2063,76 @@
       "allPairs": "Wszystkie pary w {time}.",
       "share": "Znalazłem {pairs} par w {moves} ruchach w Memory na Kizuna!",
       "rules": "Odkryj dwie karty w każdym ruchu. Ta sama postać: para zostaje odkryta; inaczej obie się zakrywają. Trzy poziomy: 8, 12 lub 18 par. Znajdź wszystkie w jak najmniejszej liczbie ruchów: 3 gwiazdki do 1,5 ruchu na parę, 2 do 2, 1 do 2,75."
-    }
+    },
+    "poker": {
+      "hands": "Ręce",
+      "discards": "Wymiany",
+      "hint": "Wybierz pasujące karty: ta sama seria, ten sam gatunek (pieczęć na dole) lub rzadkości po kolei. Potem Zagraj.",
+      "bestHands": "Twoje najlepsze układy",
+      "sort": "Sortuj",
+      "bySeries": "Seria",
+      "byRarity": "Rzadkość",
+      "handsTable": "Układy",
+      "helpOn": "Pomoc: wł.",
+      "helpOff": "Pomoc: wył.",
+      "discard": "Wymień",
+      "play": "Zagraj",
+      "sameSeries": "kart tej serii w ręce",
+      "formula": "Układ daje (żetony + siła kart ÷ 10) × mnożnik; liczą się tylko karty tworzące układ.",
+      "rules": {
+        "goal": "Twórz pasujące grupy kart jak w pokerze. Masz 4 ręce, by zdobyć jak najwięcej punktów, i 3 wymiany niechcianych kart (do 5 naraz).",
+        "series": "Ta sama seria: 2 karty to para, 3 trójka, 4 kareta, 5 pięć z serii.",
+        "genre": "Ten sam gatunek: pieczęć na dole karty. 5 kart tego samego gatunku to kolor.",
+        "straight": "Litery po kolei: litera rzadkości w prawym górnym rogu. C U R E L (Mityczna liczy się jak L) to strit; w tym samym gatunku — poker."
+      },
+      "hand": {
+        "five_of_a_series": "Pięć z serii",
+        "straight_flush": "Poker",
+        "four_of_a_kind": "Kareta",
+        "flush": "Kolor",
+        "full_house": "Ful",
+        "straight": "Strit",
+        "three_of_a_kind": "Trójka",
+        "two_pairs": "Dwie pary",
+        "pair": "Para",
+        "high_card": "Wysoka karta"
+      },
+      "handText": {
+        "five_of_a_series": "5 kart z tej samej serii",
+        "straight_flush": "rzadkości po kolei, ten sam gatunek",
+        "four_of_a_kind": "4 karty z tej samej serii",
+        "flush": "5 kart tego samego gatunku",
+        "full_house": "3 z jednej serii + 2 z innej",
+        "straight": "5 rzadkości po kolei (C U R E L)",
+        "three_of_a_kind": "3 karty z tej samej serii",
+        "two_pairs": "2 + 2 z dwóch serii",
+        "pair": "2 karty z tej samej serii",
+        "high_card": "jedna karta, najsilniejsza"
+      }
+    },
+    "dailyHand": {
+      "name": "Ręka dnia",
+      "chip": "Rankingowa",
+      "pitch": "Ta sama ręka dla wszystkich, nowa codziennie o północy (Paryż). Twój pierwszy wynik dnia liczy się w rankingu.",
+      "already": "Dzisiejszą rękę już zagrałeś:",
+      "comeBack": "Nowa ręka o północy (Paryż). Do tego czasu ćwicz z Ręką Kizuna.",
+      "practice": "Zagraj w Rękę Kizuna",
+      "share": "Zdobyłem {score} w Ręce dnia na Kizuna!"
+    },
+    "kizunaHand": {
+      "name": "Ręka Kizuna",
+      "chip": "Trening",
+      "pitch": "Karciany poker: łącz serie, gatunki i rzadkości na losowej ręce, ile chcesz, z pomocą w razie potrzeby.",
+      "share": "Zdobyłem {score} w Ręce Kizuna!"
+    },
+    "genres": {
+      "battle": "Walka",
+      "fantasy": "Fantasy",
+      "romance": "Romans",
+      "slice_of_life": "Okruchy życia",
+      "thrills": "Dreszczowiec",
+      "scifi_sport": "Sci-fi i sport"
+    },
+    "rankingToday": "Ranking dnia"
   }
 }

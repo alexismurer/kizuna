@@ -86,7 +86,7 @@ const toRun = <S>(r: Row): Run<S> => ({
 });
 
 export async function createRun<S>(player: string, game: ArcadeGameId, mode: "practice" | "daily", seed: number, state: S): Promise<Run<S>> {
-  const day = mode === "daily" ? new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Paris" }) : null;
+  const day = mode === "daily" ? parisDay() : null;
   const { data, error } = await service()
     .from("arcade_runs")
     .insert({ player_id: player, game, mode, day, seed, state })
@@ -101,6 +101,22 @@ export async function loadRun<S>(player: string, id: string): Promise<Run<S>> {
   if (!data) throw new ArcadeError("run_not_found");
   return toRun<S>(data as Row);
 }
+
+// A player's run of a game on a day (daily games), the first one started.
+export async function findRun<S>(player: string, game: ArcadeGameId, day: string): Promise<Run<S> | null> {
+  const { data } = await service()
+    .from("arcade_runs")
+    .select("*")
+    .eq("player_id", player)
+    .eq("game", game)
+    .eq("day", day)
+    .order("started_at")
+    .limit(1)
+    .maybeSingle();
+  return data ? toRun<S>(data as Row) : null;
+}
+
+export const parisDay = () => new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Paris" });
 
 // Saves a new state; a second tab acting on the same run at the same time loses.
 export async function saveRun<S>(run: Run<S>, state: S): Promise<Run<S>> {

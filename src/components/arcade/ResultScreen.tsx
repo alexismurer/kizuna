@@ -15,6 +15,7 @@ export function ResultScreen({
   result,
   share,
   onAgain,
+  againLabel,
   extra,
 }: {
   icon: LucideIcon;
@@ -26,6 +27,8 @@ export function ResultScreen({
   // the text "Copy result" puts on the clipboard
   share: string;
   onAgain: () => void;
+  // the replay button’s text when it isn’t a new game of the same kind
+  againLabel?: string;
   extra?: React.ReactNode;
 }) {
   const t = useTranslations("arcade");
@@ -54,7 +57,7 @@ export function ResultScreen({
       <div className="mt-2 flex flex-wrap justify-center gap-2">
         <button type="button" onClick={onAgain} className="flex items-center gap-2 rounded-full px-6 py-3 font-display font-extrabold text-white" style={{ background: color }}>
           <RotateCcw className="h-4 w-4" aria-hidden />
-          {t("newGame")}
+          {againLabel ?? t("newGame")}
         </button>
         <button
           type="button"

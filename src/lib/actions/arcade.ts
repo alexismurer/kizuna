@@ -3,7 +3,8 @@
 import { ARCADE, type ArcadeGameId } from "@/lib/arcade/registry";
 import { starsFor, ticketsFor } from "@/lib/arcade/payout";
 import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
-import { ArcadeError, createRun, loadRun, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type Run, type RunResult } from "@/lib/arcade/server";
+import { bestHands, discard as pokerDiscard, play as pokerPlay, pokerView, startPoker, type HandName, type PkCard, type PkState, type PkView } from "@/lib/arcade/poker/engine";
+import { ArcadeError, cardsByIds, createRun, dailyDeck, findRun, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
 import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
@@ -181,15 +182,64 @@ export async function memoryFlip(id: string, pos: number): Promise<ArcadeResult<
   );
 }
 
+// ---------- card poker: Daily hand (ranked, one a day) and Kizuna Hand (practice) ----------
+
+export type PokerMode = "daily" | "practice";
+export type PokerHelp = { hand: HandName; score: number; idx: number[] }[];
+const POKER_GAME = { daily: "daily-hand", practice: "kizuna-hand" } as const;
+const pokerMode = (m: unknown): PokerMode => checkAction(m, ["daily", "practice"] as const);
+const toPk = (c: ArcadeCard): PkCard => ({ id: c.id, name: c.name, rarity: c.rarity, imageUrl: c.imageUrl, series: c.series, seriesId: c.seriesId, genre: c.genre, pow: c.pow });
+
+// Today's daily hand (the same deck for everyone, one run a day), or a new practice hand.
+export async function pokerStart(mode: PokerMode): Promise<ArcadeResult<{ run: string; view: PkView; help: PokerHelp; dailyDone?: boolean }>> {
+  return attempt(async () => {
+    const m = pokerMode(mode);
+    const player = await requirePlayer();
+    const game = POKER_GAME[m];
+    if (m === "daily") {
+      const day = parisDay();
+      const mine = await findRun<PkState>(player, game, day);
+      if (mine) return { run: mine.id, view: pokerView(mine.state), help: [], dailyDone: mine.finished || mine.state.over };
+      const offered = (await randomCards(52)).map((c) => c.id);
+      const ids = await dailyDeck(game, day, offered);
+      const deck = (await cardsByIds(ids)).map(toPk);
+      const run = await createRun<PkState>(player, game, "daily", 0, startPoker(deck));
+      return { run: run.id, view: pokerView(run.state), help: [] };
+    }
+    const seed = newSeed();
+    const cards = await randomCards(52);
+    if (cards.length < 8) throw new ArcadeError("not_enough_cards");
+    const run = await createRun<PkState>(player, game, "practice", seed, startPoker(shuffle(cards, rng(seed)).map(toPk)));
+    const view = pokerView(run.state);
+    return { run: run.id, view, help: bestHands(view.hand) };
+  });
+}
+
+export async function pokerAct(
+  mode: PokerMode,
+  id: string,
+  a: "play" | "discard",
+  idx: number[],
+): Promise<ArcadeResult<{ view: PkView; help: PokerHelp; result?: FinishResult }>> {
+  return attempt(async () => {
+    const m = pokerMode(mode);
+    const move = checkAction(a, ["play", "discard"] as const);
+    const pick = Array.isArray(idx) ? idx.map(Number) : [];
+    const r = await step<PkState, PkView>(id, POKER_GAME[m], (s) => (move === "play" ? pokerPlay(s, pick) : pokerDiscard(s, pick)), (s) => s.score, pokerView);
+    return { ...r, help: m === "practice" && !r.view.over ? bestHands(r.view.hand) : [] };
+  });
+}
+
 // ---------- shared ----------
 
 export type RankingRow = { rank: number; username: string; avatarUrl: string | null; frameId: string | null; score: number; stars: number };
 export type Ranking = { period: string; players: number; me: { rank: number; score: number; stars: number } | null; top: RankingRow[] };
 
-export async function arcadeRanking(game: ArcadeGameId): Promise<ArcadeResult<Ranking>> {
+// this week’s board, or today’s (first score of the day) for a daily game
+export async function arcadeRanking(game: ArcadeGameId, today = false): Promise<ArcadeResult<Ranking>> {
   return attempt(async () => {
     const supabase = await createServerClient();
-    const { data, error } = await supabase.rpc("arcade_ranking", { p_game: game });
+    const { data, error } = await supabase.rpc("arcade_ranking", { p_game: game, p_period: today ? `d:${parisDay()}` : null });
     if (error) throw new ArcadeError(error.message);
     return data as Ranking;
   });

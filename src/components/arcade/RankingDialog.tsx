@@ -9,14 +9,14 @@ import type { ArcadeGameId } from "@/lib/arcade/registry";
 import { Stars } from "./Stars";
 
 // This week's board of a game: top 100 and where I stand.
-export function RankingDialog({ game, onClose }: { game: ArcadeGameId; onClose: () => void }) {
+export function RankingDialog({ game, today = false, onClose }: { game: ArcadeGameId; today?: boolean; onClose: () => void }) {
   const t = useTranslations("arcade");
   const [data, setData] = useState<Ranking | null>(null);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     let live = true;
-    arcadeRanking(game).then((r) => {
+    arcadeRanking(game, today).then((r) => {
       if (!live) return;
       if (r.ok) setData(r.data);
       else setFailed(true);
@@ -24,10 +24,10 @@ export function RankingDialog({ game, onClose }: { game: ArcadeGameId; onClose: 
     return () => {
       live = false;
     };
-  }, [game]);
+  }, [game, today]);
 
   return (
-    <Dialog label={t("rankingTitle")} title={t("rankingTitle")} onClose={onClose}>
+    <Dialog label={t(today ? "rankingToday" : "rankingTitle")} title={t(today ? "rankingToday" : "rankingTitle")} onClose={onClose}>
       {failed && <p role="alert" className="text-sm text-accent">{t("errors.generic")}</p>}
       {!data && !failed && <p className="text-sm text-common">{t("loading")}</p>}
       {data && (

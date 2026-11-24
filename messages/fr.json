@@ -2063,6 +2063,76 @@
       "allPairs": "Toutes les paires en {time}.",
       "share": "J’ai trouvé {pairs} paires en {moves} coups à Mémoire sur Kizuna !",
       "rules": "Retourne deux cartes par coup. Même personnage : la paire reste visible ; sinon les deux se retournent. Trois niveaux : 8, 12 ou 18 paires. Trouve toutes les paires en le moins de coups possible : 3 étoiles jusqu’à 1,5 coup par paire, 2 jusqu’à 2, 1 jusqu’à 2,75."
-    }
+    },
+    "poker": {
+      "hands": "Mains",
+      "discards": "Défausses",
+      "hint": "Choisis les cartes qui vont ensemble : même série, même genre (le sceau en bas) ou raretés à la suite. Puis Jouer.",
+      "bestHands": "Tes meilleures mains",
+      "sort": "Trier",
+      "bySeries": "Série",
+      "byRarity": "Rareté",
+      "handsTable": "Mains",
+      "helpOn": "Aide : oui",
+      "helpOff": "Aide : non",
+      "discard": "Défausser",
+      "play": "Jouer",
+      "sameSeries": "cartes de cette série dans ta main",
+      "formula": "Une main rapporte (jetons + puissance des cartes ÷ 10) × multiplicateur ; seules les cartes qui forment la main comptent.",
+      "rules": {
+        "goal": "Forme des groupes de cartes qui vont ensemble, comme au poker. Tu as 4 mains pour marquer un maximum, et 3 défausses pour changer les cartes dont tu ne veux pas (jusqu’à 5 à la fois).",
+        "series": "Même série : 2 cartes font une paire, 3 un brelan, 4 un carré, 5 un cinq d’une série.",
+        "genre": "Même genre : le sceau en bas de la carte. 5 cartes du même genre font une couleur.",
+        "straight": "Lettres à la suite : la lettre de rareté en haut à droite. C U R E L (une Mythique compte comme L) font une quinte ; du même genre, une quinte flush."
+      },
+      "hand": {
+        "five_of_a_series": "Cinq d’une série",
+        "straight_flush": "Quinte flush",
+        "four_of_a_kind": "Carré",
+        "flush": "Couleur",
+        "full_house": "Full",
+        "straight": "Quinte",
+        "three_of_a_kind": "Brelan",
+        "two_pairs": "Double paire",
+        "pair": "Paire",
+        "high_card": "Carte haute"
+      },
+      "handText": {
+        "five_of_a_series": "5 cartes de la même série",
+        "straight_flush": "raretés à la suite, même genre",
+        "four_of_a_kind": "4 cartes de la même série",
+        "flush": "5 cartes du même genre",
+        "full_house": "3 d’une série + 2 d’une autre",
+        "straight": "5 raretés à la suite (C U R E L)",
+        "three_of_a_kind": "3 cartes de la même série",
+        "two_pairs": "2 + 2 de deux séries",
+        "pair": "2 cartes de la même série",
+        "high_card": "une carte, la plus forte"
+      }
+    },
+    "dailyHand": {
+      "name": "Main du jour",
+      "chip": "Classé",
+      "pitch": "La même main pour tout le monde, une nouvelle chaque jour à minuit (Paris). Ton premier score du jour compte au classement.",
+      "already": "Tu as déjà joué la main du jour :",
+      "comeBack": "Nouvelle main à minuit (Paris). En attendant, entraîne-toi avec Main Kizuna.",
+      "practice": "Jouer à Main Kizuna",
+      "share": "J’ai fait {score} à la Main du jour sur Kizuna !"
+    },
+    "kizunaHand": {
+      "name": "Main Kizuna",
+      "chip": "Entraînement",
+      "pitch": "Le poker des cartes : combine séries, genres et raretés sur une main au hasard, autant que tu veux, avec de l’aide si besoin.",
+      "share": "J’ai fait {score} à Main Kizuna !"
+    },
+    "genres": {
+      "battle": "Combat",
+      "fantasy": "Fantasy",
+      "romance": "Romance",
+      "slice_of_life": "Tranche de vie",
+      "thrills": "Frissons",
+      "scifi_sport": "SF & Sport"
+    },
+    "rankingToday": "Classement du jour"
   }
 }
