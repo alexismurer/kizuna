@@ -18,7 +18,7 @@ export default async function PlayPage({ params }: { params: Promise<{ locale: s
   );
 }
 
-// a few famous faces for the Duel tile (the same for everyone: cached for an hour)
+// famous faces: three for the Duel fan, the next ones for the wide tiles (the same for everyone: cached for an hour)
 async function famousFaces(): Promise<string[]> {
   "use cache";
   cacheLife("hours");
@@ -28,7 +28,7 @@ async function famousFaces(): Promise<string[]> {
     .in("rarity", ["mythic", "legendary"])
     .not("image_url", "is", null)
     .order("popularity_rank")
-    .limit(3);
+    .limit(7);
   return (data ?? []).map((c) => c.image_url as string);
 }
 

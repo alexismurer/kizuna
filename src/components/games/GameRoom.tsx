@@ -15,6 +15,8 @@ export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatu
   const daily = more.filter((g) => DAILY.has(g.id));
   const rank = (id: string) => (ORDER.includes(id) ? ORDER.indexOf(id) : ORDER.length);
   const rest = more.filter((g) => !DAILY.has(g.id)).sort((a, b) => rank(a.id) - rank(b.id));
+  // the faces after the Duel's three go to the wide tiles (the first four games in order)
+  const tileArt = art.length > 3 ? art.slice(3) : art;
   const hero = (
       <Link
         href={duel.href}
@@ -38,7 +40,7 @@ export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatu
         </div>
         {/* a fan of famous faces */}
         <div aria-hidden className="relative hidden h-full min-h-56 items-center justify-center transition-transform duration-500 ease-out group-hover:-rotate-2 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:transform-none md:flex">
-          {art.map((src, i) => (
+          {art.slice(0, 3).map((src, i) => (
             <span
               key={src}
               className="absolute aspect-[5/7] w-32 overflow-hidden rounded-xl border-2 border-legendary/70 shadow-2xl transition-transform duration-500 ease-out"
@@ -67,11 +69,11 @@ export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatu
 
       {/* the bento: Duel and the daily boards side by side, then the rest in a fixed order */}
       <ul className="grid auto-rows-[minmax(11.5rem,auto)] grid-cols-2 gap-3 md:grid-cols-6 lg:grid-cols-12">
-        <li className="bento-in col-span-2 md:col-span-6 lg:col-span-8 lg:row-span-3" style={{ "--i": 0 } as CSSProperties}>
+        <li className="bento-in col-span-2 md:col-span-6 lg:col-span-7 lg:row-span-2" style={{ "--i": 0 } as CSSProperties}>
           {hero}
         </li>
         {daily.length > 0 && (
-          <li className="bento-in col-span-2 flex flex-col gap-2 md:col-span-6 lg:col-span-4 lg:row-span-3" style={{ "--i": 1 } as CSSProperties}>
+          <li className="bento-in col-span-2 flex flex-col gap-2 md:col-span-6 lg:col-span-5 lg:row-span-2" style={{ "--i": 1 } as CSSProperties}>
             <p className="flex flex-wrap items-center gap-x-2 text-xs text-common">
               <span className="flex items-center gap-1 font-semibold text-accent">
                 <CalendarDays className="h-3.5 w-3.5" aria-hidden />
@@ -81,7 +83,7 @@ export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatu
             </p>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3 lg:flex-1 lg:auto-rows-fr lg:grid-cols-1">
               {daily.map((g) => (
-                <div key={g.id} className="min-h-44 lg:min-h-0">
+                <div key={g.id} className="min-h-24 lg:min-h-0">
                   <GameTile game={g} size="day" />
                 </div>
               ))}
@@ -90,7 +92,7 @@ export function GameRoom({ art, status }: { art: string[]; status: GameRoomStatu
         )}
         {rest.map((g, i) => (
           <li key={g.id} className={`bento-in ${SIZES[tileSize(g.id)]}`} style={{ "--i": i + 2 } as CSSProperties}>
-            <GameTile game={g} size={tileSize(g.id)} face={art.length ? art[i % art.length] : undefined} />
+            <GameTile game={g} size={tileSize(g.id)} face={tileArt.length ? tileArt[i % tileArt.length] : undefined} />
           </li>
         ))}
       </ul>
@@ -156,6 +158,31 @@ function GameTile({ game, size, face }: { game: GameEntry; size: Size; face?: st
   const Icon = ICONS[game.icon] ?? Swords;
   const big = size === "flag" || size === "wide";
   const daily = size === "day";
+  // a daily is a compact row next to the Duel: icon, name and pitch, arrow
+  if (daily)
+    return (
+      <Link
+        href={game.href}
+        style={{ "--c": game.color } as CSSProperties}
+        className="group relative flex h-full items-center gap-3 overflow-hidden rounded-2xl border border-dashed border-[color:color-mix(in_srgb,var(--c)_40%,var(--color-border))] bg-panel p-4 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-[color:var(--c)] hover:shadow-[0_16px_44px_-16px_var(--c)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+      >
+        <span aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_90%_at_100%_0%,color-mix(in_srgb,var(--c)_18%,transparent),transparent_70%)] opacity-70 transition-opacity duration-300 group-hover:opacity-100" />
+        <span
+          className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none"
+          style={{ color: "var(--c)", borderColor: "color-mix(in srgb, var(--c) 45%, transparent)", background: "color-mix(in srgb, var(--c) 12%, transparent)" }}
+        >
+          <Icon className="h-5 w-5" aria-hidden />
+        </span>
+        <span className="relative min-w-0 flex-1">
+          <span className="flex items-center gap-2">
+            <span className="truncate font-display text-lg leading-tight font-bold">{t("name")}</span>
+            <span className="shrink-0 rounded-full border border-white/15 px-2 py-0.5 text-[11px] font-semibold text-common">{t("chip", TILE_VALUES)}</span>
+          </span>
+          <span className="mt-0.5 line-clamp-2 text-sm text-common">{t("pitch", TILE_VALUES)}</span>
+        </span>
+        <ArrowRight className="relative h-4 w-4 shrink-0 text-common transition group-hover:translate-x-0.5 group-hover:text-white motion-reduce:transition-none" aria-hidden />
+      </Link>
+    );
   return (
     <Link
       href={game.href}
@@ -170,7 +197,7 @@ function GameTile({ game, size, face }: { game: GameEntry; size: Size; face?: st
         className={`pointer-events-none absolute opacity-[0.07] transition-transform duration-500 ease-out group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none ${big ? "-right-6 -bottom-8 h-44 w-44" : "-right-5 -bottom-5 h-28 w-28"}`}
         style={{ color: "var(--c)" }}
       />
-      {size === "flag" && face && (
+      {big && face && (
         <span aria-hidden className="pointer-events-none absolute top-14 -right-2 hidden aspect-[5/7] w-28 rotate-6 overflow-hidden rounded-xl border-2 border-[color:var(--c)]/50 opacity-40 shadow-2xl transition-[transform,opacity] duration-500 ease-out group-hover:-translate-x-2 group-hover:-translate-y-1 group-hover:rotate-3 group-hover:opacity-70 motion-reduce:transition-none sm:block w-24 md:w-28">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={face} alt="" className="h-full w-full object-cover" />
@@ -197,7 +224,7 @@ function GameTile({ game, size, face }: { game: GameEntry; size: Size; face?: st
           </p>
         )}
         <p className={`font-display leading-tight font-bold ${big ? "text-xl sm:text-2xl" : "text-lg"}`}>{t("name")}</p>
-        <p className={`mt-1 text-sm text-common ${size === "flag" ? "line-clamp-3 max-w-[70%]" : "line-clamp-2"}`}>{t("pitch", TILE_VALUES)}</p>
+        <p className={`mt-1 text-sm text-common ${big ? "line-clamp-3 max-w-[70%]" : "line-clamp-2"}`}>{t("pitch", TILE_VALUES)}</p>
       </div>
       <div className="relative mt-auto flex items-center justify-between gap-2">
         <span className="truncate rounded-full border border-white/15 px-2.5 py-1 text-xs font-semibold text-common">{t("chip", TILE_VALUES)}</span>

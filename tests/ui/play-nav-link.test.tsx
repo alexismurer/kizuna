@@ -29,20 +29,18 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("PlayNavLink", () => {
-  it("shows a New tag until the game room has been visited", () => {
+  it("shows a New tag", () => {
     wrap();
     expect(screen.getByTestId("play-new")).toHaveTextContent("PlayNew");
   });
 
-  it("drops the tag on /play and remembers it", () => {
+  it("keeps the tag after the game room was visited (shown all the time for now)", () => {
     path.current = "/play/duel";
     wrap();
-    expect(screen.queryByTestId("play-new")).toBeNull();
-    expect(localStorage.getItem("kizuna:play-seen")).toBe("1");
+    expect(screen.getByTestId("play-new")).toHaveAttribute("href", "/play");
     cleanup();
     path.current = "/";
     wrap();
-    expect(screen.queryByTestId("play-new")).toBeNull();
-    expect(screen.getByRole("link", { name: "Play" })).toHaveAttribute("href", "/play");
+    expect(screen.getByTestId("play-new")).toHaveTextContent("PlayNew");
   });
 });
