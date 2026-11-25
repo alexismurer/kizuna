@@ -24,8 +24,8 @@ export const GAMES: GameEntry[] = [
   { id: "daily-connections", href: "/play/daily-connections", solo: true, multi: false, color: "var(--color-accent)", icon: "link", msg: "arcade.dailyConnections" },
   { id: "connections", href: "/play/connections", solo: true, multi: false, color: "var(--color-epic)", icon: "link", msg: "arcade.connections" },
   { id: "twenty-one", href: "/play/twenty-one", solo: true, multi: false, color: "var(--color-rare)", icon: "spade", msg: "arcade.twentyOne" },
-  { id: "whos-that", href: "/play/whos-that", solo: true, multi: false, color: "var(--color-epic)", icon: "face", msg: "arcade.whosThat" },
-  { id: "series-rush", href: "/play/series-rush", solo: true, multi: false, color: "var(--color-legendary)", icon: "tv", msg: "arcade.seriesRush" },
-  { id: "most-loved", href: "/play/most-loved", solo: true, multi: false, color: "var(--color-mythic)", icon: "heart", msg: "arcade.mostLoved" },
+  { id: "whos-that", href: "/play/whos-that", solo: true, multi: true, color: "var(--color-epic)", icon: "face", msg: "arcade.whosThat" },
+  { id: "series-rush", href: "/play/series-rush", solo: true, multi: true, color: "var(--color-legendary)", icon: "tv", msg: "arcade.seriesRush" },
+  { id: "most-loved", href: "/play/most-loved", solo: true, multi: true, color: "var(--color-mythic)", icon: "heart", msg: "arcade.mostLoved" },
   { id: "memory", href: "/play/memory", solo: true, multi: false, color: "var(--color-uncommon)", icon: "grid", msg: "arcade.memory" },
 ];
