@@ -46,7 +46,7 @@ async function Buy({ filters }: { filters: Filters }) {
   const [page, status, total, user] = await Promise.all([
     loadListings(supabase, filters, 0),
     loadStatus(),
-    catalogTotal(supabase),
+    catalogTotal(),
     supabase.auth.getUser(),
   ]);
   return (
@@ -95,7 +95,7 @@ async function loadSellable(supabase: SupabaseClient): Promise<SellableCard[]> {
 
 async function Sell({ filters }: { filters: Filters }) {
   const supabase = await createServerClient();
-  const [items, total] = await Promise.all([loadSellable(supabase), catalogTotal(supabase)]);
+  const [items, total] = await Promise.all([loadSellable(supabase), catalogTotal()]);
   return <SellTab filters={filters} items={items} total={total} />;
 }
 
@@ -104,7 +104,7 @@ async function Auctions({ filters }: { filters: Filters }) {
   const [page, status, total, user] = await Promise.all([
     loadAuctions(supabase, filters, 0),
     loadStatus(),
-    catalogTotal(supabase),
+    catalogTotal(),
     supabase.auth.getUser(),
   ]);
   return (

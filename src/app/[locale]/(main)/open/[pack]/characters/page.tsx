@@ -41,7 +41,7 @@ async function CharactersContent({
       .eq("id", packId)
       .maybeSingle(),
     supabase.rpc("todays_pool"),
-    catalogTotal(supabase),
+    catalogTotal(),
   ]);
   if (!pack) notFound();
   const p = pack as PoolPack & { id: string; title: string | null; starts_at: string | null; ends_at: string | null };

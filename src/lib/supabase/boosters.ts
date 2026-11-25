@@ -1,9 +1,11 @@
+import { cacheLife } from "next/cache";
 import { cache } from "react";
 import type { HomePack } from "@/components/home/BoosterGrid";
 import type { PackType, Rarity, Status } from "@/lib/game/types";
 import { isListed } from "@/lib/game/seasonal";
 import { customBooster, packPool } from "./packPool";
 import { createServerClient } from "./server";
+import { serviceClient } from "./service";
 
 type PackRow = {
   id: string;
@@ -40,25 +42,50 @@ export const loadStatus = cache(async () => {
   return (data ?? null) as Status | null;
 });
 
+// What is the same for every player, cached on the server for an hour (catalogue or
+// booster edits show within the hour): the boosters, the day's pool (keyed by the
+// Paris day, so it turns over with the day) and each booster's size and top cards.
+async function cachedPacks(): Promise<PackRow[]> {
+  "use cache";
+  cacheLife("hours");
+  const { data } = await serviceClient().from("pack_types").select("*").order("sort");
+  return (data ?? []) as PackRow[];
+}
+
+async function cachedPool(day: string): Promise<Pool> {
+  "use cache";
+  cacheLife("hours");
+  const { data } = await serviceClient().rpc("todays_pool", { p_now: `${day}T12:00:00+01:00` });
+  return data as Pool;
+}
+
+async function cachedTop(pack: PackRow, dailySeries: number[] | null, columns: string): Promise<{ count: number; cards: unknown[] }> {
+  "use cache";
+  cacheLife("hours");
+  const supabase = serviceClient() as unknown as Awaited<ReturnType<typeof createServerClient>>;
+  const { data, count } = await packPool(supabase, pack, dailySeries, columns).range(0, 2);
+  return { count: count ?? 0, cards: data ?? [] };
+}
+
 // Every booster with its pool size and three most popular characters
-// (`columns` of each), one range query per pack.
+// (`columns` of each). Only the player's own custom booster is read live.
 async function loadPacks<C extends { image_url: string | null }>(columns: string) {
   const supabase = await createServerClient();
-  const [poolRes, packsRes, custom] = await Promise.all([
-    supabase.rpc("todays_pool"),
-    supabase.from("pack_types").select("*").order("sort"),
-    customBooster(supabase),
-  ]);
-  const pool = poolRes.data as Pool;
+  const day = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Paris" });
+  const [pool, allPacks, custom] = await Promise.all([cachedPool(day), cachedPacks(), customBooster(supabase)]);
   const now = new Date();
   const held = (await loadStatus())?.rewardPacks ?? {};
-  const rows = ((packsRes.data ?? []) as PackRow[]).filter((p) => isListed(p, now, held));
+  const rows = allPacks.filter((p) => isListed(p, now, held));
 
   const tops = await Promise.all(
     rows.map(async (p) => {
       if (p.kind === "daily" && !pool) return { count: 0, cards: [] as C[] };
-      const { data, count } = await packPool(supabase, p, pool?.series_ids ?? null, columns, custom.series).range(0, 2);
-      return { count: count ?? 0, cards: (data ?? []) as unknown as C[] };
+      if (p.id === "custom") {
+        const { data, count } = await packPool(supabase, p, null, columns, custom.series).range(0, 2);
+        return { count: count ?? 0, cards: (data ?? []) as unknown as C[] };
+      }
+      const top = await cachedTop(p, p.kind === "daily" ? (pool?.series_ids ?? null) : null, columns);
+      return { count: top.count, cards: top.cards as C[] };
     }),
   );
   const topCards = new Map(rows.map((p, i) => [p.id, tops[i].cards]));

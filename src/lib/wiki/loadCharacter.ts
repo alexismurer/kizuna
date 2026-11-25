@@ -157,7 +157,7 @@ export async function loadCharacter(sourceId: number): Promise<Character | null>
       ownedPart,
       samePart,
       supabase.from("wishlist").select("card_id").eq("card_id", c.id).maybeSingle(),
-      catalogTotal(supabase),
+      catalogTotal(),
       loadStatus(),
       supabase.rpc("card_market_stats", { p_card_id: c.id }),
       supabase.rpc("card_value", { p_card_id: c.id }),

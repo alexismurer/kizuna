@@ -1,10 +1,15 @@
-import type { createServerClient } from "./server";
+import { cacheLife } from "next/cache";
+import { serviceClient } from "./service";
 
-type Client = Awaited<ReturnType<typeof createServerClient>>;
+// How many cards the catalogue holds: the same for everyone, so counted once an hour
+// on the server instead of on every page.
+export async function catalogTotal(): Promise<number> {
+  return countCards();
+}
 
-export async function catalogTotal(supabase: Client): Promise<number> {
-  const { count } = await supabase
-    .from("cards")
-    .select("id", { count: "exact", head: true });
+async function countCards(): Promise<number> {
+  "use cache";
+  cacheLife("hours");
+  const { count } = await serviceClient().from("cards").select("id", { count: "exact", head: true });
   return count ?? 0;
 }

@@ -81,7 +81,7 @@ async function CollectionContent({
     fetchAll((from, to) =>
       supabase.from("wishlist").select(`cards(${CARD_COLUMNS})`).order("card_id").range(from, to),
     ),
-    catalogTotal(supabase),
+    catalogTotal(),
   ]);
 
   const rows = invRows as unknown as InvRow[];

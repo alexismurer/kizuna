@@ -34,7 +34,7 @@ async function OpeningContent({
       .eq("id", packId)
       .maybeSingle(),
     supabase.rpc("my_status"),
-    catalogTotal(supabase),
+    catalogTotal(),
   ]);
   if (!pack) notFound();
   if (!status) return null;

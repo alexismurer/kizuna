@@ -7,12 +7,10 @@ import { StatusTiles } from "@/components/home/StatusTiles";
 import { PushPrompt } from "@/components/push/PushPrompt";
 import { loadBoosters, type TopCardRow } from "@/lib/supabase/boosters";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
-import { createServerClient } from "@/lib/supabase/server";
 
 async function HomeContent() {
   const t = await getTranslations();
-  const supabase = await createServerClient();
-  const [boosters, total] = await Promise.all([loadBoosters(), catalogTotal(supabase)]);
+  const [boosters, total] = await Promise.all([loadBoosters(), catalogTotal()]);
   if (!boosters) return null;
   const { status, pool, packs, topCards } = boosters;
 
