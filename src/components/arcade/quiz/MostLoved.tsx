@@ -18,8 +18,8 @@ const WINDOW = 6_000;
 export function MostLoved({ best, tickets }: { best: number | null; tickets: number | null }) {
   const tg = useTranslations("arcade.mostLoved");
   const tr = useTranslations("rarity");
-  const q = useQuiz("most-loved", best, tickets);
-  const img = useQuizImages(q.run, q.view);
+  const q = useQuiz("most-loved", best, tickets, true);
+  const img = useQuizImages(q.run, q.view, q.askNow);
   const v = q.view;
   const rarity = v?.faces?.[0]?.rarity;
 

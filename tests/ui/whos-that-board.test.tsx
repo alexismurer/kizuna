@@ -3,11 +3,11 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-libra
 import { NextIntlClientProvider } from "next-intl";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WhosThat } from "@/components/arcade/quiz/WhosThat";
-import { quizAnswer, quizStart } from "@/lib/actions/arcade";
+import { quizAnswer, quizAskNow, quizStart } from "@/lib/actions/arcade";
 import type { QuizView } from "@/lib/arcade/quiz/engine";
 import messages from "../../messages/en.json";
 
-vi.mock("@/lib/actions/arcade", () => ({ quizStart: vi.fn(), quizAnswer: vi.fn(), quizNext: vi.fn(), quizPeek: vi.fn(), arcadeRanking: vi.fn() }));
+vi.mock("@/lib/actions/arcade", () => ({ quizStart: vi.fn(), quizAskNow: vi.fn(), quizAnswer: vi.fn(), quizNext: vi.fn(), quizPeek: vi.fn(), arcadeRanking: vi.fn() }));
 vi.mock("@/i18n/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn() }),
   Link: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,
@@ -42,6 +42,18 @@ describe("Who's that? board", () => {
     const img = (await waitFor(() => screen.getByTestId("quiz-image"))) as HTMLImageElement;
     expect(img.getAttribute("src")).toBe("blob:pic");
     for (const o of open.options) expect(screen.getByRole("button", { name: o })).toBeInTheDocument();
+  });
+
+  it("starts the clock only once the first picture is in", async () => {
+    vi.mocked(quizStart).mockResolvedValue({ ok: true, data: { run: "r1", view: { ...open, askedMsAgo: null } } });
+    vi.mocked(quizAskNow).mockResolvedValue({ ok: true, data: { view: open } });
+    show();
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
+    expect(quizStart).toHaveBeenLastCalledWith("whos-that", false);
+    expect(fetch).toHaveBeenCalledWith("/api/arcade/img/r1/0?q=0");
+    await waitFor(() => expect(quizAskNow).toHaveBeenCalledWith("whos-that", "r1"));
+    expect(quizAskNow).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(screen.getByTestId("quiz-image")).toHaveAttribute("src", "blob:pic"));
   });
 
   it("answers, then says how it went and offers the next one", async () => {

@@ -5,7 +5,7 @@ import { Check, X } from "lucide-react";
 import type { QuizView } from "@/lib/arcade/quiz/engine";
 
 // A bar that empties over what's left of the answer window: a CSS animation timed
-// from the first view of each question (later views of it don't restart it).
+// from the first view of each asked question (later views of it don't restart it).
 export function TimerBar({
   view,
   windowMs,
@@ -17,7 +17,7 @@ export function TimerBar({
 }) {
   return (
     <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-      <Drain key={view.index} view={view} windowMs={windowMs} color={color} />
+      <Drain key={`${view.index}-${view.askedMsAgo === null}`} view={view} windowMs={windowMs} color={color} />
     </div>
   );
 }
@@ -33,6 +33,8 @@ function Drain({
 }) {
   const [left] = useState(() => Math.max(0, windowMs - (view.askedMsAgo ?? 0)));
   const done = view.answered !== null;
+  // a question not asked yet (its pictures are on their way): a full, still bar
+  const waiting = !done && view.askedMsAgo === null;
   return (
     <div
       data-timer
@@ -42,7 +44,7 @@ function Drain({
           background: `linear-gradient(90deg, ${color}, var(--color-legendary))`,
           "--from": left / windowMs,
           transform: done ? "scaleX(0)" : undefined,
-          animation: done ? "none" : `arcade-drain ${left}ms linear forwards`,
+          animation: done || waiting ? "none" : `arcade-drain ${left}ms linear forwards`,
         } as React.CSSProperties
       }
     />
@@ -69,7 +71,7 @@ export function Options({
           <button
             key={`${view.index}-${o}`}
             type="button"
-            disabled={disabled || a !== null}
+            disabled={disabled || a !== null || view.askedMsAgo === null}
             onClick={() => onPick(i)}
             className={`flex min-h-11 items-center justify-between gap-2 rounded-xl border px-4 py-2 text-left text-sm font-semibold transition ${
               right

@@ -21,14 +21,14 @@ const WINDOW = 12_000;
 export function SeriesRush({ best, tickets }: { best: number | null; tickets: number | null }) {
   const t = useTranslations("arcade");
   const tg = useTranslations("arcade.seriesRush");
-  const q = useQuiz("series-rush", best, tickets);
-  const img = useQuizImages(q.run, q.view);
+  const q = useQuiz("series-rush", best, tickets, true);
+  const img = useQuizImages(q.run, q.view, q.askNow);
   const v = q.view;
   const { run, setView, sound } = q;
 
   // ask the server for each card when its time comes
   useEffect(() => {
-    if (!run || !v || v.answered || !v.reveal) return;
+    if (!run || !v || v.answered || !v.reveal || v.askedMsAgo === null) return;
     const timers = v.reveal
       .filter((at, i) => i >= v.slots && at > (v.askedMsAgo ?? 0))
       .map((at) =>

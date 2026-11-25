@@ -4,8 +4,9 @@ import { loadOwnRun } from "@/lib/arcade/server";
 
 // The picture of a quiz card, served under an address that says nothing about the
 // card: only the run's player, only the open question, only a slot already shown.
-// Once the open question is answered, the next one's first pictures (those shown the
-// moment it is asked) may be fetched too, so the browser has them ready in time.
+// A question's first pictures (those shown the moment it is asked) may be fetched
+// before it is asked: the next one once the open one is answered, or the first one
+// of a run started unasked, so the browser has them before the clock starts.
 export async function GET(req: Request, { params }: { params: Promise<{ run: string; slot: string }> }) {
   const { run: id, slot } = await params;
   const n = Number(slot);
@@ -21,7 +22,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ run: str
       url = nq.cards[n]?.imageUrl;
     } else {
       const q = s.questions[s.i];
-      if (!q || qi !== s.i || s.askedAt === null || n >=visibleSlots(q, Date.now() - s.askedAt)) return new NextResponse(null, { status: 404 });
+      // a question not asked yet shows what it will show the moment it is asked
+      if (!q || qi !== s.i || n >= visibleSlots(q, s.askedAt === null ? 0 : Date.now() - s.askedAt)) return new NextResponse(null, { status: 404 });
       url = q.cards[n]?.imageUrl;
     }
   } catch {

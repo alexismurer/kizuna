@@ -17,9 +17,9 @@ const WINDOW = 10_000;
 export function WhosThat({ best, tickets }: { best: number | null; tickets: number | null }) {
   const t = useTranslations("arcade");
   const tg = useTranslations("arcade.whosThat");
-  const q = useQuiz("whos-that", best, tickets);
+  const q = useQuiz("whos-that", best, tickets, true);
   const v = q.view;
-  const img = useQuizImages(q.run, v);
+  const img = useQuizImages(q.run, v, q.askNow);
 
   const stats = [
     { label: tg("character"), value: v ? `${v.index + 1}/${v.total ?? 10}` : "—" },
@@ -41,7 +41,7 @@ export function WhosThat({ best, tickets }: { best: number | null; tickets: numb
       {v && !q.showResult && (
         <div className="flex min-h-[34rem] flex-col items-center justify-center gap-6 p-4 sm:flex-row sm:p-8">
           <div className="w-full max-w-sm">
-            <Picture key={v.index} src={img(v.index, 0)} leftMs={Math.max(0, WINDOW - (v.askedMsAgo ?? 0))} revealed={v.answered?.cards[0] ?? null} />
+            <Picture key={`${v.index}-${v.askedMsAgo === null}`} src={v.askedMsAgo !== null || v.answered ? img(v.index, 0) : null} leftMs={Math.max(0, WINDOW - (v.askedMsAgo ?? 0))} revealed={v.answered?.cards[0] ?? null} />
             <div className="mt-2">
               <TimerBar view={v} windowMs={WINDOW} color={COLOR} />
             </div>

@@ -132,8 +132,9 @@ const QUIZ: Record<QuizGameId, { rules: QuizRules; faces?: boolean; build: (r: (
 };
 const quizGame = (g: unknown): QuizGameId => checkAction(g, Object.keys(QUIZ) as QuizGameId[]);
 
-// Starts a quiz and asks its first question at once.
-export async function quizStart(game: QuizGameId): Promise<ArcadeResult<{ run: string; view: QuizView }>> {
+// Starts a quiz and asks its first question at once, or (picture games) leaves it
+// unasked so the browser can fetch its pictures before the clock starts.
+export async function quizStart(game: QuizGameId, ask = true): Promise<ArcadeResult<{ run: string; view: QuizView }>> {
   return attempt(async () => {
     const g = quizGame(game);
     const player = await requirePlayer();
@@ -141,8 +142,18 @@ export async function quizStart(game: QuizGameId): Promise<ArcadeResult<{ run: s
     const questions = await QUIZ[g].build(rng(seed));
     if (questions.length === 0) throw new ArcadeError("not_enough_cards");
     const now = Date.now();
-    const run = await createRun<QuizState>(player, g, "practice", seed, quizAsk(startQuiz(questions), now));
+    const first = startQuiz(questions);
+    const run = await createRun<QuizState>(player, g, "practice", seed, ask ? quizAsk(first, now) : first);
     return { run: run.id, view: quizView(run.state, now, { faces: QUIZ[g].faces }) };
+  });
+}
+
+// Asks the open question of a run started unasked: its clock starts now.
+export async function quizAskNow(game: QuizGameId, id: string): Promise<ArcadeResult<{ view: QuizView; result?: FinishResult }>> {
+  return attempt(async () => {
+    const g = quizGame(game);
+    const now = Date.now();
+    return step<QuizState, QuizView>(id, g, (s) => quizAsk(s, now), (s) => s.score, (s) => quizView(s, now, { faces: QUIZ[g].faces }));
   });
 }
 

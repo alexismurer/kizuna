@@ -32,11 +32,13 @@ describe("quiz image route", () => {
     expect(r.status).toBe(200);
     expect(fetch).toHaveBeenCalledWith("https://img/2.png", expect.anything());
   });
-  it("refuses a slot not shown yet, an unasked question, or a run that isn't yours", async () => {
+  it("refuses a slot not shown yet, or a run that isn't yours", async () => {
     store.loadRun.mockResolvedValue({ state: state(5000, [0, 4000, 8000]) });
     expect((await get("2")).status).toBe(404);
-    store.loadRun.mockResolvedValue({ state: state(null) });
-    expect((await get("0")).status).toBe(404);
+    // a question not asked yet: only what shows the moment it is asked
+    store.loadRun.mockResolvedValue({ state: state(null, [0, 4000, 8000]) });
+    expect((await get("0")).status).toBe(200);
+    expect((await get("1")).status).toBe(404);
     store.loadRun.mockRejectedValue(new Error("run_not_found"));
     expect((await get("0")).status).toBe(404);
     expect((await get("0", "not-a-run")).status).toBe(404);
