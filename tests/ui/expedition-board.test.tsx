@@ -23,6 +23,7 @@ const view = (over: Partial<ExpView> = {}): ExpView => ({
   team: cards.slice(0, 5).map((c) => ({ card: c, hp: 1, kos: 0, alive: true })),
   xp: {},
   caseNo: 0,
+  map: [],
   phase: "route",
   cleared: 0,
   shards: 0,
@@ -76,9 +77,10 @@ describe("Expedition board", () => {
     });
     show();
     await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
-    await act(async () => fireEvent.click(screen.getByRole("button", { name: "Go: Treasure" })));
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: "Open the treasure" })));
     expect(expAct).toHaveBeenCalledWith("r1", "go", undefined);
     expect(screen.getByText(/\+40 shards/)).toBeInTheDocument();
+    await act(async () => fireEvent.click(screen.getByRole("tab", { name: /Cards/ })));
     expect(screen.getByRole("button", { name: /Use Potion/ })).toBeInTheDocument();
   });
 

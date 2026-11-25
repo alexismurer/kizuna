@@ -545,3 +545,14 @@ main:not([style*="display: none"]):not(:has(> :not(template, [style*="display: n
   from { transform: scaleX(var(--from, 1)); }
   to { transform: scaleX(0); }
 }
+
+/* arcade: a battle card taking a blow */
+@keyframes arena-hit {
+  0% { transform: translateX(0); filter: brightness(1.8); }
+  35% { transform: translateX(-3px); }
+  70% { transform: translateX(3px); }
+  100% { transform: translateX(0); filter: brightness(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  @keyframes arena-hit { from, to { transform: none; } }
+}

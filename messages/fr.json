@@ -2335,10 +2335,6 @@
       "swapPick": "Choisis une carte pour remplacer {name}",
       "cancel": "Annuler",
       "chapter": "Chapitre {n} · {series}",
-      "caseOf": "Case {n}",
-      "fightsToday": "Combats aujourd’hui : {n}/{max}",
-      "next": "Prochaines cases",
-      "go": "Aller : {kind}",
       "kinds": {
         "fight": "Combat",
         "treasure": "Trésor",
@@ -2404,13 +2400,39 @@
       },
       "rules": {
         "team": "Compose une équipe de 5 cartes différentes parmi tout le catalogue avec un budget de 20 : Commune 1, Peu commune 2, Rare 3, Épique 5, Légendaire 8, Mythique 12.",
-        "route": "Chaque chapitre a 10 cases : combat, trésor, combat, boutique, boss, combat, trésor, combat, boutique, boss. Tu ne vois que les deux prochaines. Chaque chapitre suit une série : ses cartes forment la plupart des ennemis, et tes cartes de cette série frappent 20 % plus fort.",
+        "route": "Chaque chapitre a 10 cases : combat, trésor, combat, boutique, boss, combat, trésor, combat, boutique, boss. La carte montre les cases passées, la suivante et les boss ; le reste reste dans le brouillard. Chaque chapitre suit une série : ses cartes forment la plupart des ennemis, et tes cartes de cette série frappent 20 % plus fort.",
         "fights": "Un combat dure 3 vagues, le boss attend dans la dernière vague d’une case boss. Ton équipe se bat seule, comme dans les raids. La vie se garde de vague en vague et de case en case : perds une case et l’expédition s’arrête.",
         "rewards": "Un combat gagné donne 30 éclats, 22 XP à chaque carte de l’équipe, des tickets (6, puis un de plus par chapitre, jusqu’à 10) et un bonus à choisir. Les bonus durent jusqu’à la fin du chapitre ; battre son dernier boss soigne l’équipe.",
         "shop": "Les trésors donnent 40 éclats, 3 tickets et un objet (Potion, Tonique ou Phénix). Les boutiques vendent trois offres contre des éclats. Entre deux cases, tu peux utiliser tes objets et changer une carte (budget toujours de 20 ; la nouvelle reprend sa vie).",
         "ranks": "Les cartes gardent leur expérience d’une expédition à l’autre : rang 1 à 30 XP, 2 à 90, 3 à 200, 4 à 400, 5 à 700. Chaque rang ajoute 12 % d’attaque et de vie.",
         "daily": "Cinq combats par jour (boss compris) ; trésors et boutiques ne comptent pas. L’expédition t’attend d’un jour à l’autre.",
         "score": "Ton score est le nombre de cases passées ; le classement de la semaine garde ta plus longue expédition."
+      },
+      "today": "Combats du jour",
+      "theRoute": "La route",
+      "tabs": {
+        "route": "Route",
+        "cards": "Cartes"
+      },
+      "youAreHere": "TU ES ICI",
+      "unknown": "Encore inconnu",
+      "waves": "{n} vagues",
+      "bossWaves": "Boss · {n} vagues",
+      "goTo": {
+        "fight": "Combattre",
+        "treasure": "Ouvrir le trésor",
+        "shop": "Entrer dans la boutique",
+        "boss": "Affronter le boss"
+      },
+      "bonusKept": "Un seul, gardé jusqu'à la fin du chapitre.",
+      "report": {
+        "won": "Case gagnée",
+        "lost": "Case perdue",
+        "waves": "{n} vagues sur {total}",
+        "damage": "{n} dégâts infligés",
+        "best": "Meilleure carte",
+        "kos": "{n} KO",
+        "continue": "Continuer"
       }
     },
     "blindTest": {

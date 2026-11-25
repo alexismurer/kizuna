@@ -17,6 +17,7 @@ import { LETTER } from "../ArcadeCard";
 import { GameShell } from "../GameShell";
 import { SEAL } from "../poker/Poker";
 import { ResultScreen } from "../ResultScreen";
+import { BonusGlyph, BonusTile } from "./BonusIcon";
 import { StartScreen } from "../StartScreen";
 
 const COLORS = { daily: "var(--color-accent)", practice: "var(--color-mythic)" };
@@ -303,14 +304,15 @@ export function Synergies({ cards, perks, relics }: { cards: BCard[]; perks: Rec
         ),
       )}
       {Object.entries(perks).map(([p, k]) => (
-        <span key={p} className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${TAG[perkRarity(p)]}`}>
+        <span key={p} className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold ${TAG[perkRarity(p)]}`}>
+          <BonusGlyph id={p} />
           <PerkName id={p} />
           {k > 1 ? ` ×${k}` : ""}
         </span>
       ))}
       {relics.map((r) => (
-        <span key={r} className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${TAG.relic}`}>
-          ✦ {tr(`relics.${r}.name`)}
+        <span key={r} className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold ${TAG.relic}`}>
+          <BonusGlyph id={r} /> {tr(`relics.${r}.name`)}
         </span>
       ))}
     </div>
@@ -340,6 +342,7 @@ function Choice({ choice, wave, busy, onPick }: { choice: NonNullable<RaidView["
               onClick={() => onPick(i)}
               className={`flex w-48 flex-col items-center gap-2 rounded-2xl border bg-panel p-4 text-center transition hover:-translate-y-1 disabled:opacity-50 ${TAG[rarity]}`}
             >
+              <BonusTile id={o} />
               <span className="text-[10px] font-bold tracking-widest uppercase">{tr(`rarity.${rarity}`)}</span>
               <span className="font-display text-lg font-bold text-white">{choice.kind === "relic" ? tr(`relics.${o}.name`) : <PerkName id={o} />}</span>
               <span className="text-xs text-common">
@@ -355,11 +358,22 @@ function Choice({ choice, wave, busy, onPick }: { choice: NonNullable<RaidView["
 
 type Unit = { hp: number; max: number; dead: boolean; flash?: { v: number; crit: boolean; heal: boolean; at: number } };
 
+// the replay speed picked last (kept from one wave to the next)
+let lastSpeed = 1;
+// how long a wave's title stays up before it starts, and a floating number (real ms)
+const INTRO_MS = 1100;
+const FLOAT_MS = 700;
+
 // Replays a fought wave from its events: health bars, floating numbers, knock-outs.
-export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boolean; onEnd: () => void }) {
+export function Arena({ wave, playing, onEnd, total }: { wave: FoughtWave; playing: boolean; onEnd: () => void; total?: number }) {
   const tr = useTranslations("arcade.raid");
   const [clock, setClock] = useState(playing ? 0 : wave.t);
-  const [speed, setSpeed] = useState(2);
+  const [speed, setSpeedNow] = useState(lastSpeed);
+  const [intro, setIntro] = useState(playing);
+  const setSpeed = (n: number) => {
+    lastSpeed = n;
+    setSpeedNow(n);
+  };
   const ended = useRef(!playing);
   const onEndRef = useRef(onEnd);
   useEffect(() => {
@@ -367,7 +381,13 @@ export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boo
   }, [onEnd]);
 
   useEffect(() => {
-    if (!playing) return;
+    if (!intro) return;
+    const t = setTimeout(() => setIntro(false), INTRO_MS);
+    return () => clearTimeout(t);
+  }, [intro]);
+
+  useEffect(() => {
+    if (!playing || intro) return;
     let raf = 0;
     let done: ReturnType<typeof setTimeout> | undefined;
     let last = performance.now();
@@ -389,7 +409,7 @@ export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boo
       cancelAnimationFrame(raf);
       if (done) clearTimeout(done);
     };
-  }, [playing, wave.t, speed]);
+  }, [playing, intro, wave.t, speed]);
 
   const units = useMemo(() => {
     const u = new Map<number, Unit>();
@@ -427,13 +447,20 @@ export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boo
   return (
     <div className="flex flex-1 flex-col justify-between gap-4 p-4">
       <div className="flex items-center justify-between">
-        <p className="font-display text-lg font-bold">{tr("waveOf", { n: wave.wave })}</p>
+        <p className="font-display text-lg font-bold">{total ? `${tr("waveOf", { n: wave.wave })} / ${total}` : tr("waveOf", { n: wave.wave })}</p>
         {playing && (
           <div className="flex gap-2">
-            <button type="button" onClick={() => setSpeed(speed === 2 ? 4 : 2)} className="flex h-8 items-center gap-1 rounded-full border border-white/15 px-3 text-xs font-bold">
+            <button type="button" onClick={() => setSpeed(speed === 1 ? 2 : 1)} className="flex h-8 items-center gap-1 rounded-full border border-white/15 px-3 text-xs font-bold">
               <FastForward className="h-3.5 w-3.5" aria-hidden /> ×{speed}
             </button>
-            <button type="button" onClick={() => setClock(wave.t)} className="h-8 rounded-full border border-white/15 px-3 text-xs font-bold">
+            <button
+              type="button"
+              onClick={() => {
+                setIntro(false);
+                setClock(wave.t);
+              }}
+              className="h-8 rounded-full border border-white/15 px-3 text-xs font-bold"
+            >
               {tr("skip")}
             </button>
           </div>
@@ -443,7 +470,7 @@ export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boo
         {wave.enemies.map((e, i) => {
           const u = units.get(10 + i)!;
           return (
-            <Fighter key={i} unit={u} clock={clock}>
+            <Fighter key={i} unit={u} clock={clock} window={FLOAT_MS * speed}>
               <BattleCard
                 card={e.card}
                 small
@@ -462,14 +489,25 @@ export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boo
           );
         })}
       </div>
-      <div className="flex min-h-10 items-center justify-center">
+      <div className="relative flex min-h-10 items-center justify-center">
         <AnimatePresence>
-          {warn && (
+          {intro && (
+            <motion.p
+              key="intro"
+              initial={{ opacity: 0, scale: 1.4 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="font-display text-4xl font-extrabold tracking-tight text-white/90 drop-shadow"
+            >
+              {total ? `${tr("waveOf", { n: wave.wave })} / ${total}` : tr("waveOf", { n: wave.wave })}
+            </motion.p>
+          )}
+          {!intro && warn && (
             <motion.p key="warn" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="rounded-full bg-accent/20 px-4 py-1 text-sm font-bold text-accent">
               {tr("areaWarn")}
             </motion.p>
           )}
-          {!warn && power?.p && (
+          {!intro && !warn && power?.p && (
             <motion.p key={`p${power.t}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="flex items-center gap-1 text-sm font-bold text-legendary">
               <Zap className="h-4 w-4" aria-hidden /> {tp(power.p)}
             </motion.p>
@@ -480,7 +518,7 @@ export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boo
         {wave.start.map((m, i) => {
           const u = units.get(i)!;
           return (
-            <Fighter key={i} unit={u} clock={clock}>
+            <Fighter key={i} unit={u} clock={clock} window={FLOAT_MS * speed}>
               <BattleCard card={m.card} hp={u.hp} max={u.max} kos={m.kos} dead={u.dead} badge={u.dead ? undefined : wave.events.some((e) => e.k === "block" && e.b === i && e.t <= clock && clock - e.t < 400) ? <Shield className="absolute right-1 bottom-5 h-4 w-4 text-rare" aria-hidden /> : undefined} />
             </Fighter>
           );
@@ -490,10 +528,12 @@ export function Arena({ wave, playing, onEnd }: { wave: FoughtWave; playing: boo
   );
 }
 
-function Fighter({ unit, clock, children }: { unit: Unit; clock: number; children: React.ReactNode }) {
-  const f = unit.flash && clock - unit.flash.at < 600 ? unit.flash : null;
+function Fighter({ unit, clock, window, children }: { unit: Unit; clock: number; window: number; children: React.ReactNode }) {
+  const f = unit.flash && clock - unit.flash.at < window ? unit.flash : null;
+  // a card hit in the last instant shakes
+  const hit = f && !f.heal && clock - f.at < 200 * (window / FLOAT_MS);
   return (
-    <div className="relative">
+    <div className={`relative ${hit ? "animate-[arena-hit_.2s_ease-out]" : ""}`}>
       {children}
       {f && (
         <span

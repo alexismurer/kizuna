@@ -95,7 +95,10 @@ export function enterChapter(s: ExpState, pool: BCard[], series: { id: number; t
   return { ...s, pool, series, chapter: Math.floor(s.caseNo / ROUTE.length), perks: {} };
 }
 
-const caseRng = (s: ExpState, salt: number) => rng((s.seed ^ Math.imul(s.caseNo + 1, 2654435761) ^ salt) >>> 0);
+const caseRng = (s: ExpState, salt: number, caseNo = s.caseNo) => rng((s.seed ^ Math.imul(caseNo + 1, 2654435761) ^ salt) >>> 0);
+const FIGHT_SALT = 0x51;
+export const WAVES = 3;
+const fightTickets = (chapter: number) => Math.min(10, 6 + chapter);
 
 // enemies come mostly from the chapter's series
 function chapterPool(s: ExpState): BCard[] {
@@ -103,8 +106,24 @@ function chapterPool(s: ExpState): BCard[] {
   return own.length >= 3 ? [...own, ...own, ...own, ...s.pool.filter((c) => c.seriesId !== s.series?.id)] : s.pool;
 }
 
+// a chapter boss, known in advance (its tile shows it): a top card of the series
+function bossOf(s: ExpState, caseNo: number): BCard {
+  const top = (cards: BCard[]) => cards.filter((c) => c.rarity === "legendary" || c.rarity === "mythic");
+  const own = s.pool.filter((c) => c.seriesId === s.series?.id);
+  const order = ["common", "uncommon", "rare", "epic", "legendary", "mythic"];
+  const best = [...own].sort((a, b) => order.indexOf(b.rarity) - order.indexOf(a.rarity)).slice(0, 3);
+  const from = top(own).length > 0 ? top(own) : best.length > 0 ? best : top(s.pool).length > 0 ? top(s.pool) : s.pool;
+  return from[Math.floor(caseRng(s, 0xb0, caseNo)() * from.length)];
+}
+
+// the face of a fight case: the first enemy of its first wave (the fight draws it first)
+function faceOf(s: ExpState, caseNo: number): BCard | undefined {
+  if (kindAt(caseNo) === "boss") return bossOf(s, caseNo);
+  return waveEnemies(chapterPool(s), levelOf(caseNo), caseRng(s, FIGHT_SALT, caseNo), false)[0]?.card;
+}
+
 function fightCase(s: ExpState, boss: boolean): ExpState {
-  const r = caseRng(s, 0x51);
+  const r = caseRng(s, FIGHT_SALT);
   const level = levelOf(s.caseNo);
   const pool = chapterPool(s);
   let team: Member[] = s.team.map((m) => ({
@@ -113,10 +132,11 @@ function fightCase(s: ExpState, boss: boolean): ExpState {
     atkMult: (m.card.seriesId === s.series?.id ? 1.2 : 1) * (s.tonic ? 1.15 : 1),
   }));
   const waves: FoughtWave[] = [];
-  const count = 3;
+  const count = WAVES;
   let won = true;
   for (let w = 0; w < count && won; w++) {
     const enemies = waveEnemies(pool, level, r, boss && w === count - 1);
+    if (boss && w === count - 1) enemies[0] = { ...enemies[0], card: bossOf(s, s.caseNo) };
     const res = simulateWave(team, enemies, s.perks, [], r);
     waves.push({
       wave: w + 1,
@@ -136,7 +156,7 @@ function fightCase(s: ExpState, boss: boolean): ExpState {
   team = team.map((m) => ({ card: m.card, hp: m.hp, kos: m.kos, alive: m.alive }));
   const base = { ...s, team, tonic: false, fightsToday: s.fightsToday + 1 };
   if (!won) return { ...base, phase: "over", over: true, last: { kind: "fight", caseNo: s.caseNo, boss, won, waves, shards: 0, xp: 0, tickets: 0 } };
-  const tickets = Math.min(10, 6 + s.chapter);
+  const tickets = fightTickets(s.chapter);
   const xp = Object.fromEntries(s.team.map((m) => [m.card.id, (s.xp[m.card.id] ?? 0) + 22]));
   const last: ExpLast = { kind: "fight", caseNo: s.caseNo, boss, won, waves, shards: 30, xp: 22, tickets };
   const next = { ...base, xp, shards: s.shards + 30, cleared: s.cleared + 1, last };
@@ -214,8 +234,38 @@ export function giveUp(s: ExpState): ExpState {
   return { ...s, phase: "over", over: true };
 }
 
+// The chapter's route: cases done, the one you are on, the next one and the boss are
+// known; the others stay in the fog. Fights show their first enemy, bosses their boss.
+export type MapTile = {
+  caseNo: number;
+  kind: CaseKind;
+  status: "done" | "here" | "ahead" | "fog";
+  face?: { name: string; imageUrl: string | null; rarity: Rarity };
+  tickets: number;
+};
+
+export function routeMap(s: ExpState): MapTile[] {
+  const from = Math.floor(s.caseNo / ROUTE.length) * ROUTE.length;
+  const entered = s.chapter === from / ROUTE.length && s.pool.length > 0;
+  return ROUTE.map((_, k) => {
+    const caseNo = from + k;
+    const kind = kindAt(caseNo);
+    const status = caseNo < s.caseNo ? "done" : caseNo === s.caseNo ? "here" : caseNo === s.caseNo + 1 || kind === "boss" ? "ahead" : "fog";
+    const fights = kind === "fight" || kind === "boss";
+    const card = fights && status !== "fog" && entered ? faceOf(s, caseNo) : undefined;
+    return {
+      caseNo,
+      kind: status === "fog" ? "fight" : kind,
+      status,
+      ...(card ? { face: { name: card.name, imageUrl: card.imageUrl, rarity: card.rarity } } : {}),
+      tickets: status === "fog" ? 0 : fights ? fightTickets(Math.floor(caseNo / ROUTE.length)) : kind === "treasure" ? 3 : 0,
+    };
+  });
+}
+
 export type ExpView = Omit<ExpState, "seed" | "pool" | "series" | "chapter"> & {
   ahead: CaseKind[];
+  map: MapTile[];
   chapter: { n: number; series: string; seriesId: number } | null;
   ranks: Record<number, number>;
   cost: number;
@@ -226,6 +276,7 @@ export function expView(s: ExpState): ExpView {
   return {
     ...{ team, xp, caseNo, phase, cleared, shards, bag, tonic, perks, choice, offers, swappedAt, day, fightsToday, last, over },
     ahead: s.over ? [] : [kindAt(s.caseNo), kindAt(s.caseNo + 1)],
+    map: routeMap(s),
     chapter: series ? { n: chapter + 1, series: series.title, seriesId: series.id } : null,
     ranks: Object.fromEntries(s.team.map((m) => [m.card.id, rankOf(s.xp[m.card.id] ?? 0)])),
     cost: teamCost(s.team.map((m) => m.card)),

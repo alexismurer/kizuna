@@ -135,4 +135,27 @@ describe("Expedition", () => {
     const s = go({ ...begin(), caseNo: 3, last: { kind: "treasure", caseNo: 1, shards: 40, tickets: 3, item: "potion" } }, DAY);
     expect(s.last).toBeNull();
   });
+
+  it("maps the chapter: done, here, the next case and the boss are known, the rest is fog", () => {
+    const m = expView({ ...begin(), caseNo: 2 }).map;
+    expect(m).toHaveLength(10);
+    expect(m.map((t) => t.status)).toEqual(["done", "done", "here", "ahead", "ahead", "fog", "fog", "fog", "fog", "ahead"]);
+    expect(m[3]).toMatchObject({ kind: "shop", tickets: 0 });
+    expect(m[5]).toEqual({ caseNo: 5, kind: "fight", status: "fog", tickets: 0 });
+    expect(m[4]).toMatchObject({ kind: "boss", tickets: 6 });
+  });
+
+  it("shows on a fight tile the enemy it starts with, and on a boss tile the boss fought", () => {
+    const s = begin();
+    const face = expView(s).map[0].face!;
+    const fought = go(s, DAY);
+    expect(fought.last!.kind === "fight" && fought.last!.waves[0].enemies[0].card.name).toBe(face.name);
+    const atBoss: ExpState = { ...s, caseNo: 4 };
+    const bossFace = expView(atBoss).map[4].face!;
+    const b = go(atBoss, DAY);
+    const waves = b.last!.kind === "fight" ? b.last!.waves : [];
+    expect(waves).toHaveLength(3);
+    expect(waves[2].enemies[0]).toMatchObject({ card: { name: bossFace.name } });
+    expect(waves[2].enemies[0].boss).toBeTruthy();
+  });
 });

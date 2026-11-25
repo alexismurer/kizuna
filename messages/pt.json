@@ -2335,10 +2335,6 @@
       "swapPick": "Pick a card to replace {name}",
       "cancel": "Cancel",
       "chapter": "Chapter {n} · {series}",
-      "caseOf": "Case {n}",
-      "fightsToday": "Fights today: {n}/{max}",
-      "next": "Next cases",
-      "go": "Go: {kind}",
       "kinds": {
         "fight": "Fight",
         "treasure": "Treasure",
@@ -2404,13 +2400,39 @@
       },
       "rules": {
         "team": "Build a team of 5 different cards from the whole catalogue with a budget of 20: Common 1, Uncommon 2, Rare 3, Epic 5, Legendary 8, Mythic 12.",
-        "route": "Each chapter has 10 cases: fight, treasure, fight, shop, boss, fight, treasure, fight, shop, boss. You only see the next two. Each chapter follows a series: its cards are most of the enemies, and your cards from it hit 20% harder.",
+        "route": "Each chapter has 10 cases: fight, treasure, fight, shop, boss, fight, treasure, fight, shop, boss. The map shows the cases behind you, the next one and the bosses; the rest stays in the fog. Each chapter follows a series: its cards are most of the enemies, and your cards from it hit 20% harder.",
         "fights": "A fight is 3 waves, the boss waits in the last wave of a boss case. Your team fights on its own, like in raids. Health carries over from wave to wave and case to case: lose a case and the expedition ends.",
         "rewards": "A won fight gives 30 shards, 22 XP to each card of the team, tickets (6, then one more each chapter, up to 10) and a bonus to pick. Bonuses last until the chapter ends; beating its last boss heals the team.",
         "shop": "Treasures give 40 shards, 3 tickets and a bag item (Potion, Tonic or Phoenix). Shops sell three offers for shards. Between cases you can use bag items and swap one card (budget still 20; the newcomer takes over its health).",
         "ranks": "Cards keep their experience between expeditions: rank 1 at 30 XP, 2 at 90, 3 at 200, 4 at 400, 5 at 700. Each rank adds 12% attack and health.",
         "daily": "Five fights a day (bosses included); treasures and shops don't count. The expedition waits for you across days.",
         "score": "Your score is the number of cases cleared; the weekly ranking keeps your furthest expedition."
+      },
+      "today": "Fights today",
+      "theRoute": "The route",
+      "tabs": {
+        "route": "Route",
+        "cards": "Cards"
+      },
+      "youAreHere": "YOU ARE HERE",
+      "unknown": "Still unknown",
+      "waves": "{n} waves",
+      "bossWaves": "Boss · {n} waves",
+      "goTo": {
+        "fight": "Fight",
+        "treasure": "Open the treasure",
+        "shop": "Enter the shop",
+        "boss": "Face the boss"
+      },
+      "bonusKept": "One only, kept until the end of the chapter.",
+      "report": {
+        "won": "Case won",
+        "lost": "Case lost",
+        "waves": "{n} waves out of {total}",
+        "damage": "{n} damage dealt",
+        "best": "Best card",
+        "kos": "{n} KO",
+        "continue": "Continue"
       }
     },
     "blindTest": {
