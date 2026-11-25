@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Dialog } from "@/components/market/Dialog";
 import { Avatar } from "@/components/social/Avatar";
+import { PlayerName } from "@/components/social/PlayerName";
 import { arcadeRanking, type Ranking } from "@/lib/actions/arcade";
 import type { ArcadeGameId } from "@/lib/arcade/registry";
 import { Stars } from "./Stars";
@@ -46,7 +47,9 @@ export function RankingDialog({ game, today = false, onClose }: { game: ArcadeGa
                 <li key={r.rank} className="flex items-center gap-3 rounded-lg px-2 py-1.5 odd:bg-white/[0.03]">
                   <span className={`w-6 text-center font-mono text-sm font-bold ${r.rank <= 3 ? "text-legendary" : "text-common"}`}>{r.rank}</span>
                   <Avatar url={r.avatarUrl} username={r.username} size={28} frame={r.frameId} />
-                  <span className="min-w-0 flex-1 truncate text-sm font-semibold">{r.username}</span>
+                  <span className="min-w-0 flex-1 truncate text-sm font-semibold">
+                    <PlayerName name={r.username} styleId={r.nameId} />
+                  </span>
                   <Stars n={r.stars} size="sm" />
                   <span className="w-14 text-right font-mono text-sm font-bold text-legendary">{r.score}</span>
                 </li>

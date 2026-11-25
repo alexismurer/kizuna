@@ -313,7 +313,9 @@
     "frame": "Cadre",
     "title": "Titre",
     "none": "Aucun",
-    "noCosmetics": "Gagne des tickets dans la salle de jeux et échange-les au comptoir contre des titres et des cadres."
+    "noCosmetics": "Gagne des tickets dans la salle de jeux et échange-les au comptoir contre des titres et des cadres.",
+    "banner": "Bannière",
+    "nameStyle": "Style du nom"
   },
   "friends": {
     "eyebrow": "Ton équipe",
@@ -1982,7 +1984,20 @@
           "name": "Titres d'arcade"
         },
         "titleText": "Un titre affiché sous ton nom.",
-        "frameText": "Un cadre pour ton avatar."
+        "frameText": "Un cadre pour ton avatar.",
+        "bannerText": "Un décor pour ton profil.",
+        "nameText": "Un style pour ton nom.",
+        "names": {
+          "name": "Styles de nom"
+        },
+        "wish_card": {
+          "name": "Carte de la wishlist",
+          "text": "Une carte de ta wishlist que tu n’as pas encore, Épique ou moins. Sinon, une carte Épique ou moins du catalogue, au hasard."
+        },
+        "custom_free": {
+          "name": "Booster perso offert",
+          "text": "Un booster perso offert. Ton booster perso doit être créé."
+        }
       },
       "once": "Une seule fois",
       "owned": "Possédé",
@@ -1995,11 +2010,14 @@
         "not_enough_tickets": "Pas encore assez de tickets.",
         "limit_reached": "Tu as atteint la limite de ce lot pour l'instant.",
         "already_owned": "Tu l'as déjà.",
-        "generic": "Un problème est survenu. Réessaie."
+        "generic": "Un problème est survenu. Réessaie.",
+        "custom_not_set": "Crée d’abord ton booster perso."
       },
       "limitDay": "{limit} par jour · {left} restant",
       "limitWeek": "{limit} par semaine · {left} restant",
-      "limitMonth": "{limit} par mois · {left} restant"
+      "limitMonth": "{limit} par mois · {left} restant",
+      "doneWish": "Elle est dans ta collection !",
+      "dismiss": "Fermer"
     }
   },
   "cosmetics": {
@@ -2009,11 +2027,34 @@
       "title_ace21": "As du 21",
       "title_eagle": "Œil de lynx",
       "title_memory": "Mémoire d’éléphant",
-      "title_encyclopedia": "Encyclopédie anime"
+      "title_encyclopedia": "Encyclopédie anime",
+      "title_explorer": "Explorateur",
+      "title_fusion": "Maître de la Fusion",
+      "title_peak": "Grimpeur de pics",
+      "title_daily": "Fidèle du quotidien",
+      "title_raid": "Survivant de raid",
+      "title_collector": "Collectionneur"
     },
     "frames": {
       "frame_gold": "Ticket doré",
-      "frame_neon": "Néon"
+      "frame_neon": "Néon",
+      "frame_sakura": "Sakura",
+      "frame_ember": "Braise",
+      "frame_frost": "Givre",
+      "frame_prism": "Prisme"
+    },
+    "banners": {
+      "banner_dusk": "Crépuscule sakura",
+      "banner_neon": "Ville néon",
+      "banner_stars": "Pluie d’étoiles",
+      "banner_ink": "Lavis d’encre",
+      "banner_inferno": "Brasier"
+    },
+    "names": {
+      "name_gold": "Or",
+      "name_prism": "Prisme",
+      "name_frost": "Givre",
+      "name_shadow": "Ombre"
     }
   },
   "arcade": {

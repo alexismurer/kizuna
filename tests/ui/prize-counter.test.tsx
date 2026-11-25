@@ -7,7 +7,7 @@ import { PrizeCounter } from "@/components/games/PrizeCounter";
 import type { PrizeCounterData } from "@/lib/actions/games";
 import messages from "../../messages/en.json";
 
-vi.mock("@/lib/actions/games", () => ({ redeemPrize: vi.fn(), equipCosmetic: vi.fn() }));
+vi.mock("@/lib/actions/games", () => ({ redeemPrize: vi.fn(), equipCosmetic: vi.fn(), lastWishCard: vi.fn() }));
 vi.mock("@/i18n/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn() }),
   Link: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,

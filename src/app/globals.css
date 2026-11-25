@@ -589,3 +589,89 @@ main:not([style*="display: none"]):has(.page-loader) ~ footer {
 @media (prefers-reduced-motion: reduce) {
   .bento-in { animation: none; }
 }
+
+/* ---------- prize counter cosmetics ---------- */
+
+@keyframes cosmetic-spin { to { transform: rotate(360deg); } }
+@keyframes cosmetic-flicker {
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  25% { opacity: 0.88; filter: brightness(1.3); }
+  50% { opacity: 1; filter: brightness(0.9); }
+  70% { opacity: 0.92; filter: brightness(1.35); }
+}
+@keyframes cosmetic-flow { to { background-position: 200% 0; } }
+@keyframes cosmetic-drift { to { background-position: 180px 140px, 120px 160px; } }
+@keyframes cosmetic-twinkle { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+@keyframes cosmetic-pulse {
+  0%, 100% { text-shadow: 0 0 6px #8b5cff, 0 0 14px #5a2cff; }
+  50% { text-shadow: 0 0 10px #b794ff, 0 0 26px #7a4bff; }
+}
+@keyframes cosmetic-grid { to { background-position: 0 0, 0 40px; } }
+@keyframes cosmetic-embers { to { background-position: 0 -200px, 0 -120px, 0 0; } }
+@keyframes cosmetic-blob { to { background-position: 100% 30%, 0% 70%, 80% 40%; } }
+
+/* avatar frames (the ring layer inside Avatar) */
+.frame-sakura { position: absolute; inset: 0; background: conic-gradient(from 0deg, #ffd1e3, #ff8fb8, #fff0f6, #ff8fb8, #ffd1e3); }
+.frame-sakura::after {
+  content: ""; position: absolute; inset: -50%;
+  background: repeating-conic-gradient(from 0deg, rgb(255 255 255 / 0.95) 0 5deg, transparent 5deg 45deg);
+  animation: cosmetic-spin 12s linear infinite;
+}
+.frame-ember { position: absolute; inset: 0; background: conic-gradient(from 0deg, #4a0a00, #ff4d00, #ffc233, #ff4d00, #4a0a00, #ff6a00, #4a0a00); animation: cosmetic-flicker 1.6s ease-in-out infinite; }
+.frame-frost { position: absolute; inset: 0; background: conic-gradient(from 0deg, #bfe9ff, #ffffff, #6bc4ff, #eaf9ff, #9ad8ff, #ffffff, #bfe9ff); }
+.frame-frost::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 0.95) 50%, transparent 65%);
+  background-size: 250% 100%; animation: sheen 2.8s linear infinite;
+}
+.frame-prism { position: absolute; inset: -50%; background: conic-gradient(from 0deg, #ff3d3d, #ffd23d, #3dff8a, #3dd5ff, #6a3dff, #ff3dd5, #ff3d3d); animation: cosmetic-spin 5s linear infinite; }
+.frame-glow { position: absolute; inset: -2px; border-radius: 9999px; opacity: 0.6; box-shadow: 0 0 12px var(--glow), 0 0 20px var(--glow); }
+
+/* name styles */
+.name-gold, .name-prism, .name-frost { -webkit-background-clip: text; background-clip: text; color: transparent; }
+.name-gold { background-image: linear-gradient(180deg, #fff3c4, #f5c542 50%, #b8860b); filter: drop-shadow(0 0 6px rgb(245 197 66 / 0.35)); }
+.name-prism { background-image: linear-gradient(90deg, #ff5fa2, #ffd84d, #5fe3a1, #38d5ff, #b44dff, #ff5fa2); background-size: 200% 100%; animation: cosmetic-flow 5s linear infinite; }
+.name-frost { background-image: linear-gradient(180deg, #ffffff, #9ad8ff 70%, #5fb8ff); filter: drop-shadow(0 0 6px rgb(120 200 255 / 0.55)); }
+.name-shadow { color: #fff; text-shadow: 0 0 6px #8b5cff, 0 0 14px #5a2cff; animation: cosmetic-pulse 3.2s ease-in-out infinite; }
+
+/* profile banners: a background that fills its box */
+.banner { position: absolute; inset: 0; overflow: hidden; }
+.banner::before, .banner::after { content: ""; position: absolute; inset: 0; }
+.banner-dusk { background: linear-gradient(160deg, #2a1240 0%, #7a2e6e 48%, #ff8a7a 100%); }
+.banner-dusk::before {
+  background-image: radial-gradient(circle at 30% 30%, rgb(255 205 225 / 0.8) 0 2px, transparent 3px), radial-gradient(circle at 70% 70%, rgb(255 230 240 / 0.65) 0 1.5px, transparent 2.5px);
+  background-size: 90px 70px, 60px 80px; animation: cosmetic-drift 14s linear infinite;
+}
+.banner-dusk::after { background: radial-gradient(60% 80% at 85% 20%, rgb(255 190 150 / 0.45), transparent 70%); }
+.banner-neon { background: linear-gradient(180deg, #0a0420 0%, #1d0646 60%, #3a0a5a 100%); }
+.banner-neon::before {
+  top: 45%;
+  background-image: repeating-linear-gradient(90deg, rgb(255 61 127 / 0.55) 0 1px, transparent 1px 44px), repeating-linear-gradient(0deg, rgb(56 213 255 / 0.5) 0 1px, transparent 1px 40px);
+  animation: cosmetic-grid 2.4s linear infinite;
+  mask-image: linear-gradient(to bottom, transparent, #000 60%);
+}
+.banner-neon::after { background: radial-gradient(50% 70% at 20% 30%, rgb(255 61 127 / 0.35), transparent 70%), radial-gradient(45% 70% at 85% 25%, rgb(56 213 255 / 0.3), transparent 70%); }
+.banner-stars { background: radial-gradient(120% 120% at 70% 0%, #1b1050 0%, #070b2a 60%, #03050f 100%); }
+.banner-stars::before {
+  background-image: radial-gradient(circle at 12% 28%, #fff 0 1px, transparent 1.5px), radial-gradient(circle at 40% 62%, #cfe 0 1px, transparent 1.5px), radial-gradient(circle at 78% 22%, #fff 0 1.2px, transparent 1.7px), radial-gradient(circle at 88% 72%, #bdf 0 1px, transparent 1.5px), radial-gradient(circle at 58% 12%, #fff 0 0.8px, transparent 1.3px);
+  background-size: 140px 110px; animation: cosmetic-twinkle 4s ease-in-out infinite;
+}
+.banner-stars::after { background: linear-gradient(115deg, transparent 44%, rgb(190 220 255 / 0.45) 49%, transparent 50%); background-size: 300% 100%; animation: cosmetic-flow 9s linear infinite; }
+.banner-ink { background: linear-gradient(135deg, #15171c, #262932 55%, #14161a); }
+.banner-ink::before {
+  background-image: radial-gradient(40% 60% at 20% 40%, rgb(120 125 140 / 0.45), transparent 70%), radial-gradient(35% 50% at 60% 70%, rgb(90 95 110 / 0.5), transparent 70%), radial-gradient(30% 50% at 90% 30%, rgb(140 145 160 / 0.3), transparent 70%);
+  background-size: 160% 160%; background-repeat: no-repeat; background-position: 0% 40%, 100% 60%, 60% 20%; animation: cosmetic-blob 18s ease-in-out infinite alternate;
+}
+.banner-ink::after { background: radial-gradient(circle at 82% 38%, #c8282e 0 7%, transparent 7.6%); }
+.banner-inferno { background: linear-gradient(0deg, #ff5a00 0%, #a31a00 38%, #2a0500 80%, #120200 100%); }
+.banner-inferno::before {
+  background-image: radial-gradient(circle at 20% 90%, rgb(255 200 60 / 0.9) 0 2px, transparent 3px), radial-gradient(circle at 60% 70%, rgb(255 140 40 / 0.8) 0 1.5px, transparent 2.5px), radial-gradient(60% 50% at 50% 110%, rgb(255 190 60 / 0.55), transparent 70%);
+  background-size: 120px 200px, 90px 120px, 100% 100%; animation: cosmetic-embers 6s linear infinite;
+}
+.banner-inferno::after { background: radial-gradient(50% 60% at 30% 100%, rgb(255 120 20 / 0.5), transparent 70%), radial-gradient(40% 50% at 75% 100%, rgb(255 90 0 / 0.5), transparent 70%); animation: cosmetic-flicker 2.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .frame-sakura::after, .frame-ember, .frame-frost::after, .frame-prism,
+  .name-prism, .name-shadow,
+  .banner::before, .banner::after { animation: none; }
+}

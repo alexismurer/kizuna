@@ -52,7 +52,7 @@ describe('prize counter', () => {
   it('lists the three tiers with their limits', async () => {
     const p = await newPlayer()
     const { prizes } = await counter(p)
-    expect(prizes).toHaveLength(12)
+    expect(prizes).toHaveLength(33)
     expect(prizes.find((x) => x.id === 'legendary_booster')).toMatchObject({ tier: 'big', cost: 200, left: 1 })
     expect(prizes.find((x) => x.id === 'bonus5')).toMatchObject({ tier: 'small', cost: 30, left: 2 })
     expect(prizes.find((x) => x.id === 'frame_neon')).toMatchObject({ tier: 'medium', kind: 'frame', owned: false })
@@ -108,6 +108,31 @@ describe('prize counter', () => {
     expect((await p.client.rpc('equip_cosmetic', { p_kind: 'frame', p_id: 'title_ace21' })).error?.message).toContain('invalid_kind')
     expect((await p.client.rpc('equip_cosmetic', { p_kind: 'title', p_id: null })).error).toBeNull()
     expect((await player(p)).title_id).toBeNull()
+  })
+
+  it('equips banners and name styles like titles and frames', async () => {
+    const p = await newPlayer()
+    await setPlayer(p.userId, { tickets: 700 })
+    expect((await redeem(p, 'banner_dusk')).error).toBeNull()
+    expect((await redeem(p, 'name_gold')).error).toBeNull()
+    expect((await p.client.rpc('equip_cosmetic', { p_kind: 'banner', p_id: 'name_gold' })).error?.message).toContain('invalid_kind')
+    expect((await p.client.rpc('equip_cosmetic', { p_kind: 'banner', p_id: 'banner_ink' })).error?.message).toContain('not_owned')
+    expect((await p.client.rpc('equip_cosmetic', { p_kind: 'banner', p_id: 'banner_dusk' })).error).toBeNull()
+    expect((await p.client.rpc('equip_cosmetic', { p_kind: 'name', p_id: 'name_gold' })).error).toBeNull()
+    const row = (await admin.from('players').select('banner_id, name_id').eq('id', p.userId).single()).data
+    expect(row).toEqual({ banner_id: 'banner_dusk', name_id: 'name_gold' })
+    expect(await counter(p)).toMatchObject({ bannerId: 'banner_dusk', nameId: 'name_gold' })
+  })
+
+  it('adds a card of at most Epic to your collection, once a week', async () => {
+    const p = await newPlayer()
+    await setPlayer(p.userId, { tickets: 400 })
+    expect((await redeem(p, 'wish_card')).data).toBe(250)
+    const { data } = await admin.from('ledger').select('card_id, card_delta').eq('player_id', p.userId).eq('kind', 'prize_card')
+    expect(data).toHaveLength(1)
+    const card = (await admin.from('cards').select('rarity').eq('id', data![0].card_id).single()).data!.rarity
+    expect(['common', 'uncommon', 'rare', 'epic']).toContain(card)
+    expect((await redeem(p, 'wish_card')).error?.message).toContain('limit_reached')
   })
 
   it('gives five bonus boosters, twice a day', async () => {

@@ -10,6 +10,7 @@ import { rpcErrorKey } from "@/lib/game/errors";
 import type { FriendsData, RequestEntry } from "@/lib/social/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { Avatar } from "./Avatar";
+import { PlayerName } from "./PlayerName";
 import { PlayerTitle } from "./PlayerTitle";
 import { PlayerSearch } from "./PlayerSearch";
 
@@ -246,7 +247,7 @@ export function FriendsList({
                       href={`/profile/${encodeURIComponent(f.username)}`}
                       className="truncate font-display text-lg font-bold hover:text-accent"
                     >
-                      {f.username}
+                      <PlayerName name={f.username} styleId={f.nameId} />
                     </Link>
                     <PlayerTitle id={f.titleId} />
                     <span className="text-xs text-common">

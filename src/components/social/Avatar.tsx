@@ -1,6 +1,9 @@
 import { frameStyle } from "@/lib/cosmetics";
 import { initial } from "@/lib/social/format";
 
+// ring layer and glow colour of the CSS-drawn frames (see globals.css)
+const CSS_FRAMES: Record<string, string> = { sakura: "#ff8fb8", ember: "#ff6a00", frost: "#7fd0ff", prism: "#b44dff" };
+
 // Round card-art avatar; initials on the accent colour when there is no art.
 // `frame` is the equipped frame's prize id (prize counter cosmetics).
 export function Avatar({ url, username, size, frame }: { url: string | null; username: string; size: number; frame?: string | null }) {
@@ -26,12 +29,15 @@ export function Avatar({ url, username, size, frame }: { url: string | null; use
       <span aria-hidden className="absolute inset-0 overflow-hidden rounded-full">
         <span
           className={
-            style === "gold"
+            style in CSS_FRAMES
+              ? `frame-${style}`
+              : style === "gold"
               ? "absolute inset-0 bg-[conic-gradient(from_0deg,#7a5410,#ffe08a,#c8901e,#fff3c4,#9a6a14,#ffe08a,#7a5410)]"
               : "absolute -inset-1/2 bg-[conic-gradient(from_0deg,#ff3d7f,#38d5ff,#b44dff,#ff3d7f)] motion-safe:animate-[spin_4s_linear_infinite]"
           }
         />
       </span>
+      {style in CSS_FRAMES && <span aria-hidden className="frame-glow" style={{ ["--glow" as string]: CSS_FRAMES[style] }} />}
       {style === "neon" && (
         <span aria-hidden className="absolute -inset-0.5 rounded-full shadow-[0_0_12px_#ff3d7f,0_0_18px_#38d5ff] opacity-70" />
       )}

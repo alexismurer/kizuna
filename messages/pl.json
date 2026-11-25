@@ -313,7 +313,9 @@
     "frame": "Ramka",
     "title": "Tytuł",
     "none": "Brak",
-    "noCosmetics": "Zdobywaj bilety w salonie gier i wymieniaj je przy ladzie na tytuły i ramki."
+    "noCosmetics": "Zdobywaj bilety w salonie gier i wymieniaj je przy ladzie na tytuły i ramki.",
+    "banner": "Baner",
+    "nameStyle": "Styl nazwy"
   },
   "friends": {
     "eyebrow": "Twoja ekipa",
@@ -1982,7 +1984,20 @@
           "name": "Tytuły arcade"
         },
         "titleText": "Tytuł pod twoją nazwą.",
-        "frameText": "Ramka na twój awatar."
+        "frameText": "Ramka na twój awatar.",
+        "bannerText": "Tło dla twojego profilu.",
+        "nameText": "Styl twojej nazwy.",
+        "names": {
+          "name": "Style nazwy"
+        },
+        "wish_card": {
+          "name": "Karta z listy życzeń",
+          "text": "Karta z twojej listy życzeń, której jeszcze nie masz, Epicka lub niższa. Jeśli żadna nie pasuje, losowa karta Epicka lub niższa z katalogu."
+        },
+        "custom_free": {
+          "name": "Darmowy własny booster",
+          "text": "Jeden własny booster gratis. Twój własny booster musi być stworzony."
+        }
       },
       "once": "Tylko raz",
       "owned": "Posiadane",
@@ -1995,11 +2010,14 @@
         "not_enough_tickets": "Jeszcze za mało biletów.",
         "limit_reached": "Na razie osiągnięto limit tej nagrody.",
         "already_owned": "Już to masz.",
-        "generic": "Coś poszło nie tak. Spróbuj ponownie."
+        "generic": "Coś poszło nie tak. Spróbuj ponownie.",
+        "custom_not_set": "Najpierw stwórz własny booster."
       },
       "limitDay": "{limit} na dzień · zostało {left}",
       "limitWeek": "{limit} na tydzień · zostało {left}",
-      "limitMonth": "{limit} na miesiąc · zostało {left}"
+      "limitMonth": "{limit} na miesiąc · zostało {left}",
+      "doneWish": "Jest już w twojej kolekcji!",
+      "dismiss": "Zamknij"
     }
   },
   "cosmetics": {
@@ -2009,11 +2027,34 @@
       "title_ace21": "As 21",
       "title_eagle": "Sokole oko",
       "title_memory": "Pamięć słonia",
-      "title_encyclopedia": "Encyklopedia anime"
+      "title_encyclopedia": "Encyklopedia anime",
+      "title_explorer": "Odkrywca",
+      "title_fusion": "Mistrz Fuzji",
+      "title_peak": "Zdobywca szczytów",
+      "title_daily": "Codzienny wierny",
+      "title_raid": "Ocalały z rajdu",
+      "title_collector": "Kolekcjoner"
     },
     "frames": {
       "frame_gold": "Złoty bilet",
-      "frame_neon": "Neon"
+      "frame_neon": "Neon",
+      "frame_sakura": "Sakura",
+      "frame_ember": "Żar",
+      "frame_frost": "Szron",
+      "frame_prism": "Pryzmat"
+    },
+    "banners": {
+      "banner_dusk": "Zmierzch sakury",
+      "banner_neon": "Neonowe miasto",
+      "banner_stars": "Gwiezdny deszcz",
+      "banner_ink": "Tusz",
+      "banner_inferno": "Piekło"
+    },
+    "names": {
+      "name_gold": "Złoto",
+      "name_prism": "Pryzmat",
+      "name_frost": "Szron",
+      "name_shadow": "Cień"
     }
   },
   "arcade": {

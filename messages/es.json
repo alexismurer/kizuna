@@ -313,7 +313,9 @@
     "frame": "Marco",
     "title": "Título",
     "none": "Ninguno",
-    "noCosmetics": "Gana tickets en la sala de juegos y cámbialos en el mostrador por títulos y marcos."
+    "noCosmetics": "Gana tickets en la sala de juegos y cámbialos en el mostrador por títulos y marcos.",
+    "banner": "Banner",
+    "nameStyle": "Estilo del nombre"
   },
   "friends": {
     "eyebrow": "Tu equipo",
@@ -1982,7 +1984,20 @@
           "name": "Títulos arcade"
         },
         "titleText": "Un título que aparece bajo tu nombre.",
-        "frameText": "Un marco para tu avatar."
+        "frameText": "Un marco para tu avatar.",
+        "bannerText": "Un fondo para tu perfil.",
+        "nameText": "Un estilo para tu nombre.",
+        "names": {
+          "name": "Estilos de nombre"
+        },
+        "wish_card": {
+          "name": "Carta de la lista de deseos",
+          "text": "Una carta de tu lista de deseos que aún no tienes, Épica o inferior. Si no hay ninguna, una carta Épica o inferior del catálogo al azar."
+        },
+        "custom_free": {
+          "name": "Sobre personalizado gratis",
+          "text": "Un sobre personalizado de regalo. Tu sobre personalizado debe estar creado."
+        }
       },
       "once": "Solo una vez",
       "owned": "Tuyo",
@@ -1995,11 +2010,14 @@
         "not_enough_tickets": "Aún no tienes suficientes tickets.",
         "limit_reached": "Has alcanzado el límite de este premio por ahora.",
         "already_owned": "Ya lo tienes.",
-        "generic": "Algo salió mal. Inténtalo de nuevo."
+        "generic": "Algo salió mal. Inténtalo de nuevo.",
+        "custom_not_set": "Crea primero tu sobre personalizado."
       },
       "limitDay": "{limit} por día · quedan {left}",
       "limitWeek": "{limit} por semana · quedan {left}",
-      "limitMonth": "{limit} por mes · quedan {left}"
+      "limitMonth": "{limit} por mes · quedan {left}",
+      "doneWish": "¡Ya está en tu colección!",
+      "dismiss": "Cerrar"
     }
   },
   "cosmetics": {
@@ -2009,11 +2027,34 @@
       "title_ace21": "As del 21",
       "title_eagle": "Ojo de águila",
       "title_memory": "Memoria de elefante",
-      "title_encyclopedia": "Enciclopedia anime"
+      "title_encyclopedia": "Enciclopedia anime",
+      "title_explorer": "Explorador",
+      "title_fusion": "Maestro de la Fusión",
+      "title_peak": "Escalador de picos",
+      "title_daily": "Devoto diario",
+      "title_raid": "Superviviente de raid",
+      "title_collector": "Coleccionista"
     },
     "frames": {
       "frame_gold": "Boleto dorado",
-      "frame_neon": "Neón"
+      "frame_neon": "Neón",
+      "frame_sakura": "Sakura",
+      "frame_ember": "Ascua",
+      "frame_frost": "Escarcha",
+      "frame_prism": "Prisma"
+    },
+    "banners": {
+      "banner_dusk": "Ocaso sakura",
+      "banner_neon": "Ciudad neón",
+      "banner_stars": "Lluvia de estrellas",
+      "banner_ink": "Tinta china",
+      "banner_inferno": "Infierno"
+    },
+    "names": {
+      "name_gold": "Oro",
+      "name_prism": "Prisma",
+      "name_frost": "Escarcha",
+      "name_shadow": "Sombra"
     }
   },
   "arcade": {

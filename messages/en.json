@@ -313,7 +313,9 @@
     "frame": "Frame",
     "title": "Title",
     "none": "None",
-    "noCosmetics": "Win tickets in the game room and trade them at the prize counter for titles and frames."
+    "noCosmetics": "Win tickets in the game room and trade them at the prize counter for titles and frames.",
+    "banner": "Banner",
+    "nameStyle": "Name style"
   },
   "friends": {
     "eyebrow": "Your crew",
@@ -1982,7 +1984,20 @@
           "name": "Arcade titles"
         },
         "titleText": "A title shown under your name.",
-        "frameText": "A frame for your avatar."
+        "frameText": "A frame for your avatar.",
+        "bannerText": "A backdrop for your profile.",
+        "nameText": "A style for your name.",
+        "names": {
+          "name": "Name styles"
+        },
+        "wish_card": {
+          "name": "Wishlist card",
+          "text": "A card from your wishlist that you don't own yet, Epic or lower. If none qualifies, a random Epic-or-lower card from the catalogue."
+        },
+        "custom_free": {
+          "name": "Free custom booster",
+          "text": "One custom booster on the house. Your custom booster must be set up."
+        }
       },
       "once": "Once only",
       "owned": "Owned",
@@ -1995,11 +2010,14 @@
         "not_enough_tickets": "Not enough tickets yet.",
         "limit_reached": "You've reached this prize's limit for now.",
         "already_owned": "You already own this one.",
-        "generic": "Something went wrong. Try again."
+        "generic": "Something went wrong. Try again.",
+        "custom_not_set": "Set up your custom booster first."
       },
       "limitDay": "{limit} a day · {left} left",
       "limitWeek": "{limit} a week · {left} left",
-      "limitMonth": "{limit} a month · {left} left"
+      "limitMonth": "{limit} a month · {left} left",
+      "doneWish": "It's in your collection!",
+      "dismiss": "Close"
     }
   },
   "cosmetics": {
@@ -2009,11 +2027,34 @@
       "title_ace21": "Ace of 21",
       "title_eagle": "Eagle eye",
       "title_memory": "Elephant memory",
-      "title_encyclopedia": "Anime encyclopedia"
+      "title_encyclopedia": "Anime encyclopedia",
+      "title_explorer": "Explorer",
+      "title_fusion": "Fusion master",
+      "title_peak": "Peak climber",
+      "title_daily": "Daily devotee",
+      "title_raid": "Raid survivor",
+      "title_collector": "Collector"
     },
     "frames": {
       "frame_gold": "Golden ticket",
-      "frame_neon": "Neon"
+      "frame_neon": "Neon",
+      "frame_sakura": "Sakura",
+      "frame_ember": "Ember",
+      "frame_frost": "Frost",
+      "frame_prism": "Prism"
+    },
+    "banners": {
+      "banner_dusk": "Sakura dusk",
+      "banner_neon": "Neon city",
+      "banner_stars": "Starfall",
+      "banner_ink": "Ink wash",
+      "banner_inferno": "Inferno"
+    },
+    "names": {
+      "name_gold": "Gold",
+      "name_prism": "Prism",
+      "name_frost": "Frost",
+      "name_shadow": "Shadow"
     }
   },
   "arcade": {

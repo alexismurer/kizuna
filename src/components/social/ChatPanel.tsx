@@ -10,6 +10,7 @@ import { CARD_COLUMNS, mergeById, toProfileCard, type CardRow } from "@/lib/soci
 import type { ChatMessage, ChatRow, ProfileCard } from "@/lib/social/types";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { Avatar } from "./Avatar";
+import { PlayerName } from "./PlayerName";
 import { CardAttachment } from "./CardAttachment";
 import { MessageComposer, type ComposerApi, type Outgoing } from "./MessageComposer";
 import { useLiveMessages } from "./useLiveMessages";
@@ -247,7 +248,7 @@ export function ChatPanel({ playerId }: { playerId: string }) {
               <div className="flex items-baseline gap-2">
                 {m.author.username ? (
                   <Link href={`/profile/${encodeURIComponent(m.author.username)}`} className="truncate font-bold hover:text-accent">
-                    {m.author.username}
+                    <PlayerName name={m.author.username} styleId={m.author.nameId} />
                   </Link>
                 ) : null}
                 {/* never "in 3 seconds": the server clock may run slightly ahead of this device */}

@@ -554,7 +554,7 @@ export async function peaksFinish(mode: PeaksMode, id: string, moves: string, en
 
 // ---------- shared ----------
 
-export type RankingRow = { rank: number; username: string; avatarUrl: string | null; frameId: string | null; score: number; stars: number };
+export type RankingRow = { rank: number; username: string; avatarUrl: string | null; frameId: string | null; nameId?: string | null; score: number; stars: number };
 export type Ranking = { period: string; players: number; me: { rank: number; score: number; stars: number } | null; top: RankingRow[] };
 
 // this week’s board, or today’s (first score of the day) for a daily game

@@ -31,7 +31,7 @@ export type GameRoomStatus = {
 
 // The prize counter (prize_counter RPC).
 export type PrizeTier = "big" | "medium" | "small";
-export type PrizeKind = "booster" | "golden" | "bonus" | "title" | "frame";
+export type PrizeKind = "booster" | "golden" | "bonus" | "title" | "frame" | "banner" | "name" | "wish" | "custom";
 export type PrizeItem = {
   id: string;
   tier: PrizeTier;
@@ -52,6 +52,8 @@ export type PrizeCounterData = {
   weekCap: number;
   titleId: string | null;
   frameId: string | null;
+  bannerId: string | null;
+  nameId: string | null;
   prizes: PrizeItem[];
 };
 export type Finish = { earned: number; tickets: number; today: number; week: number };
@@ -72,9 +74,25 @@ export async function gameFinish(match: string, result: "win" | "loss" | "draw")
 export async function redeemPrize(prize: string) {
   return call<number>("redeem_prize", { p_prize: prize });
 }
-export async function equipCosmetic(kind: "title" | "frame", id: string | null) {
+export async function equipCosmetic(kind: "title" | "frame" | "banner" | "name", id: string | null) {
   return call<null>("equip_cosmetic", { p_kind: kind, p_id: id });
 }
 export async function bossClaim(kind: "weekly" | "secret" = "weekly") {
   return call<number>("boss_claim", { p_kind: kind });
+}
+
+// The card the wish card prize just added (the redeem call only returns tickets).
+export type WishCard = { name: string; imageUrl: string | null; rarity: string };
+export async function lastWishCard(): Promise<WishCard | null> {
+  const supabase = await createServerClient();
+  const { data: row } = await supabase
+    .from("ledger")
+    .select("card_id")
+    .eq("kind", "prize_card")
+    .order("id", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (!row?.card_id) return null;
+  const { data: c } = await supabase.from("cards").select("name, image_url, rarity").eq("id", row.card_id).maybeSingle();
+  return c ? { name: c.name as string, imageUrl: c.image_url as string | null, rarity: c.rarity as string } : null;
 }

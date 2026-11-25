@@ -313,7 +313,9 @@
     "frame": "フレーム",
     "title": "称号",
     "none": "なし",
-    "noCosmetics": "ゲームルームでチケットを稼ぎ、景品カウンターで称号やフレームと交換しよう。"
+    "noCosmetics": "ゲームルームでチケットを稼ぎ、景品カウンターで称号やフレームと交換しよう。",
+    "banner": "バナー",
+    "nameStyle": "名前スタイル"
   },
   "friends": {
     "eyebrow": "仲間",
@@ -1982,7 +1984,20 @@
           "name": "アーケード称号"
         },
         "titleText": "名前の下に表示される称号。",
-        "frameText": "アバター用のフレーム。"
+        "frameText": "アバター用のフレーム。",
+        "bannerText": "プロフィールの背景。",
+        "nameText": "名前のスタイル。",
+        "names": {
+          "name": "名前スタイル"
+        },
+        "wish_card": {
+          "name": "ウィッシュリストのカード",
+          "text": "ウィッシュリストにあってまだ持っていないエピック以下のカード1枚。なければ、カタログからエピック以下のランダムな1枚。"
+        },
+        "custom_free": {
+          "name": "カスタムブースター無料",
+          "text": "カスタムブースター1個をプレゼント。カスタムブースターを作成済みである必要があります。"
+        }
       },
       "once": "一度きり",
       "owned": "所持",
@@ -1995,11 +2010,14 @@
         "not_enough_tickets": "チケットがまだ足りません。",
         "limit_reached": "この景品は今は上限に達しています。",
         "already_owned": "もう持っています。",
-        "generic": "問題が発生しました。もう一度お試しください。"
+        "generic": "問題が発生しました。もう一度お試しください。",
+        "custom_not_set": "先にカスタムブースターを作成してください。"
       },
       "limitDay": "1日{limit}回 · 残り{left}",
       "limitWeek": "1週間に{limit}回 · 残り{left}",
-      "limitMonth": "1か月に{limit}回 · 残り{left}"
+      "limitMonth": "1か月に{limit}回 · 残り{left}",
+      "doneWish": "コレクションに追加されました！",
+      "dismiss": "閉じる"
     }
   },
   "cosmetics": {
@@ -2009,11 +2027,34 @@
       "title_ace21": "21のエース",
       "title_eagle": "鷹の目",
       "title_memory": "象の記憶",
-      "title_encyclopedia": "アニメ百科"
+      "title_encyclopedia": "アニメ百科",
+      "title_explorer": "探検家",
+      "title_fusion": "フュージョンの達人",
+      "title_peak": "山頂の挑戦者",
+      "title_daily": "毎日の常連",
+      "title_raid": "レイドの生還者",
+      "title_collector": "コレクター"
     },
     "frames": {
       "frame_gold": "ゴールデンチケット",
-      "frame_neon": "ネオン"
+      "frame_neon": "ネオン",
+      "frame_sakura": "桜",
+      "frame_ember": "残り火",
+      "frame_frost": "霜",
+      "frame_prism": "プリズム"
+    },
+    "banners": {
+      "banner_dusk": "桜の夕暮れ",
+      "banner_neon": "ネオンシティ",
+      "banner_stars": "星降る夜",
+      "banner_ink": "水墨",
+      "banner_inferno": "業火"
+    },
+    "names": {
+      "name_gold": "ゴールド",
+      "name_prism": "プリズム",
+      "name_frost": "フロスト",
+      "name_shadow": "シャドウ"
     }
   },
   "arcade": {

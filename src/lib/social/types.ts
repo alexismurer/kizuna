@@ -22,6 +22,8 @@ export type ProfileData = {
   avatarUrl: string | null;
   frameId?: string | null;
   titleId?: string | null;
+  bannerId?: string | null;
+  nameId?: string | null;
   memberSince: string;
   uniqueCards: number;
   catalogSize: number;
@@ -40,6 +42,7 @@ export type FriendEntry = {
   avatarUrl: string | null;
   frameId?: string | null;
   titleId?: string | null;
+  nameId?: string | null;
   since: string;
   unread: number;
 };
@@ -66,7 +69,7 @@ export type ThreadMessage = {
 export type ChatMessage = {
   id: number;
   room: string;
-  author: { id: string; username: string; avatarUrl: string | null; frameId?: string | null; titleId?: string | null };
+  author: { id: string; username: string; avatarUrl: string | null; frameId?: string | null; titleId?: string | null; nameId?: string | null };
   body: string;
   card: ProfileCard | null;
   tag: MessageTag | null;

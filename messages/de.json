@@ -313,7 +313,9 @@
     "frame": "Rahmen",
     "title": "Titel",
     "none": "Keiner",
-    "noCosmetics": "Gewinne Tickets im Spielraum und tausche sie an der Preistheke gegen Titel und Rahmen."
+    "noCosmetics": "Gewinne Tickets im Spielraum und tausche sie an der Preistheke gegen Titel und Rahmen.",
+    "banner": "Banner",
+    "nameStyle": "Namensstil"
   },
   "friends": {
     "eyebrow": "Dein Team",
@@ -1982,7 +1984,20 @@
           "name": "Arcade-Titel"
         },
         "titleText": "Ein Titel unter deinem Namen.",
-        "frameText": "Ein Rahmen für deinen Avatar."
+        "frameText": "Ein Rahmen für deinen Avatar.",
+        "bannerText": "Ein Hintergrund für dein Profil.",
+        "nameText": "Ein Stil für deinen Namen.",
+        "names": {
+          "name": "Namensstile"
+        },
+        "wish_card": {
+          "name": "Wunschlisten-Karte",
+          "text": "Eine Karte von deiner Wunschliste, die du noch nicht hast, Episch oder niedriger. Gibt es keine, eine zufällige Karte bis Episch aus dem Katalog."
+        },
+        "custom_free": {
+          "name": "Gratis eigener Booster",
+          "text": "Ein eigener Booster aufs Haus. Dein eigener Booster muss erstellt sein."
+        }
       },
       "once": "Nur einmal",
       "owned": "Im Besitz",
@@ -1995,11 +2010,14 @@
         "not_enough_tickets": "Noch nicht genug Tickets.",
         "limit_reached": "Das Limit für diesen Preis ist vorerst erreicht.",
         "already_owned": "Das hast du schon.",
-        "generic": "Etwas ist schiefgelaufen. Versuch es noch einmal."
+        "generic": "Etwas ist schiefgelaufen. Versuch es noch einmal.",
+        "custom_not_set": "Erstelle zuerst deinen eigenen Booster."
       },
       "limitDay": "{limit} pro Tag · noch {left}",
       "limitWeek": "{limit} pro Woche · noch {left}",
-      "limitMonth": "{limit} pro Monat · noch {left}"
+      "limitMonth": "{limit} pro Monat · noch {left}",
+      "doneWish": "Sie ist in deiner Sammlung!",
+      "dismiss": "Schließen"
     }
   },
   "cosmetics": {
@@ -2009,11 +2027,34 @@
       "title_ace21": "Ass der 21",
       "title_eagle": "Adlerauge",
       "title_memory": "Elefantengedächtnis",
-      "title_encyclopedia": "Anime-Lexikon"
+      "title_encyclopedia": "Anime-Lexikon",
+      "title_explorer": "Entdecker",
+      "title_fusion": "Fusionsmeister",
+      "title_peak": "Gipfelstürmer",
+      "title_daily": "Täglicher Stammgast",
+      "title_raid": "Raid-Überlebender",
+      "title_collector": "Sammler"
     },
     "frames": {
       "frame_gold": "Goldenes Ticket",
-      "frame_neon": "Neon"
+      "frame_neon": "Neon",
+      "frame_sakura": "Sakura",
+      "frame_ember": "Glut",
+      "frame_frost": "Frost",
+      "frame_prism": "Prisma"
+    },
+    "banners": {
+      "banner_dusk": "Sakura-Dämmerung",
+      "banner_neon": "Neonstadt",
+      "banner_stars": "Sternenfall",
+      "banner_ink": "Tuschezeichnung",
+      "banner_inferno": "Inferno"
+    },
+    "names": {
+      "name_gold": "Gold",
+      "name_prism": "Prisma",
+      "name_frost": "Frost",
+      "name_shadow": "Schatten"
     }
   },
   "arcade": {

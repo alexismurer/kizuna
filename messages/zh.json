@@ -313,7 +313,9 @@
     "frame": "边框",
     "title": "称号",
     "none": "无",
-    "noCosmetics": "在游戏厅赢取奖券，到奖品柜台兑换称号和边框。"
+    "noCosmetics": "在游戏厅赢取奖券，到奖品柜台兑换称号和边框。",
+    "banner": "横幅",
+    "nameStyle": "名字样式"
   },
   "friends": {
     "eyebrow": "你的伙伴",
@@ -1982,7 +1984,20 @@
           "name": "街机称号"
         },
         "titleText": "显示在你名字下方的称号。",
-        "frameText": "头像边框。"
+        "frameText": "头像边框。",
+        "bannerText": "你的个人资料背景。",
+        "nameText": "你的名字样式。",
+        "names": {
+          "name": "名字样式"
+        },
+        "wish_card": {
+          "name": "心愿单卡牌",
+          "text": "你心愿单中尚未拥有的一张史诗及以下卡牌。若没有，则从卡牌库随机抽一张史诗及以下的卡牌。"
+        },
+        "custom_free": {
+          "name": "免费自选卡包",
+          "text": "赠送一个自选卡包。你的自选卡包需要已创建。"
+        }
       },
       "once": "仅一次",
       "owned": "已拥有",
@@ -1995,11 +2010,14 @@
         "not_enough_tickets": "奖券还不够。",
         "limit_reached": "这个奖品暂时已达上限。",
         "already_owned": "你已经拥有了。",
-        "generic": "出了点问题，请重试。"
+        "generic": "出了点问题，请重试。",
+        "custom_not_set": "请先创建你的自选卡包。"
       },
       "limitDay": "每天{limit}次 · 剩余{left}",
       "limitWeek": "每周{limit}次 · 剩余{left}",
-      "limitMonth": "每月{limit}次 · 剩余{left}"
+      "limitMonth": "每月{limit}次 · 剩余{left}",
+      "doneWish": "已加入你的收藏！",
+      "dismiss": "关闭"
     }
   },
   "cosmetics": {
@@ -2009,11 +2027,34 @@
       "title_ace21": "21点王牌",
       "title_eagle": "鹰眼",
       "title_memory": "过目不忘",
-      "title_encyclopedia": "动漫百科"
+      "title_encyclopedia": "动漫百科",
+      "title_explorer": "探险家",
+      "title_fusion": "融合大师",
+      "title_peak": "登顶者",
+      "title_daily": "每日常客",
+      "title_raid": "突袭幸存者",
+      "title_collector": "收藏家"
     },
     "frames": {
       "frame_gold": "金色门票",
-      "frame_neon": "霓虹"
+      "frame_neon": "霓虹",
+      "frame_sakura": "樱花",
+      "frame_ember": "余烬",
+      "frame_frost": "寒霜",
+      "frame_prism": "棱镜"
+    },
+    "banners": {
+      "banner_dusk": "樱花暮色",
+      "banner_neon": "霓虹之城",
+      "banner_stars": "星陨",
+      "banner_ink": "水墨",
+      "banner_inferno": "炼狱"
+    },
+    "names": {
+      "name_gold": "金色",
+      "name_prism": "棱镜",
+      "name_frost": "寒霜",
+      "name_shadow": "暗影"
     }
   },
   "arcade": {

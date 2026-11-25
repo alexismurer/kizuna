@@ -19,7 +19,7 @@ describe("AppearancePicker", () => {
     vi.mocked(equipCosmetic).mockResolvedValue({ ok: false, error: "not_owned" });
     render(
       <NextIntlClientProvider locale="en" messages={messages}>
-        <AppearancePicker owned={["title_ace21"]} me={{ username: "ann", avatarUrl: null, frameId: null, titleId: null }} onClose={() => {}} />
+        <AppearancePicker owned={["title_ace21"]} me={{ username: "ann", avatarUrl: null, frameId: null, titleId: null, bannerId: null, nameId: null }} onClose={() => {}} />
       </NextIntlClientProvider>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Ace of 21" }));

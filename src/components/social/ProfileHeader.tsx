@@ -6,10 +6,13 @@ import { MotionConfig, motion } from "motion/react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PushSettings } from "@/components/push/PushSettings";
+import { bannerStyle } from "@/lib/cosmetics";
 import { completionPct } from "@/lib/social/format";
 import type { Friendship, ProfileCard, ProfileData } from "@/lib/social/types";
 import { Avatar } from "./Avatar";
+import { PlayerName } from "./PlayerName";
 import { PlayerTitle } from "./PlayerTitle";
+import { BannerBackdrop } from "./BannerBackdrop";
 import { AppearancePicker } from "./AppearancePicker";
 import { AvatarPicker } from "./AvatarPicker";
 import { FriendButton } from "./FriendButton";
@@ -70,6 +73,7 @@ export function ProfileHeader({
   const [copied, setCopied] = useState(false);
   const pct = completionPct(profile.uniqueCards, profile.catalogSize);
   const label = "font-mono text-[10px] uppercase tracking-[0.18em] text-white/50";
+  const themed = bannerStyle(profile.bannerId) !== null;
   const banner = profile.showcase.filter((c) => c.imageUrl).slice(0, 3);
   const tile = "relative flex flex-col justify-center gap-1 overflow-hidden rounded-2xl border border-border bg-panel p-4";
 
@@ -88,6 +92,13 @@ export function ProfileHeader({
       <motion.div variants={group} initial="hidden" animate="show" className="flex flex-col gap-4">
         <motion.header variants={rise} className="relative rounded-3xl border border-border bg-panel">
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
+            {themed ? (
+              <>
+                <BannerBackdrop id={profile.bannerId} />
+                <div className="absolute inset-0 bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-panel)_85%,transparent),color-mix(in_srgb,var(--color-panel)_30%,transparent))]" />
+              </>
+            ) : (
+              <>
             <div className="absolute inset-0 flex">
               {banner.map((c) => (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -100,6 +111,8 @@ export function ProfileHeader({
               ))}
             </div>
             <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_100%_50%,color-mix(in_srgb,var(--color-accent)_20%,transparent),transparent_70%),linear-gradient(to_top,var(--color-panel),color-mix(in_srgb,var(--color-panel)_55%,transparent))]" />
+              </>
+            )}
           </div>
           <div className="relative flex flex-col gap-5 p-5 sm:p-8 md:flex-row md:items-end md:justify-between">
             <div className="flex min-w-0 items-center gap-4 sm:gap-6">
@@ -107,7 +120,7 @@ export function ProfileHeader({
               <div className="min-w-0">
                 <p className="text-xs font-bold tracking-[0.25em] text-accent">{t("eyebrow")}</p>
                 <h1 className="truncate font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-                  {profile.username}
+                  <PlayerName name={profile.username} styleId={profile.nameId} />
                 </h1>
                 <PlayerTitle id={profile.titleId} className="text-base" />
                 <p className="mt-1 text-sm text-common">
@@ -219,7 +232,7 @@ export function ProfileHeader({
       {picker === "appearance" && (
         <AppearancePicker
           owned={cosmetics}
-          me={{ username: profile.username, avatarUrl: profile.avatarUrl, frameId: profile.frameId ?? null, titleId: profile.titleId ?? null }}
+          me={{ username: profile.username, avatarUrl: profile.avatarUrl, frameId: profile.frameId ?? null, titleId: profile.titleId ?? null, bannerId: profile.bannerId ?? null, nameId: profile.nameId ?? null }}
           onClose={() => setPicker(null)}
         />
       )}
