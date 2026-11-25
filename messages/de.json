@@ -1974,15 +1974,15 @@
       "run_not_found": "Spiel nicht gefunden.",
       "forbidden": "Der Spielraum ist noch nicht offen.",
       "not_signed_in": "Melde dich an, um zu spielen.",
-      "over_budget": "That team costs more than 20.",
-      "come_back_tomorrow": "Five fights a day: come back tomorrow.",
-      "not_enough_shards": "Not enough shards.",
-      "expedition_open": "You already have an expedition under way.",
-      "not_enough_cards": "Not enough cards or clips for this game yet.",
-      "table_not_found": "No table with this code (or it closed).",
-      "table_started": "This table has already started.",
-      "table_full": "This table is full (4 players).",
-      "table_other_game": "This code is for another game."
+      "over_budget": "Dieses Team kostet mehr als 20.",
+      "come_back_tomorrow": "Fünf Kämpfe pro Tag: Komm morgen wieder.",
+      "not_enough_shards": "Nicht genug Splitter.",
+      "expedition_open": "Du hast bereits eine Expedition am Laufen.",
+      "not_enough_cards": "Noch nicht genug Karten oder Clips für dieses Spiel.",
+      "table_not_found": "Kein Tisch mit diesem Code (oder er wurde geschlossen).",
+      "table_started": "Dieser Tisch hat schon begonnen.",
+      "table_full": "Dieser Tisch ist voll (4 Spieler).",
+      "table_other_game": "Dieser Code gehört zu einem anderen Spiel."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2321,173 +2321,173 @@
       "share": "Ich habe die Tagesverbindungen auf Kizuna mit {mistakes} Fehlern gelöst!"
     },
     "expedition": {
-      "name": "The Expedition",
-      "chip": "Adventure",
-      "pitch": "Buy a team of 5 cards on a budget, then travel chapter after chapter: fights, treasures, shops and bosses. Your cards gain ranks that stay.",
-      "share": "My expedition on Kizuna went {n} cases deep!",
-      "again": "New expedition",
-      "cleared": "Cases",
-      "shards": "Shards",
-      "cases": "{n} cases",
-      "setOff": "Set off",
-      "pickTeam": "Build your team",
-      "remove": "Remove {name}",
-      "search": "Search a card or a series",
-      "all": "All",
+      "name": "Die Expedition",
+      "chip": "Abenteuer",
+      "pitch": "Kaufe ein Team aus 5 Karten mit begrenztem Budget und zieh Kapitel für Kapitel los: Kämpfe, Schätze, Shops und Bosse. Deine Karten steigen im Rang auf, und der bleibt.",
+      "share": "Meine Expedition auf Kizuna ging {n} Felder weit!",
+      "again": "Neue Expedition",
+      "cleared": "Felder",
+      "shards": "Splitter",
+      "cases": "{n} Felder",
+      "setOff": "Aufbrechen",
+      "pickTeam": "Stell dein Team zusammen",
+      "remove": "{name} entfernen",
+      "search": "Karte oder Serie suchen",
+      "all": "Alle",
       "rank": "R{n}",
       "xp": "{n} XP",
-      "swapPick": "Pick a card to replace {name}",
-      "cancel": "Cancel",
-      "chapter": "Chapter {n} · {series}",
+      "swapPick": "Wähle eine Karte als Ersatz für {name}",
+      "cancel": "Abbrechen",
+      "chapter": "Kapitel {n} · {series}",
       "kinds": {
-        "fight": "Fight",
-        "treasure": "Treasure",
+        "fight": "Kampf",
+        "treasure": "Schatz",
         "shop": "Shop",
         "boss": "Boss"
       },
-      "comeBack": "Your team rests: five fights a day. Come back tomorrow (Paris midnight).",
-      "giveUp": "Give up the expedition",
-      "seeResult": "See the result",
-      "treasure": "Treasure! +{shards} shards, +{tickets} tickets and a {item}",
-      "won": "Case cleared! +{shards} shards · +{xp} XP to the team · +{tickets} tickets",
-      "lost": "Your team fell. The expedition is over.",
-      "swap": "Swap",
-      "swapOne": "Swap {name}",
-      "bag": "Bag",
-      "use": "Use {item}",
-      "tonicOn": "Tonic ready",
+      "comeBack": "Dein Team ruht sich aus: fünf Kämpfe pro Tag. Komm morgen wieder (Mitternacht Paris).",
+      "giveUp": "Expedition aufgeben",
+      "seeResult": "Ergebnis ansehen",
+      "treasure": "Schatz! +{shards} Splitter, +{tickets} Tickets und ein Gegenstand: {item}",
+      "won": "Feld geschafft! +{shards} Splitter · +{xp} XP fürs Team · +{tickets} Tickets",
+      "lost": "Dein Team ist gefallen. Die Expedition ist vorbei.",
+      "swap": "Tauschen",
+      "swapOne": "{name} tauschen",
+      "bag": "Beutel",
+      "use": "{item} benutzen",
+      "tonicOn": "Tonikum bereit",
       "items": {
         "potion": {
-          "name": "Potion",
-          "text": "Heals the team by 50% of their health."
+          "name": "Trank",
+          "text": "Heilt das Team um 50 % seiner Gesundheit."
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "+15% attack for the next case."
+          "name": "Tonikum",
+          "text": "+15 % Angriff für das nächste Feld."
         },
         "phoenix": {
-          "name": "Phoenix",
-          "text": "Brings fallen cards back at half health."
+          "name": "Phönix",
+          "text": "Bringt gefallene Karten mit halber Gesundheit zurück."
         }
       },
-      "bonusTitle": "Pick a bonus",
+      "bonusTitle": "Wähle einen Bonus",
       "shopTitle": "Shop",
-      "shardsLeft": "You have {n} shards",
-      "price": "{n} shards",
-      "bought": "Bought",
-      "leave": "Leave",
+      "shardsLeft": "Du hast {n} Splitter",
+      "price": "{n} Splitter",
+      "bought": "Gekauft",
+      "leave": "Verlassen",
       "shop": {
         "heal": {
-          "name": "Heal",
-          "text": "Heals the team by 50% now."
+          "name": "Heilung",
+          "text": "Heilt das Team sofort um 50 %."
         },
         "potion": {
-          "name": "Potion",
-          "text": "Goes in your bag: heals 50% when you need it."
+          "name": "Trank",
+          "text": "Landet in deinem Beutel: heilt 50 %, wenn du es brauchst."
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "Goes in your bag: +15% attack for one case."
+          "name": "Tonikum",
+          "text": "Landet in deinem Beutel: +15 % Angriff für ein Feld."
         },
         "training": {
           "name": "Training",
-          "text": "+15% attack until the chapter ends."
+          "text": "+15 % Angriff bis zum Ende des Kapitels."
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health until the chapter ends."
+          "name": "Ausdauer",
+          "text": "+20 % Gesundheit bis zum Ende des Kapitels."
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "Faster attacks until the chapter ends."
+          "name": "Adrenalin",
+          "text": "Schnellere Angriffe bis zum Ende des Kapitels."
         }
       },
       "rules": {
-        "team": "Build a team of 5 different cards from the whole catalogue with a budget of 20: Common 1, Uncommon 2, Rare 3, Epic 5, Legendary 8, Mythic 12.",
-        "route": "Each chapter has 10 cases: fight, treasure, fight, shop, boss, fight, treasure, fight, shop, boss. The map shows the cases behind you, the next one and the bosses; the rest stays in the fog. Each chapter follows a series: its cards are most of the enemies, and your cards from it hit 20% harder.",
-        "fights": "A fight is 3 waves, the boss waits in the last wave of a boss case. Your team fights on its own, like in raids. Health carries over from wave to wave and case to case: lose a case and the expedition ends.",
-        "rewards": "A won fight gives 30 shards, 22 XP to each card of the team, tickets (6, then one more each chapter, up to 10) and a bonus to pick. Bonuses last until the chapter ends; beating its last boss heals the team.",
-        "shop": "Treasures give 40 shards, 3 tickets and a bag item (Potion, Tonic or Phoenix). Shops sell three offers for shards. Between cases you can use bag items and swap one card (budget still 20; the newcomer takes over its health).",
-        "ranks": "Cards keep their experience between expeditions: rank 1 at 30 XP, 2 at 90, 3 at 200, 4 at 400, 5 at 700. Each rank adds 12% attack and health.",
-        "daily": "Five fights a day (bosses included); treasures and shops don't count. The expedition waits for you across days.",
-        "score": "Your score is the number of cases cleared; the weekly ranking keeps your furthest expedition."
+        "team": "Stell ein Team aus 5 verschiedenen Karten aus dem gesamten Katalog zusammen, Budget 20: Gewöhnlich 1, Ungewöhnlich 2, Selten 3, Episch 5, Legendär 8, Mythisch 12.",
+        "route": "Jedes Kapitel hat 10 Felder: Kampf, Schatz, Kampf, Shop, Boss, Kampf, Schatz, Kampf, Shop, Boss. Die Karte zeigt die Felder hinter dir, das nächste und die Bosse; der Rest bleibt im Nebel. Jedes Kapitel folgt einer Serie: Ihre Karten sind die meisten Gegner, und deine Karten daraus schlagen 20 % härter zu.",
+        "fights": "Ein Kampf hat 3 Wellen, der Boss wartet in der letzten Welle eines Boss-Felds. Dein Team kämpft von allein, wie bei den Raids. Die Gesundheit bleibt von Welle zu Welle und Feld zu Feld erhalten: Verlierst du ein Feld, endet die Expedition.",
+        "rewards": "Ein gewonnener Kampf bringt 30 Splitter, 22 XP für jede Karte des Teams, Tickets (6, dann pro Kapitel eins mehr, bis zu 10) und einen Bonus zur Auswahl. Boni halten bis zum Ende des Kapitels; wer den letzten Boss besiegt, heilt das Team.",
+        "shop": "Schätze bringen 40 Splitter, 3 Tickets und einen Gegenstand für den Beutel (Trank, Tonikum oder Phönix). Shops verkaufen drei Angebote gegen Splitter. Zwischen den Feldern kannst du Gegenstände benutzen und eine Karte tauschen (Budget weiterhin 20; der Neuling übernimmt ihre Gesundheit).",
+        "ranks": "Karten behalten ihre Erfahrung zwischen den Expeditionen: Rang 1 bei 30 XP, 2 bei 90, 3 bei 200, 4 bei 400, 5 bei 700. Jeder Rang gibt 12 % Angriff und Gesundheit dazu.",
+        "daily": "Fünf Kämpfe pro Tag (Bosse inklusive); Schätze und Shops zählen nicht. Die Expedition wartet tagelang auf dich.",
+        "score": "Dein Ergebnis ist die Zahl der geschafften Felder; die Wochen-Rangliste zählt deine weiteste Expedition."
       },
-      "today": "Fights today",
-      "theRoute": "The route",
+      "today": "Kämpfe heute",
+      "theRoute": "Die Route",
       "tabs": {
         "route": "Route",
-        "cards": "Cards"
+        "cards": "Karten"
       },
-      "youAreHere": "YOU ARE HERE",
-      "unknown": "Still unknown",
-      "waves": "{n} waves",
-      "bossWaves": "Boss · {n} waves",
+      "youAreHere": "DU BIST HIER",
+      "unknown": "Noch unbekannt",
+      "waves": "{n} Wellen",
+      "bossWaves": "Boss · {n} Wellen",
       "goTo": {
-        "fight": "Fight",
-        "treasure": "Open the treasure",
-        "shop": "Enter the shop",
-        "boss": "Face the boss"
+        "fight": "Kämpfen",
+        "treasure": "Schatz öffnen",
+        "shop": "Shop betreten",
+        "boss": "Dem Boss stellen"
       },
-      "bonusKept": "One only, kept until the end of the chapter.",
+      "bonusKept": "Nur einer, gilt bis zum Ende des Kapitels.",
       "report": {
-        "won": "Case won",
-        "lost": "Case lost",
-        "waves": "{n} waves out of {total}",
-        "damage": "{n} damage dealt",
-        "best": "Best card",
+        "won": "Feld gewonnen",
+        "lost": "Feld verloren",
+        "waves": "{n} Wellen von {total}",
+        "damage": "{n} Schaden verursacht",
+        "best": "Beste Karte",
         "kos": "{n} KO",
-        "continue": "Continue"
+        "continue": "Weiter"
       }
     },
     "blindTest": {
-      "name": "Blind test",
-      "chip": "10 clips",
+      "name": "Blind-Test",
+      "chip": "10 Clips",
       "clip": "Clip",
-      "level": "Level",
+      "level": "Stufe",
       "levels": {
-        "easy": "Easy",
-        "medium": "Medium",
-        "hard": "Hard"
+        "easy": "Leicht",
+        "medium": "Mittel",
+        "hard": "Schwer"
       },
       "pitches": {
-        "easy": "Openings of the big classics. Listen to 30 seconds and find the series among four.",
-        "medium": "Openings and endings of well-known series. Listen to 30 seconds and find the series among four.",
-        "hard": "The whole bank of themes. Listen to 30 seconds and find the series among four."
+        "easy": "Openings der großen Klassiker. Hör 30 Sekunden zu und finde die Serie unter vier.",
+        "medium": "Openings und Endings bekannter Serien. Hör 30 Sekunden zu und finde die Serie unter vier.",
+        "hard": "Die ganze Themensammlung. Hör 30 Sekunden zu und finde die Serie unter vier."
       },
-      "rules": "10 theme clips of 30 seconds. Find the series among four answers: the faster you are, the more points (up to 100). A wrong answer gives 0. After each answer you see the song, the artist and a character of the series.",
-      "right": "Well heard! +{n}",
-      "wrong": "Wrong!",
-      "next": "Next",
-      "seeResult": "See the result",
-      "share": "I scored {score} at the Kizuna blind test!"
+      "rules": "10 Theme-Clips à 30 Sekunden. Finde die Serie unter vier Antworten: Je schneller du bist, desto mehr Punkte (bis zu 100). Eine falsche Antwort bringt 0. Nach jeder Antwort siehst du das Lied, den Künstler und eine Figur der Serie.",
+      "right": "Gut gehört! +{n}",
+      "wrong": "Falsch!",
+      "next": "Weiter",
+      "seeResult": "Ergebnis ansehen",
+      "share": "Ich habe {score} beim Kizuna-Blind-Test geschafft!"
     },
-    "playMulti": "Play with others",
-    "playMultiText": "2 to 4 players, the same questions.",
+    "playMulti": "Mit anderen spielen",
+    "playMultiText": "2 bis 4 Spieler, dieselben Fragen.",
     "table": {
-      "title": "Play with others",
-      "pitch": "Up to {n} players get the same questions. The fastest right answers win.",
-      "match": "Join a table",
-      "matchText": "Sit at a table waiting for players, or open one.",
-      "open": "Open a table for friends",
-      "openText": "Get a code to share; you start when everyone is here.",
-      "code": "Table code",
-      "codeHint": "Code (5 letters)",
-      "join": "Join",
-      "backSolo": "Back to solo",
-      "copy": "Copy the code",
-      "share": "Share this code with your friends (Discord, messages…).",
-      "you": "you",
-      "host": "Host",
-      "free": "Free seat",
-      "needTwo": "Waiting for a second player…",
-      "start": "Start with {n} players",
-      "waitHost": "Waiting for the host to start…",
-      "leave": "Leave the table",
-      "players": "Players at the table",
-      "answered": "Answered",
-      "stillPlaying": "still playing",
-      "nextComing": "Everyone answered: next one coming!",
-      "waitOthers": "Waiting for the others to answer…"
+      "title": "Mit anderen spielen",
+      "pitch": "Bis zu {n} Spieler bekommen dieselben Fragen. Die schnellsten richtigen Antworten gewinnen.",
+      "match": "Einem Tisch beitreten",
+      "matchText": "Setz dich an einen Tisch, der auf Spieler wartet, oder eröffne einen.",
+      "open": "Tisch für Freunde eröffnen",
+      "openText": "Hol dir einen Code zum Teilen; ihr startet, wenn alle da sind.",
+      "code": "Tischcode",
+      "codeHint": "Code (5 Buchstaben)",
+      "join": "Beitreten",
+      "backSolo": "Zurück zu Solo",
+      "copy": "Code kopieren",
+      "share": "Teile diesen Code mit deinen Freunden (Discord, Nachrichten…).",
+      "you": "du",
+      "host": "Gastgeber",
+      "free": "Freier Platz",
+      "needTwo": "Warte auf einen zweiten Spieler…",
+      "start": "Mit {n} Spielern starten",
+      "waitHost": "Warte, bis der Gastgeber startet…",
+      "leave": "Tisch verlassen",
+      "players": "Spieler am Tisch",
+      "answered": "Geantwortet",
+      "stillPlaying": "spielt noch",
+      "nextComing": "Alle haben geantwortet: Die nächste Frage kommt!",
+      "waitOthers": "Warte, bis die anderen antworten…"
     }
   }
 }

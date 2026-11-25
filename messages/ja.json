@@ -1773,14 +1773,14 @@
       "title": "コンピューターと対戦",
       "text": "Senseiを相手に練習しよう。動きが速く、ラウンドをただで譲ることはほとんどありません。",
       "start": "デュエル開始",
-      "name": "Sensei"
+      "name": "センセイ"
     },
     "friend": {
       "title": "友達と対戦",
       "text": "ルームを作ってリンクを送るか、友達からもらったコードを入力しましょう。",
       "create": "ルームを作る",
       "code": "ルームコード",
-      "codePlaceholder": "CODE",
+      "codePlaceholder": "コード",
       "join": "参加"
     },
     "room": {
@@ -1974,15 +1974,15 @@
       "run_not_found": "ゲームが見つかりません。",
       "forbidden": "ゲームルームはまだ開いていません。",
       "not_signed_in": "ログインしてプレイしよう。",
-      "over_budget": "That team costs more than 20.",
-      "come_back_tomorrow": "Five fights a day: come back tomorrow.",
-      "not_enough_shards": "Not enough shards.",
-      "expedition_open": "You already have an expedition under way.",
-      "not_enough_cards": "Not enough cards or clips for this game yet.",
-      "table_not_found": "No table with this code (or it closed).",
-      "table_started": "This table has already started.",
-      "table_full": "This table is full (4 players).",
-      "table_other_game": "This code is for another game."
+      "over_budget": "そのチームのコストは20を超えています。",
+      "come_back_tomorrow": "1日5戦まで：また明日来てね。",
+      "not_enough_shards": "シャードが足りません。",
+      "expedition_open": "すでに遠征の途中です。",
+      "not_enough_cards": "このゲームに必要なカードやクリップがまだ足りません。",
+      "table_not_found": "このコードのテーブルはありません（または閉じられました）。",
+      "table_started": "このテーブルはすでに始まっています。",
+      "table_full": "このテーブルは満席です（4人）。",
+      "table_other_game": "このコードは別のゲーム用です。"
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2157,121 +2157,121 @@
       "start": "レイド開始",
       "atkBonus": "攻撃+{n}%",
       "genreBonus": {
-        "battle": "crits +{n}%",
-        "fantasy": "hits the next one ({n}%)",
-        "romance": "heals {n}% per blow",
-        "slice_of_life": "health +{n}%",
-        "thrills": "double strike {n}%",
-        "scifi_sport": "attacks {n}% faster"
+        "battle": "クリティカル+{n}%",
+        "fantasy": "次の敵にも命中（{n}%）",
+        "romance": "1撃ごとに{n}%回復",
+        "slice_of_life": "体力+{n}%",
+        "thrills": "{n}%で2連撃",
+        "scifi_sport": "攻撃速度+{n}%"
       },
       "perks": {
         "heal": {
-          "name": "Heal",
-          "text": "Standing cards get half their health back."
+          "name": "ヒール",
+          "text": "立っているカードの体力が半分回復します。"
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health for the whole team (a little less each time you take it again)."
+          "name": "スタミナ",
+          "text": "チーム全体の体力+20%（重ねるたびに効果は少しずつ減ります）。"
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack for the whole team (a little less each time you take it again)."
+          "name": "トレーニング",
+          "text": "チーム全体の攻撃+15%（重ねるたびに効果は少しずつ減ります）。"
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "The whole team attacks 12% faster."
+          "name": "アドレナリン",
+          "text": "チーム全体の攻撃速度+12%。"
         },
         "shield": {
-          "name": "Shield",
-          "text": "Every wave, each card blocks the first blow it takes, up to half its health."
+          "name": "シールド",
+          "text": "ウェーブごとに、各カードが最初に受ける1撃を体力の半分まで防ぎます。"
         },
         "precision": {
-          "name": "Precision",
-          "text": "+10% critical chance, and critical hits hurt more."
+          "name": "精密",
+          "text": "クリティカル率+10%、クリティカルのダメージも増加。"
         },
         "vampire": {
-          "name": "Vampire",
-          "text": "Each blow heals the striker by 8% of its damage."
+          "name": "ヴァンパイア",
+          "text": "1撃ごとに、与えたダメージの8%を攻撃したカードが回復します。"
         },
         "reinforcements": {
-          "name": "Reinforcements",
-          "text": "Fallen cards come back with half their health."
+          "name": "援軍",
+          "text": "倒れたカードが体力半分で復活します。"
         },
         "focus": {
-          "name": "{genre} focus",
-          "text": "+40% attack for the team's {genre} cards (a little less each time you take it again)."
+          "name": "{genre}フォーカス",
+          "text": "チームの{genre}カードの攻撃+40%（重ねるたびに効果は少しずつ減ります）。"
         },
         "evo_bloodlust": {
-          "name": "Bloodlust",
-          "text": "Vampire + Precision: every critical hit heals the whole team."
+          "name": "ブラッドラスト",
+          "text": "ヴァンパイア＋精密：クリティカルのたびにチーム全体が回復します。"
         },
         "evo_fortress": {
-          "name": "Fortress",
-          "text": "Shield + Stamina: every knock-out recharges the whole team's shield."
+          "name": "フォートレス",
+          "text": "シールド＋スタミナ：敵を倒すたびにチーム全体のシールドが回復します。"
         },
         "evo_frenzy": {
-          "name": "Frenzy",
-          "text": "Adrenaline + Training: every knock-out speeds the team up until the end of the wave."
+          "name": "フレンジー",
+          "text": "アドレナリン＋トレーニング：敵を倒すたびに、ウェーブ終了までチームが加速します。"
         }
       },
       "relics": {
         "dragon_heart": {
-          "name": "Dragon heart",
-          "text": "+40% health and the whole team comes back to full, fallen cards too."
+          "name": "竜の心臓",
+          "text": "体力+40%、倒れたカードも含めてチーム全体が全回復します。"
         },
         "hourglass": {
-          "name": "Hourglass",
-          "text": "For the first 5 seconds of each wave, the team attacks twice as fast."
+          "name": "砂時計",
+          "text": "各ウェーブの最初の5秒間、チームの攻撃速度が2倍になります。"
         },
         "totem": {
-          "name": "Totem",
-          "text": "Every wave, the first card to fall gets up with 40% health."
+          "name": "トーテム",
+          "text": "ウェーブごとに、最初に倒れたカードが体力40%で立ち上がります。"
         }
       },
       "rarity": {
-        "common": "Common",
-        "rare": "Rare",
-        "epic": "Epic",
-        "evolution": "Evolution",
-        "relic": "Relic"
+        "common": "コモン",
+        "rare": "レア",
+        "epic": "エピック",
+        "evolution": "進化",
+        "relic": "レリック"
       },
       "relicTitle": "ボス撃破：レリックを選ぼう",
       "perkTitle": "ウェーブ{n}突破：ボーナスを選ぼう",
       "waveOf": "ウェーブ{n}",
       "skip": "スキップ",
       "boss": {
-        "enraged": "Enraged",
-        "regeneration": "Regeneration",
-        "thorns": "Thorns"
+        "enraged": "激怒",
+        "regeneration": "再生",
+        "thorns": "とげ"
       },
       "elite": {
-        "armoured": "Armoured",
-        "fast": "Fast",
-        "healer": "Healer",
-        "explosive": "Explosive"
+        "armoured": "装甲",
+        "fast": "俊足",
+        "healer": "ヒーラー",
+        "explosive": "爆発"
       },
       "areaWarn": "ボスが範囲攻撃の構え！",
       "powers": {
-        "blade": "Blade storm",
-        "meteor": "Meteor",
-        "healing": "Healing wave",
-        "rampart": "Rampart",
-        "terror": "Terror",
-        "overdrive": "Overdrive"
+        "blade": "ブレードストーム",
+        "meteor": "メテオ",
+        "healing": "癒しの波",
+        "rampart": "ランパート",
+        "terror": "テラー",
+        "overdrive": "オーバードライブ"
       },
       "rules": {
-        "recruit": "Recruit: pick 5 cards out of 8.",
-        "auto": "Auto battle: your team strikes the enemies on its own, wave after wave. A wave lost ends the raid.",
-        "bonus": "After each wave, pick one bonus out of three, common to epic: heal, reinforcements, shield, vampire…",
-        "boss": "A boss every 5 waves: one very tough card with two minions and a trait (Enraged, Regeneration or Thorns). It gathers an area strike every 9 seconds; the warning shows just before.",
-        "stats": "Attack and health by rarity: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. A card's power adds up to 33%.",
-        "series": "Same anime: 2 cards +40% attack for them, 3 cards +80%.",
-        "genres": "Genres (2 cards / 3 or more): Battle crits +12/24% · Fantasy hits the next one 35/70% · Romance heals 4/8% per blow · Slice of life health +25/50% · Thrills double strike 12/24% · Sci-fi & Sport attacks 20/40% faster.",
-        "stars": "Cards evolve: a star at 3, 8 and 15 knock-outs, +25% attack and health each (a boss counts as 5).",
-        "powers": "Legendary and Mythic powers: Blade storm, Meteor, Healing wave, Rampart, Terror, Overdrive. A Legendary uses it every 11 seconds, a Mythic every 8 and 50% stronger.",
-        "elites": "Elite enemies: Armoured (takes 40% less), Fast, Healer, Explosive (blows up on your team when it falls).",
-        "relics": "After each boss, pick a relic out of three: powerful bonuses found nowhere else.",
-        "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10."
+        "recruit": "編成：8枚から5枚を選びます。",
+        "auto": "オートバトル：チームが自動でウェーブごとに敵を攻撃します。ウェーブに負けるとレイド終了です。",
+        "bonus": "ウェーブ後、コモンからエピックまでの3つのボーナスから1つ選びます：ヒール、援軍、シールド、ヴァンパイアなど。",
+        "boss": "5ウェーブごとにボス：とても頑丈な1枚と手下2体、そして特性（激怒・再生・とげ）を持ちます。9秒ごとに範囲攻撃を溜め、直前に警告が出ます。",
+        "stats": "レア度別の攻撃/体力：C 10/70、U 13/85、R 17/100、E 23/120、L 31/150、M 42/190。カードのパワーが最大33%加算されます。",
+        "series": "同じアニメ：2枚で攻撃+40%、3枚で+80%。",
+        "genres": "ジャンル（2枚／3枚以上）：バトル クリティカル+12/24%・ファンタジー 次の敵に命中 35/70%・ロマンス 1撃ごとに4/8%回復・日常 体力+25/50%・スリラー 2連撃 12/24%・SF＆スポーツ 攻撃速度+20/40%。",
+        "stars": "カードは進化します：3、8、15体撃破で星が付き、そのたびに攻撃と体力+25%（ボスは5体分）。",
+        "powers": "レジェンドとミシックの能力：ブレードストーム、メテオ、癒しの波、ランパート、テラー、オーバードライブ。レジェンドは11秒ごと、ミシックは8秒ごとに発動し、威力は50%上がります。",
+        "elites": "エリート敵：装甲（ダメージ40%減）、俊足、ヒーラー、爆発（倒れるとチームに爆発ダメージ）。",
+        "relics": "ボスを倒すたびに3つのレリックから1つ選びます：ほかでは手に入らない強力なボーナスです。",
+        "score": "スコアはクリアしたウェーブ数です。ウェーブ3、6、10で星がもらえます。"
       },
       "ready": "チームの準備完了。",
       "fightWave": "ウェーブ{n}に挑む"
@@ -2321,173 +2321,173 @@
       "share": "Kizunaの今日のコネクションをミス{mistakes}回で解いた！"
     },
     "expedition": {
-      "name": "The Expedition",
-      "chip": "Adventure",
-      "pitch": "Buy a team of 5 cards on a budget, then travel chapter after chapter: fights, treasures, shops and bosses. Your cards gain ranks that stay.",
-      "share": "My expedition on Kizuna went {n} cases deep!",
-      "again": "New expedition",
-      "cleared": "Cases",
-      "shards": "Shards",
-      "cases": "{n} cases",
-      "setOff": "Set off",
-      "pickTeam": "Build your team",
-      "remove": "Remove {name}",
-      "search": "Search a card or a series",
-      "all": "All",
+      "name": "遠征",
+      "chip": "冒険",
+      "pitch": "予算内で5枚のチームを買い、章を進もう：戦い、宝、ショップ、ボス。カードのランクは引き継がれます。",
+      "share": "Kizunaの遠征で{n}マス進んだよ！",
+      "again": "新しい遠征",
+      "cleared": "マス",
+      "shards": "シャード",
+      "cases": "{n}マス",
+      "setOff": "出発",
+      "pickTeam": "チームを編成",
+      "remove": "{name}を外す",
+      "search": "カードや作品を検索",
+      "all": "すべて",
       "rank": "R{n}",
       "xp": "{n} XP",
-      "swapPick": "Pick a card to replace {name}",
-      "cancel": "Cancel",
-      "chapter": "Chapter {n} · {series}",
+      "swapPick": "{name}と交代するカードを選ぼう",
+      "cancel": "キャンセル",
+      "chapter": "第{n}章 · {series}",
       "kinds": {
-        "fight": "Fight",
-        "treasure": "Treasure",
-        "shop": "Shop",
-        "boss": "Boss"
+        "fight": "戦い",
+        "treasure": "宝",
+        "shop": "ショップ",
+        "boss": "ボス"
       },
-      "comeBack": "Your team rests: five fights a day. Come back tomorrow (Paris midnight).",
-      "giveUp": "Give up the expedition",
-      "seeResult": "See the result",
-      "treasure": "Treasure! +{shards} shards, +{tickets} tickets and a {item}",
-      "won": "Case cleared! +{shards} shards · +{xp} XP to the team · +{tickets} tickets",
-      "lost": "Your team fell. The expedition is over.",
-      "swap": "Swap",
-      "swapOne": "Swap {name}",
-      "bag": "Bag",
-      "use": "Use {item}",
-      "tonicOn": "Tonic ready",
+      "comeBack": "チームは休憩中：1日5戦までです。また明日来てね（パリ時間の0時）。",
+      "giveUp": "遠征をあきらめる",
+      "seeResult": "結果を見る",
+      "treasure": "宝箱！シャード+{shards}、チケット+{tickets}、{item}を入手",
+      "won": "クリア！シャード+{shards} · チームにXP+{xp} · チケット+{tickets}",
+      "lost": "チームは倒れました。遠征は終了です。",
+      "swap": "交代",
+      "swapOne": "{name}と交代",
+      "bag": "バッグ",
+      "use": "{item}を使う",
+      "tonicOn": "トニック準備完了",
       "items": {
         "potion": {
-          "name": "Potion",
-          "text": "Heals the team by 50% of their health."
+          "name": "ポーション",
+          "text": "チームの体力を50%回復します。"
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "+15% attack for the next case."
+          "name": "トニック",
+          "text": "次のマスで攻撃+15%。"
         },
         "phoenix": {
-          "name": "Phoenix",
-          "text": "Brings fallen cards back at half health."
+          "name": "フェニックス",
+          "text": "倒れたカードを体力半分で復活させます。"
         }
       },
-      "bonusTitle": "Pick a bonus",
-      "shopTitle": "Shop",
-      "shardsLeft": "You have {n} shards",
-      "price": "{n} shards",
-      "bought": "Bought",
-      "leave": "Leave",
+      "bonusTitle": "ボーナスを選ぼう",
+      "shopTitle": "ショップ",
+      "shardsLeft": "所持シャード：{n}",
+      "price": "{n}シャード",
+      "bought": "購入済み",
+      "leave": "出る",
       "shop": {
         "heal": {
-          "name": "Heal",
-          "text": "Heals the team by 50% now."
+          "name": "ヒール",
+          "text": "今すぐチームを50%回復します。"
         },
         "potion": {
-          "name": "Potion",
-          "text": "Goes in your bag: heals 50% when you need it."
+          "name": "ポーション",
+          "text": "バッグに入ります：必要なときに50%回復。"
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "Goes in your bag: +15% attack for one case."
+          "name": "トニック",
+          "text": "バッグに入ります：1マスの間、攻撃+15%。"
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack until the chapter ends."
+          "name": "トレーニング",
+          "text": "章の終わりまで攻撃+15%。"
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health until the chapter ends."
+          "name": "スタミナ",
+          "text": "章の終わりまで体力+20%。"
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "Faster attacks until the chapter ends."
+          "name": "アドレナリン",
+          "text": "章の終わりまで攻撃が速くなります。"
         }
       },
       "rules": {
-        "team": "Build a team of 5 different cards from the whole catalogue with a budget of 20: Common 1, Uncommon 2, Rare 3, Epic 5, Legendary 8, Mythic 12.",
-        "route": "Each chapter has 10 cases: fight, treasure, fight, shop, boss, fight, treasure, fight, shop, boss. The map shows the cases behind you, the next one and the bosses; the rest stays in the fog. Each chapter follows a series: its cards are most of the enemies, and your cards from it hit 20% harder.",
-        "fights": "A fight is 3 waves, the boss waits in the last wave of a boss case. Your team fights on its own, like in raids. Health carries over from wave to wave and case to case: lose a case and the expedition ends.",
-        "rewards": "A won fight gives 30 shards, 22 XP to each card of the team, tickets (6, then one more each chapter, up to 10) and a bonus to pick. Bonuses last until the chapter ends; beating its last boss heals the team.",
-        "shop": "Treasures give 40 shards, 3 tickets and a bag item (Potion, Tonic or Phoenix). Shops sell three offers for shards. Between cases you can use bag items and swap one card (budget still 20; the newcomer takes over its health).",
-        "ranks": "Cards keep their experience between expeditions: rank 1 at 30 XP, 2 at 90, 3 at 200, 4 at 400, 5 at 700. Each rank adds 12% attack and health.",
-        "daily": "Five fights a day (bosses included); treasures and shops don't count. The expedition waits for you across days.",
-        "score": "Your score is the number of cases cleared; the weekly ranking keeps your furthest expedition."
+        "team": "全カードから異なる5枚でチームを編成します。予算は20：コモン1、アンコモン2、レア3、エピック5、レジェンド8、ミシック12。",
+        "route": "各章は10マス：戦い、宝、戦い、ショップ、ボス、戦い、宝、戦い、ショップ、ボス。マップには通過したマス、次のマス、ボスが表示され、それ以外は霧の中です。各章は1つの作品がテーマで、そのカードが敵の大半を占め、あなたのその作品のカードは20%強く打てます。",
+        "fights": "戦いは3ウェーブで、ボスのマスでは最後のウェーブにボスが待っています。チームはレイドと同じく自動で戦います。体力はウェーブ間もマス間も引き継がれ、マスに負けると遠征は終了です。",
+        "rewards": "戦いに勝つとシャード30、チームの各カードにXP22、チケット（6枚、章ごとに1枚ずつ増えて最大10枚）、選べるボーナスがもらえます。ボーナスは章の終わりまで続き、章の最後のボスを倒すとチームが回復します。",
+        "shop": "宝はシャード40、チケット3枚、バッグアイテム（ポーション、トニック、フェニックス）をくれます。ショップではシャードで3つの品が買えます。マスの合間にバッグのアイテムを使い、カードを1枚交代できます（予算は20のまま。新しいカードは体力を引き継ぎます）。",
+        "ranks": "カードの経験は遠征をまたいで残ります：XP30でランク1、90で2、200で3、400で4、700で5。ランクごとに攻撃と体力+12%。",
+        "daily": "1日5戦まで（ボス戦を含む）。宝とショップは数えません。遠征は日をまたいでも待っていてくれます。",
+        "score": "スコアはクリアしたマス数です。週間ランキングには最も遠くまで進んだ遠征が記録されます。"
       },
-      "today": "Fights today",
-      "theRoute": "The route",
+      "today": "今日の戦い",
+      "theRoute": "ルート",
       "tabs": {
-        "route": "Route",
-        "cards": "Cards"
+        "route": "ルート",
+        "cards": "カード"
       },
-      "youAreHere": "YOU ARE HERE",
-      "unknown": "Still unknown",
-      "waves": "{n} waves",
-      "bossWaves": "Boss · {n} waves",
+      "youAreHere": "現在地",
+      "unknown": "未知のマス",
+      "waves": "{n}ウェーブ",
+      "bossWaves": "ボス · {n}ウェーブ",
       "goTo": {
-        "fight": "Fight",
-        "treasure": "Open the treasure",
-        "shop": "Enter the shop",
-        "boss": "Face the boss"
+        "fight": "戦う",
+        "treasure": "宝を開ける",
+        "shop": "ショップに入る",
+        "boss": "ボスに挑む"
       },
-      "bonusKept": "One only, kept until the end of the chapter.",
+      "bonusKept": "1つだけ、章の終わりまで持続します。",
       "report": {
-        "won": "Case won",
-        "lost": "Case lost",
-        "waves": "{n} waves out of {total}",
-        "damage": "{n} damage dealt",
-        "best": "Best card",
+        "won": "マスクリア",
+        "lost": "マス敗北",
+        "waves": "{total}ウェーブ中{n}ウェーブ",
+        "damage": "与えたダメージ{n}",
+        "best": "ベストカード",
         "kos": "{n} KO",
-        "continue": "Continue"
+        "continue": "続ける"
       }
     },
     "blindTest": {
-      "name": "Blind test",
-      "chip": "10 clips",
-      "clip": "Clip",
-      "level": "Level",
+      "name": "イントロクイズ",
+      "chip": "10クリップ",
+      "clip": "クリップ",
+      "level": "レベル",
       "levels": {
-        "easy": "Easy",
-        "medium": "Medium",
-        "hard": "Hard"
+        "easy": "かんたん",
+        "medium": "ふつう",
+        "hard": "むずかしい"
       },
       "pitches": {
-        "easy": "Openings of the big classics. Listen to 30 seconds and find the series among four.",
-        "medium": "Openings and endings of well-known series. Listen to 30 seconds and find the series among four.",
-        "hard": "The whole bank of themes. Listen to 30 seconds and find the series among four."
+        "easy": "超有名作品のオープニング。30秒聴いて、4つの中から作品を当てよう。",
+        "medium": "有名作品のオープニングとエンディング。30秒聴いて、4つの中から作品を当てよう。",
+        "hard": "全テーマ曲から出題。30秒聴いて、4つの中から作品を当てよう。"
       },
-      "rules": "10 theme clips of 30 seconds. Find the series among four answers: the faster you are, the more points (up to 100). A wrong answer gives 0. After each answer you see the song, the artist and a character of the series.",
-      "right": "Well heard! +{n}",
-      "wrong": "Wrong!",
-      "next": "Next",
-      "seeResult": "See the result",
-      "share": "I scored {score} at the Kizuna blind test!"
+      "rules": "30秒のテーマ曲クリップが10問。4つの答えから作品を選ぼう：早く答えるほど高得点（最大100点）。不正解は0点。回答後に曲名、アーティスト、作品のキャラが表示されます。",
+      "right": "正解！+{n}",
+      "wrong": "不正解！",
+      "next": "次へ",
+      "seeResult": "結果を見る",
+      "share": "Kizunaのイントロクイズで{score}点を取ったよ！"
     },
-    "playMulti": "Play with others",
-    "playMultiText": "2 to 4 players, the same questions.",
+    "playMulti": "みんなでプレイ",
+    "playMultiText": "2〜4人、同じ問題。",
     "table": {
-      "title": "Play with others",
-      "pitch": "Up to {n} players get the same questions. The fastest right answers win.",
-      "match": "Join a table",
-      "matchText": "Sit at a table waiting for players, or open one.",
-      "open": "Open a table for friends",
-      "openText": "Get a code to share; you start when everyone is here.",
-      "code": "Table code",
-      "codeHint": "Code (5 letters)",
-      "join": "Join",
-      "backSolo": "Back to solo",
-      "copy": "Copy the code",
-      "share": "Share this code with your friends (Discord, messages…).",
-      "you": "you",
-      "host": "Host",
-      "free": "Free seat",
-      "needTwo": "Waiting for a second player…",
-      "start": "Start with {n} players",
-      "waitHost": "Waiting for the host to start…",
-      "leave": "Leave the table",
-      "players": "Players at the table",
-      "answered": "Answered",
-      "stillPlaying": "still playing",
-      "nextComing": "Everyone answered: next one coming!",
-      "waitOthers": "Waiting for the others to answer…"
+      "title": "みんなでプレイ",
+      "pitch": "最大{n}人が同じ問題に挑戦。正解が早い人が勝ち。",
+      "match": "テーブルに参加",
+      "matchText": "プレイヤー待ちのテーブルに座るか、新しく開こう。",
+      "open": "友達用のテーブルを開く",
+      "openText": "共有用のコードを取得。全員そろったら開始できます。",
+      "code": "テーブルコード",
+      "codeHint": "コード（5文字）",
+      "join": "参加",
+      "backSolo": "ソロに戻る",
+      "copy": "コードをコピー",
+      "share": "このコードを友達に共有しよう（Discord、メッセージなど）。",
+      "you": "あなた",
+      "host": "ホスト",
+      "free": "空席",
+      "needTwo": "2人目を待っています…",
+      "start": "{n}人で開始",
+      "waitHost": "ホストの開始を待っています…",
+      "leave": "テーブルを出る",
+      "players": "テーブルのプレイヤー",
+      "answered": "回答済み",
+      "stillPlaying": "プレイ中",
+      "nextComing": "全員回答しました：次の問題へ！",
+      "waitOthers": "ほかの人の回答を待っています…"
     }
   }
 }

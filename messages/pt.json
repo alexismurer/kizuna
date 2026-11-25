@@ -1974,15 +1974,15 @@
       "run_not_found": "Jogo não encontrado.",
       "forbidden": "A sala de jogos ainda não abriu.",
       "not_signed_in": "Entre para jogar.",
-      "over_budget": "That team costs more than 20.",
-      "come_back_tomorrow": "Five fights a day: come back tomorrow.",
-      "not_enough_shards": "Not enough shards.",
-      "expedition_open": "You already have an expedition under way.",
-      "not_enough_cards": "Not enough cards or clips for this game yet.",
-      "table_not_found": "No table with this code (or it closed).",
-      "table_started": "This table has already started.",
-      "table_full": "This table is full (4 players).",
-      "table_other_game": "This code is for another game."
+      "over_budget": "Esse time custa mais de 20.",
+      "come_back_tomorrow": "Cinco lutas por dia: volte amanhã.",
+      "not_enough_shards": "Fragmentos insuficientes.",
+      "expedition_open": "Você já tem uma expedição em andamento.",
+      "not_enough_cards": "Ainda não há cartas ou clipes suficientes para este jogo.",
+      "table_not_found": "Nenhuma mesa com este código (ou ela fechou).",
+      "table_started": "Esta mesa já começou.",
+      "table_full": "Esta mesa está cheia (4 jogadores).",
+      "table_other_game": "Este código é de outro jogo."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2157,121 +2157,121 @@
       "start": "Começar o raid",
       "atkBonus": "+{n}% de ataque",
       "genreBonus": {
-        "battle": "crits +{n}%",
-        "fantasy": "hits the next one ({n}%)",
-        "romance": "heals {n}% per blow",
-        "slice_of_life": "health +{n}%",
-        "thrills": "double strike {n}%",
-        "scifi_sport": "attacks {n}% faster"
+        "battle": "críticos +{n}%",
+        "fantasy": "atinge o próximo ({n}%)",
+        "romance": "cura {n}% por golpe",
+        "slice_of_life": "vida +{n}%",
+        "thrills": "golpe duplo {n}%",
+        "scifi_sport": "ataca {n}% mais rápido"
       },
       "perks": {
         "heal": {
-          "name": "Heal",
-          "text": "Standing cards get half their health back."
+          "name": "Cura",
+          "text": "As cartas de pé recuperam metade da vida."
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health for the whole team (a little less each time you take it again)."
+          "name": "Vigor",
+          "text": "+20% de vida para o time todo (um pouco menos a cada vez que você pega de novo)."
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack for the whole team (a little less each time you take it again)."
+          "name": "Treino",
+          "text": "+15% de ataque para o time todo (um pouco menos a cada vez que você pega de novo)."
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "The whole team attacks 12% faster."
+          "name": "Adrenalina",
+          "text": "O time todo ataca 12% mais rápido."
         },
         "shield": {
-          "name": "Shield",
-          "text": "Every wave, each card blocks the first blow it takes, up to half its health."
+          "name": "Escudo",
+          "text": "A cada onda, cada carta bloqueia o primeiro golpe que receber, até metade da sua vida."
         },
         "precision": {
-          "name": "Precision",
-          "text": "+10% critical chance, and critical hits hurt more."
+          "name": "Precisão",
+          "text": "+10% de chance de crítico, e os golpes críticos machucam mais."
         },
         "vampire": {
-          "name": "Vampire",
-          "text": "Each blow heals the striker by 8% of its damage."
+          "name": "Vampiro",
+          "text": "Cada golpe cura quem o dá em 8% do dano causado."
         },
         "reinforcements": {
-          "name": "Reinforcements",
-          "text": "Fallen cards come back with half their health."
+          "name": "Reforços",
+          "text": "As cartas caídas voltam com metade da vida."
         },
         "focus": {
-          "name": "{genre} focus",
-          "text": "+40% attack for the team's {genre} cards (a little less each time you take it again)."
+          "name": "Foco em {genre}",
+          "text": "+40% de ataque para as cartas de {genre} do time (um pouco menos a cada vez que você pega de novo)."
         },
         "evo_bloodlust": {
-          "name": "Bloodlust",
-          "text": "Vampire + Precision: every critical hit heals the whole team."
+          "name": "Sede de sangue",
+          "text": "Vampiro + Precisão: cada golpe crítico cura o time todo."
         },
         "evo_fortress": {
-          "name": "Fortress",
-          "text": "Shield + Stamina: every knock-out recharges the whole team's shield."
+          "name": "Fortaleza",
+          "text": "Escudo + Vigor: cada nocaute recarrega o escudo do time todo."
         },
         "evo_frenzy": {
-          "name": "Frenzy",
-          "text": "Adrenaline + Training: every knock-out speeds the team up until the end of the wave."
+          "name": "Frenesi",
+          "text": "Adrenalina + Treino: cada nocaute acelera o time até o fim da onda."
         }
       },
       "relics": {
         "dragon_heart": {
-          "name": "Dragon heart",
-          "text": "+40% health and the whole team comes back to full, fallen cards too."
+          "name": "Coração de dragão",
+          "text": "+40% de vida e o time todo volta com a vida cheia, inclusive as cartas caídas."
         },
         "hourglass": {
-          "name": "Hourglass",
-          "text": "For the first 5 seconds of each wave, the team attacks twice as fast."
+          "name": "Ampulheta",
+          "text": "Nos primeiros 5 segundos de cada onda, o time ataca duas vezes mais rápido."
         },
         "totem": {
           "name": "Totem",
-          "text": "Every wave, the first card to fall gets up with 40% health."
+          "text": "A cada onda, a primeira carta a cair se levanta com 40% de vida."
         }
       },
       "rarity": {
-        "common": "Common",
-        "rare": "Rare",
-        "epic": "Epic",
-        "evolution": "Evolution",
-        "relic": "Relic"
+        "common": "Comum",
+        "rare": "Rara",
+        "epic": "Épica",
+        "evolution": "Evolução",
+        "relic": "Relíquia"
       },
       "relicTitle": "Chefe derrotado: escolha uma relíquia",
       "perkTitle": "Onda {n} vencida: escolha um bônus",
       "waveOf": "Onda {n}",
       "skip": "Pular",
       "boss": {
-        "enraged": "Enraged",
-        "regeneration": "Regeneration",
-        "thorns": "Thorns"
+        "enraged": "Enfurecido",
+        "regeneration": "Regeneração",
+        "thorns": "Espinhos"
       },
       "elite": {
-        "armoured": "Armoured",
-        "fast": "Fast",
-        "healer": "Healer",
-        "explosive": "Explosive"
+        "armoured": "Blindado",
+        "fast": "Veloz",
+        "healer": "Curandeiro",
+        "explosive": "Explosivo"
       },
       "areaWarn": "O chefe está preparando um ataque em área!",
       "powers": {
-        "blade": "Blade storm",
-        "meteor": "Meteor",
-        "healing": "Healing wave",
-        "rampart": "Rampart",
+        "blade": "Tempestade de lâminas",
+        "meteor": "Meteoro",
+        "healing": "Onda de cura",
+        "rampart": "Muralha",
         "terror": "Terror",
         "overdrive": "Overdrive"
       },
       "rules": {
-        "recruit": "Recruit: pick 5 cards out of 8.",
-        "auto": "Auto battle: your team strikes the enemies on its own, wave after wave. A wave lost ends the raid.",
-        "bonus": "After each wave, pick one bonus out of three, common to epic: heal, reinforcements, shield, vampire…",
-        "boss": "A boss every 5 waves: one very tough card with two minions and a trait (Enraged, Regeneration or Thorns). It gathers an area strike every 9 seconds; the warning shows just before.",
-        "stats": "Attack and health by rarity: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. A card's power adds up to 33%.",
-        "series": "Same anime: 2 cards +40% attack for them, 3 cards +80%.",
-        "genres": "Genres (2 cards / 3 or more): Battle crits +12/24% · Fantasy hits the next one 35/70% · Romance heals 4/8% per blow · Slice of life health +25/50% · Thrills double strike 12/24% · Sci-fi & Sport attacks 20/40% faster.",
-        "stars": "Cards evolve: a star at 3, 8 and 15 knock-outs, +25% attack and health each (a boss counts as 5).",
-        "powers": "Legendary and Mythic powers: Blade storm, Meteor, Healing wave, Rampart, Terror, Overdrive. A Legendary uses it every 11 seconds, a Mythic every 8 and 50% stronger.",
-        "elites": "Elite enemies: Armoured (takes 40% less), Fast, Healer, Explosive (blows up on your team when it falls).",
-        "relics": "After each boss, pick a relic out of three: powerful bonuses found nowhere else.",
-        "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10."
+        "recruit": "Recrutar: escolha 5 cartas entre 8.",
+        "auto": "Batalha automática: seu time ataca os inimigos sozinho, onda após onda. Perdeu uma onda, a raid acaba.",
+        "bonus": "Depois de cada onda, escolha um bônus entre três, de comum a épico: cura, reforços, escudo, vampiro…",
+        "boss": "Um chefe a cada 5 ondas: uma carta bem resistente com dois lacaios e uma característica (Enfurecido, Regeneração ou Espinhos). Ele prepara um golpe em área a cada 9 segundos; o aviso aparece logo antes.",
+        "stats": "Ataque e vida por raridade: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. O poder de uma carta soma até 33%.",
+        "series": "Mesmo anime: 2 cartas +40% de ataque para elas, 3 cartas +80%.",
+        "genres": "Gêneros (2 cartas / 3 ou mais): Batalha críticos +12/24% · Fantasia atinge o próximo 35/70% · Romance cura 4/8% por golpe · Cotidiano vida +25/50% · Suspense golpe duplo 12/24% · Ficção científica e Esporte ataca 20/40% mais rápido.",
+        "stars": "As cartas evoluem: uma estrela com 3, 8 e 15 nocautes, +25% de ataque e vida cada (um chefe conta como 5).",
+        "powers": "Poderes de Lendárias e Míticas: Tempestade de lâminas, Meteoro, Onda de cura, Muralha, Terror, Overdrive. Uma Lendária usa a cada 11 segundos, uma Mítica a cada 8 e 50% mais forte.",
+        "elites": "Inimigos de elite: Blindado (recebe 40% menos), Veloz, Curandeiro, Explosivo (explode no seu time quando cai).",
+        "relics": "Depois de cada chefe, escolha uma relíquia entre três: bônus poderosos que não existem em outro lugar.",
+        "score": "Sua pontuação é o número de ondas vencidas. Estrelas nas ondas 3, 6 e 10."
       },
       "ready": "Seu time está pronto.",
       "fightWave": "Lutar na onda {n}"
@@ -2321,173 +2321,173 @@
       "share": "Resolvi as Conexões do dia no Kizuna com {mistakes} erros!"
     },
     "expedition": {
-      "name": "The Expedition",
-      "chip": "Adventure",
-      "pitch": "Buy a team of 5 cards on a budget, then travel chapter after chapter: fights, treasures, shops and bosses. Your cards gain ranks that stay.",
-      "share": "My expedition on Kizuna went {n} cases deep!",
-      "again": "New expedition",
-      "cleared": "Cases",
-      "shards": "Shards",
-      "cases": "{n} cases",
-      "setOff": "Set off",
-      "pickTeam": "Build your team",
-      "remove": "Remove {name}",
-      "search": "Search a card or a series",
-      "all": "All",
+      "name": "A Expedição",
+      "chip": "Aventura",
+      "pitch": "Compre um time de 5 cartas com orçamento limitado e avance capítulo após capítulo: lutas, tesouros, lojas e chefes. Suas cartas ganham níveis que ficam para sempre.",
+      "share": "Minha expedição no Kizuna chegou a {n} casas!",
+      "again": "Nova expedição",
+      "cleared": "Casas",
+      "shards": "Fragmentos",
+      "cases": "{n} casas",
+      "setOff": "Partir",
+      "pickTeam": "Monte seu time",
+      "remove": "Remover {name}",
+      "search": "Busque uma carta ou uma série",
+      "all": "Todas",
       "rank": "R{n}",
       "xp": "{n} XP",
-      "swapPick": "Pick a card to replace {name}",
-      "cancel": "Cancel",
-      "chapter": "Chapter {n} · {series}",
+      "swapPick": "Escolha uma carta para substituir {name}",
+      "cancel": "Cancelar",
+      "chapter": "Capítulo {n} · {series}",
       "kinds": {
-        "fight": "Fight",
-        "treasure": "Treasure",
-        "shop": "Shop",
-        "boss": "Boss"
+        "fight": "Luta",
+        "treasure": "Tesouro",
+        "shop": "Loja",
+        "boss": "Chefe"
       },
-      "comeBack": "Your team rests: five fights a day. Come back tomorrow (Paris midnight).",
-      "giveUp": "Give up the expedition",
-      "seeResult": "See the result",
-      "treasure": "Treasure! +{shards} shards, +{tickets} tickets and a {item}",
-      "won": "Case cleared! +{shards} shards · +{xp} XP to the team · +{tickets} tickets",
-      "lost": "Your team fell. The expedition is over.",
-      "swap": "Swap",
-      "swapOne": "Swap {name}",
-      "bag": "Bag",
-      "use": "Use {item}",
-      "tonicOn": "Tonic ready",
+      "comeBack": "Seu time está descansando: cinco lutas por dia. Volte amanhã (meia-noite de Paris).",
+      "giveUp": "Desistir da expedição",
+      "seeResult": "Ver o resultado",
+      "treasure": "Tesouro! +{shards} fragmentos, +{tickets} tickets e um item: {item}",
+      "won": "Casa vencida! +{shards} fragmentos · +{xp} XP para o time · +{tickets} tickets",
+      "lost": "Seu time caiu. A expedição acabou.",
+      "swap": "Trocar",
+      "swapOne": "Trocar {name}",
+      "bag": "Mochila",
+      "use": "Usar {item}",
+      "tonicOn": "Tônico pronto",
       "items": {
         "potion": {
-          "name": "Potion",
-          "text": "Heals the team by 50% of their health."
+          "name": "Poção",
+          "text": "Cura 50% da vida do time."
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "+15% attack for the next case."
+          "name": "Tônico",
+          "text": "+15% de ataque na próxima casa."
         },
         "phoenix": {
-          "name": "Phoenix",
-          "text": "Brings fallen cards back at half health."
+          "name": "Fênix",
+          "text": "Traz as cartas caídas de volta com metade da vida."
         }
       },
-      "bonusTitle": "Pick a bonus",
-      "shopTitle": "Shop",
-      "shardsLeft": "You have {n} shards",
-      "price": "{n} shards",
-      "bought": "Bought",
-      "leave": "Leave",
+      "bonusTitle": "Escolha um bônus",
+      "shopTitle": "Loja",
+      "shardsLeft": "Você tem {n} fragmentos",
+      "price": "{n} fragmentos",
+      "bought": "Comprado",
+      "leave": "Sair",
       "shop": {
         "heal": {
-          "name": "Heal",
-          "text": "Heals the team by 50% now."
+          "name": "Cura",
+          "text": "Cura 50% do time agora."
         },
         "potion": {
-          "name": "Potion",
-          "text": "Goes in your bag: heals 50% when you need it."
+          "name": "Poção",
+          "text": "Vai para a mochila: cura 50% quando precisar."
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "Goes in your bag: +15% attack for one case."
+          "name": "Tônico",
+          "text": "Vai para a mochila: +15% de ataque por uma casa."
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack until the chapter ends."
+          "name": "Treino",
+          "text": "+15% de ataque até o fim do capítulo."
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health until the chapter ends."
+          "name": "Vigor",
+          "text": "+20% de vida até o fim do capítulo."
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "Faster attacks until the chapter ends."
+          "name": "Adrenalina",
+          "text": "Ataques mais rápidos até o fim do capítulo."
         }
       },
       "rules": {
-        "team": "Build a team of 5 different cards from the whole catalogue with a budget of 20: Common 1, Uncommon 2, Rare 3, Epic 5, Legendary 8, Mythic 12.",
-        "route": "Each chapter has 10 cases: fight, treasure, fight, shop, boss, fight, treasure, fight, shop, boss. The map shows the cases behind you, the next one and the bosses; the rest stays in the fog. Each chapter follows a series: its cards are most of the enemies, and your cards from it hit 20% harder.",
-        "fights": "A fight is 3 waves, the boss waits in the last wave of a boss case. Your team fights on its own, like in raids. Health carries over from wave to wave and case to case: lose a case and the expedition ends.",
-        "rewards": "A won fight gives 30 shards, 22 XP to each card of the team, tickets (6, then one more each chapter, up to 10) and a bonus to pick. Bonuses last until the chapter ends; beating its last boss heals the team.",
-        "shop": "Treasures give 40 shards, 3 tickets and a bag item (Potion, Tonic or Phoenix). Shops sell three offers for shards. Between cases you can use bag items and swap one card (budget still 20; the newcomer takes over its health).",
-        "ranks": "Cards keep their experience between expeditions: rank 1 at 30 XP, 2 at 90, 3 at 200, 4 at 400, 5 at 700. Each rank adds 12% attack and health.",
-        "daily": "Five fights a day (bosses included); treasures and shops don't count. The expedition waits for you across days.",
-        "score": "Your score is the number of cases cleared; the weekly ranking keeps your furthest expedition."
+        "team": "Monte um time de 5 cartas diferentes de todo o catálogo com orçamento de 20: Comum 1, Incomum 2, Rara 3, Épica 5, Lendária 8, Mítica 12.",
+        "route": "Cada capítulo tem 10 casas: luta, tesouro, luta, loja, chefe, luta, tesouro, luta, loja, chefe. O mapa mostra as casas que ficaram para trás, a próxima e os chefes; o resto fica na névoa. Cada capítulo segue uma série: as cartas dela são a maioria dos inimigos, e as suas cartas dela batem 20% mais forte.",
+        "fights": "Uma luta tem 3 ondas, e o chefe espera na última onda de uma casa de chefe. Seu time luta sozinho, como nas raids. A vida passa de uma onda para outra e de uma casa para outra: perdeu uma casa, a expedição acaba.",
+        "rewards": "Uma luta vencida dá 30 fragmentos, 22 XP para cada carta do time, tickets (6, depois um a mais a cada capítulo, até 10) e um bônus para escolher. Os bônus duram até o fim do capítulo; vencer o último chefe cura o time.",
+        "shop": "Os tesouros dão 40 fragmentos, 3 tickets e um item da mochila (Poção, Tônico ou Fênix). As lojas vendem três ofertas por fragmentos. Entre as casas você pode usar itens da mochila e trocar uma carta (orçamento ainda de 20; a nova herda a vida da anterior).",
+        "ranks": "As cartas mantêm a experiência entre expedições: nível 1 com 30 XP, 2 com 90, 3 com 200, 4 com 400, 5 com 700. Cada nível soma 12% de ataque e vida.",
+        "daily": "Cinco lutas por dia (chefes incluídos); tesouros e lojas não contam. A expedição espera por você de um dia para o outro.",
+        "score": "Sua pontuação é o número de casas vencidas; o ranking semanal guarda sua expedição mais longa."
       },
-      "today": "Fights today",
-      "theRoute": "The route",
+      "today": "Lutas hoje",
+      "theRoute": "O caminho",
       "tabs": {
-        "route": "Route",
-        "cards": "Cards"
+        "route": "Caminho",
+        "cards": "Cartas"
       },
-      "youAreHere": "YOU ARE HERE",
-      "unknown": "Still unknown",
-      "waves": "{n} waves",
-      "bossWaves": "Boss · {n} waves",
+      "youAreHere": "VOCÊ ESTÁ AQUI",
+      "unknown": "Ainda desconhecido",
+      "waves": "{n} ondas",
+      "bossWaves": "Chefe · {n} ondas",
       "goTo": {
-        "fight": "Fight",
-        "treasure": "Open the treasure",
-        "shop": "Enter the shop",
-        "boss": "Face the boss"
+        "fight": "Lutar",
+        "treasure": "Abrir o tesouro",
+        "shop": "Entrar na loja",
+        "boss": "Enfrentar o chefe"
       },
-      "bonusKept": "One only, kept until the end of the chapter.",
+      "bonusKept": "Só um, mantido até o fim do capítulo.",
       "report": {
-        "won": "Case won",
-        "lost": "Case lost",
-        "waves": "{n} waves out of {total}",
-        "damage": "{n} damage dealt",
-        "best": "Best card",
+        "won": "Casa vencida",
+        "lost": "Casa perdida",
+        "waves": "{n} ondas de {total}",
+        "damage": "{n} de dano causado",
+        "best": "Melhor carta",
         "kos": "{n} KO",
-        "continue": "Continue"
+        "continue": "Continuar"
       }
     },
     "blindTest": {
-      "name": "Blind test",
-      "chip": "10 clips",
-      "clip": "Clip",
-      "level": "Level",
+      "name": "Quiz de trilhas",
+      "chip": "10 clipes",
+      "clip": "Clipe",
+      "level": "Nível",
       "levels": {
-        "easy": "Easy",
-        "medium": "Medium",
-        "hard": "Hard"
+        "easy": "Fácil",
+        "medium": "Médio",
+        "hard": "Difícil"
       },
       "pitches": {
-        "easy": "Openings of the big classics. Listen to 30 seconds and find the series among four.",
-        "medium": "Openings and endings of well-known series. Listen to 30 seconds and find the series among four.",
-        "hard": "The whole bank of themes. Listen to 30 seconds and find the series among four."
+        "easy": "Aberturas dos grandes clássicos. Ouça 30 segundos e descubra a série entre quatro.",
+        "medium": "Aberturas e encerramentos de séries conhecidas. Ouça 30 segundos e descubra a série entre quatro.",
+        "hard": "Todo o acervo de temas. Ouça 30 segundos e descubra a série entre quatro."
       },
-      "rules": "10 theme clips of 30 seconds. Find the series among four answers: the faster you are, the more points (up to 100). A wrong answer gives 0. After each answer you see the song, the artist and a character of the series.",
-      "right": "Well heard! +{n}",
-      "wrong": "Wrong!",
-      "next": "Next",
-      "seeResult": "See the result",
-      "share": "I scored {score} at the Kizuna blind test!"
+      "rules": "10 clipes de temas de 30 segundos. Descubra a série entre quatro respostas: quanto mais rápido, mais pontos (até 100). Uma resposta errada vale 0. Depois de cada resposta você vê a música, o artista e um personagem da série.",
+      "right": "Boa ouvida! +{n}",
+      "wrong": "Errou!",
+      "next": "Próxima",
+      "seeResult": "Ver o resultado",
+      "share": "Fiz {score} no quiz de trilhas do Kizuna!"
     },
-    "playMulti": "Play with others",
-    "playMultiText": "2 to 4 players, the same questions.",
+    "playMulti": "Jogar com outros",
+    "playMultiText": "2 a 4 jogadores, as mesmas perguntas.",
     "table": {
-      "title": "Play with others",
-      "pitch": "Up to {n} players get the same questions. The fastest right answers win.",
-      "match": "Join a table",
-      "matchText": "Sit at a table waiting for players, or open one.",
-      "open": "Open a table for friends",
-      "openText": "Get a code to share; you start when everyone is here.",
-      "code": "Table code",
-      "codeHint": "Code (5 letters)",
-      "join": "Join",
-      "backSolo": "Back to solo",
-      "copy": "Copy the code",
-      "share": "Share this code with your friends (Discord, messages…).",
-      "you": "you",
-      "host": "Host",
-      "free": "Free seat",
-      "needTwo": "Waiting for a second player…",
-      "start": "Start with {n} players",
-      "waitHost": "Waiting for the host to start…",
-      "leave": "Leave the table",
-      "players": "Players at the table",
-      "answered": "Answered",
-      "stillPlaying": "still playing",
-      "nextComing": "Everyone answered: next one coming!",
-      "waitOthers": "Waiting for the others to answer…"
+      "title": "Jogar com outros",
+      "pitch": "Até {n} jogadores recebem as mesmas perguntas. As respostas certas mais rápidas vencem.",
+      "match": "Entrar numa mesa",
+      "matchText": "Sente numa mesa que espera jogadores ou abra uma.",
+      "open": "Abrir uma mesa para amigos",
+      "openText": "Receba um código para compartilhar; você começa quando todos chegarem.",
+      "code": "Código da mesa",
+      "codeHint": "Código (5 letras)",
+      "join": "Entrar",
+      "backSolo": "Voltar ao solo",
+      "copy": "Copiar o código",
+      "share": "Compartilhe este código com seus amigos (Discord, mensagens…).",
+      "you": "você",
+      "host": "Anfitrião",
+      "free": "Lugar livre",
+      "needTwo": "Esperando um segundo jogador…",
+      "start": "Começar com {n} jogadores",
+      "waitHost": "Esperando o anfitrião começar…",
+      "leave": "Sair da mesa",
+      "players": "Jogadores na mesa",
+      "answered": "Respondeu",
+      "stillPlaying": "ainda jogando",
+      "nextComing": "Todos responderam: vem a próxima!",
+      "waitOthers": "Esperando os outros responderem…"
     }
   }
 }

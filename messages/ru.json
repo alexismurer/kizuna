@@ -1773,7 +1773,7 @@
       "title": "Против компьютера",
       "text": "Потренируйся против Сэнсэя. Он играет быстро и редко отдаёт раунд даром.",
       "start": "Начать дуэль",
-      "name": "Sensei"
+      "name": "Сэнсэй"
     },
     "friend": {
       "title": "Против друга",
@@ -1974,15 +1974,15 @@
       "run_not_found": "Игра не найдена.",
       "forbidden": "Игровой зал ещё не открыт.",
       "not_signed_in": "Войди, чтобы играть.",
-      "over_budget": "That team costs more than 20.",
-      "come_back_tomorrow": "Five fights a day: come back tomorrow.",
-      "not_enough_shards": "Not enough shards.",
-      "expedition_open": "You already have an expedition under way.",
-      "not_enough_cards": "Not enough cards or clips for this game yet.",
-      "table_not_found": "No table with this code (or it closed).",
-      "table_started": "This table has already started.",
-      "table_full": "This table is full (4 players).",
-      "table_other_game": "This code is for another game."
+      "over_budget": "Эта команда стоит больше 20.",
+      "come_back_tomorrow": "Пять боёв в день: возвращайся завтра.",
+      "not_enough_shards": "Не хватает осколков.",
+      "expedition_open": "У тебя уже идёт экспедиция.",
+      "not_enough_cards": "Для этой игры пока не хватает карт или клипов.",
+      "table_not_found": "Стола с таким кодом нет (или он закрылся).",
+      "table_started": "За этим столом игра уже началась.",
+      "table_full": "Этот стол заполнен (4 игрока).",
+      "table_other_game": "Этот код для другой игры."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2157,121 +2157,121 @@
       "start": "Начать рейд",
       "atkBonus": "+{n}% атаки",
       "genreBonus": {
-        "battle": "crits +{n}%",
-        "fantasy": "hits the next one ({n}%)",
-        "romance": "heals {n}% per blow",
-        "slice_of_life": "health +{n}%",
-        "thrills": "double strike {n}%",
-        "scifi_sport": "attacks {n}% faster"
+        "battle": "криты +{n}%",
+        "fantasy": "удар по следующему ({n}%)",
+        "romance": "лечит {n}% за удар",
+        "slice_of_life": "здоровье +{n}%",
+        "thrills": "двойной удар {n}%",
+        "scifi_sport": "атакует на {n}% быстрее"
       },
       "perks": {
         "heal": {
-          "name": "Heal",
-          "text": "Standing cards get half their health back."
+          "name": "Лечение",
+          "text": "Уцелевшие карты восстанавливают половину здоровья."
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health for the whole team (a little less each time you take it again)."
+          "name": "Выносливость",
+          "text": "+20% здоровья всей команде (с каждым повторным выбором чуть меньше)."
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack for the whole team (a little less each time you take it again)."
+          "name": "Тренировка",
+          "text": "+15% атаки всей команде (с каждым повторным выбором чуть меньше)."
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "The whole team attacks 12% faster."
+          "name": "Адреналин",
+          "text": "Вся команда атакует на 12% быстрее."
         },
         "shield": {
-          "name": "Shield",
-          "text": "Every wave, each card blocks the first blow it takes, up to half its health."
+          "name": "Щит",
+          "text": "В каждой волне каждая карта блокирует первый полученный удар, до половины своего здоровья."
         },
         "precision": {
-          "name": "Precision",
-          "text": "+10% critical chance, and critical hits hurt more."
+          "name": "Точность",
+          "text": "+10% шанса крита, а критические удары бьют сильнее."
         },
         "vampire": {
-          "name": "Vampire",
-          "text": "Each blow heals the striker by 8% of its damage."
+          "name": "Вампир",
+          "text": "Каждый удар лечит бьющего на 8% нанесённого урона."
         },
         "reinforcements": {
-          "name": "Reinforcements",
-          "text": "Fallen cards come back with half their health."
+          "name": "Подкрепление",
+          "text": "Павшие карты возвращаются с половиной здоровья."
         },
         "focus": {
-          "name": "{genre} focus",
-          "text": "+40% attack for the team's {genre} cards (a little less each time you take it again)."
+          "name": "Фокус: {genre}",
+          "text": "+40% атаки картам команды в жанре {genre} (с каждым повторным выбором чуть меньше)."
         },
         "evo_bloodlust": {
-          "name": "Bloodlust",
-          "text": "Vampire + Precision: every critical hit heals the whole team."
+          "name": "Жажда крови",
+          "text": "Вампир + Точность: каждый критический удар лечит всю команду."
         },
         "evo_fortress": {
-          "name": "Fortress",
-          "text": "Shield + Stamina: every knock-out recharges the whole team's shield."
+          "name": "Крепость",
+          "text": "Щит + Выносливость: каждый нокаут восстанавливает щит всей команды."
         },
         "evo_frenzy": {
-          "name": "Frenzy",
-          "text": "Adrenaline + Training: every knock-out speeds the team up until the end of the wave."
+          "name": "Неистовство",
+          "text": "Адреналин + Тренировка: каждый нокаут ускоряет команду до конца волны."
         }
       },
       "relics": {
         "dragon_heart": {
-          "name": "Dragon heart",
-          "text": "+40% health and the whole team comes back to full, fallen cards too."
+          "name": "Сердце дракона",
+          "text": "+40% здоровья, и вся команда восстанавливается полностью, включая павших."
         },
         "hourglass": {
-          "name": "Hourglass",
-          "text": "For the first 5 seconds of each wave, the team attacks twice as fast."
+          "name": "Песочные часы",
+          "text": "Первые 5 секунд каждой волны команда атакует вдвое быстрее."
         },
         "totem": {
-          "name": "Totem",
-          "text": "Every wave, the first card to fall gets up with 40% health."
+          "name": "Тотем",
+          "text": "В каждой волне первая павшая карта встаёт с 40% здоровья."
         }
       },
       "rarity": {
-        "common": "Common",
-        "rare": "Rare",
-        "epic": "Epic",
-        "evolution": "Evolution",
-        "relic": "Relic"
+        "common": "Обычная",
+        "rare": "Редкая",
+        "epic": "Эпическая",
+        "evolution": "Эволюция",
+        "relic": "Реликвия"
       },
       "relicTitle": "Босс повержен: выбери реликвию",
       "perkTitle": "Волна {n} пройдена: выбери бонус",
       "waveOf": "Волна {n}",
       "skip": "Пропустить",
       "boss": {
-        "enraged": "Enraged",
-        "regeneration": "Regeneration",
-        "thorns": "Thorns"
+        "enraged": "Ярость",
+        "regeneration": "Регенерация",
+        "thorns": "Шипы"
       },
       "elite": {
-        "armoured": "Armoured",
-        "fast": "Fast",
-        "healer": "Healer",
-        "explosive": "Explosive"
+        "armoured": "Бронированный",
+        "fast": "Быстрый",
+        "healer": "Лекарь",
+        "explosive": "Взрывной"
       },
       "areaWarn": "Босс готовит удар по площади!",
       "powers": {
-        "blade": "Blade storm",
-        "meteor": "Meteor",
-        "healing": "Healing wave",
-        "rampart": "Rampart",
-        "terror": "Terror",
-        "overdrive": "Overdrive"
+        "blade": "Буря клинков",
+        "meteor": "Метеор",
+        "healing": "Волна исцеления",
+        "rampart": "Бастион",
+        "terror": "Ужас",
+        "overdrive": "Форсаж"
       },
       "rules": {
-        "recruit": "Recruit: pick 5 cards out of 8.",
-        "auto": "Auto battle: your team strikes the enemies on its own, wave after wave. A wave lost ends the raid.",
-        "bonus": "After each wave, pick one bonus out of three, common to epic: heal, reinforcements, shield, vampire…",
-        "boss": "A boss every 5 waves: one very tough card with two minions and a trait (Enraged, Regeneration or Thorns). It gathers an area strike every 9 seconds; the warning shows just before.",
-        "stats": "Attack and health by rarity: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. A card's power adds up to 33%.",
-        "series": "Same anime: 2 cards +40% attack for them, 3 cards +80%.",
-        "genres": "Genres (2 cards / 3 or more): Battle crits +12/24% · Fantasy hits the next one 35/70% · Romance heals 4/8% per blow · Slice of life health +25/50% · Thrills double strike 12/24% · Sci-fi & Sport attacks 20/40% faster.",
-        "stars": "Cards evolve: a star at 3, 8 and 15 knock-outs, +25% attack and health each (a boss counts as 5).",
-        "powers": "Legendary and Mythic powers: Blade storm, Meteor, Healing wave, Rampart, Terror, Overdrive. A Legendary uses it every 11 seconds, a Mythic every 8 and 50% stronger.",
-        "elites": "Elite enemies: Armoured (takes 40% less), Fast, Healer, Explosive (blows up on your team when it falls).",
-        "relics": "After each boss, pick a relic out of three: powerful bonuses found nowhere else.",
-        "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10."
+        "recruit": "Набор: выбери 5 карт из 8.",
+        "auto": "Автобой: твоя команда сама бьёт врагов, волну за волной. Проигранная волна заканчивает рейд.",
+        "bonus": "После каждой волны выбери один из трёх бонусов, от обычного до эпического: лечение, подкрепление, щит, вампир…",
+        "boss": "Босс каждые 5 волн: одна очень крепкая карта с двумя помощниками и чертой (Ярость, Регенерация или Шипы). Каждые 9 секунд он готовит удар по площади; предупреждение появляется прямо перед ним.",
+        "stats": "Атака и здоровье по редкости: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. Сила карты добавляет до 33%.",
+        "series": "Одно аниме: 2 карты — +40% атаки им, 3 карты — +80%.",
+        "genres": "Жанры (2 карты / 3 и больше): Боевик — криты +12/24% · Фэнтези — удар по следующему 35/70% · Романтика — лечит 4/8% за удар · Повседневность — здоровье +25/50% · Триллер — двойной удар 12/24% · Фантастика и спорт — атакует на 20/40% быстрее.",
+        "stars": "Карты эволюционируют: звезда за 3, 8 и 15 нокаутов, каждая даёт +25% атаки и здоровья (босс считается за 5).",
+        "powers": "Силы Легендарных и Мифических: Буря клинков, Метеор, Волна исцеления, Бастион, Ужас, Форсаж. Легендарная применяет её каждые 11 секунд, Мифическая — каждые 8 и на 50% сильнее.",
+        "elites": "Элитные враги: Бронированный (получает на 40% меньше урона), Быстрый, Лекарь, Взрывной (при падении взрывается на твоей команде).",
+        "relics": "После каждого босса выбери одну из трёх реликвий: мощные бонусы, которых нигде больше нет.",
+        "score": "Твой результат — число пройденных волн. Звёзды за волны 3, 6 и 10."
       },
       "ready": "Команда готова.",
       "fightWave": "Сразиться с волной {n}"
@@ -2321,173 +2321,173 @@
       "share": "Я решил сегодняшние «Связи» на Kizuna с ошибками: {mistakes}!"
     },
     "expedition": {
-      "name": "The Expedition",
-      "chip": "Adventure",
-      "pitch": "Buy a team of 5 cards on a budget, then travel chapter after chapter: fights, treasures, shops and bosses. Your cards gain ranks that stay.",
-      "share": "My expedition on Kizuna went {n} cases deep!",
-      "again": "New expedition",
-      "cleared": "Cases",
-      "shards": "Shards",
-      "cases": "{n} cases",
-      "setOff": "Set off",
-      "pickTeam": "Build your team",
-      "remove": "Remove {name}",
-      "search": "Search a card or a series",
-      "all": "All",
+      "name": "Экспедиция",
+      "chip": "Приключение",
+      "pitch": "Купи команду из 5 карт в рамках бюджета и иди глава за главой: бои, сокровища, магазины и боссы. Ранги твоих карт сохраняются.",
+      "share": "Моя экспедиция в Kizuna дошла до клетки {n}!",
+      "again": "Новая экспедиция",
+      "cleared": "Клетки",
+      "shards": "Осколки",
+      "cases": "Клеток: {n}",
+      "setOff": "В путь",
+      "pickTeam": "Собери команду",
+      "remove": "Убрать {name}",
+      "search": "Поиск карты или сериала",
+      "all": "Все",
       "rank": "R{n}",
       "xp": "{n} XP",
-      "swapPick": "Pick a card to replace {name}",
-      "cancel": "Cancel",
-      "chapter": "Chapter {n} · {series}",
+      "swapPick": "Выбери карту на замену {name}",
+      "cancel": "Отмена",
+      "chapter": "Глава {n} · {series}",
       "kinds": {
-        "fight": "Fight",
-        "treasure": "Treasure",
-        "shop": "Shop",
-        "boss": "Boss"
+        "fight": "Бой",
+        "treasure": "Сокровище",
+        "shop": "Магазин",
+        "boss": "Босс"
       },
-      "comeBack": "Your team rests: five fights a day. Come back tomorrow (Paris midnight).",
-      "giveUp": "Give up the expedition",
-      "seeResult": "See the result",
-      "treasure": "Treasure! +{shards} shards, +{tickets} tickets and a {item}",
-      "won": "Case cleared! +{shards} shards · +{xp} XP to the team · +{tickets} tickets",
-      "lost": "Your team fell. The expedition is over.",
-      "swap": "Swap",
-      "swapOne": "Swap {name}",
-      "bag": "Bag",
-      "use": "Use {item}",
-      "tonicOn": "Tonic ready",
+      "comeBack": "Твоя команда отдыхает: пять боёв в день. Возвращайся завтра (в полночь по Парижу).",
+      "giveUp": "Бросить экспедицию",
+      "seeResult": "Посмотреть результат",
+      "treasure": "Сокровище! +{shards} осколков, +{tickets} билетов и предмет: {item}",
+      "won": "Клетка пройдена! +{shards} осколков · +{xp} опыта команде · +{tickets} билетов",
+      "lost": "Твоя команда пала. Экспедиция окончена.",
+      "swap": "Замена",
+      "swapOne": "Заменить {name}",
+      "bag": "Сумка",
+      "use": "Использовать: {item}",
+      "tonicOn": "Тоник готов",
       "items": {
         "potion": {
-          "name": "Potion",
-          "text": "Heals the team by 50% of their health."
+          "name": "Зелье",
+          "text": "Восстанавливает команде 50% здоровья."
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "+15% attack for the next case."
+          "name": "Тоник",
+          "text": "+15% атаки на следующую клетку."
         },
         "phoenix": {
-          "name": "Phoenix",
-          "text": "Brings fallen cards back at half health."
+          "name": "Феникс",
+          "text": "Возвращает павшие карты с половиной здоровья."
         }
       },
-      "bonusTitle": "Pick a bonus",
-      "shopTitle": "Shop",
-      "shardsLeft": "You have {n} shards",
-      "price": "{n} shards",
-      "bought": "Bought",
-      "leave": "Leave",
+      "bonusTitle": "Выбери бонус",
+      "shopTitle": "Магазин",
+      "shardsLeft": "У тебя осколков: {n}",
+      "price": "Осколков: {n}",
+      "bought": "Куплено",
+      "leave": "Уйти",
       "shop": {
         "heal": {
-          "name": "Heal",
-          "text": "Heals the team by 50% now."
+          "name": "Лечение",
+          "text": "Сразу восстанавливает команде 50% здоровья."
         },
         "potion": {
-          "name": "Potion",
-          "text": "Goes in your bag: heals 50% when you need it."
+          "name": "Зелье",
+          "text": "Кладётся в сумку: восстанавливает 50%, когда понадобится."
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "Goes in your bag: +15% attack for one case."
+          "name": "Тоник",
+          "text": "Кладётся в сумку: +15% атаки на одну клетку."
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack until the chapter ends."
+          "name": "Тренировка",
+          "text": "+15% атаки до конца главы."
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health until the chapter ends."
+          "name": "Выносливость",
+          "text": "+20% здоровья до конца главы."
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "Faster attacks until the chapter ends."
+          "name": "Адреналин",
+          "text": "Быстрее атаки до конца главы."
         }
       },
       "rules": {
-        "team": "Build a team of 5 different cards from the whole catalogue with a budget of 20: Common 1, Uncommon 2, Rare 3, Epic 5, Legendary 8, Mythic 12.",
-        "route": "Each chapter has 10 cases: fight, treasure, fight, shop, boss, fight, treasure, fight, shop, boss. The map shows the cases behind you, the next one and the bosses; the rest stays in the fog. Each chapter follows a series: its cards are most of the enemies, and your cards from it hit 20% harder.",
-        "fights": "A fight is 3 waves, the boss waits in the last wave of a boss case. Your team fights on its own, like in raids. Health carries over from wave to wave and case to case: lose a case and the expedition ends.",
-        "rewards": "A won fight gives 30 shards, 22 XP to each card of the team, tickets (6, then one more each chapter, up to 10) and a bonus to pick. Bonuses last until the chapter ends; beating its last boss heals the team.",
-        "shop": "Treasures give 40 shards, 3 tickets and a bag item (Potion, Tonic or Phoenix). Shops sell three offers for shards. Between cases you can use bag items and swap one card (budget still 20; the newcomer takes over its health).",
-        "ranks": "Cards keep their experience between expeditions: rank 1 at 30 XP, 2 at 90, 3 at 200, 4 at 400, 5 at 700. Each rank adds 12% attack and health.",
-        "daily": "Five fights a day (bosses included); treasures and shops don't count. The expedition waits for you across days.",
-        "score": "Your score is the number of cases cleared; the weekly ranking keeps your furthest expedition."
+        "team": "Собери команду из 5 разных карт из всего каталога с бюджетом 20: Обычная 1, Необычная 2, Редкая 3, Эпическая 5, Легендарная 8, Мифическая 12.",
+        "route": "В каждой главе 10 клеток: бой, сокровище, бой, магазин, босс, бой, сокровище, бой, магазин, босс. Карта показывает пройденные клетки, следующую и боссов; остальное скрыто туманом. Каждая глава посвящена сериалу: его карты — большая часть врагов, а твои карты из него бьют на 20% сильнее.",
+        "fights": "Бой — это 3 волны, а босс ждёт в последней волне клетки с боссом. Твоя команда сражается сама, как в рейдах. Здоровье переходит из волны в волну и из клетки в клетку: проиграешь клетку — экспедиция закончится.",
+        "rewards": "За выигранный бой — 30 осколков, 22 опыта каждой карте команды, билеты (6, затем на один больше с каждой главой, до 10) и бонус на выбор. Бонусы действуют до конца главы; победа над её последним боссом лечит команду.",
+        "shop": "Сокровища дают 40 осколков, 3 билета и предмет в сумку (Зелье, Тоник или Феникс). В магазинах три предложения за осколки. Между клетками можно использовать предметы из сумки и заменить одну карту (бюджет по-прежнему 20; новичок получает её здоровье).",
+        "ranks": "Карты сохраняют опыт между экспедициями: ранг 1 при 30 опыта, 2 при 90, 3 при 200, 4 при 400, 5 при 700. Каждый ранг добавляет 12% атаки и здоровья.",
+        "daily": "Пять боёв в день (боссы тоже считаются); сокровища и магазины не считаются. Экспедиция ждёт тебя и на следующий день.",
+        "score": "Твой результат — число пройденных клеток; в недельном рейтинге учитывается твоя самая дальняя экспедиция."
       },
-      "today": "Fights today",
-      "theRoute": "The route",
+      "today": "Боёв сегодня",
+      "theRoute": "Маршрут",
       "tabs": {
-        "route": "Route",
-        "cards": "Cards"
+        "route": "Маршрут",
+        "cards": "Карты"
       },
-      "youAreHere": "YOU ARE HERE",
-      "unknown": "Still unknown",
-      "waves": "{n} waves",
-      "bossWaves": "Boss · {n} waves",
+      "youAreHere": "ТЫ ЗДЕСЬ",
+      "unknown": "Пока неизвестно",
+      "waves": "Волн: {n}",
+      "bossWaves": "Босс · волн: {n}",
       "goTo": {
-        "fight": "Fight",
-        "treasure": "Open the treasure",
-        "shop": "Enter the shop",
-        "boss": "Face the boss"
+        "fight": "В бой",
+        "treasure": "Открыть сокровище",
+        "shop": "Зайти в магазин",
+        "boss": "Встретить босса"
       },
-      "bonusKept": "One only, kept until the end of the chapter.",
+      "bonusKept": "Только один, действует до конца главы.",
       "report": {
-        "won": "Case won",
-        "lost": "Case lost",
-        "waves": "{n} waves out of {total}",
-        "damage": "{n} damage dealt",
-        "best": "Best card",
+        "won": "Клетка пройдена",
+        "lost": "Клетка проиграна",
+        "waves": "Волн: {n} из {total}",
+        "damage": "Нанесено урона: {n}",
+        "best": "Лучшая карта",
         "kos": "{n} KO",
-        "continue": "Continue"
+        "continue": "Продолжить"
       }
     },
     "blindTest": {
-      "name": "Blind test",
-      "chip": "10 clips",
-      "clip": "Clip",
-      "level": "Level",
+      "name": "Угадай мелодию",
+      "chip": "10 клипов",
+      "clip": "Клип",
+      "level": "Уровень",
       "levels": {
-        "easy": "Easy",
-        "medium": "Medium",
-        "hard": "Hard"
+        "easy": "Лёгкий",
+        "medium": "Средний",
+        "hard": "Сложный"
       },
       "pitches": {
-        "easy": "Openings of the big classics. Listen to 30 seconds and find the series among four.",
-        "medium": "Openings and endings of well-known series. Listen to 30 seconds and find the series among four.",
-        "hard": "The whole bank of themes. Listen to 30 seconds and find the series among four."
+        "easy": "Опенинги больших классических сериалов. Слушай 30 секунд и найди сериал среди четырёх.",
+        "medium": "Опенинги и эндинги известных сериалов. Слушай 30 секунд и найди сериал среди четырёх.",
+        "hard": "Вся коллекция тем. Слушай 30 секунд и найди сериал среди четырёх."
       },
-      "rules": "10 theme clips of 30 seconds. Find the series among four answers: the faster you are, the more points (up to 100). A wrong answer gives 0. After each answer you see the song, the artist and a character of the series.",
-      "right": "Well heard! +{n}",
-      "wrong": "Wrong!",
-      "next": "Next",
-      "seeResult": "See the result",
-      "share": "I scored {score} at the Kizuna blind test!"
+      "rules": "10 клипов с темами по 30 секунд. Найди сериал среди четырёх ответов: чем быстрее, тем больше очков (до 100). Неверный ответ — 0. После каждого ответа ты увидишь песню, исполнителя и персонажа сериала.",
+      "right": "Хороший слух! +{n}",
+      "wrong": "Неверно!",
+      "next": "Дальше",
+      "seeResult": "Посмотреть результат",
+      "share": "Я набрал {score} в «Угадай мелодию» на Kizuna!"
     },
-    "playMulti": "Play with others",
-    "playMultiText": "2 to 4 players, the same questions.",
+    "playMulti": "Играть с другими",
+    "playMultiText": "От 2 до 4 игроков, одни и те же вопросы.",
     "table": {
-      "title": "Play with others",
-      "pitch": "Up to {n} players get the same questions. The fastest right answers win.",
-      "match": "Join a table",
-      "matchText": "Sit at a table waiting for players, or open one.",
-      "open": "Open a table for friends",
-      "openText": "Get a code to share; you start when everyone is here.",
-      "code": "Table code",
-      "codeHint": "Code (5 letters)",
-      "join": "Join",
-      "backSolo": "Back to solo",
-      "copy": "Copy the code",
-      "share": "Share this code with your friends (Discord, messages…).",
-      "you": "you",
-      "host": "Host",
-      "free": "Free seat",
-      "needTwo": "Waiting for a second player…",
-      "start": "Start with {n} players",
-      "waitHost": "Waiting for the host to start…",
-      "leave": "Leave the table",
-      "players": "Players at the table",
-      "answered": "Answered",
-      "stillPlaying": "still playing",
-      "nextComing": "Everyone answered: next one coming!",
-      "waitOthers": "Waiting for the others to answer…"
+      "title": "Играть с другими",
+      "pitch": "До {n} игроков получают одни и те же вопросы. Побеждают самые быстрые верные ответы.",
+      "match": "Присоединиться к столу",
+      "matchText": "Сядь за стол, где ждут игроков, или открой свой.",
+      "open": "Открыть стол для друзей",
+      "openText": "Получи код и поделись им; начнёте, когда все будут на месте.",
+      "code": "Код стола",
+      "codeHint": "Код (5 букв)",
+      "join": "Войти",
+      "backSolo": "Назад к одиночной игре",
+      "copy": "Скопировать код",
+      "share": "Поделись этим кодом с друзьями (Discord, сообщения…).",
+      "you": "ты",
+      "host": "Хозяин",
+      "free": "Свободное место",
+      "needTwo": "Ждём второго игрока…",
+      "start": "Начать (игроков: {n})",
+      "waitHost": "Ждём, когда хозяин начнёт игру…",
+      "leave": "Покинуть стол",
+      "players": "Игроки за столом",
+      "answered": "Ответил",
+      "stillPlaying": "ещё играют",
+      "nextComing": "Все ответили: сейчас следующий!",
+      "waitOthers": "Ждём ответы остальных…"
     }
   }
 }

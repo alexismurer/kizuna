@@ -1974,15 +1974,15 @@
       "run_not_found": "Nie znaleziono gry.",
       "forbidden": "Salon gier nie jest jeszcze otwarty.",
       "not_signed_in": "Zaloguj się, żeby grać.",
-      "over_budget": "That team costs more than 20.",
-      "come_back_tomorrow": "Five fights a day: come back tomorrow.",
-      "not_enough_shards": "Not enough shards.",
-      "expedition_open": "You already have an expedition under way.",
-      "not_enough_cards": "Not enough cards or clips for this game yet.",
-      "table_not_found": "No table with this code (or it closed).",
-      "table_started": "This table has already started.",
-      "table_full": "This table is full (4 players).",
-      "table_other_game": "This code is for another game."
+      "over_budget": "Ta drużyna kosztuje więcej niż 20.",
+      "come_back_tomorrow": "Pięć walk dziennie: wróć jutro.",
+      "not_enough_shards": "Za mało odłamków.",
+      "expedition_open": "Masz już wyprawę w toku.",
+      "not_enough_cards": "Za mało kart lub klipów do tej gry.",
+      "table_not_found": "Brak stołu z tym kodem (albo został zamknięty).",
+      "table_started": "Ten stół już wystartował.",
+      "table_full": "Ten stół jest pełny (4 graczy).",
+      "table_other_game": "Ten kod jest do innej gry."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2157,121 +2157,121 @@
       "start": "Rozpocznij raid",
       "atkBonus": "+{n}% ataku",
       "genreBonus": {
-        "battle": "crits +{n}%",
-        "fantasy": "hits the next one ({n}%)",
-        "romance": "heals {n}% per blow",
-        "slice_of_life": "health +{n}%",
-        "thrills": "double strike {n}%",
-        "scifi_sport": "attacks {n}% faster"
+        "battle": "krytyki +{n}%",
+        "fantasy": "uderza w następnego ({n}%)",
+        "romance": "leczy {n}% za cios",
+        "slice_of_life": "zdrowie +{n}%",
+        "thrills": "podwójny cios {n}%",
+        "scifi_sport": "atakuje {n}% szybciej"
       },
       "perks": {
         "heal": {
-          "name": "Heal",
-          "text": "Standing cards get half their health back."
+          "name": "Leczenie",
+          "text": "Stojące karty odzyskują połowę zdrowia."
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health for the whole team (a little less each time you take it again)."
+          "name": "Wytrzymałość",
+          "text": "+20% zdrowia dla całej drużyny (za każdym razem trochę mniej)."
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack for the whole team (a little less each time you take it again)."
+          "name": "Trening",
+          "text": "+15% ataku dla całej drużyny (za każdym razem trochę mniej)."
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "The whole team attacks 12% faster."
+          "name": "Adrenalina",
+          "text": "Cała drużyna atakuje o 12% szybciej."
         },
         "shield": {
-          "name": "Shield",
-          "text": "Every wave, each card blocks the first blow it takes, up to half its health."
+          "name": "Tarcza",
+          "text": "W każdej fali każda karta blokuje pierwszy otrzymany cios, maksymalnie do połowy zdrowia."
         },
         "precision": {
-          "name": "Precision",
-          "text": "+10% critical chance, and critical hits hurt more."
+          "name": "Precyzja",
+          "text": "+10% szansy na krytyka, a trafienia krytyczne bolą bardziej."
         },
         "vampire": {
-          "name": "Vampire",
-          "text": "Each blow heals the striker by 8% of its damage."
+          "name": "Wampir",
+          "text": "Każdy cios leczy atakującego o 8% zadanych obrażeń."
         },
         "reinforcements": {
-          "name": "Reinforcements",
-          "text": "Fallen cards come back with half their health."
+          "name": "Posiłki",
+          "text": "Polegli wracają z połową zdrowia."
         },
         "focus": {
-          "name": "{genre} focus",
-          "text": "+40% attack for the team's {genre} cards (a little less each time you take it again)."
+          "name": "Skupienie: {genre}",
+          "text": "+40% ataku dla kart drużyny z gatunku {genre} (za każdym razem trochę mniej)."
         },
         "evo_bloodlust": {
-          "name": "Bloodlust",
-          "text": "Vampire + Precision: every critical hit heals the whole team."
+          "name": "Żądza krwi",
+          "text": "Wampir + Precyzja: każde trafienie krytyczne leczy całą drużynę."
         },
         "evo_fortress": {
-          "name": "Fortress",
-          "text": "Shield + Stamina: every knock-out recharges the whole team's shield."
+          "name": "Forteca",
+          "text": "Tarcza + Wytrzymałość: każde znokautowanie ładuje tarczę całej drużyny."
         },
         "evo_frenzy": {
-          "name": "Frenzy",
-          "text": "Adrenaline + Training: every knock-out speeds the team up until the end of the wave."
+          "name": "Szał",
+          "text": "Adrenalina + Trening: każde znokautowanie przyspiesza drużynę do końca fali."
         }
       },
       "relics": {
         "dragon_heart": {
-          "name": "Dragon heart",
-          "text": "+40% health and the whole team comes back to full, fallen cards too."
+          "name": "Serce smoka",
+          "text": "+40% zdrowia, a cała drużyna wraca do pełni sił, także polegli."
         },
         "hourglass": {
-          "name": "Hourglass",
-          "text": "For the first 5 seconds of each wave, the team attacks twice as fast."
+          "name": "Klepsydra",
+          "text": "Przez pierwsze 5 sekund każdej fali drużyna atakuje dwa razy szybciej."
         },
         "totem": {
           "name": "Totem",
-          "text": "Every wave, the first card to fall gets up with 40% health."
+          "text": "W każdej fali pierwsza padająca karta wstaje z 40% zdrowia."
         }
       },
       "rarity": {
-        "common": "Common",
-        "rare": "Rare",
-        "epic": "Epic",
-        "evolution": "Evolution",
-        "relic": "Relic"
+        "common": "Zwykła",
+        "rare": "Rzadka",
+        "epic": "Epicka",
+        "evolution": "Ewolucja",
+        "relic": "Relikt"
       },
       "relicTitle": "Boss pokonany: wybierz relikt",
       "perkTitle": "Fala {n} pokonana: wybierz bonus",
       "waveOf": "Fala {n}",
       "skip": "Pomiń",
       "boss": {
-        "enraged": "Enraged",
-        "regeneration": "Regeneration",
-        "thorns": "Thorns"
+        "enraged": "Wściekły",
+        "regeneration": "Regeneracja",
+        "thorns": "Kolce"
       },
       "elite": {
-        "armoured": "Armoured",
-        "fast": "Fast",
-        "healer": "Healer",
-        "explosive": "Explosive"
+        "armoured": "Opancerzony",
+        "fast": "Szybki",
+        "healer": "Uzdrowiciel",
+        "explosive": "Wybuchowy"
       },
       "areaWarn": "Boss szykuje atak obszarowy!",
       "powers": {
-        "blade": "Blade storm",
+        "blade": "Burza ostrzy",
         "meteor": "Meteor",
-        "healing": "Healing wave",
-        "rampart": "Rampart",
+        "healing": "Fala uzdrawiająca",
+        "rampart": "Szaniec",
         "terror": "Terror",
         "overdrive": "Overdrive"
       },
       "rules": {
-        "recruit": "Recruit: pick 5 cards out of 8.",
-        "auto": "Auto battle: your team strikes the enemies on its own, wave after wave. A wave lost ends the raid.",
-        "bonus": "After each wave, pick one bonus out of three, common to epic: heal, reinforcements, shield, vampire…",
-        "boss": "A boss every 5 waves: one very tough card with two minions and a trait (Enraged, Regeneration or Thorns). It gathers an area strike every 9 seconds; the warning shows just before.",
-        "stats": "Attack and health by rarity: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. A card's power adds up to 33%.",
-        "series": "Same anime: 2 cards +40% attack for them, 3 cards +80%.",
-        "genres": "Genres (2 cards / 3 or more): Battle crits +12/24% · Fantasy hits the next one 35/70% · Romance heals 4/8% per blow · Slice of life health +25/50% · Thrills double strike 12/24% · Sci-fi & Sport attacks 20/40% faster.",
-        "stars": "Cards evolve: a star at 3, 8 and 15 knock-outs, +25% attack and health each (a boss counts as 5).",
-        "powers": "Legendary and Mythic powers: Blade storm, Meteor, Healing wave, Rampart, Terror, Overdrive. A Legendary uses it every 11 seconds, a Mythic every 8 and 50% stronger.",
-        "elites": "Elite enemies: Armoured (takes 40% less), Fast, Healer, Explosive (blows up on your team when it falls).",
-        "relics": "After each boss, pick a relic out of three: powerful bonuses found nowhere else.",
-        "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10."
+        "recruit": "Rekrutacja: wybierz 5 kart z 8.",
+        "auto": "Auto-walka: twoja drużyna sama atakuje wrogów, fala po fali. Przegrana fala kończy rajd.",
+        "bonus": "Po każdej fali wybierz jeden z trzech bonusów, od zwykłych do epickich: leczenie, posiłki, tarcza, wampir…",
+        "boss": "Boss co 5 fal: jedna bardzo wytrzymała karta z dwoma sługami i cechą (Wściekły, Regeneracja lub Kolce). Co 9 sekund szykuje atak obszarowy; ostrzeżenie pojawia się tuż przed nim.",
+        "stats": "Atak i zdrowie wg rzadkości: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. Siła karty dodaje do 33%.",
+        "series": "To samo anime: 2 karty +40% ataku dla nich, 3 karty +80%.",
+        "genres": "Gatunki (2 karty / 3 lub więcej): Walka krytyki +12/24% · Fantasy uderza w następnego 35/70% · Romans leczy 4/8% za cios · Obyczajowe zdrowie +25/50% · Dreszczowiec podwójny cios 12/24% · Sci-fi i Sport atakuje 20/40% szybciej.",
+        "stars": "Karty ewoluują: gwiazdka po 3, 8 i 15 znokautowaniach, +25% ataku i zdrowia za każdą (boss liczy się za 5).",
+        "powers": "Moce Legendarnych i Mitycznych: Burza ostrzy, Meteor, Fala uzdrawiająca, Szaniec, Terror, Overdrive. Legendarna używa jej co 11 sekund, Mityczna co 8 i o 50% mocniej.",
+        "elites": "Elitarni wrogowie: Opancerzony (przyjmuje o 40% mniej), Szybki, Uzdrowiciel, Wybuchowy (wybucha w twojej drużynie, gdy padnie).",
+        "relics": "Po każdym bossie wybierz jeden z trzech reliktów: potężne bonusy, których nie znajdziesz nigdzie indziej.",
+        "score": "Twój wynik to liczba ukończonych fal. Gwiazdki przy falach 3, 6 i 10."
       },
       "ready": "Twoja drużyna jest gotowa.",
       "fightWave": "Walcz z falą {n}"
@@ -2321,173 +2321,173 @@
       "share": "Rozwiązałem dzisiejsze Połączenia na Kizuna z {mistakes} błędami!"
     },
     "expedition": {
-      "name": "The Expedition",
-      "chip": "Adventure",
-      "pitch": "Buy a team of 5 cards on a budget, then travel chapter after chapter: fights, treasures, shops and bosses. Your cards gain ranks that stay.",
-      "share": "My expedition on Kizuna went {n} cases deep!",
-      "again": "New expedition",
-      "cleared": "Cases",
-      "shards": "Shards",
-      "cases": "{n} cases",
-      "setOff": "Set off",
-      "pickTeam": "Build your team",
-      "remove": "Remove {name}",
-      "search": "Search a card or a series",
-      "all": "All",
+      "name": "Wyprawa",
+      "chip": "Przygoda",
+      "pitch": "Kup drużynę 5 kart w ramach budżetu, a potem przemierzaj rozdział za rozdziałem: walki, skarby, sklepy i bossowie. Twoje karty zdobywają rangi, które zostają.",
+      "share": "Moja wyprawa na Kizuna dotarła do {n}. pola!",
+      "again": "Nowa wyprawa",
+      "cleared": "Pola",
+      "shards": "Odłamki",
+      "cases": "Pól: {n}",
+      "setOff": "Wyrusz",
+      "pickTeam": "Zbuduj drużynę",
+      "remove": "Usuń: {name}",
+      "search": "Szukaj karty lub serii",
+      "all": "Wszystkie",
       "rank": "R{n}",
       "xp": "{n} XP",
-      "swapPick": "Pick a card to replace {name}",
-      "cancel": "Cancel",
-      "chapter": "Chapter {n} · {series}",
+      "swapPick": "Wybierz kartę w miejsce: {name}",
+      "cancel": "Anuluj",
+      "chapter": "Rozdział {n} · {series}",
       "kinds": {
-        "fight": "Fight",
-        "treasure": "Treasure",
-        "shop": "Shop",
+        "fight": "Walka",
+        "treasure": "Skarb",
+        "shop": "Sklep",
         "boss": "Boss"
       },
-      "comeBack": "Your team rests: five fights a day. Come back tomorrow (Paris midnight).",
-      "giveUp": "Give up the expedition",
-      "seeResult": "See the result",
-      "treasure": "Treasure! +{shards} shards, +{tickets} tickets and a {item}",
-      "won": "Case cleared! +{shards} shards · +{xp} XP to the team · +{tickets} tickets",
-      "lost": "Your team fell. The expedition is over.",
-      "swap": "Swap",
-      "swapOne": "Swap {name}",
-      "bag": "Bag",
-      "use": "Use {item}",
-      "tonicOn": "Tonic ready",
+      "comeBack": "Twoja drużyna odpoczywa: pięć walk dziennie. Wróć jutro (północ w Paryżu).",
+      "giveUp": "Porzuć wyprawę",
+      "seeResult": "Zobacz wynik",
+      "treasure": "Skarb! +{shards} odłamków, +{tickets} biletów i przedmiot: {item}",
+      "won": "Pole zaliczone! +{shards} odłamków · +{xp} XP dla drużyny · +{tickets} biletów",
+      "lost": "Twoja drużyna padła. Wyprawa dobiegła końca.",
+      "swap": "Zamień",
+      "swapOne": "Zamień: {name}",
+      "bag": "Plecak",
+      "use": "Użyj: {item}",
+      "tonicOn": "Tonik gotowy",
       "items": {
         "potion": {
-          "name": "Potion",
-          "text": "Heals the team by 50% of their health."
+          "name": "Eliksir",
+          "text": "Leczy drużynę o 50% zdrowia."
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "+15% attack for the next case."
+          "name": "Tonik",
+          "text": "+15% ataku na następne pole."
         },
         "phoenix": {
-          "name": "Phoenix",
-          "text": "Brings fallen cards back at half health."
+          "name": "Feniks",
+          "text": "Przywraca poległe karty z połową zdrowia."
         }
       },
-      "bonusTitle": "Pick a bonus",
-      "shopTitle": "Shop",
-      "shardsLeft": "You have {n} shards",
-      "price": "{n} shards",
-      "bought": "Bought",
-      "leave": "Leave",
+      "bonusTitle": "Wybierz bonus",
+      "shopTitle": "Sklep",
+      "shardsLeft": "Masz odłamków: {n}",
+      "price": "{n} odłamków",
+      "bought": "Kupiono",
+      "leave": "Wyjdź",
       "shop": {
         "heal": {
-          "name": "Heal",
-          "text": "Heals the team by 50% now."
+          "name": "Leczenie",
+          "text": "Leczy drużynę o 50% od razu."
         },
         "potion": {
-          "name": "Potion",
-          "text": "Goes in your bag: heals 50% when you need it."
+          "name": "Eliksir",
+          "text": "Trafia do plecaka: leczy 50%, gdy go potrzebujesz."
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "Goes in your bag: +15% attack for one case."
+          "name": "Tonik",
+          "text": "Trafia do plecaka: +15% ataku na jedno pole."
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack until the chapter ends."
+          "name": "Trening",
+          "text": "+15% ataku do końca rozdziału."
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health until the chapter ends."
+          "name": "Wytrzymałość",
+          "text": "+20% zdrowia do końca rozdziału."
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "Faster attacks until the chapter ends."
+          "name": "Adrenalina",
+          "text": "Szybsze ataki do końca rozdziału."
         }
       },
       "rules": {
-        "team": "Build a team of 5 different cards from the whole catalogue with a budget of 20: Common 1, Uncommon 2, Rare 3, Epic 5, Legendary 8, Mythic 12.",
-        "route": "Each chapter has 10 cases: fight, treasure, fight, shop, boss, fight, treasure, fight, shop, boss. The map shows the cases behind you, the next one and the bosses; the rest stays in the fog. Each chapter follows a series: its cards are most of the enemies, and your cards from it hit 20% harder.",
-        "fights": "A fight is 3 waves, the boss waits in the last wave of a boss case. Your team fights on its own, like in raids. Health carries over from wave to wave and case to case: lose a case and the expedition ends.",
-        "rewards": "A won fight gives 30 shards, 22 XP to each card of the team, tickets (6, then one more each chapter, up to 10) and a bonus to pick. Bonuses last until the chapter ends; beating its last boss heals the team.",
-        "shop": "Treasures give 40 shards, 3 tickets and a bag item (Potion, Tonic or Phoenix). Shops sell three offers for shards. Between cases you can use bag items and swap one card (budget still 20; the newcomer takes over its health).",
-        "ranks": "Cards keep their experience between expeditions: rank 1 at 30 XP, 2 at 90, 3 at 200, 4 at 400, 5 at 700. Each rank adds 12% attack and health.",
-        "daily": "Five fights a day (bosses included); treasures and shops don't count. The expedition waits for you across days.",
-        "score": "Your score is the number of cases cleared; the weekly ranking keeps your furthest expedition."
+        "team": "Zbuduj drużynę 5 różnych kart z całego katalogu w budżecie 20: Zwykła 1, Niepospolita 2, Rzadka 3, Epicka 5, Legendarna 8, Mityczna 12.",
+        "route": "Każdy rozdział ma 10 pól: walka, skarb, walka, sklep, boss, walka, skarb, walka, sklep, boss. Mapa pokazuje pola za tobą, następne i bossów; reszta jest we mgle. Każdy rozdział opiera się na serii: jej karty to większość wrogów, a twoje karty z niej biją o 20% mocniej.",
+        "fights": "Walka to 3 fale, boss czeka w ostatniej fali pola z bossem. Twoja drużyna walczy sama, jak w rajdach. Zdrowie przechodzi z fali na falę i z pola na pole: przegraj pole, a wyprawa się kończy.",
+        "rewards": "Wygrana walka daje 30 odłamków, 22 XP każdej karcie drużyny, bilety (6, potem o jeden więcej co rozdział, do 10) i bonus do wyboru. Bonusy trwają do końca rozdziału; pokonanie jego ostatniego bossa leczy drużynę.",
+        "shop": "Skarby dają 40 odłamków, 3 bilety i przedmiot do plecaka (Eliksir, Tonik lub Feniks). Sklepy sprzedają trzy oferty za odłamki. Między polami możesz używać przedmiotów z plecaka i wymienić jedną kartę (budżet nadal 20; nowa karta przejmuje zdrowie poprzedniej).",
+        "ranks": "Karty zachowują doświadczenie między wyprawami: ranga 1 przy 30 XP, 2 przy 90, 3 przy 200, 4 przy 400, 5 przy 700. Każda ranga dodaje 12% ataku i zdrowia.",
+        "daily": "Pięć walk dziennie (wliczając bossów); skarby i sklepy się nie liczą. Wyprawa czeka na ciebie przez kolejne dni.",
+        "score": "Twój wynik to liczba zaliczonych pól; tygodniowy ranking zapisuje twoją najdalszą wyprawę."
       },
-      "today": "Fights today",
-      "theRoute": "The route",
+      "today": "Dzisiejsze walki",
+      "theRoute": "Trasa",
       "tabs": {
-        "route": "Route",
-        "cards": "Cards"
+        "route": "Trasa",
+        "cards": "Karty"
       },
-      "youAreHere": "YOU ARE HERE",
-      "unknown": "Still unknown",
-      "waves": "{n} waves",
-      "bossWaves": "Boss · {n} waves",
+      "youAreHere": "JESTEŚ TUTAJ",
+      "unknown": "Jeszcze nieznane",
+      "waves": "Fale: {n}",
+      "bossWaves": "Boss · fale: {n}",
       "goTo": {
-        "fight": "Fight",
-        "treasure": "Open the treasure",
-        "shop": "Enter the shop",
-        "boss": "Face the boss"
+        "fight": "Walcz",
+        "treasure": "Otwórz skarb",
+        "shop": "Wejdź do sklepu",
+        "boss": "Stań do walki z bossem"
       },
-      "bonusKept": "One only, kept until the end of the chapter.",
+      "bonusKept": "Tylko jeden, zostaje do końca rozdziału.",
       "report": {
-        "won": "Case won",
-        "lost": "Case lost",
-        "waves": "{n} waves out of {total}",
-        "damage": "{n} damage dealt",
-        "best": "Best card",
+        "won": "Pole wygrane",
+        "lost": "Pole przegrane",
+        "waves": "Fale: {n} z {total}",
+        "damage": "Zadane obrażenia: {n}",
+        "best": "Najlepsza karta",
         "kos": "{n} KO",
-        "continue": "Continue"
+        "continue": "Dalej"
       }
     },
     "blindTest": {
       "name": "Blind test",
-      "chip": "10 clips",
-      "clip": "Clip",
-      "level": "Level",
+      "chip": "10 klipów",
+      "clip": "Klip",
+      "level": "Poziom",
       "levels": {
-        "easy": "Easy",
-        "medium": "Medium",
-        "hard": "Hard"
+        "easy": "Łatwy",
+        "medium": "Średni",
+        "hard": "Trudny"
       },
       "pitches": {
-        "easy": "Openings of the big classics. Listen to 30 seconds and find the series among four.",
-        "medium": "Openings and endings of well-known series. Listen to 30 seconds and find the series among four.",
-        "hard": "The whole bank of themes. Listen to 30 seconds and find the series among four."
+        "easy": "Openingi wielkich klasyków. Posłuchaj 30 sekund i odgadnij serię spośród czterech.",
+        "medium": "Openingi i endingi znanych serii. Posłuchaj 30 sekund i odgadnij serię spośród czterech.",
+        "hard": "Cała baza motywów muzycznych. Posłuchaj 30 sekund i odgadnij serię spośród czterech."
       },
-      "rules": "10 theme clips of 30 seconds. Find the series among four answers: the faster you are, the more points (up to 100). A wrong answer gives 0. After each answer you see the song, the artist and a character of the series.",
-      "right": "Well heard! +{n}",
-      "wrong": "Wrong!",
-      "next": "Next",
-      "seeResult": "See the result",
-      "share": "I scored {score} at the Kizuna blind test!"
+      "rules": "10 klipów z motywami po 30 sekund. Odgadnij serię spośród czterech odpowiedzi: im szybciej, tym więcej punktów (do 100). Zła odpowiedź daje 0. Po każdej odpowiedzi zobaczysz piosenkę, wykonawcę i postać z serii.",
+      "right": "Dobry słuch! +{n}",
+      "wrong": "Źle!",
+      "next": "Dalej",
+      "seeResult": "Zobacz wynik",
+      "share": "Zdobyłem {score} w blind teście Kizuna!"
     },
-    "playMulti": "Play with others",
-    "playMultiText": "2 to 4 players, the same questions.",
+    "playMulti": "Graj z innymi",
+    "playMultiText": "2 do 4 graczy, te same pytania.",
     "table": {
-      "title": "Play with others",
-      "pitch": "Up to {n} players get the same questions. The fastest right answers win.",
-      "match": "Join a table",
-      "matchText": "Sit at a table waiting for players, or open one.",
-      "open": "Open a table for friends",
-      "openText": "Get a code to share; you start when everyone is here.",
-      "code": "Table code",
-      "codeHint": "Code (5 letters)",
-      "join": "Join",
-      "backSolo": "Back to solo",
-      "copy": "Copy the code",
-      "share": "Share this code with your friends (Discord, messages…).",
-      "you": "you",
-      "host": "Host",
-      "free": "Free seat",
-      "needTwo": "Waiting for a second player…",
-      "start": "Start with {n} players",
-      "waitHost": "Waiting for the host to start…",
-      "leave": "Leave the table",
-      "players": "Players at the table",
-      "answered": "Answered",
-      "stillPlaying": "still playing",
-      "nextComing": "Everyone answered: next one coming!",
-      "waitOthers": "Waiting for the others to answer…"
+      "title": "Graj z innymi",
+      "pitch": "Do {n} graczy dostaje te same pytania. Wygrywają najszybsze dobre odpowiedzi.",
+      "match": "Dołącz do stołu",
+      "matchText": "Usiądź przy stole czekającym na graczy albo otwórz własny.",
+      "open": "Otwórz stół dla znajomych",
+      "openText": "Dostaniesz kod do udostępnienia; zaczynasz, gdy wszyscy są na miejscu.",
+      "code": "Kod stołu",
+      "codeHint": "Kod (5 liter)",
+      "join": "Dołącz",
+      "backSolo": "Wróć do solo",
+      "copy": "Kopiuj kod",
+      "share": "Wyślij ten kod znajomym (Discord, wiadomości…).",
+      "you": "ty",
+      "host": "Gospodarz",
+      "free": "Wolne miejsce",
+      "needTwo": "Czekamy na drugiego gracza…",
+      "start": "Zacznij z {n} graczami",
+      "waitHost": "Czekamy, aż gospodarz zacznie…",
+      "leave": "Opuść stół",
+      "players": "Gracze przy stole",
+      "answered": "Odpowiedział",
+      "stillPlaying": "jeszcze gra",
+      "nextComing": "Wszyscy odpowiedzieli: zaraz następne!",
+      "waitOthers": "Czekamy na odpowiedzi pozostałych…"
     }
   }
 }

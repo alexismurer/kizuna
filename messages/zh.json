@@ -1974,15 +1974,15 @@
       "run_not_found": "找不到这局游戏。",
       "forbidden": "游戏厅尚未开放。",
       "not_signed_in": "登录后即可游玩。",
-      "over_budget": "That team costs more than 20.",
-      "come_back_tomorrow": "Five fights a day: come back tomorrow.",
-      "not_enough_shards": "Not enough shards.",
-      "expedition_open": "You already have an expedition under way.",
-      "not_enough_cards": "Not enough cards or clips for this game yet.",
-      "table_not_found": "No table with this code (or it closed).",
-      "table_started": "This table has already started.",
-      "table_full": "This table is full (4 players).",
-      "table_other_game": "This code is for another game."
+      "over_budget": "这支队伍的费用超过了 20。",
+      "come_back_tomorrow": "每天只能战斗五次：明天再来吧。",
+      "not_enough_shards": "碎片不足。",
+      "expedition_open": "你已有一场进行中的远征。",
+      "not_enough_cards": "这个游戏的卡牌或片段还不够。",
+      "table_not_found": "没有这个代码的牌桌（或已关闭）。",
+      "table_started": "这张牌桌已经开始了。",
+      "table_full": "这张牌桌已满（4 名玩家）。",
+      "table_other_game": "这个代码属于另一个游戏。"
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2157,121 +2157,121 @@
       "start": "开始突袭",
       "atkBonus": "攻击 +{n}%",
       "genreBonus": {
-        "battle": "crits +{n}%",
-        "fantasy": "hits the next one ({n}%)",
-        "romance": "heals {n}% per blow",
-        "slice_of_life": "health +{n}%",
-        "thrills": "double strike {n}%",
-        "scifi_sport": "attacks {n}% faster"
+        "battle": "暴击 +{n}%",
+        "fantasy": "{n}% 几率波及下一个目标",
+        "romance": "每次攻击回复 {n}%",
+        "slice_of_life": "生命 +{n}%",
+        "thrills": "{n}% 几率连击",
+        "scifi_sport": "攻速提升 {n}%"
       },
       "perks": {
         "heal": {
-          "name": "Heal",
-          "text": "Standing cards get half their health back."
+          "name": "治疗",
+          "text": "存活的卡恢复一半生命。"
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health for the whole team (a little less each time you take it again)."
+          "name": "体力",
+          "text": "全队生命 +20%（重复选取时效果略有递减）。"
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack for the whole team (a little less each time you take it again)."
+          "name": "训练",
+          "text": "全队攻击 +15%（重复选取时效果略有递减）。"
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "The whole team attacks 12% faster."
+          "name": "肾上腺素",
+          "text": "全队攻速提升 12%。"
         },
         "shield": {
-          "name": "Shield",
-          "text": "Every wave, each card blocks the first blow it takes, up to half its health."
+          "name": "护盾",
+          "text": "每一波中，每张卡抵挡受到的第一次攻击，最多抵挡其一半生命。"
         },
         "precision": {
-          "name": "Precision",
-          "text": "+10% critical chance, and critical hits hurt more."
+          "name": "精准",
+          "text": "暴击率 +10%，暴击伤害更高。"
         },
         "vampire": {
-          "name": "Vampire",
-          "text": "Each blow heals the striker by 8% of its damage."
+          "name": "吸血",
+          "text": "每次攻击为攻击者回复其伤害的 8% 生命。"
         },
         "reinforcements": {
-          "name": "Reinforcements",
-          "text": "Fallen cards come back with half their health."
+          "name": "援军",
+          "text": "倒下的卡以一半生命回归。"
         },
         "focus": {
-          "name": "{genre} focus",
-          "text": "+40% attack for the team's {genre} cards (a little less each time you take it again)."
+          "name": "{genre}专精",
+          "text": "队中{genre}卡攻击 +40%（重复选取时效果略有递减）。"
         },
         "evo_bloodlust": {
-          "name": "Bloodlust",
-          "text": "Vampire + Precision: every critical hit heals the whole team."
+          "name": "嗜血",
+          "text": "吸血 + 精准：每次暴击都会治疗全队。"
         },
         "evo_fortress": {
-          "name": "Fortress",
-          "text": "Shield + Stamina: every knock-out recharges the whole team's shield."
+          "name": "堡垒",
+          "text": "护盾 + 体力：每次击倒敌人都会为全队重置护盾。"
         },
         "evo_frenzy": {
-          "name": "Frenzy",
-          "text": "Adrenaline + Training: every knock-out speeds the team up until the end of the wave."
+          "name": "狂热",
+          "text": "肾上腺素 + 训练：每次击倒敌人都会让全队加速，直到本波结束。"
         }
       },
       "relics": {
         "dragon_heart": {
-          "name": "Dragon heart",
-          "text": "+40% health and the whole team comes back to full, fallen cards too."
+          "name": "龙之心",
+          "text": "生命 +40%，全队恢复满血，倒下的卡也会复活。"
         },
         "hourglass": {
-          "name": "Hourglass",
-          "text": "For the first 5 seconds of each wave, the team attacks twice as fast."
+          "name": "沙漏",
+          "text": "每一波的前 5 秒，全队攻速翻倍。"
         },
         "totem": {
-          "name": "Totem",
-          "text": "Every wave, the first card to fall gets up with 40% health."
+          "name": "图腾",
+          "text": "每一波中，第一张倒下的卡会以 40% 生命重新站起。"
         }
       },
       "rarity": {
-        "common": "Common",
-        "rare": "Rare",
-        "epic": "Epic",
-        "evolution": "Evolution",
-        "relic": "Relic"
+        "common": "普通",
+        "rare": "稀有",
+        "epic": "史诗",
+        "evolution": "进化",
+        "relic": "遗物"
       },
       "relicTitle": "首领被击败：选择一件遗物",
       "perkTitle": "第 {n} 波通过：选择一个加成",
       "waveOf": "第 {n} 波",
       "skip": "跳过",
       "boss": {
-        "enraged": "Enraged",
-        "regeneration": "Regeneration",
-        "thorns": "Thorns"
+        "enraged": "狂暴",
+        "regeneration": "再生",
+        "thorns": "荆棘"
       },
       "elite": {
-        "armoured": "Armoured",
-        "fast": "Fast",
-        "healer": "Healer",
-        "explosive": "Explosive"
+        "armoured": "重甲",
+        "fast": "迅捷",
+        "healer": "治愈者",
+        "explosive": "爆裂"
       },
       "areaWarn": "首领正在蓄力范围攻击！",
       "powers": {
-        "blade": "Blade storm",
-        "meteor": "Meteor",
-        "healing": "Healing wave",
-        "rampart": "Rampart",
-        "terror": "Terror",
-        "overdrive": "Overdrive"
+        "blade": "剑刃风暴",
+        "meteor": "陨石",
+        "healing": "治愈之波",
+        "rampart": "壁垒",
+        "terror": "恐惧",
+        "overdrive": "超载"
       },
       "rules": {
-        "recruit": "Recruit: pick 5 cards out of 8.",
-        "auto": "Auto battle: your team strikes the enemies on its own, wave after wave. A wave lost ends the raid.",
-        "bonus": "After each wave, pick one bonus out of three, common to epic: heal, reinforcements, shield, vampire…",
-        "boss": "A boss every 5 waves: one very tough card with two minions and a trait (Enraged, Regeneration or Thorns). It gathers an area strike every 9 seconds; the warning shows just before.",
-        "stats": "Attack and health by rarity: C 10/70, U 13/85, R 17/100, E 23/120, L 31/150, M 42/190. A card's power adds up to 33%.",
-        "series": "Same anime: 2 cards +40% attack for them, 3 cards +80%.",
-        "genres": "Genres (2 cards / 3 or more): Battle crits +12/24% · Fantasy hits the next one 35/70% · Romance heals 4/8% per blow · Slice of life health +25/50% · Thrills double strike 12/24% · Sci-fi & Sport attacks 20/40% faster.",
-        "stars": "Cards evolve: a star at 3, 8 and 15 knock-outs, +25% attack and health each (a boss counts as 5).",
-        "powers": "Legendary and Mythic powers: Blade storm, Meteor, Healing wave, Rampart, Terror, Overdrive. A Legendary uses it every 11 seconds, a Mythic every 8 and 50% stronger.",
-        "elites": "Elite enemies: Armoured (takes 40% less), Fast, Healer, Explosive (blows up on your team when it falls).",
-        "relics": "After each boss, pick a relic out of three: powerful bonuses found nowhere else.",
-        "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10."
+        "recruit": "招募：从 8 张卡中选 5 张。",
+        "auto": "自动战斗：你的队伍会一波接一波地自行攻击敌人。输掉一波，突袭即告结束。",
+        "bonus": "每波结束后，从三个加成中选一个，品质从普通到史诗：治疗、援军、护盾、吸血……",
+        "boss": "每 5 波出现一个首领：一张非常强大的卡，带两个小兵和一个特性（狂暴、再生或荆棘）。它每 9 秒蓄力一次范围攻击，攻击前会出现预警。",
+        "stats": "各稀有度的攻击与生命：C 10/70，U 13/85，R 17/100，E 23/120，L 31/150，M 42/190。卡牌的力量最多加成 33%。",
+        "series": "同一部动画：2 张卡使其攻击 +40%，3 张卡 +80%。",
+        "genres": "类型（2 张 / 3 张或以上）：战斗 暴击 +12/24% · 奇幻 波及下一个目标 35/70% · 恋爱 每次攻击回复 4/8% · 日常 生命 +25/50% · 惊悚 连击 12/24% · 科幻与运动 攻速提升 20/40%。",
+        "stars": "卡牌会进化：击倒 3、8、15 个敌人时各获得一颗星，每颗星攻击和生命 +25%（首领算 5 个）。",
+        "powers": "传说和神话的能力：剑刃风暴、陨石、治愈之波、壁垒、恐惧、超载。传说卡每 11 秒使用一次，神话卡每 8 秒一次且强 50%。",
+        "elites": "精英敌人：重甲（受到的伤害减少 40%）、迅捷、治愈者、爆裂（倒下时会对你的队伍造成爆炸伤害）。",
+        "relics": "每个首领之后，从三个遗物中选一个：别处找不到的强力加成。",
+        "score": "你的分数就是通过的波数。第 3、6、10 波获得星星。"
       },
       "ready": "你的队伍已就绪。",
       "fightWave": "迎战第 {n} 波"
@@ -2321,173 +2321,173 @@
       "share": "我在 Kizuna 的每日连连看中错了 {mistakes} 次就解开了！"
     },
     "expedition": {
-      "name": "The Expedition",
-      "chip": "Adventure",
-      "pitch": "Buy a team of 5 cards on a budget, then travel chapter after chapter: fights, treasures, shops and bosses. Your cards gain ranks that stay.",
-      "share": "My expedition on Kizuna went {n} cases deep!",
-      "again": "New expedition",
-      "cleared": "Cases",
-      "shards": "Shards",
-      "cases": "{n} cases",
-      "setOff": "Set off",
-      "pickTeam": "Build your team",
-      "remove": "Remove {name}",
-      "search": "Search a card or a series",
-      "all": "All",
+      "name": "远征",
+      "chip": "冒险",
+      "pitch": "在预算内买下 5 张卡组成队伍，然后一章接一章地前进：战斗、宝藏、商店和首领。你的卡会获得永久保留的等阶。",
+      "share": "我在 Kizuna 的远征走到了第 {n} 格！",
+      "again": "新的远征",
+      "cleared": "格数",
+      "shards": "碎片",
+      "cases": "{n} 格",
+      "setOff": "出发",
+      "pickTeam": "组建你的队伍",
+      "remove": "移除 {name}",
+      "search": "搜索卡牌或系列",
+      "all": "全部",
       "rank": "R{n}",
       "xp": "{n} XP",
-      "swapPick": "Pick a card to replace {name}",
-      "cancel": "Cancel",
-      "chapter": "Chapter {n} · {series}",
+      "swapPick": "选一张卡来替换 {name}",
+      "cancel": "取消",
+      "chapter": "第 {n} 章 · {series}",
       "kinds": {
-        "fight": "Fight",
-        "treasure": "Treasure",
-        "shop": "Shop",
-        "boss": "Boss"
+        "fight": "战斗",
+        "treasure": "宝藏",
+        "shop": "商店",
+        "boss": "首领"
       },
-      "comeBack": "Your team rests: five fights a day. Come back tomorrow (Paris midnight).",
-      "giveUp": "Give up the expedition",
-      "seeResult": "See the result",
-      "treasure": "Treasure! +{shards} shards, +{tickets} tickets and a {item}",
-      "won": "Case cleared! +{shards} shards · +{xp} XP to the team · +{tickets} tickets",
-      "lost": "Your team fell. The expedition is over.",
-      "swap": "Swap",
-      "swapOne": "Swap {name}",
-      "bag": "Bag",
-      "use": "Use {item}",
-      "tonicOn": "Tonic ready",
+      "comeBack": "你的队伍正在休息：每天五场战斗。明天再来吧（巴黎时间午夜）。",
+      "giveUp": "放弃远征",
+      "seeResult": "查看结果",
+      "treasure": "宝藏！+{shards} 碎片，+{tickets} 奖券，还有一个{item}",
+      "won": "通过这一格！+{shards} 碎片 · 全队 +{xp} 经验 · +{tickets} 奖券",
+      "lost": "你的队伍倒下了。远征结束。",
+      "swap": "替换",
+      "swapOne": "替换 {name}",
+      "bag": "背包",
+      "use": "使用 {item}",
+      "tonicOn": "补剂已就绪",
       "items": {
         "potion": {
-          "name": "Potion",
-          "text": "Heals the team by 50% of their health."
+          "name": "药水",
+          "text": "为全队恢复 50% 的生命。"
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "+15% attack for the next case."
+          "name": "补剂",
+          "text": "下一格攻击 +15%。"
         },
         "phoenix": {
-          "name": "Phoenix",
-          "text": "Brings fallen cards back at half health."
+          "name": "凤凰",
+          "text": "让倒下的卡以一半生命复活。"
         }
       },
-      "bonusTitle": "Pick a bonus",
-      "shopTitle": "Shop",
-      "shardsLeft": "You have {n} shards",
-      "price": "{n} shards",
-      "bought": "Bought",
-      "leave": "Leave",
+      "bonusTitle": "选择一个加成",
+      "shopTitle": "商店",
+      "shardsLeft": "你有 {n} 碎片",
+      "price": "{n} 碎片",
+      "bought": "已购买",
+      "leave": "离开",
       "shop": {
         "heal": {
-          "name": "Heal",
-          "text": "Heals the team by 50% now."
+          "name": "治疗",
+          "text": "立即为全队恢复 50% 的生命。"
         },
         "potion": {
-          "name": "Potion",
-          "text": "Goes in your bag: heals 50% when you need it."
+          "name": "药水",
+          "text": "放入背包：需要时恢复 50% 的生命。"
         },
         "tonic": {
-          "name": "Tonic",
-          "text": "Goes in your bag: +15% attack for one case."
+          "name": "补剂",
+          "text": "放入背包：一格内攻击 +15%。"
         },
         "training": {
-          "name": "Training",
-          "text": "+15% attack until the chapter ends."
+          "name": "训练",
+          "text": "攻击 +15%，持续到本章结束。"
         },
         "stamina": {
-          "name": "Stamina",
-          "text": "+20% health until the chapter ends."
+          "name": "体力",
+          "text": "生命 +20%，持续到本章结束。"
         },
         "adrenaline": {
-          "name": "Adrenaline",
-          "text": "Faster attacks until the chapter ends."
+          "name": "肾上腺素",
+          "text": "攻速提升，持续到本章结束。"
         }
       },
       "rules": {
-        "team": "Build a team of 5 different cards from the whole catalogue with a budget of 20: Common 1, Uncommon 2, Rare 3, Epic 5, Legendary 8, Mythic 12.",
-        "route": "Each chapter has 10 cases: fight, treasure, fight, shop, boss, fight, treasure, fight, shop, boss. The map shows the cases behind you, the next one and the bosses; the rest stays in the fog. Each chapter follows a series: its cards are most of the enemies, and your cards from it hit 20% harder.",
-        "fights": "A fight is 3 waves, the boss waits in the last wave of a boss case. Your team fights on its own, like in raids. Health carries over from wave to wave and case to case: lose a case and the expedition ends.",
-        "rewards": "A won fight gives 30 shards, 22 XP to each card of the team, tickets (6, then one more each chapter, up to 10) and a bonus to pick. Bonuses last until the chapter ends; beating its last boss heals the team.",
-        "shop": "Treasures give 40 shards, 3 tickets and a bag item (Potion, Tonic or Phoenix). Shops sell three offers for shards. Between cases you can use bag items and swap one card (budget still 20; the newcomer takes over its health).",
-        "ranks": "Cards keep their experience between expeditions: rank 1 at 30 XP, 2 at 90, 3 at 200, 4 at 400, 5 at 700. Each rank adds 12% attack and health.",
-        "daily": "Five fights a day (bosses included); treasures and shops don't count. The expedition waits for you across days.",
-        "score": "Your score is the number of cases cleared; the weekly ranking keeps your furthest expedition."
+        "team": "从整个卡池中选 5 张不同的卡组成队伍，预算为 20：普通 1，非凡 2，稀有 3，史诗 5，传说 8，神话 12。",
+        "route": "每章有 10 格：战斗、宝藏、战斗、商店、首领、战斗、宝藏、战斗、商店、首领。地图显示你身后的格子、下一格和首领，其余笼罩在迷雾中。每章对应一个系列：该系列的卡是大部分敌人，而你队中属于它的卡伤害提高 20%。",
+        "fights": "一场战斗有 3 波，首领在首领格的最后一波等着你。你的队伍像突袭一样自动战斗。生命会在波与波、格与格之间延续：输掉一格，远征就结束。",
+        "rewards": "赢下一场战斗可得 30 碎片，队中每张卡 22 经验，奖券（6 张，之后每章多 1 张，最多 10 张），以及一个可选的加成。加成持续到本章结束；击败本章最后一个首领会治疗全队。",
+        "shop": "宝藏给予 40 碎片、3 奖券和一件背包物品（药水、补剂或凤凰）。商店用碎片出售三件商品。两格之间你可以使用背包物品并替换一张卡（预算仍为 20；新来的卡继承其生命）。",
+        "ranks": "卡牌的经验会在远征之间保留：30 经验升到 1 阶，90 到 2 阶，200 到 3 阶，400 到 4 阶，700 到 5 阶。每一阶使攻击和生命 +12%。",
+        "daily": "每天五场战斗（包括首领）；宝藏和商店不计入。远征会跨天等你回来。",
+        "score": "你的分数就是通过的格数；每周排行榜记录你走得最远的一次远征。"
       },
-      "today": "Fights today",
-      "theRoute": "The route",
+      "today": "今日战斗",
+      "theRoute": "路线",
       "tabs": {
-        "route": "Route",
-        "cards": "Cards"
+        "route": "路线",
+        "cards": "卡牌"
       },
-      "youAreHere": "YOU ARE HERE",
-      "unknown": "Still unknown",
-      "waves": "{n} waves",
-      "bossWaves": "Boss · {n} waves",
+      "youAreHere": "你在这里",
+      "unknown": "尚未探明",
+      "waves": "{n} 波",
+      "bossWaves": "首领 · {n} 波",
       "goTo": {
-        "fight": "Fight",
-        "treasure": "Open the treasure",
-        "shop": "Enter the shop",
-        "boss": "Face the boss"
+        "fight": "战斗",
+        "treasure": "打开宝藏",
+        "shop": "进入商店",
+        "boss": "迎战首领"
       },
-      "bonusKept": "One only, kept until the end of the chapter.",
+      "bonusKept": "只能选一个，保留到本章结束。",
       "report": {
-        "won": "Case won",
-        "lost": "Case lost",
-        "waves": "{n} waves out of {total}",
-        "damage": "{n} damage dealt",
-        "best": "Best card",
+        "won": "通过本格",
+        "lost": "本格失败",
+        "waves": "{total} 波中的 {n} 波",
+        "damage": "造成 {n} 点伤害",
+        "best": "最佳卡牌",
         "kos": "{n} KO",
-        "continue": "Continue"
+        "continue": "继续"
       }
     },
     "blindTest": {
-      "name": "Blind test",
-      "chip": "10 clips",
-      "clip": "Clip",
-      "level": "Level",
+      "name": "盲听测验",
+      "chip": "10 段片段",
+      "clip": "片段",
+      "level": "难度",
       "levels": {
-        "easy": "Easy",
-        "medium": "Medium",
-        "hard": "Hard"
+        "easy": "简单",
+        "medium": "中等",
+        "hard": "困难"
       },
       "pitches": {
-        "easy": "Openings of the big classics. Listen to 30 seconds and find the series among four.",
-        "medium": "Openings and endings of well-known series. Listen to 30 seconds and find the series among four.",
-        "hard": "The whole bank of themes. Listen to 30 seconds and find the series among four."
+        "easy": "经典大作的片头曲。听 30 秒，从四个选项中找出作品。",
+        "medium": "知名作品的片头曲和片尾曲。听 30 秒，从四个选项中找出作品。",
+        "hard": "整个主题曲库。听 30 秒，从四个选项中找出作品。"
       },
-      "rules": "10 theme clips of 30 seconds. Find the series among four answers: the faster you are, the more points (up to 100). A wrong answer gives 0. After each answer you see the song, the artist and a character of the series.",
-      "right": "Well heard! +{n}",
-      "wrong": "Wrong!",
-      "next": "Next",
-      "seeResult": "See the result",
-      "share": "I scored {score} at the Kizuna blind test!"
+      "rules": "10 段 30 秒的主题曲片段。从四个答案中找出作品：答得越快分数越高（最多 100 分）。答错得 0 分。每次回答后，你会看到歌曲、歌手和该作品的一个角色。",
+      "right": "听出来了！+{n}",
+      "wrong": "猜错了！",
+      "next": "下一个",
+      "seeResult": "查看结果",
+      "share": "我在 Kizuna 的盲听测验拿了 {score} 分！"
     },
-    "playMulti": "Play with others",
-    "playMultiText": "2 to 4 players, the same questions.",
+    "playMulti": "和其他人一起玩",
+    "playMultiText": "2 到 4 名玩家，同样的题目。",
     "table": {
-      "title": "Play with others",
-      "pitch": "Up to {n} players get the same questions. The fastest right answers win.",
-      "match": "Join a table",
-      "matchText": "Sit at a table waiting for players, or open one.",
-      "open": "Open a table for friends",
-      "openText": "Get a code to share; you start when everyone is here.",
-      "code": "Table code",
-      "codeHint": "Code (5 letters)",
-      "join": "Join",
-      "backSolo": "Back to solo",
-      "copy": "Copy the code",
-      "share": "Share this code with your friends (Discord, messages…).",
-      "you": "you",
-      "host": "Host",
-      "free": "Free seat",
-      "needTwo": "Waiting for a second player…",
-      "start": "Start with {n} players",
-      "waitHost": "Waiting for the host to start…",
-      "leave": "Leave the table",
-      "players": "Players at the table",
-      "answered": "Answered",
-      "stillPlaying": "still playing",
-      "nextComing": "Everyone answered: next one coming!",
-      "waitOthers": "Waiting for the others to answer…"
+      "title": "和其他人一起玩",
+      "pitch": "最多 {n} 名玩家回答同样的题目。答对最快的获胜。",
+      "match": "加入牌桌",
+      "matchText": "坐到一张等人的牌桌，或自己开一张。",
+      "open": "为好友开一张牌桌",
+      "openText": "获得一个代码分享给好友；人到齐后即可开始。",
+      "code": "牌桌代码",
+      "codeHint": "代码（5 个字母）",
+      "join": "加入",
+      "backSolo": "返回单人游戏",
+      "copy": "复制代码",
+      "share": "把这个代码分享给你的好友（Discord、短信……）。",
+      "you": "你",
+      "host": "房主",
+      "free": "空位",
+      "needTwo": "等待第二名玩家…",
+      "start": "{n} 人开始",
+      "waitHost": "等待房主开始…",
+      "leave": "离开牌桌",
+      "players": "牌桌上的玩家",
+      "answered": "已回答",
+      "stillPlaying": "作答中",
+      "nextComing": "所有人都答完了：下一题马上来！",
+      "waitOthers": "等待其他人作答…"
     }
   }
 }
