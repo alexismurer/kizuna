@@ -1346,7 +1346,23 @@
         "boosters": "ブースター",
         "streak": "連続",
         "invited": "招待"
-      }
+      },
+      "loadingMore": "ほかの項目を読み込み中…",
+      "loginsLabel": "ログイン回数",
+      "goldenLeftLabel": "残りのゴールデンブースター",
+      "noBonus": "ボーナスブースターはありません。",
+      "removeName": "{name} を削除",
+      "addPack": "ブースターの種類を追加…",
+      "cosmetics": "コスメ",
+      "kinds": {
+        "title": "称号",
+        "frame": "フレーム",
+        "banner": "バナー",
+        "name": "名前スタイル"
+      },
+      "ownedKind": "所持：{kind}",
+      "cosmeticsHint": "コスメをクリックすると付与・削除できます。装備できるのは所持しているものだけです。",
+      "readOnlyNote": "カード、開封数、獲得チケット、日付、招待はプレイヤーの履歴から計算されるため、編集できません。"
     },
     "pools": {
       "title": "デイリーセレクション",

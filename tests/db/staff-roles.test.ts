@@ -80,6 +80,51 @@ describe('admin player management', () => {
     expect((await call({ p_currency: -1 })).error?.message).toContain('invalid_amount')
   })
 
+  describe('everything else stored on a player', () => {
+    const base = {
+      p_logins: 12, p_tickets: 300, p_golden_next: true, p_golden_left: 2,
+      p_packs: { mix: 4, chest: 1 }, p_cosmetics: ['title_pillar', 'frame_gold', 'frame_neon'],
+      p_title: 'title_pillar', p_frame: 'frame_neon', p_banner: null, p_name: null,
+    }
+
+    it('sets logins, tickets (logged), golden, bonus boosters and cosmetics, and reads them back', async () => {
+      const [a, p] = await Promise.all([withRole('admin'), newPlayer()])
+      await admin.from('players').update({ tickets: 100 }).eq('id', p.userId)
+      await admin.from('granted_packs').insert({ player_id: p.userId, pack_type_id: 'prestige', count: 3 })
+      expect((await a.client.rpc('admin_update_player_more', { p_id: p.userId, ...base })).error).toBeNull()
+
+      const { data: pl } = await admin.from('players').select('logins_total, tickets, golden_next, golden_left, title_id, frame_id').eq('id', p.userId).single()
+      expect(pl).toEqual({ logins_total: 12, tickets: 300, golden_next: true, golden_left: 2, title_id: 'title_pillar', frame_id: 'frame_neon' })
+      const { data: log } = await admin.from('ticket_log').select('amount, source, earned').eq('player_id', p.userId)
+      expect(log).toEqual([{ amount: 200, source: 'admin_set', earned: false }])
+
+      const extras = (await a.client.rpc('admin_player_extras', { p_id: p.userId })).data
+      expect(extras.packs).toEqual({ mix: 4, chest: 1 }) // prestige was dropped
+      expect(extras.cosmetics).toEqual(['frame_gold', 'frame_neon', 'title_pillar'])
+      expect(extras.packTypes.some((t: { id: string }) => t.id === 'mix')).toBe(true)
+      expect(extras.allCosmetics.some((c: { id: string }) => c.id === 'title_pillar')).toBe(true)
+
+      // removing an owned cosmetic and unequipping
+      expect((await a.client.rpc('admin_update_player_more', { p_id: p.userId, ...base, p_cosmetics: ['frame_neon'], p_title: null })).error).toBeNull()
+      expect((await a.client.rpc('admin_player_extras', { p_id: p.userId })).data.cosmetics).toEqual(['frame_neon'])
+    })
+
+    it('rejects bad values and unowned or wrong-kind equips; admins only', async () => {
+      const [a, m, p] = await Promise.all([withRole('admin'), withRole('moderator'), newPlayer()])
+      const call = (c: P, args: Record<string, unknown>) => c.client.rpc('admin_update_player_more', { p_id: p.userId, ...base, ...args })
+      expect((await call(a, { p_tickets: -1 })).error?.message).toContain('invalid_amount')
+      expect((await call(a, { p_logins: -1 })).error?.message).toContain('invalid_value')
+      expect((await call(a, { p_packs: { mix: 'x' } })).error?.message).toContain('invalid_value')
+      expect((await call(a, { p_packs: { nope: 1 } })).error?.message).toContain('invalid_value')
+      expect((await call(a, { p_packs: { mix: 1.5 } })).error?.message).toContain('invalid_value')
+      expect((await call(a, { p_cosmetics: ['legendary_booster'] , p_title: null, p_frame: null })).error?.message).toContain('invalid_value')
+      expect((await call(a, { p_cosmetics: ['frame_neon'] })).error?.message).toContain('invalid_value') // title not owned
+      expect((await call(a, { p_title: 'frame_gold' })).error?.message).toContain('invalid_value') // wrong kind
+      expect((await call(m, {})).error?.message).toContain('not_admin')
+      expect((await m.client.rpc('admin_player_extras', { p_id: p.userId })).error?.message).toContain('not_admin')
+    })
+  })
+
   it('sets roles but never your own', async () => {
     const [a, p] = await Promise.all([withRole('admin'), newPlayer()])
     expect((await a.client.rpc('admin_set_role', { p_id: p.userId, p_role: 'moderator' })).error).toBeNull()

@@ -1346,7 +1346,23 @@
         "boosters": "Sobres",
         "streak": "Racha",
         "invited": "Invitados"
-      }
+      },
+      "loadingMore": "Cargando los demás campos…",
+      "loginsLabel": "Inicios de sesión",
+      "goldenLeftLabel": "Sobres dorados restantes",
+      "noBonus": "Sin sobres extra.",
+      "removeName": "Quitar {name}",
+      "addPack": "Añadir un tipo de sobre…",
+      "cosmetics": "Cosméticos",
+      "kinds": {
+        "title": "Título",
+        "frame": "Marco",
+        "banner": "Banner",
+        "name": "Estilo de nombre"
+      },
+      "ownedKind": "En posesión: {kind}",
+      "cosmeticsHint": "Haz clic en un cosmético para darlo o quitarlo. Solo se pueden equipar los que posee.",
+      "readOnlyNote": "Las cartas, sobres abiertos, tickets ganados, fechas e invitaciones vienen del historial del jugador y no se pueden editar."
     },
     "pools": {
       "title": "Selecciones diarias",

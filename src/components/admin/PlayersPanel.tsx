@@ -3,10 +3,23 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "motion/react";
-import { Ban, ChevronRight, Coins, Gift, Layers, Package, Ticket, Users, X } from "lucide-react";
+import { Ban, Check, ChevronRight, Coins, Gift, Layers, Package, Ticket, Users, X } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Avatar } from "@/components/social/Avatar";
-import { adminSetBan, adminSetRole, adminUpdatePlayer, type AdminPlayer, type AdminPlayers, type StaffRole } from "@/lib/actions/admin";
+import {
+  adminPlayerExtras,
+  adminSetBan,
+  adminSetRole,
+  adminUpdatePlayer,
+  adminUpdatePlayerMore,
+  type AdminPlayer,
+  type AdminPlayerExtras,
+  type AdminPlayerMore,
+  type AdminPlayers,
+  type CosmeticKind,
+  type StaffRole,
+} from "@/lib/actions/admin";
+import { packName } from "@/lib/game/packName";
 import { adminErrorKey } from "./errors";
 import { AdminSection, danger, errorText, input, label, primary, secondary, small } from "./ui";
 
@@ -367,8 +380,40 @@ function PlayerDrawer({
   );
 }
 
+const KINDS: CosmeticKind[] = ["title", "frame", "banner", "name"];
+
+// the stored fields beyond name / currency / streak, loaded when the Edit tab opens
+function useMore(player: AdminPlayer) {
+  const [extras, setExtras] = useState<AdminPlayerExtras | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [form, setForm] = useState<AdminPlayerMore | null>(null);
+  useEffect(() => {
+    let live = true;
+    adminPlayerExtras(player.id).then((r) => {
+      if (!live) return;
+      if (!r.ok) return setLoadError(r.error);
+      setExtras(r.data);
+      setForm({
+        logins: player.logins,
+        tickets: player.tickets ?? 0,
+        goldenNext: player.goldenNext ?? false,
+        goldenLeft: player.goldenLeft ?? 0,
+        packs: r.data.packs,
+        cosmetics: r.data.cosmetics,
+        equipped: { title: player.titleId ?? null, frame: player.frameId ?? null, banner: r.data.bannerId, name: r.data.nameId },
+      });
+    });
+    return () => {
+      live = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [player.id]);
+  return { extras, loadError, form, setForm };
+}
+
 function EditPlayer({ player, onSaved }: { player: AdminPlayer; onSaved: (p: AdminPlayer) => void }) {
   const t = useTranslations("admin");
+  const tAll = useTranslations();
   const [username, setUsername] = useState(player.username);
   const [currency, setCurrency] = useState(String(player.currency));
   const [streak, setStreak] = useState(String(player.streak));
@@ -377,6 +422,21 @@ function EditPlayer({ player, onSaved }: { player: AdminPlayer; onSaved: (p: Adm
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [pending, start] = useTransition();
+  const { extras, loadError, form, setForm } = useMore(player);
+
+  const set = (patch: Partial<AdminPlayerMore>) => setForm((f) => (f ? { ...f, ...patch } : f));
+  const int = (s: string) => Math.max(0, Math.trunc(Number(s) || 0));
+  const packLabel = (p: AdminPlayerExtras["packTypes"][number]) => packName((k) => (tAll.has(k) ? tAll(k) : p.id), p, null);
+  const cosmeticLabel = (c: { id: string; kind: CosmeticKind }) => {
+    const k = `cosmetics.${c.kind}s.${c.id}`;
+    return tAll.has(k) ? tAll(k) : c.id;
+  };
+  const toggleCosmetic = (c: { id: string; kind: CosmeticKind }, owned: boolean) =>
+    form &&
+    set({
+      cosmetics: owned ? [...form.cosmetics, c.id] : form.cosmetics.filter((x) => x !== c.id),
+      equipped: !owned && form.equipped[c.kind] === c.id ? { ...form.equipped, [c.kind]: null } : form.equipped,
+    });
 
   const save = (e: React.FormEvent) => {
     e.preventDefault();
@@ -387,6 +447,23 @@ function EditPlayer({ player, onSaved }: { player: AdminPlayer; onSaved: (p: Adm
       const r = await adminUpdatePlayer(player.id, username, cur, st);
       if (!r.ok) return setError(r.error);
       let next: AdminPlayer = { ...player, username: username.trim(), currency: cur, streak: st };
+      if (form) {
+        const rm = await adminUpdatePlayerMore(player.id, form);
+        if (!rm.ok) {
+          onSaved(next);
+          return setError(rm.error);
+        }
+        next = {
+          ...next,
+          logins: form.logins,
+          tickets: form.tickets,
+          goldenNext: form.goldenNext,
+          goldenLeft: form.goldenLeft,
+          bonusBoosters: Object.values(form.packs).reduce((a, b) => a + b, 0),
+          titleId: form.equipped.title,
+          frameId: form.equipped.frame,
+        };
+      }
       if (role !== player.role) {
         const rr = await adminSetRole(player.id, role);
         if (!rr.ok) {
@@ -437,6 +514,132 @@ function EditPlayer({ player, onSaved }: { player: AdminPlayer; onSaved: (p: Adm
             ))}
           </select>
         </label>
+
+        {loadError && <p className={errorText}>{t(`errors.${adminErrorKey(loadError)}`)}</p>}
+        {!form || !extras ? (
+          !loadError && <p className="text-sm text-white/50">{t("players.loadingMore")}</p>
+        ) : (
+          <>
+            <section className="flex flex-col gap-2 border-t border-border pt-3">
+              <p className={eyebrow}>{t("players.activity")}</p>
+              <label className={label}>
+                {t("players.loginsLabel")}
+                <input className={input} type="number" min={0} value={form.logins} onChange={(e) => set({ logins: int(e.target.value) })} />
+              </label>
+            </section>
+
+            <section className="flex flex-col gap-2 border-t border-border pt-3">
+              <p className={eyebrow}>{t("players.collection")}</p>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={form.goldenNext} onChange={(e) => set({ goldenNext: e.target.checked })} />
+                {t("players.golden")}
+              </label>
+              <label className={label}>
+                {t("players.goldenLeftLabel")}
+                <input className={input} type="number" min={0} max={1000} value={form.goldenLeft} onChange={(e) => set({ goldenLeft: int(e.target.value) })} />
+              </label>
+              <p className="text-sm font-semibold text-white/80">{t("players.cols.bonus")}</p>
+              {Object.keys(form.packs).length === 0 && <p className="text-xs text-white/45">{t("players.noBonus")}</p>}
+              {extras.packTypes
+                .filter((p) => p.id in form.packs)
+                .map((p) => (
+                  <div key={p.id} className="flex items-center gap-2">
+                    <span className="min-w-0 flex-1 truncate text-sm">{packLabel(p)}</span>
+                    <input
+                      className={`${input} w-24`}
+                      type="number"
+                      min={0}
+                      max={1000}
+                      aria-label={packLabel(p)}
+                      value={form.packs[p.id]}
+                      onChange={(e) => set({ packs: { ...form.packs, [p.id]: int(e.target.value) } })}
+                    />
+                    <button
+                      type="button"
+                      className={small}
+                      aria-label={t("players.removeName", { name: packLabel(p) })}
+                      onClick={() => set({ packs: Object.fromEntries(Object.entries(form.packs).filter(([k]) => k !== p.id)) })}
+                    >
+                      <X className="h-3.5 w-3.5" aria-hidden />
+                    </button>
+                  </div>
+                ))}
+              {extras.packTypes.some((p) => !(p.id in form.packs)) && (
+                <select
+                  className={input}
+                  value=""
+                  aria-label={t("players.addPack")}
+                  onChange={(e) => e.target.value && set({ packs: { ...form.packs, [e.target.value]: 1 } })}
+                >
+                  <option value="">{t("players.addPack")}</option>
+                  {extras.packTypes
+                    .filter((p) => !(p.id in form.packs))
+                    .map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {packLabel(p)}
+                      </option>
+                    ))}
+                </select>
+              )}
+            </section>
+
+            <section className="flex flex-col gap-2 border-t border-border pt-3">
+              <p className={eyebrow}>{t("players.arcade")}</p>
+              <label className={label}>
+                {t("players.cols.tickets")}
+                <input className={input} type="number" min={0} value={form.tickets} onChange={(e) => set({ tickets: int(e.target.value) })} />
+              </label>
+            </section>
+
+            <section className="flex flex-col gap-3 border-t border-border pt-3">
+              <p className={eyebrow}>{t("players.cosmetics")}</p>
+              {KINDS.map((kind) => {
+                const all = extras.allCosmetics.filter((c) => c.kind === kind);
+                if (all.length === 0) return null;
+                const owned = all.filter((c) => form.cosmetics.includes(c.id));
+                return (
+                  <div key={kind} className="flex flex-col gap-1.5">
+                    <label className={label}>
+                      {t(`players.kinds.${kind}`)}
+                      <select
+                        className={input}
+                        value={form.equipped[kind] ?? ""}
+                        onChange={(e) => set({ equipped: { ...form.equipped, [kind]: e.target.value || null } })}
+                      >
+                        <option value="">{t("players.none")}</option>
+                        {owned.map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {cosmeticLabel(c)}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <div className="flex flex-wrap gap-1.5" role="group" aria-label={t("players.ownedKind", { kind: t(`players.kinds.${kind}`) })}>
+                      {all.map((c) => {
+                        const on = form.cosmetics.includes(c.id);
+                        return (
+                          <button
+                            key={c.id}
+                            type="button"
+                            aria-pressed={on}
+                            onClick={() => toggleCosmetic(c, !on)}
+                            className={`rounded-full border px-2 py-0.5 text-xs transition ${on ? "border-accent/60 bg-accent/15 text-white" : "border-border text-white/50 hover:text-white"}`}
+                          >
+                            {on && <Check className="mr-1 inline h-3 w-3" aria-hidden />}
+                            {cosmeticLabel(c)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+              <p className="text-xs text-white/45">{t("players.cosmeticsHint")}</p>
+            </section>
+            <p className="text-xs text-white/45">{t("players.readOnlyNote")}</p>
+          </>
+        )}
+
         <button type="submit" disabled={pending} className={primary}>
           {t("players.save")}
         </button>

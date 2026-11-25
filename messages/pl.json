@@ -1346,7 +1346,23 @@
         "boosters": "Boostery",
         "streak": "Seria",
         "invited": "Zaproszeni"
-      }
+      },
+      "loadingMore": "Ładowanie pozostałych pól…",
+      "loginsLabel": "Logowania",
+      "goldenLeftLabel": "Pozostałe złote boostery",
+      "noBonus": "Brak boosterów bonusowych.",
+      "removeName": "Usuń {name}",
+      "addPack": "Dodaj typ boostera…",
+      "cosmetics": "Kosmetyki",
+      "kinds": {
+        "title": "Tytuł",
+        "frame": "Ramka",
+        "banner": "Baner",
+        "name": "Styl nazwy"
+      },
+      "ownedKind": "Posiadane: {kind}",
+      "cosmeticsHint": "Kliknij kosmetyk, aby go dać lub zabrać. Założyć można tylko posiadane.",
+      "readOnlyNote": "Karty, otwarte boostery, zdobyte bilety, daty i zaproszenia pochodzą z historii gracza i nie można ich edytować."
     },
     "pools": {
       "title": "Pule dzienne",

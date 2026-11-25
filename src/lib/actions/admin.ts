@@ -72,6 +72,42 @@ export async function adminRevokeInvite(code: string) {
 export async function adminUpdatePlayer(id: string, username: string, currency: number, streak: number) {
   return call<null>("admin_update_player", { p_id: id, p_username: username, p_currency: currency, p_streak: streak });
 }
+export type CosmeticKind = "title" | "frame" | "banner" | "name";
+export type AdminPlayerExtras = {
+  packs: Record<string, number>;
+  cosmetics: string[];
+  bannerId: string | null;
+  nameId: string | null;
+  packTypes: { id: string; kind: string; title: string | null }[];
+  allCosmetics: { id: string; kind: CosmeticKind }[];
+};
+export type AdminPlayerMore = {
+  logins: number;
+  tickets: number;
+  goldenNext: boolean;
+  goldenLeft: number;
+  packs: Record<string, number>;
+  cosmetics: string[];
+  equipped: Record<CosmeticKind, string | null>;
+};
+export async function adminPlayerExtras(id: string) {
+  return call<AdminPlayerExtras>("admin_player_extras", { p_id: id });
+}
+export async function adminUpdatePlayerMore(id: string, v: AdminPlayerMore) {
+  return call<null>("admin_update_player_more", {
+    p_id: id,
+    p_logins: v.logins,
+    p_tickets: v.tickets,
+    p_golden_next: v.goldenNext,
+    p_golden_left: v.goldenLeft,
+    p_packs: v.packs,
+    p_cosmetics: v.cosmetics,
+    p_title: v.equipped.title,
+    p_frame: v.equipped.frame,
+    p_banner: v.equipped.banner,
+    p_name: v.equipped.name,
+  });
+}
 export async function adminSetRole(id: string, role: StaffRole) {
   return call<null>("admin_set_role", { p_id: id, p_role: role });
 }

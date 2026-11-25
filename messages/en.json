@@ -1346,7 +1346,23 @@
         "boosters": "Boosters",
         "streak": "Streak",
         "invited": "Invited"
-      }
+      },
+      "loadingMore": "Loading the other fields…",
+      "loginsLabel": "Logins",
+      "goldenLeftLabel": "Golden boosters left",
+      "noBonus": "No bonus boosters.",
+      "removeName": "Remove {name}",
+      "addPack": "Add a booster type…",
+      "cosmetics": "Cosmetics",
+      "kinds": {
+        "title": "Title",
+        "frame": "Frame",
+        "banner": "Banner",
+        "name": "Name style"
+      },
+      "ownedKind": "Owned: {kind}",
+      "cosmeticsHint": "Click a cosmetic to give it or take it away. Only owned ones can be equipped.",
+      "readOnlyNote": "Cards, boosters opened, tickets earned, dates and invites come from the player's history, so they can't be edited."
     },
     "pools": {
       "title": "Daily pools",

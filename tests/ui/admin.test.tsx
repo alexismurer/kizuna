@@ -17,6 +17,8 @@ const actions = vi.hoisted(() => ({
   adminUpdatePlayer: vi.fn(),
   adminSetRole: vi.fn(),
   adminSetBan: vi.fn(),
+  adminPlayerExtras: vi.fn(),
+  adminUpdatePlayerMore: vi.fn(),
 }));
 vi.mock("@/lib/actions/admin", () => actions);
 vi.mock("@/i18n/navigation", () => ({
@@ -315,14 +317,47 @@ describe("PlayersPanel", () => {
     actions.adminUpdatePlayer.mockResolvedValue({ ok: true, data: null });
     actions.adminSetRole.mockResolvedValue({ ok: true, data: null });
     actions.adminSetBan.mockResolvedValue({ ok: true, data: null });
+    actions.adminUpdatePlayerMore.mockResolvedValue({ ok: true, data: null });
+    actions.adminPlayerExtras.mockResolvedValue({
+      ok: true,
+      data: {
+        packs: { mix: 2 },
+        cosmetics: ["title_pillar"],
+        bannerId: null,
+        nameId: null,
+        packTypes: [
+          { id: "mix", kind: "free", title: null },
+          { id: "chest", kind: "shop", title: null },
+        ],
+        allCosmetics: [
+          { id: "title_pillar", kind: "title" },
+          { id: "frame_gold", kind: "frame" },
+        ],
+      },
+    });
     wrap(<PlayersPanel data={data} canEdit />);
     fireEvent.click(screen.getByRole("button", { name: "Open kenji" }));
     fireEvent.click(screen.getByRole("tab", { name: "Edit" }));
     fireEvent.change(screen.getByRole("spinbutton", { name: "Currency" }), { target: { value: "900" } });
     fireEvent.change(screen.getByRole("combobox", { name: "Role" }), { target: { value: "moderator" } });
+    // the other stored fields
+    fireEvent.change(await screen.findByRole("spinbutton", { name: "Tickets" }), { target: { value: "75" } });
+    fireEvent.change(screen.getByRole("spinbutton", { name: "Logins" }), { target: { value: "9" } });
+    fireEvent.change(screen.getByRole("combobox", { name: "Add a booster type…" }), { target: { value: "chest" } });
+    fireEvent.click(screen.getByRole("button", { name: /Golden ticket/ })); // give the gold frame
+    fireEvent.change(screen.getByRole("combobox", { name: "Frame" }), { target: { value: "frame_gold" } });
     fireEvent.click(screen.getByRole("button", { name: "Save changes" }));
     await waitFor(() => expect(screen.getByText("Saved.")).toBeInTheDocument());
     expect(actions.adminUpdatePlayer).toHaveBeenCalledWith("p1", "kenji", 900, 2);
+    expect(actions.adminUpdatePlayerMore).toHaveBeenCalledWith("p1", {
+      logins: 9,
+      tickets: 75,
+      goldenNext: false,
+      goldenLeft: 0,
+      packs: { mix: 2, chest: 1 },
+      cosmetics: ["title_pillar", "frame_gold"],
+      equipped: { title: null, frame: "frame_gold", banner: null, name: null },
+    });
     expect(actions.adminSetRole).toHaveBeenCalledWith("p1", "moderator");
 
     await waitFor(() => expect(screen.getByRole("button", { name: "Ban" })).toBeEnabled());

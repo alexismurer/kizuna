@@ -1346,7 +1346,23 @@
         "boosters": "Booster",
         "streak": "Serie",
         "invited": "Eingeladen"
-      }
+      },
+      "loadingMore": "Weitere Felder werden geladen…",
+      "loginsLabel": "Anmeldungen",
+      "goldenLeftLabel": "Verbleibende goldene Booster",
+      "noBonus": "Keine Bonus-Booster.",
+      "removeName": "{name} entfernen",
+      "addPack": "Boostertyp hinzufügen…",
+      "cosmetics": "Kosmetik",
+      "kinds": {
+        "title": "Titel",
+        "frame": "Rahmen",
+        "banner": "Banner",
+        "name": "Namensstil"
+      },
+      "ownedKind": "Im Besitz: {kind}",
+      "cosmeticsHint": "Klicke auf ein Kosmetikteil, um es zu geben oder wegzunehmen. Nur Teile im Besitz können ausgerüstet werden.",
+      "readOnlyNote": "Karten, geöffnete Booster, verdiente Tickets, Daten und Einladungen stammen aus dem Verlauf des Spielers und können nicht bearbeitet werden."
     },
     "pools": {
       "title": "Tagespools",

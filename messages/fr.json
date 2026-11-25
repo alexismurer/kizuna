@@ -1346,7 +1346,23 @@
         "boosters": "Boosters",
         "streak": "Série",
         "invited": "Invités"
-      }
+      },
+      "loadingMore": "Chargement des autres champs…",
+      "loginsLabel": "Connexions",
+      "goldenLeftLabel": "Boosters dorés restants",
+      "noBonus": "Aucun booster bonus.",
+      "removeName": "Retirer {name}",
+      "addPack": "Ajouter un type de booster…",
+      "cosmetics": "Cosmétiques",
+      "kinds": {
+        "title": "Titre",
+        "frame": "Cadre",
+        "banner": "Bannière",
+        "name": "Style du pseudo"
+      },
+      "ownedKind": "Possédés : {kind}",
+      "cosmeticsHint": "Clique sur un cosmétique pour le donner ou le retirer. Seuls ceux possédés peuvent être équipés.",
+      "readOnlyNote": "Les cartes, boosters ouverts, tickets gagnés, dates et invitations viennent de l'historique du joueur et ne peuvent pas être modifiés."
     },
     "pools": {
       "title": "Sélections du jour",

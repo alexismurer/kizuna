@@ -1346,7 +1346,23 @@
         "boosters": "卡包",
         "streak": "连续",
         "invited": "邀请"
-      }
+      },
+      "loadingMore": "正在加载其他字段…",
+      "loginsLabel": "登录次数",
+      "goldenLeftLabel": "剩余金色卡包",
+      "noBonus": "没有额外卡包。",
+      "removeName": "移除 {name}",
+      "addPack": "添加卡包类型…",
+      "cosmetics": "装饰",
+      "kinds": {
+        "title": "称号",
+        "frame": "头像框",
+        "banner": "横幅",
+        "name": "名字样式"
+      },
+      "ownedKind": "已拥有：{kind}",
+      "cosmeticsHint": "点击装饰即可赠送或收回。只能装备已拥有的装饰。",
+      "readOnlyNote": "卡牌、已开卡包、获得的票券、日期和邀请来自玩家的历史记录，无法编辑。"
     },
     "pools": {
       "title": "每日卡池",

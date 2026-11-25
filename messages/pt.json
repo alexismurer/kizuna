@@ -1346,7 +1346,23 @@
         "boosters": "Boosters",
         "streak": "Sequência",
         "invited": "Convidados"
-      }
+      },
+      "loadingMore": "Carregando os outros campos…",
+      "loginsLabel": "Logins",
+      "goldenLeftLabel": "Boosters dourados restantes",
+      "noBonus": "Nenhum booster bônus.",
+      "removeName": "Remover {name}",
+      "addPack": "Adicionar um tipo de booster…",
+      "cosmetics": "Cosméticos",
+      "kinds": {
+        "title": "Título",
+        "frame": "Moldura",
+        "banner": "Banner",
+        "name": "Estilo do nome"
+      },
+      "ownedKind": "Possui: {kind}",
+      "cosmeticsHint": "Clique num cosmético para dar ou tirar. Só os que ele possui podem ser equipados.",
+      "readOnlyNote": "Cartas, boosters abertos, tickets ganhos, datas e convites vêm do histórico do jogador e não podem ser editados."
     },
     "pools": {
       "title": "Seleções diárias",
