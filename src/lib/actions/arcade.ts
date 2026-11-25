@@ -23,10 +23,11 @@ import {
   type ExpState,
   type ExpView,
 } from "@/lib/arcade/expedition/engine";
-import { addExpeditionXp, ArcadeError, cardsByIds, expeditionXp, latestRun, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, storedDeck, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
+import { addExpeditionXp, ArcadeError, blindBank, cardsByIds, expeditionXp, latestRun, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, storedDeck, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
 import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
+import { buildBlind } from "@/lib/arcade/quiz/blindTest";
 import { buildMostLoved } from "@/lib/arcade/quiz/mostLoved";
 import { buildSeriesRush } from "@/lib/arcade/quiz/seriesRush";
 import { buildWhosThat } from "@/lib/arcade/quiz/whosThat";
@@ -109,7 +110,8 @@ export async function bjAct(id: string, a: "hit" | "stand" | "next"): Promise<Ar
 
 // ---------- quizzes ----------
 
-export type QuizGameId = "whos-that" | "series-rush" | "most-loved";
+export type QuizGameId = "whos-that" | "series-rush" | "most-loved" | "blind-easy" | "blind-medium" | "blind-hard";
+const BLIND_RULES: QuizRules = { windowMs: 30_000, scoring: "speed", total: 10 };
 const QUIZ: Record<QuizGameId, { rules: QuizRules; faces?: boolean; build: (r: () => number) => Promise<QuizState["questions"]> }> = {
   "whos-that": {
     rules: { windowMs: 10_000, scoring: "speed", total: 10 },
@@ -125,6 +127,9 @@ const QUIZ: Record<QuizGameId, { rules: QuizRules; faces?: boolean; build: (r: (
     faces: true,
     build: async (r) => buildMostLoved(await randomCards(300), r, 50),
   },
+  "blind-easy": { rules: BLIND_RULES, build: async (r) => buildBlind(await blindBank(1), r) },
+  "blind-medium": { rules: BLIND_RULES, build: async (r) => buildBlind(await blindBank(2), r) },
+  "blind-hard": { rules: BLIND_RULES, build: async (r) => buildBlind(await blindBank(3), r) },
 };
 const quizGame = (g: unknown): QuizGameId => checkAction(g, Object.keys(QUIZ) as QuizGameId[]);
 

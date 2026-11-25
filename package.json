@@ -15,7 +15,8 @@
     "wiki:backfill": "tsx scripts/import-anilist/backfill-wiki.ts",
     "mal:sync": "tsx scripts/import-mal/index.ts",
     "invite": "tsx scripts/create-invite.ts",
-    "admin": "tsx scripts/make-admin.ts"
+    "admin": "tsx scripts/make-admin.ts",
+    "blind:import": "tsx scripts/blind-import/index.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

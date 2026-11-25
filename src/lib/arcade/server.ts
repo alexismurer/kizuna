@@ -4,6 +4,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { createServerClient } from "@/lib/supabase/server";
 import type { Rarity } from "@/lib/game/types";
+import type { BlindClip } from "./quiz/blindTest";
 import type { ArcadeGameId } from "./registry";
 
 export type Run<S> = {
@@ -154,6 +155,18 @@ export async function searchCards(q: string, rarity: Rarity | null): Promise<Arc
   const { data, error } = await service().rpc("arcade_search_cards", { p_q: q.slice(0, 40), p_rarity: rarity, p_limit: 60 });
   if (error) throw new ArcadeError(error.message);
   return data as ArcadeCard[];
+}
+
+// Blind test: the bank of a level (1 easy … 3 hard) and a clip's audio
+export async function blindBank(level: 1 | 2 | 3): Promise<BlindClip[]> {
+  const { data, error } = await service().rpc("blind_bank", { p_level: level });
+  if (error) throw new ArcadeError(error.message);
+  return data as BlindClip[];
+}
+
+export async function clipAudio(path: string): Promise<Blob | null> {
+  const { data } = await service().storage.from("blind").download(path);
+  return data ?? null;
 }
 
 export const parisDay = () => new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Paris" });

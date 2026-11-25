@@ -138,8 +138,26 @@ describe('expedition support', () => {
   it('searches the catalogue by name or series', async () => {
     const { data: c } = await admin.from('cards').select('name').not('image_url', 'is', null).limit(1).single()
     const p = await newPlayer()
-    const { data, error } = await p.client.rpc('arcade_search_cards', { p_q: c!.name.slice(0, 4), p_rarity: null, p_limit: 20 })
+    expect((await p.client.rpc('arcade_search_cards', { p_q: 'a', p_rarity: null, p_limit: 5 })).error).not.toBeNull()
+    const { data, error } = await admin.rpc('arcade_search_cards', { p_q: c!.name.slice(0, 4), p_rarity: null, p_limit: 20 })
     expect(error).toBeNull()
     expect((data as { name: string }[]).some((x) => x.name === c!.name)).toBe(true)
+  })
+})
+
+describe('blind test bank', () => {
+  it('keeps clips private and hands the bank to the server by level', async () => {
+    const { data: s } = await admin.from('series').select('id').limit(1).single()
+    const path = `t-${crypto.randomUUID()}.ogg`
+    const { error } = await admin.from('blind_clips').insert({ series_id: s!.id, theme_id: Math.floor(Math.random() * 1e9), kind: 'OP', seq: 1, song: 'Song', artist: 'Artist', year: 2010, level: 2, path })
+    expect(error).toBeNull()
+    const p = await newPlayer()
+    expect((await p.client.from('blind_clips').select('path')).data).toEqual([])
+    expect((await p.client.rpc('blind_bank', { p_level: 3 })).error).not.toBeNull()
+    const easy = (await admin.rpc('blind_bank', { p_level: 1 })).data as { path: string }[]
+    const hard = (await admin.rpc('blind_bank', { p_level: 3 })).data as { path: string; series: string; card: unknown }[]
+    expect(easy.some((c) => c.path === path)).toBe(false)
+    expect(hard.find((c) => c.path === path)).toMatchObject({ series: expect.any(String) })
+    await admin.from('blind_clips').delete().eq('path', path)
   })
 })

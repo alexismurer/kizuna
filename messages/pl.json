@@ -1977,7 +1977,8 @@
       "over_budget": "That team costs more than 20.",
       "come_back_tomorrow": "Five fights a day: come back tomorrow.",
       "not_enough_shards": "Not enough shards.",
-      "expedition_open": "You already have an expedition under way."
+      "expedition_open": "You already have an expedition under way.",
+      "not_enough_cards": "Not enough cards or clips for this game yet."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2411,6 +2412,28 @@
         "daily": "Five fights a day (bosses included); treasures and shops don't count. The expedition waits for you across days.",
         "score": "Your score is the number of cases cleared; the weekly ranking keeps your furthest expedition."
       }
+    },
+    "blindTest": {
+      "name": "Blind test",
+      "chip": "10 clips",
+      "clip": "Clip",
+      "level": "Level",
+      "levels": {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
+      },
+      "pitches": {
+        "easy": "Openings of the big classics. Listen to 30 seconds and find the series among four.",
+        "medium": "Openings and endings of well-known series. Listen to 30 seconds and find the series among four.",
+        "hard": "The whole bank of themes. Listen to 30 seconds and find the series among four."
+      },
+      "rules": "10 theme clips of 30 seconds. Find the series among four answers: the faster you are, the more points (up to 100). A wrong answer gives 0. After each answer you see the song, the artist and a character of the series.",
+      "right": "Well heard! +{n}",
+      "wrong": "Wrong!",
+      "next": "Next",
+      "seeResult": "See the result",
+      "share": "I scored {score} at the Kizuna blind test!"
     }
   }
 }

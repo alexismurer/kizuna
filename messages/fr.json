@@ -1977,7 +1977,8 @@
       "over_budget": "Cette équipe coûte plus de 20.",
       "come_back_tomorrow": "Cinq combats par jour : reviens demain.",
       "not_enough_shards": "Pas assez d’éclats.",
-      "expedition_open": "Tu as déjà une expédition en cours."
+      "expedition_open": "Tu as déjà une expédition en cours.",
+      "not_enough_cards": "Pas encore assez de cartes ou d’extraits pour ce jeu."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2411,6 +2412,28 @@
         "daily": "Cinq combats par jour (boss compris) ; trésors et boutiques ne comptent pas. L’expédition t’attend d’un jour à l’autre.",
         "score": "Ton score est le nombre de cases passées ; le classement de la semaine garde ta plus longue expédition."
       }
+    },
+    "blindTest": {
+      "name": "Blind test",
+      "chip": "10 extraits",
+      "clip": "Extrait",
+      "level": "Niveau",
+      "levels": {
+        "easy": "Facile",
+        "medium": "Moyen",
+        "hard": "Difficile"
+      },
+      "pitches": {
+        "easy": "Les openings des grands classiques. Écoute 30 secondes et trouve la série parmi quatre.",
+        "medium": "Openings et endings de séries connues. Écoute 30 secondes et trouve la série parmi quatre.",
+        "hard": "Toute la banque de génériques. Écoute 30 secondes et trouve la série parmi quatre."
+      },
+      "rules": "10 extraits de génériques de 30 secondes. Trouve la série parmi quatre réponses : plus tu es rapide, plus tu marques (jusqu’à 100). Une mauvaise réponse donne 0. Après chaque réponse, tu vois la chanson, l’artiste et un personnage de la série.",
+      "right": "Bien entendu ! +{n}",
+      "wrong": "Raté !",
+      "next": "Suivant",
+      "seeResult": "Voir le résultat",
+      "share": "J’ai fait {score} au blind test de Kizuna !"
     }
   }
 }

@@ -10,7 +10,11 @@ export type QuizQuestion = {
   answer: number;
   // ms after the ask when each card shows (default: all at once)
   reveal?: number[];
+  // blind test: the clip (served by the game's route, never in the view) and its song
+  clip?: string;
+  meta?: ClipMeta;
 };
+export type ClipMeta = { kind: "OP" | "ED"; seq: number; song: string; artist: string | null; year: number | null };
 export type QuizRules = { windowMs: number; scoring: "speed" | "streak"; total: number | null };
 export type QuizAnswer = { choice: number; right: boolean; points: number; ms: number };
 export type QuizState = {
@@ -30,7 +34,7 @@ export type QuizView = {
   cards: number;
   reveal?: number[];
   askedMsAgo: number | null;
-  answered: null | { choice: number; right: boolean; points: number; answer: number; cards: QuizCard[] };
+  answered: null | { choice: number; right: boolean; points: number; answer: number; cards: QuizCard[]; meta?: ClipMeta };
   // name and rarity of the cards already on screen (games that show them before the answer)
   faces?: { name: string; rarity: Rarity }[];
   score: number;
@@ -93,7 +97,7 @@ export function quizView(s: QuizState, now: number, opts: { faces?: boolean } = 
     cards: q.cards.length,
     reveal: q.reveal,
     askedMsAgo: msAgo,
-    answered: a ? { ...a, answer: q.answer, cards: q.cards } : null,
+    answered: a ? { ...a, answer: q.answer, cards: q.cards, ...(q.meta ? { meta: q.meta } : {}) } : null,
     ...(opts.faces ? { faces: q.cards.slice(0, slots).map((c) => ({ name: c.name, rarity: c.rarity })) } : {}),
     score: s.score,
     over: s.over,
