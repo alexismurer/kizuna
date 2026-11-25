@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { itemState, sectionCount, streakTicked, type MissionsData } from "@/lib/game/missions";
+import { SECTION_LOOK } from "./look";
 import { SummaryChips } from "./SummaryChips";
 
 export type SectionId = "streak" | "first" | "daily" | "weekly" | "achievements";
@@ -53,6 +54,7 @@ export function MissionsBoard({
       <div role="tablist" aria-label={t("sections")} className="-mx-4 flex gap-2 overflow-x-auto px-4 md:hidden">
         {order.map((id) => {
           const c = count(id);
+          const { icon: Icon, color } = SECTION_LOOK[id];
           return (
             <button
               key={id}
@@ -60,8 +62,14 @@ export function MissionsBoard({
               role="tab"
               aria-selected={active === id}
               onClick={() => setActive(id)}
-              className={`relative shrink-0 rounded-full border px-4 py-1.5 text-sm ${active === id ? "border-accent bg-accent/15" : "border-border bg-panel"}`}
+              className="relative flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm"
+              style={
+                active === id
+                  ? { borderColor: color, background: `color-mix(in srgb, ${color} 15%, transparent)` }
+                  : { borderColor: "var(--color-border)", background: "var(--color-panel)" }
+              }
             >
+              <Icon className="h-3.5 w-3.5" style={{ color }} aria-hidden />
               {label[id]}{" "}
               <span className="font-mono text-white/60">
                 {c.done}/{c.total}

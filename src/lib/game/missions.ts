@@ -32,6 +32,42 @@ export type MissionsData = {
   claimable: number;
 };
 
+export type MissionKind =
+  | "open"
+  | "pull"
+  | "collect"
+  | "recycle"
+  | "market"
+  | "wishlist"
+  | "page"
+  | "profile"
+  | "game"
+  | "tickets"
+  | "boss"
+  | "custom"
+  | "prize";
+
+// first match wins, so the specific words come before the generic ones
+const KINDS: [RegExp, MissionKind][] = [
+  [/custom/, "custom"],
+  [/boss/, "boss"],
+  [/tickets/, "tickets"],
+  [/prizes/, "prize"],
+  [/game|duel|challenge/, "game"],
+  [/recycle/, "recycle"],
+  [/sell|bid|trade/, "market"],
+  [/wishlist/, "wishlist"],
+  [/page/, "page"],
+  [/username|discord/, "profile"],
+  [/own|mythics_|_all$|series/, "collect"],
+  [/rare|epic|legendary|mythic/, "pull"],
+];
+
+// What a mission is about, from its key (picks its icon and colour).
+export function missionKind(key: string): MissionKind {
+  return KINDS.find(([re]) => re.test(key))?.[1] ?? "open";
+}
+
 export type ItemState = "claimed" | "claimable" | "progress";
 export type AchievementFilter = "all" | "todo" | "earned";
 

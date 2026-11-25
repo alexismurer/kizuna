@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   filterAchievements,
   itemState,
+  missionKind,
   sectionCount,
   streakTicked,
   type MissionItem,
@@ -113,5 +114,21 @@ describe("claimAll", () => {
   it("counts a null answer as failed", async () => {
     const r = await claimAll(["a"], () => 10, async () => null);
     expect(r).toEqual({ claimed: 0, failed: 1, reward: 0, boosters: 0 });
+  });
+});
+
+describe("missionKind", () => {
+  it("sorts every mission key into its kind", () => {
+    const cases: [string, string][] = [
+      ["first_booster", "open"], ["daily_pack", "open"], ["ach_open_100", "open"], ["ach_divine", "open"],
+      ["daily_rare", "pull"], ["weekly_mythic", "pull"], ["ach_first_mythic", "pull"], ["ach_legendary_100", "pull"],
+      ["ach_mythics_10", "collect"], ["ach_own_50", "collect"], ["ach_all", "collect"], ["weekly_series", "collect"],
+      ["daily_recycle", "recycle"], ["daily_sell", "market"], ["daily_bid", "market"], ["ach_trade_1", "market"],
+      ["first_wishlist", "wishlist"], ["daily_pages", "page"], ["first_discord", "profile"],
+      ["first_game", "game"], ["weekly_duels", "game"], ["daily_challenge", "game"], ["ach_duels_100", "game"],
+      ["daily_tickets", "tickets"], ["weekly_boss", "boss"], ["ach_boss_10", "boss"],
+      ["first_custom", "custom"], ["ach_custom_25", "custom"], ["ach_prizes_10", "prize"],
+    ];
+    expect(cases.map(([k]) => [k, missionKind(k)])).toEqual(cases);
   });
 });
