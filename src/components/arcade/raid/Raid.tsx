@@ -298,7 +298,8 @@ export function Synergies({ cards, perks, relics }: { cards: BCard[]; perks: Rec
             ×{s.count} {s.series} · {tr("atkBonus", { n: Math.round(s.atk * 100) })}
           </span>
         ) : (
-          <span key={`g${s.genre}`} className="rounded-full border px-2.5 py-1 text-xs font-bold" style={{ color: SEAL[s.genre].color, borderColor: SEAL[s.genre].color }}>
+          <span key={`g${s.genre}`} className="flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-bold" style={{ color: SEAL[s.genre].color, borderColor: SEAL[s.genre].color }}>
+            <GenreSeal genre={s.genre} />
             {tgn(s.genre)} · {tr(`genreBonus.${s.genre}`, { n: Math.round(s.value * 100) })}
           </span>
         ),
@@ -317,6 +318,11 @@ export function Synergies({ cards, perks, relics }: { cards: BCard[]; perks: Rec
       ))}
     </div>
   );
+}
+
+function GenreSeal({ genre }: { genre: Genre }) {
+  const Icon = SEAL[genre].icon;
+  return <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden />;
 }
 
 export function PerkName({ id }: { id: string }) {

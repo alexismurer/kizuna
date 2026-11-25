@@ -112,7 +112,11 @@ function bossOf(s: ExpState, caseNo: number): BCard {
   const own = s.pool.filter((c) => c.seriesId === s.series?.id);
   const order = ["common", "uncommon", "rare", "epic", "legendary", "mythic"];
   const best = [...own].sort((a, b) => order.indexOf(b.rarity) - order.indexOf(a.rarity)).slice(0, 3);
-  const from = top(own).length > 0 ? top(own) : best.length > 0 ? best : top(s.pool).length > 0 ? top(s.pool) : s.pool;
+  let from = top(own).length > 0 ? top(own) : best.length > 0 ? best : top(s.pool).length > 0 ? top(s.pool) : s.pool;
+  // the chapter's second boss is not its first one again, when the series allows it
+  const first = caseNo % ROUTE.length === ROUTE.length - 1 ? bossOf(s, caseNo - ROUTE.length / 2) : null;
+  if (first && from.length > 1) from = from.filter((c) => c.id !== first.id);
+  else if (first && own.length > 1) from = own.filter((c) => c.id !== first.id);
   return from[Math.floor(caseRng(s, 0xb0, caseNo)() * from.length)];
 }
 

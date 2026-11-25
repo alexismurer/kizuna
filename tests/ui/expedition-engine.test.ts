@@ -158,4 +158,11 @@ describe("Expedition", () => {
     expect(waves[2].enemies[0]).toMatchObject({ card: { name: bossFace.name } });
     expect(waves[2].enemies[0].boss).toBeTruthy();
   });
+
+  it("puts a different boss at the end of the chapter than in its middle", () => {
+    const m = expView(begin()).map;
+    expect(m[4].face?.name).toBeTruthy();
+    expect(m[9].face?.name).toBeTruthy();
+    expect(m[9].face!.name).not.toBe(m[4].face!.name);
+  });
 });

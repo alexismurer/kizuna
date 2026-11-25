@@ -204,9 +204,10 @@ export function Expedition({ best, tickets }: { best: number | null; tickets: nu
                         type="button"
                         disabled={pending}
                         onClick={() => act("go")}
-                        className="h-12 min-w-56 rounded-full px-6 font-extrabold text-black disabled:opacity-50"
+                        className="flex h-12 min-w-56 items-center justify-center gap-2 rounded-full px-6 font-extrabold text-black disabled:opacity-60"
                         style={{ background: view.ahead[0] === "boss" ? "var(--color-accent)" : COLOR }}
                       >
+                        {pending && <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/25 border-t-black" aria-hidden />}
                         {te(`goTo.${view.ahead[0]}`)}
                       </button>
                     )}

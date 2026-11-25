@@ -497,16 +497,19 @@ export async function expAct(
     const s = await withChapter(next);
     const saved = await saveRun(run, s);
     // the case's rewards, once: a replayed request fails on the save above
+    // (independent writes, made at the same time)
     let paid: number | undefined;
+    const writes: Promise<unknown>[] = [];
     const l = s.last;
     if (move === "go" && l && l.caseNo === s0.caseNo) {
       if (l.kind === "fight" && l.won) {
-        await addExpeditionXp(player, s0.team.map((m) => m.card.id), l.xp);
-        paid = await payRun(saved, l.tickets, "case");
+        writes.push(addExpeditionXp(player, s0.team.map((m) => m.card.id), l.xp));
+        writes.push(payRun(saved, l.tickets, "case").then((n) => (paid = n)));
       }
-      if (l.kind === "treasure") paid = await payRun(saved, l.tickets, "treasure");
+      if (l.kind === "treasure") writes.push(payRun(saved, l.tickets, "treasure").then((n) => (paid = n)));
     }
-    if (s.cleared > s0.cleared) await progressRun(saved, s.cleared);
+    if (s.cleared > s0.cleared) writes.push(progressRun(saved, s.cleared));
+    await Promise.all(writes);
     const result = s.over ? await finishExp(saved) : undefined;
     const view = expView(s);
     // the fight's events only travel with the fight that made them
