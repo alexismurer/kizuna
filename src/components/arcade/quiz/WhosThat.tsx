@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { ScanFace } from "lucide-react";
 import { useTranslations } from "next-intl";
+import type { TablePlayer } from "@/lib/arcade/page";
 import { GameShell } from "../GameShell";
 import { ResultScreen } from "../ResultScreen";
 import { StartScreen } from "../StartScreen";
+import { TableLobby, TableScores, TableWait } from "../table/TableParts";
+import { useTable } from "../table/useTable";
 import { Options, TimerBar } from "./QuizParts";
 import { useQuiz } from "./useQuiz";
 import { useQuizImages } from "./useQuizImages";
@@ -14,12 +17,14 @@ const COLOR = "var(--color-epic)";
 const WINDOW = 10_000;
 
 // Who's that?: a character comes into view, zoomed and blurred, over 10 seconds.
-export function WhosThat({ best, tickets }: { best: number | null; tickets: number | null }) {
+export function WhosThat({ best, tickets, me = null }: { best: number | null; tickets: number | null; me?: TablePlayer | null }) {
   const t = useTranslations("arcade");
   const tg = useTranslations("arcade.whosThat");
   const q = useQuiz("whos-that", best, tickets, true);
   const v = q.view;
   const img = useQuizImages(q.run, v, q.askNow);
+  const table = useTable("whos-that", me, q);
+  const atTable = table.started && v !== null && me !== null;
 
   const stats = [
     { label: tg("character"), value: v ? `${v.index + 1}/${v.total ?? 10}` : "—" },
@@ -34,10 +39,25 @@ export function WhosThat({ best, tickets }: { best: number | null; tickets: numb
           {q.error}
         </p>
       )}
-      {!v && <StartScreen icon={ScanFace} color={COLOR} title={tg("name")} pitch={tg("pitch")} chips={[tg("chip")]} busy={q.pending} onPlay={q.play} />}
-      {v && q.showResult && q.result && (
-        <ResultScreen icon={ScanFace} color={COLOR} score={v.score} result={q.result} share={tg("share", { score: v.score })} onAgain={q.play} />
+      {!v && !table.lobby && (
+        <StartScreen icon={ScanFace} color={COLOR} title={tg("name")} pitch={tg("pitch")} chips={[tg("chip")]} busy={q.pending} onPlay={q.play} onMulti={me ? () => table.setLobby(true) : undefined} />
       )}
+      {!v && table.lobby && me && <TableLobby table={table} color={COLOR} meId={me.id} />}
+      {v && q.showResult && q.result && (
+        <ResultScreen
+          icon={ScanFace}
+          color={COLOR}
+          score={v.score}
+          result={q.result}
+          share={tg("share", { score: v.score })}
+          onAgain={() => {
+            table.leave();
+            q.play();
+          }}
+          extra={atTable ? <TableScores table={table} meId={me.id} index={null} final /> : undefined}
+        />
+      )}
+      {v && !q.showResult && atTable && <TableScores table={table} meId={me.id} index={v.index} />}
       {v && !q.showResult && (
         <div className="flex min-h-[34rem] flex-col items-center justify-center gap-6 p-4 sm:flex-row sm:p-8">
           <div className="w-full max-w-sm">
@@ -53,7 +73,8 @@ export function WhosThat({ best, tickets }: { best: number | null; tickets: numb
                 {v.answered.right ? tg("right", { n: v.answered.points }) : tg("wrong")}
               </p>
             )}
-            {v.answered && (
+            {v.answered && atTable && !v.over && <TableWait table={table} />}
+            {v.answered && !(atTable && !v.over) && (
               <button
                 type="button"
                 disabled={q.pending}

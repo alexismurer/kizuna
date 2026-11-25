@@ -1978,7 +1978,11 @@
       "come_back_tomorrow": "Five fights a day: come back tomorrow.",
       "not_enough_shards": "Not enough shards.",
       "expedition_open": "You already have an expedition under way.",
-      "not_enough_cards": "Not enough cards or clips for this game yet."
+      "not_enough_cards": "Not enough cards or clips for this game yet.",
+      "table_not_found": "No table with this code (or it closed).",
+      "table_started": "This table has already started.",
+      "table_full": "This table is full (4 players).",
+      "table_other_game": "This code is for another game."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2456,6 +2460,34 @@
       "next": "Next",
       "seeResult": "See the result",
       "share": "I scored {score} at the Kizuna blind test!"
+    },
+    "playMulti": "Play with others",
+    "playMultiText": "2 to 4 players, the same questions.",
+    "table": {
+      "title": "Play with others",
+      "pitch": "Up to {n} players get the same questions. The fastest right answers win.",
+      "match": "Join a table",
+      "matchText": "Sit at a table waiting for players, or open one.",
+      "open": "Open a table for friends",
+      "openText": "Get a code to share; you start when everyone is here.",
+      "code": "Table code",
+      "codeHint": "Code (5 letters)",
+      "join": "Join",
+      "backSolo": "Back to solo",
+      "copy": "Copy the code",
+      "share": "Share this code with your friends (Discord, messages…).",
+      "you": "you",
+      "host": "Host",
+      "free": "Free seat",
+      "needTwo": "Waiting for a second player…",
+      "start": "Start with {n} players",
+      "waitHost": "Waiting for the host to start…",
+      "leave": "Leave the table",
+      "players": "Players at the table",
+      "answered": "Answered",
+      "stillPlaying": "still playing",
+      "nextComing": "Everyone answered: next one coming!",
+      "waitOthers": "Waiting for the others to answer…"
     }
   }
 }

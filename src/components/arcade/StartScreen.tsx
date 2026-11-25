@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowRight, User, type LucideIcon } from "lucide-react";
+import { ArrowRight, User, Users, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-// The first screen of a game: what it is, a few chips, and the Play button.
+// The first screen of a game: what it is, a few chips, and the Play button (and, for
+// games that have tables, Play with others).
 export function StartScreen({
   icon: Icon,
   color,
@@ -12,6 +13,7 @@ export function StartScreen({
   chips,
   busy,
   onPlay,
+  onMulti,
   children,
 }: {
   icon: LucideIcon;
@@ -21,6 +23,7 @@ export function StartScreen({
   chips: string[];
   busy: boolean;
   onPlay: () => void;
+  onMulti?: () => void;
   children?: React.ReactNode;
 }) {
   const t = useTranslations("arcade");
@@ -46,7 +49,7 @@ export function StartScreen({
       <button
         type="button"
         disabled={busy}
-        onClick={onPlay}
+        onClick={() => onPlay()}
         className="group mt-2 flex w-full max-w-xs items-center gap-3 rounded-2xl border p-3 text-left transition disabled:opacity-60"
         style={{ borderColor: `color-mix(in srgb, ${color} 55%, transparent)`, background: `color-mix(in srgb, ${color} 10%, transparent)` }}
       >
@@ -61,6 +64,25 @@ export function StartScreen({
           <ArrowRight className="h-4 w-4" aria-hidden />
         </span>
       </button>
+      {onMulti && (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={onMulti}
+          className="group flex w-full max-w-xs items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.03] p-3 text-left transition hover:border-white/40 disabled:opacity-60"
+        >
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-black/30" style={{ color }}>
+            <Users className="h-5 w-5" aria-hidden />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-display font-bold">{t("playMulti")}</span>
+            <span className="block text-xs text-common">{t("playMultiText")}</span>
+          </span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 transition group-hover:translate-x-0.5">
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </span>
+        </button>
+      )}
     </div>
   );
 }

@@ -9,6 +9,10 @@ const store = vi.hoisted(() => ({
   randomCards: vi.fn(),
   dailyDeck: vi.fn(),
   cardsByIds: vi.fn(),
+  getTable: vi.fn(),
+  startTable: vi.fn(),
+  openTable: vi.fn(),
+  findOpenTable: vi.fn(),
 }));
 vi.mock("@/lib/arcade/server", async () => {
   class ArcadeError extends Error {}
@@ -23,7 +27,7 @@ vi.mock("@/lib/arcade/server", async () => {
 });
 vi.mock("@/lib/supabase/server", () => ({ createServerClient: vi.fn() }));
 
-import { bjAct, pokerStart, quizAnswer, quizPeek } from "@/lib/actions/arcade";
+import { bjAct, pokerStart, quizAnswer, quizPeek, quizStart, tableJoin, tableMatch, tableStart } from "@/lib/actions/arcade";
 
 const RUN = "8d5c2a2e-4a6f-4a43-9a51-1d7a0b0c1e2f";
 const overState = {
@@ -93,5 +97,53 @@ describe("arcade actions", () => {
     store.dailyDeck.mockResolvedValue([]);
     store.cardsByIds.mockResolvedValue([]);
     expect(await pokerStart("daily")).toEqual({ ok: false, error: "not_enough_cards" });
+  });
+
+  describe("multiplayer tables", () => {
+    const question = { cards: [{ id: 1, name: "a", rarity: "rare", imageUrl: "u", series: "s" }], options: ["a", "b", "c", "d"], answer: 0 };
+    const table = (over = {}) => ({ code: "ABCDE", game: "whos-that", host: "me", status: "open", questions: null, createdAt: new Date().toISOString(), ...over });
+
+    it("lets only the host start the table, once, with questions drawn on the server", async () => {
+      store.getTable.mockResolvedValue(table({ host: "someone" }));
+      expect(await tableStart("ABCDE")).toEqual({ ok: false, error: "forbidden" });
+      store.getTable.mockResolvedValue(table());
+      store.randomCards.mockResolvedValue([]);
+      store.startTable.mockResolvedValue(true);
+      // no cards: nothing to ask
+      expect(await tableStart("abcde")).toEqual({ ok: false, error: "not_enough_cards" });
+      store.getTable.mockResolvedValue(table({ status: "playing" }));
+      expect(await tableStart("ABCDE")).toEqual({ ok: false, error: "table_started" });
+      expect(await tableStart("bad code!")).toEqual({ ok: false, error: "table_not_found" });
+    });
+
+    it("joins an open table, not a started or an old one", async () => {
+      store.getTable.mockResolvedValue(table({ host: "friend" }));
+      expect(await tableJoin("abcde")).toEqual({ ok: true, data: { code: "ABCDE", game: "whos-that", host: "friend" } });
+      store.getTable.mockResolvedValue(table({ status: "playing" }));
+      expect(await tableJoin("ABCDE")).toEqual({ ok: false, error: "table_started" });
+      store.getTable.mockResolvedValue(table({ createdAt: new Date(Date.now() - 3_600_000).toISOString() }));
+      expect(await tableJoin("ABCDE")).toEqual({ ok: false, error: "table_not_found" });
+    });
+
+    it("matches with a waiting table, or opens one", async () => {
+      store.findOpenTable.mockResolvedValue(table({ code: "WAITS", host: "friend" }));
+      expect(await tableMatch("whos-that")).toEqual({ ok: true, data: { code: "WAITS", host: "friend" } });
+      store.findOpenTable.mockResolvedValue(null);
+      store.openTable.mockResolvedValue(table({ code: "NEWWW" }));
+      expect(await tableMatch("whos-that")).toEqual({ ok: true, data: { code: "NEWWW", host: "me" } });
+    });
+
+    it("starts a run on the table's questions, and only on a started table of that game", async () => {
+      store.getTable.mockResolvedValue(table({ status: "playing", questions: [question, question] }));
+      store.createRun.mockImplementation(async (_p: string, _g: string, _m: string, _s: number, state: unknown) => ({ id: RUN, state }));
+      const r = await quizStart("whos-that", false, "ABCDE");
+      expect(r.ok).toBe(true);
+      expect(store.createRun.mock.lastCall![4]).toMatchObject({ questions: [question, question], askedAt: null });
+      expect(store.randomCards).not.toHaveBeenCalledWith(500, expect.anything());
+      store.getTable.mockResolvedValue(table({ status: "open" }));
+      expect(await quizStart("whos-that", false, "ABCDE")).toEqual({ ok: false, error: "table_not_found" });
+      store.getTable.mockResolvedValue(table({ status: "playing", game: "series-rush", questions: [question] }));
+      expect(await quizStart("whos-that", false, "ABCDE")).toEqual({ ok: false, error: "table_not_found" });
+    });
   });
 });

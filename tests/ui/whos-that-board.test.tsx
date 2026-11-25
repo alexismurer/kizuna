@@ -49,7 +49,7 @@ describe("Who's that? board", () => {
     vi.mocked(quizAskNow).mockResolvedValue({ ok: true, data: { view: open } });
     show();
     await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
-    expect(quizStart).toHaveBeenLastCalledWith("whos-that", false);
+    expect(quizStart).toHaveBeenLastCalledWith("whos-that", false, undefined);
     expect(fetch).toHaveBeenCalledWith("/api/arcade/img/r1/0?q=0");
     await waitFor(() => expect(quizAskNow).toHaveBeenCalledWith("whos-that", "r1"));
     expect(quizAskNow).toHaveBeenCalledTimes(1);

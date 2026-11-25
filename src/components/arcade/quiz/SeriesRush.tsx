@@ -10,6 +10,9 @@ import { ArcadeCard } from "../ArcadeCard";
 import { GameShell } from "../GameShell";
 import { ResultScreen } from "../ResultScreen";
 import { StartScreen } from "../StartScreen";
+import { TableLobby, TableScores, TableWait } from "../table/TableParts";
+import { useTable } from "../table/useTable";
+import type { TablePlayer } from "@/lib/arcade/page";
 import { Options, TimerBar } from "./QuizParts";
 import { useQuiz } from "./useQuiz";
 import { useQuizImages } from "./useQuizImages";
@@ -18,11 +21,13 @@ const COLOR = "var(--color-legendary)";
 const WINDOW = 12_000;
 
 // Series rush: three characters of one series show up 4 s apart; name the series.
-export function SeriesRush({ best, tickets }: { best: number | null; tickets: number | null }) {
+export function SeriesRush({ best, tickets, me = null }: { best: number | null; tickets: number | null; me?: TablePlayer | null }) {
   const t = useTranslations("arcade");
   const tg = useTranslations("arcade.seriesRush");
   const q = useQuiz("series-rush", best, tickets, true);
   const img = useQuizImages(q.run, q.view, q.askNow);
+  const table = useTable("series-rush", me, q);
+  const atTable = table.started && q.view !== null && me !== null;
   const v = q.view;
   const { run, setView, sound } = q;
 
@@ -55,10 +60,19 @@ export function SeriesRush({ best, tickets }: { best: number | null; tickets: nu
           {q.error}
         </p>
       )}
-      {!v && <StartScreen icon={Tv} color={COLOR} title={tg("name")} pitch={tg("pitch")} chips={[tg("chip")]} busy={q.pending} onPlay={q.play} />}
-      {v && q.showResult && q.result && (
-        <ResultScreen icon={Tv} color={COLOR} score={v.score} result={q.result} share={tg("share", { score: v.score })} onAgain={q.play} />
+      {!v && !table.lobby && (
+        <StartScreen icon={Tv} color={COLOR} title={tg("name")} pitch={tg("pitch")} chips={[tg("chip")]} busy={q.pending} onPlay={q.play} onMulti={me ? () => table.setLobby(true) : undefined} />
       )}
+      {!v && table.lobby && me && <TableLobby table={table} color={COLOR} meId={me.id} />}
+      {v && q.showResult && q.result && (
+        <ResultScreen icon={Tv} color={COLOR} score={v.score} result={q.result} share={tg("share", { score: v.score })} onAgain={() => {
+            table.leave();
+            q.play();
+          }}
+          extra={atTable && me ? <TableScores table={table} meId={me.id} index={null} final /> : undefined}
+        />
+      )}
+      {v && !q.showResult && atTable && me && <TableScores table={table} meId={me.id} index={v.index} />}
       {v && !q.showResult && run && (
         <div className="flex min-h-[34rem] flex-col items-center justify-center gap-6 p-4 lg:flex-row lg:p-8">
           <div className="flex flex-col gap-3">
@@ -73,17 +87,20 @@ export function SeriesRush({ best, tickets }: { best: number | null; tickets: nu
                 {v.answered.right ? tg("right", { n: v.answered.points }) : tg("wrong")}
               </p>
             )}
-            {v.answered && (
-              <button
-                type="button"
-                disabled={q.pending}
-                onClick={() => (v.over ? q.setShowResult(true) : q.next())}
-                className="h-12 rounded-full font-extrabold text-black disabled:opacity-50"
-                style={{ background: COLOR }}
-              >
-                {v.over ? tg("seeResult") : tg("next")}
-              </button>
-            )}
+            {v.answered &&
+              (atTable && !v.over ? (
+                <TableWait table={table} />
+              ) : (
+                <button
+                  type="button"
+                  disabled={q.pending}
+                  onClick={() => (v.over ? q.setShowResult(true) : q.next())}
+                  className="h-12 rounded-full font-extrabold text-black disabled:opacity-50"
+                  style={{ background: COLOR }}
+                >
+                  {v.over ? tg("seeResult") : tg("next")}
+                </button>
+              ))}
           </div>
         </div>
       )}

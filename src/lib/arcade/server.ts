@@ -231,3 +231,46 @@ export async function randomCards(n: number, opts: { minRarity?: Rarity; top?: n
 }
 
 export const secondsSince = (iso: string) => (Date.now() - Date.parse(iso)) / 1000;
+
+// ---------- multiplayer tables (quick games) ----------
+
+export type Table = { code: string; game: ArcadeGameId; host: string; status: "open" | "playing"; questions: unknown; createdAt: string };
+type TableRow = { code: string; game: ArcadeGameId; host: string; status: "open" | "playing"; questions: unknown; created_at: string };
+const toTable = (r: TableRow): Table => ({ code: r.code, game: r.game, host: r.host, status: r.status, questions: r.questions, createdAt: r.created_at });
+const CODE_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const newCode = () => Array.from({ length: 5 }, () => CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]).join("");
+
+export async function openTable(game: ArcadeGameId, host: string): Promise<Table> {
+  for (let i = 0; i < 5; i++) {
+    const { data, error } = await service().from("arcade_tables").insert({ code: newCode(), game, host }).select("*").single();
+    if (!error) return toTable(data as TableRow);
+    if (error.code !== "23505") throw new ArcadeError(error.message);
+  }
+  throw new ArcadeError("generic");
+}
+
+export async function getTable(code: string): Promise<Table | null> {
+  const { data } = await service().from("arcade_tables").select("*").eq("code", code).maybeSingle();
+  return data ? toTable(data as TableRow) : null;
+}
+
+// the newest table still waiting for players, opened in the last few minutes by someone else
+export async function findOpenTable(game: ArcadeGameId, me: string, sinceMs: number): Promise<Table | null> {
+  const { data } = await service()
+    .from("arcade_tables")
+    .select("*")
+    .eq("game", game)
+    .eq("status", "open")
+    .neq("host", me)
+    .gte("created_at", new Date(Date.now() - sinceMs).toISOString())
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return data ? toTable(data as TableRow) : null;
+}
+
+// the host starts the table: its questions are fixed for everyone (only once)
+export async function startTable(code: string, questions: unknown): Promise<boolean> {
+  const { data } = await service().from("arcade_tables").update({ status: "playing", questions }).eq("code", code).eq("status", "open").select("code").maybeSingle();
+  return data !== null;
+}

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { WhosThat } from "@/components/arcade/quiz/WhosThat";
-import { arcadePage } from "@/lib/arcade/page";
+import { arcadePage, tablePlayer } from "@/lib/arcade/page";
 
 export default async function WhosThatPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -17,7 +17,7 @@ export default async function WhosThatPage({ params }: { params: Promise<{ local
 }
 
 async function Game() {
-  const data = await arcadePage("whos-that");
+  const [data, me] = await Promise.all([arcadePage("whos-that"), tablePlayer()]);
   if (!data) notFound();
-  return <WhosThat best={data.weekBest} tickets={data.tickets} />;
+  return <WhosThat best={data.weekBest} tickets={data.tickets} me={me} />;
 }

@@ -7,6 +7,9 @@ import type { QuizView } from "@/lib/arcade/quiz/engine";
 import { GameShell } from "../GameShell";
 import { ResultScreen } from "../ResultScreen";
 import { StartScreen } from "../StartScreen";
+import { TableLobby, TableScores, TableWait } from "../table/TableParts";
+import { useTable } from "../table/useTable";
+import type { TablePlayer } from "@/lib/arcade/page";
 import { TimerBar } from "./QuizParts";
 import { useQuiz } from "./useQuiz";
 import { useQuizImages } from "./useQuizImages";
@@ -15,11 +18,13 @@ const COLOR = "var(--color-mythic)";
 const WINDOW = 6_000;
 
 // Most loved?: two characters of the same rarity, pick the one with more fans.
-export function MostLoved({ best, tickets }: { best: number | null; tickets: number | null }) {
+export function MostLoved({ best, tickets, me = null }: { best: number | null; tickets: number | null; me?: TablePlayer | null }) {
   const tg = useTranslations("arcade.mostLoved");
   const tr = useTranslations("rarity");
   const q = useQuiz("most-loved", best, tickets, true);
   const img = useQuizImages(q.run, q.view, q.askNow);
+  const table = useTable("most-loved", me, q);
+  const atTable = table.started && q.view !== null && me !== null;
   const v = q.view;
   const rarity = v?.faces?.[0]?.rarity;
 
@@ -36,7 +41,10 @@ export function MostLoved({ best, tickets }: { best: number | null; tickets: num
           {q.error}
         </p>
       )}
-      {!v && <StartScreen icon={Heart} color={COLOR} title={tg("name")} pitch={tg("pitch")} chips={[tg("chip")]} busy={q.pending} onPlay={q.play} />}
+      {!v && !table.lobby && (
+        <StartScreen icon={Heart} color={COLOR} title={tg("name")} pitch={tg("pitch")} chips={[tg("chip")]} busy={q.pending} onPlay={q.play} onMulti={me ? () => table.setLobby(true) : undefined} />
+      )}
+      {!v && table.lobby && me && <TableLobby table={table} color={COLOR} meId={me.id} />}
       {v && q.showResult && q.result && (
         <ResultScreen
           icon={Heart}
@@ -45,9 +53,14 @@ export function MostLoved({ best, tickets }: { best: number | null; tickets: num
           label={tg("inARow", { n: v.score })}
           result={q.result}
           share={tg("share", { n: v.score })}
-          onAgain={q.play}
+          onAgain={() => {
+            table.leave();
+            q.play();
+          }}
+          extra={atTable && me ? <TableScores table={table} meId={me.id} index={null} final /> : undefined}
         />
       )}
+      {v && !q.showResult && atTable && me && <TableScores table={table} meId={me.id} index={v.index} />}
       {v && !q.showResult && q.run && (
         <div className="flex min-h-[34rem] flex-col items-center justify-center gap-5 p-4 sm:p-8">
           <div className="w-full max-w-lg">
@@ -64,15 +77,19 @@ export function MostLoved({ best, tickets }: { best: number | null; tickets: num
               <p className={`font-bold ${v.answered.right ? "text-uncommon" : "text-accent"}`}>
                 {v.answered.right ? tg("right") : tg("wrong", { name: v.answered.cards[v.answered.answer].name })}
               </p>
-              <button
-                type="button"
-                disabled={q.pending}
-                onClick={() => (v.over ? q.setShowResult(true) : q.next())}
-                className="h-12 w-56 rounded-full font-extrabold text-white disabled:opacity-50"
-                style={{ background: COLOR }}
-              >
-                {v.over ? tg("seeResult") : tg("next")}
-              </button>
+              {atTable && !v.over ? (
+                <TableWait table={table} />
+              ) : (
+                <button
+                  type="button"
+                  disabled={q.pending}
+                  onClick={() => (v.over ? q.setShowResult(true) : q.next())}
+                  className="h-12 w-56 rounded-full font-extrabold text-white disabled:opacity-50"
+                  style={{ background: COLOR }}
+                >
+                  {v.over ? tg("seeResult") : tg("next")}
+                </button>
+              )}
             </div>
           )}
         </div>

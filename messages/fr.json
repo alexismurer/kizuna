@@ -1978,7 +1978,11 @@
       "come_back_tomorrow": "Cinq combats par jour : reviens demain.",
       "not_enough_shards": "Pas assez d’éclats.",
       "expedition_open": "Tu as déjà une expédition en cours.",
-      "not_enough_cards": "Pas encore assez de cartes ou d’extraits pour ce jeu."
+      "not_enough_cards": "Pas encore assez de cartes ou d’extraits pour ce jeu.",
+      "table_not_found": "Aucune table avec ce code (ou elle est fermée).",
+      "table_started": "Cette table a déjà commencé.",
+      "table_full": "Cette table est complète (4 joueurs).",
+      "table_other_game": "Ce code est pour un autre jeu."
     },
     "twentyOne": {
       "name": "Kizuna 21",
@@ -2456,6 +2460,34 @@
       "next": "Suivant",
       "seeResult": "Voir le résultat",
       "share": "J’ai fait {score} au blind test de Kizuna !"
+    },
+    "playMulti": "Jouer à plusieurs",
+    "playMultiText": "2 à 4 joueurs, les mêmes questions.",
+    "table": {
+      "title": "Jouer à plusieurs",
+      "pitch": "Jusqu'à {n} joueurs reçoivent les mêmes questions. Les bonnes réponses les plus rapides gagnent.",
+      "match": "Rejoindre une table",
+      "matchText": "Prends place à une table qui attend des joueurs, ou ouvres-en une.",
+      "open": "Ouvrir une table entre amis",
+      "openText": "Un code à partager ; tu lances quand tout le monde est là.",
+      "code": "Code de la table",
+      "codeHint": "Code (5 lettres)",
+      "join": "Rejoindre",
+      "backSolo": "Retour au solo",
+      "copy": "Copier le code",
+      "share": "Partage ce code avec tes amis (Discord, messages…).",
+      "you": "toi",
+      "host": "Hôte",
+      "free": "Place libre",
+      "needTwo": "En attente d'un deuxième joueur…",
+      "start": "Lancer à {n} joueurs",
+      "waitHost": "En attente du lancement par l'hôte…",
+      "leave": "Quitter la table",
+      "players": "Joueurs à la table",
+      "answered": "A répondu",
+      "stillPlaying": "joue encore",
+      "nextComing": "Tout le monde a répondu : la suite arrive !",
+      "waitOthers": "En attente des réponses des autres…"
     }
   }
 }

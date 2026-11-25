@@ -44,7 +44,7 @@ describe("Blind test board", () => {
     show();
     fireEvent.click(screen.getByRole("button", { name: "Hard" }));
     await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
-    expect(quizStart).toHaveBeenCalledWith("blind-hard", true);
+    expect(quizStart).toHaveBeenCalledWith("blind-hard", true, undefined);
     expect(screen.getByTestId("blind-clip").getAttribute("src")).toContain("/api/arcade/clip/r1/0");
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "Naruto" })));
     expect(quizAnswer).toHaveBeenCalledWith("blind-hard", "r1", 0);

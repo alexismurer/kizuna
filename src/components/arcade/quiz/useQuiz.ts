@@ -29,16 +29,19 @@ export function useQuiz(game: QuizGameId, best: number | null, tickets: number |
     setTicketsNow(r.tickets);
   };
 
-  const play = () =>
+  // a solo game, or (with a table code) a game on the table's questions
+  const playAt = (table?: string) =>
     start(async () => {
       setError(null);
-      const r = await quizStart(game, !deferAsk);
+      const r = await quizStart(game, !deferAsk, table);
       if (!r.ok) return fail(r.error);
       setRun(r.data.run);
       setView(r.data.view);
       setResult(null);
       setShowResult(false);
     });
+
+  const play = () => playAt();
 
   const choose = (choice: number) =>
     start(async () => {
@@ -69,5 +72,5 @@ export function useQuiz(game: QuizGameId, best: number | null, tickets: number |
       took(r.data.result);
     });
 
-  return { run, view, setView, result, showResult, setShowResult, error, pending, play, choose, askNow, next, best: bestNow, tickets: ticketsNow, sound: prefs.sound };
+  return { run, view, setView, result, showResult, setShowResult, error, pending, play, playAt, choose, askNow, next, best: bestNow, tickets: ticketsNow, sound: prefs.sound };
 }

@@ -23,10 +23,10 @@ import {
   type ExpState,
   type ExpView,
 } from "@/lib/arcade/expedition/engine";
-import { addExpeditionXp, ArcadeError, blindBank, cardsByIds, expeditionXp, latestRun, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, storedDeck, loadOwnRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
+import { addExpeditionXp, ArcadeError, blindBank, cardsByIds, expeditionXp, findOpenTable, getTable, latestRun, openTable, startTable, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, storedDeck, loadOwnRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
-import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
+import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizQuestion, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
 import { buildBlind } from "@/lib/arcade/quiz/blindTest";
 import { buildMostLoved } from "@/lib/arcade/quiz/mostLoved";
 import { buildSeriesRush } from "@/lib/arcade/quiz/seriesRush";
@@ -134,17 +134,78 @@ const quizGame = (g: unknown): QuizGameId => checkAction(g, Object.keys(QUIZ) as
 
 // Starts a quiz and asks its first question at once, or (picture games) leaves it
 // unasked so the browser can fetch its pictures before the clock starts.
-export async function quizStart(game: QuizGameId, ask = true): Promise<ArcadeResult<{ run: string; view: QuizView }>> {
+// At a multiplayer table, the questions are the table's (the same for everyone).
+export async function quizStart(game: QuizGameId, ask = true, table?: string): Promise<ArcadeResult<{ run: string; view: QuizView }>> {
   return attempt(async () => {
     const g = quizGame(game);
     const player = await requirePlayer();
     const seed = newSeed();
-    const questions = await QUIZ[g].build(rng(seed));
+    let questions: QuizQuestion[];
+    if (table === undefined) questions = await QUIZ[g].build(rng(seed));
+    else {
+      const t = await getTable(checkCode(table));
+      if (!t || t.game !== g || t.status !== "playing" || !Array.isArray(t.questions)) throw new ArcadeError("table_not_found");
+      questions = t.questions as QuizQuestion[];
+    }
     if (questions.length === 0) throw new ArcadeError("not_enough_cards");
     const now = Date.now();
     const first = startQuiz(questions);
     const run = await createRun<QuizState>(player, g, "practice", seed, ask ? quizAsk(first, now) : first);
     return { run: run.id, view: quizView(run.state, now, { faces: QUIZ[g].faces }) };
+  });
+}
+
+// ---------- Multiplayer tables (quizzes: 2 to 4 players, same questions) ----------
+
+const checkCode = (c: unknown): string => {
+  const code = typeof c === "string" ? c.trim().toUpperCase() : "";
+  if (!/^[A-Z2-9]{5}$/.test(code)) throw new ArcadeError("table_not_found");
+  return code;
+};
+// a table can be joined for half an hour; matchmaking only offers tables a few minutes old
+const TABLE_LIFE = 30 * 60_000;
+const MATCH_WINDOW = 3 * 60_000;
+
+export async function tableOpen(game: QuizGameId): Promise<ArcadeResult<{ code: string; host: string }>> {
+  return attempt(async () => {
+    const g = quizGame(game);
+    const t = await openTable(g, await requirePlayer());
+    return { code: t.code, host: t.host };
+  });
+}
+
+export async function tableJoin(code: string): Promise<ArcadeResult<{ code: string; game: QuizGameId; host: string }>> {
+  return attempt(async () => {
+    await requirePlayer();
+    const t = await getTable(checkCode(code));
+    if (!t || !(t.game in QUIZ) || Date.now() - Date.parse(t.createdAt) > TABLE_LIFE) throw new ArcadeError("table_not_found");
+    if (t.status !== "open") throw new ArcadeError("table_started");
+    return { code: t.code, game: t.game as QuizGameId, host: t.host };
+  });
+}
+
+// "Join a table": the newest one waiting for players, or a new one
+export async function tableMatch(game: QuizGameId): Promise<ArcadeResult<{ code: string; host: string }>> {
+  return attempt(async () => {
+    const g = quizGame(game);
+    const me = await requirePlayer();
+    const t = (await findOpenTable(g, me, MATCH_WINDOW)) ?? (await openTable(g, me));
+    return { code: t.code, host: t.host };
+  });
+}
+
+// The host starts the table: the questions are drawn once, kept on the server.
+export async function tableStart(code: string): Promise<ArcadeResult<{ code: string }>> {
+  return attempt(async () => {
+    const me = await requirePlayer();
+    const t = await getTable(checkCode(code));
+    if (!t || !(t.game in QUIZ)) throw new ArcadeError("table_not_found");
+    if (t.host !== me) throw new ArcadeError("forbidden");
+    if (t.status !== "open") throw new ArcadeError("table_started");
+    const questions = await QUIZ[t.game as QuizGameId].build(rng(newSeed()));
+    if (questions.length === 0) throw new ArcadeError("not_enough_cards");
+    if (!(await startTable(t.code, questions))) throw new ArcadeError("table_started");
+    return { code: t.code };
   });
 }
 

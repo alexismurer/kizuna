@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { SeriesRush } from "@/components/arcade/quiz/SeriesRush";
-import { arcadePage } from "@/lib/arcade/page";
+import { arcadePage, tablePlayer } from "@/lib/arcade/page";
 
 export default async function SeriesRushPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -17,7 +17,7 @@ export default async function SeriesRushPage({ params }: { params: Promise<{ loc
 }
 
 async function Game() {
-  const data = await arcadePage("series-rush");
+  const [data, me] = await Promise.all([arcadePage("series-rush"), tablePlayer()]);
   if (!data) notFound();
-  return <SeriesRush best={data.weekBest} tickets={data.tickets} />;
+  return <SeriesRush best={data.weekBest} tickets={data.tickets} me={me} />;
 }
