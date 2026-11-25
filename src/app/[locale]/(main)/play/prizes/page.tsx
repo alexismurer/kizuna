@@ -19,9 +19,6 @@ export default async function PrizesPage({ params }: { params: Promise<{ locale:
 
 async function Counter() {
   const supabase = await createServerClient();
-  // the game room is staff-only while the games are tested
-  const { data: role } = await supabase.rpc("my_role");
-  if (role !== "admin" && role !== "moderator") notFound();
   const [{ data }, { data: claims }] = await Promise.all([supabase.rpc("prize_counter"), supabase.auth.getClaims()]);
   if (!data || !claims) notFound();
   const { data: me } = await supabase.from("player_directory").select("username, avatar_url").eq("id", claims.claims.sub).maybeSingle();

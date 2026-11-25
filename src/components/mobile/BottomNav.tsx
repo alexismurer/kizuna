@@ -17,12 +17,9 @@ const item = "flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] font-medi
 export function BottomNav({
   missionsClaimable,
   social,
-  canPlay = false,
 }: {
   missionsClaimable: number;
   social?: { playerId: string; username: string; unread: number };
-  // Duel is staff-only while it's being tested
-  canPlay?: boolean;
 }) {
   const t = useTranslations("nav");
   const tb = useTranslations("topbar");
@@ -110,27 +107,14 @@ export function BottomNav({
               <Gift className="h-5 w-5" aria-hidden />
               <span className="flex-1">{t("invite")}</span>
             </Link>
-            {/* Duel is in testing: staff only for now */}
-            {canPlay ? (
-              <Link
-                href="/play"
-                onClick={() => setSheet(null)}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
-              >
-                <Gamepad2 className="h-5 w-5" aria-hidden />
-                <span className="flex-1">{t("play")}</span>
-              </Link>
-            ) : (
-              <button
-                type="button"
-                disabled
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-common opacity-60"
-              >
-                <Gamepad2 className="h-5 w-5" aria-hidden />
-                <span className="flex-1">{t("play")}</span>
-                <span className="text-xs">{t("soon")}</span>
-              </button>
-            )}
+            <Link
+              href="/play"
+              onClick={() => setSheet(null)}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+            >
+              <Gamepad2 className="h-5 w-5" aria-hidden />
+              <span className="flex-1">{t("play")}</span>
+            </Link>
             <Link
               href="/missions"
               onClick={() => setSheet(null)}

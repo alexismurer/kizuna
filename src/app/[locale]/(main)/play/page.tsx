@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { GameRoom } from "@/components/games/GameRoom";
@@ -19,9 +18,6 @@ export default async function PlayPage({ params }: { params: Promise<{ locale: s
 
 async function Room() {
   const supabase = await createServerClient();
-  // the game room is staff-only while the games are tested
-  const { data: role } = await supabase.rpc("my_role");
-  if (role !== "admin" && role !== "moderator") notFound();
   const [{ data: status }, { data }] = await Promise.all([
     supabase.rpc("game_room_status"),
     // a few famous faces for the Duel tile

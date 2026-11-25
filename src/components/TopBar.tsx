@@ -52,20 +52,9 @@ export async function TopBar() {
         <Link href="/market" className="hover:text-accent">
           {t("nav.market")}
         </Link>
-        {/* Duel is in testing: staff only for now */}
-        {staff ? (
-          <Link href="/play" className="hover:text-accent">
-            {t("nav.play")}
-          </Link>
-        ) : (
-          <span
-            title={t("nav.soon")}
-            aria-disabled="true"
-            className="hidden cursor-not-allowed text-common opacity-60 lg:inline"
-          >
-            {t("nav.play")}
-          </span>
-        )}
+        <Link href="/play" className="hover:text-accent">
+          {t("nav.play")}
+        </Link>
         <MoreMenu />
       </nav>
       <StockPopover status={status} />

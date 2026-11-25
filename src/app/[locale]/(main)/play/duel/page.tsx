@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import type { CardData } from "@/components/card/CardView";
 import { PlayLobby } from "@/components/duel/PlayLobby";
@@ -59,9 +58,6 @@ export default async function PlayPage({ params }: { params: Promise<{ locale: s
 
 async function Lobby() {
   const supabase = await createServerClient();
-  // Duel is staff-only while it's being tested
-  const { data: role } = await supabase.rpc("my_role");
-  if (role !== "admin" && role !== "moderator") notFound();
   const { data: claims } = await supabase.auth.getClaims();
   const me = claims?.claims.sub ?? null;
 

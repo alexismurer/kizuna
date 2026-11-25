@@ -55,26 +55,19 @@ const service = () =>
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-// The signed-in player's id; the game room is staff-only while it is tested.
+// The signed-in player's id, from the signed token (checked locally, no database trip;
+// the gate in front of every page already keeps out visitors who aren't players).
 export async function requirePlayer(): Promise<string> {
-  const supabase = await createServerClient();
-  const [{ data: claims }, { data: role }] = await Promise.all([supabase.auth.getClaims(), supabase.rpc("my_role")]);
-  if (!claims) throw new ArcadeError("not_signed_in");
-  if (role !== "admin" && role !== "moderator") throw new ArcadeError("forbidden");
-  return claims.claims.sub;
-}
-
-// requirePlayer + loadRun in one round trip: the claims are checked locally, then the
-// role and the run are read at the same time.
-export async function loadOwnRun<S>(id: string): Promise<{ player: string; run: Run<S> }> {
   const supabase = await createServerClient();
   const { data: claims } = await supabase.auth.getClaims();
   if (!claims) throw new ArcadeError("not_signed_in");
-  const player = claims.claims.sub;
-  const [{ data: role }, run] = await Promise.all([supabase.rpc("my_role"), loadRun<S>(player, id).catch((e: Error) => e)]);
-  if (role !== "admin" && role !== "moderator") throw new ArcadeError("forbidden");
-  if (run instanceof Error) throw run;
-  return { player, run };
+  return claims.claims.sub;
+}
+
+// requirePlayer + loadRun: the player's own run.
+export async function loadOwnRun<S>(id: string): Promise<{ player: string; run: Run<S> }> {
+  const player = await requirePlayer();
+  return { player, run: await loadRun<S>(player, id) };
 }
 
 type Row = {
