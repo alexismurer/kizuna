@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import { fetchCharacterWiki } from '../../src/lib/anilist/wiki'
 import { toWikiRow } from '../../scripts/import-anilist/wiki'
 import type { CharacterDetails } from '../../scripts/import-anilist/anilist'
 
@@ -54,5 +55,22 @@ describe('toWikiRow', () => {
   it('turns a blank age into null', () => {
     expect(toWikiRow({ ...tatsumaki, age: ' ' }).age).toBeNull()
     expect(toWikiRow({ ...tatsumaki, age: null }).age).toBeNull()
+  })
+})
+
+describe('fetchCharacterWiki', () => {
+  it('asks AniList for one character and returns its wiki row, or null when AniList has none', async () => {
+    const spy = vi.spyOn(globalThis, 'fetch')
+    try {
+      spy.mockResolvedValueOnce(new Response(JSON.stringify({ data: { Page: { characters: [tatsumaki] } } })))
+      expect(await fetchCharacterWiki(1)).toEqual(toWikiRow(tatsumaki))
+      expect(JSON.parse(String(spy.mock.calls[0][1]?.body)).variables).toEqual({ ids: [1] })
+      spy.mockResolvedValueOnce(new Response(JSON.stringify({ data: { Page: { characters: [] } } })))
+      expect(await fetchCharacterWiki(2)).toBeNull()
+      spy.mockResolvedValueOnce(new Response('busy', { status: 429 }))
+      await expect(fetchCharacterWiki(3)).rejects.toThrow('anilist_429')
+    } finally {
+      spy.mockRestore()
+    }
   })
 })

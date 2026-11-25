@@ -1,8 +1,11 @@
 "use server";
 
+import { after } from "next/server";
+import { fetchCharacterWiki } from "@/lib/anilist/wiki";
 import type { Rarity } from "@/lib/game/types";
 import { fetchPictures, searchCharacters, type MalMatch } from "@/lib/mal/pictures";
 import { createServerClient } from "@/lib/supabase/server";
+import { serviceClient } from "@/lib/supabase/service";
 import type { AdminResult } from "./admin";
 
 export type ArtCardFilter = "todo" | "unlinked" | "reviewed" | "all";
@@ -66,7 +69,31 @@ export async function artReject(malId: number) {
   return call<null>("art_reject", { p_mal_id: malId });
 }
 export async function artAccept(malId: number, url: string) {
-  return call<number>("art_accept", { p_mal_id: malId, p_url: url });
+  const r = await call<number>("art_accept", { p_mal_id: malId, p_url: url });
+  // the RPC checked the admin role and made the card; its wiki details follow after the answer
+  if (r.ok) after(() => fillWiki(r.data));
+  return r;
+}
+
+// age, voice actor, appearances and AniList favourites of a new card; on failure
+// favourites stays null, so `npm run wiki:backfill` still picks the card up
+async function fillWiki(cardId: number) {
+  try {
+    const db = serviceClient();
+    const { data: card } = await db.from("cards").select("source, source_id, favourites").eq("id", cardId).single();
+    if (!card || card.source !== "anilist" || card.favourites !== null) return;
+    const wiki = await fetchCharacterWiki(card.source_id);
+    if (!wiki) return;
+    await db.from("card_appearances").delete().eq("card_id", cardId);
+    if (wiki.appearances.length > 0) {
+      const { error } = await db.from("card_appearances").insert(wiki.appearances.map((a) => ({ card_id: cardId, ...a })));
+      if (error) throw error;
+    }
+    // favourites last: it marks the card as done
+    await db.from("cards").update({ favourites: wiki.favourites, age: wiki.age, voice_actor: wiki.voice_actor }).eq("id", cardId);
+  } catch (e) {
+    console.error("card wiki fill failed", cardId, e);
+  }
 }
 
 async function isStaff() {
