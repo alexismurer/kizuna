@@ -1244,7 +1244,8 @@
       "candidate_not_found": "Esse personagem não está mais na lista.",
       "card_exists": "Este personagem já é uma carta.",
       "invalid_status": "Já foi decidido sobre este personagem.",
-      "gallery_failed": "Não foi possível carregar as imagens do MyAnimeList. Tente de novo em um minuto."
+      "gallery_failed": "Não foi possível carregar as imagens do MyAnimeList. Tente de novo em um minuto.",
+      "mal_search_failed": "Não foi possível buscar no MyAnimeList. Tente de novo em um minuto."
     },
     "invites": {
       "title": "Códigos de convite",
@@ -1402,10 +1403,9 @@
         "new": "Novos personagens"
       },
       "filters": {
-        "todo": "A revisar",
-        "unlinked": "Sem ligação MAL",
-        "reviewed": "Revisadas",
-        "all": "Todas",
+        "todo": "A fazer",
+        "reviewed": "Feitas",
+        "all": "Todas as cartas",
         "new": "Novos",
         "proposed": "Propostos",
         "rejected": "Recusados",
@@ -1422,10 +1422,8 @@
       "main": "Principal do MAL",
       "loading": "Carregando…",
       "emptyCards": "Nada aqui. Tente outro filtro.",
-      "emptyNew": "Nenhum personagem aqui. Tente outro filtro.",
+      "emptyNew": "Nenhum personagem esperando. Esta lista enche quando novos personagens são importados do MyAnimeList.",
       "reviewedBy": "revisada por {name}",
-      "unlinkedHelp": "Não conseguimos ligar esta carta ao MyAnimeList sozinhos. Cole o link MAL do personagem para carregar as imagens, ou mantenha a atual.",
-      "malLink": "Link do personagem no MyAnimeList",
       "link": "Carregar imagens",
       "fetching": "Carregando imagens do MyAnimeList…",
       "noPictures": "O MyAnimeList não tem outras imagens deste personagem.",
@@ -1446,7 +1444,24 @@
       "reject": "Recusar",
       "proposedOk": "{name} proposto.",
       "acceptedOk": "{name} agora é uma carta.",
-      "rejectedOk": "{name} recusado."
+      "rejectedOk": "{name} recusado.",
+      "steps": {
+        "pick": "Escolha uma carta na lista à esquerda.",
+        "match": "Clique no personagem certo do MyAnimeList (nós buscamos para você).",
+        "choose": "Clique na melhor imagem e salve. A próxima carta abre sozinha."
+      },
+      "matchTitle": "Qual personagem do MyAnimeList é?",
+      "matched": "Vinculado",
+      "wrongMatch": "Personagem errado?",
+      "cancel": "Cancelar",
+      "matchHelp": "Clique no personagem certo abaixo. Não está na lista? Mude o nome (tente primeiro o sobrenome ou a grafia japonesa) ou cole o link do MyAnimeList.",
+      "matchPlaceholder": "Nome do personagem ou link do MyAnimeList",
+      "searching": "Buscando no MyAnimeList…",
+      "noMatches": "Nenhum personagem encontrado com esse nome. Tente outra grafia.",
+      "thisOne": "É este",
+      "chooseTitle": "Escolha a imagem",
+      "chooseHelp": "Clique numa imagem e depois em Usar esta imagem. Se a carta já está boa, aperte Manter a atual.",
+      "chooseHelpUnlinked": "Vincule o personagem acima para ver mais imagens. Se a atual está boa, aperte Manter a atual."
     }
   },
   "pages": {

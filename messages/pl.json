@@ -1244,7 +1244,8 @@
       "candidate_not_found": "Tej postaci nie ma już na liście.",
       "card_exists": "Ta postać jest już kartą.",
       "invalid_status": "O tej postaci już zdecydowano.",
-      "gallery_failed": "Nie udało się wczytać obrazków z MyAnimeList. Spróbuj ponownie za minutę."
+      "gallery_failed": "Nie udało się wczytać obrazków z MyAnimeList. Spróbuj ponownie za minutę.",
+      "mal_search_failed": "Nie udało się przeszukać MyAnimeList. Spróbuj ponownie za minutę."
     },
     "invites": {
       "title": "Kody zaproszeń",
@@ -1402,10 +1403,9 @@
         "new": "Nowe postacie"
       },
       "filters": {
-        "todo": "Do sprawdzenia",
-        "unlinked": "Bez dopasowania MAL",
-        "reviewed": "Sprawdzone",
-        "all": "Wszystkie",
+        "todo": "Do zrobienia",
+        "reviewed": "Zrobione",
+        "all": "Wszystkie karty",
         "new": "Nowe",
         "proposed": "Zaproponowane",
         "rejected": "Odrzucone",
@@ -1422,10 +1422,8 @@
       "main": "Główny z MAL",
       "loading": "Wczytywanie…",
       "emptyCards": "Nic tu nie ma. Spróbuj innego filtra.",
-      "emptyNew": "Brak postaci. Spróbuj innego filtra.",
+      "emptyNew": "Brak oczekujących postaci. Ta lista zapełnia się, gdy z MyAnimeList zostaną zaimportowane nowe postacie.",
       "reviewedBy": "sprawdził(a) {name}",
-      "unlinkedHelp": "Nie udało się automatycznie połączyć tej karty z MyAnimeList. Wklej link MAL postaci, aby wczytać jej obrazki, albo zostaw obecny.",
-      "malLink": "Link do postaci na MyAnimeList",
       "link": "Wczytaj obrazki",
       "fetching": "Wczytywanie obrazków z MyAnimeList…",
       "noPictures": "MyAnimeList nie ma innych obrazków tej postaci.",
@@ -1446,7 +1444,24 @@
       "reject": "Odrzuć",
       "proposedOk": "Zaproponowano {name}.",
       "acceptedOk": "{name} jest teraz kartą.",
-      "rejectedOk": "Odrzucono {name}."
+      "rejectedOk": "Odrzucono {name}.",
+      "steps": {
+        "pick": "Wybierz kartę z listy po lewej.",
+        "match": "Kliknij pasującą postać z MyAnimeList (wyszukamy ją za ciebie).",
+        "choose": "Kliknij najlepszy obrazek i zapisz. Następna karta otworzy się sama."
+      },
+      "matchTitle": "Która to postać z MyAnimeList?",
+      "matched": "Połączono",
+      "wrongMatch": "Zła postać?",
+      "cancel": "Anuluj",
+      "matchHelp": "Kliknij właściwą postać poniżej. Nie ma jej? Zmień imię (najpierw spróbuj nazwiska albo japońskiego zapisu) lub wklej jej link z MyAnimeList.",
+      "matchPlaceholder": "Imię postaci lub link z MyAnimeList",
+      "searching": "Szukam w MyAnimeList…",
+      "noMatches": "Nie znaleziono postaci o tym imieniu. Spróbuj innego zapisu.",
+      "thisOne": "Ta",
+      "chooseTitle": "Wybierz obrazek",
+      "chooseHelp": "Kliknij obrazek, a potem Użyj tego obrazka. Jeśli karta już wygląda dobrze, naciśnij Zostaw obecny.",
+      "chooseHelpUnlinked": "Połącz postać powyżej, aby zobaczyć więcej obrazków. Jeśli obecny jest w porządku, naciśnij Zostaw obecny."
     }
   },
   "pages": {

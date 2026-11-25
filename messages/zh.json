@@ -1244,7 +1244,8 @@
       "candidate_not_found": "该角色已不在列表中。",
       "card_exists": "该角色已经是卡牌了。",
       "invalid_status": "该角色已有决定。",
-      "gallery_failed": "无法从 MyAnimeList 加载图片，请一分钟后重试。"
+      "gallery_failed": "无法从 MyAnimeList 加载图片，请一分钟后重试。",
+      "mal_search_failed": "无法搜索 MyAnimeList，请稍后再试。"
     },
     "invites": {
       "title": "邀请码",
@@ -1402,10 +1403,9 @@
         "new": "新角色"
       },
       "filters": {
-        "todo": "待检查",
-        "unlinked": "未匹配 MAL",
-        "reviewed": "已检查",
-        "all": "全部",
+        "todo": "待处理",
+        "reviewed": "已完成",
+        "all": "全部卡牌",
         "new": "新的",
         "proposed": "已提议",
         "rejected": "已拒绝",
@@ -1422,10 +1422,8 @@
       "main": "MAL 主图",
       "loading": "加载中…",
       "emptyCards": "这里没有内容，换个筛选试试。",
-      "emptyNew": "这里没有角色，换个筛选试试。",
+      "emptyNew": "没有待处理的角色。从 MyAnimeList 导入新角色后，这里会出现内容。",
       "reviewedBy": "由 {name} 检查",
-      "unlinkedHelp": "这张卡牌无法自动匹配到 MyAnimeList。粘贴角色的 MAL 链接来加载图片，或保留当前图片。",
-      "malLink": "MyAnimeList 角色链接",
       "link": "加载图片",
       "fetching": "正在从 MyAnimeList 加载图片…",
       "noPictures": "MyAnimeList 没有该角色的其他图片。",
@@ -1446,7 +1444,24 @@
       "reject": "拒绝",
       "proposedOk": "已提议 {name}。",
       "acceptedOk": "{name} 现在是卡牌了。",
-      "rejectedOk": "已拒绝 {name}。"
+      "rejectedOk": "已拒绝 {name}。",
+      "steps": {
+        "pick": "从左侧列表选择一张卡牌。",
+        "match": "点击 MyAnimeList 上对应的角色（我们会自动搜索）。",
+        "choose": "点击最好的图片并保存，下一张卡牌会自动打开。"
+      },
+      "matchTitle": "这是 MyAnimeList 上的哪个角色？",
+      "matched": "已关联",
+      "wrongMatch": "角色不对？",
+      "cancel": "取消",
+      "matchHelp": "点击下方正确的角色。没有找到？修改名字（先试姓氏或日文写法），或粘贴它的 MyAnimeList 链接。",
+      "matchPlaceholder": "角色名或 MyAnimeList 链接",
+      "searching": "正在搜索 MyAnimeList…",
+      "noMatches": "没有找到这个名字的角色，换一种写法试试。",
+      "thisOne": "就是它",
+      "chooseTitle": "选择图片",
+      "chooseHelp": "点击一张图片，然后点“使用这张”。如果卡牌已经很好，点“保留当前”。",
+      "chooseHelpUnlinked": "先在上方关联角色以查看更多图片。如果当前图片合适，点“保留当前”。"
     }
   },
   "pages": {

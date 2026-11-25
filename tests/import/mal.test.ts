@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { estimateRank, nameKey, pickMatch, parseTopPage } from '../../scripts/import-mal/parse'
-import { fullSizeUrl, parsePictures } from '../../src/lib/mal/pictures'
+import { fullSizeUrl, parsePictures, searchCharacters } from '../../src/lib/mal/pictures'
 
 const row = (id: number, name: string, kanji: string, anime: number[], manga: number[], fav: string) => `
 <tr class="ranking-list"> <td class="rank "> <span class="lightLink pepole-rank-text rank3">101</span> </td>
@@ -74,5 +74,25 @@ describe('MAL pictures', () => {
       'https://cdn.myanimelist.net/images/characters/11/243919.jpg',
     )
     expect(fullSizeUrl('https://cdn.myanimelist.net/images/questionmark_23.gif')).toBeNull()
+  })
+})
+
+describe('MAL character search', () => {
+  it('reads the quick-search answer, most favourited first, without placeholder pictures', async () => {
+    const items = [
+      { id: 1905, name: 'Rem', image_url: 'https://cdn.myanimelist.net/images/characters/5/1.jpg', payload: { related_works: ['Death Note'], favorites: 724 } },
+      { id: 118763, name: 'Rem', image_url: 'https://cdn.myanimelist.net/images/characters/9/2.jpg', payload: { related_works: ['Re:Zero'], favorites: 48640 } },
+      { id: 205041, name: 'Rem', image_url: 'https://cdn.myanimelist.net/images/questionmark_23.gif' },
+    ]
+    const spy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({ categories: [{ type: 'character', items }] })))
+    try {
+      const r = await searchCharacters('Rem')
+      expect(String(spy.mock.calls[0][0])).toContain('keyword=Rem')
+      expect(r.map((m) => m.malId)).toEqual([118763, 1905, 205041])
+      expect(r[0]).toEqual({ malId: 118763, name: 'Rem', imageUrl: items[1].image_url, works: ['Re:Zero'], favorites: 48640 })
+      expect(r[2]).toMatchObject({ imageUrl: null, works: [], favorites: 0 })
+    } finally {
+      spy.mockRestore()
+    }
   })
 })

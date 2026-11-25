@@ -1,7 +1,7 @@
 "use server";
 
 import type { Rarity } from "@/lib/game/types";
-import { fetchPictures } from "@/lib/mal/pictures";
+import { fetchPictures, searchCharacters, type MalMatch } from "@/lib/mal/pictures";
 import { createServerClient } from "@/lib/supabase/server";
 import type { AdminResult } from "./admin";
 
@@ -90,6 +90,18 @@ export async function artLoadGallery(malId: number): Promise<AdminResult<string[
   if (!pictures) return { ok: false, error: "gallery_failed" };
   const r = await call<null>("art_save_pictures", { p_mal_id: malId, p_pictures: pictures });
   return r.ok ? { ok: true, data: pictures } : r;
+}
+
+// MAL characters matching a name, for cards the sync could not match
+export async function artSearchMal(query: string): Promise<AdminResult<MalMatch[]>> {
+  if (!(await isStaff())) return { ok: false, error: "not_admin" };
+  const q = query.trim();
+  if (q.length < 2) return { ok: true, data: [] };
+  try {
+    return { ok: true, data: await searchCharacters(q.slice(0, 100)) };
+  } catch {
+    return { ok: false, error: "mal_search_failed" };
+  }
 }
 
 // "https://myanimelist.net/character/40/Luffy_Monkey_D" or "40"

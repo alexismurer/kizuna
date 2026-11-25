@@ -21,6 +21,27 @@ export function fullSizeUrl(url: string): string | null {
   return m ? MAL_PICTURE_PREFIX + m[1] : null;
 }
 
+export type MalMatch = { malId: number; name: string; imageUrl: string | null; works: string[]; favorites: number };
+
+type PrefixItem = { id: number; name: string; image_url?: string; payload?: { related_works?: string[]; favorites?: number } };
+
+// MAL's own quick search (the one behind its search bar), most favourited first
+export async function searchCharacters(query: string): Promise<MalMatch[]> {
+  const url = `https://myanimelist.net/search/prefix.json?type=character&v=1&keyword=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { headers: MAL_HEADERS, cache: "no-store" });
+  if (!res.ok) throw new Error(`mal_${res.status}`);
+  const json = (await res.json()) as { categories?: { items?: PrefixItem[] }[] };
+  return (json.categories?.[0]?.items ?? [])
+    .map((i) => ({
+      malId: i.id,
+      name: i.name,
+      imageUrl: i.image_url && !i.image_url.includes("questionmark") ? i.image_url : null,
+      works: i.payload?.related_works ?? [],
+      favorites: i.payload?.favorites ?? 0,
+    }))
+    .sort((a, b) => b.favorites - a.favorites);
+}
+
 export async function fetchPictures(malId: number): Promise<string[]> {
   const res = await fetch(picturesPageUrl(malId), { headers: MAL_HEADERS, cache: "no-store" });
   if (res.status === 404) return [];

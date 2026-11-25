@@ -1244,7 +1244,8 @@
       "candidate_not_found": "That character is no longer in the list.",
       "card_exists": "This character is already a card.",
       "invalid_status": "This character was already decided.",
-      "gallery_failed": "Couldn't load the pictures from MyAnimeList. Try again in a minute."
+      "gallery_failed": "Couldn't load the pictures from MyAnimeList. Try again in a minute.",
+      "mal_search_failed": "Couldn't search MyAnimeList. Try again in a minute."
     },
     "invites": {
       "title": "Invite codes",
@@ -1402,10 +1403,9 @@
         "new": "New characters"
       },
       "filters": {
-        "todo": "To review",
-        "unlinked": "No MAL match",
-        "reviewed": "Reviewed",
-        "all": "All",
+        "todo": "To do",
+        "reviewed": "Done",
+        "all": "All cards",
         "new": "New",
         "proposed": "Proposed",
         "rejected": "Rejected",
@@ -1422,10 +1422,8 @@
       "main": "MAL main",
       "loading": "Loading…",
       "emptyCards": "Nothing here. Try another filter.",
-      "emptyNew": "No characters here. Try another filter.",
+      "emptyNew": "No characters waiting. This list fills up when new characters are imported from MyAnimeList.",
       "reviewedBy": "reviewed by {name}",
-      "unlinkedHelp": "We couldn't match this card to MyAnimeList on our own. Paste its MAL character link to load its pictures, or keep the current picture.",
-      "malLink": "MyAnimeList character link",
       "link": "Load pictures",
       "fetching": "Loading pictures from MyAnimeList…",
       "noPictures": "MyAnimeList has no other pictures for this character.",
@@ -1446,7 +1444,24 @@
       "reject": "Reject",
       "proposedOk": "Proposed {name}.",
       "acceptedOk": "{name} is now a card.",
-      "rejectedOk": "Rejected {name}."
+      "rejectedOk": "Rejected {name}.",
+      "steps": {
+        "pick": "Pick a card from the list on the left.",
+        "match": "Click the matching character from MyAnimeList (we search it for you).",
+        "choose": "Click the best picture and save. The next card opens on its own."
+      },
+      "matchTitle": "Which MyAnimeList character is it?",
+      "matched": "Matched",
+      "wrongMatch": "Wrong character?",
+      "cancel": "Cancel",
+      "matchHelp": "Click the right character below. Not in the list? Change the name (try the family name first, or the Japanese spelling) or paste its MyAnimeList link.",
+      "matchPlaceholder": "Character name or MyAnimeList link",
+      "searching": "Searching MyAnimeList…",
+      "noMatches": "No character found with this name. Try another spelling.",
+      "thisOne": "This one",
+      "chooseTitle": "Choose the picture",
+      "chooseHelp": "Click a picture, then Use this picture. If the card already looks right, press Keep current.",
+      "chooseHelpUnlinked": "Match the character above to see more pictures. If the current one is fine, press Keep current."
     }
   },
   "pages": {

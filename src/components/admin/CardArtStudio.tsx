@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition, type ReactNode } from "react";
 import { Check, ChevronLeft, ChevronRight, ExternalLink, Heart, ImageOff, Link2, Loader2, SkipForward, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { RarityBadge } from "@/components/RarityBadge";
@@ -12,6 +12,7 @@ import {
   artLoadGallery,
   artPropose,
   artReject,
+  artSearchMal,
   artSetImage,
   type ArtCandidate,
   type ArtCandidateFilter,
@@ -19,6 +20,7 @@ import {
   type ArtCardFilter,
   type ArtPage,
 } from "@/lib/actions/cardArt";
+import type { MalMatch } from "@/lib/mal/pictures";
 import type { AdminResult } from "@/lib/actions/admin";
 import { adminErrorKey } from "./errors";
 import { errorText, input, okText, primary, secondary } from "./ui";
@@ -295,6 +297,120 @@ function Hints() {
 
 // ---------- existing cards ----------
 
+function Steps({ steps }: { steps: string[] }) {
+  return (
+    <ol className="grid gap-2 sm:grid-cols-3">
+      {steps.map((s, i) => (
+        <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-bg/60 p-3 text-sm text-white/75">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/20 text-xs font-bold text-white">{i + 1}</span>
+          <span>{s}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function StepTitle({ n, children }: { n?: number; children: ReactNode }) {
+  return (
+    <h4 className="flex items-center gap-2 text-sm font-bold text-white/85">
+      {n !== undefined && <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/20 text-[11px] font-bold">{n}</span>}
+      {children}
+    </h4>
+  );
+}
+
+const isMalRef = (s: string) => /^(?:https?:\/\/(?:www\.)?myanimelist\.net\/character\/)?\d+(?:[/?#].*)?$/.test(s.trim());
+
+// searches MAL for the card's name; clicking a result (or pasting a MAL link) links the card
+function MalMatcher({ name, onLink, busy }: { name: string; onLink: (ref: string) => void; busy: boolean }) {
+  const t = useTranslations("admin.art");
+  const te = useTranslations("admin.errors");
+  const [query, setQuery] = useState(name);
+  const [result, setResult] = useState<{ q: string; matches: MalMatch[] | null; error: string | null } | null>(null);
+
+  useEffect(() => {
+    const q = query.trim();
+    if (q.length < 2 || isMalRef(q)) return;
+    let live = true;
+    const id = setTimeout(
+      () =>
+        artSearchMal(q).then((r) => {
+          if (live) setResult({ q, matches: r.ok ? r.data : null, error: r.ok ? null : r.error });
+        }),
+      q === name ? 0 : 400,
+    );
+    return () => {
+      live = false;
+      clearTimeout(id);
+    };
+  }, [query, name]);
+
+  const q = query.trim();
+  const shown = result && result.q === q ? result : null;
+  const searching = q.length >= 2 && !isMalRef(q) && !shown;
+
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border border-border bg-bg/60 p-3">
+      <p className="text-sm text-white/65">{t("matchHelp")}</p>
+      <div className="flex gap-2">
+        <input
+          className={input}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && isMalRef(query) && onLink(query)}
+          placeholder={t("matchPlaceholder")}
+          aria-label={t("matchPlaceholder")}
+        />
+        {isMalRef(query) && (
+          <button type="button" className={secondary} onClick={() => onLink(query)} disabled={busy}>
+            <Link2 className="h-4 w-4" aria-hidden />
+            {t("link")}
+          </button>
+        )}
+      </div>
+      {searching && (
+        <p className="flex items-center gap-2 text-sm text-white/55">
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+          {t("searching")}
+        </p>
+      )}
+      {shown?.error && <p className={errorText}>{te(adminErrorKey(shown.error))}</p>}
+      {shown?.matches?.length === 0 && <p className="text-sm text-white/55">{t("noMatches")}</p>}
+      {!!shown?.matches?.length && (
+        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
+          {shown.matches.map((m) => (
+            <li key={m.malId}>
+              <button
+                type="button"
+                onClick={() => onLink(String(m.malId))}
+                disabled={busy}
+                className="flex h-full w-full flex-col overflow-hidden rounded-lg border border-border bg-black/30 text-left transition hover:border-accent/60 disabled:opacity-50"
+              >
+                {m.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={m.imageUrl} alt="" loading="lazy" className="aspect-[5/7] w-full object-cover object-top" />
+                ) : (
+                  <span className="flex aspect-[5/7] w-full items-center justify-center text-white/40">
+                    <ImageOff className="h-5 w-5" aria-hidden />
+                  </span>
+                )}
+                <span className="flex flex-col gap-0.5 p-2">
+                  <span className="truncate text-sm font-semibold">{m.name}</span>
+                  <span className="truncate text-xs text-white/50">{m.works[0] ?? "—"}</span>
+                  <span className="flex items-center gap-1 text-xs text-white/50">
+                    <Heart className="h-3 w-3" aria-hidden /> {m.favorites.toLocaleString()}
+                  </span>
+                  <span className="mt-1 text-xs font-bold text-accent">{t("thisOne")}</span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 function CardsTab() {
   const t = useTranslations("admin.art");
   const te = useTranslations("admin.errors");
@@ -302,7 +418,7 @@ function CardsTab() {
   const card = q.current;
   const [selected, setSelected] = useSelection(card?.id);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  const [malRef, setMalRef] = useState("");
+  const [relink, setRelink] = useState<number | null>(null); // card whose MAL match is being changed
   const [pending, start] = useTransition();
   const g = useGallery(card?.malId ?? null, card?.pictures ?? null, (pictures) => q.patch((r) => ({ ...r, pictures })));
 
@@ -331,20 +447,22 @@ function CardsTab() {
       }));
     });
   };
-  const link = () => {
-    if (!card || pending || !malRef.trim()) return;
+  const link = (ref: string) => {
+    if (!card || pending) return;
     start(async () => {
-      const r = await artLinkCard(card.id, malRef);
+      const r = await artLinkCard(card.id, ref);
       if (!r.ok) return err(r.error);
-      setMalRef("");
+      setRelink(null);
       setMsg({ ok: true, text: t("linked", { name: card.name }) });
       q.patch((row) => ({ ...row, malId: r.data.malId, pictures: r.data.pictures }));
     });
   };
+  const matching = !!card && (card.malId === null || relink === card.id);
 
   return (
     <div className="flex flex-col gap-4">
-      <Toolbar filters={["todo", "unlinked", "reviewed", "all"] as ArtCardFilter[]} filter={q.filter} onFilter={q.setFilter} query={q.query} onQuery={q.setQuery} total={q.total} />
+      <Steps steps={[t("steps.pick"), t("steps.match"), t("steps.choose")]} />
+      <Toolbar filters={["todo", "reviewed", "all"] as ArtCardFilter[]} filter={q.filter} onFilter={q.setFilter} query={q.query} onQuery={q.setQuery} total={q.total} />
       {q.error && <p className={errorText}>{te(adminErrorKey(q.error))}</p>}
       <div className="grid gap-5 lg:grid-cols-[17rem_minmax(0,1fr)]">
         <QueueList
@@ -377,26 +495,27 @@ function CardsTab() {
               )}
             </div>
 
-            {card.malId === null && (
-              <div className="flex flex-col gap-2 rounded-xl border border-border bg-bg/60 p-3">
-                <p className="text-sm text-white/65">{t("unlinkedHelp")}</p>
-                <div className="flex gap-2">
-                  <input
-                    className={input}
-                    placeholder="https://myanimelist.net/character/40/…"
-                    value={malRef}
-                    onChange={(e) => setMalRef(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && link()}
-                    aria-label={t("malLink")}
-                  />
-                  <button type="button" className={secondary} onClick={link} disabled={pending || !malRef.trim()}>
-                    <Link2 className="h-4 w-4" aria-hidden />
-                    {t("link")}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <StepTitle n={2}>{t("matchTitle")}</StepTitle>
+              {card.malId !== null &&
+                (matching ? (
+                  <button type="button" className="text-xs text-white/55 underline hover:text-white" onClick={() => setRelink(null)}>
+                    {t("cancel")}
                   </button>
-                </div>
-              </div>
-            )}
+                ) : (
+                  <span className="flex items-center gap-2 text-xs text-white/55">
+                    <Check className="h-3.5 w-3.5 text-uncommon" aria-hidden />
+                    {t("matched")}
+                    <button type="button" className="underline hover:text-white" onClick={() => setRelink(card.id)}>
+                      {t("wrongMatch")}
+                    </button>
+                  </span>
+                ))}
+            </div>
+            {matching && <MalMatcher key={card.id} name={card.name} onLink={link} busy={pending} />}
 
+            <StepTitle n={3}>{t("chooseTitle")}</StepTitle>
+            <p className="-mt-2 text-sm text-white/55">{card.malId === null ? t("chooseHelpUnlinked") : t("chooseHelp")}</p>
             {g.loading && (
               <p className="flex items-center gap-2 text-sm text-white/55">
                 <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

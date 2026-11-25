@@ -1244,7 +1244,8 @@
       "candidate_not_found": "Dieser Charakter ist nicht mehr in der Liste.",
       "card_exists": "Dieser Charakter ist bereits eine Karte.",
       "invalid_status": "Über diesen Charakter wurde schon entschieden.",
-      "gallery_failed": "Die Bilder von MyAnimeList konnten nicht geladen werden. Versuch es in einer Minute erneut."
+      "gallery_failed": "Die Bilder von MyAnimeList konnten nicht geladen werden. Versuch es in einer Minute erneut.",
+      "mal_search_failed": "Suche auf MyAnimeList fehlgeschlagen. Versuche es in einer Minute erneut."
     },
     "invites": {
       "title": "Einladungscodes",
@@ -1402,10 +1403,9 @@
         "new": "Neue Charaktere"
       },
       "filters": {
-        "todo": "Zu prüfen",
-        "unlinked": "Kein MAL-Treffer",
-        "reviewed": "Geprüft",
-        "all": "Alle",
+        "todo": "Zu erledigen",
+        "reviewed": "Erledigt",
+        "all": "Alle Karten",
         "new": "Neu",
         "proposed": "Vorgeschlagen",
         "rejected": "Abgelehnt",
@@ -1422,10 +1422,8 @@
       "main": "MAL-Hauptbild",
       "loading": "Lädt…",
       "emptyCards": "Hier ist nichts. Probier einen anderen Filter.",
-      "emptyNew": "Keine Charaktere hier. Probier einen anderen Filter.",
+      "emptyNew": "Keine Figuren in der Warteschlange. Diese Liste füllt sich, wenn neue Figuren von MyAnimeList importiert werden.",
       "reviewedBy": "geprüft von {name}",
-      "unlinkedHelp": "Diese Karte konnte nicht automatisch mit MyAnimeList verknüpft werden. Füge den MAL-Link des Charakters ein, um seine Bilder zu laden, oder behalte das aktuelle Bild.",
-      "malLink": "MyAnimeList-Link des Charakters",
       "link": "Bilder laden",
       "fetching": "Bilder von MyAnimeList werden geladen…",
       "noPictures": "MyAnimeList hat keine weiteren Bilder dieses Charakters.",
@@ -1446,7 +1444,24 @@
       "reject": "Ablehnen",
       "proposedOk": "{name} vorgeschlagen.",
       "acceptedOk": "{name} ist jetzt eine Karte.",
-      "rejectedOk": "{name} abgelehnt."
+      "rejectedOk": "{name} abgelehnt.",
+      "steps": {
+        "pick": "Wähle links eine Karte aus der Liste.",
+        "match": "Klicke auf die passende Figur von MyAnimeList (wir suchen sie für dich).",
+        "choose": "Klicke auf das beste Bild und speichere. Die nächste Karte öffnet sich von selbst."
+      },
+      "matchTitle": "Welche MyAnimeList-Figur ist das?",
+      "matched": "Verknüpft",
+      "wrongMatch": "Falsche Figur?",
+      "cancel": "Abbrechen",
+      "matchHelp": "Klicke unten auf die richtige Figur. Nicht dabei? Ändere den Namen (zuerst den Nachnamen oder die japanische Schreibweise versuchen) oder füge ihren MyAnimeList-Link ein.",
+      "matchPlaceholder": "Name der Figur oder MyAnimeList-Link",
+      "searching": "Suche auf MyAnimeList…",
+      "noMatches": "Keine Figur mit diesem Namen gefunden. Versuche eine andere Schreibweise.",
+      "thisOne": "Diese",
+      "chooseTitle": "Bild auswählen",
+      "chooseHelp": "Klicke auf ein Bild, dann auf Dieses Bild nehmen. Passt die Karte schon, drücke Aktuelles behalten.",
+      "chooseHelpUnlinked": "Verknüpfe oben die Figur, um mehr Bilder zu sehen. Passt das aktuelle Bild, drücke Aktuelles behalten."
     }
   },
   "pages": {

@@ -87,6 +87,9 @@ describe('existing cards', { timeout: 30_000 }, () => {
   it('an unlinked card can be marked fine as it is; a MAL id cannot be linked twice', async () => {
     const m = await withRole('moderator')
     const [a, b] = [await pickCard(1), await pickCard(2)]
+    // unreviewed cards are on the to-do list even without a MAL match
+    const todo = await m.client.rpc('art_cards', { p_filter: 'todo', p_query: a.name, p_offset: 0 })
+    expect((todo.data as { rows: CardRow[] }).rows.some((r) => r.id === a.id)).toBe(true)
     expect((await m.client.rpc('art_set_image', { p_card: a.id, p_url: a.image_url })).error).toBeNull()
     const link = await admin.from('mal_links').select('mal_id, reviewed_at').eq('card_id', a.id).single()
     expect(link.data!.mal_id).toBeNull()

@@ -1244,7 +1244,8 @@
       "candidate_not_found": "そのキャラクターはもうリストにありません。",
       "card_exists": "このキャラクターはすでにカードです。",
       "invalid_status": "このキャラクターはすでに判定済みです。",
-      "gallery_failed": "MyAnimeListから画像を読み込めませんでした。1分後にもう一度お試しください。"
+      "gallery_failed": "MyAnimeListから画像を読み込めませんでした。1分後にもう一度お試しください。",
+      "mal_search_failed": "MyAnimeList を検索できませんでした。少し待ってからもう一度お試しください。"
     },
     "invites": {
       "title": "招待コード",
@@ -1402,10 +1403,9 @@
         "new": "新キャラクター"
       },
       "filters": {
-        "todo": "未確認",
-        "unlinked": "MAL未紐付け",
-        "reviewed": "確認済み",
-        "all": "すべて",
+        "todo": "未処理",
+        "reviewed": "完了",
+        "all": "すべてのカード",
         "new": "新規",
         "proposed": "提案済み",
         "rejected": "却下",
@@ -1422,10 +1422,8 @@
       "main": "MALメイン",
       "loading": "読み込み中…",
       "emptyCards": "該当なし。別のフィルターをお試しください。",
-      "emptyNew": "キャラクターがいません。別のフィルターをお試しください。",
+      "emptyNew": "待機中のキャラクターはいません。MyAnimeList から新しいキャラクターが取り込まれると、ここに表示されます。",
       "reviewedBy": "{name}が確認",
-      "unlinkedHelp": "このカードはMyAnimeListと自動で紐付けできませんでした。キャラクターのMALリンクを貼ると画像を読み込めます。今の画像のままでもOKです。",
-      "malLink": "MyAnimeListのキャラクターリンク",
       "link": "画像を読み込む",
       "fetching": "MyAnimeListから画像を読み込み中…",
       "noPictures": "MyAnimeListにこのキャラクターの他の画像はありません。",
@@ -1446,7 +1444,24 @@
       "reject": "却下",
       "proposedOk": "{name}を提案しました。",
       "acceptedOk": "{name}がカードになりました。",
-      "rejectedOk": "{name}を却下しました。"
+      "rejectedOk": "{name}を却下しました。",
+      "steps": {
+        "pick": "左のリストからカードを選びます。",
+        "match": "MyAnimeList の該当キャラクターをクリックします（検索は自動です）。",
+        "choose": "いちばん良い画像をクリックして保存。次のカードが自動で開きます。"
+      },
+      "matchTitle": "MyAnimeList のどのキャラクター？",
+      "matched": "リンク済み",
+      "wrongMatch": "キャラクターが違う？",
+      "cancel": "キャンセル",
+      "matchHelp": "下から正しいキャラクターをクリックしてください。見つからない場合は名前を変えるか（まず姓、または日本語表記で）、MyAnimeList のリンクを貼り付けてください。",
+      "matchPlaceholder": "キャラクター名または MyAnimeList のリンク",
+      "searching": "MyAnimeList を検索中…",
+      "noMatches": "この名前のキャラクターは見つかりません。別の表記を試してください。",
+      "thisOne": "これ",
+      "chooseTitle": "画像を選ぶ",
+      "chooseHelp": "画像をクリックして「この画像にする」を押します。今のままで良ければ「今のままにする」を押します。",
+      "chooseHelpUnlinked": "上でキャラクターをリンクすると、ほかの画像が表示されます。今の画像で良ければ「今のままにする」を押します。"
     }
   },
   "pages": {
