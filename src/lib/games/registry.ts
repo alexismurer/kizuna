@@ -1,5 +1,5 @@
 // The games in the game room. A new game is one entry here plus its page under /play/<id>.
-export type GameId = "duel" | "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory" | "daily-hand" | "kizuna-hand" | "daily-raid" | "raid" | "daily-connections" | "connections" | "expedition";
+export type GameId = "duel" | "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory" | "daily-hand" | "kizuna-hand" | "daily-raid" | "raid" | "daily-connections" | "connections" | "expedition" | "fusion" | "daily-peaks" | "peaks";
 
 export type GameEntry = {
   id: GameId;
@@ -9,7 +9,7 @@ export type GameEntry = {
   // CSS colour used for the tile's accent
   color: string;
   // lucide icon name, mapped in the game room
-  icon: "swords" | "spade" | "face" | "tv" | "heart" | "grid" | "calendar" | "shuffle" | "sword" | "link" | "compass";
+  icon: "swords" | "spade" | "face" | "tv" | "heart" | "grid" | "calendar" | "shuffle" | "sword" | "link" | "compass" | "layers" | "merge";
   // messages namespace with name, pitch and chip (arcade games)
   msg?: string;
 };
@@ -21,11 +21,12 @@ export const GAMES: GameEntry[] = [
   { id: "daily-raid", href: "/play/daily-raid", solo: true, multi: false, color: "var(--color-accent)", icon: "sword", msg: "arcade.dailyRaid" },
   { id: "raid", href: "/play/raid", solo: true, multi: false, color: "var(--color-mythic)", icon: "sword", msg: "arcade.kizunaRaid" },
   { id: "expedition", href: "/play/expedition", solo: true, multi: false, color: "var(--color-uncommon)", icon: "compass", msg: "arcade.expedition" },
-  { id: "daily-connections", href: "/play/daily-connections", solo: true, multi: false, color: "var(--color-accent)", icon: "link", msg: "arcade.dailyConnections" },
-  { id: "connections", href: "/play/connections", solo: true, multi: false, color: "var(--color-epic)", icon: "link", msg: "arcade.connections" },
+  { id: "daily-peaks", href: "/play/daily-peaks", solo: true, multi: false, color: "var(--color-accent)", icon: "layers", msg: "arcade.dailyPeaks" },
+  { id: "peaks", href: "/play/peaks", solo: true, multi: false, color: "var(--color-rare)", icon: "layers", msg: "arcade.peaks" },
   { id: "twenty-one", href: "/play/twenty-one", solo: true, multi: false, color: "var(--color-rare)", icon: "spade", msg: "arcade.twentyOne" },
   { id: "whos-that", href: "/play/whos-that", solo: true, multi: true, color: "var(--color-epic)", icon: "face", msg: "arcade.whosThat" },
   { id: "series-rush", href: "/play/series-rush", solo: true, multi: true, color: "var(--color-legendary)", icon: "tv", msg: "arcade.seriesRush" },
   { id: "most-loved", href: "/play/most-loved", solo: true, multi: true, color: "var(--color-mythic)", icon: "heart", msg: "arcade.mostLoved" },
   { id: "memory", href: "/play/memory", solo: true, multi: false, color: "var(--color-uncommon)", icon: "grid", msg: "arcade.memory" },
+  { id: "fusion", href: "/play/fusion", solo: true, multi: false, color: "var(--color-legendary)", icon: "merge", msg: "arcade.fusion" },
 ];

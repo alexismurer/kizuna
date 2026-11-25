@@ -1,5 +1,5 @@
 // Per-game arcade settings: minimum time for tickets and the star thresholds.
-export type ArcadeGameId = "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory-8" | "memory-12" | "memory-18" | "daily-hand" | "kizuna-hand" | "raid" | "daily-raid" | "connections" | "daily-connections" | "expedition" | "blind-easy" | "blind-medium" | "blind-hard";
+export type ArcadeGameId = "twenty-one" | "whos-that" | "series-rush" | "most-loved" | "memory-8" | "memory-12" | "memory-18" | "daily-hand" | "kizuna-hand" | "raid" | "daily-raid" | "connections" | "daily-connections" | "peaks" | "daily-peaks" | "expedition" | "blind-easy" | "blind-medium" | "blind-hard" | "fusion";
 
 export const ARCADE: Record<ArcadeGameId, { minSeconds: number; stars: [number, number, number]; daily: boolean }> = {
   "twenty-one": { minSeconds: 60, stars: [50, 80, 110], daily: false },
@@ -18,9 +18,14 @@ export const ARCADE: Record<ArcadeGameId, { minSeconds: number; stars: [number, 
   // 100 a group − 25 a mistake: ★★★ no mistake, ★★ 1–2, ★ 3
   connections: { minSeconds: 30, stars: [325, 350, 400], daily: false },
   "daily-connections": { minSeconds: 30, stars: [325, 350, 400], daily: true },
+  // Tri-Peaks, from a greedy player over 5000 deals: median 1250, 75th percentile 2070, 90th 2345
+  peaks: { minSeconds: 45, stars: [1200, 2000, 2400], daily: false },
+  "daily-peaks": { minSeconds: 45, stars: [1200, 2000, 2400], daily: true },
   // score = cases cleared; tickets are paid case by case
   expedition: { minSeconds: 0, stars: [5, 10, 20], daily: false },
   "blind-easy": { minSeconds: 30, stars: [400, 600, 800], daily: false },
   "blind-medium": { minSeconds: 30, stars: [400, 600, 800], daily: false },
   "blind-hard": { minSeconds: 30, stars: [400, 600, 800], daily: false },
+  // score = the value of every tile created by a fusion, as in 2048
+  fusion: { minSeconds: 60, stars: [2000, 6000, 15000], daily: false },
 };

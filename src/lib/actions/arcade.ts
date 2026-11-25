@@ -5,6 +5,7 @@ import { starsFor, ticketsFor } from "@/lib/arcade/payout";
 import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
 import { choose as raidEngineChoose, fight as raidEngineFight, pickTeam, raidView, startRaid, type RaidState, type RaidView } from "@/lib/arcade/battle/raid";
 import type { BCard } from "@/lib/arcade/battle/stats";
+import { replay as peaksReplay } from "@/lib/arcade/peaks/engine";
 import { connScore, connView, fromCards as connFromCards, fromGroups as connFromGroups, generate as connGenerate, groupOrder as connGroupOrder, guess as connEngineGuess, type CCard, type ConnState, type ConnView } from "@/lib/arcade/connections/engine";
 import { bestHands, discard as pokerDiscard, play as pokerPlay, pokerView, startPoker, type HandName, type PkCard, type PkState, type PkView } from "@/lib/arcade/poker/engine";
 import {
@@ -31,6 +32,7 @@ import { buildBlind } from "@/lib/arcade/quiz/blindTest";
 import { buildMostLoved } from "@/lib/arcade/quiz/mostLoved";
 import { buildSeriesRush } from "@/lib/arcade/quiz/seriesRush";
 import { buildWhosThat } from "@/lib/arcade/quiz/whosThat";
+import { MAX_MOVES as FUSION_MAX_MOVES, replay as fusionReplay } from "@/lib/arcade/fusion/engine";
 import { createServerClient } from "@/lib/supabase/server";
 
 export type ArcadeResult<T> = { ok: true; data: T } | { ok: false; error: string };
@@ -447,6 +449,106 @@ export async function connGuess(mode: ConnMode, id: string, ids: number[]): Prom
     const m = connMode(mode);
     const pick = Array.isArray(ids) ? ids.map(Number) : [];
     return step<ConnState, ConnView>(id, CONN_GAME[m], (s) => connEngineGuess(s, pick), connScore, connView);
+  });
+}
+
+// ---------- Fusion: 2048 with cards. The client plays; the server replays the moves ----------
+
+export type FusionArt = { id: number; name: string; imageUrl: string }[][];
+const RARITY_ORDER = ["common", "uncommon", "rare", "epic", "legendary", "mythic"] as const;
+
+export async function fusionStart(): Promise<ArcadeResult<{ run: string; seed: number; art: FusionArt }>> {
+  return attempt(async () => {
+    const player = await requirePlayer();
+    const seed = newSeed();
+    // two cards per rarity (both grades of a rarity share them)
+    const pools = await Promise.all(RARITY_ORDER.map((r) => randomCards(30, { minRarity: r })));
+    const any = pools.flat();
+    if (any.length < 12) throw new ArcadeError("not_enough_cards");
+    const art: FusionArt = RARITY_ORDER.map((r, i) => {
+      const own = pools[i].filter((c) => c.rarity === r);
+      return (own.length >= 2 ? own : [...own, ...any]).slice(0, 2).map((c) => ({ id: c.id, name: c.name, imageUrl: c.imageUrl }));
+    });
+    const run = await createRun<{ art: FusionArt }>(player, "fusion", "practice", seed, { art });
+    return { run: run.id, seed, art };
+  });
+}
+
+// Replays the whole run from its moves and pays it: one write for the run, none per move.
+export async function fusionFinish(id: string, moves: string): Promise<ArcadeResult<{ score: number; result: FinishResult }>> {
+  return attempt(async () => {
+    if (typeof moves !== "string" || moves.length > FUSION_MAX_MOVES || !/^[UDLR]*$/.test(moves)) throw new ArcadeError("invalid_action");
+    const { run } = await loadOwnRun<{ art: FusionArt }>(checkRun(id));
+    if (run.game !== "fusion") throw new ArcadeError("run_not_found");
+    if (run.finished) throw new ArcadeError("run_over");
+    const score = fusionReplay(run.seed, moves).score;
+    return { score, result: await finish(run, "fusion", score) };
+  });
+}
+
+// ---------- Kizuna Peaks: Tri-Peaks (daily, ranked, one a day; and practice) ----------
+
+export type PeaksMode = "daily" | "practice";
+export type PeaksArt = { id: number; name: string; rarity: ArcadeCard["rarity"]; imageUrl: string };
+type PeaksRunState = { art: PeaksArt[] };
+const PEAKS_GAME = { daily: "daily-peaks", practice: "peaks" } as const;
+const peaksMode = (m: unknown): PeaksMode => checkAction(m, ["daily", "practice"] as const);
+const peaksHi = (art: PeaksArt[]) => art.map((a) => a.rarity === "legendary" || a.rarity === "mythic");
+const toArt = (c: ArcadeCard): PeaksArt => ({ id: c.id, name: c.name, rarity: c.rarity, imageUrl: c.imageUrl });
+
+// 52 different characters, a few of them rare: one face for each card of the deck
+async function peaksOffer(): Promise<ArcadeCard[]> {
+  const [rare, rest] = await Promise.all([randomCards(10, { minRarity: "legendary" }), randomCards(80)]);
+  const seen = new Set<number>();
+  const names = new Set<string>();
+  return [...rare.slice(0, 5), ...rest, ...rare.slice(5)].filter((c) => !seen.has(c.id) && !names.has(c.name) && seen.add(c.id) && names.add(c.name)).slice(0, 52);
+}
+
+export async function peaksStart(mode: PeaksMode): Promise<ArcadeResult<{ run: string; seed: number; art: PeaksArt[]; dailyDone?: boolean }>> {
+  return attempt(async () => {
+    const m = peaksMode(mode);
+    const player = await requirePlayer();
+    const game = PEAKS_GAME[m];
+    if (m === "daily") {
+      const day = parisDay();
+      const mine = async (run: Run<PeaksRunState>) => ({ run: run.id, seed: run.seed, art: run.state.art, dailyDone: run.finished });
+      const had = await findRun<PeaksRunState>(player, game, day);
+      if (had) return mine(had);
+      // the first deck made today is everyone's
+      const offered = (await peaksOffer()).map((c) => c.id);
+      const ids = await dailyDeck(game, day, offered);
+      const byId = new Map((await cardsByIds(ids)).map((c) => [c.id, c]));
+      const art = ids.map((id) => byId.get(id)).filter((c): c is ArcadeCard => !!c).map(toArt);
+      if (art.length < 52) throw new ArcadeError("not_enough_cards");
+      try {
+        const run = await createRun<PeaksRunState>(player, game, "daily", Number(day.replaceAll("-", "")), { art: art.slice(0, 52) });
+        return mine(run);
+      } catch (e) {
+        const other = e instanceof ArcadeError && e.message === "daily_taken" ? await findRun<PeaksRunState>(player, game, day) : null;
+        if (other) return mine(other);
+        throw e;
+      }
+    }
+    const art = (await peaksOffer()).map(toArt);
+    if (art.length < 52) throw new ArcadeError("not_enough_cards");
+    const seed = newSeed();
+    const run = await createRun<PeaksRunState>(player, game, "practice", seed, { art });
+    return { run: run.id, seed, art };
+  });
+}
+
+// The browser plays the deal itself; the server replays its moves and scores them.
+// `end` says the player gave up (a run that is not over may only finish that way).
+export async function peaksFinish(mode: PeaksMode, id: string, moves: string, end: boolean): Promise<ArcadeResult<FinishResult & { score: number }>> {
+  return attempt(async () => {
+    const m = peaksMode(mode);
+    const { run } = await loadOwnRun<PeaksRunState>(checkRun(id));
+    if (run.game !== PEAKS_GAME[m]) throw new ArcadeError("run_not_found");
+    if (run.finished) throw new ArcadeError("run_over");
+    if (typeof moves !== "string" || !/^[A-Zs01]*$/.test(moves)) throw new ArcadeError("invalid_action");
+    const s = peaksReplay(run.seed, peaksHi(run.state.art), moves);
+    if (!s.over && end !== true) throw new ArcadeError("invalid_action");
+    return { ...(await finish(run, run.game, s.score)), score: s.score };
   });
 }
 

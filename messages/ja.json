@@ -2420,6 +2420,35 @@
       "pitch": "全員同じ16枚、毎日新しい盤面。その日最初の挑戦がランキングに入ります。",
       "share": "Kizunaの今日のコネクションをミス{mistakes}回で解いた！"
     },
+    "peaks": {
+      "name": "Kizuna Peaks",
+      "chip": "Solitaire",
+      "pitch": "Clear the three peaks. Tap a card one higher or lower than the pile, and keep your streak going.",
+      "rules": "Three peaks of cards, only the bottom row face up. A card turns over once the two cards on top of it are gone. Tap a free card that is exactly one higher or lower than the top of the pile (a King and an Ace count as neighbours). Each card is worth 10 times its place in your streak: 10, 20, 30... Tap the stock to draw a new card, but that resets the streak. Clearing a peak is worth 150 (300 for the third), clearing the board is worth 500 plus 50 for each card left in the stock, and a Legendary or Mythic face adds 25. The run ends when the board is clear or when you are stuck with an empty stock.",
+      "score": "Score",
+      "streak": "Streak",
+      "stock": "Stock",
+      "streakLabel": "streak!",
+      "hint": "Tap a card one higher or lower than the pile",
+      "drawLabel": "Draw a card",
+      "endRun": "End run",
+      "peakCleared": "Peak cleared +{n}",
+      "boardCleared": "Board cleared!",
+      "runOver": "No more moves",
+      "cardsPlayed": "{n} cards played",
+      "seeResult": "See the result",
+      "bestWeek": "Your best this week: {n}",
+      "already": "You already played today's peaks. Come back tomorrow for a new deal.",
+      "comeBack": "A new deal at midnight (Paris). Meanwhile, play Kizuna Peaks as much as you like.",
+      "practice": "Play Kizuna Peaks",
+      "share": "I scored {score} in Kizuna Peaks!"
+    },
+    "dailyPeaks": {
+      "name": "Daily peaks",
+      "chip": "Ranked",
+      "pitch": "The same deal for everyone, a new one every day. Your first finished run of the day counts in the ranking.",
+      "share": "I scored {score} in today's Kizuna Peaks!"
+    },
     "expedition": {
       "name": "遠征",
       "chip": "冒険",
