@@ -111,7 +111,8 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
 
   const stats = [
     { label: tr("wave"), value: view ? Math.max(1, view.last?.wave ?? view.wave) : "—" },
-    { label: tr("damage"), value: view ? format.number(view.damage) : 0 },
+    // the wave being replayed is added once it has played out
+    { label: tr("damage"), value: view ? format.number(view.damage - (replaying && view.last ? view.last.damage : 0)) : 0 },
     { label: t("best"), value: best ?? "—" },
   ];
 
@@ -252,7 +253,7 @@ function Recruit({ offer, picked, setPicked, busy, onStart, color }: { offer: BC
   const team = picked.map((i) => offer[i]);
   return (
     <div className="flex min-h-[34rem] flex-col items-center justify-center gap-5 p-4">
-      <p className="font-display text-2xl font-bold">{tr("pickMore", { n: 5 - picked.length })}</p>
+      <p className="font-display text-2xl font-bold">{picked.length < 5 ? tr("pickMore", { n: 5 - picked.length }) : tr("ready")}</p>
       <div className="flex flex-wrap justify-center gap-3">
         {offer.map((c, i) => {
           const s = baseStats(c);
@@ -277,7 +278,10 @@ function Recruit({ offer, picked, setPicked, busy, onStart, color }: { offer: BC
           );
         })}
       </div>
-      <Synergies cards={team} perks={{}} relics={[]} />
+      {/* room kept for the chips, so the button below never moves under a click */}
+      <div className="min-h-[4.75rem] sm:min-h-10">
+        <Synergies cards={team} perks={{}} relics={[]} />
+      </div>
       <button type="button" disabled={busy || picked.length !== 5} onClick={onStart} className="h-12 w-60 rounded-full font-extrabold text-white disabled:opacity-40" style={{ background: color }}>
         {tr("start")}
       </button>
@@ -479,7 +483,7 @@ export function Arena({ wave, playing, onEnd, total }: { wave: FoughtWave; playi
             <Fighter key={i} unit={u} clock={clock} window={FLOAT_MS * speed}>
               <BattleCard
                 card={e.card}
-                small
+                small={wave.enemies.length > 5}
                 hp={u.hp}
                 max={u.max}
                 dead={u.dead}

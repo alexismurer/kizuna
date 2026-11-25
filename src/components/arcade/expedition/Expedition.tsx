@@ -115,9 +115,11 @@ export function Expedition({ best, tickets }: { best: number | null; tickets: nu
     arcadeSfx(fight.won ? "win" : "lose", prefs.sound);
   };
 
+  // while a fight is replayed, its rewards don't show yet
+  const pre = replay !== null && fight?.won ? fight : null;
   const stats = [
-    { label: te("cleared"), value: view?.cleared ?? 0 },
-    { label: te("shards"), value: view?.shards ?? 0 },
+    { label: te("cleared"), value: (view?.cleared ?? 0) - (pre ? 1 : 0) },
+    { label: te("shards"), value: (view?.shards ?? 0) - (pre?.shards ?? 0) },
     view ? { label: te("today"), value: `${Math.min(view.fightsToday, FIGHTS_A_DAY)}/${FIGHTS_A_DAY}` } : { label: t("best"), value: best ?? "—" },
   ];
 
