@@ -15,6 +15,7 @@ vi.mock("@/lib/arcade/server", async () => {
   return {
     ArcadeError,
     requirePlayer: vi.fn(async () => "me"),
+    loadOwnRun: vi.fn(async (id: string) => ({ player: "me", run: await store.loadRun("me", id) })),
     secondsSince: () => 120,
     parisDay: () => "2026-11-25",
     ...store,

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { visibleSlots, type QuizState } from "@/lib/arcade/quiz/engine";
-import { loadRun, requirePlayer } from "@/lib/arcade/server";
+import { loadOwnRun } from "@/lib/arcade/server";
 
 // The picture of a quiz card, served under an address that says nothing about the
 // card: only the run's player, only the open question, only a slot already shown.
@@ -13,8 +13,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ run: str
   if (!/^[0-9a-f-]{36}$/i.test(id) || !Number.isInteger(n) || n < 0) return new NextResponse(null, { status: 404 });
   let url: string | undefined;
   try {
-    const player = await requirePlayer();
-    const run = await loadRun<QuizState>(player, id);
+    const { run } = await loadOwnRun<QuizState>(id);
     const s = run.state;
     if (qi === s.i + 1 && s.answers.length > s.i && !s.over) {
       const nq = s.questions[qi];

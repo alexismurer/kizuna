@@ -23,7 +23,7 @@ import {
   type ExpState,
   type ExpView,
 } from "@/lib/arcade/expedition/engine";
-import { addExpeditionXp, ArcadeError, blindBank, cardsByIds, expeditionXp, latestRun, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, storedDeck, loadRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
+import { addExpeditionXp, ArcadeError, blindBank, cardsByIds, expeditionXp, latestRun, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, storedDeck, loadOwnRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
 import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
@@ -69,8 +69,7 @@ async function step<S extends { over: boolean }, V>(
   score: (s: S) => number,
   view: (s: S) => V,
 ): Promise<{ view: V; result?: FinishResult }> {
-  const player = await requirePlayer();
-  const run = await loadRun<S>(player, checkRun(id));
+  const { run } = await loadOwnRun<S>(checkRun(id));
   if (typeof game === "function" ? !game(run.game) : run.game !== game) throw new ArcadeError("run_not_found");
   if (run.finished) throw new ArcadeError("run_over");
   if (run.state.over) return { view: view(run.state), result: await finish(run, run.game, score(run.state)) };
@@ -168,8 +167,7 @@ export async function quizNext(game: QuizGameId, id: string): Promise<ArcadeResu
 export async function quizPeek(game: QuizGameId, id: string): Promise<ArcadeResult<{ view: QuizView }>> {
   return attempt(async () => {
     const g = quizGame(game);
-    const player = await requirePlayer();
-    const run = await loadRun<QuizState>(player, checkRun(id));
+    const { run } = await loadOwnRun<QuizState>(checkRun(id));
     if (run.game !== g) throw new ArcadeError("run_not_found");
     return { view: quizView(run.state, Date.now(), { faces: QUIZ[g].faces }) };
   });
@@ -477,8 +475,7 @@ export async function expAct(
 ): Promise<ArcadeResult<{ view: ExpView; result?: FinishResult; paid?: number }>> {
   return attempt(async () => {
     const move = checkAction(a, ["go", "choose", "buy", "leave", "use", "giveUp"] as const);
-    const player = await requirePlayer();
-    const run = await loadRun<ExpState>(player, checkRun(id));
+    const { player, run } = await loadOwnRun<ExpState>(checkRun(id));
     if (run.game !== EXP) throw new ArcadeError("run_not_found");
     if (run.finished) throw new ArcadeError("run_over");
     if (run.state.over) return { view: expView(run.state), result: await finishExp(run) };
@@ -508,8 +505,7 @@ export async function expAct(
 
 export async function expSwap(id: string, slot: number, cardId: number): Promise<ArcadeResult<{ view: ExpView }>> {
   return attempt(async () => {
-    const player = await requirePlayer();
-    const run = await loadRun<ExpState>(player, checkRun(id));
+    const { player, run } = await loadOwnRun<ExpState>(checkRun(id));
     if (run.game !== EXP) throw new ArcadeError("run_not_found");
     if (run.finished || run.state.over) throw new ArcadeError("run_over");
     const [card] = (await cardsByIds([Number(cardId)])).map(toB);

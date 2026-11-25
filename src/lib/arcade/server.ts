@@ -64,6 +64,19 @@ export async function requirePlayer(): Promise<string> {
   return claims.claims.sub;
 }
 
+// requirePlayer + loadRun in one round trip: the claims are checked locally, then the
+// role and the run are read at the same time.
+export async function loadOwnRun<S>(id: string): Promise<{ player: string; run: Run<S> }> {
+  const supabase = await createServerClient();
+  const { data: claims } = await supabase.auth.getClaims();
+  if (!claims) throw new ArcadeError("not_signed_in");
+  const player = claims.claims.sub;
+  const [{ data: role }, run] = await Promise.all([supabase.rpc("my_role"), loadRun<S>(player, id).catch((e: Error) => e)]);
+  if (role !== "admin" && role !== "moderator") throw new ArcadeError("forbidden");
+  if (run instanceof Error) throw run;
+  return { player, run };
+}
+
 type Row = {
   id: string;
   player_id: string;

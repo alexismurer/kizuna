@@ -1,6 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const store = vi.hoisted(() => ({ loadRun: vi.fn(), requirePlayer: vi.fn(async () => "me") }));
+const store = vi.hoisted(() => {
+  const loadRun = vi.fn();
+  return { loadRun, loadOwnRun: vi.fn(async (id: string) => ({ player: "me", run: await loadRun("me", id) })) };
+});
 vi.mock("@/lib/arcade/server", () => store);
 
 import { GET } from "@/app/api/arcade/img/[run]/[slot]/route";
