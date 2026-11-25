@@ -24,6 +24,10 @@ const DAILY_POOL = [
   'daily_rare',
   'daily_wishlist',
   'daily_bid',
+  'daily_tickets',
+  'daily_games',
+  'daily_challenge',
+  'daily_sell',
 ]
 
 async function missions(userId: string, now: string): Promise<Missions> {
@@ -118,6 +122,17 @@ async function completeAllDailies(userId: string, at: string) {
     .single()
   if (error) throw error
   await insert('bids', [{ auction_id: auction.id, bidder_id: userId, amount: 1, created_at: at }])
+  await insert('ledger', [
+    { player_id: userId, kind: 'market_sale', currency_delta: 10, card_id: rare, card_delta: -1, created_at: at },
+  ])
+  await insert('ticket_log', [{ player_id: userId, amount: 25, source: 'duel_win', earned: true, created_at: at }])
+  await insert('game_matches', [
+    { player_id: userId, game: 'duel', mode: 'ai', started_at: at, finished_at: at, result: 'win' },
+    { player_id: userId, game: 'duel', mode: 'ai', started_at: at, finished_at: at, result: 'loss' },
+  ])
+  await insert('arcade_runs', [
+    { player_id: userId, game: 'daily-hand', mode: 'daily', day: at.slice(0, 10), seed: 1, started_at: at, finished_at: at },
+  ])
 }
 
 const addDays = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10)
@@ -301,7 +316,7 @@ describe('section bonuses', () => {
     expect(tomorrow.bonuses.daily).toEqual({ claimed: false, earned: false })
   })
 
-  it('claiming all 6 first steps grants a chest', async () => {
+  it('claiming all 8 first steps grants a chest', async () => {
     const { userId } = await newPlayer()
     const now = new Date().toISOString()
     const cards = await cardIds({}, 3)
@@ -310,15 +325,17 @@ describe('section bonuses', () => {
     // discord linking cannot be faked from the test client: record it as already claimed
     await insert('mission_claims', [{ player_id: userId, mission_key: 'first_discord', period: '2000-01-01' }])
 
-    const keys = ['first_booster', 'first_recycle', 'first_wishlist', 'first_page', 'first_username']
+    await insert('ledger', [{ player_id: userId, kind: 'custom_booster', currency_delta: -500, ref: 'new' }])
+
+    const keys = ['first_booster', 'first_recycle', 'first_wishlist', 'first_page', 'first_username', 'first_game', 'first_custom']
     const granteds = []
     for (const k of keys) {
       const r = await claim(userId, k, now)
       expect(r.error).toBeNull()
       granteds.push(r.data.granted)
     }
-    expect(granteds).toEqual([null, null, null, null, { pack: 'chest', count: 1 }])
-    expect(await currency(userId)).toBe(20 * 4 + 30)
+    expect(granteds).toEqual([null, null, null, null, null, null, { pack: 'chest', count: 1 }])
+    expect(await currency(userId)).toBe(20 * 4 + 30 + 30 + 100)
     expect(await granted(userId, 'chest')).toBe(1)
     const { data: led } = await admin.from('ledger').select('ref').eq('player_id', userId).eq('kind', 'pack_grant')
     expect(led).toEqual([{ ref: 'chest' }])
@@ -385,10 +402,10 @@ describe('my_missions', () => {
     expect(error).toBeNull()
     const m = data as Missions
     expect(m.streak).toMatchObject({ day: 0, claimedToday: false, loginsTotal: 0 })
-    expect(m.first).toHaveLength(6)
+    expect(m.first).toHaveLength(8)
     expect(m.daily).toHaveLength(3)
-    expect(m.weekly).toHaveLength(3)
-    expect(m.achievements).toHaveLength(33)
+    expect(m.weekly).toHaveLength(6)
+    expect(m.achievements).toHaveLength(42)
     expect(item(m.first, 'first_booster')).toEqual({ key: 'first_booster', target: 1, reward: 20, progress: 1, claimed: false })
     // first_username, first_booster, ach_first_epic
     expect(m.claimable).toBe(3)
@@ -403,7 +420,7 @@ describe('my_missions', () => {
     const b = await newPlayer()
     expect((await a.client.rpc('claim_mission', { p_key: 'first_username' })).error).toBeNull()
     const { data: cat } = await b.client.from('missions').select('key')
-    expect(cat!.length).toBe(6 + 7 + 3 + 33 + 3)
+    expect(cat!.length).toBe(8 + 11 + 6 + 42 + 3)
     const { data: claims } = await b.client.from('mission_claims').select('mission_key')
     expect(claims).toEqual([])
   })
@@ -484,5 +501,57 @@ describe('pulled_* progress matches metric_value', () => {
     expect((await claim(userId, 'weekly_mythic', now)).error).toBeNull()
     expect((await claim(userId, 'ach_first_legendary', now)).error).toBeNull()
     expect((await claim(userId, 'ach_legendary_100', now)).error?.message).toContain('not_complete')
+  })
+})
+
+describe('game room and custom booster metrics', () => {
+  const metric = async (userId: string, m: string, since: string | null = null) => {
+    const { data, error } = await admin.rpc('metric_value', { p_player: userId, p_metric: m, p_since: since })
+    if (error) throw error
+    return data as number
+  }
+
+  it('counts earned tickets, games, Duel wins, daily challenges, boss rewards and prizes', async () => {
+    const { userId } = await newPlayer()
+    const old = '2026-01-01T12:00:00Z'
+    const now = new Date().toISOString()
+    await insert('ticket_log', [
+      { player_id: userId, amount: 10, source: 'duel_win', earned: true, created_at: old },
+      { player_id: userId, amount: 15, source: 'arcade_memory', earned: true, created_at: now },
+      { player_id: userId, amount: 40, source: 'boss', earned: false, created_at: now },
+      { player_id: userId, amount: -60, source: 'prize_booster1', earned: false, created_at: now },
+    ])
+    await insert('game_matches', [
+      { player_id: userId, game: 'duel', mode: 'ai', finished_at: now, result: 'win' },
+      { player_id: userId, game: 'duel', mode: 'friend', finished_at: now, result: 'loss' },
+      { player_id: userId, game: 'duel', mode: 'ai' }, // never finished
+    ])
+    await insert('arcade_runs', [
+      { player_id: userId, game: 'memory', mode: 'practice', seed: 1, finished_at: now },
+      { player_id: userId, game: 'daily-hand', mode: 'daily', day: now.slice(0, 10), seed: 1, finished_at: now },
+      { player_id: userId, game: 'memory', mode: 'practice', seed: 2 }, // never finished
+    ])
+    const { data: boss } = await admin.from('bosses').select('week_start').limit(1)
+    if (boss?.length) await insert('boss_claims', [{ week_start: boss[0].week_start, player_id: userId }])
+
+    expect(await metric(userId, 'tickets_earned')).toBe(25)
+    expect(await metric(userId, 'tickets_earned', '2026-06-01T00:00:00Z')).toBe(15)
+    expect(await metric(userId, 'games_played')).toBe(4)
+    expect(await metric(userId, 'duels_won')).toBe(1)
+    expect(await metric(userId, 'daily_challenges')).toBe(1)
+    expect(await metric(userId, 'prizes_redeemed')).toBe(1)
+    expect(await metric(userId, 'boss_rewards')).toBe(boss?.length ? 1 : 0)
+  })
+
+  it('counts custom booster creations (not edits) and custom openings', async () => {
+    const { userId } = await newPlayer()
+    await insert('ledger', [
+      { player_id: userId, kind: 'custom_booster', currency_delta: -500, ref: 'new' },
+      { player_id: userId, kind: 'custom_booster', currency_delta: -150, ref: 'edit' },
+    ])
+    const [rare] = await cardIds({ rarity: 'rare' }, 1)
+    await insert('pack_openings', [opening(userId, new Date().toISOString(), [rare], 'custom')])
+    expect(await metric(userId, 'custom_created')).toBe(1)
+    expect(await metric(userId, 'custom_opened')).toBe(1)
   })
 })

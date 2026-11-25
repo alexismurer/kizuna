@@ -132,7 +132,8 @@
       "leaderboardHint": "Los mejores coleccionistas",
       "rebirthHint": "Devuelve tu álbum al juego",
       "wikiHint": "Todas las páginas de personajes"
-    }
+    },
+    "new": "Nuevo"
   },
   "topbar": {
     "freeBoosters": "Sobres gratis",
@@ -674,7 +675,7 @@
     "weekly": {
       "eyebrow": "ESTA SEMANA",
       "title": "Misiones semanales",
-      "footer": "Las 3 reclamadas → Cofre gratis"
+      "footer": "Las 6 reclamadas → Cofre gratis"
     },
     "achievements": {
       "eyebrow": "OBJETIVOS DE COLECCIÓN",
@@ -701,6 +702,8 @@
       "first_page": "Abre la página de un personaje",
       "first_username": "Elige tu nombre de usuario",
       "first_discord": "Vincula tu cuenta de Discord",
+      "first_game": "Juega a un juego de la sala de juegos",
+      "first_custom": "Crea tu propio sobre",
       "daily_pages": "Visita 3 páginas de personajes",
       "daily_recycle": "Recicla 10 duplicados",
       "daily_open": "Abre 5 sobres",
@@ -708,9 +711,16 @@
       "daily_rare": "Consigue 3 cartas Raras o mejores",
       "daily_wishlist": "Añade un personaje a tu lista de deseos",
       "daily_bid": "Haz una puja",
+      "daily_tickets": "Gana 25 tickets en la sala de juegos",
+      "daily_games": "Juega 2 partidas",
+      "daily_challenge": "Completa un desafío diario",
+      "daily_sell": "Vende una carta en el mercado",
       "weekly_legendary": "Consigue una Legendaria o mejor",
       "weekly_mythic": "Consigue una Mítica",
       "weekly_series": "Completa una serie (5+ personajes)",
+      "weekly_boss": "Inflige 150 de daño al jefe semanal",
+      "weekly_duels": "Gana 5 Duelos",
+      "weekly_challenges": "Completa 5 desafíos diarios",
       "ach_open_10": {
         "name": "Buen comienzo",
         "desc": "Abre 10 sobres"
@@ -842,6 +852,42 @@
       "ach_trade_25": {
         "name": "Negociador",
         "desc": "Completa 25 intercambios"
+      },
+      "ach_tickets_500": {
+        "name": "Cazatickets",
+        "desc": "Gana 500 tickets"
+      },
+      "ach_tickets_2500": {
+        "name": "Habitual de la sala",
+        "desc": "Gana 2.500 tickets"
+      },
+      "ach_tickets_10000": {
+        "name": "Leyenda de la sala",
+        "desc": "Gana 10.000 tickets"
+      },
+      "ach_duels_10": {
+        "name": "Duelista",
+        "desc": "Gana 10 Duelos"
+      },
+      "ach_duels_100": {
+        "name": "Maestro del Duelo",
+        "desc": "Gana 100 Duelos"
+      },
+      "ach_boss_1": {
+        "name": "Cazajefes",
+        "desc": "Consigue una recompensa de un jefe semanal"
+      },
+      "ach_boss_10": {
+        "name": "Matajefes",
+        "desc": "Consigue 10 recompensas de jefe"
+      },
+      "ach_custom_25": {
+        "name": "Curador",
+        "desc": "Abre 25 sobres personales"
+      },
+      "ach_prizes_10": {
+        "name": "Coleccionista de premios",
+        "desc": "Canjea 10 premios en el mostrador"
       }
     },
     "claimAll": "Reclamar todo · {count}",

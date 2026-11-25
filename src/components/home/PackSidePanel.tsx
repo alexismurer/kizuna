@@ -208,7 +208,7 @@ export function PackSidePanel({
           className={`${cta} hover:brightness-110 disabled:opacity-70`}
         >
           {spinner}
-          {t("home.custom.create", { price: 250 })}
+          {t("home.custom.create", { price: 500 })}
         </button>
       ) : open.disabled ? (
         <button type="button" disabled className={`${cta} opacity-50`}>

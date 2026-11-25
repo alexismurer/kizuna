@@ -132,7 +132,8 @@
       "leaderboardHint": "Os melhores colecionadores",
       "rebirthHint": "Coloque seu álbum de volta no jogo",
       "wikiHint": "Todas as páginas de personagens"
-    }
+    },
+    "new": "Novo"
   },
   "topbar": {
     "freeBoosters": "Boosters grátis",
@@ -674,7 +675,7 @@
     "weekly": {
       "eyebrow": "ESTA SEMANA",
       "title": "Missões semanais",
-      "footer": "As 3 resgatadas → Baú grátis"
+      "footer": "As 6 resgatadas → Baú grátis"
     },
     "achievements": {
       "eyebrow": "METAS DE COLEÇÃO",
@@ -701,6 +702,8 @@
       "first_page": "Abra a página de um personagem",
       "first_username": "Escolha seu nome de usuário",
       "first_discord": "Vincule sua conta do Discord",
+      "first_game": "Jogue um jogo na sala de jogos",
+      "first_custom": "Crie seu próprio booster",
       "daily_pages": "Veja 3 páginas de personagens",
       "daily_recycle": "Recicle 10 duplicatas",
       "daily_open": "Abra 5 boosters",
@@ -708,9 +711,16 @@
       "daily_rare": "Consiga 3 cartas Raras ou melhores",
       "daily_wishlist": "Adicione um personagem à sua lista de desejos",
       "daily_bid": "Dê um lance",
+      "daily_tickets": "Ganhe 25 tickets na sala de jogos",
+      "daily_games": "Jogue 2 partidas",
+      "daily_challenge": "Conclua um desafio diário",
+      "daily_sell": "Venda uma carta no mercado",
       "weekly_legendary": "Consiga uma Lendária ou melhor",
       "weekly_mythic": "Consiga uma Mítica",
       "weekly_series": "Complete uma série (5+ personagens)",
+      "weekly_boss": "Cause 150 de dano ao chefe semanal",
+      "weekly_duels": "Vença 5 Duelos",
+      "weekly_challenges": "Conclua 5 desafios diários",
       "ach_open_10": {
         "name": "Bom começo",
         "desc": "Abra 10 boosters"
@@ -842,6 +852,42 @@
       "ach_trade_25": {
         "name": "Negociador",
         "desc": "Conclua 25 trocas"
+      },
+      "ach_tickets_500": {
+        "name": "Caçador de tickets",
+        "desc": "Ganhe 500 tickets"
+      },
+      "ach_tickets_2500": {
+        "name": "Frequentador da sala",
+        "desc": "Ganhe 2.500 tickets"
+      },
+      "ach_tickets_10000": {
+        "name": "Lenda da sala",
+        "desc": "Ganhe 10.000 tickets"
+      },
+      "ach_duels_10": {
+        "name": "Duelista",
+        "desc": "Vença 10 Duelos"
+      },
+      "ach_duels_100": {
+        "name": "Mestre do Duelo",
+        "desc": "Vença 100 Duelos"
+      },
+      "ach_boss_1": {
+        "name": "Caçador de chefes",
+        "desc": "Ganhe uma recompensa de um chefe semanal"
+      },
+      "ach_boss_10": {
+        "name": "Matador de chefes",
+        "desc": "Ganhe 10 recompensas de chefe"
+      },
+      "ach_custom_25": {
+        "name": "Curador",
+        "desc": "Abra 25 boosters personalizados"
+      },
+      "ach_prizes_10": {
+        "name": "Colecionador de prêmios",
+        "desc": "Resgate 10 prêmios no balcão"
       }
     },
     "claimAll": "Resgatar tudo · {count}",

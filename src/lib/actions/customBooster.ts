@@ -25,7 +25,7 @@ export async function getCustomOptions(): Promise<{ series: CustomOption[]; pick
   };
 }
 
-// Saves the 10 picks (the RPC charges 250 the first time, 150 after); error is an i18n key.
+// Saves the 10 picks (the RPC charges 500 the first time, 150 after); error is an i18n key.
 export async function saveCustomSeries(ids: number[]): Promise<{ error: string | null }> {
   const supabase = await createServerClient();
   const { error } = await supabase.rpc("set_custom_series", { p_series: ids });

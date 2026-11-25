@@ -52,14 +52,14 @@ describe("CustomPicker", () => {
     expect(screen.getByText("0/10")).toBeInTheDocument();
     pick(9);
     expect(screen.getByText("9/10")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Save · 250" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Save · 500" })).toBeDisabled();
   });
 
   it("enables Save at 10 and refuses an 11th pick", () => {
     wrap();
     pick(10);
     expect(screen.getByText("10/10")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Save · 250" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Save · 500" })).toBeEnabled();
     fireEvent.click(box("Series 11"));
     expect(box("Series 11")).not.toBeChecked();
     expect(screen.getByText("10/10")).toBeInTheDocument();
@@ -108,10 +108,10 @@ describe("CustomPicker", () => {
     expect(save).toBeEnabled();
   });
 
-  it("an expired booster is created again for 250 with its last picks pre-ticked, saving them unchanged is allowed", () => {
+  it("an expired booster is created again for 500 with its last picks pre-ticked, saving them unchanged is allowed", () => {
     wrap([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], vi.fn(), false);
     expect(screen.getByText("10/10")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Save · 250" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Save · 500" })).toBeEnabled();
   });
 
   it("shows the picks three per row (two on phones), centred", () => {
@@ -130,7 +130,7 @@ describe("CustomPicker", () => {
     saveCustomSeries.mockResolvedValue({ error: null });
     const onClose = wrap();
     pick(10);
-    fireEvent.click(screen.getByRole("button", { name: "Save · 250" }));
+    fireEvent.click(screen.getByRole("button", { name: "Save · 500" }));
     await waitFor(() => expect(onClose).toHaveBeenCalled());
     expect(saveCustomSeries).toHaveBeenCalledWith([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect(refresh).toHaveBeenCalled();
@@ -140,7 +140,7 @@ describe("CustomPicker", () => {
     saveCustomSeries.mockResolvedValue({ error: "errors.insufficient_currency" });
     wrap();
     pick(10);
-    fireEvent.click(screen.getByRole("button", { name: "Save · 250" }));
+    fireEvent.click(screen.getByRole("button", { name: "Save · 500" }));
     expect(await screen.findByText(messages.errors.insufficient_currency)).toBeInTheDocument();
   });
 });

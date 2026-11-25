@@ -132,7 +132,8 @@
       "leaderboardHint": "Les meilleurs collectionneurs",
       "rebirthHint": "Remettez votre album en jeu",
       "wikiHint": "Toutes les pages de personnages"
-    }
+    },
+    "new": "Nouveau"
   },
   "topbar": {
     "freeBoosters": "Boosters gratuits",
@@ -674,7 +675,7 @@
     "weekly": {
       "eyebrow": "CETTE SEMAINE",
       "title": "Missions hebdomadaires",
-      "footer": "Les 3 récupérées → Coffre gratuit"
+      "footer": "Les 6 récupérées → Coffre gratuit"
     },
     "achievements": {
       "eyebrow": "OBJECTIFS DE COLLECTION",
@@ -701,6 +702,8 @@
       "first_page": "Ouvre la page d'un personnage",
       "first_username": "Choisis ton pseudo",
       "first_discord": "Associe ton compte Discord",
+      "first_game": "Joue à un jeu de la salle de jeux",
+      "first_custom": "Crée ton propre booster",
       "daily_pages": "Consulte 3 pages de personnages",
       "daily_recycle": "Recycle 10 doublons",
       "daily_open": "Ouvre 5 boosters",
@@ -708,9 +711,16 @@
       "daily_rare": "Obtiens 3 cartes Rares ou mieux",
       "daily_wishlist": "Ajoute un personnage à ta liste de souhaits",
       "daily_bid": "Place une enchère",
+      "daily_tickets": "Gagne 25 tickets dans la salle de jeux",
+      "daily_games": "Joue 2 parties",
+      "daily_challenge": "Termine un défi du jour",
+      "daily_sell": "Vends une carte au marché",
       "weekly_legendary": "Obtiens une Légendaire ou mieux",
       "weekly_mythic": "Obtiens une Mythique",
       "weekly_series": "Complète une série (5+ personnages)",
+      "weekly_boss": "Inflige 150 dégâts au boss de la semaine",
+      "weekly_duels": "Gagne 5 Duels",
+      "weekly_challenges": "Termine 5 défis du jour",
       "ach_open_10": {
         "name": "Bon départ",
         "desc": "Ouvre 10 boosters"
@@ -842,6 +852,42 @@
       "ach_trade_25": {
         "name": "Négociateur",
         "desc": "Conclus 25 échanges"
+      },
+      "ach_tickets_500": {
+        "name": "Chasseur de tickets",
+        "desc": "Gagne 500 tickets"
+      },
+      "ach_tickets_2500": {
+        "name": "Habitué de la salle",
+        "desc": "Gagne 2 500 tickets"
+      },
+      "ach_tickets_10000": {
+        "name": "Légende de la salle",
+        "desc": "Gagne 10 000 tickets"
+      },
+      "ach_duels_10": {
+        "name": "Duelliste",
+        "desc": "Gagne 10 Duels"
+      },
+      "ach_duels_100": {
+        "name": "Maître du Duel",
+        "desc": "Gagne 100 Duels"
+      },
+      "ach_boss_1": {
+        "name": "Chasseur de boss",
+        "desc": "Obtiens une récompense d'un boss de la semaine"
+      },
+      "ach_boss_10": {
+        "name": "Tueur de boss",
+        "desc": "Obtiens 10 récompenses de boss"
+      },
+      "ach_custom_25": {
+        "name": "Curateur",
+        "desc": "Ouvre 25 boosters perso"
+      },
+      "ach_prizes_10": {
+        "name": "Collectionneur de lots",
+        "desc": "Échange 10 lots au comptoir"
       }
     },
     "claimAll": "Tout récupérer · {count}",

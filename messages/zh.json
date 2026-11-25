@@ -132,7 +132,8 @@
       "leaderboardHint": "最强收藏家",
       "rebirthHint": "让你的相册重新投入游戏",
       "wikiHint": "所有角色页面"
-    }
+    },
+    "new": "新"
   },
   "topbar": {
     "freeBoosters": "免费卡包",
@@ -674,7 +675,7 @@
     "weekly": {
       "eyebrow": "本周",
       "title": "每周任务",
-      "footer": "3 个全部领取 → 免费宝箱"
+      "footer": "6 个全部领取 → 免费宝箱"
     },
     "achievements": {
       "eyebrow": "收藏目标",
@@ -701,6 +702,8 @@
       "first_page": "打开一个角色页面",
       "first_username": "选择你的用户名",
       "first_discord": "关联你的 Discord 账户",
+      "first_game": "在游戏厅玩一局游戏",
+      "first_custom": "创建你的自选卡包",
       "daily_pages": "查看 3 个角色页面",
       "daily_recycle": "回收 10 张重复卡",
       "daily_open": "打开 5 个卡包",
@@ -708,9 +711,16 @@
       "daily_rare": "抽到 3 张稀有或更高的卡",
       "daily_wishlist": "将一个角色加入心愿单",
       "daily_bid": "进行一次出价",
+      "daily_tickets": "在游戏厅赢得 25 张奖券",
+      "daily_games": "玩 2 局游戏",
+      "daily_challenge": "完成一次每日挑战",
+      "daily_sell": "在市场上卖出一张卡",
       "weekly_legendary": "抽到一张传说或更高的卡",
       "weekly_mythic": "抽到一张神话卡",
       "weekly_series": "集齐一部作品（5 个以上角色）",
+      "weekly_boss": "对每周首领造成 150 点伤害",
+      "weekly_duels": "赢得 5 场对决",
+      "weekly_challenges": "完成 5 次每日挑战",
       "ach_open_10": {
         "name": "崭新开始",
         "desc": "打开 10 个卡包"
@@ -842,6 +852,42 @@
       "ach_trade_25": {
         "name": "交易达人",
         "desc": "完成 25 次交易"
+      },
+      "ach_tickets_500": {
+        "name": "奖券猎人",
+        "desc": "赢得 500 张奖券"
+      },
+      "ach_tickets_2500": {
+        "name": "游戏厅常客",
+        "desc": "赢得 2,500 张奖券"
+      },
+      "ach_tickets_10000": {
+        "name": "游戏厅传奇",
+        "desc": "赢得 10,000 张奖券"
+      },
+      "ach_duels_10": {
+        "name": "决斗者",
+        "desc": "赢得 10 场对决"
+      },
+      "ach_duels_100": {
+        "name": "对决大师",
+        "desc": "赢得 100 场对决"
+      },
+      "ach_boss_1": {
+        "name": "首领猎人",
+        "desc": "获得一次每周首领奖励"
+      },
+      "ach_boss_10": {
+        "name": "首领杀手",
+        "desc": "获得 10 次首领奖励"
+      },
+      "ach_custom_25": {
+        "name": "策展人",
+        "desc": "开启 25 个自选卡包"
+      },
+      "ach_prizes_10": {
+        "name": "奖品收藏家",
+        "desc": "在奖品柜台兑换 10 件奖品"
       }
     },
     "claimAll": "全部领取 · {count}",

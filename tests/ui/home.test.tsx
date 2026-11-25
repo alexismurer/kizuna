@@ -294,16 +294,16 @@ describe("PackSidePanel", () => {
     );
   });
 
-  it("custom booster without picks: Create for 250, no Open link", () => {
+  it("custom booster without picks: Create for 500, no Open link", () => {
     panel(pack("custom", "free", { fallbackPrice: 175, customSet: false }), status());
-    expect(screen.getByRole("button", { name: "Create your booster · 250" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Create your booster · 500" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^Open/ })).toBeNull();
   });
 
   it("Create shows a spinner and is busy while the series list loads", async () => {
     customActions.getCustomOptions.mockReturnValue(new Promise(() => {}));
     panel(pack("custom", "free", { fallbackPrice: 175, customSet: false }), status());
-    const create = screen.getByRole("button", { name: /Create your booster · 250/ });
+    const create = screen.getByRole("button", { name: /Create your booster · 500/ });
     fireEvent.click(create);
     expect(create).toHaveAttribute("aria-busy", "true");
     expect(create).toBeDisabled();
@@ -321,10 +321,10 @@ describe("PackSidePanel", () => {
     customActions.getCustomOptions.mockResolvedValue({ series, picked: [] });
     customActions.saveCustomSeries.mockResolvedValue({ error: null });
     panel(pack("custom", "free", { fallbackPrice: 175, customSet: false }), status());
-    fireEvent.click(screen.getByRole("button", { name: "Create your booster · 250" }));
+    fireEvent.click(screen.getByRole("button", { name: "Create your booster · 500" }));
     const boxes = await screen.findAllByRole("checkbox");
     boxes.forEach((b) => fireEvent.click(b));
-    fireEvent.click(screen.getByRole("button", { name: "Save · 250" }));
+    fireEvent.click(screen.getByRole("button", { name: "Save · 500" }));
     expect(await screen.findByRole("button", { name: "Edit · 150" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open · Free · 3 left" })).toHaveAttribute("href", "/open/custom");
   });

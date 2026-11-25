@@ -8,7 +8,7 @@ import { useRouter } from "@/i18n/navigation";
 import { saveCustomSeries, type CustomOption } from "@/lib/actions/customBooster";
 
 export const PICKS = 10;
-const CREATE_COST = 250;
+const CREATE_COST = 500;
 const EDIT_COST = 150;
 const SUGGESTED = 50;
 const MATCHES = 8;
@@ -24,7 +24,7 @@ function Cover({ src, className }: { src: string | null; className: string }) {
 
 // Pick exactly 10 series for the custom booster: the 50 most popular are
 // suggested (options arrive most popular first), any other one is found by
-// typing its name. Creating costs 250 (also again once the week is over, with
+// typing its name. Creating costs 500 (also again once the week is over, with
 // the last picks pre-ticked); editing a live booster costs 150, and saving the
 // same 10 then is not offered.
 export function CustomPicker({

@@ -132,7 +132,8 @@
       "leaderboardHint": "Najlepsi kolekcjonerzy",
       "rebirthHint": "Przywróć swój album do gry",
       "wikiHint": "Każda strona postaci"
-    }
+    },
+    "new": "Nowe"
   },
   "topbar": {
     "freeBoosters": "Darmowe boostery",
@@ -674,7 +675,7 @@
     "weekly": {
       "eyebrow": "TEN TYDZIEŃ",
       "title": "Misje tygodnia",
-      "footer": "Wszystkie 3 odebrane → darmowa Skrzynia"
+      "footer": "Wszystkie 6 odebrane → darmowa Skrzynia"
     },
     "achievements": {
       "eyebrow": "CELE KOLEKCJI",
@@ -701,6 +702,8 @@
       "first_page": "Otwórz stronę postaci",
       "first_username": "Wybierz nazwę użytkownika",
       "first_discord": "Połącz konto Discord",
+      "first_game": "Zagraj w grę w salonie gier",
+      "first_custom": "Stwórz własny booster",
       "daily_pages": "Obejrzyj 3 strony postaci",
       "daily_recycle": "Przetwórz 10 duplikatów",
       "daily_open": "Otwórz 5 boosterów",
@@ -708,9 +711,16 @@
       "daily_rare": "Wylosuj 3 karty Rzadkie lub lepsze",
       "daily_wishlist": "Dodaj postać do listy życzeń",
       "daily_bid": "Złóż ofertę na aukcji",
+      "daily_tickets": "Zdobądź 25 biletów w salonie gier",
+      "daily_games": "Zagraj 2 partie",
+      "daily_challenge": "Ukończ wyzwanie dnia",
+      "daily_sell": "Sprzedaj kartę na rynku",
       "weekly_legendary": "Wylosuj kartę Legendarną lub lepszą",
       "weekly_mythic": "Wylosuj kartę Mityczną",
       "weekly_series": "Ukończ serię (5+ postaci)",
+      "weekly_boss": "Zadaj 150 obrażeń bossowi tygodnia",
+      "weekly_duels": "Wygraj 5 Pojedynków",
+      "weekly_challenges": "Ukończ 5 wyzwań dnia",
       "ach_open_10": {
         "name": "Świeży start",
         "desc": "Otwórz 10 boosterów"
@@ -842,6 +852,42 @@
       "ach_trade_25": {
         "name": "Negocjator",
         "desc": "Dokonaj 25 wymian"
+      },
+      "ach_tickets_500": {
+        "name": "Łowca biletów",
+        "desc": "Zdobądź 500 biletów"
+      },
+      "ach_tickets_2500": {
+        "name": "Stały bywalec",
+        "desc": "Zdobądź 2500 biletów"
+      },
+      "ach_tickets_10000": {
+        "name": "Legenda salonu",
+        "desc": "Zdobądź 10 000 biletów"
+      },
+      "ach_duels_10": {
+        "name": "Pojedynkowicz",
+        "desc": "Wygraj 10 Pojedynków"
+      },
+      "ach_duels_100": {
+        "name": "Mistrz Pojedynków",
+        "desc": "Wygraj 100 Pojedynków"
+      },
+      "ach_boss_1": {
+        "name": "Łowca bossów",
+        "desc": "Zdobądź nagrodę od bossa tygodnia"
+      },
+      "ach_boss_10": {
+        "name": "Pogromca bossów",
+        "desc": "Zdobądź 10 nagród od bossów"
+      },
+      "ach_custom_25": {
+        "name": "Kurator",
+        "desc": "Otwórz 25 własnych boosterów"
+      },
+      "ach_prizes_10": {
+        "name": "Kolekcjoner nagród",
+        "desc": "Odbierz 10 nagród w punkcie nagród"
       }
     },
     "claimAll": "Odbierz wszystko · {count}",

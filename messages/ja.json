@@ -132,7 +132,8 @@
       "leaderboardHint": "トップコレクター",
       "rebirthHint": "アルバムをもう一度ゲームに戻す",
       "wikiHint": "すべてのキャラクターページ"
-    }
+    },
+    "new": "NEW"
   },
   "topbar": {
     "freeBoosters": "無料ブースター",
@@ -674,7 +675,7 @@
     "weekly": {
       "eyebrow": "今週",
       "title": "ウィークリーミッション",
-      "footer": "3つすべて受け取る → 無料の宝箱"
+      "footer": "6つすべて受け取る → 無料の宝箱"
     },
     "achievements": {
       "eyebrow": "コレクション目標",
@@ -701,6 +702,8 @@
       "first_page": "キャラクターページを開く",
       "first_username": "ユーザー名を決める",
       "first_discord": "Discordアカウントを連携する",
+      "first_game": "ゲームルームでゲームを遊ぶ",
+      "first_custom": "自分だけのブースターを作る",
       "daily_pages": "キャラクターページを3つ見る",
       "daily_recycle": "重複カードを10枚リサイクルする",
       "daily_open": "ブースターを5つ開ける",
@@ -708,9 +711,16 @@
       "daily_rare": "レア以上のカードを3枚引く",
       "daily_wishlist": "ほしいものリストにキャラクターを追加する",
       "daily_bid": "入札する",
+      "daily_tickets": "ゲームルームでチケットを25枚獲得する",
+      "daily_games": "ゲームを2回遊ぶ",
+      "daily_challenge": "デイリーチャレンジをクリアする",
+      "daily_sell": "マーケットでカードを売る",
       "weekly_legendary": "レジェンダリー以上を引く",
       "weekly_mythic": "ミシックを引く",
       "weekly_series": "作品をコンプリートする（5人以上）",
+      "weekly_boss": "週間ボスに150ダメージを与える",
+      "weekly_duels": "デュエルで5勝する",
+      "weekly_challenges": "デイリーチャレンジを5回クリアする",
       "ach_open_10": {
         "name": "新たなスタート",
         "desc": "ブースターを10個開ける"
@@ -842,6 +852,42 @@
       "ach_trade_25": {
         "name": "交渉人",
         "desc": "トレードを25回成立させる"
+      },
+      "ach_tickets_500": {
+        "name": "チケットハンター",
+        "desc": "チケットを500枚獲得する"
+      },
+      "ach_tickets_2500": {
+        "name": "ゲームルームの常連",
+        "desc": "チケットを2,500枚獲得する"
+      },
+      "ach_tickets_10000": {
+        "name": "ゲームルームの伝説",
+        "desc": "チケットを10,000枚獲得する"
+      },
+      "ach_duels_10": {
+        "name": "デュエリスト",
+        "desc": "デュエルで10勝する"
+      },
+      "ach_duels_100": {
+        "name": "デュエルマスター",
+        "desc": "デュエルで100勝する"
+      },
+      "ach_boss_1": {
+        "name": "ボスハンター",
+        "desc": "週間ボスの報酬を獲得する"
+      },
+      "ach_boss_10": {
+        "name": "ボススレイヤー",
+        "desc": "ボス報酬を10回獲得する"
+      },
+      "ach_custom_25": {
+        "name": "キュレーター",
+        "desc": "カスタムブースターを25パック開ける"
+      },
+      "ach_prizes_10": {
+        "name": "景品コレクター",
+        "desc": "景品カウンターで景品を10個交換する"
       }
     },
     "claimAll": "すべて受け取る · {count}",

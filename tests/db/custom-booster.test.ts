@@ -62,17 +62,17 @@ async function seriesOf(rows: Row[]) {
 }
 
 describe('custom booster', () => {
-  it('first save costs 250, an edit costs 150, saving the same set costs nothing', async () => {
+  it('first save costs 500, an edit costs 150, saving the same set costs nothing', async () => {
     const p = await player({ currency: 1000 })
     let r = await p.client.rpc('set_custom_series', { p_series: A() })
     expect(r.error).toBeNull()
-    expect(r.data).toBe(750)
+    expect(r.data).toBe(500)
     r = await p.client.rpc('set_custom_series', { p_series: [...A().slice(0, 9), B()[0]] })
-    expect(r.data).toBe(600)
+    expect(r.data).toBe(350)
     r = await p.client.rpc('set_custom_series', { p_series: [B()[0], ...A().slice(0, 9)].reverse() })
     expect(r.error).toBeNull()
-    expect(r.data).toBe(600)
-    expect((await currencyOf(p.userId)).currency).toBe(600)
+    expect(r.data).toBe(350)
+    expect((await currencyOf(p.userId)).currency).toBe(350)
   })
 
   it('lasts one week from creation; an edit keeps the end date', async () => {
@@ -88,7 +88,7 @@ describe('custom booster', () => {
     expect(await endsAt()).toBe(first)
   })
 
-  it('cannot be opened once expired; creating it again costs 250 even with the same picks', async () => {
+  it('cannot be opened once expired; creating it again costs 500 even with the same picks', async () => {
     const p = await player({ currency: 1000, freeStock: 5 })
     await p.client.rpc('set_custom_series', { p_series: A() })
     const expire = await admin.from('players').update({ custom_ends_at: '2000-01-01T00:00:00Z' }).eq('id', p.userId)
@@ -97,7 +97,7 @@ describe('custom booster', () => {
     expect(r.error?.message).toContain('custom_not_set')
     expect((await currencyOf(p.userId)).free_stock).toBe(5)
     const again = await p.client.rpc('set_custom_series', { p_series: A() })
-    expect(again.data).toBe(500)
+    expect(again.data).toBe(0)
     expect((await p.client.rpc('open_packs', { p_pack: 'custom', p_count: 1 })).error).toBeNull()
   })
 
@@ -116,7 +116,7 @@ describe('custom booster', () => {
   })
 
   it('refuses when the player cannot pay and saves nothing', async () => {
-    const p = await player({ currency: 249 })
+    const p = await player({ currency: 499 })
     const r = await p.client.rpc('set_custom_series', { p_series: A() })
     expect(r.error?.message).toContain('insufficient_currency')
     const { data } = await admin.from('player_custom_series').select('series_id').eq('player_id', p.userId)
@@ -139,12 +139,12 @@ describe('custom booster', () => {
     expect((await seriesOf(r.data as Row[])).every((s) => A().includes(s))).toBe(true)
     let me = await currencyOf(p.userId)
     expect(me.free_stock).toBe(0)
-    expect(me.currency).toBe(750)
+    expect(me.currency).toBe(500)
     expect(me.standard_opened).toBe(1)
     r = await p.client.rpc('open_packs', { p_pack: 'custom', p_count: 1 })
     expect(r.error).toBeNull()
     me = await currencyOf(p.userId)
-    expect(me.currency).toBe(575)
+    expect(me.currency).toBe(325)
   })
 
   it("two players' picks never mix", async () => {

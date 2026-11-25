@@ -132,7 +132,8 @@
       "leaderboardHint": "Die besten Sammler",
       "rebirthHint": "Schick dein Album zurück ins Spiel",
       "wikiHint": "Jede Charakterseite"
-    }
+    },
+    "new": "Neu"
   },
   "topbar": {
     "freeBoosters": "Gratis-Booster",
@@ -674,7 +675,7 @@
     "weekly": {
       "eyebrow": "DIESE WOCHE",
       "title": "Wochenmissionen",
-      "footer": "Alle 3 abgeholt → Gratis-Truhe"
+      "footer": "Alle 6 abgeholt → Gratis-Truhe"
     },
     "achievements": {
       "eyebrow": "SAMMELZIELE",
@@ -701,6 +702,8 @@
       "first_page": "Öffne eine Charakterseite",
       "first_username": "Wähle deinen Benutzernamen",
       "first_discord": "Verknüpfe dein Discord-Konto",
+      "first_game": "Spiele ein Spiel im Spielraum",
+      "first_custom": "Erstelle deinen eigenen Booster",
       "daily_pages": "Sieh dir 3 Charakterseiten an",
       "daily_recycle": "Recycle 10 Duplikate",
       "daily_open": "Öffne 5 Booster",
@@ -708,9 +711,16 @@
       "daily_rare": "Ziehe 3 seltene Karten oder besser",
       "daily_wishlist": "Setze einen Charakter auf deine Wunschliste",
       "daily_bid": "Gib ein Gebot ab",
+      "daily_tickets": "Verdiene 25 Tickets im Spielraum",
+      "daily_games": "Spiele 2 Partien",
+      "daily_challenge": "Schließe eine Tages-Challenge ab",
+      "daily_sell": "Verkaufe eine Karte auf dem Markt",
       "weekly_legendary": "Ziehe eine legendäre Karte oder besser",
       "weekly_mythic": "Ziehe eine mythische Karte",
       "weekly_series": "Vervollständige eine Serie (5+ Charaktere)",
+      "weekly_boss": "Füge dem Wochenboss 150 Schaden zu",
+      "weekly_duels": "Gewinne 5 Duelle",
+      "weekly_challenges": "Schließe 5 Tages-Challenges ab",
       "ach_open_10": {
         "name": "Frischer Start",
         "desc": "Öffne 10 Booster"
@@ -842,6 +852,42 @@
       "ach_trade_25": {
         "name": "Dealmaker",
         "desc": "Schließe 25 Tauschgeschäfte ab"
+      },
+      "ach_tickets_500": {
+        "name": "Ticketjäger",
+        "desc": "Verdiene 500 Tickets"
+      },
+      "ach_tickets_2500": {
+        "name": "Stammgast",
+        "desc": "Verdiene 2.500 Tickets"
+      },
+      "ach_tickets_10000": {
+        "name": "Spielhallen-Legende",
+        "desc": "Verdiene 10.000 Tickets"
+      },
+      "ach_duels_10": {
+        "name": "Duellant",
+        "desc": "Gewinne 10 Duelle"
+      },
+      "ach_duels_100": {
+        "name": "Duellmeister",
+        "desc": "Gewinne 100 Duelle"
+      },
+      "ach_boss_1": {
+        "name": "Bossjäger",
+        "desc": "Erhalte eine Belohnung von einem Wochenboss"
+      },
+      "ach_boss_10": {
+        "name": "Bossbezwinger",
+        "desc": "Erhalte 10 Boss-Belohnungen"
+      },
+      "ach_custom_25": {
+        "name": "Kurator",
+        "desc": "Öffne 25 eigene Booster"
+      },
+      "ach_prizes_10": {
+        "name": "Preissammler",
+        "desc": "Löse 10 Preise am Preisschalter ein"
       }
     },
     "claimAll": "Alle abholen · {count}",
