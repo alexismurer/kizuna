@@ -2445,10 +2445,13 @@
         "powers": "Moce Legendarnych i Mitycznych: Burza ostrzy, Meteor, Fala uzdrawiająca, Szaniec, Terror, Overdrive. Legendarna używa jej co 11 sekund, Mityczna co 8 i o 50% mocniej.",
         "elites": "Elitarni wrogowie: Opancerzony (przyjmuje o 40% mniej), Szybki, Uzdrowiciel, Wybuchowy (wybucha w twojej drużynie, gdy padnie).",
         "relics": "Po każdym bossie wybierz jeden z trzech reliktów: potężne bonusy, których nie znajdziesz nigdzie indziej.",
-        "score": "Twój wynik to liczba ukończonych fal. Gwiazdki przy falach 3, 6 i 10."
+        "score": "Twój wynik to liczba ukończonych fal. Gwiazdki przy falach 3, 6 i 10.",
+        "swap": "Przed raidem możesz wymienić do 2 z 8 oferowanych kart na nowe."
       },
       "ready": "Twoja drużyna jest gotowa.",
-      "fightWave": "Walcz z falą {n}"
+      "fightWave": "Walcz z falą {n}",
+      "swap": "Wymień",
+      "swapsLeft": "{n, plural, =0 {Brak wymian} one {Możesz wymienić jeszcze # kartę} few {Możesz wymienić jeszcze # karty} other {Możesz wymienić jeszcze # kart}}"
     },
     "dailyRaid": {
       "name": "Raid dnia",
@@ -2640,7 +2643,9 @@
         "best": "Najlepsza karta",
         "kos": "{n} KO",
         "continue": "Dalej"
-      }
+      },
+      "continue": "Kontynuuj wyprawę",
+      "continueText": "Rozdział {n} · dziś zostało {left} z 5 walk"
     },
     "blindTest": {
       "name": "Blind test",

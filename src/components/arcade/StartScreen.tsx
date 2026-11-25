@@ -14,6 +14,8 @@ export function StartScreen({
   busy,
   onPlay,
   onMulti,
+  playLabel,
+  playText,
   children,
 }: {
   icon: LucideIcon;
@@ -24,6 +26,8 @@ export function StartScreen({
   busy: boolean;
   onPlay: () => void;
   onMulti?: () => void;
+  playLabel?: string;
+  playText?: string;
   children?: React.ReactNode;
 }) {
   const t = useTranslations("arcade");
@@ -50,6 +54,7 @@ export function StartScreen({
         type="button"
         disabled={busy}
         onClick={() => onPlay()}
+        aria-busy={busy}
         className="group mt-2 flex w-full max-w-xs items-center gap-3 rounded-2xl border p-3 text-left transition disabled:opacity-60"
         style={{ borderColor: `color-mix(in srgb, ${color} 55%, transparent)`, background: `color-mix(in srgb, ${color} 10%, transparent)` }}
       >
@@ -57,11 +62,11 @@ export function StartScreen({
           <User className="h-5 w-5" aria-hidden />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-display font-bold">{t("playSolo")}</span>
-          <span className="block text-xs text-common">{t("playSoloText")}</span>
+          <span className="block font-display font-bold">{busy ? t("loading") : (playLabel ?? t("playSolo"))}</span>
+          <span className="block text-xs text-common">{playText ?? t("playSoloText")}</span>
         </span>
         <span className="flex h-8 w-8 items-center justify-center rounded-full text-white transition group-hover:translate-x-0.5" style={{ background: color }}>
-          <ArrowRight className="h-4 w-4" aria-hidden />
+          {busy ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" aria-hidden /> : <ArrowRight className="h-4 w-4" aria-hidden />}
         </span>
       </button>
       {onMulti && (

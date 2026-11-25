@@ -2445,10 +2445,13 @@
         "powers": "Poderes de Lendárias e Míticas: Tempestade de lâminas, Meteoro, Onda de cura, Muralha, Terror, Overdrive. Uma Lendária usa a cada 11 segundos, uma Mítica a cada 8 e 50% mais forte.",
         "elites": "Inimigos de elite: Blindado (recebe 40% menos), Veloz, Curandeiro, Explosivo (explode no seu time quando cai).",
         "relics": "Depois de cada chefe, escolha uma relíquia entre três: bônus poderosos que não existem em outro lugar.",
-        "score": "Sua pontuação é o número de ondas vencidas. Estrelas nas ondas 3, 6 e 10."
+        "score": "Sua pontuação é o número de ondas vencidas. Estrelas nas ondas 3, 6 e 10.",
+        "swap": "Antes do raid, você pode trocar até 2 das 8 cartas oferecidas por outras."
       },
       "ready": "Seu time está pronto.",
-      "fightWave": "Lutar na onda {n}"
+      "fightWave": "Lutar na onda {n}",
+      "swap": "Trocar",
+      "swapsLeft": "{n, plural, =0 {Nenhuma troca restante} one {Você pode trocar mais # carta} other {Você pode trocar mais # cartas}}"
     },
     "dailyRaid": {
       "name": "Raid do dia",
@@ -2640,7 +2643,9 @@
         "best": "Melhor carta",
         "kos": "{n} KO",
         "continue": "Continuar"
-      }
+      },
+      "continue": "Continuar sua expedição",
+      "continueText": "Capítulo {n} · {left} de 5 lutas restantes hoje"
     },
     "blindTest": {
       "name": "Quiz de trilhas",

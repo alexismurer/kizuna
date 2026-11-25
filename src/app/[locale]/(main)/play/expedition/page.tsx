@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { Expedition } from "@/components/arcade/expedition/Expedition";
+import { expSummary } from "@/lib/actions/arcade";
 import { arcadePage } from "@/lib/arcade/page";
 
 export default async function ExpeditionPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -19,5 +20,5 @@ export default async function ExpeditionPage({ params }: { params: Promise<{ loc
 async function Game() {
   const data = await arcadePage("expedition");
   if (!data) notFound();
-  return <Expedition best={data.weekBest} tickets={data.tickets} />;
+  return <Expedition best={data.weekBest} tickets={data.tickets} open={await expSummary()} />;
 }

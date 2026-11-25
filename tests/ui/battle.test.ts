@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { choose, fight, pickTeam, raidView, startRaid, waveEnemies } from "@/lib/arcade/battle/raid";
+import { choose, fight, pickTeam, raidView, startRaid, swapOffer, waveEnemies } from "@/lib/arcade/battle/raid";
 import { critMultFor, simulateWave, type Member } from "@/lib/arcade/battle/sim";
 import { modsOf, synergies, type BCard } from "@/lib/arcade/battle/stats";
 import { rng } from "@/lib/arcade/rng";
@@ -93,6 +93,29 @@ describe("a raid", () => {
     expect(s.cleared).toBe(s.wave - 1);
     expect(raidView(s)).not.toHaveProperty("seed");
     expect(raidView(s)).not.toHaveProperty("pool");
+  });
+  it("lets the player replace up to 2 offered cards before the raid", () => {
+    let s = startRaid(offer, pool, 11);
+    const before = s.offer;
+    s = swapOffer(s, 3);
+    expect(s.offer[3].id).not.toBe(before[3].id);
+    expect(s.offer.filter((c, i) => i !== 3)).toEqual(before.filter((c, i) => i !== 3));
+    expect(new Set(s.offer.map((c) => c.id)).size).toBe(8);
+    // the same run draws the same replacement
+    expect(swapOffer(startRaid(offer, pool, 11), 3).offer[3].id).toBe(s.offer[3].id);
+    s = swapOffer(s, 3);
+    expect(raidView(s).swaps).toBe(2);
+    expect(() => swapOffer(s, 0)).toThrow("invalid_action");
+    expect(() => swapOffer(startRaid(offer, pool, 11), 8)).toThrow("invalid_action");
+    expect(() => swapOffer(pickTeam(startRaid(offer, pool, 11), [0, 1, 2, 3, 4]), 0)).toThrow("invalid_action");
+  });
+  it("only offers a genre focus when 2 cards of the team share that genre", () => {
+    // five cards, five genres: no focus is worth taking
+    let s = pickTeam(startRaid(offer, pool, 3), [0, 1, 2, 3, 4]);
+    for (let i = 0; i < 40 && !s.over; i++) {
+      if (s.phase === "choose" && s.choice?.kind === "perk") expect(s.choice.options.some((o) => o.startsWith("focus_"))).toBe(false);
+      s = s.phase === "choose" ? choose(s, 0) : fight(s);
+    }
   });
 });
 

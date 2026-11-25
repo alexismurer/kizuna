@@ -2445,10 +2445,13 @@
         "powers": "Pouvoirs des Légendaires et Mythiques : Tempête de lames, Météore, Vague de soin, Rempart, Terreur, Surrégime. Une Légendaire l’utilise toutes les 11 secondes, une Mythique toutes les 8, 50 % plus fort.",
         "elites": "Ennemis d’élite : Blindé (prend 40 % de moins), Rapide, Soigneur, Explosif (explose sur ton équipe en tombant).",
         "relics": "Après chaque boss, choisis une relique parmi trois : des bonus puissants introuvables ailleurs.",
-        "score": "Ton score est le nombre de vagues réussies. Étoiles aux vagues 3, 6 et 10."
+        "score": "Ton score est le nombre de vagues réussies. Étoiles aux vagues 3, 6 et 10.",
+        "swap": "Avant le raid, tu peux remplacer jusqu'à 2 des 8 cartes proposées par d'autres."
       },
       "ready": "Ton équipe est prête.",
-      "fightWave": "Combattre la vague {n}"
+      "fightWave": "Combattre la vague {n}",
+      "swap": "Remplacer",
+      "swapsLeft": "{n, plural, =0 {Plus de remplacement} one {Tu peux encore remplacer # carte} other {Tu peux encore remplacer # cartes}}"
     },
     "dailyRaid": {
       "name": "Raid du jour",
@@ -2640,7 +2643,9 @@
         "best": "Meilleure carte",
         "kos": "{n} KO",
         "continue": "Continuer"
-      }
+      },
+      "continue": "Reprendre ton expédition",
+      "continueText": "Chapitre {n} · {left} combats sur 5 restants aujourd'hui"
     },
     "blindTest": {
       "name": "Blind test",

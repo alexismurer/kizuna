@@ -33,8 +33,11 @@ export type RaidState = {
   choice: RaidChoice | null;
   last: FoughtWave | null;
   over: boolean;
+  // offered cards replaced so far (missing on runs started before swaps existed)
+  swaps?: number;
 };
-export type RaidView = Omit<RaidState, "seed" | "pool">;
+export type RaidView = Omit<RaidState, "seed" | "pool" | "swaps"> & { swaps: number };
+export const RAID_SWAPS = 2;
 
 const fail = (): never => {
   throw new Error("invalid_action");
@@ -44,7 +47,18 @@ const GENRES: Genre[] = ["battle", "fantasy", "romance", "slice_of_life", "thril
 const BASE_PERKS = ["heal", "stamina", "training", "adrenaline", "shield", "precision", "vampire", "reinforcements"];
 
 export function startRaid(offer: BCard[], pool: BCard[], seed: number): RaidState {
-  return { seed, pool, offer, team: [], phase: "pick", wave: 1, cleared: 0, damage: 0, perks: {}, relics: [], choice: null, last: null, over: false };
+  return { seed, pool, offer, team: [], phase: "pick", wave: 1, cleared: 0, damage: 0, perks: {}, relics: [], choice: null, last: null, over: false, swaps: 0 };
+}
+
+// before the raid, an offered card can be replaced by another from the pool (twice per run)
+export function swapOffer(s: RaidState, i: number): RaidState {
+  const used = s.swaps ?? 0;
+  if (s.phase !== "pick" || used >= RAID_SWAPS || !Number.isInteger(i) || i < 0 || i >= s.offer.length) return fail();
+  const taken = new Set(s.offer.map((c) => c.id));
+  const left = s.pool.filter((c) => !taken.has(c.id));
+  if (left.length === 0) return fail();
+  const card = left[Math.floor(rng((s.seed ^ Math.imul(used + 1, 0x9e3779b1) ^ 0x5a) >>> 0)() * left.length)];
+  return { ...s, offer: s.offer.map((c, j) => (j === i ? card : c)), swaps: used + 1 };
 }
 
 export function pickTeam(s: RaidState, idx: number[]): RaidState {
@@ -98,7 +112,8 @@ export function waveEnemies(pool: BCard[], wave: number, r: () => number, boss =
 function offerPerks(s: RaidState, r: () => number): string[] {
   const owned = (p: string) => (s.perks[p] ?? 0) > 0;
   const evolutions = (Object.keys(EVOLUTIONS) as (keyof typeof EVOLUTIONS)[]).filter((e) => !owned(e) && EVOLUTIONS[e].every(owned));
-  const teamGenres = [...new Set(s.team.map((m) => m.card.genre))].filter((g) => GENRES.includes(g));
+  // a focus only helps a genre that has at least 2 cards in the team
+  const teamGenres = GENRES.filter((g) => s.team.filter((m) => m.card.genre === g).length >= 2);
   const pool = [...BASE_PERKS, ...teamGenres.map((g) => `focus_${g}`)];
   const picks = shuffle(pool, r).slice(0, 3);
   if (evolutions.length > 0) picks[2] = evolutions[0];
@@ -146,5 +161,5 @@ export function choose(s: RaidState, i: number): RaidState {
 }
 
 export function raidView(s: RaidState): RaidView {
-  return { offer: s.offer, team: s.team, phase: s.phase, wave: s.wave, cleared: s.cleared, damage: s.damage, perks: s.perks, relics: s.relics, choice: s.choice, last: s.last, over: s.over };
+  return { offer: s.offer, team: s.team, phase: s.phase, wave: s.wave, cleared: s.cleared, damage: s.damage, perks: s.perks, relics: s.relics, choice: s.choice, last: s.last, over: s.over, swaps: s.swaps ?? 0 };
 }

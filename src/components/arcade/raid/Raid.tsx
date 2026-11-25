@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
-import { Crown, FastForward, Shield, Star, Swords, Zap } from "lucide-react";
+import { Crown, FastForward, Repeat, Shield, Star, Swords, Zap } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useFormatter, useTranslations } from "next-intl";
 import { COLOR as RARITY_COLOR } from "@/components/card/rarityColor";
 import { Link } from "@/i18n/navigation";
 import { raidAct, raidStart, type FinishResult, type RaidMode } from "@/lib/actions/arcade";
-import type { FoughtWave, RaidView } from "@/lib/arcade/battle/raid";
+import { RAID_SWAPS, type FoughtWave, type RaidView } from "@/lib/arcade/battle/raid";
 import type { BEvent } from "@/lib/arcade/battle/sim";
 import { baseStats, perkRarity, powerOf, starsFromKos, synergies, type BCard } from "@/lib/arcade/battle/stats";
 import type { Genre } from "@/lib/arcade/server";
@@ -52,14 +52,16 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
 
   const apply = (v: RaidView, r?: FinishResult, replay = false) => {
     setView(v);
-    setReplaying(replay && v.last !== null);
+    const replays = replay && v.last !== null;
+    setReplaying(replays);
     if (r) {
       setResult(r);
-      setTicketsNow(r.tickets);
+      // the tickets show once the last wave has played out
+      if (!replays) setTicketsNow(r.tickets);
     }
   };
 
-  const act = async (id: string, a: "pick" | "fight" | "choose", arg?: number[] | number) => {
+  const act = async (id: string, a: "pick" | "fight" | "choose" | "swap", arg?: number[] | number) => {
     const r = await raidAct(mode, id, a, arg);
     if (!r.ok) {
       fail(r.error);
@@ -97,6 +99,12 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
       if (v?.phase === "fight") await act(run, "fight");
     });
 
+  const swap = (i: number) =>
+    start(async () => {
+      if (!run) return;
+      if (await act(run, "swap", i)) setPicked((p) => p.filter((x) => x !== i));
+    });
+
   const nextWave = () =>
     start(async () => {
       if (run) await act(run, "fight");
@@ -104,6 +112,7 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
 
   const replayEnd = () => {
     setReplaying(false);
+    if (result) setTicketsNow(result.tickets);
     if (!view) return;
     arcadeSfx(view.last?.won ? "win" : "lose", prefs.sound);
     if (view.phase === "fight" && run) start(async () => void (await act(run, "fight")));
@@ -113,7 +122,8 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
     { label: tr("wave"), value: view ? Math.max(1, view.last?.wave ?? view.wave) : "—" },
     // the wave being replayed is added once it has played out
     { label: tr("damage"), value: view ? format.number(view.damage - (replaying && view.last ? view.last.damage : 0)) : 0 },
-    { label: t("best"), value: best ?? "—" },
+    // a run that just ended may be the new best of the week
+    { label: t("best"), value: view?.over && !replaying ? Math.max(best ?? 0, view.cleared) : (best ?? "—") },
   ];
 
   return (
@@ -159,7 +169,7 @@ export function Raid({ mode, best, tickets }: { mode: RaidMode; best: number | n
       )}
 
       {view && done === null && !showResult && view.phase === "pick" && (
-        <Recruit offer={view.offer} picked={picked} setPicked={setPicked} busy={pending} onStart={recruit} color={color} />
+        <Recruit offer={view.offer} swapsLeft={RAID_SWAPS - view.swaps} picked={picked} setPicked={setPicked} busy={pending} onStart={recruit} onSwap={swap} color={color} />
       )}
 
       {view && done === null && !showResult && view.phase !== "pick" && (
@@ -200,7 +210,7 @@ function Rules() {
   const tr = useTranslations("arcade.raid");
   return (
     <>
-      {["recruit", "auto", "bonus", "boss", "stats", "series", "genres", "stars", "powers", "elites", "relics", "score"].map((k) => (
+      {["recruit", "swap", "auto", "bonus", "boss", "stats", "series", "genres", "stars", "powers", "elites", "relics", "score"].map((k) => (
         <p key={k}>{tr(`rules.${k}`)}</p>
       ))}
     </>
@@ -247,34 +257,61 @@ export function BattleCard({ card, small = false, hp, max, kos, dead = false, ba
   );
 }
 
-function Recruit({ offer, picked, setPicked, busy, onStart, color }: { offer: BCard[]; picked: number[]; setPicked: (p: number[]) => void; busy: boolean; onStart: () => void; color: string }) {
+function Recruit({
+  offer,
+  swapsLeft,
+  picked,
+  setPicked,
+  busy,
+  onStart,
+  onSwap,
+  color,
+}: {
+  offer: BCard[];
+  swapsLeft: number;
+  picked: number[];
+  setPicked: (p: number[]) => void;
+  busy: boolean;
+  onStart: () => void;
+  onSwap: (i: number) => void;
+  color: string;
+}) {
   const tr = useTranslations("arcade.raid");
   const tp = useTranslations("arcade.raid.powers");
   const team = picked.map((i) => offer[i]);
   return (
     <div className="flex min-h-[34rem] flex-col items-center justify-center gap-5 p-4">
-      <p className="font-display text-2xl font-bold">{picked.length < 5 ? tr("pickMore", { n: 5 - picked.length }) : tr("ready")}</p>
+      <div className="flex flex-col items-center gap-1 text-center">
+        <p className="font-display text-2xl font-bold">{picked.length < 5 ? tr("pickMore", { n: 5 - picked.length }) : tr("ready")}</p>
+        <p className="text-xs text-common">{tr("swapsLeft", { n: swapsLeft })}</p>
+      </div>
       <div className="flex flex-wrap justify-center gap-3">
         {offer.map((c, i) => {
           const s = baseStats(c);
           const power = powerOf(c);
           const on = picked.includes(i);
           return (
-            <button
-              key={c.id}
-              type="button"
-              aria-pressed={on}
-              aria-label={`${c.name}, ${c.series}`}
-              onClick={() => setPicked(on ? picked.filter((x) => x !== i) : picked.length < 5 ? [...picked, i] : picked)}
-              className={`flex flex-col items-center gap-1 rounded-2xl p-1 transition ${on ? "bg-white/10 ring-2 ring-white" : "opacity-80 hover:opacity-100"}`}
-            >
-              <BattleCard card={c} />
-              <span className="flex items-center gap-2 font-mono text-xs">
-                <span className="text-accent">⚔ {Math.round(s.atk)}</span>
-                <span className="text-uncommon">♥ {Math.round(s.hp)}</span>
-              </span>
-              {power && <span className="text-[10px] font-semibold text-legendary">✦ {tp(power)}</span>}
-            </button>
+            <motion.div key={c.id} initial={{ opacity: 0, rotateY: 90 }} animate={{ opacity: 1, rotateY: 0 }} transition={{ duration: 0.35 }} className="flex flex-col items-center gap-1">
+              <button
+                type="button"
+                aria-pressed={on}
+                aria-label={`${c.name}, ${c.series}`}
+                onClick={() => setPicked(on ? picked.filter((x) => x !== i) : picked.length < 5 ? [...picked, i] : picked)}
+                className={`flex flex-col items-center gap-1 rounded-2xl p-1 transition ${on ? "bg-white/10 ring-2 ring-white" : "opacity-80 hover:opacity-100"}`}
+              >
+                <BattleCard card={c} />
+                <span className="flex items-center gap-2 font-mono text-xs">
+                  <span className="text-accent">⚔ {Math.round(s.atk)}</span>
+                  <span className="text-uncommon">♥ {Math.round(s.hp)}</span>
+                </span>
+                {power && <span className="text-[10px] font-semibold text-legendary">✦ {tp(power)}</span>}
+              </button>
+              {swapsLeft > 0 && (
+                <button type="button" disabled={busy} onClick={() => onSwap(i)} aria-label={`${tr("swap")} ${c.name}`} className="flex items-center gap-1 text-[10px] text-common underline hover:text-white disabled:opacity-40">
+                  <Repeat className="h-3 w-3" aria-hidden /> {tr("swap")}
+                </button>
+              )}
+            </motion.div>
           );
         })}
       </div>

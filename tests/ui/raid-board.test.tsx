@@ -19,7 +19,7 @@ afterEach(cleanup);
 let n = 1;
 const card = (seriesId: number, name: string): BCard => ({ id: n++, name, rarity: "epic", imageUrl: null, series: `Series ${seriesId}`, seriesId, genre: "battle", pow: 80 });
 const offer = [card(1, "Dazai"), card(1, "Ranpo"), card(2, "Mina"), card(3, "Sakaki"), card(4, "Kenji"), card(5, "Aya"), card(6, "Lin"), card(7, "Grass")];
-const pick: RaidView = { offer, team: [], phase: "pick", wave: 1, cleared: 0, damage: 0, perks: {}, relics: [], choice: null, last: null, over: false };
+const pick: RaidView = { offer, team: [], phase: "pick", wave: 1, cleared: 0, damage: 0, perks: {}, relics: [], choice: null, last: null, over: false, swaps: 0 };
 
 const show = () =>
   render(
@@ -35,11 +35,25 @@ describe("Raid board", () => {
     show();
     await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
     expect(screen.getByText("Pick 5 more cards")).toBeInTheDocument();
-    for (const name of ["Dazai", "Ranpo", "Mina", "Sakaki", "Kenji"]) fireEvent.click(screen.getByRole("button", { name: new RegExp(name) }));
+    for (const name of ["Dazai", "Ranpo", "Mina", "Sakaki", "Kenji"]) fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${name}`) }));
     expect(screen.getByText(/×2 Series 1/)).toBeInTheDocument();
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "Start the raid" })));
     expect(raidAct).toHaveBeenCalledWith("practice", "r1", "pick", [0, 1, 2, 3, 4]);
     expect(raidAct).toHaveBeenCalledWith("practice", "r1", "fight", undefined);
+  });
+
+  it("replaces an offered card twice at most", async () => {
+    const swapped = { ...pick, offer: offer.map((c, i) => (i === 2 ? card(9, "Nova") : c)), swaps: 2 };
+    vi.mocked(raidStart).mockResolvedValue({ ok: true, data: { run: "r1", view: pick } });
+    vi.mocked(raidAct).mockResolvedValue({ ok: true, data: { view: swapped } });
+    show();
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
+    expect(screen.getByText("You can replace 2 more cards")).toBeInTheDocument();
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: "Replace Mina" })));
+    expect(raidAct).toHaveBeenCalledWith("practice", "r1", "swap", 2);
+    expect(screen.getByRole("button", { name: /^Nova/ })).toBeInTheDocument();
+    expect(screen.getByText("No replacements left")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /^Replace/ })).not.toBeInTheDocument();
   });
 
   it("offers the perks after a won wave", async () => {

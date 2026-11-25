@@ -2445,10 +2445,13 @@
         "powers": "Legendary and Mythic powers: Blade storm, Meteor, Healing wave, Rampart, Terror, Overdrive. A Legendary uses it every 11 seconds, a Mythic every 8 and 50% stronger.",
         "elites": "Elite enemies: Armoured (takes 40% less), Fast, Healer, Explosive (blows up on your team when it falls).",
         "relics": "After each boss, pick a relic out of three: powerful bonuses found nowhere else.",
-        "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10."
+        "score": "Your score is the number of waves cleared. Stars at waves 3, 6 and 10.",
+        "swap": "Before the raid, you can replace up to 2 of the 8 offered cards with new ones."
       },
       "ready": "Your team is ready.",
-      "fightWave": "Fight wave {n}"
+      "fightWave": "Fight wave {n}",
+      "swap": "Replace",
+      "swapsLeft": "{n, plural, =0 {No replacements left} one {You can replace # more card} other {You can replace # more cards}}"
     },
     "dailyRaid": {
       "name": "Daily raid",
@@ -2640,7 +2643,9 @@
         "best": "Best card",
         "kos": "{n} KO",
         "continue": "Continue"
-      }
+      },
+      "continue": "Continue your expedition",
+      "continueText": "Chapter {n} · {left} of 5 fights left today"
     },
     "blindTest": {
       "name": "Blind test",

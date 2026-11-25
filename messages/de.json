@@ -2445,10 +2445,13 @@
         "powers": "Kräfte der Legendären und Mythischen: Klingensturm, Meteor, Heilwelle, Bollwerk, Schrecken, Overdrive. Legendär alle 11 Sekunden, Mythisch alle 8 und 50 % stärker.",
         "elites": "Elite-Gegner: Gepanzert (nimmt 40 % weniger), Schnell, Heiler, Explosiv (explodiert beim Fallen auf dein Team).",
         "relics": "Nach jedem Boss wählst du eines von drei Relikten: starke Boni, die es sonst nicht gibt.",
-        "score": "Dein Ergebnis ist die Zahl der geschafften Wellen. Sterne bei Welle 3, 6 und 10."
+        "score": "Dein Ergebnis ist die Zahl der geschafften Wellen. Sterne bei Welle 3, 6 und 10.",
+        "swap": "Vor dem Raid kannst du bis zu 2 der 8 angebotenen Karten durch neue ersetzen."
       },
       "ready": "Dein Team ist bereit.",
-      "fightWave": "Welle {n} kämpfen"
+      "fightWave": "Welle {n} kämpfen",
+      "swap": "Ersetzen",
+      "swapsLeft": "{n, plural, =0 {Keine Ersetzungen mehr} one {Du kannst noch # Karte ersetzen} other {Du kannst noch # Karten ersetzen}}"
     },
     "dailyRaid": {
       "name": "Tagesraid",
@@ -2640,7 +2643,9 @@
         "best": "Beste Karte",
         "kos": "{n} KO",
         "continue": "Weiter"
-      }
+      },
+      "continue": "Expedition fortsetzen",
+      "continueText": "Kapitel {n} · heute noch {left} von 5 Kämpfen"
     },
     "blindTest": {
       "name": "Blind-Test",

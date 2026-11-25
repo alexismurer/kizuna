@@ -52,6 +52,15 @@ const show = () =>
   );
 
 describe("Expedition board", () => {
+  it("says on the start screen that an expedition is in progress", () => {
+    render(
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <Expedition best={null} tickets={10} open={{ chapter: 2, fightsLeft: 3 }} />
+      </NextIntlClientProvider>,
+    );
+    expect(screen.getByRole("button", { name: /Continue your expedition.*Chapter 2 · 3 of 5 fights left today/ })).toBeInTheDocument();
+  });
+
   it("builds a team within the budget and sets off", async () => {
     vi.mocked(expCurrent).mockResolvedValue({ ok: true, data: { run: null, view: null } });
     vi.mocked(expSearch).mockResolvedValue({ ok: true, data: { cards, ranks: { 3: 2 } } });

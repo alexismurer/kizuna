@@ -3,7 +3,7 @@
 import { ARCADE, type ArcadeGameId } from "@/lib/arcade/registry";
 import { starsFor, ticketsFor } from "@/lib/arcade/payout";
 import { newSeed, rng, shuffle } from "@/lib/arcade/rng";
-import { choose as raidEngineChoose, fight as raidEngineFight, pickTeam, raidView, startRaid, type RaidState, type RaidView } from "@/lib/arcade/battle/raid";
+import { choose as raidEngineChoose, fight as raidEngineFight, pickTeam, raidView, startRaid, swapOffer, type RaidState, type RaidView } from "@/lib/arcade/battle/raid";
 import type { BCard } from "@/lib/arcade/battle/stats";
 import { replay as peaksReplay } from "@/lib/arcade/peaks/engine";
 import { connScore, connView, fromCards as connFromCards, fromGroups as connFromGroups, generate as connGenerate, groupOrder as connGroupOrder, guess as connEngineGuess, type CCard, type ConnState, type ConnView } from "@/lib/arcade/connections/engine";
@@ -13,6 +13,7 @@ import {
   choose as expChoose,
   enterChapter as expEnterChapter,
   expView,
+  FIGHTS_A_DAY,
   giveUp as expGiveUp,
   go as expGo,
   leave as expLeave,
@@ -385,14 +386,20 @@ export async function raidStart(mode: RaidMode): Promise<ArcadeResult<{ run: str
 export async function raidAct(
   mode: RaidMode,
   id: string,
-  a: "pick" | "fight" | "choose",
+  a: "pick" | "fight" | "choose" | "swap",
   arg?: number[] | number,
 ): Promise<ArcadeResult<{ view: RaidView; result?: FinishResult }>> {
   return attempt(async () => {
     const m = raidMode(mode);
-    const move = checkAction(a, ["pick", "fight", "choose"] as const);
+    const move = checkAction(a, ["pick", "fight", "choose", "swap"] as const);
     const apply = (s: RaidState) =>
-      move === "pick" ? pickTeam(s, Array.isArray(arg) ? arg.map(Number) : []) : move === "fight" ? raidEngineFight(s) : raidEngineChoose(s, Number(arg));
+      move === "pick"
+        ? pickTeam(s, Array.isArray(arg) ? arg.map(Number) : [])
+        : move === "fight"
+          ? raidEngineFight(s)
+          : move === "swap"
+            ? swapOffer(s, Number(arg))
+            : raidEngineChoose(s, Number(arg));
     const r = await step<RaidState, RaidView>(id, RAID_GAME[m], apply, (s) => s.cleared, raidView);
     // the wave's events only travel with the fight that made them
     return move === "fight" ? r : { ...r, view: { ...r.view, last: null } };
@@ -598,6 +605,14 @@ async function finishExp(run: Run<ExpState>): Promise<FinishResult> {
   return { ...(await recordRun(run, score, stars, 0)), stars };
 }
 
+// the run's view with today's fight count: a run saved yesterday still holds yesterday's
+// count until its next fight, which would show "come back tomorrow" on a new day
+function viewToday(s: ExpState): ExpView {
+  const v = expView(s);
+  const today = parisDay();
+  return v.day === today ? v : { ...v, day: today, fightsToday: 0 };
+}
+
 // the player's expedition in progress, if any
 export async function expCurrent(): Promise<ArcadeResult<{ run: string | null; view: ExpView | null }>> {
   return attempt(async () => {
@@ -608,8 +623,20 @@ export async function expCurrent(): Promise<ArcadeResult<{ run: string | null; v
       await finishExp(run);
       return { run: null, view: null };
     }
-    return { run: run.id, view: { ...expView(run.state), last: null } };
+    return { run: run.id, view: { ...viewToday(run.state), last: null } };
   });
+}
+
+// for the start screen: the expedition in progress (read only), if any
+export async function expSummary(): Promise<{ chapter: number; fightsLeft: number } | null> {
+  try {
+    const player = await requirePlayer();
+    const run = await latestRun<ExpState>(player, EXP);
+    if (!run || run.finished || run.state.over) return null;
+    return { chapter: Math.max(1, run.state.chapter + 1), fightsLeft: Math.max(0, FIGHTS_A_DAY - viewToday(run.state).fightsToday) };
+  } catch {
+    return null;
+  }
 }
 
 // the whole catalogue for the team picker, with the player's ranks
@@ -682,7 +709,7 @@ export async function expAct(
     if (s.cleared > s0.cleared) writes.push(progressRun(saved, s.cleared));
     await Promise.all(writes);
     const result = s.over ? await finishExp(saved) : undefined;
-    const view = expView(s);
+    const view = viewToday(s);
     // the fight's events only travel with the fight that made them
     return { view: move === "go" ? view : { ...view, last: null }, result, paid };
   });
@@ -698,6 +725,6 @@ export async function expSwap(id: string, slot: number, cardId: number): Promise
     const xp = await expeditionXp(player, [card.id]);
     const s = expEngineSwap(run.state, Number(slot), card, xp[card.id] ?? 0);
     await saveRun(run, s);
-    return { view: { ...expView(s), last: null } };
+    return { view: { ...viewToday(s), last: null } };
   });
 }

@@ -21,7 +21,15 @@ const RARITIES: Rarity[] = ["common", "uncommon", "rare", "epic", "legendary", "
 type Act = "go" | "choose" | "buy" | "leave" | "use" | "giveUp";
 
 // The Expedition: build a team on a budget, then walk the route case after case.
-export function Expedition({ best, tickets }: { best: number | null; tickets: number | null }) {
+export function Expedition({
+  best,
+  tickets,
+  open = null,
+}: {
+  best: number | null;
+  tickets: number | null;
+  open?: { chapter: number; fightsLeft: number } | null;
+}) {
   const t = useTranslations("arcade");
   const te = useTranslations("arcade.expedition");
   const [prefs] = usePrefs();
@@ -38,7 +46,9 @@ export function Expedition({ best, tickets }: { best: number | null; tickets: nu
   const [showResult, setShowResult] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [ticketsNow, setTicketsNow] = useState(tickets);
+  const [held, setHeld] = useState<{ paid: number; total: number | null } | null>(null);
   const [pending, start] = useTransition();
+  const addTickets = (g: { paid: number; total: number | null }) => setTicketsNow((n) => g.total ?? (n ?? 0) + g.paid);
 
   const fail = (e: string) => setError(t.has(`errors.${e}`) ? t(`errors.${e}`) : t("errors.generic"));
 
@@ -78,13 +88,14 @@ export function Expedition({ best, tickets }: { best: number | null; tickets: nu
       const r = await expAct(run, a, arg);
       if (!r.ok) return fail(r.error);
       setView(r.data.view);
-      if (r.data.paid) setTicketsNow((n) => (n ?? 0) + r.data.paid!);
-      if (r.data.result) {
-        setResult(r.data.result);
-        setTicketsNow(r.data.result.tickets);
-      }
       const last = r.data.view.last;
-      if (a === "go" && last?.kind === "fight") {
+      const replays = a === "go" && last?.kind === "fight";
+      if (r.data.result) setResult(r.data.result);
+      const gain = { paid: r.data.paid ?? 0, total: r.data.result?.tickets ?? null };
+      // a fight's tickets show once its replay is over
+      if (replays) setHeld(gain);
+      else addTickets(gain);
+      if (replays) {
         setTab("route");
         setReplay(0);
       }
@@ -112,6 +123,8 @@ export function Expedition({ best, tickets }: { best: number | null; tickets: nu
     if (replay + 1 < fight.waves.length) return setReplay(replay + 1);
     setReplay(null);
     setReport(true);
+    if (held) addTickets(held);
+    setHeld(null);
     arcadeSfx(fight.won ? "win" : "lose", prefs.sound);
   };
 
@@ -130,7 +143,19 @@ export function Expedition({ best, tickets }: { best: number | null; tickets: nu
           {error}
         </p>
       )}
-      {!started && <StartScreen icon={Compass} color={COLOR} title={te("name")} pitch={te("pitch")} chips={[te("chip")]} busy={pending} onPlay={play} />}
+      {!started && (
+        <StartScreen
+          icon={Compass}
+          color={COLOR}
+          title={te("name")}
+          pitch={te("pitch")}
+          chips={[te("chip")]}
+          busy={pending}
+          onPlay={play}
+          playLabel={open ? te("continue") : undefined}
+          playText={open ? te("continueText", { n: open.chapter, left: open.fightsLeft }) : undefined}
+        />
+      )}
 
       {started && showResult && result && view && (
         <ResultScreen icon={Compass} color={COLOR} score={view.cleared} label={te("cases", { n: view.cleared })} result={result} share={te("share", { n: view.cleared })} onAgain={play} againLabel={te("again")} />
