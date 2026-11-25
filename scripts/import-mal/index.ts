@@ -153,6 +153,8 @@ async function main() {
   const visited = new Map<number, Map<number, Media>>()
   const toInsert = []
   for (const m of newOnes) {
+    // two MAL characters can match one AniList character; the more favourited one (earlier) wins
+    if (knownCandidate.has(`m${m.row.malId}`) || knownCandidate.has(`a${m.character.id}`)) continue
     const root = await franchiseRoot(m.media.id, store.getMedia, memo, (r, v) => {
       const pool = visited.get(r.id) ?? new Map<number, Media>()
       for (const n of v) pool.set(n.id, n)
