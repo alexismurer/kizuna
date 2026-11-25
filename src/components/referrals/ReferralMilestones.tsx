@@ -11,9 +11,9 @@ export type Milestone = {
 export function ReferralMilestones({ milestones, confirmed }: { milestones: Milestone[]; confirmed: number }) {
   const t = useTranslations("referrals");
   return (
-    <ul className="flex flex-col gap-2">
+    <ul className="flex flex-col gap-3">
       {milestones.map((m) => (
-        <li key={m.invites} className="flex flex-col gap-2 rounded-xl border border-border bg-panel p-3">
+        <li key={m.invites} className="flex flex-col gap-3 rounded-2xl border border-border bg-panel p-4">
           <div className="flex items-center justify-between gap-3">
             <span>
               {t.rich("milestoneReward", {
@@ -40,8 +40,8 @@ export function ReferralMilestones({ milestones, confirmed }: { milestones: Mile
           {m.reached ? (
             <p className="text-sm text-white/70">{m.won.map((c) => c.name).join(" · ")}</p>
           ) : (
-            <div className="h-1.5 overflow-hidden rounded-full bg-bg" aria-hidden>
-              <div className="h-full bg-accent" style={{ width: `${(Math.min(confirmed, m.invites) / m.invites) * 100}%` }} />
+            <div className="h-2 overflow-hidden rounded-full bg-bg" aria-hidden>
+              <div className="h-full rounded-full bg-accent transition-[width] duration-700" style={{ width: `${(Math.min(confirmed, m.invites) / m.invites) * 100}%` }} />
             </div>
           )}
         </li>

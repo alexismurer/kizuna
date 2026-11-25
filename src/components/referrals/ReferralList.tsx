@@ -14,12 +14,14 @@ export type Invited = {
 export function ReferralList({ invited }: { invited: Invited[] }) {
   const t = useTranslations("referrals");
   const format = useFormatter();
-  if (invited.length === 0) return <p className="text-white/60">{t("empty")}</p>;
+  if (invited.length === 0) return (
+      <p className="rounded-2xl border border-dashed border-border bg-panel/50 p-8 text-center text-common">{t("empty")}</p>
+    );
   return (
     <ul className="flex flex-col gap-2">
       {invited.map((f) => (
-        <li key={f.username} className="flex items-center gap-3 rounded-xl border border-border bg-panel p-3">
-          <Avatar url={f.avatarUrl} username={f.username} size={40} />
+        <li key={f.username} className="flex items-center gap-3 rounded-2xl border border-border bg-panel p-3 transition-colors hover:border-accent/50 sm:p-4">
+          <Avatar url={f.avatarUrl} username={f.username} size={48} />
           <div className="min-w-0 flex-1">
             <Link href={`/profile/${encodeURIComponent(f.username)}`} className="block truncate font-semibold hover:underline">
               {f.username}

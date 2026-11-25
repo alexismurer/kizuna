@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, Coins, Gift, Images, MessagesSquare, ShieldCheck, Sparkles, Ticket, Users, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ChatPanel } from "@/components/admin/ChatPanel";
 import { GrantCardPanel } from "@/components/admin/GrantCardPanel";
@@ -9,6 +9,7 @@ import { InvitesPanel } from "@/components/admin/InvitesPanel";
 import { PlayersPanel } from "@/components/admin/PlayersPanel";
 import { PoolsPanel } from "@/components/admin/PoolsPanel";
 import { SeasonalPanel } from "@/components/admin/SeasonalPanel";
+import { StaffTabs } from "@/components/admin/StaffTabs";
 import { Link } from "@/i18n/navigation";
 import type { AdminChatMessage, AdminInvite, AdminPlayers, AdminPool, AdminSeasonal } from "@/lib/actions/admin";
 import { createServerClient } from "@/lib/supabase/server";
@@ -17,15 +18,7 @@ type Section = "players" | "invites" | "currency" | "cards" | "pools" | "seasona
 // moderators see players, seasonals and pools (read-only) and chat; admins see everything
 const MODERATOR: Section[] = ["players", "seasonal", "pools", "chat"];
 
-const SECTIONS: [id: Section, Icon: LucideIcon, color: string][] = [
-  ["players", Users, "var(--color-legendary)"],
-  ["invites", Ticket, "var(--color-rare)"],
-  ["currency", Coins, "var(--color-legendary)"],
-  ["cards", Gift, "var(--color-epic)"],
-  ["seasonal", Sparkles, "var(--color-epic)"],
-  ["pools", CalendarDays, "var(--color-uncommon)"],
-  ["chat", MessagesSquare, "var(--color-accent)"],
-];
+const SECTIONS: Section[] = ["players", "invites", "currency", "cards", "seasonal", "pools", "chat"];
 
 const liveCount = (rows: AdminSeasonal[]) => {
   const now = Date.now();
@@ -75,37 +68,37 @@ async function StaffContent({ params }: { params: Promise<{ locale: string }> })
 
   return (
     <div className="flex flex-col gap-6">
-      <header className="relative overflow-hidden rounded-2xl border border-border bg-panel p-6 sm:p-8">
+      <header className="relative overflow-hidden rounded-2xl border border-border bg-panel p-4 sm:p-8">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{ background: "radial-gradient(80% 120% at 100% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 60%)" }}
         />
-        <div className="relative flex flex-col gap-6">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/15 text-accent">
+        <div className="relative flex flex-col gap-4 sm:gap-6">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent sm:h-12 sm:w-12">
                 <ShieldCheck className="h-6 w-6" aria-hidden />
               </span>
               <div>
-                <h1 className="font-display text-3xl font-extrabold tracking-tight">{t("title")}</h1>
-                <p className="text-sm text-white/55">{isAdmin ? t("subtitle") : t("subtitleModerator")}</p>
+                <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">{t("title")}</h1>
+                <p className="hidden text-sm text-white/55 sm:block">{isAdmin ? t("subtitle") : t("subtitleModerator")}</p>
                 <p className="mt-1 text-xs font-bold uppercase tracking-wider text-accent">{t(`roles.${role}`)}</p>
               </div>
             </div>
             <Link
               href="/"
-              className="inline-flex h-9 items-center gap-2 rounded-lg border border-border px-3 text-sm text-white/75 hover:border-white/20 hover:text-white"
+              className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full border border-border px-3 text-sm text-white/75 hover:border-white/20 hover:text-white"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden />
               {t("back")}
             </Link>
           </div>
-          <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <dl className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
             {stats.map(([key, value, color]) => (
-              <div key={key} className="rounded-xl border border-border bg-bg/60 px-4 py-3">
-                <dt className="text-xs font-semibold uppercase tracking-wider text-white/45">{t(`stats.${key}`)}</dt>
-                <dd className="mt-1 font-mono text-2xl font-bold" style={{ color }}>
+              <div key={key} className="rounded-xl border border-border bg-bg/60 px-3 py-2.5 sm:px-4 sm:py-3">
+                <dt className="truncate text-xs font-semibold uppercase tracking-wider text-white/45">{t(`stats.${key}`)}</dt>
+                <dd className="mt-0.5 font-mono text-xl sm:text-2xl font-bold" style={{ color }}>
                   {value}
                 </dd>
               </div>
@@ -114,52 +107,25 @@ async function StaffContent({ params }: { params: Promise<{ locale: string }> })
         </div>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[12rem_minmax(0,1fr)]">
-        <nav aria-label={t("nav.label")} className="lg:sticky lg:top-6 lg:self-start">
-          <ul className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:gap-1 lg:overflow-visible lg:pb-0">
-            {SECTIONS.filter(([id]) => shows(id)).map(([id, Icon, color]) => (
-              <li key={id} className="shrink-0">
-                <a
-                  href={`#${id}`}
-                  className="flex items-center gap-2.5 rounded-lg border border-border px-3 py-2 text-sm font-medium text-white/70 transition hover:bg-white/[0.04] hover:text-white lg:border-transparent"
-                >
-                  <Icon className="h-4 w-4" style={{ color }} aria-hidden />
-                  {t(`nav.${id}`)}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/staff/art"
-            className="mt-2 flex items-center gap-2.5 rounded-lg border border-epic/40 bg-epic/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-epic/20"
-          >
-            <Images className="h-4 w-4 text-epic" aria-hidden />
-            {t("nav.art")}
-          </Link>
-        </nav>
-        <div className="flex min-w-0 flex-col gap-6">
-          <PlayersPanel data={playerData} canEdit={isAdmin} />
-          {isAdmin && (
-            <>
-              <div className="grid gap-6 xl:grid-cols-2">
-                <InvitesPanel initial={inviteRows} />
-                <GrantPanel />
-              </div>
-              <GrantCardPanel />
-            </>
-          )}
-          <SeasonalPanel initial={seasonalRows} seriesTitles={seriesTitles} readOnly={!isAdmin} />
-          <PoolsPanel initial={poolRows} readOnly={!isAdmin} />
-          <ChatPanel initial={chatRows} />
-        </div>
-      </div>
+      <StaffTabs
+        navLabel={t("nav.label")}
+        artLabel={t("nav.art")}
+        tabs={SECTIONS.filter((id) => shows(id)).map((id) => ({ id, label: t(`nav.${id}`) }))}
+        panels={{
+          players: <PlayersPanel data={playerData} canEdit={isAdmin} />,
+          ...(isAdmin && { invites: <InvitesPanel initial={inviteRows} />, currency: <GrantPanel />, cards: <GrantCardPanel /> }),
+          seasonal: <SeasonalPanel initial={seasonalRows} seriesTitles={seriesTitles} readOnly={!isAdmin} />,
+          pools: <PoolsPanel initial={poolRows} readOnly={!isAdmin} />,
+          chat: <ChatPanel initial={chatRows} />,
+        }}
+      />
     </div>
   );
 }
 
 export default function StaffPage({ params }: { params: Promise<{ locale: string }> }) {
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 p-4 sm:p-6">
+    <main className="mx-auto w-full max-w-6xl min-w-0 flex-1 overflow-x-clip p-4 sm:p-6">
       <Suspense>
         <StaffContent params={params} />
       </Suspense>

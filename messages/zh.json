@@ -268,6 +268,7 @@
     "unknown": "出了点问题。请重试。"
   },
   "profile": {
+    "eyebrow": "玩家",
     "memberSince": "{date}加入",
     "completion": "完成度 {pct}%",
     "uniqueCards": "不同卡牌",
@@ -315,6 +316,8 @@
     "noCosmetics": "在游戏厅赢取奖券，到奖品柜台兑换称号和边框。"
   },
   "friends": {
+    "eyebrow": "你的伙伴",
+    "subtitle": "聊天、回复申请、寻找新玩家。",
     "title": "好友与消息",
     "tabs": "好友栏目",
     "friends": "好友",
@@ -1157,6 +1160,7 @@
     "skip": "跳过 ›"
   },
   "referrals": {
+    "eyebrow": "礼物",
     "title": "邀请好友",
     "invite": "邀请",
     "inviteChip": "+{boosters}",
@@ -1301,6 +1305,24 @@
       "unban": "解除封禁",
       "cancel": "取消",
       "more": "再显示 {count} 个（剩余 {left} 个）",
+      "allRoles": "All roles",
+      "openName": "Open {name}",
+      "close": "Close",
+      "overview": "Overview",
+      "editSection": "Edit",
+      "activity": "Activity",
+      "collection": "Collection",
+      "arcade": "Arcade",
+      "golden": "Golden next",
+      "goldenLeft": "{count} golden left",
+      "yes": "Yes",
+      "no": "No",
+      "ticketsEarned": "Earned in total",
+      "ticketsToday": "Earned today",
+      "ticketsWeek": "Earned this week",
+      "titleLabel": "Title",
+      "frame": "Frame",
+      "none": "None",
       "totals": {
         "players": "玩家",
         "active24h": "24 小时活跃",
@@ -1310,6 +1332,8 @@
         "boostersOpened": "已开卡包"
       },
       "cols": {
+        "tickets": "Tickets",
+        "bonus": "Bonus boosters",
         "player": "玩家",
         "role": "角色",
         "lastSeen": "最后上线",
@@ -1882,6 +1906,8 @@
     "solo": "单人",
     "multi": "多人",
     "more": "更多游戏",
+    "today": "Today",
+    "todayNote": "New board every day at midnight (Paris)",
     "tickets": {
       "label": "街机票",
       "today": "今天",
@@ -2103,6 +2129,34 @@
       "inARow": "连续 {n} 个",
       "share": "我在 Kizuna 的谁更受欢迎连续猜对了 {n} 个！",
       "rules": "出现两个同稀有度的角色：选出粉丝（MyAnimeList 收藏）更多的那个。你有 6 秒时间。每答对一次连胜加一；第一次答错游戏结束。"
+    },
+    "fusion": {
+      "name": "Fusion",
+      "chip": "Solo score",
+      "pitch": "Slide the cards. Two of the same tier fuse into the next one. Climb from common to mythic.",
+      "best": "Best: {n}",
+      "score": "Score",
+      "bestStat": "Best",
+      "top": "Top card",
+      "hint": "Swipe or use the arrow keys",
+      "endGame": "End game",
+      "boardLabel": "Fusion board",
+      "tileLabel": "{rarity}{awakened}, tier {n}",
+      "awakened": " awakened",
+      "gameOver": "No moves left",
+      "reached": "{rarity} reached!",
+      "scoreLabel": "{n} points",
+      "topLine": "Top card: {rarity} in {moves} moves.",
+      "share": "I scored {score} at Fusion on Kizuna, up to {rarity}!",
+      "rarity": {
+        "common": "Common",
+        "uncommon": "Uncommon",
+        "rare": "Rare",
+        "epic": "Epic",
+        "legendary": "Legendary",
+        "mythic": "Mythic"
+      },
+      "rules": "The board is 4 by 4. Swipe or press the arrow keys (or WASD) to slide every card. Two cards of the same tier that meet fuse into the next tier, and each card fuses once a move. There are 12 tiers: each rarity has a normal and an awakened card, from common to mythic awakened. After every move a new common or uncommon card appears. You score the value of each card a fusion makes (4, 8, 16 ... up to 4096). The game ends when nothing can move. 3 stars at 15,000 points, 2 at 6,000, 1 at 2,000."
     },
     "memory": {
       "name": "记忆翻牌",

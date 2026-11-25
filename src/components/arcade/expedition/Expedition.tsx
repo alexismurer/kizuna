@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Backpack, Check, Compass, Crown, Gem, LayoutGrid, Map as MapIcon, Repeat, Search, Store, Ticket, Trophy } from "lucide-react";
+import { Backpack, Compass, LayoutGrid, Map as MapIcon, Repeat, Search, Ticket, Trophy } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { COLOR as RARITY_COLOR } from "@/components/card/rarityColor";
 import { expAct, expCurrent, expSearch, expStart, expSwap, type FinishResult } from "@/lib/actions/arcade";
 import { perkRarity, type BCard } from "@/lib/arcade/battle/stats";
-import { BUDGET, COST, FIGHTS_A_DAY, WAVES, type ExpLast, type ExpView, type MapTile } from "@/lib/arcade/expedition/engine";
+import { BUDGET, COST, FIGHTS_A_DAY, WAVES, type ExpLast, type ExpView } from "@/lib/arcade/expedition/engine";
 import { arcadeSfx } from "@/lib/arcade/sfx";
 import { usePrefs } from "@/lib/fx/prefs";
 import type { Rarity } from "@/lib/game/types";
 import { GameShell } from "../GameShell";
 import { BonusGlyph, BonusTile } from "../raid/BonusIcon";
 import { Arena, BattleCard, PerkName, Synergies, TAG } from "../raid/Raid";
+import { RouteMap } from "./RouteMap";
 import { ResultScreen } from "../ResultScreen";
 import { StartScreen } from "../StartScreen";
 
@@ -361,112 +361,6 @@ function Picker({
       >
         {action}
       </button>
-    </div>
-  );
-}
-
-// The chapter's ten cases as a winding road: five left to right, then five back.
-function RouteMap({ view }: { view: ExpView }) {
-  const te = useTranslations("arcade.expedition");
-  const map = view.map;
-  const here = map.findIndex((t) => t.status === "here");
-  const boss = map.find((t) => t.kind === "boss" && t.face)?.face;
-  // tile k sits in column col(k) of row row(k)
-  const row = (k: number) => (k < 5 ? 0 : 1);
-  const col = (k: number) => (k < 5 ? k : 9 - k);
-  const at = (k: number) => [(col(k) + 0.5) * 20, row(k) === 0 ? 25 : 75] as const;
-  return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 px-2 py-6 sm:px-6">
-      {boss?.imageUrl && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={boss.imageUrl} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-15 blur-2xl" />
-      )}
-      <svg className="pointer-events-none absolute inset-x-2 inset-y-6 h-[calc(100%-3rem)] w-[calc(100%-1rem)] sm:inset-x-6 sm:w-[calc(100%-3rem)]" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-        {map.slice(0, -1).map((_, k) => {
-          const [x1, y1] = at(k);
-          const [x2, y2] = at(k + 1);
-          const walked = k + 1 <= here;
-          return (
-            <line
-              key={k}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              vectorEffect="non-scaling-stroke"
-              strokeLinecap="round"
-              stroke={walked ? "var(--color-legendary)" : "rgb(255 255 255 / 0.18)"}
-              strokeWidth={walked ? 5 : 4}
-              strokeDasharray={walked ? undefined : "8 8"}
-            />
-          );
-        })}
-      </svg>
-      <ol className="relative grid grid-cols-5 gap-x-2 gap-y-10 sm:gap-x-6" aria-label={te("theRoute")}>
-        {map.map((t, k) => (
-          <li key={t.caseNo} style={{ gridRow: row(k) + 1, gridColumn: col(k) + 1 }} className="flex justify-center">
-            <Tile tile={t} />
-          </li>
-        ))}
-      </ol>
-    </div>
-  );
-}
-
-function Tile({ tile }: { tile: MapTile }) {
-  const te = useTranslations("arcade.expedition");
-  const { status, kind, face } = tile;
-  const here = status === "here";
-  const done = status === "done";
-  const fog = status === "fog";
-  const boss = kind === "boss";
-  const border = here ? "var(--color-legendary)" : boss && !fog ? "var(--color-accent)" : face ? RARITY_COLOR[face.rarity] : "rgb(255 255 255 / 0.15)";
-  const Icon = kind === "treasure" ? Gem : kind === "shop" ? Store : Crown;
-  return (
-    <div className="relative w-full max-w-28">
-      {here && (
-        <span className="absolute -top-5 left-1/2 z-10 -translate-x-1/2 rounded-full bg-legendary px-2 py-0.5 text-[8px] font-extrabold whitespace-nowrap text-black sm:text-[9px]">{te("youAreHere")}</span>
-      )}
-      <div
-        className={`relative aspect-[5/7] overflow-hidden rounded-xl border-2 bg-panel ${fog ? "border-dashed" : ""} ${here ? "shadow-[0_0_24px_rgb(255_200_60/0.35)]" : ""}`}
-        style={{ borderColor: border }}
-        aria-label={fog ? te("unknown") : `${te(`kinds.${kind}`)}${face ? `, ${face.name}` : ""}`}
-      >
-        {face?.imageUrl && !fog ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={face.imageUrl} alt="" className={`absolute inset-0 h-full w-full object-cover object-top ${done ? "opacity-50 grayscale" : ""}`} />
-        ) : (
-          <span className="absolute inset-0 flex items-center justify-center">
-            {fog ? (
-              <span className="font-display text-3xl font-bold text-white/25">?</span>
-            ) : (
-              <span className={`flex h-9 w-9 items-center justify-center rounded-full border sm:h-11 sm:w-11 ${kind === "treasure" ? "border-legendary/50 text-legendary" : "border-epic/50 text-epic"} ${done ? "opacity-50" : ""}`}>
-                <Icon className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden />
-              </span>
-            )}
-          </span>
-        )}
-        <span className="absolute top-1 left-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-black/70 px-1 font-mono text-[8px] font-bold text-white sm:h-5 sm:min-w-5 sm:text-[9px]">
-          {done ? <Check className="h-2.5 w-2.5 text-legendary" aria-hidden /> : tile.caseNo + 1}
-        </span>
-        <span className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-0.5 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-1 pt-4 pb-1 text-center">
-          {fog ? (
-            <span className="text-[8px] text-common sm:text-[9px]">{te("unknown")}</span>
-          ) : (
-            <>
-              <span className="w-full truncate text-[8px] font-bold text-white sm:text-[10px]">{face ? face.name : te(`kinds.${kind}`)}</span>
-              {(kind === "fight" || boss) && (
-                <span className={`text-[7px] font-bold uppercase sm:text-[8px] ${boss ? "text-accent" : "text-common"}`}>{boss ? te("bossWaves", { n: WAVES }) : te("waves", { n: WAVES })}</span>
-              )}
-              {tile.tickets > 0 && (
-                <span className="flex items-center gap-0.5 rounded-full border border-white/20 px-1 font-mono text-[7px] text-white/80 sm:text-[8px]">
-                  <Ticket className="h-2 w-2" aria-hidden />+{tile.tickets}
-                </span>
-              )}
-            </>
-          )}
-        </span>
-      </div>
     </div>
   );
 }

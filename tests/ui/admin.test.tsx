@@ -273,18 +273,18 @@ describe("staff page", () => {
     wrap((await run()) as React.ReactNode);
     expect(notFound).not.toHaveBeenCalled();
     expect(rpc).toHaveBeenCalledWith("admin_invites");
-    expect(screen.getByRole("heading", { name: "Grant currency" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Grant currency", hidden: true })).toBeInTheDocument();
   });
 
   it("gives moderators players, seasonals, pools and chat only, read-only", async () => {
     rpc.mockImplementation(async (fn: string) => ({ data: fn === "my_role" ? "moderator" : fn === "admin_players" ? null : [], error: null }));
     wrap((await run()) as React.ReactNode);
     expect(rpc).not.toHaveBeenCalledWith("admin_invites");
-    expect(screen.getByText("Moderator")).toBeInTheDocument();
+    expect(screen.getAllByText("Moderator").length).toBeGreaterThan(0);
     for (const name of ["Invite codes", "Grant currency", "Give a card"]) {
-      expect(screen.queryByRole("heading", { name })).not.toBeInTheDocument();
+      expect(screen.queryByRole("heading", { name, hidden: true })).not.toBeInTheDocument();
     }
-    expect(screen.getByRole("heading", { name: "Seasonal boosters" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Seasonal boosters", hidden: true })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Save pool" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Suggest from airing anime/ })).not.toBeInTheDocument();
   });
@@ -305,8 +305,10 @@ describe("PlayersPanel", () => {
 
   it("shows the role and no edit button for moderators", () => {
     wrap(<PlayersPanel data={data} />);
-    expect(screen.getAllByText("Player")).toHaveLength(2); // the column and the role badge
-    expect(screen.queryByRole("button", { name: "Edit kenji" })).not.toBeInTheDocument();
+    expect(screen.getAllByText("Player").length).toBeGreaterThan(0);
+    expect(screen.queryByRole("button", { name: "Open kenji" })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Open kenji" }));
+    expect(screen.queryByRole("tab", { name: "Edit" })).not.toBeInTheDocument();
   });
 
   it("lets admins edit fields, change the role and ban in two steps", async () => {
@@ -314,7 +316,8 @@ describe("PlayersPanel", () => {
     actions.adminSetRole.mockResolvedValue({ ok: true, data: null });
     actions.adminSetBan.mockResolvedValue({ ok: true, data: null });
     wrap(<PlayersPanel data={data} canEdit />);
-    fireEvent.click(screen.getByRole("button", { name: "Edit kenji" }));
+    fireEvent.click(screen.getByRole("button", { name: "Open kenji" }));
+    fireEvent.click(screen.getByRole("tab", { name: "Edit" }));
     fireEvent.change(screen.getByRole("spinbutton", { name: "Currency" }), { target: { value: "900" } });
     fireEvent.change(screen.getByRole("combobox", { name: "Role" }), { target: { value: "moderator" } });
     fireEvent.click(screen.getByRole("button", { name: "Save changes" }));

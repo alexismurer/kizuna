@@ -34,6 +34,16 @@ export type AdminPlayer = {
   invited: number;
   invitedRewarded: number;
   referredBy: string | null;
+  // from migration 0069; absent until it is applied
+  bonusBoosters?: number;
+  tickets?: number;
+  ticketsToday?: number;
+  ticketsWeek?: number;
+  ticketsEarned?: number;
+  goldenNext?: boolean;
+  goldenLeft?: number;
+  titleId?: string | null;
+  frameId?: string | null;
 };
 export type AdminPlayers = {
   catalogSize: number;

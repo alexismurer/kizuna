@@ -79,7 +79,7 @@ async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
+    <div className="flex flex-col gap-6">
       <ProfileHeader profile={profile} owned={owned} cosmetics={cosmetics} />
       <ProfileTabs profile={profile} />
     </div>

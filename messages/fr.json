@@ -268,6 +268,7 @@
     "unknown": "Une erreur s'est produite. Réessaie."
   },
   "profile": {
+    "eyebrow": "Joueur",
     "memberSince": "Membre depuis le {date}",
     "completion": "{pct} % complété",
     "uniqueCards": "Cartes uniques",
@@ -315,6 +316,8 @@
     "noCosmetics": "Gagne des tickets dans la salle de jeux et échange-les au comptoir contre des titres et des cadres."
   },
   "friends": {
+    "eyebrow": "Ton équipe",
+    "subtitle": "Discute, réponds aux demandes et trouve de nouveaux joueurs.",
     "title": "Amis et messages",
     "tabs": "Sections des amis",
     "friends": "Amis",
@@ -1157,6 +1160,7 @@
     "skip": "Passer ›"
   },
   "referrals": {
+    "eyebrow": "Cadeau",
     "title": "Inviter des amis",
     "invite": "Inviter",
     "inviteChip": "+{boosters}",
@@ -1301,6 +1305,24 @@
       "unban": "Débannir",
       "cancel": "Annuler",
       "more": "Afficher {count} de plus ({left} restants)",
+      "allRoles": "Tous les rôles",
+      "openName": "Ouvrir {name}",
+      "close": "Fermer",
+      "overview": "Aperçu",
+      "editSection": "Modifier",
+      "activity": "Activité",
+      "collection": "Collection",
+      "arcade": "Salle de jeux",
+      "golden": "Doré au prochain",
+      "goldenLeft": "{count} dorés restants",
+      "yes": "Oui",
+      "no": "Non",
+      "ticketsEarned": "Gagnés au total",
+      "ticketsToday": "Gagnés aujourd'hui",
+      "ticketsWeek": "Gagnés cette semaine",
+      "titleLabel": "Titre",
+      "frame": "Cadre",
+      "none": "Aucun",
       "totals": {
         "players": "Joueurs",
         "active24h": "Actifs 24 h",
@@ -1310,6 +1332,8 @@
         "boostersOpened": "Boosters ouverts"
       },
       "cols": {
+        "tickets": "Tickets",
+        "bonus": "Boosters bonus",
         "player": "Joueur",
         "role": "Rôle",
         "lastSeen": "Vu",
@@ -1882,6 +1906,8 @@
     "solo": "Solo",
     "multi": "Multi",
     "more": "Autres jeux",
+    "today": "Aujourd'hui",
+    "todayNote": "Nouvelle grille chaque jour à minuit (Paris)",
     "tickets": {
       "label": "Tickets d’arcade",
       "today": "Aujourd’hui",
@@ -2103,6 +2129,34 @@
       "inARow": "{n} d’affilée",
       "share": "J’en ai trouvé {n} d’affilée à Le plus aimé ? sur Kizuna !",
       "rules": "Deux personnages de même rareté apparaissent : choisis celui qui a le plus de fans (favoris sur MyAnimeList). Tu as 6 secondes. Chaque bonne réponse allonge ta série ; la première erreur termine la partie."
+    },
+    "fusion": {
+      "name": "Fusion",
+      "chip": "Score solo",
+      "pitch": "Fais glisser les cartes. Deux cartes du même palier fusionnent en la suivante. Monte de commune à mythique.",
+      "best": "Meilleur : {n}",
+      "score": "Score",
+      "bestStat": "Record",
+      "top": "Meilleure carte",
+      "hint": "Balaie ou utilise les flèches",
+      "endGame": "Finir la partie",
+      "boardLabel": "Plateau de Fusion",
+      "tileLabel": "{rarity}{awakened}, palier {n}",
+      "awakened": " éveillée",
+      "gameOver": "Plus aucun coup",
+      "reached": "{rarity} atteinte !",
+      "scoreLabel": "{n} points",
+      "topLine": "Meilleure carte : {rarity} en {moves} coups.",
+      "share": "J'ai fait {score} points à Fusion sur Kizuna, jusqu'à {rarity} !",
+      "rarity": {
+        "common": "Commune",
+        "uncommon": "Peu commune",
+        "rare": "Rare",
+        "epic": "Épique",
+        "legendary": "Légendaire",
+        "mythic": "Mythique"
+      },
+      "rules": "Le plateau fait 4 sur 4. Balaie ou appuie sur les flèches (ou ZQSD) pour faire glisser toutes les cartes. Deux cartes du même palier qui se rencontrent fusionnent en la suivante, et une carte ne fusionne qu'une fois par coup. Il y a 12 paliers : chaque rareté a une carte normale et une éveillée, de commune à mythique éveillée. Après chaque coup, une carte commune ou peu commune apparaît. Tu marques la valeur de chaque carte créée par une fusion (4, 8, 16 ... jusqu'à 4096). La partie finit quand plus rien ne bouge. 3 étoiles à 15 000 points, 2 à 6 000, 1 à 2 000."
     },
     "memory": {
       "name": "Mémoire",

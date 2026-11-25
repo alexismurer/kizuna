@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Check, Link2, MessageCircle, Repeat2, SlidersHorizontal } from "lucide-react";
+import { MotionConfig, motion } from "motion/react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PushSettings } from "@/components/push/PushSettings";
@@ -13,7 +15,10 @@ import { AvatarPicker } from "./AvatarPicker";
 import { FriendButton } from "./FriendButton";
 import { ShowcasePicker } from "./ShowcasePicker";
 
-const BTN = "rounded-full border border-border px-4 py-1.5 text-sm font-bold hover:border-accent";
+const BTN =
+  "inline-flex items-center gap-2 rounded-full border border-border bg-bg/60 px-4 py-2 text-sm font-bold transition hover:-translate-y-0.5 hover:border-accent hover:text-accent";
+const BTN_MAIN =
+  "inline-flex items-center gap-2 rounded-full border border-accent bg-accent px-4 py-2 text-sm font-bold text-black transition hover:-translate-y-0.5 hover:brightness-110";
 const R = 34;
 const C = 2 * Math.PI * R;
 
@@ -21,7 +26,7 @@ function Ring({ pct }: { pct: number }) {
   return (
     <svg viewBox="0 0 80 80" className="h-20 w-20 shrink-0 -rotate-90" aria-hidden>
       <circle cx="40" cy="40" r={R} fill="none" strokeWidth="7" className="stroke-border" />
-      <circle
+      <motion.circle
         cx="40"
         cy="40"
         r={R}
@@ -30,13 +35,22 @@ function Ring({ pct }: { pct: number }) {
         strokeLinecap="round"
         className="stroke-accent"
         strokeDasharray={C}
-        strokeDashoffset={C * (1 - pct / 100)}
+        initial={{ strokeDashoffset: C }}
+        animate={{ strokeDashoffset: C * (1 - pct / 100) }}
+        transition={{ duration: 1.1, ease: "easeOut", delay: 0.35 }}
       />
     </svg>
   );
 }
 
-// Left column of a profile: identity, stats and the buttons that fit who is looking.
+const group = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };
+const rise = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
+};
+
+// The top of a profile: a hero with the player's identity and the buttons that fit who is looking,
+// then the stat tiles.
 export function ProfileHeader({
   profile,
   owned,
@@ -56,120 +70,151 @@ export function ProfileHeader({
   const [copied, setCopied] = useState(false);
   const pct = completionPct(profile.uniqueCards, profile.catalogSize);
   const label = "font-mono text-[10px] uppercase tracking-[0.18em] text-white/50";
+  const banner = profile.showcase.filter((c) => c.imageUrl).slice(0, 3);
+  const tile = "relative flex flex-col justify-center gap-1 overflow-hidden rounded-2xl border border-border bg-panel p-4";
 
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}`);
       setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
     } catch {
       setCopied(false);
     }
   }
 
   return (
-    <aside className="flex flex-col gap-5 rounded-2xl border border-border bg-panel p-5">
-      <div className="flex items-center gap-4">
-        <Avatar url={profile.avatarUrl} username={profile.username} size={72} frame={profile.frameId} />
-        <div className="min-w-0">
-          <h1 className="truncate font-display text-2xl leading-tight">{profile.username}</h1>
-          <PlayerTitle id={profile.titleId} className="text-sm" />
-          <p className="text-sm text-common">
-            {t("memberSince", { date: format.dateTime(new Date(profile.memberSince), { dateStyle: "medium" }) })}
-          </p>
-        </div>
-      </div>
+    <MotionConfig reducedMotion="user">
+      <motion.div variants={group} initial="hidden" animate="show" className="flex flex-col gap-4">
+        <motion.header variants={rise} className="relative rounded-3xl border border-border bg-panel">
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
+            <div className="absolute inset-0 flex">
+              {banner.map((c) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={c.id}
+                  src={c.imageUrl ?? ""}
+                  alt=""
+                  className="h-full flex-1 scale-125 object-cover object-top opacity-50 blur-xl"
+                />
+              ))}
+            </div>
+            <div className="absolute inset-0 bg-[radial-gradient(70%_120%_at_100%_50%,color-mix(in_srgb,var(--color-accent)_20%,transparent),transparent_70%),linear-gradient(to_top,var(--color-panel),color-mix(in_srgb,var(--color-panel)_55%,transparent))]" />
+          </div>
+          <div className="relative flex flex-col gap-5 p-5 sm:p-8 md:flex-row md:items-end md:justify-between">
+            <div className="flex min-w-0 items-center gap-4 sm:gap-6">
+              <Avatar url={profile.avatarUrl} username={profile.username} size={104} frame={profile.frameId} />
+              <div className="min-w-0">
+                <p className="text-xs font-bold tracking-[0.25em] text-accent">{t("eyebrow")}</p>
+                <h1 className="truncate font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+                  {profile.username}
+                </h1>
+                <PlayerTitle id={profile.titleId} className="text-base" />
+                <p className="mt-1 text-sm text-common">
+                  {t("memberSince", { date: format.dateTime(new Date(profile.memberSince), { dateStyle: "medium" }) })}
+                </p>
+              </div>
+            </div>
 
-      <div className="flex items-center gap-4">
-        <div className="relative">
-          <Ring pct={pct} />
-          <span className="absolute inset-0 flex items-center justify-center font-display text-sm">{pct}%</span>
-        </div>
-        <dl className="flex flex-col gap-1">
-          <dd className="font-display text-2xl leading-none">
-            {format.number(profile.uniqueCards)}/{format.number(profile.catalogSize)}
-          </dd>
-          <dt className={label}>{t("uniqueCards")}</dt>
-        </dl>
-      </div>
-
-      <dl className="grid grid-cols-2 divide-x divide-border rounded-xl border border-border py-3">
-        <div className="flex flex-col gap-1 px-4">
-          <dd className="font-display text-xl leading-none text-accent">{format.number(profile.mythics)}</dd>
-          <dt className={label}>{t("mythics")}</dt>
-        </div>
-        <div className="flex flex-col gap-1 px-4">
-          <dd className="font-display text-xl leading-none">{format.number(profile.boostersOpened)}</dd>
-          <dt className={label}>{t("boostersOpened")}</dt>
-        </div>
-      </dl>
-
-      <div className="flex flex-wrap items-start gap-2">
-        {profile.isMe ? (
-          <>
-            <div className="relative">
-              <button type="button" aria-expanded={menu} onClick={() => setMenu((m) => !m)} className={BTN}>
-                {t("customize")}
-              </button>
-              {menu && (
-                <div className="absolute left-0 top-full z-10 mt-1 w-44 overflow-hidden rounded-md border border-border bg-panel">
-                  <button
-                    type="button"
-                    className="w-full px-3 py-2 text-left text-sm hover:bg-border"
-                    onClick={() => {
-                      setMenu(false);
-                      setPicker("avatar");
-                    }}
-                  >
-                    {t("changeAvatar")}
+            <div className="flex flex-wrap items-start gap-2">
+              {profile.isMe ? (
+                <>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      aria-expanded={menu}
+                      onClick={() => setMenu((m) => !m)}
+                      className={BTN_MAIN}
+                    >
+                      <SlidersHorizontal aria-hidden className="h-4 w-4" />
+                      {t("customize")}
+                    </button>
+                    {menu && (
+                      <div className="absolute left-0 top-full z-20 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-panel p-1 shadow-xl shadow-black/50 md:left-auto md:right-0">
+                        {(
+                          [
+                            ["avatar", "changeAvatar"],
+                            ["showcase", "editShowcase"],
+                            ["appearance", "appearance"],
+                          ] as const
+                        ).map(([id, key]) => (
+                          <button
+                            key={id}
+                            type="button"
+                            className="w-full rounded-lg px-3 py-2 text-left text-sm font-semibold hover:bg-border"
+                            onClick={() => {
+                              setMenu(false);
+                              setPicker(id);
+                            }}
+                          >
+                            {t(key)}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <button type="button" onClick={copyLink} className={BTN}>
+                    {copied ? <Check aria-hidden className="h-4 w-4 text-uncommon" /> : <Link2 aria-hidden className="h-4 w-4" />}
+                    {t("copyLink")}
                   </button>
-                  <button
-                    type="button"
-                    className="w-full px-3 py-2 text-left text-sm hover:bg-border"
-                    onClick={() => {
-                      setMenu(false);
-                      setPicker("showcase");
-                    }}
-                  >
-                    {t("editShowcase")}
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-3 py-2 text-left text-sm hover:bg-border"
-                    onClick={() => {
-                      setMenu(false);
-                      setPicker("appearance");
-                    }}
-                  >
-                    {t("appearance")}
-                  </button>
-                </div>
+                  {copied && (
+                    <p role="status" className="basis-full text-sm text-uncommon">
+                      {t("copied")}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <FriendButton username={profile.username} friendship={friendship} onChange={setFriendship} />
+                  {friendship === "friends" && (
+                    <Link href={`/messages/${encodeURIComponent(profile.username)}`} className={BTN}>
+                      <MessageCircle aria-hidden className="h-4 w-4" />
+                      {t("message")}
+                    </Link>
+                  )}
+                  <Link href={`/market?tab=trades&to=${encodeURIComponent(profile.username)}`} className={BTN}>
+                    <Repeat2 aria-hidden className="h-4 w-4" />
+                    {t("trade")}
+                  </Link>
+                </>
               )}
             </div>
-            <button type="button" onClick={copyLink} className={BTN}>
-              {t("copyLink")}
-            </button>
-            {copied && (
-              <p role="status" className="basis-full text-sm text-uncommon">
-                {t("copied")}
-              </p>
-            )}
-          </>
-        ) : (
-          <>
-            <FriendButton username={profile.username} friendship={friendship} onChange={setFriendship} />
-            {friendship === "friends" && (
-              <Link href={`/messages/${encodeURIComponent(profile.username)}`} className={BTN}>
-                {t("message")}
-              </Link>
-            )}
-            <Link href={`/market?tab=trades&to=${encodeURIComponent(profile.username)}`} className={BTN}>
-              {t("trade")}
-            </Link>
-          </>
-        )}
-      </div>
+          </div>
+        </motion.header>
 
-      {profile.isMe && <PushSettings title={tPush("profileTitle")} className="" />}
+        <motion.dl variants={rise} className="grid grid-cols-2 gap-3 md:grid-cols-3">
+          <div className={`${tile} col-span-2 flex-row items-center gap-4 md:col-span-1`}>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_90%_at_0%_50%,color-mix(in_srgb,var(--color-accent)_14%,transparent),transparent_70%)]"
+            />
+            <div className="relative shrink-0">
+              <Ring pct={pct} />
+              <span className="absolute inset-0 flex items-center justify-center font-display text-sm">{pct}%</span>
+            </div>
+            <div className="relative flex flex-col gap-1">
+              <dd className="font-mono text-2xl font-bold leading-none">
+                {format.number(profile.uniqueCards)}/{format.number(profile.catalogSize)}
+              </dd>
+              <dt className={label}>{t("uniqueCards")}</dt>
+            </div>
+          </div>
+          <div className={tile}>
+            <dd className="font-mono text-2xl font-bold leading-none text-mythic">{format.number(profile.mythics)}</dd>
+            <dt className={label}>{t("mythics")}</dt>
+          </div>
+          <div className={tile}>
+            <dd className="font-mono text-2xl font-bold leading-none text-cta">{format.number(profile.boostersOpened)}</dd>
+            <dt className={label}>{t("boostersOpened")}</dt>
+          </div>
+        </motion.dl>
+
+        {profile.isMe && (
+          <motion.div variants={rise}>
+            <PushSettings title={tPush("profileTitle")} className="!mx-0 rounded-2xl bg-panel p-4" />
+          </motion.div>
+        )}
+      </motion.div>
 
       {picker === "appearance" && (
         <AppearancePicker
@@ -187,6 +232,6 @@ export function ProfileHeader({
           onClose={() => setPicker(null)}
         />
       )}
-    </aside>
+    </MotionConfig>
   );
 }

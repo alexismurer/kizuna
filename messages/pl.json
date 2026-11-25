@@ -268,6 +268,7 @@
     "unknown": "Coś poszło nie tak. Spróbuj ponownie."
   },
   "profile": {
+    "eyebrow": "Gracz",
     "memberSince": "Członek od {date}",
     "completion": "Ukończono {pct}%",
     "uniqueCards": "Unikalne karty",
@@ -315,6 +316,8 @@
     "noCosmetics": "Zdobywaj bilety w salonie gier i wymieniaj je przy ladzie na tytuły i ramki."
   },
   "friends": {
+    "eyebrow": "Twoja ekipa",
+    "subtitle": "Pisz, odpowiadaj na zaproszenia i szukaj graczy.",
     "title": "Znajomi i wiadomości",
     "tabs": "Sekcje znajomych",
     "friends": "Znajomi",
@@ -1157,6 +1160,7 @@
     "skip": "Pomiń ›"
   },
   "referrals": {
+    "eyebrow": "Prezent",
     "title": "Zaproś znajomych",
     "invite": "Zaproś",
     "inviteChip": "+{boosters}",
@@ -1301,6 +1305,24 @@
       "unban": "Odbanuj",
       "cancel": "Anuluj",
       "more": "Pokaż {count} więcej (zostało {left})",
+      "allRoles": "All roles",
+      "openName": "Open {name}",
+      "close": "Close",
+      "overview": "Overview",
+      "editSection": "Edit",
+      "activity": "Activity",
+      "collection": "Collection",
+      "arcade": "Arcade",
+      "golden": "Golden next",
+      "goldenLeft": "{count} golden left",
+      "yes": "Yes",
+      "no": "No",
+      "ticketsEarned": "Earned in total",
+      "ticketsToday": "Earned today",
+      "ticketsWeek": "Earned this week",
+      "titleLabel": "Title",
+      "frame": "Frame",
+      "none": "None",
       "totals": {
         "players": "Gracze",
         "active24h": "Aktywni 24 h",
@@ -1310,6 +1332,8 @@
         "boostersOpened": "Otwarte boostery"
       },
       "cols": {
+        "tickets": "Tickets",
+        "bonus": "Bonus boosters",
         "player": "Gracz",
         "role": "Rola",
         "lastSeen": "Ostatnio",
@@ -1882,6 +1906,8 @@
     "solo": "Solo",
     "multi": "Multi",
     "more": "Więcej gier",
+    "today": "Today",
+    "todayNote": "New board every day at midnight (Paris)",
     "tickets": {
       "label": "Żetony arcade",
       "today": "Dziś",
@@ -2103,6 +2129,34 @@
       "inARow": "{n} z rzędu",
       "share": "Zgadłem {n} z rzędu w Kto bardziej lubiany? na Kizuna!",
       "rules": "Pojawiają się dwie postacie tej samej rzadkości: wybierz tę z większą liczbą fanów (ulubione na MyAnimeList). Masz 6 sekund. Każda dobra odpowiedź wydłuża serię; pierwszy błąd kończy grę."
+    },
+    "fusion": {
+      "name": "Fusion",
+      "chip": "Solo score",
+      "pitch": "Slide the cards. Two of the same tier fuse into the next one. Climb from common to mythic.",
+      "best": "Best: {n}",
+      "score": "Score",
+      "bestStat": "Best",
+      "top": "Top card",
+      "hint": "Swipe or use the arrow keys",
+      "endGame": "End game",
+      "boardLabel": "Fusion board",
+      "tileLabel": "{rarity}{awakened}, tier {n}",
+      "awakened": " awakened",
+      "gameOver": "No moves left",
+      "reached": "{rarity} reached!",
+      "scoreLabel": "{n} points",
+      "topLine": "Top card: {rarity} in {moves} moves.",
+      "share": "I scored {score} at Fusion on Kizuna, up to {rarity}!",
+      "rarity": {
+        "common": "Common",
+        "uncommon": "Uncommon",
+        "rare": "Rare",
+        "epic": "Epic",
+        "legendary": "Legendary",
+        "mythic": "Mythic"
+      },
+      "rules": "The board is 4 by 4. Swipe or press the arrow keys (or WASD) to slide every card. Two cards of the same tier that meet fuse into the next tier, and each card fuses once a move. There are 12 tiers: each rarity has a normal and an awakened card, from common to mythic awakened. After every move a new common or uncommon card appears. You score the value of each card a fusion makes (4, 8, 16 ... up to 4096). The game ends when nothing can move. 3 stars at 15,000 points, 2 at 6,000, 1 at 2,000."
     },
     "memory": {
       "name": "Memory",

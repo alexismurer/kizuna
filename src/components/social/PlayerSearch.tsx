@@ -67,7 +67,7 @@ export function PlayerSearch({ known }: { known: Record<string, State> }) {
         onChange={(e) => setQuery(e.target.value)}
         aria-label={t("searchLabel")}
         placeholder={t("searchPlaceholder")}
-        className="w-full rounded-md border border-border bg-bg px-3 py-2 text-sm"
+        className="w-full rounded-full border border-border bg-panel px-5 py-3 text-sm outline-none transition focus-visible:border-accent"
       />
       {error && (
         <p role="alert" className="text-sm text-accent">
@@ -80,7 +80,7 @@ export function PlayerSearch({ known }: { known: Record<string, State> }) {
           {shown.map((p) => {
             const state = added[p.username] ?? known[p.username];
             return (
-              <li key={p.id} className="flex items-center gap-3 rounded-xl border border-border bg-panel p-3">
+              <li key={p.id} className="flex items-center gap-3 rounded-2xl border border-border bg-panel p-3 transition-colors hover:border-accent/50">
                 <Avatar url={null} username={p.username} size={36} />
                 <Link href={`/profile/${encodeURIComponent(p.username)}`} className="min-w-0 flex-1 truncate font-bold hover:text-accent">
                   {p.username}
@@ -91,7 +91,7 @@ export function PlayerSearch({ known }: { known: Record<string, State> }) {
                   <button
                     type="button"
                     onClick={() => void add(p.username)}
-                    className="rounded-full border border-accent bg-accent px-4 py-1.5 text-sm font-bold text-black"
+                    className="rounded-full border border-accent bg-accent px-4 py-2 text-sm font-bold text-black transition hover:-translate-y-0.5"
                   >
                     {t("add")}
                   </button>

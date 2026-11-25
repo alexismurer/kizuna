@@ -38,7 +38,7 @@ export function AdminSection({
       id={id}
       className="scroll-mt-6 overflow-hidden rounded-2xl border border-border bg-panel shadow-[0_20px_50px_-30px_rgb(0_0_0/0.8)]"
     >
-      <header className="flex flex-wrap items-center gap-3 border-b border-border bg-white/[0.015] px-5 py-4">
+      <header className="flex flex-wrap items-center gap-3 border-b border-border bg-white/[0.015] px-4 py-3.5 sm:px-5 sm:py-4">
         <span
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
           style={{ background: `color-mix(in srgb, ${color} 16%, transparent)`, color }}
@@ -51,7 +51,7 @@ export function AdminSection({
         </div>
         {actions}
       </header>
-      <div className="flex flex-col gap-4 p-5">{children}</div>
+      <div className="flex flex-col gap-4 p-3.5 sm:p-5">{children}</div>
     </section>
   );
 }
