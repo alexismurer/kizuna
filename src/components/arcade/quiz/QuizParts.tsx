@@ -62,23 +62,31 @@ export function Options({
   disabled: boolean;
 }) {
   const a = view.answered;
+  // the option just clicked lights up at once, while the server checks it
+  const [clicked, setClicked] = useState<{ q: number; i: number } | null>(null);
   return (
     <div className="flex w-full flex-col gap-2">
       {view.options.map((o, i) => {
         const right = a && i === a.answer;
         const wrong = a && i === a.choice && !a.right;
+        const sent = !a && clicked?.q === view.index && clicked.i === i;
         return (
           <button
             key={`${view.index}-${o}`}
             type="button"
             disabled={disabled || a !== null || view.askedMsAgo === null}
-            onClick={() => onPick(i)}
+            onClick={() => {
+              setClicked({ q: view.index, i });
+              onPick(i);
+            }}
             className={`flex min-h-11 items-center justify-between gap-2 rounded-xl border px-4 py-2 text-left text-sm font-semibold transition ${
               right
                 ? "border-uncommon bg-uncommon/15 text-white"
                 : wrong
                   ? "border-accent bg-accent/15 text-white"
-                  : a
+                  : sent
+                    ? "border-white bg-white/15 text-white"
+                    : a
                     ? "border-white/5 bg-white/[0.02] text-common/60"
                     : "border-white/10 bg-white/[0.04] hover:border-white/40 hover:bg-white/[0.08]"
             }`}
