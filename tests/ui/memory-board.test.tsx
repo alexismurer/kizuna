@@ -40,6 +40,26 @@ describe("Memory board", () => {
     expect(screen.getByText("Sinbad")).toBeInTheDocument();
   });
 
+  it("keeps a second click made while the first flip is on its way, and sends it next", async () => {
+    vi.mocked(memoryStart).mockResolvedValue({ ok: true, data: { run: "r1", view: blank } });
+    let answer!: () => void;
+    vi.mocked(memoryFlip)
+      .mockReset()
+      .mockImplementationOnce(() => new Promise((res) => (answer = () => res({ ok: true, data: { view: { ...blank, tiles: [face, ...Array(15).fill(null)], open: [0] } } }))))
+      .mockResolvedValueOnce({ ok: true, data: { view: { ...blank, tiles: [face, face, ...Array(14).fill(null)], open: [], found: 1, moves: 1 } } });
+    show();
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
+    const tiles = screen.getAllByRole("button", { name: /Face-down card/ });
+    await act(async () => fireEvent.click(tiles[0]));
+    await act(async () => fireEvent.click(tiles[1]));
+    expect(tiles[1]).toHaveAttribute("aria-busy", "true");
+    expect(memoryFlip).toHaveBeenCalledTimes(1);
+    await act(async () => answer());
+    expect(memoryFlip).toHaveBeenCalledTimes(2);
+    expect(memoryFlip).toHaveBeenLastCalledWith("r1", 1);
+    expect(await screen.findAllByText("Sinbad")).toHaveLength(2);
+  });
+
   it("shows the moves when every pair is found", async () => {
     vi.mocked(memoryStart).mockResolvedValue({ ok: true, data: { run: "r1", view: blank } });
     vi.mocked(memoryFlip).mockResolvedValue({

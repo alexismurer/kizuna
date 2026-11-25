@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { Grid2x2 } from "lucide-react";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
@@ -17,6 +17,8 @@ const COLOR = "var(--color-uncommon)";
 const LEVELS: MemoryLevel[] = [8, 12, 18];
 const COLS: Record<MemoryLevel, string> = { 8: "grid-cols-4 sm:grid-cols-8", 12: "grid-cols-4 sm:grid-cols-8", 18: "grid-cols-6 sm:grid-cols-9" };
 
+// the time now (outside render: the queue runs it after each answer)
+const stamp = () => Date.now();
 const clock = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
 // Memory: find every pair in as few moves as you can. Each flip asks the server.
@@ -66,23 +68,53 @@ export function Memory({ best, tickets }: { best: Record<MemoryLevel, number | n
       setNow(Date.now());
     });
 
-  const flip = (i: number) =>
-    start(async () => {
-      if (!run || !view || view.over) return;
-      setError(null);
+  // Flips are queued: a card clicked while the server answers the previous one shows
+  // as turning at once, and is sent right after (clicks are never dropped).
+  const [turning, setTurning] = useState<number[]>([]);
+  const queue = useRef<number[]>([]);
+  const sending = useRef(false);
+  const latest = useRef(view);
+  useEffect(() => {
+    latest.current = view;
+  }, [view]);
+
+  const send = async () => {
+    if (sending.current || !run) return;
+    sending.current = true;
+    while (queue.current.length > 0) {
+      const i = queue.current.shift()!;
+      const before = latest.current;
+      if (!before || before.over) break;
       const r = await memoryFlip(run, i);
-      if (!r.ok) return fail(r.error);
+      setTurning((t) => t.filter((x) => x !== i));
+      if (!r.ok) {
+        fail(r.error);
+        continue;
+      }
       const v = r.data.view;
+      latest.current = v;
       setHide([]);
       setView(v);
-      if (v.open.length === 0 && v.found > view.found) arcadeSfx("right", prefs.sound);
+      if (v.open.length === 0 && v.found > before.found) arcadeSfx("right", prefs.sound);
       else arcadeSfx("deal", prefs.sound);
       if (r.data.result) {
         setResult(r.data.result);
         setTicketsNow(r.data.result.tickets);
-        setNow(Date.now());
+        setNow(stamp());
       }
-    });
+    }
+    queue.current = [];
+    setTurning([]);
+    sending.current = false;
+  };
+
+  const flip = (i: number) => {
+    if (!run || !view || view.over || turning.includes(i)) return;
+    setError(null);
+    queue.current.push(i);
+    setTurning((t) => [...t, i]);
+    void send();
+  };
 
   const stats = [
     { label: tg("moves"), value: view?.moves ?? 0 },
@@ -151,9 +183,11 @@ export function Memory({ best, tickets }: { best: Record<MemoryLevel, number | n
                   key={`b${i}`}
                   type="button"
                   aria-label={tg("faceDown")}
-                  disabled={pending}
+                  aria-busy={turning.includes(i)}
                   onClick={() => flip(i)}
-                  className="flex aspect-[5/7] w-full items-center justify-center rounded-xl border-2 border-accent/50 bg-[repeating-linear-gradient(135deg,rgb(255_61_127/0.1)_0_6px,transparent_6px_12px)] transition hover:-translate-y-0.5 hover:border-accent disabled:cursor-wait"
+                  className={`flex aspect-[5/7] w-full items-center justify-center rounded-xl border-2 bg-[repeating-linear-gradient(135deg,rgb(255_61_127/0.1)_0_6px,transparent_6px_12px)] transition hover:-translate-y-0.5 hover:border-accent ${
+                    turning.includes(i) ? "-translate-y-1 animate-pulse border-white" : "border-accent/50"
+                  }`}
                 >
                   <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-accent/70 font-display font-bold text-accent">絆</span>
                 </button>
