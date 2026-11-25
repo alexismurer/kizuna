@@ -88,9 +88,10 @@ function SeriesPicker({ series, pick, onPick, color }: { series: SeriesChoice[];
   const ring = (on: boolean) => (on ? { borderColor: color, boxShadow: `0 0 0 2px ${color}, 0 0 18px -2px ${color}` } : undefined);
   const tile = "group relative aspect-[2/3] overflow-hidden rounded-xl border-2 border-white/10 bg-black/40 text-left transition hover:border-white/40";
   return (
-    <div className="w-full max-w-2xl">
+    <div className="w-full max-w-3xl">
       <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-common">{tg("pickAnime")}</p>
-      <div role="radiogroup" aria-label={tg("pickAnime")} className="grid max-h-[19rem] grid-cols-4 gap-2 overflow-y-auto p-1 sm:grid-cols-6">
+      {/* 24 tiles with the mix: full rows of 4, 6 and 8 */}
+      <div role="radiogroup" aria-label={tg("pickAnime")} className="grid grid-cols-4 gap-2 p-1 sm:grid-cols-6 lg:grid-cols-8">
         <button type="button" role="radio" aria-checked={pick === null} onClick={() => onPick(null)} className={tile} style={ring(pick === null)}>
           <span className="absolute inset-0 flex items-center justify-center" style={{ color }}>
             <Shuffle className="h-1/4 w-1/4" aria-hidden />

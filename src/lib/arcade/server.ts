@@ -186,8 +186,10 @@ export async function fusionSeries(): Promise<FusionSeries[]> {
     rows.push(...(data as unknown as Row[]));
     if (data.length < 1000) break;
   }
+  // 23 anime + the random mix = 24 tiles, full rows in the picker
   return buildSeriesList(
     rows.map((r) => ({ id: r.id, name: r.name, imageUrl: r.image_url, rank: r.popularity_rank, seriesId: r.series_id, title: r.series.title, cover: r.series.cover_url })),
+    23,
   );
 }
 
