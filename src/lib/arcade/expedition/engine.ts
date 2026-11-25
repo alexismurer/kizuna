@@ -158,7 +158,7 @@ export function go(s: ExpState, today: string): ExpState {
     return { ...fresh, shards: s.shards + 40, bag: [...s.bag, item], cleared: s.cleared + 1, caseNo: s.caseNo + 1, last: { kind: "treasure", caseNo: s.caseNo, shards: 40, tickets: 3, item } };
   }
   const items = shuffle(Object.keys(SHOP) as ShopItem[], caseRng(s, 0x5b)).slice(0, 3);
-  return { ...fresh, phase: "shop", offers: items.map((item) => ({ item, price: SHOP[item], bought: false })) };
+  return { ...fresh, last: null, phase: "shop", offers: items.map((item) => ({ item, price: SHOP[item], bought: false })) };
 }
 
 const healAlive = (team: Member[], by: number) => team.map((m) => (m.alive ? { ...m, hp: Math.min(1, m.hp + by) } : m));
@@ -198,12 +198,14 @@ export function useItem(s: ExpState, i: number): ExpState {
   return s.team.every((m) => m.alive) ? fail() : { ...s, bag, team: revive(s.team) };
 }
 
-// one card swapped between cases; the newcomer comes fresh, with its own rank
+// one card swapped between cases; the newcomer keeps its own rank but takes the slot's
+// health (a swap is not a heal)
 export function swap(s: ExpState, slot: number, card: BCard, xp: number): ExpState {
   if (s.phase !== "route" || s.swappedAt === s.caseNo || !Number.isInteger(slot) || slot < 0 || slot > 4) return fail();
+  if (s.team[slot].card.id === card.id) return fail();
   const cards = s.team.map((m, k) => (k === slot ? card : m.card));
   checkTeam(cards);
-  const team = s.team.map((m, k) => (k === slot ? { card, hp: 1, kos: 0, alive: true } : m));
+  const team = s.team.map((m, k) => (k === slot ? { card, hp: m.hp, kos: 0, alive: m.alive } : m));
   return { ...s, team, xp: { ...s.xp, [card.id]: xp }, swappedAt: s.caseNo };
 }
 

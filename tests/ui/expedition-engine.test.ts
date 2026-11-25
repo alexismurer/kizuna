@@ -123,4 +123,16 @@ describe("Expedition", () => {
     expect(s.phase).toBe("over");
     expect(giveUp(begin()).over).toBe(true);
   });
+
+  it("can't heal by swapping: no same card, and the newcomer takes the slot's health", () => {
+    const hurt: ExpState = { ...begin(), team: begin().team.map((m, i) => (i === 4 ? { ...m, hp: 0, alive: false } : i === 3 ? { ...m, hp: 0.2 } : m)) };
+    expect(() => swap(hurt, 3, card(4, "rare"), 0)).toThrow("invalid_action");
+    expect(swap(hurt, 3, card(9, "rare"), 0).team[3]).toMatchObject({ hp: 0.2, alive: true });
+    expect(swap(hurt, 4, card(9, "common"), 0).team[4]).toMatchObject({ alive: false });
+  });
+
+  it("entering a shop leaves no fight to replay", () => {
+    const s = go({ ...begin(), caseNo: 3, last: { kind: "treasure", caseNo: 1, shards: 40, tickets: 3, item: "potion" } }, DAY);
+    expect(s.last).toBeNull();
+  });
 });
