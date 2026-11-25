@@ -20,7 +20,7 @@ export const ARCADE: Record<ArcadeGameId, { minSeconds: number; stars: [number, 
   "daily-connections": { minSeconds: 30, stars: [325, 350, 400], daily: true },
   // score = cases cleared; tickets are paid case by case
   expedition: { minSeconds: 0, stars: [5, 10, 20], daily: false },
-  "blind-easy": { minSeconds: 60, stars: [400, 600, 800], daily: false },
-  "blind-medium": { minSeconds: 60, stars: [400, 600, 800], daily: false },
-  "blind-hard": { minSeconds: 60, stars: [400, 600, 800], daily: false },
+  "blind-easy": { minSeconds: 30, stars: [400, 600, 800], daily: false },
+  "blind-medium": { minSeconds: 30, stars: [400, 600, 800], daily: false },
+  "blind-hard": { minSeconds: 30, stars: [400, 600, 800], daily: false },
 };

@@ -13,7 +13,7 @@ import dotenv from 'dotenv'
 //   npm run blind:import -- --dir D:/animethemes [--env .env.local] [--top 400] [--dry]
 //
 // For our most popular AniList series: up to 3 openings and 2 endings each, cut to 30 s
-// from the start (ffmpeg, Opus 96k), uploaded under random names to the private "blind"
+// from the start (ffmpeg, AAC 128k in m4a, tags stripped so nothing names the song), uploaded under random names to the private "blind"
 // bucket, with a blind_clips row. Levels: OP of the top 60 = easy, the rest of the top
 // 250 = medium, beyond = hard. Re-runs skip themes already imported; nothing is deleted.
 const arg = (name: string) => {
@@ -70,8 +70,14 @@ async function main() {
   if (error) throw error
   const ranked = series.filter((s) => best.has(s.id)).sort((a, b) => best.get(a.id)! - best.get(b.id)!).slice(0, top)
 
-  const { data: had } = await db.from('blind_clips').select('theme_id')
-  const done = new Set((had ?? []).map((r) => r.theme_id))
+  // page through: PostgREST returns at most 1000 rows a call
+  const done = new Set<number>()
+  for (let from = 0; ; from += 1000) {
+    const { data, error: e } = await db.from('blind_clips').select('theme_id').order('theme_id').range(from, from + 999)
+    if (e) throw e
+    for (const r of data) done.add(r.theme_id)
+    if (data.length < 1000) break
+  }
   const files = indexFiles(dir)
   console.log(`${files.size} files in the backup, ${ranked.length} series to look up`)
   const tmp = mkdtempSync(join(tmpdir(), 'blind-'))
@@ -97,18 +103,22 @@ async function main() {
         console.log('would add', s.title, row.kind + row.seq, row.song, '←', file)
         continue
       }
-      const out = join(tmp, `${randomUUID()}.ogg`)
-      const cut = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', '0', '-t', '30', '-i', file, '-vn', '-c:a', 'libopus', '-b:a', '96k', out])
+      const out = join(tmp, `${randomUUID()}.m4a`)
+      const cut = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', '0', '-t', '30', '-i', file, '-vn', '-map_metadata', '-1', '-map_chapters', '-1', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', out])
       if (cut.status !== 0) {
         console.warn('ffmpeg failed on', file)
         continue
       }
       const path = parse(out).base
-      const up = await db.storage.from('blind').upload(path, readFileSync(out), { contentType: 'audio/ogg' })
+      const up = await db.storage.from('blind').upload(path, readFileSync(out), { contentType: 'audio/mp4' })
       rmSync(out)
       if (up.error) throw up.error
       const ins = await db.from('blind_clips').insert({ ...row, path })
-      if (ins.error) throw ins.error
+      if (ins.error) {
+        // no orphan clips in storage
+        await db.storage.from('blind').remove([path])
+        throw ins.error
+      }
       done.add(t.id)
       added++
     }

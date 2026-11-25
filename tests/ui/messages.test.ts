@@ -34,8 +34,9 @@ describe.each(routing.locales.filter((l) => l !== "en"))("messages/%s.json", (lo
 
   // in ICU a straight apostrophe before { or < escapes it, so the tag prints as text
   it("has no apostrophe right before a placeholder or tag", () => {
+    const tree = load(locale);
     for (const [key] of other) {
-      const text = key.split(".").reduce<Tree | string>((t, k) => (t as Tree)[k], load(locale)) as string;
+      const text = key.split(".").reduce<Tree | string>((t, k) => (t as Tree)[k], tree) as string;
       expect(text, key).not.toMatch(/'[{<]/);
     }
   });

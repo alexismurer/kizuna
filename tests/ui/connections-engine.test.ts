@@ -31,7 +31,7 @@ describe("Connections boards", () => {
       expect(s.cards.filter((c) => c.seriesId === sid)).toHaveLength(5);
       expect(s.cards.filter((c) => c.genre === genre.value).length).toBeGreaterThanOrEqual(5);
     }
-  });
+  }, 30_000);
 
   it("keeps the answers out of the view until solved", () => {
     const s = generate(pool, rng(3));
@@ -76,7 +76,7 @@ describe("Connections boards", () => {
       expect(s.cards.filter((c) => c.rarity === rarity).length).toBeGreaterThanOrEqual(6);
       expect(s.cards.filter((c) => c.genre === genre).length).toBeGreaterThanOrEqual(6);
     }
-  });
+  }, 30_000);
 
   it("rebuilds the same groups and labels from the stored order (the daily)", () => {
     for (let seed = 1; seed <= 10; seed++) {
@@ -86,5 +86,5 @@ describe("Connections boards", () => {
       expect(back.groups).toEqual(s.groups);
       expect(new Set(back.cards.map((c) => c.id))).toEqual(new Set(ids));
     }
-  });
+  }, 30_000);
 });

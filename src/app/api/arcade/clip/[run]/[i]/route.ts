@@ -6,7 +6,7 @@ const BLIND = ["blind-easy", "blind-medium", "blind-hard"];
 
 // The clip of the open Blind test question, under an address that says nothing about
 // the song: only the run's player, only the question being asked.
-export async function GET(_req: Request, { params }: { params: Promise<{ run: string; i: string }> }) {
+export async function GET(req: Request, { params }: { params: Promise<{ run: string; i: string }> }) {
   const { run: id, i } = await params;
   const n = Number(i);
   if (!/^[0-9a-f-]{36}$/i.test(id) || !Number.isInteger(n) || n < 0) return new NextResponse(null, { status: 404 });
@@ -22,7 +22,16 @@ export async function GET(_req: Request, { params }: { params: Promise<{ run: st
   }
   const audio = path ? await clipAudio(path) : null;
   if (!audio) return new NextResponse(null, { status: 404 });
-  return new NextResponse(audio.stream(), {
-    headers: { "content-type": "audio/ogg", "content-length": String(audio.size), "cache-control": "private, no-store", "x-content-type-options": "nosniff" },
-  });
+  const bytes = new Uint8Array(await audio.arrayBuffer());
+  const headers = { "content-type": "audio/mp4", "accept-ranges": "bytes", "cache-control": "private, no-store", "x-content-type-options": "nosniff" };
+  // Safari asks for media in byte ranges
+  const m = /^bytes=(\d*)-(\d*)$/.exec(req.headers.get("range") ?? "");
+  if (m && (m[1] || m[2])) {
+    const size = bytes.length;
+    const start = m[1] ? Number(m[1]) : Math.max(0, size - Number(m[2]));
+    const end = m[1] && m[2] ? Math.min(size - 1, Number(m[2])) : size - 1;
+    if (start > end || start >= size) return new NextResponse(null, { status: 416, headers: { "content-range": `bytes */${size}` } });
+    return new NextResponse(bytes.slice(start, end + 1), { status: 206, headers: { ...headers, "content-length": String(end - start + 1), "content-range": `bytes ${start}-${end}/${size}` } });
+  }
+  return new NextResponse(bytes, { headers: { ...headers, "content-length": String(bytes.length) } });
 }
