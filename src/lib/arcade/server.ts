@@ -2,6 +2,7 @@
 // written with the service role (players have no access to arcade_runs), so this file
 // must only be imported by server actions and server components.
 import { createClient } from "@supabase/supabase-js";
+import { cacheLife } from "next/cache";
 import { createServerClient } from "@/lib/supabase/server";
 import type { Rarity } from "@/lib/game/types";
 import type { BlindClip } from "./quiz/blindTest";
@@ -157,7 +158,10 @@ export async function progressRun(run: Run<unknown>, score: number): Promise<voi
   if (error) throw new ArcadeError(error.message);
 }
 
+// the catalogue is the same for everyone: a search is cached on the server for an hour
 export async function searchCards(q: string, rarity: Rarity | null): Promise<ArcadeCard[]> {
+  "use cache";
+  cacheLife("hours");
   const { data, error } = await service().rpc("arcade_search_cards", { p_q: q.slice(0, 40), p_rarity: rarity, p_limit: 60 });
   if (error) throw new ArcadeError(error.message);
   return data as ArcadeCard[];
@@ -197,7 +201,10 @@ export async function recordRun(run: Run<unknown>, score: number, stars: number,
   return data as RunResult;
 }
 
+// cached like searchCards (a deck of the day, a team being set off)
 export async function cardsByIds(ids: number[]): Promise<ArcadeCard[]> {
+  "use cache";
+  cacheLife("hours");
   const { data, error } = await service().rpc("arcade_cards_by_ids", { p_ids: ids });
   if (error) throw new ArcadeError(error.message);
   return data as ArcadeCard[];
