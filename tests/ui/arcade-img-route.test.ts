@@ -38,6 +38,26 @@ describe("quiz image route", () => {
     expect((await get("0")).status).toBe(404);
     expect((await get("0", "not-a-run")).status).toBe(404);
   });
+  it("serves the next question's first pictures only once the open one is answered", async () => {
+    const two = (answered: boolean, reveal?: number[]) => {
+      const s = state(5000);
+      return {
+        ...s,
+        questions: [s.questions[0], { cards: [card(7), card(8), card(9)], options: ["a", "b", "c", "d"], answer: 1, reveal }],
+        answers: answered ? [{ choice: 0, right: true, points: 50, ms: 900 }] : [],
+      };
+    };
+    const getQ = (slot: string, q: number) => GET(new Request(`http://x?q=${q}`), { params: Promise.resolve({ run: RUN, slot }) });
+    store.loadRun.mockResolvedValue({ state: two(false) });
+    expect((await getQ("0", 1)).status).toBe(404);
+    store.loadRun.mockResolvedValue({ state: two(true) });
+    expect((await getQ("0", 1)).status).toBe(200);
+    expect(fetch).toHaveBeenLastCalledWith("https://img/7.png", expect.anything());
+    // cards that come in later stay hidden
+    store.loadRun.mockResolvedValue({ state: two(true, [0, 4000, 8000]) });
+    expect((await getQ("1", 1)).status).toBe(404);
+    expect((await getQ("0", 2)).status).toBe(404);
+  });
   it("only passes images through", async () => {
     store.loadRun.mockResolvedValue({ state: state(5000) });
     vi.mocked(fetch).mockResolvedValue(new Response("<script>", { headers: { "content-type": "text/html" } }));

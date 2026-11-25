@@ -9,6 +9,7 @@ import { ResultScreen } from "../ResultScreen";
 import { StartScreen } from "../StartScreen";
 import { TimerBar } from "./QuizParts";
 import { useQuiz } from "./useQuiz";
+import { useQuizImages } from "./useQuizImages";
 
 const COLOR = "var(--color-mythic)";
 const WINDOW = 6_000;
@@ -18,6 +19,7 @@ export function MostLoved({ best, tickets }: { best: number | null; tickets: num
   const tg = useTranslations("arcade.mostLoved");
   const tr = useTranslations("rarity");
   const q = useQuiz("most-loved", best, tickets);
+  const img = useQuizImages(q.run, q.view);
   const v = q.view;
   const rarity = v?.faces?.[0]?.rarity;
 
@@ -53,9 +55,9 @@ export function MostLoved({ best, tickets }: { best: number | null; tickets: num
           </div>
           <p className="font-display text-2xl font-bold">{tg("question")}</p>
           <div className="flex items-center gap-3 sm:gap-6">
-            <Pick run={q.run} view={v} i={0} onPick={q.choose} disabled={q.pending} />
+            <Pick run={q.run} src={img(v.index, 0)} view={v} i={0} onPick={q.choose} disabled={q.pending} />
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent font-display text-sm font-extrabold text-white">VS</span>
-            <Pick run={q.run} view={v} i={1} onPick={q.choose} disabled={q.pending} />
+            <Pick run={q.run} src={img(v.index, 1)} view={v} i={1} onPick={q.choose} disabled={q.pending} />
           </div>
           {v.answered && (
             <div className="flex flex-col items-center gap-3">
@@ -79,7 +81,7 @@ export function MostLoved({ best, tickets }: { best: number | null; tickets: num
   );
 }
 
-function Pick({ run, view, i, onPick, disabled }: { run: string; view: QuizView; i: number; onPick: (i: number) => void; disabled: boolean }) {
+function Pick({ run, src, view, i, onPick, disabled }: { run: string; src: string | null; view: QuizView; i: number; onPick: (i: number) => void; disabled: boolean }) {
   const format = useFormatter();
   const face = view.faces?.[i];
   const a = view.answered;
@@ -99,7 +101,7 @@ function Pick({ run, view, i, onPick, disabled }: { run: string; view: QuizView;
         style={{ borderColor: a && won ? "var(--color-uncommon)" : color }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={card?.imageUrl ?? `/api/arcade/img/${run}/${i}?q=${view.index}`} alt="" className="h-full w-full object-cover object-top" />
+        <img src={src ?? card?.imageUrl ?? `/api/arcade/img/${run}/${i}?q=${view.index}`} alt="" className="h-full w-full object-cover object-top" />
         <span className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/80 to-transparent px-2 pt-1.5 pb-4 text-left font-display text-sm font-bold text-white">
           {face.name}
         </span>

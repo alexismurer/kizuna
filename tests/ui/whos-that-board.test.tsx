@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WhosThat } from "@/components/arcade/quiz/WhosThat";
 import { quizAnswer, quizStart } from "@/lib/actions/arcade";
 import type { QuizView } from "@/lib/arcade/quiz/engine";
@@ -14,6 +14,11 @@ vi.mock("@/i18n/navigation", () => ({
 }));
 
 afterEach(cleanup);
+beforeEach(() => {
+  URL.createObjectURL = vi.fn(() => "blob:pic");
+  URL.revokeObjectURL = vi.fn();
+  vi.spyOn(globalThis, "fetch").mockImplementation(async () => new Response(new Blob(["png"], { type: "image/png" })));
+});
 
 const open: QuizView = {
   index: 0, total: 10, options: ["Reze", "Erina Nakiri", "Konata Izumi", "Sinbad"], slots: 1, cards: 1,
@@ -33,8 +38,9 @@ describe("Who's that? board", () => {
     vi.mocked(quizStart).mockResolvedValue({ ok: true, data: { run: "r1", view: open } });
     show();
     await act(async () => fireEvent.click(screen.getByRole("button", { name: /Play solo/ })));
-    const img = screen.getByTestId("quiz-image") as HTMLImageElement;
-    expect(img.getAttribute("src")).toContain("/api/arcade/img/r1/0");
+    expect(fetch).toHaveBeenCalledWith("/api/arcade/img/r1/0?q=0");
+    const img = (await waitFor(() => screen.getByTestId("quiz-image"))) as HTMLImageElement;
+    expect(img.getAttribute("src")).toBe("blob:pic");
     for (const o of open.options) expect(screen.getByRole("button", { name: o })).toBeInTheDocument();
   });
 
@@ -51,5 +57,7 @@ describe("Who's that? board", () => {
     expect(screen.getByText("Well spotted! +46")).toBeInTheDocument();
     expect(screen.getByText("Magi")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
+    // the next character is fetched while this answer is on screen
+    expect(fetch).toHaveBeenCalledWith("/api/arcade/img/r1/0?q=1");
   });
 });

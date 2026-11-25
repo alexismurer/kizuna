@@ -8,6 +8,7 @@ import { ResultScreen } from "../ResultScreen";
 import { StartScreen } from "../StartScreen";
 import { Options, TimerBar } from "./QuizParts";
 import { useQuiz } from "./useQuiz";
+import { useQuizImages } from "./useQuizImages";
 
 const COLOR = "var(--color-epic)";
 const WINDOW = 10_000;
@@ -18,6 +19,7 @@ export function WhosThat({ best, tickets }: { best: number | null; tickets: numb
   const tg = useTranslations("arcade.whosThat");
   const q = useQuiz("whos-that", best, tickets);
   const v = q.view;
+  const img = useQuizImages(q.run, v);
 
   const stats = [
     { label: tg("character"), value: v ? `${v.index + 1}/${v.total ?? 10}` : "—" },
@@ -39,7 +41,7 @@ export function WhosThat({ best, tickets }: { best: number | null; tickets: numb
       {v && !q.showResult && (
         <div className="flex min-h-[34rem] flex-col items-center justify-center gap-6 p-4 sm:flex-row sm:p-8">
           <div className="w-full max-w-sm">
-            <Picture run={q.run!} index={v.index} revealed={v.answered?.cards[0] ?? null} />
+            <Picture key={v.index} src={img(v.index, 0)} leftMs={Math.max(0, WINDOW - (v.askedMsAgo ?? 0))} revealed={v.answered?.cards[0] ?? null} />
             <div className="mt-2">
               <TimerBar view={v} windowMs={WINDOW} color={COLOR} />
             </div>
@@ -69,34 +71,35 @@ export function WhosThat({ best, tickets }: { best: number | null; tickets: numb
   );
 }
 
-// The character: through the opaque route while the question is open (blurred and
-// zoomed, clearing over 10 s), then the real card art with its series.
-function Picture({ run, index, revealed }: { run: string; index: number; revealed: { imageUrl: string; series: string } | null }) {
-  const [loaded, setLoaded] = useState<number | null>(null);
-  const clear = loaded === index;
+// The character, fetched ahead through the opaque route: blurred and zoomed, clearing
+// over what is left of the answer window, then the same picture sharp with its series.
+function Picture({ src, leftMs, revealed }: { src: string | null; leftMs: number; revealed: { imageUrl: string; series: string } | null }) {
+  const [mounted] = useState(() => Date.now());
+  const [left, setLeft] = useState<number | null>(null);
   return (
     <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-white/10 bg-black">
       {revealed ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={revealed.imageUrl} alt="" className="h-full w-full object-cover object-top" />
+          <img src={src ?? revealed.imageUrl} alt="" className="h-full w-full object-cover object-top" />
           <span className="absolute bottom-2 left-2 rounded-full bg-black/70 px-2.5 py-1 text-xs font-semibold text-white">{revealed.series}</span>
         </>
-      ) : (
+      ) : src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          key={index}
           data-testid="quiz-image"
-          src={`/api/arcade/img/${run}/0?q=${index}`}
+          src={src}
           alt=""
-          onLoad={() => setLoaded(index)}
+          onLoad={() => setLeft(Math.max(0, leftMs - (Date.now() - mounted)))}
           className="h-full w-full object-cover object-top"
           style={{
-            filter: clear ? "blur(0px)" : "blur(22px)",
-            transform: clear ? "scale(1)" : "scale(2.8)",
-            transition: clear ? "filter 10s cubic-bezier(.4,0,.2,1), transform 10s cubic-bezier(.3,0,.2,1)" : "none",
+            filter: left !== null ? "blur(0px)" : "blur(22px)",
+            transform: left !== null ? "scale(1)" : "scale(2.8)",
+            transition: left !== null ? `filter ${left}ms cubic-bezier(.4,0,.2,1), transform ${left}ms cubic-bezier(.3,0,.2,1)` : "none",
           }}
         />
+      ) : (
+        <span className="absolute inset-0 m-auto h-10 w-10 animate-spin rounded-full border-4 border-white/15 border-t-white/60" aria-hidden />
       )}
     </div>
   );

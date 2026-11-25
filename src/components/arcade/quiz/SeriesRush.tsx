@@ -12,6 +12,7 @@ import { ResultScreen } from "../ResultScreen";
 import { StartScreen } from "../StartScreen";
 import { Options, TimerBar } from "./QuizParts";
 import { useQuiz } from "./useQuiz";
+import { useQuizImages } from "./useQuizImages";
 
 const COLOR = "var(--color-legendary)";
 const WINDOW = 12_000;
@@ -21,6 +22,7 @@ export function SeriesRush({ best, tickets }: { best: number | null; tickets: nu
   const t = useTranslations("arcade");
   const tg = useTranslations("arcade.seriesRush");
   const q = useQuiz("series-rush", best, tickets);
+  const img = useQuizImages(q.run, q.view);
   const v = q.view;
   const { run, setView, sound } = q;
 
@@ -61,7 +63,7 @@ export function SeriesRush({ best, tickets }: { best: number | null; tickets: nu
         <div className="flex min-h-[34rem] flex-col items-center justify-center gap-6 p-4 lg:flex-row lg:p-8">
           <div className="flex flex-col gap-3">
             <TimerBar view={v} windowMs={WINDOW} color={COLOR} />
-            <Slots run={run} view={v} />
+            <Slots run={run} view={v} img={img} />
           </div>
           <div className="flex w-full max-w-xs flex-col gap-3">
             <p className="font-display text-lg font-bold">{tg("question")}</p>
@@ -91,7 +93,7 @@ export function SeriesRush({ best, tickets }: { best: number | null; tickets: nu
 
 // Three slots: a revealed character (art through the opaque route, name, rarity,
 // no series), a numbered face-down slot, or after the answer the real cards.
-function Slots({ run, view }: { run: string; view: QuizView }) {
+function Slots({ run, view, img }: { run: string; view: QuizView; img: (q: number, slot: number) => string | null }) {
   return (
     <div className="flex gap-2 sm:gap-3">
       {Array.from({ length: view.cards }, (_, i) => {
@@ -102,7 +104,7 @@ function Slots({ run, view }: { run: string; view: QuizView }) {
           return (
             <ArcadeCard
               key={`${view.index}-${i}`}
-              card={{ id: i, name: face.name, rarity: face.rarity, imageUrl: `/api/arcade/img/${run}/${i}?q=${view.index}`, series: null }}
+              card={{ id: i, name: face.name, rarity: face.rarity, imageUrl: img(view.index, i) ?? `/api/arcade/img/${run}/${i}?q=${view.index}`, series: null }}
               hideSeries
             />
           );
