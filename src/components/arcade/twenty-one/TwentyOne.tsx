@@ -132,12 +132,12 @@ function Recap({ results }: { results: BjResult[] }) {
 
 function Row({ label, total, cards }: { label: string; total: string; cards: (BjCard | null)[] }) {
   return (
-    <div className="flex items-center justify-center gap-4">
-      <div className="w-20 text-right">
+    <div className="flex flex-col items-center gap-2">
+      <div className="flex items-baseline gap-2">
         <p className="text-xs text-common">{label}</p>
         <p className="font-mono text-2xl font-bold">{total}</p>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         <AnimatePresence initial={false}>
           {cards.map((c, i) => (
             <motion.div

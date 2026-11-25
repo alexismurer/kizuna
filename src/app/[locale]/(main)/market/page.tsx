@@ -184,27 +184,36 @@ async function MarketContent({
   );
 }
 
-export default async function MarketPage({ params, searchParams }: PageProps<"/[locale]/market">) {
-  const { locale } = await params;
-  setRequestLocale(locale);
+// The header and the content appear together; until then <main> holds only the loader
+async function MarketBody({ searchParams }: { searchParams: PageProps<"/[locale]/market">["searchParams"] }) {
   const t = await getTranslations("market");
-
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 p-4 sm:p-6">
+    <>
       <header>
         <p className="text-xs font-bold tracking-[0.25em] text-accent">{t("eyebrow")}</p>
         <h1 className="font-display text-3xl font-extrabold sm:text-5xl">{t("title")}</h1>
       </header>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
-          <Suspense fallback={<PageLoader />}>
-            <MarketContent searchParams={searchParams} />
-          </Suspense>
+          <MarketContent searchParams={searchParams} />
         </div>
         <Suspense fallback={null}>
           <Chat />
         </Suspense>
       </div>
+    </>
+  );
+}
+
+export default async function MarketPage({ params, searchParams }: PageProps<"/[locale]/market">) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  return (
+    <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 p-4 sm:p-6">
+      <Suspense fallback={<PageLoader />}>
+        <MarketBody searchParams={searchParams} />
+      </Suspense>
     </main>
   );
 }

@@ -62,19 +62,26 @@ const TIERS: BCard["rarity"][][] = [
 ];
 const tierOf = (wave: number) => TIERS[Math.min(TIERS.length - 1, wave <= 2 ? 0 : wave <= 4 ? 1 : wave <= 7 ? 2 : wave <= 11 ? 3 : 4)];
 
+// how steep the waves get and how strong a boss is. The raid's boss is a rarity tier above
+// its wave (not always Legendary/Mythic) and a little softer: simulated with greedy picks,
+// the first boss now falls in ~60% of runs (was ~16%) and the second in ~7% (was ~1%).
+export type WaveTune = { growth: number; bossScale: number; bossTier: number | null };
+export const EXPEDITION_TUNE: WaveTune = { growth: 0.14, bossScale: 1, bossTier: null };
+export const RAID_TUNE: WaveTune = { growth: 0.12, bossScale: 0.75, bossTier: 3 };
+
 // the enemies of a wave: more and stronger as the waves go, a boss every 5
-export function waveEnemies(pool: BCard[], wave: number, r: () => number, boss = wave % 5 === 0): Enemy[] {
+export function waveEnemies(pool: BCard[], wave: number, r: () => number, boss = wave % 5 === 0, tune: WaveTune = EXPEDITION_TUNE): Enemy[] {
   const pickOf = (rarities: BCard["rarity"][]) => {
     const fits = pool.filter((c) => rarities.includes(c.rarity));
     const from = fits.length > 0 ? fits : pool;
     return from[Math.floor(r() * from.length)];
   };
   // a little steeper as it goes, so no team lasts forever
-  const mult = 1 + 0.14 * (wave - 1) + 0.03 * Math.max(0, wave - 10) ** 2;
+  const mult = 1 + tune.growth * (wave - 1) + 0.03 * Math.max(0, wave - 10) ** 2;
   if (boss) {
     const traits: BossTrait[] = ["enraged", "regeneration", "thorns"];
     return [
-      { card: pickOf(["legendary", "mythic"]), mult, boss: traits[Math.floor(r() * 3)] },
+      { card: pickOf(tune.bossTier === null ? ["legendary", "mythic"] : tierOf(wave + tune.bossTier)), mult: mult * tune.bossScale, boss: traits[Math.floor(r() * 3)] },
       { card: pickOf(tierOf(wave)), mult },
       { card: pickOf(tierOf(wave)), mult },
     ];
@@ -103,7 +110,7 @@ const waveRng = (s: RaidState, salt: number) => rng((s.seed ^ Math.imul(s.wave, 
 export function fight(s: RaidState): RaidState {
   if (s.phase !== "fight") return fail();
   const r = waveRng(s, 0x51);
-  const enemies = waveEnemies(s.pool, s.wave, r);
+  const enemies = waveEnemies(s.pool, s.wave, r, s.wave % 5 === 0, RAID_TUNE);
   const res = simulateWave(s.team, enemies, s.perks, s.relics, r);
   const last: FoughtWave = {
     wave: s.wave,

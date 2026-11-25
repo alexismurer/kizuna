@@ -17,8 +17,8 @@ const pool: ArcadeCard[] = Array.from({ length: 60 }, (_, i) => ({
   pow: 50,
   gender: null,
   rank: i + 1,
-  // a few ties and a few unknown fan counts
-  fans: i % 10 === 0 ? null : 500 - (i % 7) * 10,
+  // spread over a wide range, with a few unknown fan counts
+  fans: i % 10 === 0 ? null : Math.round(20 * Math.pow(1.12, i)),
 }));
 
 describe("Most loved? questions", () => {
@@ -49,6 +49,38 @@ describe("Most loved? questions", () => {
     s = answer(ask(next(s), 0), s.questions[1].answer, 10, rules);
     expect(s.over).toBe(true);
     expect(s.score).toBe(2);
+  });
+});
+
+describe("Most loved? gap", () => {
+  const big: ArcadeCard[] = Array.from({ length: 300 }, (_, i) => ({
+    ...pool[0],
+    id: i + 1,
+    name: `Big ${i + 1}`,
+    rarity: rarities[i % 3],
+    rank: i + 1,
+    fans: Math.round(5 * Math.pow(1.045, i * 1.5) * (1 + ((i * 7) % 5) / 10)),
+  }));
+  it("builds 50 questions where the favourite has at least 2x the fans", () => {
+    const qs = buildMostLoved(big, rng(5), 50);
+    expect(qs).toHaveLength(50);
+    for (const q of qs) {
+      const [hi, lo] = [Math.max(...q.cards.map((c) => c.fans!)), Math.min(...q.cards.map((c) => c.fans!))];
+      expect(hi / lo).toBeGreaterThanOrEqual(2);
+      expect(hi - lo).toBeGreaterThanOrEqual(10);
+    }
+  });
+  it("is deterministic for a seed", () => {
+    expect(buildMostLoved(big, rng(5), 50)).toEqual(buildMostLoved(big, rng(5), 50));
+  });
+  it("uses a rank ratio when popularity is the fallback", () => {
+    const none = big.map((c) => ({ ...c, fans: null }));
+    const qs = buildMostLoved(none, rng(3), 50);
+    expect(qs).toHaveLength(50);
+    for (const q of qs) {
+      const ranks = q.cards.map((c) => none.find((x) => x.id === c.id)!.rank);
+      expect(Math.max(...ranks) / Math.min(...ranks)).toBeGreaterThanOrEqual(2);
+    }
   });
 });
 

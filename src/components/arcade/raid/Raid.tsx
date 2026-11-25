@@ -373,6 +373,8 @@ let lastSpeed = 1;
 // how long a wave's title stays up before it starts, and a floating number (real ms)
 const INTRO_MS = 1100;
 const FLOAT_MS = 700;
+// simulated ms played per real ms at ×1: waves replay at half speed so the fight can be followed
+const PACE = 0.5;
 
 // Replays a fought wave from its events: health bars, floating numbers, knock-outs.
 export function Arena({ wave, playing, onEnd, total }: { wave: FoughtWave; playing: boolean; onEnd: () => void; total?: number }) {
@@ -405,7 +407,7 @@ export function Arena({ wave, playing, onEnd, total }: { wave: FoughtWave; playi
       const dt = now - last;
       last = now;
       setClock((c) => {
-        const n = Math.min(wave.t, c + dt * speed);
+        const n = Math.min(wave.t, c + dt * speed * PACE);
         if (n >= wave.t && !ended.current) {
           ended.current = true;
           done = setTimeout(() => onEndRef.current(), 400);
@@ -480,7 +482,7 @@ export function Arena({ wave, playing, onEnd, total }: { wave: FoughtWave; playi
         {wave.enemies.map((e, i) => {
           const u = units.get(10 + i)!;
           return (
-            <Fighter key={i} unit={u} clock={clock} window={FLOAT_MS * speed}>
+            <Fighter key={i} unit={u} clock={clock} window={FLOAT_MS * speed * PACE}>
               <BattleCard
                 card={e.card}
                 small={wave.enemies.length > 5}
@@ -528,7 +530,7 @@ export function Arena({ wave, playing, onEnd, total }: { wave: FoughtWave; playi
         {wave.start.map((m, i) => {
           const u = units.get(i)!;
           return (
-            <Fighter key={i} unit={u} clock={clock} window={FLOAT_MS * speed}>
+            <Fighter key={i} unit={u} clock={clock} window={FLOAT_MS * speed * PACE}>
               <BattleCard card={m.card} hp={u.hp} max={u.max} kos={m.kos} dead={u.dead} badge={u.dead ? undefined : wave.events.some((e) => e.k === "block" && e.b === i && e.t <= clock && clock - e.t < 400) ? <Shield className="absolute right-1 bottom-5 h-4 w-4 text-rare" aria-hidden /> : undefined} />
             </Fighter>
           );

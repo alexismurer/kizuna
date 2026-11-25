@@ -251,7 +251,8 @@ export function Summary({
           <ul
             aria-label={t("cards")}
             ref={listRef}
-            className="mt-2 flex max-h-[44dvh] w-full flex-wrap justify-center gap-x-3 gap-y-4 overflow-y-auto px-1 pt-3 pb-2 md:max-h-[52dvh] md:gap-x-4"
+            // the list takes the height left by the title and the buttons, so nothing is pushed below the screen
+            className="mt-2 flex max-h-[max(10rem,min(44dvh,calc(100dvh-29rem)))] w-full flex-wrap justify-center gap-x-3 gap-y-4 overflow-y-auto px-1 pt-3 pb-2 md:max-h-[max(11rem,calc(100dvh-28rem))] md:gap-x-4"
           >
             {slots.map((s, i) => (
               <li

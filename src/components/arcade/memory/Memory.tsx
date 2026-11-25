@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { Grid2x2 } from "lucide-react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { memoryFlip, memoryStart, type FinishResult, type MemoryLevel } from "@/lib/actions/arcade";
 import type { MemView } from "@/lib/arcade/memory/engine";
@@ -173,26 +173,38 @@ export function Memory({ best, tickets }: { best: Record<MemoryLevel, number | n
       {view && !(result && view.over) && (
         <div className="flex min-h-[34rem] items-center justify-center p-3 sm:p-6">
           <div className={`grid w-full max-w-5xl gap-2 ${COLS[level]}`}>
-            {view.tiles.map((c, i) =>
-              c && !hide.includes(i) ? (
-                <motion.div key={`f${i}`} initial={{ rotateY: 90 }} animate={{ rotateY: 0 }} transition={{ duration: 0.25 }}>
-                  <ArcadeCard card={c} className="w-full" />
-                </motion.div>
-              ) : (
-                <button
-                  key={`b${i}`}
-                  type="button"
-                  aria-label={tg("faceDown")}
-                  aria-busy={turning.includes(i)}
-                  onClick={() => flip(i)}
-                  className={`flex aspect-[5/7] w-full items-center justify-center rounded-xl border-2 bg-[repeating-linear-gradient(135deg,rgb(255_61_127/0.1)_0_6px,transparent_6px_12px)] transition hover:-translate-y-0.5 hover:border-accent ${
-                    turning.includes(i) ? "-translate-y-1 animate-pulse border-white" : "border-accent/50"
-                  }`}
-                >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-accent/70 font-display font-bold text-accent">絆</span>
-                </button>
-              ),
-            )}
+            {view.tiles.map((c, i) => (
+              // wait: a missed card turns edge-on (face out), then the back shows, like the flip forward
+              <AnimatePresence key={i} mode="wait" initial={false}>
+                {c && !hide.includes(i) ? (
+                  <motion.div
+                    key={`f${i}`}
+                    initial={{ rotateY: 90 }}
+                    animate={{ rotateY: 0 }}
+                    exit={{ rotateY: 90 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <ArcadeCard card={c} className="w-full" />
+                  </motion.div>
+                ) : (
+                  <motion.button
+                    key={`b${i}`}
+                    initial={{ rotateY: 90 }}
+                    animate={{ rotateY: 0 }}
+                    transition={{ duration: 0.25 }}
+                    type="button"
+                    aria-label={tg("faceDown")}
+                    aria-busy={turning.includes(i)}
+                    onClick={() => flip(i)}
+                    className={`flex aspect-[5/7] w-full items-center justify-center rounded-xl border-2 bg-[repeating-linear-gradient(135deg,rgb(255_61_127/0.1)_0_6px,transparent_6px_12px)] transition-[translate,border-color] hover:-translate-y-0.5 hover:border-accent ${
+                      turning.includes(i) ? "-translate-y-1 animate-pulse border-white" : "border-accent/50"
+                    }`}
+                  >
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-accent/70 font-display font-bold text-accent">絆</span>
+                  </motion.button>
+                )}
+              </AnimatePresence>
+            ))}
           </div>
         </div>
       )}
