@@ -5,9 +5,9 @@ import { describe, expect, it, vi } from "vitest";
 vi.mock("@supabase/ssr", () => ({
   createServerClient: (_u: string, _k: string, opts: { cookies: { setAll: (c: { name: string; value: string }[]) => void } }) => ({
     auth: {
-      getUser: async () => {
+      getClaims: async () => {
         opts.cookies.setAll([{ name: "sb-auth", value: "fresh" }]);
-        return { data: { user: { id: "u1" } } };
+        return { data: { claims: { sub: "u1" } } };
       },
     },
     from: () => ({

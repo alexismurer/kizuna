@@ -46,9 +46,9 @@ export default async function proxy(request: NextRequest) {
 
   const path = stripLocale(request.nextUrl.pathname);
   if (EXEMPT.some((p) => path === p || path.startsWith(`${p}/`))) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser(); // refresh session
+    // refreshes the session; the token is checked locally (no trip to the auth server)
+    const { data } = await supabase.auth.getClaims();
+    const user = data ? { id: data.claims.sub } : null;
     const code = path.match(/^\/join\/([^/]+)/)?.[1];
     if (code) {
       let decoded = code;
@@ -79,10 +79,13 @@ export default async function proxy(request: NextRequest) {
     return res;
   };
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // the signed token is checked locally (the project signs with asymmetric keys),
+  // refreshing the session when it has expired: no trip to the auth server per request
+  const { data } = await supabase.auth.getClaims();
+  const user = data ? { id: data.claims.sub } : null;
   if (!user) return redirectTo("/login");
+  // link prefetches (a dozen per page) skip the player check: the navigation itself runs it
+  if (request.headers.get("next-router-prefetch")) return response;
 
   const { data: player } = await supabase
     .from("players")

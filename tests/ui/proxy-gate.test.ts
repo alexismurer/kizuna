@@ -20,9 +20,9 @@ vi.mock("next-intl/middleware", () => ({
 vi.mock("@supabase/ssr", () => ({
   createServerClient: (_u: string, _k: string, opts: { cookies: { setAll: SetAll } }) => ({
     auth: {
-      getUser: async () => {
+      getClaims: async () => {
         if (state.refresh) opts.cookies.setAll([state.refresh]);
-        return { data: { user: state.user } };
+        return { data: state.user ? { claims: { sub: state.user.id } } : null };
       },
     },
     from: () => ({
@@ -55,6 +55,14 @@ describe("proxy gate", () => {
     const res = await run(path);
     expect(res.status).toBe(307);
     expect(location(res)).toBe("/login");
+  });
+
+  it("lets a link prefetch through on the signed token alone (the navigation checks the player)", async () => {
+    state.user = { id: "u1" };
+    state.player = { id: "u1", banned_at: "2026-11-01" };
+    const res = await proxy(new NextRequest("http://localhost/market", { headers: { "next-router-prefetch": "1" } }));
+    expect(res.status).toBe(200);
+    expect(location(await run("/market"))).toBe("/banned");
   });
 
   it("sends banned players to /banned", async () => {
