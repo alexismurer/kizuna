@@ -2181,6 +2181,8 @@
       "top": "Beste Karte",
       "hint": "Wische oder nutze die Pfeiltasten",
       "endGame": "Spiel beenden",
+      "pickAnime": "Wähle einen Anime",
+      "randomMix": "Zufallsmix",
       "boardLabel": "Fusion-Brett",
       "tileLabel": "{rarity}{awakened}, Stufe {n}",
       "awakened": " erwacht",

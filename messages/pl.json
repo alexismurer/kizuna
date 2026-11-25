@@ -2181,6 +2181,8 @@
       "top": "Najlepsza karta",
       "hint": "Przesuń palcem lub użyj strzałek",
       "endGame": "Zakończ grę",
+      "pickAnime": "Wybierz anime",
+      "randomMix": "Losowa mieszanka",
       "boardLabel": "Plansza Fusion",
       "tileLabel": "{rarity}{awakened}, poziom {n}",
       "awakened": " przebudzona",

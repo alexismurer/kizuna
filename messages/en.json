@@ -2181,6 +2181,8 @@
       "top": "Top card",
       "hint": "Swipe or use the arrow keys",
       "endGame": "End game",
+      "pickAnime": "Pick an anime",
+      "randomMix": "Random mix",
       "boardLabel": "Fusion board",
       "tileLabel": "{rarity}{awakened}, tier {n}",
       "awakened": " awakened",

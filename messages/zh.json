@@ -2181,6 +2181,8 @@
       "top": "最高卡牌",
       "hint": "滑动屏幕或使用方向键",
       "endGame": "结束游戏",
+      "pickAnime": "选择一部动画",
+      "randomMix": "随机混合",
       "boardLabel": "Fusion 棋盘",
       "tileLabel": "{rarity}{awakened}，第 {n} 阶",
       "awakened": "（觉醒）",

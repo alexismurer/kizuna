@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useTransition } from "react";
-import { Layers, Star } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, useTransition } from "react";
+import { Layers, Shuffle, Star } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useFormatter, useTranslations } from "next-intl";
 import { COLOR } from "@/components/card/rarityColor";
@@ -70,7 +70,48 @@ function TileView({ tier, art, calm }: { tier: number; art: FusionArt | null; ca
 
 // Fusion: 2048 with cards. The game is played here with the same engine as the server;
 // the moves are sent once, at the end, and the server replays them to score the run.
-export function Fusion({ best, tickets }: { best: number | null; tickets: number | null }) {
+type SeriesChoice = { id: number; title: string; cover: string | null };
+const PICK_KEY = "fusion.series";
+const noSubscribe = () => () => {};
+function savedPick(): number | null {
+  try {
+    const raw = localStorage.getItem(PICK_KEY);
+    return raw === null ? null : Number(raw);
+  } catch {
+    return null;
+  }
+}
+
+// The anime the cards come from: its poster and title, or a random mix of the catalogue.
+function SeriesPicker({ series, pick, onPick, color }: { series: SeriesChoice[]; pick: number | null; onPick: (id: number | null) => void; color: string }) {
+  const tg = useTranslations("arcade.fusion");
+  const ring = (on: boolean) => (on ? { borderColor: color, boxShadow: `0 0 0 2px ${color}, 0 0 18px -2px ${color}` } : undefined);
+  const tile = "group relative aspect-[2/3] overflow-hidden rounded-xl border-2 border-white/10 bg-black/40 text-left transition hover:border-white/40";
+  return (
+    <div className="w-full max-w-2xl">
+      <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-common">{tg("pickAnime")}</p>
+      <div role="radiogroup" aria-label={tg("pickAnime")} className="grid max-h-[19rem] grid-cols-4 gap-2 overflow-y-auto p-1 sm:grid-cols-6">
+        <button type="button" role="radio" aria-checked={pick === null} onClick={() => onPick(null)} className={tile} style={ring(pick === null)}>
+          <span className="absolute inset-0 flex items-center justify-center" style={{ color }}>
+            <Shuffle className="h-1/4 w-1/4" aria-hidden />
+          </span>
+          <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-1.5 pt-6 text-[11px] font-semibold leading-tight text-white">{tg("randomMix")}</span>
+        </button>
+        {series.map((s) => (
+          <button key={s.id} type="button" role="radio" aria-checked={pick === s.id} onClick={() => onPick(s.id)} className={tile} style={ring(pick === s.id)}>
+            {s.cover && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={s.cover} alt="" loading="lazy" draggable={false} className="absolute inset-0 h-full w-full object-cover transition group-hover:scale-105" />
+            )}
+            <span className="absolute inset-x-0 bottom-0 line-clamp-3 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-1.5 pt-6 text-[11px] font-semibold leading-tight text-white">{s.title}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function Fusion({ best, tickets, series }: { best: number | null; tickets: number | null; series: SeriesChoice[] }) {
   const t = useTranslations("arcade");
   const tg = useTranslations("arcade.fusion");
   const format = useFormatter();
@@ -85,6 +126,17 @@ export function Fusion({ best, tickets }: { best: number | null; tickets: number
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const [ticketsNow, setTicketsNow] = useState(tickets);
+  // the anime clicked here (undefined: none yet, so the last one played if still listed)
+  const [picked, setPicked] = useState<number | null | undefined>(undefined);
+  const saved = useSyncExternalStore(noSubscribe, savedPick, () => null);
+  const pick = picked !== undefined ? picked : series.some((s) => s.id === saved) ? saved : null;
+  const choose = (id: number | null) => {
+    setPicked(id);
+    try {
+      if (id === null) localStorage.removeItem(PICK_KEY);
+      else localStorage.setItem(PICK_KEY, String(id));
+    } catch {}
+  };
 
   // what the last move did, for the animations
   const [pop, setPop] = useState<Set<number>>(new Set());
@@ -106,7 +158,7 @@ export function Fusion({ best, tickets }: { best: number | null; tickets: number
   const play = () =>
     startTransition(async () => {
       setError(null);
-      const r = await fusionStart();
+      const r = await fusionStart(pick);
       if (!r.ok) return fail(r.error);
       const g = newGame(r.data.seed);
       moves.current = "";
@@ -245,7 +297,9 @@ export function Fusion({ best, tickets }: { best: number | null; tickets: number
           chips={[tg("chip"), ...(best !== null ? [tg("best", { n: format.number(best) })] : [])]}
           busy={pending}
           onPlay={play}
-        />
+        >
+          {series.length > 0 && <SeriesPicker series={series} pick={pick} onPick={choose} color={COLOR_ACCENT} />}
+        </StartScreen>
       )}
       {game && result && (
         <ResultScreen

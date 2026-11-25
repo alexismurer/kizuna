@@ -2181,6 +2181,8 @@
       "top": "最高のカード",
       "hint": "スワイプか矢印キーで操作",
       "endGame": "ゲームを終了",
+      "pickAnime": "アニメを選ぶ",
+      "randomMix": "ランダムミックス",
       "boardLabel": "Fusionの盤面",
       "tileLabel": "{rarity}{awakened}、ティア{n}",
       "awakened": "（覚醒）",

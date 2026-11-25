@@ -2181,6 +2181,8 @@
       "top": "Mejor carta",
       "hint": "Desliza o usa las flechas",
       "endGame": "Terminar partida",
+      "pickAnime": "Elige un anime",
+      "randomMix": "Mezcla aleatoria",
       "boardLabel": "Tablero de Fusion",
       "tileLabel": "{rarity}{awakened}, nivel {n}",
       "awakened": " despertada",

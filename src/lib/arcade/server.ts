@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import { cacheLife } from "next/cache";
 import { createServerClient } from "@/lib/supabase/server";
 import type { Rarity } from "@/lib/game/types";
+import { buildSeriesList, type FusionSeries } from "./fusion/series";
 import type { BlindClip } from "./quiz/blindTest";
 import type { ArcadeGameId } from "./registry";
 
@@ -165,6 +166,29 @@ export async function searchCards(q: string, rarity: Rarity | null): Promise<Arc
   const { data, error } = await service().rpc("arcade_search_cards", { p_q: q.slice(0, 40), p_rarity: rarity, p_limit: 60 });
   if (error) throw new ArcadeError(error.message);
   return data as ArcadeCard[];
+}
+
+// Fusion's anime list, from the most popular cards of the catalogue (the same for everyone)
+export async function fusionSeries(): Promise<FusionSeries[]> {
+  "use cache";
+  cacheLife("hours");
+  type Row = { id: number; name: string; image_url: string | null; popularity_rank: number; series_id: number; series: { title: string; cover_url: string | null } };
+  // the 5000 most popular cards, a page of 1000 at a time
+  const rows: Row[] = [];
+  for (let from = 0; from < 5000; from += 1000) {
+    const { data, error } = await service()
+      .from("cards")
+      .select("id, name, image_url, popularity_rank, series_id, series(title, cover_url)")
+      .not("image_url", "is", null)
+      .order("popularity_rank")
+      .range(from, from + 999);
+    if (error) throw new ArcadeError(error.message);
+    rows.push(...(data as unknown as Row[]));
+    if (data.length < 1000) break;
+  }
+  return buildSeriesList(
+    rows.map((r) => ({ id: r.id, name: r.name, imageUrl: r.image_url, rank: r.popularity_rank, seriesId: r.series_id, title: r.series.title, cover: r.series.cover_url })),
+  );
 }
 
 // Blind test: the bank of a level (1 easy … 3 hard) and a clip's audio

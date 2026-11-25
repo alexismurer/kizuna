@@ -2181,6 +2181,8 @@
       "top": "Meilleure carte",
       "hint": "Balaie ou utilise les flèches",
       "endGame": "Finir la partie",
+      "pickAnime": "Choisis un anime",
+      "randomMix": "Mélange aléatoire",
       "boardLabel": "Plateau de Fusion",
       "tileLabel": "{rarity}{awakened}, palier {n}",
       "awakened": " éveillée",

@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { Fusion } from "@/components/arcade/fusion/Fusion";
 import { arcadePage } from "@/lib/arcade/page";
+import { fusionSeries } from "@/lib/arcade/server";
 
 export default async function FusionPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -17,7 +18,7 @@ export default async function FusionPage({ params }: { params: Promise<{ locale:
 }
 
 async function Game() {
-  const p = await arcadePage("fusion");
+  const [p, list] = await Promise.all([arcadePage("fusion"), fusionSeries()]);
   if (!p) notFound();
-  return <Fusion best={p.weekBest} tickets={p.tickets} />;
+  return <Fusion best={p.weekBest} tickets={p.tickets} series={list.map(({ id, title, cover }) => ({ id, title, cover }))} />;
 }

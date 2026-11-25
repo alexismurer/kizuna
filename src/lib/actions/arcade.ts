@@ -24,7 +24,7 @@ import {
   type ExpState,
   type ExpView,
 } from "@/lib/arcade/expedition/engine";
-import { addExpeditionXp, ArcadeError, blindBank, cardsByIds, expeditionXp, findOpenTable, getTable, latestRun, openTable, startTable, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, storedDeck, loadOwnRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
+import { addExpeditionXp, ArcadeError, blindBank, cardsByIds, expeditionXp, findOpenTable, getTable, latestRun, openTable, startTable, payRun, progressRun, searchCards, createRun, dailyDeck, findRun, fusionSeries, storedDeck, loadOwnRun, parisDay, randomCards, recordRun, requirePlayer, saveRun, secondsSince, type ArcadeCard, type Run, type RunResult } from "@/lib/arcade/server";
 import { flip as memoryEngineFlip, memoryView, startMemory, type MemState, type MemView } from "@/lib/arcade/memory/engine";
 import { act as bjEngineAct, startGame as bjStartGame, view as bjView, type BjCard, type BjState, type BjView } from "@/lib/arcade/twenty-one/engine";
 import { answer as quizEngineAnswer, ask as quizAsk, next as quizEngineNext, quizView, startQuiz, type QuizQuestion, type QuizRules, type QuizState, type QuizView } from "@/lib/arcade/quiz/engine";
@@ -33,6 +33,7 @@ import { buildMostLoved } from "@/lib/arcade/quiz/mostLoved";
 import { buildSeriesRush } from "@/lib/arcade/quiz/seriesRush";
 import { buildWhosThat } from "@/lib/arcade/quiz/whosThat";
 import { MAX_MOVES as FUSION_MAX_MOVES, replay as fusionReplay } from "@/lib/arcade/fusion/engine";
+import type { FusionArt } from "@/lib/arcade/fusion/series";
 import { createServerClient } from "@/lib/supabase/server";
 
 export type ArcadeResult<T> = { ok: true; data: T } | { ok: false; error: string };
@@ -454,13 +455,20 @@ export async function connGuess(mode: ConnMode, id: string, ids: number[]): Prom
 
 // ---------- Fusion: 2048 with cards. The client plays; the server replays the moves ----------
 
-export type FusionArt = { id: number; name: string; imageUrl: string }[][];
+export type { FusionArt };
 const RARITY_ORDER = ["common", "uncommon", "rare", "epic", "legendary", "mythic"] as const;
 
-export async function fusionStart(): Promise<ArcadeResult<{ run: string; seed: number; art: FusionArt }>> {
+// seriesId: one of fusionSeries() (that anime's characters), or null for a random mix
+export async function fusionStart(seriesId: number | null = null): Promise<ArcadeResult<{ run: string; seed: number; art: FusionArt }>> {
   return attempt(async () => {
     const player = await requirePlayer();
     const seed = newSeed();
+    if (seriesId !== null) {
+      const picked = (await fusionSeries()).find((s) => s.id === seriesId);
+      if (!picked) throw new ArcadeError("invalid_action");
+      const run = await createRun<{ art: FusionArt; series: number }>(player, "fusion", "practice", seed, { art: picked.ladder, series: picked.id });
+      return { run: run.id, seed, art: picked.ladder };
+    }
     // two cards per rarity (both grades of a rarity share them)
     const pools = await Promise.all(RARITY_ORDER.map((r) => randomCards(30, { minRarity: r })));
     const any = pools.flat();

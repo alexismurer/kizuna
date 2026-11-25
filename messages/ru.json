@@ -2181,6 +2181,8 @@
       "top": "Лучшая карта",
       "hint": "Смахивай или используй стрелки",
       "endGame": "Завершить игру",
+      "pickAnime": "Выбери аниме",
+      "randomMix": "Случайный микс",
       "boardLabel": "Поле Fusion",
       "tileLabel": "{rarity}{awakened}, уровень {n}",
       "awakened": " (пробуждённая)",

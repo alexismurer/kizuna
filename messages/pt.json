@@ -2181,6 +2181,8 @@
       "top": "Melhor carta",
       "hint": "Deslize ou use as setas",
       "endGame": "Encerrar partida",
+      "pickAnime": "Escolhe um anime",
+      "randomMix": "Mistura aleatória",
       "boardLabel": "Tabuleiro do Fusion",
       "tileLabel": "{rarity}{awakened}, nível {n}",
       "awakened": " desperta",
