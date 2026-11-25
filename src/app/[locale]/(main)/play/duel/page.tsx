@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/PageLoader";
 import { setRequestLocale } from "next-intl/server";
 import type { CardData } from "@/components/card/CardView";
 import { PlayLobby } from "@/components/duel/PlayLobby";
@@ -49,7 +50,7 @@ export default async function PlayPage({ params }: { params: Promise<{ locale: s
   setRequestLocale(locale);
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 p-3 sm:p-6">
-      <Suspense fallback={<p className="text-sm text-common">…</p>}>
+      <Suspense fallback={<PageLoader />}>
         <Lobby />
       </Suspense>
     </main>

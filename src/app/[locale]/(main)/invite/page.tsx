@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/PageLoader";
 import { cookies } from "next/headers";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { InviteForm } from "@/components/referrals/InviteForm";
@@ -22,7 +23,7 @@ async function InviteContent() {
 export default function InvitePage() {
   return (
     <AuthShell>
-      <Suspense>
+      <Suspense fallback={<PageLoader />}>
         <InviteContent />
       </Suspense>
     </AuthShell>

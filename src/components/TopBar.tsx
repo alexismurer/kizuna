@@ -9,6 +9,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import { AccountMenu } from "./AccountMenu";
 import { MoreMenu } from "./MoreMenu";
 import { NotificationBell } from "./notifications/NotificationBell";
+import { PlayNavLink } from "./PlayNavLink";
 import { SignOutButton } from "./SignOutButton";
 import { StockPopover } from "./StockPopover";
 
@@ -50,9 +51,7 @@ export async function TopBar() {
         <Link href="/market" className="hover:text-accent">
           {t("nav.market")}
         </Link>
-        <Link href="/play" className="hover:text-accent">
-          {t("nav.play")}
-        </Link>
+        <PlayNavLink />
         <MoreMenu />
       </nav>
       <StockPopover status={status} />

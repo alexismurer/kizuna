@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/PageLoader";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -61,7 +62,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/join/[co
 export default function JoinPage({ params }: PageProps<"/[locale]/join/[code]">) {
   return (
     <AuthShell>
-      <Suspense>
+      <Suspense fallback={<PageLoader />}>
         <JoinContent params={params} />
       </Suspense>
     </AuthShell>

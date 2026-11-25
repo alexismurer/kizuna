@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/PageLoader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { CardData } from "@/components/card/CardView";
@@ -196,7 +197,7 @@ export default async function MarketPage({ params, searchParams }: PageProps<"/[
       </header>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
-          <Suspense fallback={null}>
+          <Suspense fallback={<PageLoader />}>
             <MarketContent searchParams={searchParams} />
           </Suspense>
         </div>

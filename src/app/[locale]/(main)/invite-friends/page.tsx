@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/PageLoader";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Gift } from "lucide-react";
@@ -77,7 +78,7 @@ export default async function InviteFriendsPage({ params }: PageProps<"/[locale]
         </h1>
         <p className="text-white/70">{t("subtitle", { boosters: REFERRAL_BOOSTERS })}</p>
       </header>
-      <Suspense fallback={null}>
+      <Suspense fallback={<PageLoader />}>
         <InviteContent />
       </Suspense>
     </main>

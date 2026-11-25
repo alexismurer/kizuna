@@ -8,6 +8,7 @@ import { LanguageSelect } from "@/components/LanguageSelect";
 import { Link, usePathname } from "@/i18n/navigation";
 import { BoosterSheet } from "./BoosterSheet";
 import { useDmUnread } from "@/components/social/useDmUnread";
+import { usePlaySeen } from "@/components/usePlaySeen";
 import { Sheet } from "./Sheet";
 
 const item = "flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] font-medium";
@@ -26,6 +27,7 @@ export function BottomNav({
   const pathname = usePathname();
   const [sheet, setSheet] = useState<"boosters" | "more" | null>(null);
   const unread = useDmUnread(social?.playerId ?? null, social?.unread ?? 0);
+  const playSeen = usePlaySeen();
 
   if (/^\/open\/[^/]+$/.test(pathname)) return null;
 
@@ -81,6 +83,14 @@ export function BottomNav({
             >
               <Ellipsis className="h-5 w-5" aria-hidden />
               {t("more")}
+              {!playSeen && (
+                <span
+                  aria-hidden
+                  className="absolute -top-1 right-0 rounded-full bg-accent px-1 text-[9px] font-extrabold uppercase leading-4 text-white"
+                >
+                  {t("new")}
+                </span>
+              )}
               {unread > 0 && (
                 <span
                   data-testid="messages-dot"
@@ -110,10 +120,20 @@ export function BottomNav({
             <Link
               href="/play"
               onClick={() => setSheet(null)}
-              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+              className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm ${
+                playSeen ? "hover:bg-bg" : "play-new border border-cta/60 bg-cta/10 font-semibold text-cta"
+              }`}
             >
               <Gamepad2 className="h-5 w-5" aria-hidden />
               <span className="flex-1">{t("play")}</span>
+              {!playSeen && (
+                <span
+                  data-testid="play-new"
+                  className="rounded-full bg-accent px-1.5 text-[10px] font-extrabold uppercase leading-4 text-white"
+                >
+                  {t("new")}
+                </span>
+              )}
             </Link>
             <Link
               href="/missions"

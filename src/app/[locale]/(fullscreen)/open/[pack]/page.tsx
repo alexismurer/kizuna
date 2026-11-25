@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/PageLoader";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { OpeningScreen } from "@/components/opening/OpeningScreen";
@@ -71,7 +72,7 @@ async function OpeningContent({
 
 export default function OpenPage({ params }: PageProps<"/[locale]/open/[pack]">) {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div className="flex min-h-dvh"><PageLoader /></div>}>
       <OpeningContent params={params} />
     </Suspense>
   );

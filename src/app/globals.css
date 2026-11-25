@@ -357,6 +357,7 @@ body {
 }
 main:not([style*="display: none"]):not(:has(> :not(template, [style*="display: none"])))::before {
   content: "";
+  display: block;
   margin: auto;
   width: 64px;
   height: 64px;
@@ -366,6 +367,28 @@ main:not([style*="display: none"]):not(:has(> :not(template, [style*="display: n
 /* (:has cannot nest, so the footer is reached as main's later sibling in <body>) */
 main:not([style*="display: none"]):not(:has(> :not(template, [style*="display: none"]))) ~ footer {
   display: none;
+}
+/* <PageLoader/> (a fallback next to a page title) pulses the same way and hides the footer too */
+.page-loader img {
+  animation: page-loading-pulse 1.4s ease-in-out infinite;
+}
+main:not([style*="display: none"]):has(.page-loader) ~ footer {
+  display: none;
+}
+
+/* The game room link while it is new to the player: a slow golden glow */
+@keyframes play-new-glow {
+  50% {
+    box-shadow: 0 0 14px 2px color-mix(in srgb, var(--color-cta) 55%, transparent);
+  }
+}
+.play-new {
+  animation: play-new-glow 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-new {
+    animation: none;
+  }
 }
 
 /* Market lot modal: backdrop fade + panel rise */

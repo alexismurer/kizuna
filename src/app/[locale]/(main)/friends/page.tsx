@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/PageLoader";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { FriendsList, type FriendsTab } from "@/components/social/FriendsList";
@@ -22,7 +23,7 @@ export default async function FriendsPage({ params, searchParams }: PageProps<"/
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 p-4 sm:p-6">
       <h1 className="font-display text-3xl font-extrabold sm:text-4xl">{t("title")}</h1>
-      <Suspense fallback={null}>
+      <Suspense fallback={<PageLoader />}>
         <FriendsContent searchParams={searchParams} />
       </Suspense>
     </main>
