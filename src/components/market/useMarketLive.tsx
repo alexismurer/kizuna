@@ -3,13 +3,15 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { usePageVisible } from "@/lib/usePageVisible";
 
 type Listen = { event?: "*" | "INSERT" | "UPDATE" | "DELETE"; filter?: string };
 
 // Re-renders the page (router.refresh) when rows of `tables` change, at most
 // once per 500 ms burst. RLS applies, so only rows the player can see count.
 // `listen` narrows a table to one event and/or a row filter (default: every
-// change). Does nothing when Realtime is unavailable.
+// change). Does nothing when Realtime is unavailable. Listens only while the tab is on
+// screen, and refreshes once when it comes back.
 export function useMarketLive(tables: string[], listen: Record<string, Listen> = {}) {
   const router = useRouter();
   const latest = useRef(router);
@@ -18,8 +20,11 @@ export function useMarketLive(tables: string[], listen: Record<string, Listen> =
   });
   const key = tables.join(",");
   const spec = JSON.stringify(tables.map((t) => listen[t] ?? {}));
+  const visible = usePageVisible();
+  const everJoined = useRef(false);
 
   useEffect(() => {
+    if (!visible) return;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const changed = () => {
       clearTimeout(timer);
@@ -41,13 +46,12 @@ export function useMarketLive(tables: string[], listen: Record<string, Listen> =
           const opts = { event, schema: "public", table, ...(filter ? { filter } : {}) };
           channel = channel.on("postgres_changes", opts, changed);
         });
-        // after a reconnect, refresh once to pick up changes missed meanwhile;
-        // the first join needs none (the page was just rendered by the server)
-        let joined = false;
+        // after a reconnect (or the tab coming back), refresh once to pick up changes
+        // missed meanwhile; the first join needs none (the page was just rendered)
         channel.subscribe((status) => {
           if (status !== "SUBSCRIBED") return;
-          if (joined) changed();
-          joined = true;
+          if (everJoined.current) changed();
+          everJoined.current = true;
         });
         stop = () => void supabase.removeChannel(channel);
       } catch {
@@ -59,5 +63,5 @@ export function useMarketLive(tables: string[], listen: Record<string, Listen> =
       clearTimeout(timer);
       stop?.();
     };
-  }, [key, spec]);
+  }, [key, spec, visible]);
 }

@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { usePageVisible } from "@/lib/usePageVisible";
 
 // The player's unread direct messages: starts from the server's count and
 // re-reads it (dm_unread_total) when a message to the player is added or read.
-// Without Realtime the count just stays as the page rendered it.
+// Without Realtime the count just stays as the page rendered it. Listens only while the
+// tab is on screen, and re-reads the count when it comes back.
 export function useDmUnread(playerId: string | null, initial: number): number {
   const [count, setCount] = useState(initial);
   const [seen, setSeen] = useState(initial);
@@ -14,8 +16,10 @@ export function useDmUnread(playerId: string | null, initial: number): number {
     setCount(initial);
   }
 
+  const visible = usePageVisible();
+  const everJoined = useRef(false);
   useEffect(() => {
-    if (!playerId) return;
+    if (!playerId || !visible) return;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let stop: (() => void) | undefined;
     let gone = false;
@@ -38,11 +42,10 @@ export function useDmUnread(playerId: string | null, initial: number): number {
         const channel = supabase
           .channel(`dm-unread:${Math.random().toString(36).slice(2)}`)
           .on("postgres_changes", { event: "*", schema: "public", table: "direct_messages", filter: `to_id=eq.${playerId}` }, reread);
-        let joined = false;
         channel.subscribe((status) => {
           if (status !== "SUBSCRIBED") return;
-          if (joined) reread();
-          joined = true;
+          if (everJoined.current) reread();
+          everJoined.current = true;
         });
         stop = () => void supabase.removeChannel(channel);
       } catch {
@@ -54,7 +57,7 @@ export function useDmUnread(playerId: string | null, initial: number): number {
       clearTimeout(timer);
       stop?.();
     };
-  }, [playerId]);
+  }, [playerId, visible]);
 
   return count;
 }

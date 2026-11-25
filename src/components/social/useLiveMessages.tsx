@@ -2,11 +2,13 @@
 
 import { useEffect, useRef } from "react";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { usePageVisible } from "@/lib/usePageVisible";
 
 // A Realtime INSERT subscription on one table (RLS applies, so only rows the
 // player can see arrive). `onInsert` gets each new row once per id; after a
 // reconnect `onReconnect` runs so the caller can refetch what it missed.
-// Does nothing when Realtime is unavailable.
+// Does nothing when Realtime is unavailable. Listens only while the tab is on screen
+// (coming back counts as a reconnect).
 export function useLiveMessages<Row extends { id: number }>({
   table,
   filter,
@@ -25,7 +27,11 @@ export function useLiveMessages<Row extends { id: number }>({
     reconnect.current = onReconnect;
   });
 
+  const visible = usePageVisible();
+  const everJoined = useRef(false);
+
   useEffect(() => {
+    if (!visible) return;
     let stop: (() => void) | undefined;
     let gone = false;
     const seen = new Set<number>();
@@ -45,11 +51,10 @@ export function useLiveMessages<Row extends { id: number }>({
             insert.current(row);
           });
         // the first join needs no refetch (the page was just rendered)
-        let joined = false;
         channel.subscribe((status) => {
           if (status !== "SUBSCRIBED") return;
-          if (joined) reconnect.current?.();
-          joined = true;
+          if (everJoined.current) reconnect.current?.();
+          everJoined.current = true;
         });
         stop = () => void supabase.removeChannel(channel);
       } catch {
@@ -60,5 +65,5 @@ export function useLiveMessages<Row extends { id: number }>({
       gone = true;
       stop?.();
     };
-  }, [table, filter]);
+  }, [table, filter, visible]);
 }
