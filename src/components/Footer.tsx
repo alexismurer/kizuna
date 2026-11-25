@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
+import { loadStatus } from "@/lib/supabase/boosters";
 import { InstallApp } from "./InstallApp";
 import { LanguageSelect } from "./LanguageSelect";
 
@@ -18,10 +19,10 @@ const LINKS = [
 ] as const;
 
 export async function Footer() {
-  const t = await getTranslations();
+  const [t, status] = await Promise.all([getTranslations(), loadStatus()]);
   return (
-    // the phone bottom nav covers the last 5rem of the page
-    <footer className="mt-auto border-t border-border bg-panel/60 pb-24 md:pb-0">
+    // players on a phone find all of this in the bottom nav's More sheet
+    <footer className={`mt-auto border-t border-border bg-panel/60 ${status ? "hidden md:block" : ""}`}>
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-8 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-1">

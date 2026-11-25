@@ -4,12 +4,21 @@ import { useState } from "react";
 import { Bell, BookOpen, Ellipsis, Gamepad2, Gift, House, Layers, ListChecks, MessageCircle, Package, Store, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SignOutButton } from "@/components/SignOutButton";
+import { InstallApp } from "@/components/InstallApp";
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { Link, usePathname } from "@/i18n/navigation";
 import { BoosterSheet } from "./BoosterSheet";
 import { useDmUnread } from "@/components/social/useDmUnread";
 import { usePlaySeen } from "@/components/usePlaySeen";
 import { Sheet } from "./Sheet";
+
+// the footer's info pages; the footer itself is hidden for players on a phone
+const FOOTER_LINKS = [
+  ["/rules", "rules"],
+  ["/rarities", "rarities"],
+  ["/terms", "terms"],
+  ["/privacy", "privacy"],
+] as const;
 
 const item = "flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] font-medium";
 
@@ -24,6 +33,7 @@ export function BottomNav({
 }) {
   const t = useTranslations("nav");
   const tb = useTranslations("topbar");
+  const tf = useTranslations("footer");
   const pathname = usePathname();
   const [sheet, setSheet] = useState<"boosters" | "more" | null>(null);
   const unread = useDmUnread(social?.playerId ?? null, social?.unread ?? 0);
@@ -200,9 +210,22 @@ export function BottomNav({
               <span className="flex-1">{t("notifications")}</span>
             </button>
             <LanguageSelect inline className="mt-2 w-full [&>button]:h-11" />
+            <InstallApp quiet className="mt-2 w-full justify-center" />
             <div className="mt-2 overflow-hidden rounded-xl border border-border">
               <SignOutButton />
             </div>
+            <nav aria-label={tf("label")} className="mt-4">
+              <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-white/50">
+                {FOOTER_LINKS.map(([href, key]) => (
+                  <li key={href}>
+                    <Link href={href} className="hover:text-white">
+                      {tf(key)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <p className="mt-2 text-center text-[11px] text-white/40">{tf("disclaimer")}</p>
           </div>
         </Sheet>
       )}

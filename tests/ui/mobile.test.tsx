@@ -63,6 +63,9 @@ function wrap(ui: React.ReactNode) {
   );
 }
 
+// the More sheet's install button asks whether the game already runs as the app
+window.matchMedia ??= ((q: string) => ({ matches: false, media: q, addEventListener() {}, removeEventListener() {} })) as never;
+
 beforeEach(() => {
   load.mockResolvedValue({ status, packs: PACKS, dailyName: null });
 });

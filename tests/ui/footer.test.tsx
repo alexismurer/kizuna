@@ -16,6 +16,8 @@ vi.mock("@/i18n/navigation", () => ({
   usePathname: () => "/",
   useRouter: () => ({ refresh: vi.fn(), push: vi.fn() }),
 }));
+const status = vi.hoisted(() => ({ value: null as object | null }));
+vi.mock("@/lib/supabase/boosters", () => ({ loadStatus: async () => status.value }));
 
 import { Footer } from "@/components/Footer";
 
@@ -30,5 +32,14 @@ describe("Footer", () => {
     expect(disclaimer.parentElement).toBe(logo.parentElement);
     expect(disclaimer.parentElement).toHaveClass("flex-row");
     expect(screen.queryByText(/AniList/)).not.toBeInTheDocument();
+  });
+
+  it("hides on phones for players, who get it in the More sheet", async () => {
+    status.value = { missionsClaimable: 0 };
+    const { container } = render(
+      <NextIntlClientProvider locale="en" timeZone="Europe/Paris" messages={messages}>{await Footer()}</NextIntlClientProvider>,
+    );
+    expect(container.querySelector("footer")).toHaveClass("hidden", "md:block");
+    status.value = null;
   });
 });
