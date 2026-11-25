@@ -6,19 +6,14 @@ import { BottomNav } from "@/components/mobile/BottomNav";
 import { PushKeeper } from "@/components/push/PushKeeper";
 import { TopBar } from "@/components/TopBar";
 import { loadStatus } from "@/lib/supabase/boosters";
-import { createServerClient } from "@/lib/supabase/server";
+import { loadMe, loadUnread } from "@/lib/supabase/me";
 
 // signed-in players only; the booster sheet loads its packs when opened
 async function MobileNav() {
   const status = await loadStatus();
   if (!status) return null;
-  const supabase = await createServerClient();
-  const [{ data: claims }, { data: unread }] = await Promise.all([supabase.auth.getClaims(), supabase.rpc("dm_unread_total")]);
-  const { data: me } = claims
-    ? await supabase.from("player_directory").select("username").eq("id", claims.claims.sub).maybeSingle()
-    : { data: null };
-  const social =
-    claims && me ? { playerId: claims.claims.sub, username: me.username, unread: typeof unread === "number" ? unread : 0 } : undefined;
+  const [me, unread] = await Promise.all([loadMe(), loadUnread()]);
+  const social = me ? { playerId: me.id, username: me.username, unread } : undefined;
   return <BottomNav missionsClaimable={status.missionsClaimable} social={social} />;
 }
 

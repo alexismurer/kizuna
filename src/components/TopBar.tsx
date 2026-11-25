@@ -4,6 +4,7 @@ import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
 import { loadNotifications } from "@/lib/market/notifications";
 import { loadStatus } from "@/lib/supabase/boosters";
+import { loadMe, loadUnread } from "@/lib/supabase/me";
 import { createServerClient } from "@/lib/supabase/server";
 import { AccountMenu } from "./AccountMenu";
 import { MoreMenu } from "./MoreMenu";
@@ -17,16 +18,13 @@ export async function TopBar() {
   if (!status) return null;
   const { missionsClaimable } = status;
   const supabase = await createServerClient();
-  const [notifications, { data: claims }, { data: unreadTotal }, { data: role }] = await Promise.all([
+  const [notifications, { data: claims }, unread, { data: role }, me] = await Promise.all([
     loadNotifications(supabase),
     supabase.auth.getClaims(),
-    supabase.rpc("dm_unread_total"),
+    loadUnread(),
     supabase.rpc("my_role"),
+    loadMe(),
   ]);
-  const unread = typeof unreadTotal === "number" ? unreadTotal : 0;
-  const { data: me } = claims
-    ? await supabase.from("player_directory").select("username, avatar_url, frame_id").eq("id", claims.claims.sub).maybeSingle()
-    : { data: null };
 
   const staff = role === "admin" || role === "moderator";
 
