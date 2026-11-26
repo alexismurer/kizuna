@@ -266,7 +266,13 @@
     "no_request": "Cette demande n'existe plus.",
     "card_protected": "Cette carte est verrouillée. Déverrouille-la d'abord.",
     "unknown": "Une erreur s'est produite. Réessaie.",
-    "rebirth_not_ready": "Toutes les conditions ne sont plus remplies. Recharge la page pour voir ce qui a changé."
+    "rebirth_not_ready": "Toutes les conditions ne sont plus remplies. Recharge la page pour voir ce qui a changé.",
+    "not_owner": "Tu ne possèdes pas cet exemplaire.",
+    "already_listed": "Cet exemplaire est déjà en vente.",
+    "bad_price": "Le prix doit être compris entre 1 et 1 000 000.",
+    "not_seller": "Cette annonce n'est pas la tienne.",
+    "listing_closed": "Cette annonce n'est plus ouverte.",
+    "not_enough_currency": "Pas assez de monnaie."
   },
   "profile": {
     "eyebrow": "Joueur",
@@ -918,7 +924,8 @@
       "sell": "Vendre",
       "auctions": "Enchères",
       "trades": "Échanges",
-      "activity": "Mon activité"
+      "activity": "Mon activité",
+      "awakening": "Éveil"
     },
     "search": "Rechercher un nom ou une série",
     "allRarities": "Toutes",
@@ -1121,13 +1128,28 @@
       "leading": "Tu as la meilleure offre.",
       "prices": "Prix du marché",
       "noSales": "Aucune vente pour l’instant."
+    },
+    "awakening": {
+      "yours": "Tes exemplaires",
+      "noCopies": "Tu n'as pas encore de carte éveillée.",
+      "listedAt": "En vente à {price}",
+      "sell": "Vendre",
+      "cancelListing": "Retirer l'annonce",
+      "open": "En vente",
+      "empty": "Aucune carte éveillée n'est en vente pour l'instant.",
+      "by": "par {seller}",
+      "buy": "Acheter",
+      "sellTitle": "Vendre {name} #{serial}",
+      "listed": "{name} #{serial} mis en vente à {price}.",
+      "cancelled": "Annonce de {name} #{serial} retirée.",
+      "bought": "Tu as acheté {name} #{serial} pour {price}."
     }
   },
   "notifications": {
     "title": "Notifications",
     "empty": "Aucune notification pour l'instant.",
     "someCard": "une carte",
-    "sold": "{source, select, auction {Ton enchère pour {name} s'est vendue {price}} order {Tu as rempli un ordre d'achat pour {name} à {price}} other {Ton annonce pour {name} s'est vendue {price}}} : tu as reçu {net}.",
+    "sold": "{source, select, auction {Ton enchère pour {name} s'est vendue {price}} order {Tu as rempli un ordre d'achat pour {name} à {price}} awakening {Ton {name} s'est vendu {price}} other {Ton annonce pour {name} s'est vendue {price}}} : tu as reçu {net}.",
     "outbid": "Ton offre sur {name} a été dépassée : la meilleure offre est maintenant de {amount}.",
     "auction_won": "Tu as remporté l'enchère pour {name} à {price}.",
     "auction_unsold": "Ton enchère pour {name} s'est terminée sans offre ; la carte est revenue dans ta collection.",

@@ -147,6 +147,7 @@ describe("NotificationList", () => {
     [n(1, "sold", { card_id: 7, price: 1200, net: 1140, source: "listing" }), "Your listing of Mika sold for 1,200 — you received 1,140.", "/market?tab=activity"],
     [n(2, "sold", { card_id: 7, price: 100, net: 95, source: "auction" }), "Your auction of Mika sold for 100 — you received 95.", "/market?tab=activity"],
     [n(3, "sold", { card_id: 7, price: 100, net: 95, source: "order" }), "You filled a buy order for Mika at 100 — you received 95.", "/market?tab=activity"],
+    [n(20, "sold", { awakening_id: "test-sun", serial: 3, awakening_name: "Sun King #3", price: 500, net: 475, source: "awakening" }), "Your Sun King #3 sold for 500 — you received 475.", "/market?tab=awakening"],
     [n(4, "outbid", { auction_id: 4, card_id: 7, amount: 60 }), "You were outbid on Mika: the top bid is now 60.", "/market?tab=auctions"],
     [n(5, "auction_won", { auction_id: 4, card_id: 7, price: 70 }), "You won the auction for Mika at 70.", "/market?tab=activity"],
     [n(6, "auction_unsold", { auction_id: 4, card_id: 7 }), "Your auction of Mika ended without bids; the card is back in your collection.", "/market?tab=activity"],

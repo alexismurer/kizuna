@@ -266,7 +266,13 @@
     "no_request": "That request no longer exists.",
     "card_protected": "This card is locked. Unlock it first.",
     "unknown": "Something went wrong. Please try again.",
-    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed."
+    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed.",
+    "not_owner": "You don't own that copy.",
+    "already_listed": "That copy is already listed.",
+    "bad_price": "The price must be between 1 and 1,000,000.",
+    "not_seller": "That listing isn't yours.",
+    "listing_closed": "That listing is no longer open.",
+    "not_enough_currency": "Not enough currency."
   },
   "profile": {
     "eyebrow": "Player",
@@ -918,7 +924,8 @@
       "sell": "Sell",
       "auctions": "Auctions",
       "trades": "Trades",
-      "activity": "My activity"
+      "activity": "My activity",
+      "awakening": "Awakening"
     },
     "search": "Search name or series",
     "allRarities": "All",
@@ -1121,13 +1128,28 @@
       "leading": "You hold the top bid.",
       "prices": "Market prices",
       "noSales": "No sales yet."
+    },
+    "awakening": {
+      "yours": "Your copies",
+      "noCopies": "You don't own any awakened cards yet.",
+      "listedAt": "Listed at {price}",
+      "sell": "Sell",
+      "cancelListing": "Cancel listing",
+      "open": "For sale",
+      "empty": "No awakened card is for sale right now.",
+      "by": "by {seller}",
+      "buy": "Buy",
+      "sellTitle": "Sell {name} #{serial}",
+      "listed": "{name} #{serial} listed for {price}.",
+      "cancelled": "Listing of {name} #{serial} cancelled.",
+      "bought": "You bought {name} #{serial} for {price}."
     }
   },
   "notifications": {
     "title": "Notifications",
     "empty": "No notifications yet.",
     "someCard": "a card",
-    "sold": "{source, select, auction {Your auction of {name} sold for {price}} order {You filled a buy order for {name} at {price}} other {Your listing of {name} sold for {price}}} — you received {net}.",
+    "sold": "{source, select, auction {Your auction of {name} sold for {price}} order {You filled a buy order for {name} at {price}} awakening {Your {name} sold for {price}} other {Your listing of {name} sold for {price}}} — you received {net}.",
     "outbid": "You were outbid on {name}: the top bid is now {amount}.",
     "auction_won": "You won the auction for {name} at {price}.",
     "auction_unsold": "Your auction of {name} ended without bids; the card is back in your collection.",

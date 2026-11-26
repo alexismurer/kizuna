@@ -24,6 +24,7 @@ const HREF: Record<string, string> = {
 // null for a kind the app doesn't know (it isn't shown or pushed)
 export function notificationHref(kind: string, payload: Record<string, unknown>): string | null {
   if (!(kind in HREF)) return null;
+  if (kind === "sold" && payload.source === "awakening") return "/market?tab=awakening";
   if (kind === "friend_accepted" || kind === "referral_joined" || kind === "referral_gift")
     return `/profile/${encodeURIComponent(String(payload.username ?? ""))}`;
   return HREF[kind];
@@ -37,7 +38,8 @@ export function notificationValues(
 ): Record<string, string | number> {
   const num = (k: string) => formatNumber(Number(payload[k] ?? 0));
   return {
-    name: cardName,
+    // an awakening sale names the awakening ("Title #serial"), added by the loaders
+    name: typeof payload.awakening_name === "string" ? payload.awakening_name : cardName,
     source: String(payload.source ?? "listing"),
     price: num("price"),
     net: num("net"),

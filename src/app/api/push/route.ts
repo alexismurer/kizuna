@@ -35,7 +35,13 @@ export async function POST(req: Request) {
       const { data: card } = Number.isInteger(cardId)
         ? await admin.from("cards").select("name").eq("id", cardId).maybeSingle()
         : { data: null };
-      add(await sendToPlayer(admin, n.player_id, (locale) => notificationPush(n, locale, card?.name ?? null)));
+      const awakeningId = n.payload?.awakening_id;
+      const { data: awakening } =
+        typeof awakeningId === "string"
+          ? await admin.from("awakenings").select("title").eq("id", awakeningId).maybeSingle()
+          : { data: null };
+      const payload = awakening ? { ...n.payload, awakening_name: `${awakening.title} #${n.payload.serial}` } : n.payload;
+      add(await sendToPlayer(admin, n.player_id, (locale) => notificationPush({ ...n, payload }, locale, card?.name ?? null)));
     }
   }
   for (const id of Array.isArray(body.booster_players) ? body.booster_players : []) {

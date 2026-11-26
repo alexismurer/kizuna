@@ -266,7 +266,13 @@
     "no_request": "Этого запроса больше нет.",
     "card_protected": "Эта карта заблокирована. Сначала разблокируй её.",
     "unknown": "Что-то пошло не так. Попробуй ещё раз.",
-    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed."
+    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed.",
+    "not_owner": "You don't own that copy.",
+    "already_listed": "That copy is already listed.",
+    "bad_price": "The price must be between 1 and 1,000,000.",
+    "not_seller": "That listing isn't yours.",
+    "listing_closed": "That listing is no longer open.",
+    "not_enough_currency": "Not enough currency."
   },
   "profile": {
     "eyebrow": "Игрок",
@@ -918,7 +924,8 @@
       "sell": "Продать",
       "auctions": "Аукционы",
       "trades": "Обмены",
-      "activity": "Моя активность"
+      "activity": "Моя активность",
+      "awakening": "Awakening"
     },
     "search": "Поиск по имени или сериалу",
     "allRarities": "Все",
@@ -1121,13 +1128,28 @@
       "leading": "Твоя ставка самая высокая.",
       "prices": "Рыночные цены",
       "noSales": "Продаж пока нет."
+    },
+    "awakening": {
+      "yours": "Your copies",
+      "noCopies": "You don't own any awakened cards yet.",
+      "listedAt": "Listed at {price}",
+      "sell": "Sell",
+      "cancelListing": "Cancel listing",
+      "open": "For sale",
+      "empty": "No awakened card is for sale right now.",
+      "by": "by {seller}",
+      "buy": "Buy",
+      "sellTitle": "Sell {name} #{serial}",
+      "listed": "{name} #{serial} listed for {price}.",
+      "cancelled": "Listing of {name} #{serial} cancelled.",
+      "bought": "You bought {name} #{serial} for {price}."
     }
   },
   "notifications": {
     "title": "Уведомления",
     "empty": "Уведомлений пока нет.",
     "someCard": "карта",
-    "sold": "{source, select, auction {Твой аукцион {name} завершился продажей за {price}} order {Ты исполнил заказ на покупку {name} по цене {price}} other {Твой лот {name} продан за {price}}}: ты получил {net}.",
+    "sold": "{source, select, auction {Твой аукцион {name} завершился продажей за {price}} order {Ты исполнил заказ на покупку {name} по цене {price}} awakening {Your {name} sold for {price}} other {Твой лот {name} продан за {price}}}: ты получил {net}.",
     "outbid": "Твою ставку на {name} перебили: текущая высшая ставка {amount}.",
     "auction_won": "Ты выиграл аукцион {name} за {price}.",
     "auction_unsold": "Твой аукцион {name} завершился без ставок; карта вернулась в коллекцию.",

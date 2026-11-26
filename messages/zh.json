@@ -266,7 +266,13 @@
     "no_request": "该请求已不存在。",
     "card_protected": "这张卡已锁定。请先解锁。",
     "unknown": "出了点问题。请重试。",
-    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed."
+    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed.",
+    "not_owner": "You don't own that copy.",
+    "already_listed": "That copy is already listed.",
+    "bad_price": "The price must be between 1 and 1,000,000.",
+    "not_seller": "That listing isn't yours.",
+    "listing_closed": "That listing is no longer open.",
+    "not_enough_currency": "Not enough currency."
   },
   "profile": {
     "eyebrow": "玩家",
@@ -918,7 +924,8 @@
       "sell": "出售",
       "auctions": "拍卖",
       "trades": "交易",
-      "activity": "我的动态"
+      "activity": "我的动态",
+      "awakening": "Awakening"
     },
     "search": "搜索名称或作品",
     "allRarities": "全部",
@@ -1121,13 +1128,28 @@
       "leading": "你是最高出价者。",
       "prices": "市场价格",
       "noSales": "暂无成交。"
+    },
+    "awakening": {
+      "yours": "Your copies",
+      "noCopies": "You don't own any awakened cards yet.",
+      "listedAt": "Listed at {price}",
+      "sell": "Sell",
+      "cancelListing": "Cancel listing",
+      "open": "For sale",
+      "empty": "No awakened card is for sale right now.",
+      "by": "by {seller}",
+      "buy": "Buy",
+      "sellTitle": "Sell {name} #{serial}",
+      "listed": "{name} #{serial} listed for {price}.",
+      "cancelled": "Listing of {name} #{serial} cancelled.",
+      "bought": "You bought {name} #{serial} for {price}."
     }
   },
   "notifications": {
     "title": "通知",
     "empty": "还没有通知。",
     "someCard": "一张卡",
-    "sold": "{source, select, auction {你拍卖的 {name} 以 {price} 成交} order {你以 {price} 满足了 {name} 的求购单} other {你挂单的 {name} 以 {price} 售出}}——你获得了 {net}。",
+    "sold": "{source, select, auction {你拍卖的 {name} 以 {price} 成交} order {你以 {price} 满足了 {name} 的求购单} awakening {Your {name} sold for {price}} other {你挂单的 {name} 以 {price} 售出}}——你获得了 {net}。",
     "outbid": "你在 {name} 上的出价被超过：当前最高出价为 {amount}。",
     "auction_won": "你以 {price} 赢得了 {name} 的拍卖。",
     "auction_unsold": "你拍卖的 {name} 无人出价已结束；卡牌已返回你的收藏。",

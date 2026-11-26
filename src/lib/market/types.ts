@@ -1,7 +1,7 @@
 import type { CardData } from "@/components/card/CardView";
 import type { Rarity } from "@/lib/game/types";
 
-export const MARKET_TABS = ["buy", "sell", "auctions", "trades", "activity"] as const;
+export const MARKET_TABS = ["buy", "sell", "auctions", "trades", "awakening", "activity"] as const;
 export type MarketTab = (typeof MARKET_TABS)[number];
 
 export const MARKET_SORTS = ["newest", "price_asc", "price_desc"] as const;

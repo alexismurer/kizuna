@@ -266,7 +266,13 @@
     "no_request": "その申請はもう存在しません。",
     "card_protected": "このカードはロックされています。先にロックを解除してください。",
     "unknown": "問題が発生しました。もう一度お試しください。",
-    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed."
+    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed.",
+    "not_owner": "You don't own that copy.",
+    "already_listed": "That copy is already listed.",
+    "bad_price": "The price must be between 1 and 1,000,000.",
+    "not_seller": "That listing isn't yours.",
+    "listing_closed": "That listing is no longer open.",
+    "not_enough_currency": "Not enough currency."
   },
   "profile": {
     "eyebrow": "プレイヤー",
@@ -918,7 +924,8 @@
       "sell": "売る",
       "auctions": "オークション",
       "trades": "トレード",
-      "activity": "自分の取引"
+      "activity": "自分の取引",
+      "awakening": "Awakening"
     },
     "search": "名前や作品で検索",
     "allRarities": "すべて",
@@ -1121,13 +1128,28 @@
       "leading": "あなたが最高入札者です。",
       "prices": "相場",
       "noSales": "まだ取引がありません。"
+    },
+    "awakening": {
+      "yours": "Your copies",
+      "noCopies": "You don't own any awakened cards yet.",
+      "listedAt": "Listed at {price}",
+      "sell": "Sell",
+      "cancelListing": "Cancel listing",
+      "open": "For sale",
+      "empty": "No awakened card is for sale right now.",
+      "by": "by {seller}",
+      "buy": "Buy",
+      "sellTitle": "Sell {name} #{serial}",
+      "listed": "{name} #{serial} listed for {price}.",
+      "cancelled": "Listing of {name} #{serial} cancelled.",
+      "bought": "You bought {name} #{serial} for {price}."
     }
   },
   "notifications": {
     "title": "お知らせ",
     "empty": "お知らせはまだありません。",
     "someCard": "カード",
-    "sold": "{source, select, auction {{name}のオークションが{price}で落札されました} order {{name}の購入注文に{price}で売却しました} other {{name}の出品が{price}で売れました}}。{net}を受け取りました。",
+    "sold": "{source, select, auction {{name}のオークションが{price}で落札されました} order {{name}の購入注文に{price}で売却しました} awakening {Your {name} sold for {price}} other {{name}の出品が{price}で売れました}}。{net}を受け取りました。",
     "outbid": "{name}の入札が上回られました。現在の最高入札は{amount}です。",
     "auction_won": "{name}のオークションを{price}で落札しました。",
     "auction_unsold": "{name}のオークションは入札なしで終了し、カードはコレクションに戻りました。",

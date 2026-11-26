@@ -266,7 +266,13 @@
     "no_request": "To zaproszenie już nie istnieje.",
     "card_protected": "Ta karta jest zablokowana. Najpierw ją odblokuj.",
     "unknown": "Coś poszło nie tak. Spróbuj ponownie.",
-    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed."
+    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed.",
+    "not_owner": "You don't own that copy.",
+    "already_listed": "That copy is already listed.",
+    "bad_price": "The price must be between 1 and 1,000,000.",
+    "not_seller": "That listing isn't yours.",
+    "listing_closed": "That listing is no longer open.",
+    "not_enough_currency": "Not enough currency."
   },
   "profile": {
     "eyebrow": "Gracz",
@@ -918,7 +924,8 @@
       "sell": "Sprzedaj",
       "auctions": "Aukcje",
       "trades": "Wymiany",
-      "activity": "Moja aktywność"
+      "activity": "Moja aktywność",
+      "awakening": "Awakening"
     },
     "search": "Szukaj nazwy lub serii",
     "allRarities": "Wszystkie",
@@ -1121,13 +1128,28 @@
       "leading": "Masz najwyższą ofertę.",
       "prices": "Ceny rynkowe",
       "noSales": "Brak sprzedaży."
+    },
+    "awakening": {
+      "yours": "Your copies",
+      "noCopies": "You don't own any awakened cards yet.",
+      "listedAt": "Listed at {price}",
+      "sell": "Sell",
+      "cancelListing": "Cancel listing",
+      "open": "For sale",
+      "empty": "No awakened card is for sale right now.",
+      "by": "by {seller}",
+      "buy": "Buy",
+      "sellTitle": "Sell {name} #{serial}",
+      "listed": "{name} #{serial} listed for {price}.",
+      "cancelled": "Listing of {name} #{serial} cancelled.",
+      "bought": "You bought {name} #{serial} for {price}."
     }
   },
   "notifications": {
     "title": "Powiadomienia",
     "empty": "Brak powiadomień.",
     "someCard": "karta",
-    "sold": "{source, select, auction {Twoja aukcja {name} sprzedała się za {price}} order {Zrealizowano zlecenie kupna {name} za {price}} other {Twoja oferta {name} sprzedała się za {price}}} — otrzymujesz {net}.",
+    "sold": "{source, select, auction {Twoja aukcja {name} sprzedała się za {price}} order {Zrealizowano zlecenie kupna {name} za {price}} awakening {Your {name} sold for {price}} other {Twoja oferta {name} sprzedała się za {price}}} — otrzymujesz {net}.",
     "outbid": "Twoja oferta na {name} została przebita: najwyższa oferta to teraz {amount}.",
     "auction_won": "Wygrywasz aukcję {name} za {price}.",
     "auction_unsold": "Twoja aukcja {name} zakończyła się bez ofert; karta wróciła do twojej kolekcji.",

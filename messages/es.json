@@ -266,7 +266,13 @@
     "no_request": "Esa solicitud ya no existe.",
     "card_protected": "Esta carta está bloqueada. Desbloquéala primero.",
     "unknown": "Algo ha salido mal. Inténtalo de nuevo.",
-    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed."
+    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed.",
+    "not_owner": "You don't own that copy.",
+    "already_listed": "That copy is already listed.",
+    "bad_price": "The price must be between 1 and 1,000,000.",
+    "not_seller": "That listing isn't yours.",
+    "listing_closed": "That listing is no longer open.",
+    "not_enough_currency": "Not enough currency."
   },
   "profile": {
     "eyebrow": "Jugador",
@@ -918,7 +924,8 @@
       "sell": "Vender",
       "auctions": "Subastas",
       "trades": "Intercambios",
-      "activity": "Mi actividad"
+      "activity": "Mi actividad",
+      "awakening": "Awakening"
     },
     "search": "Buscar nombre o serie",
     "allRarities": "Todas",
@@ -1121,13 +1128,28 @@
       "leading": "Tienes la puja más alta.",
       "prices": "Precios de mercado",
       "noSales": "Aún no hay ventas."
+    },
+    "awakening": {
+      "yours": "Your copies",
+      "noCopies": "You don't own any awakened cards yet.",
+      "listedAt": "Listed at {price}",
+      "sell": "Sell",
+      "cancelListing": "Cancel listing",
+      "open": "For sale",
+      "empty": "No awakened card is for sale right now.",
+      "by": "by {seller}",
+      "buy": "Buy",
+      "sellTitle": "Sell {name} #{serial}",
+      "listed": "{name} #{serial} listed for {price}.",
+      "cancelled": "Listing of {name} #{serial} cancelled.",
+      "bought": "You bought {name} #{serial} for {price}."
     }
   },
   "notifications": {
     "title": "Notificaciones",
     "empty": "Aún no hay notificaciones.",
     "someCard": "una carta",
-    "sold": "{source, select, auction {Tu subasta de {name} se vendió por {price}} order {Has completado una orden de compra de {name} a {price}} other {Tu oferta de {name} se vendió por {price}}}: has recibido {net}.",
+    "sold": "{source, select, auction {Tu subasta de {name} se vendió por {price}} order {Has completado una orden de compra de {name} a {price}} awakening {Your {name} sold for {price}} other {Tu oferta de {name} se vendió por {price}}}: has recibido {net}.",
     "outbid": "Han superado tu puja por {name}: la puja más alta es ahora {amount}.",
     "auction_won": "Has ganado la subasta de {name} por {price}.",
     "auction_unsold": "Tu subasta de {name} terminó sin pujas; la carta ha vuelto a tu colección.",

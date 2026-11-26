@@ -3,6 +3,7 @@ import { PageLoader } from "@/components/PageLoader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { CardData } from "@/components/card/CardView";
+import { AwakeningTab } from "@/components/market/AwakeningTab";
 import { ActivityTab } from "@/components/market/ActivityTab";
 import { AuctionsTab } from "@/components/market/AuctionsTab";
 import { BuyTab } from "@/components/market/BuyTab";
@@ -12,6 +13,7 @@ import { SellTab } from "@/components/market/SellTab";
 import { TradesTab } from "@/components/market/TradesTab";
 import { MarketChat } from "@/components/social/MarketChat";
 import type { Rarity } from "@/lib/game/types";
+import type { AwakeningLook, AwakeningLot, MyAwakening } from "@/lib/market/awakening";
 import { loadActivity } from "@/lib/market/activity";
 import { loadAuctions } from "@/lib/market/auctions";
 import { parseMarketParams, parseTradePrefill, toQuery } from "@/lib/market/filters";
@@ -19,6 +21,7 @@ import { loadListings } from "@/lib/market/listings";
 import { sellableCopies } from "@/lib/market/sellable";
 import { parseTrades } from "@/lib/market/trades";
 import type { MarketFilters as Filters, SellableCard, TradePrefill } from "@/lib/market/types";
+import type { AwakeningCopy, AwakeningListing } from "@/lib/rebirth/types";
 import { loadStatus } from "@/lib/supabase/boosters";
 import { catalogTotal } from "@/lib/supabase/catalogTotal";
 import { fetchAll } from "@/lib/supabase/fetchAll";
@@ -139,6 +142,49 @@ async function Trades({ prefill }: { prefill: TradePrefill | null }) {
   );
 }
 
+type AwakeningRow = AwakeningLook & { id: string; cards: { name: string; image_url: string | null } | null };
+
+async function Awakening() {
+  const supabase = await createServerClient();
+  const [market, copies, status] = await Promise.all([
+    supabase.rpc("awakening_market"),
+    supabase.rpc("my_awakenings"),
+    loadStatus(),
+  ]);
+  if (market.error) throw new Error(market.error.message);
+  if (copies.error) throw new Error(copies.error.message);
+  const listings = (market.data ?? []) as AwakeningListing[];
+  const owned = (copies.data ?? []) as AwakeningCopy[];
+  const ids = [...new Set([...listings, ...owned].map((x) => x.awakeningId))];
+  const { data: rows } = ids.length
+    ? await supabase
+        .from("awakenings")
+        .select("id, title, form, effect, accent, total, cards(name, image_url)")
+        .in("id", ids)
+    : { data: [] };
+  const byId = new Map(((rows ?? []) as unknown as AwakeningRow[]).map((a) => [a.id, a]));
+  const look = (id: string) => {
+    const a = byId.get(id);
+    if (!a?.cards) return null;
+    const { cards, id: _id, ...awakening } = a;
+    return { awakening, card: cards };
+  };
+  const mineCopies = new Set(owned.map((c) => c.copyId));
+  const priceOf = new Map(listings.map((l) => [l.listingId, l.price]));
+  const lots = listings.flatMap((l): AwakeningLot[] => {
+    const v = look(l.awakeningId);
+    return v
+      ? [{ listingId: l.listingId, serial: l.serial, price: l.price, seller: l.seller, mine: mineCopies.has(l.copyId), ...v }]
+      : [];
+  });
+  const mine = owned.flatMap((c): MyAwakening[] => {
+    const v = look(c.awakeningId);
+    const price = c.listingId != null ? (priceOf.get(c.listingId) ?? null) : null;
+    return v ? [{ copyId: c.copyId, serial: c.serial, listingId: c.listingId, price, ...v }] : [];
+  });
+  return <AwakeningTab lots={lots} mine={mine} currency={status?.currency ?? 0} />;
+}
+
 async function Activity() {
   const supabase = await createServerClient();
   const { data } = await supabase.auth.getUser();
@@ -177,6 +223,8 @@ async function MarketContent({
         <Auctions filters={filters} />
       ) : tab === "trades" ? (
         <Trades prefill={parseTradePrefill(sp)} />
+      ) : tab === "awakening" ? (
+        <Awakening />
       ) : (
         <Activity />
       )}

@@ -266,7 +266,13 @@
     "no_request": "Esse pedido não existe mais.",
     "card_protected": "Esta carta está bloqueada. Desbloqueie-a primeiro.",
     "unknown": "Algo deu errado. Tente de novo.",
-    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed."
+    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed.",
+    "not_owner": "You don't own that copy.",
+    "already_listed": "That copy is already listed.",
+    "bad_price": "The price must be between 1 and 1,000,000.",
+    "not_seller": "That listing isn't yours.",
+    "listing_closed": "That listing is no longer open.",
+    "not_enough_currency": "Not enough currency."
   },
   "profile": {
     "eyebrow": "Jogador",
@@ -918,7 +924,8 @@
       "sell": "Vender",
       "auctions": "Leilões",
       "trades": "Trocas",
-      "activity": "Minha atividade"
+      "activity": "Minha atividade",
+      "awakening": "Awakening"
     },
     "search": "Buscar nome ou série",
     "allRarities": "Todas",
@@ -1121,13 +1128,28 @@
       "leading": "Você tem o maior lance.",
       "prices": "Preços de mercado",
       "noSales": "Ainda sem vendas."
+    },
+    "awakening": {
+      "yours": "Your copies",
+      "noCopies": "You don't own any awakened cards yet.",
+      "listedAt": "Listed at {price}",
+      "sell": "Sell",
+      "cancelListing": "Cancel listing",
+      "open": "For sale",
+      "empty": "No awakened card is for sale right now.",
+      "by": "by {seller}",
+      "buy": "Buy",
+      "sellTitle": "Sell {name} #{serial}",
+      "listed": "{name} #{serial} listed for {price}.",
+      "cancelled": "Listing of {name} #{serial} cancelled.",
+      "bought": "You bought {name} #{serial} for {price}."
     }
   },
   "notifications": {
     "title": "Notificações",
     "empty": "Nenhuma notificação ainda.",
     "someCard": "uma carta",
-    "sold": "{source, select, auction {Seu leilão de {name} foi vendido por {price}} order {Você atendeu uma ordem de compra de {name} a {price}} other {Seu anúncio de {name} foi vendido por {price}}}: você recebeu {net}.",
+    "sold": "{source, select, auction {Seu leilão de {name} foi vendido por {price}} order {Você atendeu uma ordem de compra de {name} a {price}} awakening {Your {name} sold for {price}} other {Seu anúncio de {name} foi vendido por {price}}}: você recebeu {net}.",
     "outbid": "Seu lance em {name} foi superado: o maior lance agora é {amount}.",
     "auction_won": "Você venceu o leilão de {name} por {price}.",
     "auction_unsold": "Seu leilão de {name} terminou sem lances; a carta voltou para sua coleção.",

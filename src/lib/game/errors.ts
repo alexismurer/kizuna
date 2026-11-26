@@ -43,6 +43,12 @@ const CODES = [
   "custom_not_set",
   "invalid_selection",
   "rebirth_not_ready",
+  "not_owner",
+  "already_listed",
+  "bad_price",
+  "not_seller",
+  "listing_closed",
+  "not_enough_currency",
 ] as const;
 
 export function rpcErrorKey(message: string): string {

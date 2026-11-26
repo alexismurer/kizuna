@@ -16,10 +16,18 @@ export async function loadNotifications(
   supabase: SupabaseClient,
 ): Promise<{ items: Notification[]; names: Record<number, string> }> {
   const { data } = await supabase.rpc("my_notifications", { p_limit: 30 });
-  const items = ((data ?? []) as Row[]).map((r) => ({
+  const rows = (data ?? []) as Row[];
+  const awakeningIds = [...new Set(rows.map((r) => r.payload.awakening_id).filter((x): x is string => typeof x === "string"))];
+  const { data: awakenings } = awakeningIds.length
+    ? await supabase.from("awakenings").select("id, title").in("id", awakeningIds)
+    : { data: [] };
+  const titles = new Map(((awakenings ?? []) as { id: string; title: string }[]).map((a) => [a.id, a.title]));
+  const items = rows.map((r) => ({
     id: r.id,
     kind: r.kind,
-    payload: r.payload,
+    payload: titles.has(String(r.payload.awakening_id))
+      ? { ...r.payload, awakening_name: `${titles.get(String(r.payload.awakening_id))} #${r.payload.serial}` }
+      : r.payload,
     createdAt: r.created_at,
     read: r.read_at !== null,
   }));
