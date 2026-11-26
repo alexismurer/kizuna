@@ -6,7 +6,7 @@ import { AwakenReveal } from "@/components/awakening/AwakenReveal";
 import { CardBack } from "@/components/card/CardBack";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import { playSfx, type Sfx } from "@/lib/fx/sound";
-import type { Awakening } from "@/lib/rebirth/types";
+import type { AwakeningFace } from "@/lib/rebirth/types";
 import type { Rarity } from "@/lib/game/types";
 import { REVEAL_START, revealReducer, skipTarget, skipTier, type RevealAction } from "@/lib/opening/reveal";
 import { sceneCards } from "@/lib/opening/scene";
@@ -29,7 +29,7 @@ export type RevealCard = {
 };
 
 export type AwakenDrop = {
-  awakening: Pick<Awakening, "title" | "form" | "effect" | "accent" | "total">;
+  awakening: AwakeningFace;
   serial: number;
   total: number;
 };

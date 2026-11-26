@@ -5,7 +5,7 @@ import { AwakeningShelf, type ShelfCopy } from "@/components/awakening/Awakening
 import { ProfileHeader } from "@/components/social/ProfileHeader";
 import { ProfileTabs } from "@/components/social/Showcase";
 import { RARITIES, type Rarity } from "@/lib/game/types";
-import type { Awakening, AwakeningCopy } from "@/lib/rebirth/types";
+import type { Awakening, AwakeningCopy, AwakeningFace } from "@/lib/rebirth/types";
 import { CARD_COLUMNS, type CardRow } from "@/lib/social/thread";
 import type { ProfileCard, ProfileData } from "@/lib/social/types";
 import { fetchAll } from "@/lib/supabase/fetchAll";
@@ -25,7 +25,7 @@ type InvRow = {
   };
 };
 
-type AwakeningRow = Pick<Awakening, "id" | "title" | "form" | "effect" | "accent" | "total"> & { cards: CardRow | null };
+type AwakeningRow = Pick<Awakening, "id"> & AwakeningFace & { cards: CardRow | null };
 
 // params hold the username (runtime data), so they are read inside the Suspense boundary
 async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile/[username]">["params"] }) {
@@ -92,7 +92,7 @@ async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile
   if (copies.length > 0) {
     const { data: rows } = await supabase
       .from("awakenings")
-      .select(`id, title, form, effect, accent, total, cards(${CARD_COLUMNS})`)
+      .select(`id, title, form, effect, accent, total, loopUrl:loop_url, posterUrl:poster_url, revealUrl:reveal_url, cards(${CARD_COLUMNS})`)
       .in("id", [...new Set(copies.map((c) => c.awakeningId))]);
     const byId = new Map(((rows ?? []) as unknown as AwakeningRow[]).map((a) => [a.id, a]));
     shelf = copies.flatMap((c) => {

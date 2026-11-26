@@ -28,7 +28,7 @@ export type RebirthResult = {
   sealPack: "seal";
 };
 
-export type AwakeningEffect = "sun" | "lightning" | "flame" | "void" | "chains" | "petals";
+export type AwakeningEffect = "none" | "sun" | "lightning" | "flame" | "void" | "chains" | "petals";
 
 export type Awakening = {
   id: string;
@@ -39,7 +39,13 @@ export type Awakening = {
   accent: string;
   total: number;
   issued: number;
+  loopUrl: string | null;
+  posterUrl: string | null;
+  revealUrl: string | null;
 };
+
+export type AwakeningFace = Pick<Awakening, "title" | "form" | "effect" | "accent" | "total"> &
+  Partial<Pick<Awakening, "loopUrl" | "posterUrl" | "revealUrl">>;
 
 // awakening_catalog()
 export type AwakeningCatalog = {

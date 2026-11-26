@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import type { CardFace } from "@/components/card/CardView";
-import type { Awakening } from "@/lib/rebirth/types";
+import type { AwakeningFace } from "@/lib/rebirth/types";
 import { AwakeningCard } from "./AwakeningCard";
 import { AwakenReveal } from "./AwakenReveal";
 
@@ -12,7 +12,7 @@ export type ShelfCopy = {
   serial: number;
   firstOwner: string | null;
   listed: boolean;
-  awakening: Pick<Awakening, "title" | "form" | "effect" | "accent" | "total">;
+  awakening: AwakeningFace;
   card: CardFace;
 };
 

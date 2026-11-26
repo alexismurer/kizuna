@@ -159,7 +159,7 @@ async function Awakening() {
   const { data: rows } = ids.length
     ? await supabase
         .from("awakenings")
-        .select("id, title, form, effect, accent, total, cards(name, image_url)")
+        .select("id, title, form, effect, accent, total, loopUrl:loop_url, posterUrl:poster_url, revealUrl:reveal_url, cards(name, image_url)")
         .in("id", ids)
     : { data: [] };
   const byId = new Map(((rows ?? []) as unknown as AwakeningRow[]).map((a) => [a.id, a]));

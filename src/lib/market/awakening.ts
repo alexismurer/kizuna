@@ -1,6 +1,6 @@
-import type { Awakening } from "@/lib/rebirth/types";
+import type { AwakeningFace } from "@/lib/rebirth/types";
 
-export type AwakeningLook = Pick<Awakening, "title" | "form" | "effect" | "accent" | "total">;
+export type AwakeningLook = AwakeningFace;
 
 // An open awakening listing, with what the card needs to draw itself
 export type AwakeningLot = {

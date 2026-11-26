@@ -1,6 +1,6 @@
 import type { AwakeningEffect } from "@/lib/rebirth/types";
 
-// The six effect layers drawn over an awakening card's art. Each is a few absolutely-placed spans/SVGs
+// The effect layers drawn over an awakening card's art. Each is a few absolutely-placed spans/SVGs
 // animated by the .awk-fx-* keyframes in globals.css, tinted with the card's --accent. They run at a
 // calm pace and speed up / brighten when the card is hovered (.awk-live:hover); reduced motion and the
 // Animations setting (.fx-still) freeze them into a still frame.
@@ -81,7 +81,7 @@ function Petals() {
   );
 }
 
-const LAYERS: Record<AwakeningEffect, () => React.ReactElement> = {
+const LAYERS: Record<Exclude<AwakeningEffect, "none">, () => React.ReactElement> = {
   sun: Sun,
   lightning: Lightning,
   flame: Flame,
@@ -91,6 +91,7 @@ const LAYERS: Record<AwakeningEffect, () => React.ReactElement> = {
 };
 
 export function EffectLayer({ effect }: { effect: AwakeningEffect }) {
+  if (effect === "none") return null;
   const Layer = LAYERS[effect] ?? Sun;
   return (
     <div aria-hidden data-effect={effect} className={`awk-fx awk-fx-${effect}`}>

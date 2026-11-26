@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { CardView, type CardFace } from "@/components/card/CardView";
 import { usePrefs } from "@/lib/fx/prefs";
 import { playSfx } from "@/lib/fx/sound";
-import type { Awakening } from "@/lib/rebirth/types";
+import type { AwakeningFace } from "@/lib/rebirth/types";
 import { AwakeningCard } from "./AwakeningCard";
 
 gsap.registerPlugin(useGSAP);
@@ -38,7 +38,7 @@ const SHARDS = Array.from({ length: 22 }, (_, i) => {
 const STAGE_W = "min(17.5rem, 64vw, calc((100dvh - 15rem) * 5 / 7))";
 
 export type AwakenRevealProps = {
-  awakening: Pick<Awakening, "title" | "form" | "effect" | "accent" | "total">;
+  awakening: AwakeningFace;
   card: CardFace;
   serial: number;
   total: number;

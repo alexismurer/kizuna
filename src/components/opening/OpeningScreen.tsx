@@ -223,7 +223,7 @@ export function OpeningScreen({
         // the copy is already granted: without its details the slot just reveals as its base card
         const awakeIds = [...new Set(rows.flatMap((r) => (r.awakening_id ? [r.awakening_id] : [])))];
         const { data: awakeRows } = awakeIds.length
-          ? await supabase.from("awakenings").select("id, title, form, effect, accent, total").in("id", awakeIds)
+          ? await supabase.from("awakenings").select("id, title, form, effect, accent, total, loopUrl:loop_url, posterUrl:poster_url, revealUrl:reveal_url").in("id", awakeIds)
           : { data: [] };
         const awakeById = new Map(((awakeRows ?? []) as AwakeningRow[]).map((a) => [a.id, a]));
         const fresh = newFlags(rows);

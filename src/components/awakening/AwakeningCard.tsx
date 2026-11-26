@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import type { CardRow } from "@/lib/social/thread";
-import type { Awakening } from "@/lib/rebirth/types";
+import type { AwakeningFace } from "@/lib/rebirth/types";
 import { usePrefs } from "@/lib/fx/prefs";
+import { isVideoUrl } from "@/lib/awakening/media";
 import { EffectLayer } from "./effects";
 
 export type AwakeningSize = "sm" | "md" | "lg";
@@ -27,7 +28,7 @@ export function AwakeningCard({
   size = "md",
   interactive = false,
 }: {
-  awakening: Pick<Awakening, "title" | "form" | "effect" | "accent" | "total">;
+  awakening: AwakeningFace;
   card: Pick<CardRow, "name" | "image_url">;
   serial?: number;
   total?: number;
@@ -39,6 +40,27 @@ export function AwakeningCard({
   const of = total ?? awakening.total;
   const reduce = useReducedMotion();
   const lift = interactive && prefs.animations && !reduce;
+  const [loopBroken, setLoopBroken] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const live = prefs.animations && !reduce && !!awakening.loopUrl && !loopBroken;
+  const loopIsVideo = !!awakening.loopUrl && isVideoUrl(awakening.loopUrl);
+  const base = card.image_url;
+  // A video loop needs a poster; a gif loop with no poster has no still, so it falls back to the base art.
+  const still = awakening.posterUrl ?? base;
+  const src = live && !loopIsVideo ? awakening.loopUrl! : awakening.loopUrl ? still : base;
+  const showVideo = live && loopIsVideo;
+
+  // Play the clip only while the card is on screen
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!showVideo || !el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) void el.play()?.catch(() => {});
+      else el.pause();
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [showVideo]);
 
   return (
     <motion.div
@@ -51,13 +73,25 @@ export function AwakeningCard({
       <span aria-hidden className="awk-halo" />
       <div className="awk-frame">
         <div className="awk-face">
-          {card.image_url && !broken ? (
+          {showVideo ? (
+            <video
+              ref={videoRef}
+              src={awakening.loopUrl!}
+              poster={still ?? undefined}
+              muted
+              loop
+              playsInline
+              preload="none"
+              onError={() => setLoopBroken(true)}
+              className="awk-art"
+            />
+          ) : src && !broken ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={card.image_url}
+              src={src}
               alt=""
               loading="lazy"
-              onError={() => setBroken(true)}
+              onError={() => (src !== base && base ? setLoopBroken(true) : setBroken(true))}
               className="awk-art"
             />
           ) : (
