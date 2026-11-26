@@ -2265,7 +2265,7 @@
     "copy": "Copy result",
     "copied": "Copied!",
     "earned": "+{n, number} tickets",
-    "capReached": "Ticket cap reached: this game was just for fun.",
+    "capReached": "Ticket cap reached, but the boss still took your damage.",
     "tooQuick": "No tickets: the game ended too quickly.",
     "newBest": "New best of the week!",
     "rankLine": "#{rank} of {players} this week",

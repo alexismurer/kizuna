@@ -2265,7 +2265,7 @@
     "copy": "Copiar resultado",
     "copied": "¡Copiado!",
     "earned": "+{n, number} tickets",
-    "capReached": "Límite de tickets alcanzado: esta partida fue solo por diversión.",
+    "capReached": "Límite de tickets alcanzado, pero el jefe recibió tu daño igualmente.",
     "tooQuick": "Sin tickets: la partida terminó demasiado rápido.",
     "newBest": "¡Nuevo récord de la semana!",
     "rankLine": "#{rank} de {players} esta semana",

@@ -2265,7 +2265,7 @@
     "copy": "Copier le résultat",
     "copied": "Copié !",
     "earned": "+{n, number} tickets",
-    "capReached": "Plafond de tickets atteint : cette partie était pour le plaisir.",
+    "capReached": "Plafond de tickets atteint, mais le boss a quand même pris tes dégâts.",
     "tooQuick": "Pas de tickets : la partie a été trop courte.",
     "newBest": "Nouveau record de la semaine !",
     "rankLine": "{rank}e sur {players} cette semaine",

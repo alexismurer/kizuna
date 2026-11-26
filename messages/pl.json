@@ -2265,7 +2265,7 @@
     "copy": "Kopiuj wynik",
     "copied": "Skopiowano!",
     "earned": "+{n, number} biletów",
-    "capReached": "Limit biletów osiągnięty: ta gra była dla zabawy.",
+    "capReached": "Limit biletów osiągnięty, ale boss i tak oberwał od ciebie.",
     "tooQuick": "Brak biletów: gra skończyła się za szybko.",
     "newBest": "Nowy rekord tygodnia!",
     "rankLine": "#{rank} z {players} w tym tygodniu",

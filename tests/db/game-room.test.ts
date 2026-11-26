@@ -187,6 +187,18 @@ describe('boss of the week', () => {
     await admin.from('bosses').update({ defeated_at: null }).eq('week_start', week)
   })
 
+  it('keeps hitting the boss after the daily ticket cap', async () => {
+    const { data: rows } = await admin.from('bosses').select('*').order('week_start', { ascending: false }).limit(1)
+    const saved = rows![0]
+    await admin.from('bosses').update({ hp: 10000000, defeated_at: null, secret_at: null }).eq('week_start', saved.week_start)
+    const p = await newPlayer()
+    for (let i = 0; i < 5; i++) await finish(p, await played(p, 'friend'), 'win')
+    expect(await tickets(p)).toBe(60)
+    expect((await weekly(p)).mine).toBe(75)
+    await admin.from('boss_hits').delete().eq('week_start', saved.week_start).eq('player_id', p.userId)
+    await admin.from('bosses').update({ hp: saved.hp, defeated_at: saved.defeated_at, secret_at: saved.secret_at }).eq('week_start', saved.week_start)
+  })
+
   it('gives 3 bonus boosters past the top 10', async () => {
     const { data: rows } = await admin.from('bosses').select('*').order('week_start', { ascending: false }).limit(1)
     const week = rows![0].week_start
