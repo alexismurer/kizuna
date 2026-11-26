@@ -1241,6 +1241,7 @@
       "cards": "Cartas",
       "pools": "Seleções diárias",
       "seasonal": "Sazonais",
+      "awakenings": "Despertares",
       "chat": "Chat",
       "art": "Imagens das cartas"
     },
@@ -1272,7 +1273,15 @@
       "card_exists": "Este personagem já é uma carta.",
       "invalid_status": "Já foi decidido sobre este personagem.",
       "gallery_failed": "Não foi possível carregar as imagens do MyAnimeList. Tente de novo em um minuto.",
-      "mal_search_failed": "Não foi possível buscar no MyAnimeList. Tente de novo em um minuto."
+      "mal_search_failed": "Não foi possível buscar no MyAnimeList. Tente de novo em um minuto.",
+      "invalid_awakening": "Confira os campos: ID, título e forma (1-40 caracteres), cor no formato #rrggbb, total de 1 a 100000, links começando com https://.",
+      "awakening_in_use": "Já existem cópias deste despertar, então ele não pode ser excluído nem ter a carta base alterada.",
+      "total_below_issued": "O total não pode ficar abaixo das cópias já emitidas.",
+      "too_big": "O arquivo é grande demais (5 MB para loop e pôster, 25 MB para a revelação).",
+      "bad_type": "Tipo de arquivo não suportado. Use MP4, WEBM, GIF, PNG, JPEG ou WEBP (pôster: PNG, JPEG ou WEBP).",
+      "upload_failed": "O envio falhou. Tente de novo.",
+      "awakening_card": "Escolha uma carta base.",
+      "awakening_id": "O ID precisa ter de 3 a 48 caracteres: letras minúsculas, dígitos e hifens."
     },
     "invites": {
       "title": "Códigos de convite",
@@ -1516,6 +1525,58 @@
       "chooseTitle": "Escolha a imagem",
       "chooseHelp": "Clique numa imagem e depois em Usar esta imagem. Se a carta já está boa, aperte Manter a atual.",
       "chooseHelpUnlinked": "Vincule o personagem acima para ver mais imagens. Se a atual está boa, aperte Manter a atual."
+    },
+    "awakenings": {
+      "title": "Despertares",
+      "description": "Crie versões despertas das cartas e anexe arte e vídeos.",
+      "new": "Novo despertar",
+      "empty": "Nenhum despertar ainda.",
+      "issued": "{issued} / {total} emitidas",
+      "active": "Ativo",
+      "inactive": "Oculto",
+      "edit": "Editar",
+      "deleteBlocked": "Não dá para excluir: já existem cópias",
+      "deleteName": "Excluir {title}",
+      "creating": "Novo despertar",
+      "editing": "Editar despertar",
+      "cardLocked": "A carta base fica travada quando existem cópias: {name}",
+      "id": "ID (a-z, 0-9, hifens; não pode mudar depois)",
+      "titleLabel": "Título",
+      "form": "Forma",
+      "effect": "Efeito",
+      "accent": "Cor de destaque",
+      "accentPicker": "Escolher cor de destaque",
+      "total": "Total de cópias",
+      "sort": "Ordem",
+      "activeLabel": "Ativo",
+      "preview": "Prévia",
+      "playReveal": "Reproduzir revelação",
+      "save": "Salvar despertar",
+      "cancel": "Cancelar",
+      "media": {
+        "loop": "Loop",
+        "loopHint": "Toca na carta. Vídeo ou GIF, até 5 MB.",
+        "poster": "Pôster",
+        "posterHint": "Imagem estática exibida quando o loop não está tocando. Até 5 MB.",
+        "reveal": "Vídeo de revelação",
+        "revealHint": "Clipe em tela cheia antes do despertar. Até 25 MB.",
+        "none": "Nenhum",
+        "link": "Link de {kind}",
+        "file": "Arquivo de {kind}",
+        "upload": "Enviar arquivo",
+        "uploading": "Enviando…",
+        "clear": "Limpar",
+        "clearKind": "Limpar {kind}"
+      },
+      "effects": {
+        "none": "Nenhum",
+        "sun": "Sol",
+        "lightning": "Raio",
+        "flame": "Chama",
+        "void": "Vazio",
+        "chains": "Correntes",
+        "petals": "Pétalas"
+      }
     }
   },
   "pages": {

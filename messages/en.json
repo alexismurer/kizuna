@@ -1241,6 +1241,7 @@
       "cards": "Cards",
       "pools": "Daily pools",
       "seasonal": "Seasonal",
+      "awakenings": "Awakenings",
       "chat": "Chat",
       "art": "Card art"
     },
@@ -1272,7 +1273,15 @@
       "card_exists": "This character is already a card.",
       "invalid_status": "This character was already decided.",
       "gallery_failed": "Couldn't load the pictures from MyAnimeList. Try again in a minute.",
-      "mal_search_failed": "Couldn't search MyAnimeList. Try again in a minute."
+      "mal_search_failed": "Couldn't search MyAnimeList. Try again in a minute.",
+      "invalid_awakening": "Check the fields: ID, title and form (1-40 characters), colour as #rrggbb, total 1 to 100000, links starting with https://.",
+      "awakening_in_use": "Copies of this awakening already exist, so it can't be deleted or have its base card changed.",
+      "total_below_issued": "The total can't go below the copies already issued.",
+      "too_big": "That file is too big (5 MB for loop and poster, 25 MB for reveal).",
+      "bad_type": "Unsupported file type. Use MP4, WEBM, GIF, PNG, JPEG or WEBP (poster: PNG, JPEG or WEBP).",
+      "upload_failed": "The upload failed. Try again.",
+      "awakening_card": "Pick a base card.",
+      "awakening_id": "The ID needs 3 to 48 characters: lowercase letters, digits and dashes."
     },
     "invites": {
       "title": "Invite codes",
@@ -1516,6 +1525,58 @@
       "chooseTitle": "Choose the picture",
       "chooseHelp": "Click a picture, then Use this picture. If the card already looks right, press Keep current.",
       "chooseHelpUnlinked": "Match the character above to see more pictures. If the current one is fine, press Keep current."
+    },
+    "awakenings": {
+      "title": "Awakenings",
+      "description": "Create awakened card versions and attach their art and videos.",
+      "new": "New awakening",
+      "empty": "No awakenings yet.",
+      "issued": "{issued} / {total} issued",
+      "active": "Active",
+      "inactive": "Hidden",
+      "edit": "Edit",
+      "deleteBlocked": "Can't delete: copies already exist",
+      "deleteName": "Delete {title}",
+      "creating": "New awakening",
+      "editing": "Edit awakening",
+      "cardLocked": "Base card is locked once copies exist: {name}",
+      "id": "ID (a-z, 0-9, dashes; can't change later)",
+      "titleLabel": "Title",
+      "form": "Form",
+      "effect": "Effect",
+      "accent": "Accent colour",
+      "accentPicker": "Pick accent colour",
+      "total": "Total copies",
+      "sort": "Sort order",
+      "activeLabel": "Active",
+      "preview": "Preview",
+      "playReveal": "Play reveal",
+      "save": "Save awakening",
+      "cancel": "Cancel",
+      "media": {
+        "loop": "Loop",
+        "loopHint": "Plays on the card. Video or GIF, up to 5 MB.",
+        "poster": "Poster",
+        "posterHint": "Still image shown when the loop isn't playing. Up to 5 MB.",
+        "reveal": "Reveal video",
+        "revealHint": "Fullscreen clip before the awakening. Up to 25 MB.",
+        "none": "None",
+        "link": "{kind} link",
+        "file": "{kind} file",
+        "upload": "Upload file",
+        "uploading": "Uploading…",
+        "clear": "Clear",
+        "clearKind": "Clear {kind}"
+      },
+      "effects": {
+        "none": "None",
+        "sun": "Sun",
+        "lightning": "Lightning",
+        "flame": "Flame",
+        "void": "Void",
+        "chains": "Chains",
+        "petals": "Petals"
+      }
     }
   },
   "pages": {

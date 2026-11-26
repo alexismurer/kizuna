@@ -9,6 +9,7 @@ import {
   type Suggestion,
 } from "@/lib/game/seasonSuggest";
 import type { Rarity } from "@/lib/game/types";
+import type { AwakeningEffect } from "@/lib/rebirth/types";
 import { fetchAll } from "@/lib/supabase/fetchAll";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -296,4 +297,46 @@ export async function adminSeasonalSuggestions(): Promise<AdminResult<SeasonalSu
     ok: true,
     data: { season, year, slug: seasonSlug(season, year), startsAt: startsAt.toISOString(), endsAt: endsAt.toISOString(), items },
   };
+}
+
+export type AdminAwakening = {
+  id: string;
+  baseCardId: number;
+  baseName: string;
+  baseImage: string | null;
+  title: string;
+  form: string;
+  effect: AwakeningEffect;
+  accent: string;
+  total: number;
+  sort: number;
+  active: boolean;
+  issued: number;
+  loopUrl: string | null;
+  posterUrl: string | null;
+  revealUrl: string | null;
+};
+export type AdminAwakeningInput = Omit<AdminAwakening, "baseName" | "baseImage" | "issued">;
+
+export async function adminAwakenings() {
+  return call<AdminAwakening[]>("admin_awakenings");
+}
+export async function adminSaveAwakening(v: AdminAwakeningInput) {
+  return call<string>("admin_save_awakening", {
+    p_id: v.id,
+    p_base_card_id: v.baseCardId,
+    p_title: v.title,
+    p_form: v.form,
+    p_effect: v.effect,
+    p_accent: v.accent,
+    p_total: v.total,
+    p_sort: v.sort,
+    p_active: v.active,
+    p_loop_url: v.loopUrl ?? "",
+    p_poster_url: v.posterUrl ?? "",
+    p_reveal_url: v.revealUrl ?? "",
+  });
+}
+export async function adminDeleteAwakening(id: string) {
+  return call<null>("admin_delete_awakening", { p_id: id });
 }

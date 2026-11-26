@@ -1241,6 +1241,7 @@
       "cards": "Cartes",
       "pools": "Sélections du jour",
       "seasonal": "Saisonniers",
+      "awakenings": "Éveils",
       "chat": "Chat",
       "art": "Images des cartes"
     },
@@ -1272,7 +1273,15 @@
       "card_exists": "Ce personnage est déjà une carte.",
       "invalid_status": "Une décision a déjà été prise pour ce personnage.",
       "gallery_failed": "Impossible de charger les images de MyAnimeList. Réessaie dans une minute.",
-      "mal_search_failed": "Impossible de chercher sur MyAnimeList. Réessaie dans une minute."
+      "mal_search_failed": "Impossible de chercher sur MyAnimeList. Réessaie dans une minute.",
+      "invalid_awakening": "Vérifie les champs : ID, titre et forme (1-40 caractères), couleur en #rrggbb, total de 1 à 100000, liens commençant par https://.",
+      "awakening_in_use": "Des exemplaires de cet éveil existent déjà : impossible de le supprimer ou de changer sa carte de base.",
+      "total_below_issued": "Le total ne peut pas être inférieur aux exemplaires déjà émis.",
+      "too_big": "Ce fichier est trop lourd (5 Mo pour la boucle et l'affiche, 25 Mo pour la révélation).",
+      "bad_type": "Type de fichier non pris en charge. Utilise MP4, WEBM, GIF, PNG, JPEG ou WEBP (affiche : PNG, JPEG ou WEBP).",
+      "upload_failed": "Le téléversement a échoué. Réessaie.",
+      "awakening_card": "Choisis une carte de base.",
+      "awakening_id": "L'ID doit faire 3 à 48 caractères : minuscules, chiffres et tirets."
     },
     "invites": {
       "title": "Codes d'invitation",
@@ -1516,6 +1525,58 @@
       "chooseTitle": "Choisis l'image",
       "chooseHelp": "Clique sur une image, puis sur Utiliser cette image. Si la carte est déjà bien, appuie sur Garder l'actuelle.",
       "chooseHelpUnlinked": "Relie le personnage au-dessus pour voir plus d'images. Si l'image actuelle convient, appuie sur Garder l'actuelle."
+    },
+    "awakenings": {
+      "title": "Éveils",
+      "description": "Crée des versions éveillées de cartes et ajoute leurs visuels et vidéos.",
+      "new": "Nouvel éveil",
+      "empty": "Aucun éveil pour l'instant.",
+      "issued": "{issued} / {total} émises",
+      "active": "Actif",
+      "inactive": "Masqué",
+      "edit": "Modifier",
+      "deleteBlocked": "Suppression impossible : des exemplaires existent déjà",
+      "deleteName": "Supprimer {title}",
+      "creating": "Nouvel éveil",
+      "editing": "Modifier l'éveil",
+      "cardLocked": "La carte de base est verrouillée dès que des exemplaires existent : {name}",
+      "id": "ID (a-z, 0-9, tirets ; non modifiable ensuite)",
+      "titleLabel": "Titre",
+      "form": "Forme",
+      "effect": "Effet",
+      "accent": "Couleur d'accent",
+      "accentPicker": "Choisir la couleur d'accent",
+      "total": "Exemplaires au total",
+      "sort": "Ordre",
+      "activeLabel": "Actif",
+      "preview": "Aperçu",
+      "playReveal": "Lancer la révélation",
+      "save": "Enregistrer l'éveil",
+      "cancel": "Annuler",
+      "media": {
+        "loop": "Boucle",
+        "loopHint": "Jouée sur la carte. Vidéo ou GIF, jusqu'à 5 Mo.",
+        "poster": "Affiche",
+        "posterHint": "Image fixe affichée quand la boucle ne joue pas. Jusqu'à 5 Mo.",
+        "reveal": "Vidéo de révélation",
+        "revealHint": "Clip plein écran avant l'éveil. Jusqu'à 25 Mo.",
+        "none": "Aucun",
+        "link": "Lien {kind}",
+        "file": "Fichier {kind}",
+        "upload": "Téléverser un fichier",
+        "uploading": "Téléversement…",
+        "clear": "Effacer",
+        "clearKind": "Effacer {kind}"
+      },
+      "effects": {
+        "none": "Aucun",
+        "sun": "Soleil",
+        "lightning": "Foudre",
+        "flame": "Flamme",
+        "void": "Vide",
+        "chains": "Chaînes",
+        "petals": "Pétales"
+      }
     }
   },
   "pages": {

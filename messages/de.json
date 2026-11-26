@@ -1241,6 +1241,7 @@
       "cards": "Karten",
       "pools": "Tagespools",
       "seasonal": "Saisonal",
+      "awakenings": "Erwachungen",
       "chat": "Chat",
       "art": "Kartenbilder"
     },
@@ -1272,7 +1273,15 @@
       "card_exists": "Dieser Charakter ist bereits eine Karte.",
       "invalid_status": "Über diesen Charakter wurde schon entschieden.",
       "gallery_failed": "Die Bilder von MyAnimeList konnten nicht geladen werden. Versuch es in einer Minute erneut.",
-      "mal_search_failed": "Suche auf MyAnimeList fehlgeschlagen. Versuche es in einer Minute erneut."
+      "mal_search_failed": "Suche auf MyAnimeList fehlgeschlagen. Versuche es in einer Minute erneut.",
+      "invalid_awakening": "Prüfe die Felder: ID, Titel und Form (1-40 Zeichen), Farbe als #rrggbb, Gesamtzahl 1 bis 100000, Links mit https://.",
+      "awakening_in_use": "Von dieser Erwachung gibt es schon Exemplare, sie kann nicht gelöscht und ihre Basiskarte nicht geändert werden.",
+      "total_below_issued": "Die Gesamtzahl darf nicht unter den bereits ausgegebenen Exemplaren liegen.",
+      "too_big": "Die Datei ist zu groß (5 MB für Schleife und Poster, 25 MB für die Enthüllung).",
+      "bad_type": "Dateityp nicht unterstützt. Nutze MP4, WEBM, GIF, PNG, JPEG oder WEBP (Poster: PNG, JPEG oder WEBP).",
+      "upload_failed": "Der Upload ist fehlgeschlagen. Versuche es erneut.",
+      "awakening_card": "Wähle eine Basiskarte.",
+      "awakening_id": "Die ID braucht 3 bis 48 Zeichen: Kleinbuchstaben, Ziffern und Bindestriche."
     },
     "invites": {
       "title": "Einladungscodes",
@@ -1516,6 +1525,58 @@
       "chooseTitle": "Bild auswählen",
       "chooseHelp": "Klicke auf ein Bild, dann auf Dieses Bild nehmen. Passt die Karte schon, drücke Aktuelles behalten.",
       "chooseHelpUnlinked": "Verknüpfe oben die Figur, um mehr Bilder zu sehen. Passt das aktuelle Bild, drücke Aktuelles behalten."
+    },
+    "awakenings": {
+      "title": "Erwachungen",
+      "description": "Erstelle erwachte Kartenversionen und hänge Bilder und Videos an.",
+      "new": "Neue Erwachung",
+      "empty": "Noch keine Erwachungen.",
+      "issued": "{issued} / {total} ausgegeben",
+      "active": "Aktiv",
+      "inactive": "Versteckt",
+      "edit": "Bearbeiten",
+      "deleteBlocked": "Löschen nicht möglich: es gibt bereits Exemplare",
+      "deleteName": "{title} löschen",
+      "creating": "Neue Erwachung",
+      "editing": "Erwachung bearbeiten",
+      "cardLocked": "Die Basiskarte ist gesperrt, sobald Exemplare existieren: {name}",
+      "id": "ID (a-z, 0-9, Bindestriche; später nicht änderbar)",
+      "titleLabel": "Titel",
+      "form": "Form",
+      "effect": "Effekt",
+      "accent": "Akzentfarbe",
+      "accentPicker": "Akzentfarbe wählen",
+      "total": "Gesamtzahl der Exemplare",
+      "sort": "Reihenfolge",
+      "activeLabel": "Aktiv",
+      "preview": "Vorschau",
+      "playReveal": "Enthüllung abspielen",
+      "save": "Erwachung speichern",
+      "cancel": "Abbrechen",
+      "media": {
+        "loop": "Schleife",
+        "loopHint": "Läuft auf der Karte. Video oder GIF, bis 5 MB.",
+        "poster": "Poster",
+        "posterHint": "Standbild, wenn die Schleife nicht läuft. Bis 5 MB.",
+        "reveal": "Enthüllungsvideo",
+        "revealHint": "Vollbild-Clip vor der Erwachung. Bis 25 MB.",
+        "none": "Keine",
+        "link": "Link: {kind}",
+        "file": "Datei: {kind}",
+        "upload": "Datei hochladen",
+        "uploading": "Wird hochgeladen…",
+        "clear": "Leeren",
+        "clearKind": "{kind} leeren"
+      },
+      "effects": {
+        "none": "Keiner",
+        "sun": "Sonne",
+        "lightning": "Blitz",
+        "flame": "Flamme",
+        "void": "Leere",
+        "chains": "Ketten",
+        "petals": "Blüten"
+      }
     }
   },
   "pages": {

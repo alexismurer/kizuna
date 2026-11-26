@@ -1241,6 +1241,7 @@
       "cards": "Karty",
       "pools": "Pule dzienne",
       "seasonal": "Sezonowe",
+      "awakenings": "Przebudzenia",
       "chat": "Czat",
       "art": "Obrazki kart"
     },
@@ -1272,7 +1273,15 @@
       "card_exists": "Ta postać jest już kartą.",
       "invalid_status": "O tej postaci już zdecydowano.",
       "gallery_failed": "Nie udało się wczytać obrazków z MyAnimeList. Spróbuj ponownie za minutę.",
-      "mal_search_failed": "Nie udało się przeszukać MyAnimeList. Spróbuj ponownie za minutę."
+      "mal_search_failed": "Nie udało się przeszukać MyAnimeList. Spróbuj ponownie za minutę.",
+      "invalid_awakening": "Sprawdź pola: ID, tytuł i forma (1-40 znaków), kolor jako #rrggbb, liczba od 1 do 100000, linki zaczynające się od https://.",
+      "awakening_in_use": "Kopie tego przebudzenia już istnieją, więc nie można go usunąć ani zmienić jego karty bazowej.",
+      "total_below_issued": "Liczba kopii nie może być mniejsza niż już wydane.",
+      "too_big": "Plik jest za duży (5 MB dla pętli i plakatu, 25 MB dla odsłonięcia).",
+      "bad_type": "Nieobsługiwany typ pliku. Użyj MP4, WEBM, GIF, PNG, JPEG lub WEBP (plakat: PNG, JPEG lub WEBP).",
+      "upload_failed": "Wgrywanie się nie powiodło. Spróbuj ponownie.",
+      "awakening_card": "Wybierz kartę bazową.",
+      "awakening_id": "ID musi mieć od 3 do 48 znaków: małe litery, cyfry i myślniki."
     },
     "invites": {
       "title": "Kody zaproszeń",
@@ -1516,6 +1525,58 @@
       "chooseTitle": "Wybierz obrazek",
       "chooseHelp": "Kliknij obrazek, a potem Użyj tego obrazka. Jeśli karta już wygląda dobrze, naciśnij Zostaw obecny.",
       "chooseHelpUnlinked": "Połącz postać powyżej, aby zobaczyć więcej obrazków. Jeśli obecny jest w porządku, naciśnij Zostaw obecny."
+    },
+    "awakenings": {
+      "title": "Przebudzenia",
+      "description": "Twórz przebudzone wersje kart i dodawaj ich grafiki oraz wideo.",
+      "new": "Nowe przebudzenie",
+      "empty": "Brak przebudzeń.",
+      "issued": "{issued} / {total} wydanych",
+      "active": "Aktywne",
+      "inactive": "Ukryte",
+      "edit": "Edytuj",
+      "deleteBlocked": "Nie można usunąć: istnieją już kopie",
+      "deleteName": "Usuń {title}",
+      "creating": "Nowe przebudzenie",
+      "editing": "Edytuj przebudzenie",
+      "cardLocked": "Karta bazowa jest zablokowana, gdy istnieją kopie: {name}",
+      "id": "ID (a-z, 0-9, myślniki; nie można zmienić później)",
+      "titleLabel": "Tytuł",
+      "form": "Forma",
+      "effect": "Efekt",
+      "accent": "Kolor akcentu",
+      "accentPicker": "Wybierz kolor akcentu",
+      "total": "Liczba kopii",
+      "sort": "Kolejność",
+      "activeLabel": "Aktywne",
+      "preview": "Podgląd",
+      "playReveal": "Odtwórz odsłonięcie",
+      "save": "Zapisz przebudzenie",
+      "cancel": "Anuluj",
+      "media": {
+        "loop": "Pętla",
+        "loopHint": "Odtwarzana na karcie. Wideo lub GIF, do 5 MB.",
+        "poster": "Plakat",
+        "posterHint": "Obraz statyczny, gdy pętla nie gra. Do 5 MB.",
+        "reveal": "Wideo odsłonięcia",
+        "revealHint": "Klip na pełnym ekranie przed przebudzeniem. Do 25 MB.",
+        "none": "Brak",
+        "link": "Link: {kind}",
+        "file": "Plik: {kind}",
+        "upload": "Wgraj plik",
+        "uploading": "Wgrywanie…",
+        "clear": "Wyczyść",
+        "clearKind": "Wyczyść: {kind}"
+      },
+      "effects": {
+        "none": "Brak",
+        "sun": "Słońce",
+        "lightning": "Piorun",
+        "flame": "Płomień",
+        "void": "Pustka",
+        "chains": "Łańcuchy",
+        "petals": "Płatki"
+      }
     }
   },
   "pages": {

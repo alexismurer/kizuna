@@ -1241,6 +1241,7 @@
       "cards": "カード",
       "pools": "デイリーセレクション",
       "seasonal": "シーズン",
+      "awakenings": "覚醒",
       "chat": "チャット",
       "art": "カードの画像"
     },
@@ -1272,7 +1273,15 @@
       "card_exists": "このキャラクターはすでにカードです。",
       "invalid_status": "このキャラクターはすでに判定済みです。",
       "gallery_failed": "MyAnimeListから画像を読み込めませんでした。1分後にもう一度お試しください。",
-      "mal_search_failed": "MyAnimeList を検索できませんでした。少し待ってからもう一度お試しください。"
+      "mal_search_failed": "MyAnimeList を検索できませんでした。少し待ってからもう一度お試しください。",
+      "invalid_awakening": "入力内容を確認してください：ID、タイトル、フォーム（1～40文字）、色は #rrggbb、総数は1～100000、リンクは https:// で始めてください。",
+      "awakening_in_use": "この覚醒のコピーがすでに存在するため、削除やベースカードの変更はできません。",
+      "total_below_issued": "総数は発行済みのコピー数を下回れません。",
+      "too_big": "ファイルが大きすぎます（ループとポスターは5 MB、演出動画は25 MBまで）。",
+      "bad_type": "非対応のファイル形式です。MP4、WEBM、GIF、PNG、JPEG、WEBPを使ってください（ポスターはPNG、JPEG、WEBP）。",
+      "upload_failed": "アップロードに失敗しました。もう一度お試しください。",
+      "awakening_card": "ベースカードを選んでください。",
+      "awakening_id": "IDは3～48文字で、小文字、数字、ハイフンが使えます。"
     },
     "invites": {
       "title": "招待コード",
@@ -1516,6 +1525,58 @@
       "chooseTitle": "画像を選ぶ",
       "chooseHelp": "画像をクリックして「この画像にする」を押します。今のままで良ければ「今のままにする」を押します。",
       "chooseHelpUnlinked": "上でキャラクターをリンクすると、ほかの画像が表示されます。今の画像で良ければ「今のままにする」を押します。"
+    },
+    "awakenings": {
+      "title": "覚醒",
+      "description": "覚醒カードのバージョンを作成し、画像や動画を設定します。",
+      "new": "新しい覚醒",
+      "empty": "覚醒はまだありません。",
+      "issued": "{issued} / {total} 発行済み",
+      "active": "有効",
+      "inactive": "非表示",
+      "edit": "編集",
+      "deleteBlocked": "削除できません：すでにコピーが存在します",
+      "deleteName": "{title} を削除",
+      "creating": "新しい覚醒",
+      "editing": "覚醒を編集",
+      "cardLocked": "コピーが存在するとベースカードは変更できません：{name}",
+      "id": "ID（a-z、0-9、ハイフン。後から変更不可）",
+      "titleLabel": "タイトル",
+      "form": "フォーム",
+      "effect": "エフェクト",
+      "accent": "アクセントカラー",
+      "accentPicker": "アクセントカラーを選択",
+      "total": "総コピー数",
+      "sort": "並び順",
+      "activeLabel": "有効",
+      "preview": "プレビュー",
+      "playReveal": "演出を再生",
+      "save": "覚醒を保存",
+      "cancel": "キャンセル",
+      "media": {
+        "loop": "ループ",
+        "loopHint": "カード上で再生されます。動画またはGIF、5 MBまで。",
+        "poster": "ポスター",
+        "posterHint": "ループが再生されないときに表示する静止画。5 MBまで。",
+        "reveal": "演出動画",
+        "revealHint": "覚醒前に全画面で流れるクリップ。25 MBまで。",
+        "none": "なし",
+        "link": "{kind}のリンク",
+        "file": "{kind}のファイル",
+        "upload": "ファイルをアップロード",
+        "uploading": "アップロード中…",
+        "clear": "クリア",
+        "clearKind": "{kind}をクリア"
+      },
+      "effects": {
+        "none": "なし",
+        "sun": "太陽",
+        "lightning": "雷",
+        "flame": "炎",
+        "void": "虚無",
+        "chains": "鎖",
+        "petals": "花びら"
+      }
     }
   },
   "pages": {

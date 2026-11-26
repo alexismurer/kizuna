@@ -1241,6 +1241,7 @@
       "cards": "卡牌",
       "pools": "每日卡池",
       "seasonal": "季节限定",
+      "awakenings": "觉醒",
       "chat": "聊天",
       "art": "卡牌图片"
     },
@@ -1272,7 +1273,15 @@
       "card_exists": "该角色已经是卡牌了。",
       "invalid_status": "该角色已有决定。",
       "gallery_failed": "无法从 MyAnimeList 加载图片，请一分钟后重试。",
-      "mal_search_failed": "无法搜索 MyAnimeList，请稍后再试。"
+      "mal_search_failed": "无法搜索 MyAnimeList，请稍后再试。",
+      "invalid_awakening": "请检查字段：ID、标题和形态（1-40 个字符），颜色格式为 #rrggbb，总数 1 到 100000，链接以 https:// 开头。",
+      "awakening_in_use": "该觉醒已有副本，因此无法删除，也不能更换基础卡牌。",
+      "total_below_issued": "总数不能低于已发行的副本数。",
+      "too_big": "文件太大（循环和海报最大 5 MB，揭示视频最大 25 MB）。",
+      "bad_type": "不支持的文件类型。请使用 MP4、WEBM、GIF、PNG、JPEG 或 WEBP（海报：PNG、JPEG 或 WEBP）。",
+      "upload_failed": "上传失败，请重试。",
+      "awakening_card": "请选择基础卡牌。",
+      "awakening_id": "ID 需要 3 到 48 个字符：小写字母、数字和连字符。"
     },
     "invites": {
       "title": "邀请码",
@@ -1516,6 +1525,58 @@
       "chooseTitle": "选择图片",
       "chooseHelp": "点击一张图片，然后点“使用这张”。如果卡牌已经很好，点“保留当前”。",
       "chooseHelpUnlinked": "先在上方关联角色以查看更多图片。如果当前图片合适，点“保留当前”。"
+    },
+    "awakenings": {
+      "title": "觉醒",
+      "description": "创建卡牌的觉醒版本，并为其添加图片和视频。",
+      "new": "新建觉醒",
+      "empty": "还没有觉醒。",
+      "issued": "已发行 {issued} / {total}",
+      "active": "启用",
+      "inactive": "隐藏",
+      "edit": "编辑",
+      "deleteBlocked": "无法删除：已存在副本",
+      "deleteName": "删除 {title}",
+      "creating": "新建觉醒",
+      "editing": "编辑觉醒",
+      "cardLocked": "已有副本后基础卡牌将被锁定：{name}",
+      "id": "ID（a-z、0-9、连字符；之后不可更改）",
+      "titleLabel": "标题",
+      "form": "形态",
+      "effect": "特效",
+      "accent": "强调色",
+      "accentPicker": "选择强调色",
+      "total": "副本总数",
+      "sort": "排序",
+      "activeLabel": "启用",
+      "preview": "预览",
+      "playReveal": "播放揭示",
+      "save": "保存觉醒",
+      "cancel": "取消",
+      "media": {
+        "loop": "循环",
+        "loopHint": "在卡牌上播放。视频或 GIF，最大 5 MB。",
+        "poster": "海报",
+        "posterHint": "循环未播放时显示的静态图。最大 5 MB。",
+        "reveal": "揭示视频",
+        "revealHint": "觉醒前的全屏片段。最大 25 MB。",
+        "none": "无",
+        "link": "{kind}链接",
+        "file": "{kind}文件",
+        "upload": "上传文件",
+        "uploading": "上传中…",
+        "clear": "清除",
+        "clearKind": "清除{kind}"
+      },
+      "effects": {
+        "none": "无",
+        "sun": "太阳",
+        "lightning": "闪电",
+        "flame": "火焰",
+        "void": "虚空",
+        "chains": "锁链",
+        "petals": "花瓣"
+      }
     }
   },
   "pages": {
