@@ -66,3 +66,11 @@ describe("market filters", () => {
     expect(parseMarketParams(Object.fromEntries(new URLSearchParams(qs)))).toEqual(f);
   });
 });
+
+describe("awakening tab", () => {
+  it("parses ?tab=awakening and keeps it in the query", () => {
+    const f = parseMarketParams({ tab: "awakening" });
+    expect(f.tab).toBe("awakening");
+    expect(toQuery(f)).toBe("tab=awakening");
+  });
+});

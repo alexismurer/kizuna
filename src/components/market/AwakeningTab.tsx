@@ -10,7 +10,6 @@ import type { AwakeningLot, MyAwakening } from "@/lib/market/awakening";
 import { MAX_PRICE, MIN_PRICE, marketFee, net, validPrice } from "@/lib/market/format";
 import { BuyConfirm } from "./BuyConfirm";
 import { Dialog, Toast } from "./Dialog";
-import { useMarketLive } from "./useMarketLive";
 
 const CELL = "[&_.awk]:w-full";
 const GRID = "grid grid-cols-3 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] sm:gap-4";
@@ -152,7 +151,6 @@ export function AwakeningTab({
   const te = useTranslations();
   const format = useFormatter();
   const router = useRouter();
-  useMarketLive(["awakening_listings"]);
   const [buying, setBuying] = useState<AwakeningLot | null>(null);
   const [selling, setSelling] = useState<MyAwakening | null>(null);
   const [error, setError] = useState<string | null>(null);
