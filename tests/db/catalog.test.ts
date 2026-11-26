@@ -12,10 +12,10 @@ describe('catalog schema', () => {
     expect(counts).toEqual({ mythic: 4, legendary: 8, epic: 18, rare: 30, uncommon: 30, common: 30 })
   })
 
-  it('seeds 16 pack types', async () => {
+  it('seeds 19 pack types', async () => {
     const { count, error } = await admin.from('pack_types').select('*', { count: 'exact', head: true }).neq('kind', 'seasonal')
     expect(error).toBeNull()
-    expect(count).toBe(16)
+    expect(count).toBe(19)
   })
 
   it('rejects card inserts from an authenticated client', async () => {

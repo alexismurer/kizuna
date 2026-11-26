@@ -138,8 +138,8 @@ end $$;
 revoke execute on function _try_awakening(uuid, timestamptz, float8, float8) from public, anon, authenticated;
 grant execute on function _try_awakening(uuid, timestamptz, float8, float8) to service_role;
 
-drop function open_packs(text, int, int);
-drop function _open_pack(uuid, text, timestamptz, float8[]);
+drop function if exists open_packs(text, int, int);
+drop function if exists _open_pack(uuid, text, timestamptz, float8[]);
 
 create function _open_pack(p_player uuid, p_pack text, p_now timestamptz, p_rng float8[])
 returns table(slot int, card_id int, rarity rarity, is_new boolean, golden boolean, divine boolean,
@@ -176,6 +176,7 @@ declare
   v_aw_id text;
   v_aw_serial int;
   v_aw_base int;
+  v_aw_slot int;
   s int;
   k int;
 begin
@@ -309,11 +310,13 @@ begin
     v_mythic := v_mythic or v_want = 'mythic';
   end loop;
 
-  -- an awakening turns the last slot into its base card, whatever that slot's floor was
+  -- an awakening turns the first lowest-rarity slot into its base card (a forced Mythic stays)
   if v_aw_id is not null then
-    v_cards[v_n] := v_aw_base;
+    select min(x.r) into v_want from unnest(v_rarities) as x(r);
+    v_aw_slot := array_position(v_rarities, v_want);
+    v_cards[v_aw_slot] := v_aw_base;
     select c.rarity into v_want from cards c where c.id = v_aw_base;
-    v_rarities[v_n] := v_want;
+    v_rarities[v_aw_slot] := v_want;
     v_mythic := 'mythic' = any(v_rarities);
   end if;
 
@@ -349,7 +352,7 @@ begin
 
   return query
   select g.s, v_cards[g.s], v_rarities[g.s], v_new[g.s], v_golden, v_divine,
-         case when g.s = v_n then v_aw_id end, case when g.s = v_n then v_aw_serial end
+         case when g.s = v_aw_slot then v_aw_id end, case when g.s = v_aw_slot then v_aw_serial end
   from generate_series(1, v_n) as g(s);
 end;
 $$;

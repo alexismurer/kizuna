@@ -8,22 +8,23 @@ type Row = { slot: number; card_id: number; rarity: string; awakening_id: string
 
 let baseCard: number
 let otherActive: string[] = []
+let revealAt: string
 
 // p_rng[1] = divine roll (0.5 = no divine), slot rolls after it, p_rng[50] = awakening roll, p_rng[51] = pick
-function rng(roll: number) {
+function rng(roll: number, divine = false) {
   const r = Array(51).fill(0)
-  r[0] = 0.5
+  r[0] = divine ? 0 : 0.5
   r[49] = roll
   return r
 }
 
-async function open(userId: string, roll = 0) {
+async function open(userId: string, roll = 0, divine = false) {
   await admin.rpc('_grant_pack', { p_player: userId, p_pack: 'seal', p_count: 1 })
   const { data, error } = await admin.rpc('_open_pack', {
     p_player: userId,
     p_pack: 'seal',
     p_now: new Date().toISOString(),
-    p_rng: rng(roll),
+    p_rng: rng(roll, divine),
   })
   if (error) throw error
   return data as Row[]
@@ -76,15 +77,18 @@ describe('awakening drop', () => {
       { id: AW, base_card_id: baseCard, title: 'Test', form: 'Test form', effect: 'sun', accent: '#ffcc00', total: 2, sort: 0, active: true },
       { id: FILLER, base_card_id: baseCard, title: 'Filler', form: 'Filler', effect: 'void', accent: '#000000', total: 100, sort: 1, active: false },
     ])
+    const { data: meta } = await admin.from('awakening_meta').select('reveal_at').eq('id', 1).single()
+    revealAt = meta!.reveal_at as string
     await admin.from('awakening_meta').update({ reveal_at: new Date(Date.now() - 7 * 86400000).toISOString() }).eq('id', 1)
-  })
+  }, 30000)
 
   afterAll(async () => {
     await clearCopies(AW)
     await clearCopies(FILLER)
     await admin.from('awakenings').delete().in('id', [AW, FILLER])
     if (otherActive.length) await admin.from('awakenings').update({ active: true }).in('id', otherActive)
-  })
+    if (revealAt) await admin.from('awakening_meta').update({ reveal_at: revealAt }).eq('id', 1)
+  }, 30000)
 
   it('tier-0 player never awakens with roll 0', async () => {
     const { userId } = await newPlayer()
@@ -102,17 +106,38 @@ describe('awakening drop', () => {
     expect(await copiesOf(AW)).toHaveLength(0)
   })
 
-  it('tier-1 trusted with roll 0 gets copy serial 1, last slot = base card, base card in inventory', async () => {
+  it('banned tier-1 player never awakens', async () => {
+    const { userId } = await trustedTier1()
+    await setPlayer(userId, { banned_at: new Date().toISOString() })
+    const rows = await open(userId, 0)
+    expect(rows.every((r) => r.awakening_id === null)).toBe(true)
+    expect(await copiesOf(AW)).toHaveLength(0)
+  })
+
+  it('tier-1 trusted with roll 0 gets copy serial 1, first lowest slot = base card, base card in inventory', async () => {
     const { userId } = await trustedTier1()
     const rows = await open(userId, 0)
-    const last = rows[rows.length - 1]
-    expect(last.card_id).toBe(baseCard)
-    expect(last.rarity).toBe('legendary')
-    expect(last.awakening_id).toBe(AW)
-    expect(last.awakening_serial).toBe(1)
-    expect(rows.slice(0, -1).every((r) => r.awakening_id === null)).toBe(true)
+    // seal floors are common x3 + mythic; zero rolls give commons, so slot 1 is replaced
+    const hit = rows.find((r) => r.slot === 1)!
+    expect(hit.card_id).toBe(baseCard)
+    expect(hit.rarity).toBe('legendary')
+    expect(hit.awakening_id).toBe(AW)
+    expect(hit.awakening_serial).toBe(1)
+    expect(rows.filter((r) => r.slot !== 1).every((r) => r.awakening_id === null)).toBe(true)
+    expect(rows.find((r) => r.slot === 4)!.rarity).toBe('mythic')
     expect((await inventoryOf(userId)).get(baseCard)?.count).toBeGreaterThanOrEqual(1)
     expect(await copiesOf(AW)).toEqual([{ serial: 1, owner_id: userId, first_owner_id: userId }])
+  })
+
+  it('a divine pack keeps its forced Mythic on a hit', async () => {
+    const { userId } = await trustedTier1()
+    const rows = await open(userId, 0, true)
+    expect(rows.find((r) => r.slot === 4)!.rarity).toBe('mythic')
+    expect(rows.find((r) => r.slot === 4)!.awakening_id).toBeNull()
+    const hit = rows.filter((r) => r.awakening_id === AW)
+    expect(hit).toHaveLength(1)
+    expect(hit[0].slot).toBe(1)
+    expect(hit[0].card_id).toBe(baseCard)
   })
 
   it('a roll above the chance gives nothing', async () => {
@@ -128,7 +153,7 @@ describe('awakening drop', () => {
     const { userId } = await trustedTier1()
     const a = await open(userId, 0)
     const b = await open(userId, 0)
-    expect(a[a.length - 1].awakening_serial).toBe(2)
+    expect(a.find((r) => r.awakening_id === AW)?.awakening_serial).toBe(2)
     expect(b.every((r) => r.awakening_id === null)).toBe(true)
     const copies = await copiesOf(AW)
     expect(copies.map((c) => c.serial)).toEqual([1, 2])
