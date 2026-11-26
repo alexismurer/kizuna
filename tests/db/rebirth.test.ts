@@ -51,7 +51,7 @@ describe('rebirth', () => {
     expect(Object.keys(s.checks).sort()).toEqual(['discord', 'noSales', 'trusted'])
     expect(s.total).toBe(10)
     expect(s.ready).toBe(false)
-    expect(s.met).toBeLessThan(11)
+    expect(s.met).toBeLessThan(s.total)
   })
 
   it('ready player passes status', async () => {
@@ -101,7 +101,8 @@ describe('rebirth', () => {
     const common = await cardOfRarity('common')
     const rare = await cardOfRarity('rare')
     await giveCards(userId, rare, 4)
-    await admin.from('inventory').update({ locked: 1 }).eq('player_id', userId).eq('card_id', common)
+    const prot = await client.rpc('set_card_protected', { p_card_id: common, p_on: true })
+    expect(prot.error).toBeNull()
     await admin.from('player_showcase').insert({ player_id: userId, slot: 1, card_id: common })
     await setPlayer(userId, { avatar_card_id: common, currency: 100 })
 
