@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { AwakeningCard } from "@/components/awakening/AwakeningCard";
 import { Link } from "@/i18n/navigation";
@@ -12,6 +13,15 @@ export function InPlayGrid({ cards, baseCards }: { cards: Awakening[]; baseCards
   const t = useTranslations("rebirth.inPlay");
   const reduce = useReducedMotion();
   const shown = cards.filter((a) => baseCards[a.baseCardId]);
+  // server render shows the cards; after mount a grid still below the fold hides them (off screen)
+  // and pops them in when it scrolls into view
+  const grid = useRef<HTMLUListElement>(null);
+  const inView = useInView(grid, { once: true, margin: "0px 0px -40px 0px" });
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    if (reduce || !grid.current) return;
+    if (grid.current.getBoundingClientRect().top > window.innerHeight) setArmed(true);
+  }, [reduce]);
 
   return (
     <>
@@ -31,17 +41,21 @@ export function InPlayGrid({ cards, baseCards }: { cards: Awakening[]; baseCards
       {shown.length === 0 ? (
         <p className="mt-4 rounded-xl border border-dashed border-white/15 p-6 text-center text-sm text-white/50">{t("empty")}</p>
       ) : (
-        <ul className="mt-4 grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-5 lg:grid-cols-9 [&_.awk]:w-full">
+        <ul ref={grid} className="mt-4 grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-5 lg:grid-cols-9 [&_.awk]:w-full">
           {shown.map((a, i) => {
             const card = baseCards[a.baseCardId];
             return (
               <motion.li
                 key={a.id}
                 className="flex min-w-0 flex-col items-center text-center"
-                initial={reduce ? false : { opacity: 0, scale: 0.85, y: 12 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true, margin: "0px 0px -40px 0px" }}
-                transition={{ type: "spring", stiffness: 260, damping: 20, delay: (i % 9) * 0.05 }}
+                initial={false}
+                animate={
+                  !armed
+                    ? undefined
+                    : inView
+                      ? { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 260, damping: 20, delay: (i % 9) * 0.05 } }
+                      : { opacity: 0, scale: 0.85, y: 12, transition: { duration: 0 } }
+                }
               >
                 <AwakeningCard awakening={a} card={card} size="sm" interactive />
                 <span className="mt-2 w-full truncate font-display text-sm font-extrabold">{card.name}</span>

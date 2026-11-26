@@ -64,6 +64,21 @@ describe("RebirthHero", () => {
     fireEvent.click(screen.getByRole("button", { name: "How the weekly pace works" }));
     expect(screen.getByRole("tooltip")).toHaveTextContent("never more than 20");
   });
+
+  it("keeps the tooltip open on a click after focus, closes on Escape and on a tap outside", () => {
+    wrap(<RebirthHero status={status} catalog={catalog} />);
+    const info = screen.getByRole("button", { name: "How the weekly pace works" });
+    fireEvent.focus(info);
+    fireEvent.click(info);
+    expect(screen.getByRole("tooltip")).toBeInTheDocument();
+    fireEvent.click(info);
+    expect(screen.getByRole("tooltip")).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("tooltip")).toBeNull();
+    fireEvent.click(info);
+    fireEvent.pointerDown(document.body);
+    expect(screen.queryByRole("tooltip")).toBeNull();
+  });
 });
 
 describe("RoadSection", () => {
@@ -72,6 +87,7 @@ describe("RoadSection", () => {
     expect(screen.getByRole("heading", { name: "Your road to Rebirth 1" })).toBeInTheDocument();
     expect(screen.getByText("4 of 10 conditions met")).toBeInTheDocument();
     expect(screen.getByText("Boosters opened this cycle")).toBeInTheDocument();
+    for (const l of ["Commons", "Uncommons", "Rares", "Epics", "Legendaries", "Mythics"]) expect(screen.getByText("Unique " + l)).toBeInTheDocument();
     expect(screen.getByText(/Trusted account \(Trusted on/)).toHaveClass("text-red-300");
     expect(screen.getByText("Discord account linked")).not.toHaveClass("text-red-300");
   });

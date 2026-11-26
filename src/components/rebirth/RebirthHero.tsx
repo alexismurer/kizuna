@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Info } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useFormatter, useTranslations } from "next-intl";
@@ -62,14 +62,33 @@ function PaceInfo() {
   const t = useTranslations("rebirth.stats");
   const [open, setOpen] = useState(false);
   const id = useId();
+  const ref = useRef<HTMLSpanElement>(null);
+
+  // a tap outside or Escape closes it (touch browsers don't always move focus, so blur alone isn't enough)
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (e: PointerEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
-    <span className="relative inline-flex" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+    <span ref={ref} className="relative inline-flex" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <button
         type="button"
         aria-label={t("info")}
         aria-describedby={open ? id : undefined}
         aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => setOpen(true)}
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
         className="rounded-full text-white/45 hover:text-cta focus-visible:text-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-cta"
