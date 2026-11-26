@@ -1281,7 +1281,8 @@
       "bad_type": "不支持的文件类型。请使用 MP4、WEBM、GIF、PNG、JPEG 或 WEBP（海报：PNG、JPEG 或 WEBP）。",
       "upload_failed": "上传失败，请重试。",
       "awakening_card": "请选择基础卡牌。",
-      "awakening_id": "ID 需要 3 到 48 个字符：小写字母、数字和连字符。"
+      "awakening_id": "ID 需要 3 到 48 个字符：小写字母、数字和连字符。",
+      "invalid_link": "链接必须以 https:// 开头。"
     },
     "invites": {
       "title": "邀请码",
@@ -1576,7 +1577,8 @@
         "void": "虚空",
         "chains": "锁链",
         "petals": "花瓣"
-      }
+      },
+      "confirmDelete": "确认删除"
     }
   },
   "pages": {

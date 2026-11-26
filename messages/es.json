@@ -1281,7 +1281,8 @@
       "bad_type": "Tipo de archivo no admitido. Usa MP4, WEBM, GIF, PNG, JPEG o WEBP (póster: PNG, JPEG o WEBP).",
       "upload_failed": "La subida falló. Inténtalo de nuevo.",
       "awakening_card": "Elige una carta base.",
-      "awakening_id": "El ID necesita de 3 a 48 caracteres: minúsculas, dígitos y guiones."
+      "awakening_id": "El ID necesita de 3 a 48 caracteres: minúsculas, dígitos y guiones.",
+      "invalid_link": "Los enlaces deben empezar por https://."
     },
     "invites": {
       "title": "Códigos de invitación",
@@ -1576,7 +1577,8 @@
         "void": "Vacío",
         "chains": "Cadenas",
         "petals": "Pétalos"
-      }
+      },
+      "confirmDelete": "Confirmar borrado"
     }
   },
   "pages": {

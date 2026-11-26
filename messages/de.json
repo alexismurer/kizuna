@@ -1281,7 +1281,8 @@
       "bad_type": "Dateityp nicht unterstützt. Nutze MP4, WEBM, GIF, PNG, JPEG oder WEBP (Poster: PNG, JPEG oder WEBP).",
       "upload_failed": "Der Upload ist fehlgeschlagen. Versuche es erneut.",
       "awakening_card": "Wähle eine Basiskarte.",
-      "awakening_id": "Die ID braucht 3 bis 48 Zeichen: Kleinbuchstaben, Ziffern und Bindestriche."
+      "awakening_id": "Die ID braucht 3 bis 48 Zeichen: Kleinbuchstaben, Ziffern und Bindestriche.",
+      "invalid_link": "Links müssen mit https:// beginnen."
     },
     "invites": {
       "title": "Einladungscodes",
@@ -1576,7 +1577,8 @@
         "void": "Leere",
         "chains": "Ketten",
         "petals": "Blüten"
-      }
+      },
+      "confirmDelete": "Löschen bestätigen"
     }
   },
   "pages": {

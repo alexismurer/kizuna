@@ -11,7 +11,8 @@ const actions = vi.hoisted(() => ({
   adminPlayerSearch: vi.fn(),
 }));
 vi.mock("@/lib/actions/admin", () => actions);
-vi.mock("@/lib/awakening/upload", () => ({ uploadAwakeningMedia: vi.fn() }));
+const upload = vi.hoisted(() => ({ uploadAwakeningMedia: vi.fn() }));
+vi.mock("@/lib/awakening/upload", () => upload);
 vi.mock("@/components/awakening/AwakenReveal", () => ({ AwakenReveal: () => null }));
 
 import { AwakeningsPanel } from "@/components/admin/AwakeningsPanel";
@@ -66,5 +67,33 @@ describe("AwakeningsPanel", () => {
     fireEvent.click(screen.getByRole("button", { name: "Save awakening" }));
     expect(await screen.findByText(/Check the fields: ID, title and form/)).toBeInTheDocument();
     await waitFor(() => expect(actions.adminSaveAwakening).toHaveBeenCalled());
+  });
+
+  it("blocks an upload while the id is invalid and never uploads", async () => {
+    wrap(<AwakeningsPanel initial={[]} />);
+    fireEvent.click(screen.getByRole("button", { name: "New awakening" }));
+    const input = screen.getByLabelText("Loop file", { selector: "input" });
+    fireEvent.change(input, { target: { files: [new File([new Uint8Array(4)], "a.mp4", { type: "video/mp4" })] } });
+    expect(await screen.findByText(/The ID needs 3 to 48 characters/)).toBeInTheDocument();
+    expect(upload.uploadAwakeningMedia).not.toHaveBeenCalled();
+  });
+
+  it("clears the save error on Cancel", async () => {
+    actions.adminSaveAwakening.mockResolvedValue({ ok: false, error: "invalid_awakening" });
+    wrap(<AwakeningsPanel initial={rows} />);
+    fireEvent.click(screen.getAllByRole("button", { name: "Edit" })[1]);
+    fireEvent.click(screen.getByRole("button", { name: "Save awakening" }));
+    expect(await screen.findByRole("alert")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await waitFor(() => expect(screen.queryByRole("alert")).toBeNull());
+  });
+
+  it("needs a second click to delete", async () => {
+    actions.adminDeleteAwakening.mockResolvedValue({ ok: true, data: null });
+    wrap(<AwakeningsPanel initial={rows} />);
+    fireEvent.click(screen.getByRole("button", { name: "Delete Fresh Goku" }));
+    expect(actions.adminDeleteAwakening).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "Confirm delete" }));
+    await waitFor(() => expect(actions.adminDeleteAwakening).toHaveBeenCalledWith("goku-new"));
   });
 });

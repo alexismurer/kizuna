@@ -1281,7 +1281,8 @@
       "bad_type": "Nieobsługiwany typ pliku. Użyj MP4, WEBM, GIF, PNG, JPEG lub WEBP (plakat: PNG, JPEG lub WEBP).",
       "upload_failed": "Wgrywanie się nie powiodło. Spróbuj ponownie.",
       "awakening_card": "Wybierz kartę bazową.",
-      "awakening_id": "ID musi mieć od 3 do 48 znaków: małe litery, cyfry i myślniki."
+      "awakening_id": "ID musi mieć od 3 do 48 znaków: małe litery, cyfry i myślniki.",
+      "invalid_link": "Linki muszą zaczynać się od https://."
     },
     "invites": {
       "title": "Kody zaproszeń",
@@ -1576,7 +1577,8 @@
         "void": "Pustka",
         "chains": "Łańcuchy",
         "petals": "Płatki"
-      }
+      },
+      "confirmDelete": "Potwierdź usunięcie"
     }
   },
   "pages": {

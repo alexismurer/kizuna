@@ -13,16 +13,27 @@ const EXT: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/webp": "webp",
 };
-// a poster is a still; loop and reveal may also be video
-const STILLS = ["image/png", "image/jpeg", "image/webp"];
+const BY_EXT: Record<string, string> = { mp4: "video/mp4", webm: "video/webm", gif: "image/gif", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp" };
+const ALLOWED: Record<AwakeningMediaKind, string[]> = {
+  loop: ["video/mp4", "video/webm", "image/gif"],
+  poster: ["image/png", "image/jpeg", "image/webp", "image/gif"],
+  reveal: ["video/mp4", "video/webm"],
+};
+
+// MIME first; an empty or generic type falls back to the file extension
+function mimeOf(file: File): string {
+  if (file.type && file.type !== "application/octet-stream") return file.type;
+  return BY_EXT[file.name.split(".").pop()?.toLowerCase() ?? ""] ?? "";
+}
 
 export async function uploadAwakeningMedia(file: File, awakeningId: string, kind: AwakeningMediaKind): Promise<UploadResult> {
-  const ext = EXT[file.type];
-  if (!ext || (kind === "poster" && !STILLS.includes(file.type))) return { ok: false, error: "bad_type" };
+  const type = mimeOf(file);
+  if (!ALLOWED[kind].includes(type)) return { ok: false, error: "bad_type" };
+  const ext = EXT[type];
   if (file.size > MAX[kind]) return { ok: false, error: "too_big" };
   const supabase = createBrowserClient();
   const path = `${awakeningId}/${kind}-${Date.now()}.${ext}`;
-  const { error } = await supabase.storage.from("awakenings").upload(path, file, { contentType: file.type });
+  const { error } = await supabase.storage.from("awakenings").upload(path, file, { contentType: type });
   if (error) return { ok: false, error: "upload_failed" };
   return { ok: true, url: supabase.storage.from("awakenings").getPublicUrl(path).data.publicUrl };
 }

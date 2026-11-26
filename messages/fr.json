@@ -1281,7 +1281,8 @@
       "bad_type": "Type de fichier non pris en charge. Utilise MP4, WEBM, GIF, PNG, JPEG ou WEBP (affiche : PNG, JPEG ou WEBP).",
       "upload_failed": "Le téléversement a échoué. Réessaie.",
       "awakening_card": "Choisis une carte de base.",
-      "awakening_id": "L'ID doit faire 3 à 48 caractères : minuscules, chiffres et tirets."
+      "awakening_id": "L'ID doit faire 3 à 48 caractères : minuscules, chiffres et tirets.",
+      "invalid_link": "Les liens doivent commencer par https://."
     },
     "invites": {
       "title": "Codes d'invitation",
@@ -1576,7 +1577,8 @@
         "void": "Vide",
         "chains": "Chaînes",
         "petals": "Pétales"
-      }
+      },
+      "confirmDelete": "Confirmer la suppression"
     }
   },
   "pages": {

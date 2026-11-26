@@ -1281,7 +1281,8 @@
       "bad_type": "非対応のファイル形式です。MP4、WEBM、GIF、PNG、JPEG、WEBPを使ってください（ポスターはPNG、JPEG、WEBP）。",
       "upload_failed": "アップロードに失敗しました。もう一度お試しください。",
       "awakening_card": "ベースカードを選んでください。",
-      "awakening_id": "IDは3～48文字で、小文字、数字、ハイフンが使えます。"
+      "awakening_id": "IDは3～48文字で、小文字、数字、ハイフンが使えます。",
+      "invalid_link": "リンクは https:// で始めてください。"
     },
     "invites": {
       "title": "招待コード",
@@ -1576,7 +1577,8 @@
         "void": "虚無",
         "chains": "鎖",
         "petals": "花びら"
-      }
+      },
+      "confirmDelete": "削除を確定"
     }
   },
   "pages": {

@@ -1281,7 +1281,8 @@
       "bad_type": "Tipo de arquivo não suportado. Use MP4, WEBM, GIF, PNG, JPEG ou WEBP (pôster: PNG, JPEG ou WEBP).",
       "upload_failed": "O envio falhou. Tente de novo.",
       "awakening_card": "Escolha uma carta base.",
-      "awakening_id": "O ID precisa ter de 3 a 48 caracteres: letras minúsculas, dígitos e hifens."
+      "awakening_id": "O ID precisa ter de 3 a 48 caracteres: letras minúsculas, dígitos e hifens.",
+      "invalid_link": "Os links precisam começar com https://."
     },
     "invites": {
       "title": "Códigos de convite",
@@ -1576,7 +1577,8 @@
         "void": "Vazio",
         "chains": "Correntes",
         "petals": "Pétalas"
-      }
+      },
+      "confirmDelete": "Confirmar exclusão"
     }
   },
   "pages": {

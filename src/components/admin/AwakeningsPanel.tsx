@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Loader2, Play, Trash2, Upload, Wand2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -27,10 +27,11 @@ const FIELD: Record<AwakeningMediaKind, "loopUrl" | "posterUrl" | "revealUrl"> =
   reveal: "revealUrl",
 };
 const ACCEPT: Record<AwakeningMediaKind, string> = {
-  loop: "video/mp4,video/webm,image/gif,image/png,image/jpeg,image/webp",
-  poster: "image/png,image/jpeg,image/webp",
-  reveal: "video/mp4,video/webm,image/gif,image/png,image/jpeg,image/webp",
+  loop: "video/mp4,video/webm,image/gif",
+  poster: "image/png,image/jpeg,image/webp,image/gif",
+  reveal: "video/mp4,video/webm",
 };
+const ID = /^[a-z0-9-]{3,48}$/;
 const HEX = /^#[0-9a-f]{6}$/i;
 
 type Draft = Omit<AdminAwakening, "issued" | "baseName" | "baseImage"> & { card: AdminCardHit | null; isNew: boolean };
@@ -74,27 +75,33 @@ function MediaField({
   awakeningId,
   value,
   onChange,
-  onError,
 }: {
   kind: AwakeningMediaKind;
   awakeningId: string;
   value: string | null;
   onChange: (url: string | null) => void;
-  onError: (code: string | null) => void;
 }) {
+  const te = useTranslations("admin.errors");
   const t = useTranslations("admin.awakenings");
   const file = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const badLink = !!value && !value.startsWith("https://");
+  const shown = err ?? (badLink ? "invalid_link" : null);
   const name = t(`media.${kind}`);
 
   const pick = async (f: File | undefined) => {
     if (!f) return;
+    if (!ID.test(awakeningId)) {
+      if (file.current) file.current.value = "";
+      return setErr("awakening_id");
+    }
     setBusy(true);
     const r = await uploadAwakeningMedia(f, awakeningId, kind);
     setBusy(false);
     if (file.current) file.current.value = "";
-    if (!r.ok) return onError(r.error);
-    onError(null);
+    if (!r.ok) return setErr(r.error);
+    setErr(null);
     onChange(r.url);
   };
 
@@ -124,7 +131,10 @@ function MediaField({
             placeholder="https://"
             inputMode="url"
             value={value ?? ""}
-            onChange={(e) => onChange(e.target.value.trim() || null)}
+            onChange={(e) => {
+              setErr(null);
+              onChange(e.target.value.trim() || null);
+            }}
           />
           <div className="flex flex-wrap gap-2">
             <input
@@ -142,7 +152,10 @@ function MediaField({
             <button
               type="button"
               disabled={busy || !value}
-              onClick={() => onChange(null)}
+              onClick={() => {
+                setErr(null);
+                onChange(null);
+              }}
               className={small}
               aria-label={t("media.clearKind", { kind: name })}
             >
@@ -150,6 +163,11 @@ function MediaField({
               {t("media.clear")}
             </button>
           </div>
+          {shown && (
+            <p role="alert" className="text-xs text-red-300">
+              {te(adminErrorKey(shown))}
+            </p>
+          )}
         </div>
       </div>
     </div>
@@ -165,6 +183,13 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
   const [error, setError] = useState<string | null>(null);
   const [reveal, setReveal] = useState(false);
   const [pending, start] = useTransition();
+  const [confirming, setConfirming] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!confirming) return;
+    const timer = setTimeout(() => setConfirming(null), 4000);
+    return () => clearTimeout(timer);
+  }, [confirming]);
 
   const set = (patch: Partial<Draft>) => setDraft((d) => (d ? { ...d, ...patch } : d));
   const open = (d: Draft) => {
@@ -177,7 +202,8 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
     e.preventDefault();
     if (!draft) return;
     if (!draft.card) return setError("awakening_card");
-    if (!/^[a-z0-9-]{3,48}$/.test(draft.id)) return setError("awakening_id");
+    if (!ID.test(draft.id)) return setError("awakening_id");
+    if ([draft.loopUrl, draft.posterUrl, draft.revealUrl].some((u) => u && !u.startsWith("https://"))) return setError("invalid_link");
     const { card, isNew, ...v } = draft;
     void isNew;
     start(async () => {
@@ -192,12 +218,17 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
         baseImage: card.imageUrl,
         issued: issuedOf(r.data),
       };
-      setRows((cur) => (cur.some((x) => x.id === saved.id) ? cur.map((x) => (x.id === saved.id ? saved : x)) : [saved, ...cur]));
+      setRows((cur) =>
+        (cur.some((x) => x.id === saved.id) ? cur.map((x) => (x.id === saved.id ? saved : x)) : [saved, ...cur]).sort(
+          (x, y) => x.sort - y.sort || x.id.localeCompare(y.id),
+        ),
+      );
       setDraft(null);
     });
   };
 
-  const remove = (id: string) =>
+  const remove = (id: string) => {
+    setConfirming(null);
     start(async () => {
       const r = await adminDeleteAwakening(id);
       if (!r.ok) return setError(r.error);
@@ -205,6 +236,7 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
       setRows((cur) => cur.filter((x) => x.id !== id));
       setDraft((d) => (d?.id === id ? null : d));
     });
+  };
 
   const face = draft && {
     title: draft.title || "—",
@@ -273,11 +305,12 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
                       type="button"
                       disabled={pending || a.issued > 0}
                       title={a.issued > 0 ? t("deleteBlocked") : undefined}
-                      aria-label={t("deleteName", { title: a.title })}
-                      onClick={() => remove(a.id)}
+                      aria-label={confirming === a.id ? t("confirmDelete") : t("deleteName", { title: a.title })}
+                      onClick={() => (confirming === a.id ? remove(a.id) : setConfirming(a.id))}
                       className={danger}
                     >
                       <Trash2 className="h-3.5 w-3.5" aria-hidden />
+                      {confirming === a.id && <span className="ml-1.5">{t("confirmDelete")}</span>}
                     </button>
                   </div>
                 </div>
@@ -377,10 +410,9 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
                     <MediaField
                       key={k}
                       kind={k}
-                      awakeningId={draft.id || "new"}
+                      awakeningId={draft.id}
                       value={draft[FIELD[k]]}
                       onChange={(url) => set({ [FIELD[k]]: url } as Partial<Draft>)}
-                      onError={setError}
                     />
                   ))}
                 </div>
@@ -403,16 +435,25 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
                 <button type="submit" disabled={pending} className={primary}>
                   {t("save")}
                 </button>
-                <button type="button" onClick={() => setDraft(null)} className={secondary}>
+                <button type="button" onClick={() => {
+                    setDraft(null);
+                    setError(null);
+                  }}
+                  className={secondary}>
                   {t("cancel")}
                 </button>
               </div>
+              {error && (
+                <p role="alert" className={errorText}>
+                  {te(adminErrorKey(error))}
+                </p>
+              )}
             </div>
           </motion.form>
         )}
       </AnimatePresence>
 
-      {error && (
+      {error && !draft && (
         <p role="alert" className={errorText}>
           {te(adminErrorKey(error))}
         </p>

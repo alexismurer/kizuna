@@ -27,4 +27,17 @@ describe("uploadAwakeningMedia", () => {
     const r = await uploadAwakeningMedia(file("video/webm", 10), "a-b", "reveal");
     expect(r.ok && r.url).toMatch(/^https:\/\/x\.test\/a-b\/reveal-\d+\.webm$/);
   });
+
+  it("rejects a png reveal", async () => {
+    expect(await uploadAwakeningMedia(file("image/png", 10), "a-b", "reveal")).toEqual({ ok: false, error: "bad_type" });
+  });
+
+  it("accepts a gif poster", async () => {
+    expect((await uploadAwakeningMedia(file("image/gif", 10), "a-b", "poster")).ok).toBe(true);
+  });
+
+  it("falls back to the extension when the type is empty", async () => {
+    const f = new File([new Uint8Array(10)], "clip.webm", { type: "" });
+    expect((await uploadAwakeningMedia(f, "a-b", "loop")).ok).toBe(true);
+  });
 });
