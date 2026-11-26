@@ -51,7 +51,12 @@ const SIZE = {
   board: "w-[38px] sm:w-[52px] lg:w-[58px]",
   hand: "w-[64px] sm:w-[84px]",
   big: "w-[150px] sm:w-[180px]",
+  // sized by the height of their row: a lane on the board, or the hand
+  lane: "h-full",
+  fan: "h-full",
 };
+// the height-driven sizes borrow the badges and labels of their fixed-size twins
+const LOOK = { board: "board", hand: "hand", big: "big", lane: "board", fan: "hand" } as const;
 
 // One duel card. `strength` is the live value on the board (green above the
 // card's base, red below); the hand and the preview show the base.
@@ -72,7 +77,8 @@ export function DuelCardChip({
 }) {
   const t = useTranslations("duel");
   const Tag = onClick ? "button" : "div";
-  const box = `relative ${SIZE[size]} aspect-[5/7] shrink-0 overflow-hidden rounded-md transition-transform ${
+  const look = LOOK[size];
+  const box = `duel-chip relative ${SIZE[size]} aspect-[5/7] shrink-0 overflow-hidden rounded-md transition-[transform,filter,box-shadow] duration-200 ${
     selected ? "-translate-y-2 ring-2 ring-cta" : ""
   } ${dim ? "opacity-40" : ""} ${onClick ? "cursor-pointer hover:-translate-y-1" : ""}`;
   const big = size === "big";
@@ -108,8 +114,8 @@ export function DuelCardChip({
   const tone = card.hero || shown === card.base ? "bg-white text-black" : shown > card.base ? "bg-uncommon text-black" : "bg-accent text-white";
   const AbilityIcon = card.ability ? ABILITY_ICON[card.ability] : null;
   const RowIcon = ROW_ICON[card.row];
-  const badge = big ? "h-9 w-9 text-lg" : size === "hand" ? "h-6 w-6 text-xs sm:h-7 sm:w-7 sm:text-sm" : "h-4 w-4 text-[9px] sm:h-5 sm:w-5 sm:text-[11px]";
-  const icon = big ? "h-7 w-7 p-1" : size === "hand" ? "h-5 w-5 p-0.5 sm:h-6 sm:w-6" : "hidden sm:block h-4 w-4 p-0.5";
+  const badge = big ? "h-9 w-9 text-lg" : look === "hand" ? "h-6 w-6 text-xs sm:h-7 sm:w-7 sm:text-sm" : "h-4 w-4 text-[9px] sm:h-5 sm:w-5 sm:text-[11px]";
+  const icon = big ? "h-7 w-7 p-1" : look === "hand" ? "h-5 w-5 p-0.5 sm:h-6 sm:w-6" : "hidden sm:block h-4 w-4 p-0.5";
 
   return (
     <Tag
@@ -131,10 +137,10 @@ export function DuelCardChip({
       {AbilityIcon && (
         <AbilityIcon className={`absolute bottom-0.5 right-0.5 rounded-full bg-black/70 text-cta ${icon}`} aria-hidden />
       )}
-      {size !== "board" && (
+      {look !== "board" && (
         <RowIcon className={`absolute bottom-0.5 left-0.5 rounded-full bg-black/70 text-white ${icon}`} aria-hidden />
       )}
-      {size !== "board" && (
+      {look !== "board" && (
         <span
           className={`absolute inset-x-0 ${big ? "top-12 text-sm" : "bottom-6 text-[9px] sm:bottom-7 sm:text-[10px]"} truncate bg-black/60 px-1 text-center font-semibold text-white`}
         >

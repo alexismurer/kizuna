@@ -201,6 +201,16 @@ describe("engine", () => {
     s = apply(s, 0, { type: "play", uid: "a0" });
     expect(s.players[0].rows[1].map((u) => u.uid)).toEqual(["a1"]);
 
+    // gather also brings kin from the hand (not spies), and logs how many came
+    let g = started(
+      [unit(1, { seriesId: 9, ability: "muster" }), unit(2, { seriesId: 9, row: 2 }), unit(3, { seriesId: 9, ability: "spy" }), unit(4)],
+      filler(100, 4),
+    );
+    g = apply(g, 0, { type: "play", uid: uid(0, 0) });
+    expect(g.players[0].rows[2].map((u) => u.uid)).toEqual([uid(0, 1)]);
+    expect(g.players[0].hand.map((c) => c.uid)).toEqual([uid(0, 2), uid(0, 3)]);
+    expect(g.log.find((e) => e.kind === "muster")).toMatchObject({ count: 1 });
+
     // medic
     let m = started([unit(1, { ability: "medic", base: 2 }), unit(2)], filler(100, 4));
     m.players[0].discard = [toUnitCard(unit(50, { base: 3 }), "a50"), toUnitCard(unit(51, { base: 8 }), "a51")];

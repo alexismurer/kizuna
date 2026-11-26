@@ -1782,12 +1782,23 @@
     "yourTurn": "Du bist dran",
     "youPassed": "Du hast gepasst",
     "theirTurn": "{name} spielt…",
+    "thinking": "{name} denkt nach",
     "round": "Runde {n}",
     "roundN": "Runde {n}",
     "roundCol": "Runde",
     "roundWon": "Runde gewonnen",
     "roundLost": "Runde verloren",
     "roundDraw": "Runde unentschieden",
+    "fx": {
+      "spy": "Infiltrator!",
+      "spyText": "{card} schleicht sich in die Reihen von {name}",
+      "youDraw": "Du ziehst {n}",
+      "theyDraw": "{name} zieht {n}",
+      "muster": "Sammeln!",
+      "musterText": "{n, plural, one {# Verbündeter schließt} other {# Verbündete schließen}} sich dem Kampf an",
+      "revive": "Heiler!",
+      "reviveText": "{card} ist zurück auf dem Feld"
+    },
     "over": "MATCH VORBEI",
     "victory": "Sieg",
     "defeat": "Niederlage",
@@ -1796,6 +1807,7 @@
     "tickets": "+{n} Tickets",
     "noTickets": "Keine Tickets für dieses Match: Es war zu kurz, oder du hast das heutige Limit erreicht.",
     "leave": "Verlassen",
+    "close": "Schließen",
     "total": "Gesamt {n}",
     "cardsLeft": "{n, plural, one {# Karte} other {# Karten}} auf der Hand",
     "deckLeft": "{n} im Deck",
@@ -1824,7 +1836,7 @@
       },
       "muster": {
         "name": "Sammeln",
-        "text": "Spielt außerdem alle Karten derselben Serie aus deinem Deck."
+        "text": "Spielt außerdem alle anderen Karten derselben Serie aus deiner Hand und deinem Deck."
       },
       "scorch": {
         "name": "Finisher",

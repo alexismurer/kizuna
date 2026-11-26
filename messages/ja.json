@@ -1782,12 +1782,23 @@
     "yourTurn": "あなたの番",
     "youPassed": "パスしました",
     "theirTurn": "{name}が考え中…",
+    "thinking": "{name}が考え中",
     "round": "ラウンド{n}",
     "roundN": "ラウンド{n}",
     "roundCol": "ラウンド",
     "roundWon": "ラウンド勝利",
     "roundLost": "ラウンド敗北",
     "roundDraw": "ラウンド引き分け",
+    "fx": {
+      "spy": "潜入者！",
+      "spyText": "{card}が{name}の陣営に紛れ込む",
+      "youDraw": "あなたは{n}枚引く",
+      "theyDraw": "{name}は{n}枚引く",
+      "muster": "集結！",
+      "musterText": "{n, plural, other {#体の味方が戦いに加わる}}",
+      "revive": "ヒーラー！",
+      "reviveText": "{card}が戦場に戻ってくる"
+    },
     "over": "マッチ終了",
     "victory": "勝利",
     "defeat": "敗北",
@@ -1796,6 +1807,7 @@
     "tickets": "+{n}チケット",
     "noTickets": "この試合ではチケットはもらえません。試合が短すぎたか、今日の上限に達しました。",
     "leave": "退出",
+    "close": "閉じる",
     "total": "合計 {n}",
     "cardsLeft": "手札{n, plural, other {#枚}}",
     "deckLeft": "山札に{n}枚",
@@ -1824,7 +1836,7 @@
       },
       "muster": {
         "name": "集結",
-        "text": "山札から同じシリーズのカードをすべて一緒に出す。"
+        "text": "手札と山札から、同じシリーズのカードもすべて一緒に出す。"
       },
       "scorch": {
         "name": "フィニッシャー",

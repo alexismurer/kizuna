@@ -208,9 +208,12 @@ function playUnit(state: GameState, side: Side, card: UnitCard, fromHand: boolea
       burn(state, [[other(side), card.row]]);
     }
   } else if (card.ability === "muster" && fromHand) {
-    const kin = me.deck.filter((c): c is UnitCard => c.kind === "unit" && c.seriesId === card.seriesId && c.ability !== "spy");
+    // every other card of the series in the deck or the hand joins (spies stay put)
+    const isKin = (c: DuelCard): c is UnitCard => c.kind === "unit" && c.seriesId === card.seriesId && c.ability !== "spy";
+    const kin = [...me.deck.filter(isKin), ...me.hand.filter(isKin)];
     if (kin.length) {
       me.deck = me.deck.filter((c) => !kin.includes(c as UnitCard));
+      me.hand = me.hand.filter((c) => !kin.includes(c as UnitCard));
       for (const k of kin) me.rows[k.row].push(k);
       state.log.push({ kind: "muster", side, count: kin.length });
     }

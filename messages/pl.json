@@ -1782,12 +1782,23 @@
     "yourTurn": "Twoja kolej",
     "youPassed": "Spasowałeś",
     "theirTurn": "{name} gra…",
+    "thinking": "{name} myśli",
     "round": "Runda {n}",
     "roundN": "Runda {n}",
     "roundCol": "Runda",
     "roundWon": "Runda wygrana",
     "roundLost": "Runda przegrana",
     "roundDraw": "Runda zremisowana",
+    "fx": {
+      "spy": "Infiltrator!",
+      "spyText": "{card} przechodzi w szeregi gracza {name}",
+      "youDraw": "Dobierasz {n}",
+      "theyDraw": "{name} dobiera {n}",
+      "muster": "Zbiórka!",
+      "musterText": "{n, plural, one {# sojusznik dołącza} few {# sojusznicy dołączają} many {# sojuszników dołącza} other {# sojuszników dołącza}} do walki",
+      "revive": "Medyk!",
+      "reviveText": "{card} wraca na pole bitwy"
+    },
     "over": "KONIEC MECZU",
     "victory": "Zwycięstwo",
     "defeat": "Porażka",
@@ -1796,6 +1807,7 @@
     "tickets": "+{n} żetonów",
     "noTickets": "Brak żetonów za ten mecz: był zbyt krótki albo osiągnięto dzisiejszy limit.",
     "leave": "Wyjdź",
+    "close": "Zamknij",
     "total": "Razem {n}",
     "cardsLeft": "{n, plural, one {# karta} few {# karty} many {# kart} other {# karty}} na ręce",
     "deckLeft": "{n} w talii",
@@ -1824,7 +1836,7 @@
       },
       "muster": {
         "name": "Zbiórka",
-        "text": "Zagrywa też wszystkie karty z tej samej serii z twojej talii."
+        "text": "Zagrywa też wszystkie pozostałe karty z tej samej serii z ręki i z talii."
       },
       "scorch": {
         "name": "Egzekutor",

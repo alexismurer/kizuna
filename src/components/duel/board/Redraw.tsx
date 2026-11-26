@@ -43,7 +43,7 @@ export function Redraw({ view, side, act }: { view: GameState; side: Side; act: 
   const t = useTranslations("duel");
   const me = view.players[side];
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-[rgb(8_7_11/0.85)] p-3 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgb(8_7_11/0.85)] p-3 backdrop-blur-sm">
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}

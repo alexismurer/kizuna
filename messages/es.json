@@ -1782,12 +1782,23 @@
     "yourTurn": "Tu turno",
     "youPassed": "Has pasado",
     "theirTurn": "{name} está jugando…",
+    "thinking": "{name} está pensando",
     "round": "Ronda {n}",
     "roundN": "Ronda {n}",
     "roundCol": "Ronda",
     "roundWon": "Ronda ganada",
     "roundLost": "Ronda perdida",
     "roundDraw": "Ronda empatada",
+    "fx": {
+      "spy": "¡Infiltrado!",
+      "spyText": "{card} se cuela en las filas de {name}",
+      "youDraw": "Robas {n}",
+      "theyDraw": "{name} roba {n}",
+      "muster": "¡Reunir!",
+      "musterText": "{n, plural, one {# aliado se une} other {# aliados se unen}} a la batalla",
+      "revive": "¡Sanador!",
+      "reviveText": "{card} vuelve al campo"
+    },
     "over": "PARTIDA TERMINADA",
     "victory": "Victoria",
     "defeat": "Derrota",
@@ -1796,6 +1807,7 @@
     "tickets": "+{n} tickets",
     "noTickets": "Sin tickets en esta partida: fue demasiado corta o alcanzaste el límite de hoy.",
     "leave": "Salir",
+    "close": "Cerrar",
     "total": "Total {n}",
     "cardsLeft": "{n, plural, one {# carta} other {# cartas}} en la mano",
     "deckLeft": "{n} en el mazo",
@@ -1824,7 +1836,7 @@
       },
       "muster": {
         "name": "Reunir",
-        "text": "También juega todas las cartas de la misma serie de tu mazo."
+        "text": "También juega todas las demás cartas de la misma serie de tu mano y de tu mazo."
       },
       "scorch": {
         "name": "Remate",

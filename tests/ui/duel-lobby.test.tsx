@@ -67,7 +67,7 @@ describe("PlayLobby", () => {
     expect(screen.queryByText("Your starting hand")).toBeNull();
 
     // whoever starts, after at most one computer move it is our turn
-    act(() => vi.advanceTimersByTime(1000));
+    act(() => vi.advanceTimersByTime(2700));
     expect(screen.getAllByText("Your turn").length).toBeGreaterThan(0);
     const hand = screen.getByLabelText("Your hand");
     const before = hand.querySelectorAll("button").length;
@@ -76,7 +76,8 @@ describe("PlayLobby", () => {
     fireEvent.click(first);
     fireEvent.click(screen.getByRole("button", { name: "Play" }));
     expect(hand.querySelectorAll("button").length).toBeLessThan(before + 2);
-    expect(screen.queryAllByText("Your turn")).toHaveLength(0);
+    // the turn passes to the computer, which takes a moment to think
+    expect(screen.getByText(/is thinking/)).toBeInTheDocument();
   });
 });
 

@@ -22,7 +22,9 @@ export type DuelSession = {
 };
 
 const seed = () => Math.floor(Math.random() * 2 ** 31);
-const AI_DELAY = 900;
+// the computer takes a moment to "think" so each of its moves can be followed
+const AI_READY_DELAY = 900;
+const aiThinkDelay = () => 1600 + Math.random() * 1000;
 
 // ---------- vs computer: everything runs here ----------
 
@@ -42,12 +44,11 @@ export function useLocalDuel(deck: DeckCard[], aiDeck: DeckCard[], names: [strin
     });
   }, []);
 
-  // the computer moves after a short pause
+  // the computer moves after a pause
   useEffect(() => {
-    const aiMoves =
-      (state.phase === "redraw" && !state.players[1].ready) || (state.phase === "play" && state.turn === 1);
-    if (!aiMoves) return;
-    const id = setTimeout(() => setState((s) => apply(s, 1, chooseAction(s, 1))), AI_DELAY);
+    const redraw = state.phase === "redraw" && !state.players[1].ready;
+    if (!redraw && !(state.phase === "play" && state.turn === 1)) return;
+    const id = setTimeout(() => setState((s) => apply(s, 1, chooseAction(s, 1))), redraw ? AI_READY_DELAY : aiThinkDelay());
     return () => clearTimeout(id);
   }, [state]);
 

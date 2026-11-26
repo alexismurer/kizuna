@@ -47,7 +47,7 @@ export function RoundBanner({ entry, side, animate }: { entry: RoundEntry; side:
   );
 
   return (
-    <div ref={root} className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center" role="status">
+    <div ref={root} className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center" role="status">
       <div className="gs-back absolute inset-0 bg-black/45" />
       <div
         className="gs-ribbon relative w-full origin-center border-y-2 bg-panel/95 py-5 text-center"
@@ -137,7 +137,7 @@ export function GameOver({
   );
 
   return (
-    <div ref={root} className="fixed inset-0 z-40 flex items-center justify-center bg-[rgb(8_7_11/0.85)] p-3 backdrop-blur-sm">
+    <div ref={root} className="fixed inset-0 z-50 flex items-center justify-center bg-[rgb(8_7_11/0.85)] p-3 backdrop-blur-sm">
       {won && (
         <>
           <div

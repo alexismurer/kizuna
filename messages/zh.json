@@ -1782,12 +1782,23 @@
     "yourTurn": "轮到你了",
     "youPassed": "你已跳过",
     "theirTurn": "{name}正在出牌…",
+    "thinking": "{name} 正在思考",
     "round": "第{n}回合",
     "roundN": "第{n}回合",
     "roundCol": "回合",
     "roundWon": "本回合获胜",
     "roundLost": "本回合失败",
     "roundDraw": "本回合平局",
+    "fx": {
+      "spy": "潜入者！",
+      "spyText": "{card} 潜入 {name} 的阵营",
+      "youDraw": "你抽 {n} 张牌",
+      "theyDraw": "{name} 抽 {n} 张牌",
+      "muster": "集结！",
+      "musterText": "{n, plural, other {# 个友军加入}}战斗",
+      "revive": "治疗者！",
+      "reviveText": "{card} 重返战场"
+    },
     "over": "对局结束",
     "victory": "胜利",
     "defeat": "失败",
@@ -1796,6 +1807,7 @@
     "tickets": "+{n} 张票券",
     "noTickets": "本场比赛没有票券：比赛太短，或你已达到今日上限。",
     "leave": "离开",
+    "close": "关闭",
     "total": "总计 {n}",
     "cardsLeft": "手牌{n, plural, other {#张}}",
     "deckLeft": "牌库剩余 {n}",
@@ -1824,7 +1836,7 @@
       },
       "muster": {
         "name": "集结",
-        "text": "同时打出你牌库中同系列的所有牌。"
+        "text": "同时从手牌和牌库中打出同系列的所有其他牌。"
       },
       "scorch": {
         "name": "终结者",

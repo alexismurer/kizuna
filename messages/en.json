@@ -1782,12 +1782,23 @@
     "yourTurn": "Your turn",
     "youPassed": "You passed",
     "theirTurn": "{name} is playing…",
+    "thinking": "{name} is thinking",
     "round": "Round {n}",
     "roundN": "Round {n}",
     "roundCol": "Round",
     "roundWon": "Round won",
     "roundLost": "Round lost",
     "roundDraw": "Round drawn",
+    "fx": {
+      "spy": "Infiltrator!",
+      "spyText": "{card} slips into {name}'s ranks",
+      "youDraw": "You draw {n}",
+      "theyDraw": "{name} draws {n}",
+      "muster": "Gather!",
+      "musterText": "{n, plural, one {# ally joins} other {# allies join}} the fight",
+      "revive": "Healer!",
+      "reviveText": "{card} is back on the field"
+    },
     "over": "MATCH OVER",
     "victory": "Victory",
     "defeat": "Defeat",
@@ -1796,6 +1807,7 @@
     "tickets": "+{n} tickets",
     "noTickets": "No tickets for this match: it was too short, or you reached today's cap.",
     "leave": "Leave",
+    "close": "Close",
     "total": "Total {n}",
     "cardsLeft": "{n, plural, one {# card} other {# cards}} in hand",
     "deckLeft": "{n} in deck",
@@ -1824,7 +1836,7 @@
       },
       "muster": {
         "name": "Gather",
-        "text": "Also plays every card of the same series from your deck."
+        "text": "Also plays every other card of the same series from your hand and your deck."
       },
       "scorch": {
         "name": "Finisher",

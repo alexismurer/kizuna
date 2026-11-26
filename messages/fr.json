@@ -1782,12 +1782,23 @@
     "yourTurn": "À ton tour",
     "youPassed": "Tu as passé",
     "theirTurn": "{name} joue…",
+    "thinking": "{name} réfléchit",
     "round": "Manche {n}",
     "roundN": "Manche {n}",
     "roundCol": "Manche",
     "roundWon": "Manche gagnée",
     "roundLost": "Manche perdue",
     "roundDraw": "Manche nulle",
+    "fx": {
+      "spy": "Infiltré !",
+      "spyText": "{card} se glisse dans les rangs de {name}",
+      "youDraw": "Tu pioches {n}",
+      "theyDraw": "{name} pioche {n}",
+      "muster": "Rassemblement !",
+      "musterText": "{n, plural, one {# allié rejoint} other {# alliés rejoignent}} le combat",
+      "revive": "Soigneur !",
+      "reviveText": "{card} est de retour sur le plateau"
+    },
     "over": "PARTIE TERMINÉE",
     "victory": "Victoire",
     "defeat": "Défaite",
@@ -1796,6 +1807,7 @@
     "tickets": "+{n} tickets",
     "noTickets": "Pas de tickets pour ce match : il était trop court, ou tu as atteint le plafond du jour.",
     "leave": "Quitter",
+    "close": "Fermer",
     "total": "Total {n}",
     "cardsLeft": "{n, plural, one {# carte} other {# cartes}} en main",
     "deckLeft": "{n} dans la pioche",
@@ -1824,7 +1836,7 @@
       },
       "muster": {
         "name": "Rassemblement",
-        "text": "Joue aussi toutes les cartes de la même série de ta pioche."
+        "text": "Joue aussi toutes les autres cartes de la même série de ta main et de ta pioche."
       },
       "scorch": {
         "name": "Coup de grâce",

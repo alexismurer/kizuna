@@ -1782,12 +1782,23 @@
     "yourTurn": "Sua vez",
     "youPassed": "Você passou",
     "theirTurn": "{name} está jogando…",
+    "thinking": "{name} está pensando",
     "round": "Rodada {n}",
     "roundN": "Rodada {n}",
     "roundCol": "Rodada",
     "roundWon": "Rodada vencida",
     "roundLost": "Rodada perdida",
     "roundDraw": "Rodada empatada",
+    "fx": {
+      "spy": "Infiltrado!",
+      "spyText": "{card} se infiltra nas fileiras de {name}",
+      "youDraw": "Você compra {n}",
+      "theyDraw": "{name} compra {n}",
+      "muster": "Reunir!",
+      "musterText": "{n, plural, one {# aliado se junta} other {# aliados se juntam}} à batalha",
+      "revive": "Curandeiro!",
+      "reviveText": "{card} volta ao tabuleiro"
+    },
     "over": "FIM DA PARTIDA",
     "victory": "Vitória",
     "defeat": "Derrota",
@@ -1796,6 +1807,7 @@
     "tickets": "+{n} tickets",
     "noTickets": "Sem tickets nesta partida: ela foi curta demais ou você atingiu o limite de hoje.",
     "leave": "Sair",
+    "close": "Fechar",
     "total": "Total {n}",
     "cardsLeft": "{n, plural, one {# carta} other {# cartas}} na mão",
     "deckLeft": "{n} no baralho",
@@ -1824,7 +1836,7 @@
       },
       "muster": {
         "name": "Reunir",
-        "text": "Também joga todas as cartas da mesma série do seu baralho."
+        "text": "Também joga todas as outras cartas da mesma série da sua mão e do seu baralho."
       },
       "scorch": {
         "name": "Finalizador",
