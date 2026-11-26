@@ -2858,6 +2858,7 @@
     "reveal": {
       "label": "{name} 觉醒：{form}",
       "skip": "跳过",
+      "skipVideo": "跳过视频",
       "continue": "继续",
       "firstYou": "由你最先抽到",
       "firstBy": "由 {name} 最先抽到",

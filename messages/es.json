@@ -2858,6 +2858,7 @@
     "reveal": {
       "label": "{name} despierta: {form}",
       "skip": "Saltar",
+      "skipVideo": "Saltar vídeo",
       "continue": "Continuar",
       "firstYou": "Conseguida primero por ti",
       "firstBy": "Conseguida primero por {name}",

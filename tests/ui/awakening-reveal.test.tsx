@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import messages from "../../messages/en.json";
 import { AwakenReveal } from "@/components/awakening/AwakenReveal";
 import { RevealFlow, type RevealCard } from "@/components/opening/RevealFlow";
@@ -112,5 +112,54 @@ describe("RevealFlow with an awakened slot", () => {
     expect(onDone).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole("button", { name: messages.awakening.reveal.continue }));
     expect(onDone).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("AwakenReveal video phase", () => {
+  const withVideo = { ...awakening, revealUrl: "https://x.test/reveal.mp4" };
+  beforeEach(() => {
+    vi.spyOn(HTMLMediaElement.prototype, "play").mockImplementation(() => Promise.resolve());
+    vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
+  });
+  afterEach(() => vi.restoreAllMocks());
+
+  it("plays the video first, without the card stage", () => {
+    wrap({ awakening: withVideo });
+    expect(document.querySelector("video")).not.toBeNull();
+    expect(screen.queryByText("#7 / 30")).toBeNull();
+  });
+
+  it("skip ends the video and shows the stage", async () => {
+    wrap({ awakening: withVideo });
+    fireEvent.click(screen.getByRole("button", { name: messages.awakening.reveal.skipVideo }));
+    await waitFor(() => expect(document.querySelector("video")).toBeNull());
+    expect(screen.getByText("#7 / 30")).toBeInTheDocument();
+  });
+
+  it("a video error does the same", async () => {
+    wrap({ awakening: withVideo });
+    fireEvent.error(document.querySelector("video")!);
+    await waitFor(() => expect(document.querySelector("video")).toBeNull());
+    expect(screen.getByText("#7 / 30")).toBeInTheDocument();
+  });
+
+  it("Escape ends only the video", async () => {
+    const onDone = wrap({ awakening: withVideo });
+    fireEvent.keyDown(window, { key: "Escape" });
+    await waitFor(() => expect(document.querySelector("video")).toBeNull());
+    expect(onDone).not.toHaveBeenCalled();
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(onDone).toHaveBeenCalledTimes(1);
+  });
+
+  it("no video with reduced motion or without a revealUrl", () => {
+    reduced = true;
+    wrap({ awakening: withVideo });
+    expect(document.querySelector("video")).toBeNull();
+    expect(screen.getAllByText("Domain Expansion").length).toBeGreaterThan(0);
+    cleanup();
+    reduced = false;
+    wrap();
+    expect(document.querySelector("video")).toBeNull();
   });
 });

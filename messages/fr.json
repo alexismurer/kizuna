@@ -2858,6 +2858,7 @@
     "reveal": {
       "label": "{name} s'éveille : {form}",
       "skip": "Passer",
+      "skipVideo": "Passer la vidéo",
       "continue": "Continuer",
       "firstYou": "Tirée en premier par toi",
       "firstBy": "Tirée en premier par {name}",

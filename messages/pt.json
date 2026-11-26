@@ -2858,6 +2858,7 @@
     "reveal": {
       "label": "{name} desperta: {form}",
       "skip": "Pular",
+      "skipVideo": "Saltar vídeo",
       "continue": "Continuar",
       "firstYou": "Sorteada primeiro por você",
       "firstBy": "Sorteada primeiro por {name}",

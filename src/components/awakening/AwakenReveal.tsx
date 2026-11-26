@@ -58,13 +58,45 @@ export function AwakenReveal({ awakening, card, serial, total, firstOwner, onDon
   const live = prefs.animations && !reduce;
   const [played, setPlayed] = useState(false);
   const done = played || !live;
+  const [videoDone, setVideoDone] = useState(false);
+  const videoPhase = live && !!awakening.revealUrl && !videoDone;
+  const ending = useRef(false);
+  const video = useRef<HTMLVideoElement>(null);
+  const videoRoot = useRef<HTMLDivElement>(null);
+  const videoPhaseRef = useRef(videoPhase);
   const root = useRef<HTMLDivElement>(null);
   const timeline = useRef<gsap.core.Timeline | null>(null);
   const cont = useRef<HTMLButtonElement>(null);
 
+  // the video ends: a white flash covers the cut, then the crack timeline takes over
+  const endVideo = () => {
+    if (ending.current) return;
+    ending.current = true;
+    video.current?.pause();
+    const flash = videoRoot.current?.querySelector(".ar-vflash");
+    if (!flash) return setVideoDone(true);
+    gsap.to(flash, { opacity: 1, duration: 0.25, ease: "power2.in", onComplete: () => setVideoDone(true) });
+  };
+  const endVideoRef = useRef(endVideo);
+  useEffect(() => {
+    endVideoRef.current = endVideo;
+    videoPhaseRef.current = videoPhase;
+  });
+
+  useEffect(() => {
+    if (!videoPhase) return;
+    const v = video.current;
+    gsap.fromTo(videoRoot.current, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" });
+    v?.play?.()?.catch(() => {
+      if (!v) return;
+      v.muted = true;
+      v.play()?.catch(() => {});
+    });
+  }, [videoPhase]);
+
   useGSAP(
     () => {
-      if (!live) return;
+      if (!live || videoPhase) return;
       const tl = gsap.timeline({ onComplete: () => setPlayed(true) });
       timeline.current = tl;
       tl.from(".ar-dim", { opacity: 0, duration: 0.35 })
@@ -98,7 +130,7 @@ export function AwakenReveal({ awakening, card, serial, total, firstOwner, onDon
         .to(".ar-stage", { y: 5, duration: 0.06, yoyo: true, repeat: 1 }, 3.05)
         .from(".ar-tail", { y: 14, opacity: 0, duration: 0.5, ease: "power3.out" }, 3.15);
     },
-    { scope: root, dependencies: [live] },
+    { scope: root, dependencies: [live, videoPhase] },
   );
 
   const latest = useRef(onDone);
@@ -113,7 +145,8 @@ export function AwakenReveal({ awakening, card, serial, total, firstOwner, onDon
       if (e.key !== "Escape") return;
       e.preventDefault();
       e.stopPropagation();
-      latest.current();
+      if (videoPhaseRef.current) endVideoRef.current();
+      else latest.current();
     };
     window.addEventListener("keydown", onKey, true);
     return () => {
@@ -125,10 +158,48 @@ export function AwakenReveal({ awakening, card, serial, total, firstOwner, onDon
   useEffect(() => {
     if (done) cont.current?.focus({ preventScroll: true });
     else root.current?.focus({ preventScroll: true });
-  }, [done]);
+  }, [done, videoPhase]);
 
   const label = t("label", { name: card.name, form: awakening.form });
   const owner = firstOwner === undefined ? t("firstYou") : firstOwner ? t("firstBy", { name: firstOwner }) : null;
+
+  if (videoPhase) {
+    return createPortal(
+      <div
+        ref={videoRoot}
+        role="dialog"
+        aria-modal="true"
+        aria-label={label}
+        tabIndex={-1}
+        data-testid="awaken-reveal-video"
+        onClick={endVideo}
+        className="fixed inset-0 z-[70] bg-black outline-none"
+      >
+        <video
+          ref={video}
+          src={awakening.revealUrl ?? undefined}
+          autoPlay
+          playsInline
+          muted={!prefs.sound}
+          onEnded={endVideo}
+          onError={endVideo}
+          className="h-full w-full object-cover"
+        />
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            endVideo();
+          }}
+          className="absolute right-[max(1rem,env(safe-area-inset-right))] top-[max(1rem,env(safe-area-inset-top))] z-10 min-h-11 rounded-full border border-white/25 bg-black/50 px-5 text-sm font-semibold text-white/90 backdrop-blur hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+        >
+          {t("skipVideo")}
+        </button>
+        <div aria-hidden className="ar-vflash pointer-events-none absolute inset-0 bg-white opacity-0" />
+      </div>,
+      document.body,
+    );
+  }
 
   return createPortal(
     <div

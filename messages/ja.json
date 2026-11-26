@@ -2858,6 +2858,7 @@
     "reveal": {
       "label": "{name}が覚醒: {form}",
       "skip": "スキップ",
+      "skipVideo": "動画をスキップ",
       "continue": "続ける",
       "firstYou": "最初に引いたのはあなた",
       "firstBy": "最初に引いたのは{name}",

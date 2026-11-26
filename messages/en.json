@@ -2858,6 +2858,7 @@
     "reveal": {
       "label": "{name} awakens: {form}",
       "skip": "Skip",
+      "skipVideo": "Skip video",
       "continue": "Continue",
       "firstYou": "First drawn by you",
       "firstBy": "First drawn by {name}",
