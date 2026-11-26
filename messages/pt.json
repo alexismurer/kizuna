@@ -1282,6 +1282,7 @@
       "upload_failed": "O envio falhou. Tente de novo.",
       "awakening_card": "Escolha uma carta base.",
       "awakening_id": "O ID precisa ter de 3 a 48 caracteres: letras minúsculas, dígitos e hifens.",
+      "awakening_id_taken": "Esse ID já é usado por outro despertar. Escolha outro.",
       "invalid_link": "Os links precisam começar com https://."
     },
     "invites": {
@@ -2921,7 +2922,7 @@
     "reveal": {
       "label": "{name} desperta: {form}",
       "skip": "Pular",
-      "skipVideo": "Saltar vídeo",
+      "skipVideo": "Pular vídeo",
       "continue": "Continuar",
       "firstYou": "Sorteada primeiro por você",
       "firstBy": "Sorteada primeiro por {name}",

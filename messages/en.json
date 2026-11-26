@@ -1282,6 +1282,7 @@
       "upload_failed": "The upload failed. Try again.",
       "awakening_card": "Pick a base card.",
       "awakening_id": "The ID needs 3 to 48 characters: lowercase letters, digits and dashes.",
+      "awakening_id_taken": "That ID is already used by another awakening. Pick a different one.",
       "invalid_link": "Links must start with https://."
     },
     "invites": {

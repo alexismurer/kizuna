@@ -1282,6 +1282,7 @@
       "upload_failed": "Le téléversement a échoué. Réessaie.",
       "awakening_card": "Choisis une carte de base.",
       "awakening_id": "L'ID doit faire 3 à 48 caractères : minuscules, chiffres et tirets.",
+      "awakening_id_taken": "Cet ID est déjà utilisé par un autre éveil. Choisis-en un autre.",
       "invalid_link": "Les liens doivent commencer par https://."
     },
     "invites": {

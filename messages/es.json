@@ -1282,6 +1282,7 @@
       "upload_failed": "La subida falló. Inténtalo de nuevo.",
       "awakening_card": "Elige una carta base.",
       "awakening_id": "El ID necesita de 3 a 48 caracteres: minúsculas, dígitos y guiones.",
+      "awakening_id_taken": "Ese ID ya lo usa otro despertar. Elige uno distinto.",
       "invalid_link": "Los enlaces deben empezar por https://."
     },
     "invites": {

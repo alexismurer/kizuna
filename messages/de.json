@@ -1282,6 +1282,7 @@
       "upload_failed": "Der Upload ist fehlgeschlagen. Versuche es erneut.",
       "awakening_card": "Wähle eine Basiskarte.",
       "awakening_id": "Die ID braucht 3 bis 48 Zeichen: Kleinbuchstaben, Ziffern und Bindestriche.",
+      "awakening_id_taken": "Diese ID wird schon von einem anderen Erwachen verwendet. Wähle eine andere.",
       "invalid_link": "Links müssen mit https:// beginnen."
     },
     "invites": {

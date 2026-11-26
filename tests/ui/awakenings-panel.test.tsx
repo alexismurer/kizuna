@@ -88,6 +88,15 @@ describe("AwakeningsPanel", () => {
     await waitFor(() => expect(screen.queryByRole("alert")).toBeNull());
   });
 
+  it("refuses to create an awakening with an id that already exists", async () => {
+    wrap(<AwakeningsPanel initial={rows} />);
+    fireEvent.click(screen.getByRole("button", { name: "New awakening" }));
+    fireEvent.change(screen.getByLabelText(/^ID .a-z/), { target: { value: "goku-new" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save awakening" }));
+    expect(await screen.findByText(/already used by another awakening/)).toBeInTheDocument();
+    expect(actions.adminSaveAwakening).not.toHaveBeenCalled();
+  });
+
   it("needs a second click to delete", async () => {
     actions.adminDeleteAwakening.mockResolvedValue({ ok: true, data: null });
     wrap(<AwakeningsPanel initial={rows} />);

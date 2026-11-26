@@ -67,6 +67,7 @@ export function AwakenReveal({ awakening, card, serial, total, firstOwner, onDon
   const root = useRef<HTMLDivElement>(null);
   const timeline = useRef<gsap.core.Timeline | null>(null);
   const cont = useRef<HTMLButtonElement>(null);
+  const vTweens = useRef<gsap.core.Tween[]>([]);
 
   // the video ends: a white flash covers the cut, then the crack timeline takes over
   const endVideo = () => {
@@ -75,7 +76,7 @@ export function AwakenReveal({ awakening, card, serial, total, firstOwner, onDon
     video.current?.pause();
     const flash = videoRoot.current?.querySelector(".ar-vflash");
     if (!flash) return setVideoDone(true);
-    gsap.to(flash, { opacity: 1, duration: 0.25, ease: "power2.in", onComplete: () => setVideoDone(true) });
+    vTweens.current.push(gsap.to(flash, { opacity: 1, duration: 0.25, ease: "power2.in", onComplete: () => setVideoDone(true) }));
   };
   const endVideoRef = useRef(endVideo);
   useEffect(() => {
@@ -86,19 +87,26 @@ export function AwakenReveal({ awakening, card, serial, total, firstOwner, onDon
   useEffect(() => {
     if (!videoPhase) return;
     const v = video.current;
-    gsap.fromTo(videoRoot.current, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" });
+    vTweens.current.push(gsap.fromTo(videoRoot.current, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }));
     v?.play?.()?.catch(() => {
       if (!v) return;
       v.muted = true;
       v.play()?.catch(() => {});
     });
   }, [videoPhase]);
+  // kill the video-phase tweens if the reveal unmounts mid-flash
+  useEffect(() => {
+    const tweens = vTweens.current;
+    return () => tweens.forEach((tw) => tw.kill());
+  }, []);
 
   useGSAP(
     () => {
       if (!live || videoPhase) return;
       const tl = gsap.timeline({ onComplete: () => setPlayed(true) });
       timeline.current = tl;
+      // coming from the video the screen is still white: fade that out over the crack stage instead of popping
+      if (videoDone) tl.fromTo(".ar-flash", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "power1.out" }, 0);
       tl.from(".ar-dim", { opacity: 0, duration: 0.35 })
         .from(".ar-base", { scale: 0.86, opacity: 0, y: 24, duration: 0.5, ease: "power3.out" }, 0.1)
         .to(".ar-bloom", { opacity: 0.9, scale: 1.25, duration: 1.4, ease: "power1.in" }, 0.4)
@@ -130,7 +138,7 @@ export function AwakenReveal({ awakening, card, serial, total, firstOwner, onDon
         .to(".ar-stage", { y: 5, duration: 0.06, yoyo: true, repeat: 1 }, 3.05)
         .from(".ar-tail", { y: 14, opacity: 0, duration: 0.5, ease: "power3.out" }, 3.15);
     },
-    { scope: root, dependencies: [live, videoPhase] },
+    { scope: root, dependencies: [live, videoPhase, videoDone] },
   );
 
   const latest = useRef(onDone);

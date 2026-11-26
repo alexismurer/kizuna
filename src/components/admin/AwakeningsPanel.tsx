@@ -201,6 +201,7 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
   const save = (e: React.FormEvent) => {
     e.preventDefault();
     if (!draft) return;
+    if (draft.isNew && rows.some((r) => r.id === draft.id)) return setError("awakening_id_taken");
     if (!draft.card) return setError("awakening_card");
     if (!ID.test(draft.id)) return setError("awakening_id");
     if ([draft.loopUrl, draft.posterUrl, draft.revealUrl].some((u) => u && !u.startsWith("https://"))) return setError("invalid_link");
@@ -420,6 +421,7 @@ export function AwakeningsPanel({ initial }: { initial: AdminAwakening[] }) {
                   <span className="text-xs font-semibold uppercase tracking-wider text-white/50">{t("preview")}</span>
                   <div className="max-w-full [&_.awk]:max-w-full">
                     <AwakeningCard
+                      key={`${draft.loopUrl ?? ""}|${draft.posterUrl ?? ""}`}
                       awakening={face}
                       card={{ name: draft.card?.name ?? "—", image_url: draft.card?.imageUrl ?? null }}
                       size="lg"

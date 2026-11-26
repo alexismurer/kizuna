@@ -1282,6 +1282,7 @@
       "upload_failed": "アップロードに失敗しました。もう一度お試しください。",
       "awakening_card": "ベースカードを選んでください。",
       "awakening_id": "IDは3～48文字で、小文字、数字、ハイフンが使えます。",
+      "awakening_id_taken": "このIDはすでに別の覚醒で使われています。別のIDを選んでください。",
       "invalid_link": "リンクは https:// で始めてください。"
     },
     "invites": {

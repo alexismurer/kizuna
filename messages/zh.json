@@ -1282,6 +1282,7 @@
       "upload_failed": "上传失败，请重试。",
       "awakening_card": "请选择基础卡牌。",
       "awakening_id": "ID 需要 3 到 48 个字符：小写字母、数字和连字符。",
+      "awakening_id_taken": "该 ID 已被另一个觉醒使用，请换一个。",
       "invalid_link": "链接必须以 https:// 开头。"
     },
     "invites": {
