@@ -11,9 +11,9 @@ export function parseTab(v: Param): LeaderboardTab {
   return LEADERBOARD_TABS.includes(s as LeaderboardTab) ? (s as LeaderboardTab) : "renown";
 }
 
-// ?tier= (cohort chip): only on the Renown tab, a whole number from 0, else no filter.
+// ?tier= (cohort chip): only on the Renown tab, a whole number 0..99, else no filter (bounds the cache keys).
 export function parseTier(tab: LeaderboardTab, v: Param): number | null {
   const s = first(v);
-  if (tab !== "renown" || !s || !/^\d{1,4}$/.test(s)) return null;
+  if (tab !== "renown" || !s || !/^\d{1,2}$/.test(s)) return null;
   return Number(s);
 }

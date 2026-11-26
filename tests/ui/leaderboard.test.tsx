@@ -66,6 +66,8 @@ describe("leaderboard params", () => {
     expect(parseTier("renown", "abc")).toBeNull();
     expect(parseTier("renown", "-1")).toBeNull();
     expect(parseTier("renown", "1.5")).toBeNull();
+    expect(parseTier("renown", "99")).toBe(99);
+    expect(parseTier("renown", "100")).toBeNull();
     expect(parseTier("collection", "2")).toBeNull();
     expect(parseTier("renown", undefined)).toBeNull();
   });
