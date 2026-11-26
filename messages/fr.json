@@ -2845,5 +2845,42 @@
       "listed": "En vente",
       "replay": "Revoir l'éveil de {name}, exemplaire {serial} sur {total}"
     }
+  },
+  "leaderboard": {
+    "kicker": "Classement",
+    "title": "Classement",
+    "tabs": {
+      "label": "Classements",
+      "renown": "Renommée",
+      "collection": "Collection",
+      "rebirth": "Renaissance",
+      "mythics": "Mythiques"
+    },
+    "cohortsLabel": "Niveau de Renaissance",
+    "cohort": "Renaissance {tier}",
+    "cohortNone": "Pas encore de Renaissance",
+    "explain": {
+      "renown": "La Renommée additionne une valeur pour chaque carte différente que tu possèdes (Commune 1, Peu commune 2, Rare 5, Épique 15, Légendaire 50, Mythique 200), plus les points gardés à chaque Renaissance. Elle ne baisse jamais.",
+      "collection": "Le nombre de cartes différentes que tu possèdes.",
+      "rebirth": "Les joueurs qui ont recommencé leur album, classés par niveau de Renaissance, puis par Renommée.",
+      "mythics": "Le nombre de cartes Mythiques différentes que tu possèdes."
+    },
+    "units": {
+      "renown": "{n, plural, one {point} other {points}}",
+      "collection": "{n, plural, one {carte} other {cartes}}",
+      "rebirth": "niveau",
+      "mythics": "{n, plural, one {mythique} other {mythiques}}"
+    },
+    "you": "Toi",
+    "youTag": "toi",
+    "rankOf": "#{rank} sur {total}",
+    "gap": "{gap} derrière le podium",
+    "onPodium": "Tu es sur le podium",
+    "unranked": "Pas encore classé",
+    "unrankedHint": "Fais une première Renaissance pour entrer dans ce classement.",
+    "tierBadge": "Renaissance {tier}",
+    "empty": "Personne ici pour l'instant.",
+    "emptyRebirth": "Personne n'a encore fait de Renaissance.",
+    "loadError": "Le classement n'a pas chargé. Recharge la page pour réessayer."
   }
 }
