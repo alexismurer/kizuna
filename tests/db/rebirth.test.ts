@@ -70,9 +70,9 @@ describe('rebirth', () => {
     expect((await client.rpc('rebirth')).error?.message).toContain('not_admin')
   })
 
-  it('refused when one card is missing', async () => {
+  it('refused when one epic is missing', async () => {
     const { userId, client } = await readyPlayer()
-    await admin.from('inventory').delete().eq('player_id', userId).eq('card_id', await cardOfRarity('mythic'))
+    await admin.from('inventory').delete().eq('player_id', userId).eq('card_id', await cardOfRarity('epic'))
     const { error } = await client.rpc('rebirth')
     expect(error?.message).toContain('rebirth_not_ready')
   })
@@ -95,6 +95,22 @@ describe('rebirth', () => {
     const b = await readyPlayer()
     await setPlayer(b.userId, { banned_at: new Date().toISOString() })
     expect((await b.client.rpc('rebirth')).error?.message).toContain('rebirth_not_ready')
+  })
+
+  it('legendaries and mythics are quotas that grow per tier, capped at the catalog', async () => {
+    const { userId, client } = await newPlayer()
+    const total = async (r: string) =>
+      (await admin.from('cards').select('id', { count: 'exact', head: true }).eq('rarity', r)).count!
+    const [leg, myth, epic] = [await total('legendary'), await total('mythic'), await total('epic')]
+    const need = (s: Status, k: string) => s.rows.find((r) => r.key === k)!.need
+    let s = await status(client)
+    expect(need(s, 'legendary')).toBe(Math.min(leg, 70))
+    expect(need(s, 'mythic')).toBe(Math.min(myth, 10))
+    expect(need(s, 'epic')).toBe(epic)
+    await setPlayer(userId, { rebirth_tier: 2 })
+    s = await status(client)
+    expect(need(s, 'legendary')).toBe(Math.min(leg, 90))
+    expect(need(s, 'mythic')).toBe(Math.min(myth, 14))
   })
 
   it('refused at tier 1 with 1500 boosters (needs 1750)', async () => {
