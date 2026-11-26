@@ -675,3 +675,173 @@ main:not([style*="display: none"]):has(.page-loader) ~ footer {
   .name-prism, .name-shadow,
   .banner::before, .banner::after { animation: none; }
 }
+
+/* ---------- Awakening card (AwakeningCard + effects.tsx) ---------- */
+/* a foil frame in the card --accent around the art, effect layer over it, name banner at the bottom.
+   --spd scales every effect duration; hovering a live card halves it and brightens the layer. */
+.awk { container-type: inline-size; --spd: 1; --fx-o: 0.8; isolation: isolate; }
+.awk-live { cursor: pointer; }
+.awk-live:hover, .awk-live:focus-within { --spd: 0.45; --fx-o: 1; }
+.awk-halo {
+  position: absolute; inset: -6%; z-index: -1; border-radius: 18%; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 55%, transparent), transparent);
+  filter: blur(10px); opacity: 0.55; transition: opacity 0.3s;
+  animation: awk-breathe calc(3.2s * var(--spd)) ease-in-out infinite;
+}
+.awk-live:hover .awk-halo { opacity: 0.95; }
+.awk-frame {
+  position: absolute; inset: 0; overflow: hidden; padding: max(3px, 2.6cqi);
+  border-radius: min(16px, 10%) / min(16px, 7.1%);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 35%, #0d0a14), #0d0a14 45%, color-mix(in srgb, var(--accent) 45%, #0d0a14));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 70%, white), 0 12px 30px rgb(0 0 0 / 0.6);
+}
+/* the turning foil band */
+.awk-frame::before {
+  content: ""; position: absolute; inset: -50%; z-index: 0;
+  background: conic-gradient(from 0deg, transparent 0 55%, color-mix(in srgb, var(--accent) 80%, white) 68%, white 72%, var(--accent) 76%, transparent 88%);
+  animation: awk-spin calc(5s * var(--spd)) linear infinite;
+}
+.awk-face {
+  position: relative; z-index: 1; height: 100%; width: 100%; overflow: hidden; background: #15111d;
+  border-radius: min(11px, 8%) / min(11px, 5.7%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 60%, white);
+}
+.awk-art { position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; object-position: 50% 18%; }
+.awk-art-empty { background: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--accent) 35%, #15111d), #15111d 70%); }
+.awk-vignette {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  box-shadow: inset 0 0 18cqi 2cqi color-mix(in srgb, var(--accent) 45%, transparent);
+  background: linear-gradient(rgb(8 6 12 / 0.55), transparent 22%), linear-gradient(transparent 52%, rgb(8 6 12 / 0.92) 86%);
+}
+.awk-top {
+  position: absolute; inset: 0 0 auto 0; z-index: 4; display: flex; align-items: flex-start;
+  justify-content: space-between; padding: 5cqi 5.5cqi;
+}
+.awk-seal {
+  font-family: var(--font-display); font-weight: 800; line-height: 1;
+  font-size: clamp(9px, 6.5cqi, 15px); letter-spacing: 0.06em; padding: 1.6cqi 2.6cqi; border-radius: 3px;
+  color: #0d0a14; background: var(--accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.awk-serial {
+  font-family: var(--font-mono); font-weight: 700; font-size: clamp(9px, 6cqi, 13px); color: white;
+  padding: 1.5cqi 3cqi; border-radius: 999px; background: rgb(8 6 12 / 0.65);
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.awk-serial-of { color: rgb(255 255 255 / 0.55); }
+.awk-banner {
+  position: absolute; inset: auto 0 0 0; z-index: 4; display: flex; flex-direction: column;
+  align-items: center; text-align: center; padding: 0 5cqi 6cqi; gap: 0.6cqi;
+}
+.awk-banner::before {
+  content: ""; width: 62%; height: 1px; margin-bottom: 2.5cqi;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.awk-title {
+  font-size: clamp(8px, 5cqi, 12px); font-weight: 700; color: rgb(255 255 255 / 0.7);
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.awk-name {
+  max-width: 100%; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow-wrap: break-word;
+  font-family: var(--font-display); font-weight: 800; line-height: 1.02; letter-spacing: -0.01em;
+  font-size: clamp(13px, 12cqi, 34px); color: white;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 80%, transparent), 0 2px 4px rgb(0 0 0 / 0.7);
+}
+.awk-form {
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: clamp(9px, 6.2cqi, 15px); font-weight: 700; font-style: italic; color: var(--accent);
+  text-shadow: 0 0 2px #000, 0 0 4px #000, 0 1px 3px rgb(0 0 0 / 0.8);
+}
+@container (max-width: 130px) {
+  .awk-title { display: none; }
+  .awk-serial { font-size: 9px; }
+}
+
+/* effect layers */
+.awk-fx { position: absolute; inset: 0; z-index: 3; overflow: hidden; pointer-events: none; opacity: var(--fx-o); transition: opacity 0.3s; }
+.awk-fx > * { position: absolute; pointer-events: none; }
+.awk-fx svg { inset: 0; width: 100%; height: 100%; }
+
+.awk-sun-rays {
+  inset: -60% -60% 20% -60%; mix-blend-mode: screen;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, color-mix(in srgb, var(--accent) 38%, transparent) 0 5deg, transparent 5deg 20deg);
+  mask: radial-gradient(closest-side, black 10%, transparent 62%);
+  animation: awk-spin calc(18s * var(--spd)) linear infinite;
+}
+.awk-sun-core {
+  inset: -20% 10% 55% 10%; border-radius: 50%; mix-blend-mode: screen;
+  background: radial-gradient(closest-side, white, var(--accent) 40%, transparent);
+  animation: awk-breathe calc(2.6s * var(--spd)) ease-in-out infinite;
+}
+
+.awk-bolt-flash { inset: 0; background: color-mix(in srgb, var(--accent) 40%, white); mix-blend-mode: screen; opacity: 0; animation: awk-flash calc(3.4s * var(--spd)) steps(1) infinite; }
+.awk-bolt { --rest: 0.18; fill: none; stroke: white; stroke-width: 1.6; stroke-linejoin: bevel; filter: drop-shadow(0 0 3px var(--accent)) drop-shadow(0 0 6px var(--accent)); opacity: 0; vector-effect: non-scaling-stroke; animation: awk-flash calc(3.4s * var(--spd)) steps(1) infinite; }
+.awk-bolt-1 { animation-delay: calc(-1.7s * var(--spd)); }
+
+.awk-flame { inset: auto -20% -6% -20%; height: 75%; mix-blend-mode: screen; transform-origin: 50% 100%; }
+.awk-flame-a {
+  background: radial-gradient(45% 80% at 28% 100%, var(--accent), transparent 72%), radial-gradient(40% 70% at 74% 100%, color-mix(in srgb, var(--accent) 60%, #ffb000), transparent 72%), radial-gradient(70% 40% at 50% 100%, color-mix(in srgb, var(--accent) 70%, white), transparent 70%);
+  animation: awk-lick calc(1.6s * var(--spd)) ease-in-out infinite alternate;
+}
+.awk-flame-b {
+  background: radial-gradient(30% 50% at 50% 100%, color-mix(in srgb, var(--accent) 40%, #ffe08a), transparent 70%);
+  animation: awk-lick calc(1.1s * var(--spd)) ease-in-out infinite alternate-reverse;
+}
+.awk-embers {
+  inset: 0; mix-blend-mode: screen;
+  background-image: radial-gradient(circle at 30% 20%, #ffd27a 0 1px, transparent 1.6px), radial-gradient(circle at 70% 60%, var(--accent) 0 1.3px, transparent 2px), radial-gradient(circle at 10% 80%, #fff1c2 0 0.8px, transparent 1.3px);
+  background-size: 37px 61px, 53px 83px, 71px 47px;
+  mask: linear-gradient(transparent, black 55%);
+  animation: awk-rise calc(4s * var(--spd)) linear infinite;
+}
+
+.awk-void-swirl {
+  inset: -40%; mix-blend-mode: screen;
+  background: conic-gradient(from 0deg, transparent, color-mix(in srgb, var(--accent) 60%, transparent) 15%, transparent 30%, rgb(140 60 255 / 0.5) 50%, transparent 65%, color-mix(in srgb, var(--accent) 50%, transparent) 80%, transparent);
+  mask: radial-gradient(closest-side, transparent 12%, black 30%, transparent 72%);
+  animation: awk-spin calc(9s * var(--spd)) linear infinite reverse;
+}
+.awk-void-stars {
+  inset: 0; mix-blend-mode: screen;
+  background-image: radial-gradient(circle at 20% 30%, white 0 0.8px, transparent 1.4px), radial-gradient(circle at 70% 80%, var(--accent) 0 1px, transparent 1.6px), radial-gradient(circle at 50% 50%, white 0 0.6px, transparent 1.1px);
+  background-size: 31px 43px, 47px 37px, 19px 59px; background-position: 0 0, 11px 17px, 5px 23px;
+  animation: awk-twinkle calc(2.4s * var(--spd)) ease-in-out infinite alternate;
+}
+
+.awk-chain {
+  fill: none; stroke: color-mix(in srgb, var(--accent) 60%, #c9c3d6); stroke-width: 5; stroke-linecap: round;
+  stroke-dasharray: 7 4; vector-effect: non-scaling-stroke; opacity: 0.85;
+  filter: drop-shadow(0 0 3px var(--accent)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.6));
+  animation: awk-dash calc(3s * var(--spd)) linear infinite;
+}
+.awk-chain-b { animation-direction: reverse; }
+
+.awk-petal {
+  top: -10%; width: 7cqi; height: 5cqi; border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, white, var(--accent));
+  box-shadow: 0 0 4px color-mix(in srgb, var(--accent) 70%, transparent);
+  animation-name: awk-fall; animation-timing-function: linear; animation-iteration-count: infinite;
+}
+
+@keyframes awk-spin { to { transform: rotate(1turn); } }
+@keyframes awk-breathe { 0%, 100% { opacity: 0.55; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes awk-flash { 0%, 100% { opacity: var(--rest, 0); } 4% { opacity: 1; } 7% { opacity: var(--rest, 0); } 10% { opacity: 0.8; } 13% { opacity: var(--rest, 0); } }
+@keyframes awk-lick { from { transform: scaleY(0.85) scaleX(1); opacity: 0.75; } to { transform: scaleY(1.15) scaleX(0.95); opacity: 1; } }
+@keyframes awk-rise { from { background-position: 0 0, 0 0, 0 0; } to { background-position: 6px -61px, -8px -83px, 4px -47px; } }
+@keyframes awk-twinkle { from { opacity: 0.4; } to { opacity: 1; } }
+@keyframes awk-dash { to { stroke-dashoffset: -22; } }
+@keyframes awk-fall {
+  from { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  to { transform: translate3d(-18cqi, 165cqi, 0) rotate(540deg); opacity: 0.2; }
+}
+
+/* still frame: animations off in settings or reduced motion; the bolts stay drawn */
+.fx-still.awk *, .fx-still.awk *::before { animation: none !important; }
+.fx-still .awk-bolt { opacity: 0.9; }
+@media (prefers-reduced-motion: reduce) {
+  .awk *, .awk *::before { animation: none !important; }
+  .awk-bolt { opacity: 0.9; }
+}
+.fx-still .awk-petal { top: var(--py); }
+@media (prefers-reduced-motion: reduce) { .awk-petal { top: var(--py); } }
