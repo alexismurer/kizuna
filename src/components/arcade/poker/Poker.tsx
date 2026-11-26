@@ -160,11 +160,12 @@ export function Poker({ mode, best, tickets }: { mode: PokerMode; best: number |
             {preview ? (
               <>
                 <p className="font-display text-2xl font-extrabold">{tp(`hand.${preview.hand}`)}</p>
-                <p className="flex items-center gap-2 font-mono text-lg font-bold">
-                  <span className="rounded-md bg-rare/20 px-2 text-rare">{Math.round(preview.chips + preview.scoring.reduce((s, c) => s + c.pow, 0) / 10)}</span>×
-                  <span className="rounded-md bg-accent/20 px-2 text-accent">{preview.mult}</span>
+                <p className="flex flex-wrap items-center justify-center gap-2 font-mono text-lg font-bold">
+                  <span className="rounded-md bg-rare/20 px-2 text-rare">{tp("combo", { n: format.number(preview.points) })}</span>+
+                  <span className="rounded-md bg-accent/20 px-2 text-accent">{tp("bonus", { n: format.number(preview.bonus) })}</span>
                   <span className="text-legendary">= {format.number(preview.score)}</span>
                 </p>
+                {preview.scoring.length < picked.length && <p className="text-xs text-common">{tp("notCounting")}</p>}
               </>
             ) : (
               <p className="max-w-sm text-sm text-common">{tp("hint")}</p>
@@ -188,7 +189,7 @@ export function Poker({ mode, best, tickets }: { mode: PokerMode; best: number |
 
           <div className="grid grid-cols-4 gap-2 sm:grid-cols-8">
             {order.map((i) => (
-              <Card key={view.hand[i].id} card={view.hand[i]} picked={picked.includes(i)} same={view.hand.filter((c) => c.seriesId === view.hand[i].seriesId).length} onClick={() => toggle(i)} />
+              <Card key={view.hand[i].id} card={view.hand[i]} picked={picked.includes(i)} idle={!!preview && picked.includes(i) && !preview.scoring.includes(view.hand[i])} same={view.hand.filter((c) => c.seriesId === view.hand[i].seriesId).length} onClick={() => toggle(i)} />
             ))}
           </div>
 
@@ -240,9 +241,7 @@ export function Poker({ mode, best, tickets }: { mode: PokerMode; best: number |
                   <b className="block text-sm">{tp(`hand.${h}`)}</b>
                   <span className="text-xs text-common">{tp(`handText.${h}`)}</span>
                 </span>
-                <span className="shrink-0 font-mono text-sm font-bold">
-                  <span className="text-rare">{HANDS[h].chips}</span> × <span className="text-accent">{HANDS[h].mult}</span>
-                </span>
+                <span className="shrink-0 font-mono text-sm font-bold text-rare">{format.number(HANDS[h].points)}</span>
               </li>
             ))}
           </ul>
@@ -262,15 +261,14 @@ function Rules() {
   return (
     <>
       <p>{tp("rules.goal")}</p>
-      <p>{tp("rules.series")}</p>
-      <p>{tp("rules.genre")}</p>
-      <p>{tp("rules.straight")}</p>
-      <p>{tp("formula")}</p>
+      <p>{tp("rules.match")}</p>
+      <p>{tp("rules.swap")}</p>
+      <p>{tp("rules.bonus")}</p>
     </>
   );
 }
 
-function Card({ card, picked, same, onClick }: { card: PkCard; picked: boolean; same: number; onClick: () => void }) {
+function Card({ card, picked, idle, same, onClick }: { card: PkCard; picked: boolean; idle: boolean; same: number; onClick: () => void }) {
   const tp = useTranslations("arcade.poker");
   const seal = SEAL[card.genre];
   const Seal = seal.icon;
@@ -279,7 +277,7 @@ function Card({ card, picked, same, onClick }: { card: PkCard; picked: boolean; 
     <motion.button
       type="button"
       onClick={onClick}
-      animate={{ y: picked ? -14 : 0 }}
+      animate={{ y: picked ? -14 : 0, opacity: idle ? 0.45 : 1 }}
       transition={{ type: "spring", stiffness: 500, damping: 30 }}
       aria-pressed={picked}
       aria-label={`${card.name}, ${card.series}`}

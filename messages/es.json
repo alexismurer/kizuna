@@ -2411,50 +2411,51 @@
       "rules": "Da la vuelta a dos cartas por jugada. Mismo personaje: la pareja queda visible; si no, ambas vuelven boca abajo. Tres niveles: 8, 12 o 18 parejas. Encuentra todas en el menor número de jugadas: 3 estrellas hasta 1,5 jugadas por pareja, 2 hasta 2, 1 hasta 2,75."
     },
     "poker": {
-      "hands": "Manos",
-      "discards": "Descartes",
-      "hint": "Elige cartas que combinen: misma serie, mismo género (el sello de abajo) o rarezas seguidas. Luego Jugar.",
+      "hands": "Jugadas",
+      "discards": "Cambios",
+      "hint": "Elige cartas de la misma serie, o 5 cartas del mismo género, y pulsa Jugar.",
       "bestHands": "Tus mejores manos",
       "sort": "Ordenar",
       "bySeries": "Serie",
       "byRarity": "Rareza",
-      "handsTable": "Manos",
+      "handsTable": "Combos",
       "helpOn": "Ayuda: sí",
       "helpOff": "Ayuda: no",
-      "discard": "Descartar",
+      "discard": "Cambiar",
       "play": "Jugar",
       "sameSeries": "cartas de esta serie en tu mano",
-      "formula": "Una mano puntúa (fichas + poder de las cartas ÷ 10) × multiplicador; solo cuentan las cartas que forman la mano.",
+      "formula": "Una jugada suma los puntos del combo más un bonus por las cartas que lo forman. Las cartas más raras dan más bonus.",
       "rules": {
-        "goal": "Forma grupos de cartas que combinen, como en el póker. Tienes 4 manos para puntuar al máximo y 3 descartes para cambiar las cartas que no quieras (hasta 5 a la vez).",
-        "series": "Misma serie: 2 cartas son pareja, 3 trío, 4 póker, 5 cinco de una serie.",
-        "genre": "Mismo género: el sello de abajo de la carta. 5 cartas del mismo género son color.",
-        "straight": "Letras seguidas: la letra de rareza arriba a la derecha. C U R E L (una Mítica cuenta como L) son escalera; del mismo género, escalera de color."
+        "goal": "Elige hasta 5 cartas y pulsa Jugar. Tienes 4 jugadas y tu puntuación es la suma de todas.",
+        "match": "Las cartas combinan si son de la misma serie (aparece abajo en la carta). Cuantas más cartas de una serie, más puntos. 5 cartas con el mismo sello de género también forman un combo.",
+        "swap": "¿No te gustan tus cartas? Selecciónalas y pulsa Cambiar para robar otras nuevas. Puedes hacerlo 3 veces.",
+        "bonus": "Las cartas más raras añaden un bonus al combo en el que están. Las cartas fuera del combo no cuentan."
       },
       "hand": {
-        "five_of_a_series": "Cinco de una serie",
-        "straight_flush": "Escalera de color",
-        "four_of_a_kind": "Póker",
-        "flush": "Color",
-        "full_house": "Full",
-        "straight": "Escalera",
-        "three_of_a_kind": "Trío",
-        "two_pairs": "Doble pareja",
-        "pair": "Pareja",
-        "high_card": "Carta alta"
+        "five_of_a_series": "5 de una serie",
+        "four_of_a_kind": "4 de una serie",
+        "flush": "5 de un género",
+        "full_house": "3 + 2",
+        "three_of_a_kind": "3 de una serie",
+        "two_pairs": "2 + 2",
+        "pair": "2 de una serie",
+        "high_card": "Carta suelta",
+        "straight": "Escalera de rareza",
+        "straight_flush": "Escalera de rareza, mismo género"
       },
       "handText": {
         "five_of_a_series": "5 cartas de la misma serie",
-        "straight_flush": "rarezas seguidas, mismo género",
         "four_of_a_kind": "4 cartas de la misma serie",
-        "flush": "5 cartas del mismo género",
-        "full_house": "3 de una serie + 2 de otra",
-        "straight": "5 rarezas seguidas (C U R E L)",
+        "flush": "5 cartas con el mismo sello de género",
+        "full_house": "3 de una serie y 2 de otra",
         "three_of_a_kind": "3 cartas de la misma serie",
-        "two_pairs": "2 + 2 de dos series",
+        "two_pairs": "2 de una serie y 2 de otra",
         "pair": "2 cartas de la misma serie",
-        "high_card": "una carta, la más fuerte"
-      }
+        "high_card": "sin coincidencia: cuenta tu carta más fuerte"
+      },
+      "combo": "Combo {n}",
+      "bonus": "Cartas {n}",
+      "notCounting": "Las cartas atenuadas no cuentan en este combo."
     },
     "dailyHand": {
       "name": "Mano del día",
@@ -2468,7 +2469,7 @@
     "kizunaHand": {
       "name": "Mano Kizuna",
       "chip": "Práctica",
-      "pitch": "Póker de cartas: combina series, géneros y rarezas en una mano al azar, cuantas veces quieras, con ayuda si la necesitas.",
+      "pitch": "Póker de cartas con una mano aleatoria: combina series y géneros tantas veces como quieras, con ayuda si la necesitas.",
       "share": "¡Hice {score} en Mano Kizuna!"
     },
     "genres": {

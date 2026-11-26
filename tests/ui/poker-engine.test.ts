@@ -18,17 +18,15 @@ describe("evaluate", () => {
     ["two pairs", [c(1), c(1), c(2, "rare", "romance"), c(2, "rare", "romance")]],
     ["pair", [c(1), c(1, "rare", "battle")]],
     ["flush", [c(1), c(2), c(3), c(4), c(5)]],
-    ["straight", [c(1, "common", "romance"), c(2, "uncommon"), c(3, "rare"), c(4, "epic"), c(5, "legendary")]],
-    ["straight flush", [c(1, "common"), c(2, "uncommon"), c(3, "rare"), c(4, "epic"), c(5, "mythic")]],
     ["high card", [c(1, "rare", "romance"), c(2, "rare", "thrills")]],
   ] as const)("finds a %s", (hand, cards) => {
     expect(evaluate([...cards]).hand).toBe(hand.replace(/ /g, "_"));
   });
 
-  it("scores (chips + power of the scoring cards ÷ 10) × mult", () => {
-    // pair: chips 10, mult 2, two cards of power 50 → (10 + 10) × 2 = 40; the kicker doesn't count
+  it("scores the combo points plus the scoring cards power ÷ 10 × mult", () => {
+    // pair: 20 points, mult 2, two cards of power 50 → 20 + 10 × 2 = 40; the kicker doesn't count
     const r = evaluate([c(1, "rare", "battle", 50), c(1, "rare", "battle", 50), c(9, "epic", "romance", 99)]);
-    expect(r).toMatchObject({ hand: "pair", chips: 10, mult: 2, score: 40 });
+    expect(r).toMatchObject({ hand: "pair", points: 20, bonus: 20, score: 40 });
     expect(r.scoring).toHaveLength(2);
     // high card takes the strongest card
     expect(evaluate([c(1, "rare", "romance", 40), c(2, "rare", "thrills", 90)])).toMatchObject({ hand: "high_card", score: 14 });
@@ -72,5 +70,12 @@ describe("a game", () => {
     const best = bestHands(pokerView(s).hand);
     expect(best[0].hand).toBe("full_house");
     expect(best[0].idx).toHaveLength(5);
+  });
+});
+
+describe("no rarity runs", () => {
+  it("five rarities in a row, mixed series and genres, is only a high card", () => {
+    const cards = [c(1, "common", "romance"), c(2, "uncommon", "thrills"), c(3, "rare", "fantasy"), c(4, "epic", "battle"), c(5, "legendary", "romance")];
+    expect(evaluate(cards).hand).toBe("high_card");
   });
 });

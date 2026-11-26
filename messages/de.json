@@ -2411,50 +2411,51 @@
       "rules": "Decke pro Zug zwei Karten auf. Gleiche Figur: Das Paar bleibt offen, sonst werden beide wieder umgedreht. Drei Stufen: 8, 12 oder 18 Paare. Finde alle Paare mit möglichst wenigen Zügen: 3 Sterne bis 1,5 Züge pro Paar, 2 bis 2, 1 bis 2,75."
     },
     "poker": {
-      "hands": "Hände",
-      "discards": "Abwürfe",
-      "hint": "Wähle Karten, die zusammenpassen: gleiche Serie, gleiches Genre (Siegel unten) oder Seltenheiten in Folge. Dann Spielen.",
+      "hands": "Züge",
+      "discards": "Tausche",
+      "hint": "Wähle Karten aus derselben Serie oder 5 Karten desselben Genres, dann drück auf Spielen.",
       "bestHands": "Deine besten Hände",
       "sort": "Sortieren",
       "bySeries": "Serie",
       "byRarity": "Seltenheit",
-      "handsTable": "Hände",
+      "handsTable": "Kombos",
       "helpOn": "Hilfe: an",
       "helpOff": "Hilfe: aus",
-      "discard": "Abwerfen",
+      "discard": "Tauschen",
       "play": "Spielen",
       "sameSeries": "Karten dieser Serie auf deiner Hand",
-      "formula": "Eine Hand bringt (Chips + Kartenstärke ÷ 10) × Multiplikator; nur die Karten der Hand zählen.",
+      "formula": "Ein Zug bringt die Punkte der Kombo plus einen Bonus für die Karten darin. Seltenere Karten geben mehr Bonus.",
       "rules": {
-        "goal": "Bilde Kartengruppen wie beim Poker. Du hast 4 Hände für möglichst viele Punkte und 3 Abwürfe, um unerwünschte Karten zu tauschen (bis zu 5 auf einmal).",
-        "series": "Gleiche Serie: 2 Karten ein Paar, 3 ein Drilling, 4 ein Vierling, 5 fünf einer Serie.",
-        "genre": "Gleiches Genre: das Siegel unten auf der Karte. 5 Karten desselben Genres ergeben einen Flush.",
-        "straight": "Buchstaben in Folge: der Seltenheitsbuchstabe oben rechts. C U R E L (Mythisch zählt als L) ergeben eine Straße; im gleichen Genre einen Straight Flush."
+        "goal": "Wähle bis zu 5 Karten und drück auf Spielen. Du hast 4 Züge, deine Punktzahl ist ihre Summe.",
+        "match": "Karten passen zusammen, wenn sie aus derselben Serie sind (steht unten auf der Karte). Je mehr Karten einer Serie, desto mehr Punkte. 5 Karten mit demselben Genre-Siegel ergeben auch eine Kombo.",
+        "swap": "Gefallen dir deine Karten nicht? Wähle sie aus und drück auf Tauschen, um neue zu ziehen. Das geht 3-mal.",
+        "bonus": "Seltenere Karten geben der Kombo, in der sie sind, einen Bonus. Karten außerhalb der Kombo zählen nicht."
       },
       "hand": {
-        "five_of_a_series": "Fünf einer Serie",
-        "straight_flush": "Straight Flush",
-        "four_of_a_kind": "Vierling",
-        "flush": "Flush",
-        "full_house": "Full House",
-        "straight": "Straße",
-        "three_of_a_kind": "Drilling",
-        "two_pairs": "Zwei Paare",
-        "pair": "Paar",
-        "high_card": "Höchste Karte"
+        "five_of_a_series": "5 einer Serie",
+        "four_of_a_kind": "4 einer Serie",
+        "flush": "5 eines Genres",
+        "full_house": "3 + 2",
+        "three_of_a_kind": "3 einer Serie",
+        "two_pairs": "2 + 2",
+        "pair": "2 einer Serie",
+        "high_card": "Einzelkarte",
+        "straight": "Seltenheitsfolge",
+        "straight_flush": "Seltenheitsfolge, gleiches Genre"
       },
       "handText": {
-        "five_of_a_series": "5 Karten derselben Serie",
-        "straight_flush": "Seltenheiten in Folge, gleiches Genre",
-        "four_of_a_kind": "4 Karten derselben Serie",
-        "flush": "5 Karten desselben Genres",
-        "full_house": "3 einer Serie + 2 einer anderen",
-        "straight": "5 Seltenheiten in Folge (C U R E L)",
-        "three_of_a_kind": "3 Karten derselben Serie",
-        "two_pairs": "2 + 2 aus zwei Serien",
-        "pair": "2 Karten derselben Serie",
-        "high_card": "eine Karte, die stärkste"
-      }
+        "five_of_a_series": "5 Karten aus derselben Serie",
+        "four_of_a_kind": "4 Karten aus derselben Serie",
+        "flush": "5 Karten mit demselben Genre-Siegel",
+        "full_house": "3 aus einer Serie und 2 aus einer anderen",
+        "three_of_a_kind": "3 Karten aus derselben Serie",
+        "two_pairs": "2 aus einer Serie und 2 aus einer anderen",
+        "pair": "2 Karten aus derselben Serie",
+        "high_card": "keine Übereinstimmung: deine stärkste Karte zählt"
+      },
+      "combo": "Kombo {n}",
+      "bonus": "Karten {n}",
+      "notCounting": "Die abgedunkelten Karten zählen in dieser Kombo nicht."
     },
     "dailyHand": {
       "name": "Tageshand",
@@ -2468,7 +2469,7 @@
     "kizunaHand": {
       "name": "Kizuna-Hand",
       "chip": "Übung",
-      "pitch": "Karten-Poker: Kombiniere Serien, Genres und Seltenheiten auf einer zufälligen Hand, so oft du willst, mit Hilfe falls nötig.",
+      "pitch": "Kartenpoker auf einer zufälligen Hand: kombiniere Serien und Genres, so oft du willst, bei Bedarf mit Hilfe.",
       "share": "Ich habe {score} bei der Kizuna-Hand geschafft!"
     },
     "genres": {

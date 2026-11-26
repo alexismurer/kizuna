@@ -36,7 +36,7 @@ describe("Poker board", () => {
     expect(screen.getAllByRole("button", { name: /Series \d/ })).toHaveLength(8);
     fireEvent.click(screen.getByRole("button", { name: /Gojo/ }));
     fireEvent.click(screen.getByRole("button", { name: /Itadori/ }));
-    expect(screen.getByText("Pair")).toBeInTheDocument();
+    expect(screen.getByText("2 of a series")).toBeInTheDocument();
     expect(screen.getByText("= 40")).toBeInTheDocument();
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "Play" })));
     expect(pokerAct).toHaveBeenCalledWith("practice", "r1", "play", [0, 1]);

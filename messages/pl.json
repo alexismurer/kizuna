@@ -2411,50 +2411,51 @@
       "rules": "Odkryj dwie karty w każdym ruchu. Ta sama postać: para zostaje odkryta; inaczej obie się zakrywają. Trzy poziomy: 8, 12 lub 18 par. Znajdź wszystkie w jak najmniejszej liczbie ruchów: 3 gwiazdki do 1,5 ruchu na parę, 2 do 2, 1 do 2,75."
     },
     "poker": {
-      "hands": "Ręce",
+      "hands": "Zagrania",
       "discards": "Wymiany",
-      "hint": "Wybierz pasujące karty: ta sama seria, ten sam gatunek (pieczęć na dole) lub rzadkości po kolei. Potem Zagraj.",
+      "hint": "Wybierz karty z tej samej serii albo 5 kart tego samego gatunku, potem naciśnij Zagraj.",
       "bestHands": "Twoje najlepsze układy",
       "sort": "Sortuj",
       "bySeries": "Seria",
       "byRarity": "Rzadkość",
-      "handsTable": "Układy",
+      "handsTable": "Kombinacje",
       "helpOn": "Pomoc: wł.",
       "helpOff": "Pomoc: wył.",
       "discard": "Wymień",
       "play": "Zagraj",
       "sameSeries": "kart tej serii w ręce",
-      "formula": "Układ daje (żetony + siła kart ÷ 10) × mnożnik; liczą się tylko karty tworzące układ.",
+      "formula": "Zagranie daje punkty kombinacji plus bonus za karty w niej. Rzadsze karty dają większy bonus.",
       "rules": {
-        "goal": "Twórz pasujące grupy kart jak w pokerze. Masz 4 ręce, by zdobyć jak najwięcej punktów, i 3 wymiany niechcianych kart (do 5 naraz).",
-        "series": "Ta sama seria: 2 karty to para, 3 trójka, 4 kareta, 5 pięć z serii.",
-        "genre": "Ten sam gatunek: pieczęć na dole karty. 5 kart tego samego gatunku to kolor.",
-        "straight": "Litery po kolei: litera rzadkości w prawym górnym rogu. C U R E L (Mityczna liczy się jak L) to strit; w tym samym gatunku — poker."
+        "goal": "Wybierz do 5 kart i naciśnij Zagraj. Masz 4 zagrania, a twój wynik to ich suma.",
+        "match": "Karty pasują do siebie, gdy są z tej samej serii (napisanej na dole karty). Im więcej kart z jednej serii, tym więcej punktów. 5 kart z tą samą pieczęcią gatunku też tworzy kombinację.",
+        "swap": "Nie podobają ci się karty? Zaznacz je i naciśnij Wymień, żeby dobrać nowe. Możesz to zrobić 3 razy.",
+        "bonus": "Rzadsze karty dodają bonus do kombinacji, w której są. Karty poza kombinacją się nie liczą."
       },
       "hand": {
-        "five_of_a_series": "Pięć z serii",
-        "straight_flush": "Poker",
-        "four_of_a_kind": "Kareta",
-        "flush": "Kolor",
-        "full_house": "Ful",
-        "straight": "Strit",
-        "three_of_a_kind": "Trójka",
-        "two_pairs": "Dwie pary",
-        "pair": "Para",
-        "high_card": "Wysoka karta"
+        "five_of_a_series": "5 z serii",
+        "four_of_a_kind": "4 z serii",
+        "flush": "5 z gatunku",
+        "full_house": "3 + 2",
+        "three_of_a_kind": "3 z serii",
+        "two_pairs": "2 + 2",
+        "pair": "2 z serii",
+        "high_card": "Pojedyncza karta",
+        "straight": "Ciąg rzadkości",
+        "straight_flush": "Ciąg rzadkości, ten sam gatunek"
       },
       "handText": {
         "five_of_a_series": "5 kart z tej samej serii",
-        "straight_flush": "rzadkości po kolei, ten sam gatunek",
         "four_of_a_kind": "4 karty z tej samej serii",
-        "flush": "5 kart tego samego gatunku",
-        "full_house": "3 z jednej serii + 2 z innej",
-        "straight": "5 rzadkości po kolei (C U R E L)",
+        "flush": "5 kart z tą samą pieczęcią gatunku",
+        "full_house": "3 z jednej serii i 2 z innej",
         "three_of_a_kind": "3 karty z tej samej serii",
-        "two_pairs": "2 + 2 z dwóch serii",
+        "two_pairs": "2 z jednej serii i 2 z innej",
         "pair": "2 karty z tej samej serii",
-        "high_card": "jedna karta, najsilniejsza"
-      }
+        "high_card": "brak pary: liczy się twoja najsilniejsza karta"
+      },
+      "combo": "Kombinacja {n}",
+      "bonus": "Karty {n}",
+      "notCounting": "Przyciemnione karty nie liczą się w tej kombinacji."
     },
     "dailyHand": {
       "name": "Ręka dnia",
@@ -2468,7 +2469,7 @@
     "kizunaHand": {
       "name": "Ręka Kizuna",
       "chip": "Trening",
-      "pitch": "Karciany poker: łącz serie, gatunki i rzadkości na losowej ręce, ile chcesz, z pomocą w razie potrzeby.",
+      "pitch": "Pokerowe karty na losowej ręce: łącz serie i gatunki ile razy chcesz, w razie potrzeby z podpowiedziami.",
       "share": "Zdobyłem {score} w Ręce Kizuna!"
     },
     "genres": {

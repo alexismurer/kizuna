@@ -2411,50 +2411,51 @@
       "rules": "Retourne deux cartes par coup. Même personnage : la paire reste visible ; sinon les deux se retournent. Trois niveaux : 8, 12 ou 18 paires. Trouve toutes les paires en le moins de coups possible : 3 étoiles jusqu’à 1,5 coup par paire, 2 jusqu’à 2, 1 jusqu’à 2,75."
     },
     "poker": {
-      "hands": "Mains",
-      "discards": "Défausses",
-      "hint": "Choisis les cartes qui vont ensemble : même série, même genre (le sceau en bas) ou raretés à la suite. Puis Jouer.",
+      "hands": "Coups",
+      "discards": "Échanges",
+      "hint": "Choisis des cartes de la même série, ou 5 cartes du même genre, puis appuie sur Jouer.",
       "bestHands": "Tes meilleures mains",
       "sort": "Trier",
       "bySeries": "Série",
       "byRarity": "Rareté",
-      "handsTable": "Mains",
+      "handsTable": "Combos",
       "helpOn": "Aide : oui",
       "helpOff": "Aide : non",
-      "discard": "Défausser",
+      "discard": "Échanger",
       "play": "Jouer",
       "sameSeries": "cartes de cette série dans ta main",
-      "formula": "Une main rapporte (jetons + puissance des cartes ÷ 10) × multiplicateur ; seules les cartes qui forment la main comptent.",
+      "formula": "Un coup rapporte les points du combo plus un bonus pour les cartes qui le composent. Les cartes plus rares donnent un plus gros bonus.",
       "rules": {
-        "goal": "Forme des groupes de cartes qui vont ensemble, comme au poker. Tu as 4 mains pour marquer un maximum, et 3 défausses pour changer les cartes dont tu ne veux pas (jusqu’à 5 à la fois).",
-        "series": "Même série : 2 cartes font une paire, 3 un brelan, 4 un carré, 5 un cinq d’une série.",
-        "genre": "Même genre : le sceau en bas de la carte. 5 cartes du même genre font une couleur.",
-        "straight": "Lettres à la suite : la lettre de rareté en haut à droite. C U R E L (une Mythique compte comme L) font une quinte ; du même genre, une quinte flush."
+        "goal": "Choisis jusqu'à 5 cartes et appuie sur Jouer. Tu as 4 coups, et ton score est leur total.",
+        "match": "Des cartes vont ensemble si elles viennent de la même série (écrite en bas de la carte). Plus il y a de cartes d'une série, plus tu gagnes de points. 5 cartes avec le même sceau de genre forment aussi un combo.",
+        "swap": "Tes cartes ne te plaisent pas ? Sélectionne-les et appuie sur Échanger pour en piocher de nouvelles. Tu peux le faire 3 fois.",
+        "bonus": "Les cartes plus rares ajoutent un bonus au combo dont elles font partie. Les cartes hors combo ne comptent pas."
       },
       "hand": {
-        "five_of_a_series": "Cinq d’une série",
-        "straight_flush": "Quinte flush",
-        "four_of_a_kind": "Carré",
-        "flush": "Couleur",
-        "full_house": "Full",
-        "straight": "Quinte",
-        "three_of_a_kind": "Brelan",
-        "two_pairs": "Double paire",
-        "pair": "Paire",
-        "high_card": "Carte haute"
+        "five_of_a_series": "5 d'une série",
+        "four_of_a_kind": "4 d'une série",
+        "flush": "5 d'un genre",
+        "full_house": "3 + 2",
+        "three_of_a_kind": "3 d'une série",
+        "two_pairs": "2 + 2",
+        "pair": "2 d'une série",
+        "high_card": "Carte seule",
+        "straight": "Suite de raretés",
+        "straight_flush": "Suite de raretés, même genre"
       },
       "handText": {
         "five_of_a_series": "5 cartes de la même série",
-        "straight_flush": "raretés à la suite, même genre",
         "four_of_a_kind": "4 cartes de la même série",
-        "flush": "5 cartes du même genre",
-        "full_house": "3 d’une série + 2 d’une autre",
-        "straight": "5 raretés à la suite (C U R E L)",
+        "flush": "5 cartes avec le même sceau de genre",
+        "full_house": "3 d'une série et 2 d'une autre",
         "three_of_a_kind": "3 cartes de la même série",
-        "two_pairs": "2 + 2 de deux séries",
+        "two_pairs": "2 d'une série et 2 d'une autre",
         "pair": "2 cartes de la même série",
-        "high_card": "une carte, la plus forte"
-      }
+        "high_card": "aucune paire : ta carte la plus forte compte"
+      },
+      "combo": "Combo {n}",
+      "bonus": "Cartes {n}",
+      "notCounting": "Les cartes grisées ne comptent pas dans ce combo."
     },
     "dailyHand": {
       "name": "Main du jour",
@@ -2468,7 +2469,7 @@
     "kizunaHand": {
       "name": "Main Kizuna",
       "chip": "Entraînement",
-      "pitch": "Le poker des cartes : combine séries, genres et raretés sur une main au hasard, autant que tu veux, avec de l’aide si besoin.",
+      "pitch": "Poker de cartes sur une main aléatoire : associe séries et genres autant de fois que tu veux, avec de l'aide si besoin.",
       "share": "J’ai fait {score} à Main Kizuna !"
     },
     "genres": {
