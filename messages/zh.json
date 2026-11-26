@@ -2829,7 +2829,6 @@
       "nextAt": "按本周的节奏，下一次觉醒最早在 {time}。",
       "nextNone": "觉醒尚未开始。",
       "afterFirst": "首次转生后即可抽取。",
-      "afterTrusted": "账号受信任后即可抽取。",
       "canDraw": "你可以从卡包中抽取。"
     },
     "road": {
@@ -2843,9 +2842,10 @@
       "mythic": "不同的神话卡",
       "boosters": "本周期已开启的卡包",
       "noSales": "没有在售或交易中的卡",
-      "discord": "已绑定 Discord 账号",
-      "trusted": "受信任的账号",
-      "trustedOn": "{date} 起受信任"
+      "noSalesOk": "已满足",
+      "noSalesOpen": "仍有在售或交易中的卡",
+      "noSalesHint": "请先取消进行中的出售、拍卖、求购和交易。",
+      "noSalesLink": "前往市场"
     },
     "why": {
       "title": "为什么要转生",
@@ -2862,7 +2862,7 @@
     "teaser": {
       "title": "觉醒卡",
       "body": "有些卡牌拥有觉醒形态。没人知道是哪些：开启卡包时它们变身，你才会知道。",
-      "rule": "要从卡包中抽到觉醒卡，你至少需要一次转生、已绑定的 Discord 账号和受信任的账号。",
+      "rule": "只需完成一次转生，就能从卡包中抽到觉醒卡。",
       "mystery": "未知的觉醒卡"
     },
     "inPlay": {
@@ -2885,7 +2885,7 @@
       "step4Body": "每次转生的要求都比上一次高一点。你的等级会提高觉醒几率，最高 ×5。",
       "awakeningTitle": "觉醒卡，简单说明",
       "whoTitle": "谁能抽到",
-      "whoBody": "任何至少转生一次、已绑定 Discord 账号且账号注册满 14 天的玩家。",
+      "whoBody": "任何至少转生一次的玩家。",
       "howManyTitle": "有多少张",
       "howManyBody": "每张觉醒卡都有固定且带编号的数量。用完后，就不会再掉落。",
       "howFastTitle": "多快",

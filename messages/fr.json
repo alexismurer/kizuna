@@ -2829,7 +2829,6 @@
       "nextAt": "Prochain Éveil possible à {time}, au rythme de la semaine.",
       "nextNone": "Les Éveils n'ont pas encore commencé.",
       "afterFirst": "Tu pourras en tirer après ta première Renaissance.",
-      "afterTrusted": "Tu pourras en tirer dès que ton compte sera de confiance.",
       "canDraw": "Tu peux en tirer dans tes boosters."
     },
     "road": {
@@ -2843,9 +2842,10 @@
       "mythic": "Mythiques uniques",
       "boosters": "Boosters ouverts ce cycle",
       "noSales": "Rien en vente ni en échange",
-      "discord": "Compte Discord lié",
-      "trusted": "Compte de confiance",
-      "trustedOn": "De confiance le {date}"
+      "noSalesOk": "OK",
+      "noSalesOpen": "Il te reste quelque chose en cours",
+      "noSalesHint": "Annule d'abord tes ventes, enchères, ordres d'achat et échanges en cours.",
+      "noSalesLink": "Aller au marché"
     },
     "why": {
       "title": "Pourquoi renaître",
@@ -2862,7 +2862,7 @@
     "teaser": {
       "title": "Cartes Éveil",
       "body": "Certaines cartes cachent une forme éveillée. Personne ne sait lesquelles : tu le découvres quand l'une se transforme à l'ouverture d'un booster.",
-      "rule": "Pour en tirer une dans tes boosters, il faut au moins une Renaissance, un compte Discord lié et un compte de confiance.",
+      "rule": "Pour en tirer une dans tes boosters, il suffit d'une Renaissance.",
       "mystery": "Carte Éveil inconnue"
     },
     "inPlay": {
@@ -2885,7 +2885,7 @@
       "step4Body": "Chaque Renaissance demande un peu plus que la précédente. Ton niveau multiplie tes chances d'Éveil, jusqu'à ×5.",
       "awakeningTitle": "Les cartes Éveil, simplement",
       "whoTitle": "Qui peut en tirer",
-      "whoBody": "Tout joueur avec au moins une Renaissance, un compte Discord lié et un compte d'au moins 14 jours.",
+      "whoBody": "Tout joueur avec au moins une Renaissance.",
       "howManyTitle": "Combien",
       "howManyBody": "Chaque carte Éveil a un stock fixe et numéroté. Une fois épuisé, plus aucune copie ne tombe.",
       "howFastTitle": "À quel rythme",

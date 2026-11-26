@@ -14,8 +14,7 @@ export type RebirthStatus = {
   total: number;
   ready: boolean;
   rows: RoadRowData[];
-  checks: { noSales: boolean; discord: boolean; trusted: boolean };
-  trustedAt: string;
+  checks: { noSales: boolean };
   preview: { removeCopies: number; currencyGain: number; renownBank: number };
 };
 

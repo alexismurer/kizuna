@@ -98,12 +98,12 @@ describe('awakening drop', () => {
     expect(await copiesOf(AW)).toHaveLength(0)
   })
 
-  it('untrusted tier-1 player never awakens', async () => {
+  it('brand-new tier-1 player can awaken', async () => {
     const { userId } = await newPlayer()
     await setPlayer(userId, { rebirth_tier: 1 })
     const rows = await open(userId, 0)
-    expect(rows.every((r) => r.awakening_id === null)).toBe(true)
-    expect(await copiesOf(AW)).toHaveLength(0)
+    expect(rows.some((r) => r.awakening_id === AW)).toBe(true)
+    await clearCopies(AW)
   })
 
   it('banned tier-1 player never awakens', async () => {

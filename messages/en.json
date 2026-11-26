@@ -2829,7 +2829,6 @@
       "nextAt": "Next Awakening possible at {time}, at this week's pace.",
       "nextNone": "Awakenings haven't started yet.",
       "afterFirst": "You can draw them after your first Rebirth.",
-      "afterTrusted": "You can draw them once your account is trusted.",
       "canDraw": "You can draw them from your boosters."
     },
     "road": {
@@ -2843,9 +2842,10 @@
       "mythic": "Unique Mythics",
       "boosters": "Boosters opened this cycle",
       "noSales": "Nothing for sale or in a trade",
-      "discord": "Discord account linked",
-      "trusted": "Trusted account",
-      "trustedOn": "Trusted on {date}"
+      "noSalesOk": "Clear",
+      "noSalesOpen": "Something is still listed",
+      "noSalesHint": "Cancel your open listings, auctions, buy orders and trades first.",
+      "noSalesLink": "Open the market"
     },
     "why": {
       "title": "Why be reborn",
@@ -2862,7 +2862,7 @@
     "teaser": {
       "title": "Awakening cards",
       "body": "Some cards have an awakened form. Nobody knows which ones: you find out when one transforms while you open a booster.",
-      "rule": "To draw one from your boosters you need at least one Rebirth, a linked Discord account and a trusted account.",
+      "rule": "All you need to draw one from your boosters is one Rebirth.",
       "mystery": "Unknown Awakening card"
     },
     "inPlay": {
@@ -2885,7 +2885,7 @@
       "step4Body": "Each Rebirth asks a bit more than the last. Your level multiplies your Awakening odds, up to ×5.",
       "awakeningTitle": "Awakening cards, plainly",
       "whoTitle": "Who can draw one",
-      "whoBody": "Any player with at least one Rebirth, a linked Discord account and an account at least 14 days old.",
+      "whoBody": "Any player with at least one Rebirth.",
       "howManyTitle": "How many",
       "howManyBody": "Each Awakening card has a fixed, numbered stock. When it runs out, no more copies drop.",
       "howFastTitle": "How fast",

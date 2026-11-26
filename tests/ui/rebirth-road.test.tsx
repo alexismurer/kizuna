@@ -37,8 +37,8 @@ describe("conditionsMet", () => {
     renown: 120,
     multiplier: 0,
     nextTier: 1,
-    met: 4,
-    total: 10,
+    met: 2,
+    total: 8,
     ready: false,
     rows: [
       { key: "common", have: 40, need: 40 },
@@ -49,14 +49,13 @@ describe("conditionsMet", () => {
       { key: "mythic", have: 0, need: 5 },
       { key: "boosters", have: 200, need: 1500 },
     ],
-    checks: { noSales: true, discord: true, trusted: true },
-    trustedAt: "2026-11-01T00:00:00Z",
+    checks: { noSales: true },
     preview: { removeCopies: 44, currencyGain: 300, renownBank: 0 },
   };
 
   it("counts met rows plus true checks", () => {
-    expect(conditionsMet(status)).toBe(4);
-    expect(conditionsMet({ ...status, checks: { noSales: false, discord: true, trusted: false } })).toBe(2);
+    expect(conditionsMet(status)).toBe(2);
+    expect(conditionsMet({ ...status, checks: { noSales: false } })).toBe(1);
   });
 
   it("colours rows by rarity, boosters orange", () => {

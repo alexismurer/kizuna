@@ -109,12 +109,11 @@ describe("RebirthFlow", () => {
     renown: 10,
     multiplier: 0,
     nextTier: 1,
-    met: 10,
-    total: 10,
+    met: 8,
+    total: 8,
     ready: true,
     rows: [],
-    checks: { noSales: true, discord: true, trusted: true },
-    trustedAt: "2026-11-01T00:00:00Z",
+    checks: { noSales: true },
     preview: { removeCopies: 44, currencyGain: 300, renownBank: 120 },
   };
   beforeEach(() => {

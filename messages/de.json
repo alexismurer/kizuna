@@ -2829,7 +2829,6 @@
       "nextAt": "Nächstes Erwachen frühestens um {time}, im Tempo dieser Woche.",
       "nextNone": "Die Erwachen haben noch nicht begonnen.",
       "afterFirst": "Du kannst sie nach deiner ersten Wiedergeburt ziehen.",
-      "afterTrusted": "Du kannst sie ziehen, sobald dein Konto vertrauenswürdig ist.",
       "canDraw": "Du kannst sie in deinen Boostern ziehen."
     },
     "road": {
@@ -2843,9 +2842,10 @@
       "mythic": "Verschiedene Mythische",
       "boosters": "In diesem Zyklus geöffnete Booster",
       "noSales": "Nichts im Angebot oder in einem Tausch",
-      "discord": "Discord-Konto verknüpft",
-      "trusted": "Vertrauenswürdiges Konto",
-      "trustedOn": "Vertrauenswürdig seit {date}"
+      "noSalesOk": "Erledigt",
+      "noSalesOpen": "Es ist noch etwas eingestellt",
+      "noSalesHint": "Beende zuerst deine offenen Angebote, Auktionen, Kaufaufträge und Tausche.",
+      "noSalesLink": "Zum Markt"
     },
     "why": {
       "title": "Warum wiedergeboren werden",
@@ -2862,7 +2862,7 @@
     "teaser": {
       "title": "Erwachen-Karten",
       "body": "Manche Karten haben eine erwachte Form. Niemand weiß, welche: Du erfährst es, wenn sich eine beim Öffnen eines Boosters verwandelt.",
-      "rule": "Um eine aus deinen Boostern zu ziehen, brauchst du mindestens eine Wiedergeburt, ein verknüpftes Discord-Konto und ein vertrauenswürdiges Konto.",
+      "rule": "Um eine aus deinen Boostern zu ziehen, brauchst du nur eine Wiedergeburt.",
       "mystery": "Unbekannte Erwachen-Karte"
     },
     "inPlay": {
@@ -2885,7 +2885,7 @@
       "step4Body": "Jede Wiedergeburt verlangt etwas mehr als die letzte. Deine Stufe vervielfacht deine Chance auf Erwachen, bis zu ×5.",
       "awakeningTitle": "Erwachen-Karten, einfach erklärt",
       "whoTitle": "Wer sie ziehen kann",
-      "whoBody": "Jeder Spieler mit mindestens einer Wiedergeburt, einem verknüpften Discord-Konto und einem Konto, das mindestens 14 Tage alt ist.",
+      "whoBody": "Jeder Spieler mit mindestens einer Wiedergeburt.",
       "howManyTitle": "Wie viele",
       "howManyBody": "Jede Erwachen-Karte hat einen festen, nummerierten Bestand. Ist er aufgebraucht, fallen keine Kopien mehr.",
       "howFastTitle": "Wie schnell",

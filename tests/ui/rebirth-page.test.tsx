@@ -22,8 +22,8 @@ const status: RebirthStatus = {
   renown: 1234,
   multiplier: 0,
   nextTier: 1,
-  met: 4,
-  total: 10,
+  met: 1,
+  total: 8,
   ready: false,
   rows: [
     { key: "common", have: 40, need: 40 },
@@ -34,8 +34,7 @@ const status: RebirthStatus = {
     { key: "mythic", have: 0, need: 5 },
     { key: "boosters", have: 200, need: 1500 },
   ],
-  checks: { noSales: true, discord: true, trusted: false },
-  trustedAt: "2026-12-01T00:00:00Z",
+  checks: { noSales: false },
   preview: { removeCopies: 44, currencyGain: 300, renownBank: 0 },
 };
 const catalog = { thisWeek: 5, weeklyMax: 20, nextAt: "2026-11-26T10:00:00Z" };
@@ -46,7 +45,7 @@ describe("RebirthHero", () => {
     expect(screen.getByRole("img", { name: "Level 0" })).toBeInTheDocument();
     expect(screen.getByText("5 / 20")).toBeInTheDocument();
     expect(screen.getByText("1,234")).toBeInTheDocument();
-    expect(screen.getByText("4/10")).toBeInTheDocument();
+    expect(screen.getByText("1/8")).toBeInTheDocument();
     for (const b of screen.getAllByRole("button", { name: "Be reborn" })) expect(b).toBeDisabled();
     expect(screen.getAllByText("Not yet: you still need everything in red.").length).toBeGreaterThan(0);
     expect(screen.getByText(/after your first Rebirth/)).toBeInTheDocument();
@@ -54,7 +53,7 @@ describe("RebirthHero", () => {
 
   it("calls onRebirth when ready", () => {
     const onRebirth = vi.fn();
-    wrap(<RebirthHero status={{ ...status, ready: true, met: 10 }} catalog={catalog} onRebirth={onRebirth} />);
+    wrap(<RebirthHero status={{ ...status, ready: true, met: 8 }} catalog={catalog} onRebirth={onRebirth} />);
     fireEvent.click(screen.getAllByRole("button", { name: "Be reborn" })[0]);
     expect(onRebirth).toHaveBeenCalledOnce();
   });
@@ -85,11 +84,19 @@ describe("RoadSection", () => {
   it("titles the next Rebirth, counts conditions and marks the failed check", () => {
     wrap(<RoadSection status={status} />);
     expect(screen.getByRole("heading", { name: "Your road to Rebirth 1" })).toBeInTheDocument();
-    expect(screen.getByText("4 of 10 conditions met")).toBeInTheDocument();
+    expect(screen.getByText("1 of 8 conditions met")).toBeInTheDocument();
     expect(screen.getByText("Boosters opened this cycle")).toBeInTheDocument();
     for (const l of ["Commons", "Uncommons", "Rares", "Epics", "Legendaries", "Mythics"]) expect(screen.getByText("Unique " + l)).toBeInTheDocument();
-    expect(screen.getByText(/Trusted account \(Trusted on/)).toHaveClass("text-red-300");
-    expect(screen.getByText("Discord account linked")).not.toHaveClass("text-red-300");
+    expect(screen.getByText("Nothing for sale or in a trade")).toHaveClass("text-red-300");
+    expect(screen.getByRole("link", { name: "Open the market" })).toHaveAttribute("href", "/market");
+    expect(screen.queryByText(/Discord|Trusted/)).toBeNull();
+  });
+
+  it("shows the sales check as clear without the hint", () => {
+    wrap(<RoadSection status={{ ...status, checks: { noSales: true } }} />);
+    expect(screen.getByText("Nothing for sale or in a trade")).not.toHaveClass("text-red-300");
+    expect(screen.getByLabelText("Clear")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Open the market" })).toBeNull();
   });
 });
 

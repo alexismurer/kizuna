@@ -2829,7 +2829,6 @@
       "nextAt": "Próximo Despertar posible a las {time}, al ritmo de esta semana.",
       "nextNone": "Los Despertares aún no han empezado.",
       "afterFirst": "Podrás conseguirlas después de tu primer Renacimiento.",
-      "afterTrusted": "Podrás conseguirlas cuando tu cuenta sea de confianza.",
       "canDraw": "Puedes conseguirlas en tus sobres."
     },
     "road": {
@@ -2843,9 +2842,10 @@
       "mythic": "Míticas distintas",
       "boosters": "Sobres abiertos en este ciclo",
       "noSales": "Nada a la venta ni en un intercambio",
-      "discord": "Cuenta de Discord vinculada",
-      "trusted": "Cuenta de confianza",
-      "trustedOn": "De confianza desde el {date}"
+      "noSalesOk": "Listo",
+      "noSalesOpen": "Todavía tienes algo publicado",
+      "noSalesHint": "Cancela antes tus anuncios, subastas, órdenes de compra e intercambios abiertos.",
+      "noSalesLink": "Ir al mercado"
     },
     "why": {
       "title": "Por qué renacer",
@@ -2862,7 +2862,7 @@
     "teaser": {
       "title": "Cartas de Despertar",
       "body": "Algunas cartas tienen una forma despertada. Nadie sabe cuáles: lo descubres cuando una se transforma al abrir un sobre.",
-      "rule": "Para conseguir una en tus sobres necesitas al menos un Renacimiento, una cuenta de Discord vinculada y una cuenta de confianza.",
+      "rule": "Para conseguir una en tus sobres solo necesitas un Renacimiento.",
       "mystery": "Carta de Despertar desconocida"
     },
     "inPlay": {
@@ -2885,7 +2885,7 @@
       "step4Body": "Cada Renacimiento pide un poco más que el anterior. Tu nivel multiplica tus probabilidades de Despertar, hasta ×5.",
       "awakeningTitle": "Las cartas de Despertar, sin rodeos",
       "whoTitle": "Quién puede conseguirlas",
-      "whoBody": "Cualquier jugador con al menos un Renacimiento, una cuenta de Discord vinculada y una cuenta con al menos 14 días de antigüedad.",
+      "whoBody": "Cualquier jugador con al menos un Renacimiento.",
       "howManyTitle": "Cuántas hay",
       "howManyBody": "Cada carta de Despertar tiene un stock fijo y numerado. Cuando se agota, no caen más copias.",
       "howFastTitle": "A qué ritmo",

@@ -2829,7 +2829,6 @@
       "nextAt": "Kolejne Przebudzenie możliwe o {time}, w tempie tego tygodnia.",
       "nextNone": "Przebudzenia jeszcze się nie zaczęły.",
       "afterFirst": "Będziesz mógł je losować po pierwszym Odrodzeniu.",
-      "afterTrusted": "Będziesz mógł je losować, gdy twoje konto zyska zaufanie.",
       "canDraw": "Możesz je losować ze swoich boosterów."
     },
     "road": {
@@ -2843,9 +2842,10 @@
       "mythic": "Różne Mityczne",
       "boosters": "Boostery otwarte w tym cyklu",
       "noSales": "Nic na sprzedaż ani w wymianie",
-      "discord": "Konto Discord połączone",
-      "trusted": "Zaufane konto",
-      "trustedOn": "Zaufane od {date}"
+      "noSalesOk": "Gotowe",
+      "noSalesOpen": "Coś jest jeszcze wystawione",
+      "noSalesHint": "Najpierw anuluj otwarte oferty, aukcje, zlecenia kupna i wymiany.",
+      "noSalesLink": "Przejdź na rynek"
     },
     "why": {
       "title": "Po co się odradzać",
@@ -2862,7 +2862,7 @@
     "teaser": {
       "title": "Karty Przebudzenia",
       "body": "Niektóre karty mają przebudzoną formę. Nikt nie wie które: przekonasz się, gdy jedna z nich przemieni się podczas otwierania boostera.",
-      "rule": "Żeby wylosować ją z boosterów, potrzebujesz co najmniej jednego Odrodzenia, połączonego konta Discord i zaufanego konta.",
+      "rule": "Żeby wylosować ją z boosterów, wystarczy jedno Odrodzenie.",
       "mystery": "Nieznana karta Przebudzenia"
     },
     "inPlay": {
@@ -2885,7 +2885,7 @@
       "step4Body": "Każde Odrodzenie wymaga trochę więcej niż poprzednie. Twój poziom mnoży szansę na Przebudzenie, aż do ×5.",
       "awakeningTitle": "Karty Przebudzenia po prostu",
       "whoTitle": "Kto może je losować",
-      "whoBody": "Każdy gracz z co najmniej jednym Odrodzeniem, połączonym kontem Discord i kontem mającym co najmniej 14 dni.",
+      "whoBody": "Każdy gracz z co najmniej jednym Odrodzeniem.",
       "howManyTitle": "Ile ich jest",
       "howManyBody": "Każda karta Przebudzenia ma stałą, ponumerowaną pulę. Gdy się skończy, kolejne kopie już nie wypadają.",
       "howFastTitle": "Jak szybko",

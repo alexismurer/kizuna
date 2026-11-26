@@ -2829,7 +2829,6 @@
       "nextAt": "Próximo Despertar possível às {time}, no ritmo desta semana.",
       "nextNone": "Os Despertares ainda não começaram.",
       "afterFirst": "Você poderá sorteá-las depois do seu primeiro Renascimento.",
-      "afterTrusted": "Você poderá sorteá-las quando sua conta for confiável.",
       "canDraw": "Você pode sorteá-las nos seus boosters."
     },
     "road": {
@@ -2843,9 +2842,10 @@
       "mythic": "Míticas diferentes",
       "boosters": "Boosters abertos neste ciclo",
       "noSales": "Nada à venda nem em troca",
-      "discord": "Conta do Discord vinculada",
-      "trusted": "Conta confiável",
-      "trustedOn": "Confiável desde {date}"
+      "noSalesOk": "Ok",
+      "noSalesOpen": "Ainda há algo anunciado",
+      "noSalesHint": "Cancele antes seus anúncios, leilões, ordens de compra e trocas abertos.",
+      "noSalesLink": "Ir ao mercado"
     },
     "why": {
       "title": "Por que renascer",
@@ -2862,7 +2862,7 @@
     "teaser": {
       "title": "Cartas de Despertar",
       "body": "Algumas cartas têm uma forma despertada. Ninguém sabe quais: você descobre quando uma delas se transforma ao abrir um booster.",
-      "rule": "Para sortear uma nos seus boosters, você precisa de pelo menos um Renascimento, uma conta do Discord vinculada e uma conta confiável.",
+      "rule": "Para sortear uma nos seus boosters, basta um Renascimento.",
       "mystery": "Carta de Despertar desconhecida"
     },
     "inPlay": {
@@ -2885,7 +2885,7 @@
       "step4Body": "Cada Renascimento pede um pouco mais que o anterior. Seu nível multiplica suas chances de Despertar, até ×5.",
       "awakeningTitle": "Cartas de Despertar, sem rodeios",
       "whoTitle": "Quem pode sortear",
-      "whoBody": "Qualquer jogador com pelo menos um Renascimento, uma conta do Discord vinculada e uma conta com pelo menos 14 dias.",
+      "whoBody": "Qualquer jogador com pelo menos um Renascimento.",
       "howManyTitle": "Quantas",
       "howManyBody": "Cada carta de Despertar tem um estoque fixo e numerado. Quando acaba, nenhuma outra cópia cai.",
       "howFastTitle": "Em que ritmo",

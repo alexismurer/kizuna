@@ -139,8 +139,8 @@ export function RebirthHero({
   const t = useTranslations("rebirth");
   const format = useFormatter();
   const time = useNextTime(catalog.nextAt);
-  const canDraw = status.tier >= 1 && status.checks.trusted;
-  const eligibility = status.tier < 1 ? t("stats.afterFirst") : status.checks.trusted ? t("stats.canDraw") : t("stats.afterTrusted");
+  const canDraw = status.tier >= 1;
+  const eligibility = canDraw ? t("stats.canDraw") : t("stats.afterFirst");
 
   return (
     <div className="relative overflow-hidden border-b border-border">

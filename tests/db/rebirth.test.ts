@@ -9,7 +9,7 @@ type Status = {
   total: number
   ready: boolean
   rows: { key: string; have: number; need: number }[]
-  checks: { noSales: boolean; discord: boolean; trusted: boolean }
+  checks: { noSales: boolean }
   preview: { removeCopies: number; currencyGain: number; renownBank: number }
 }
 
@@ -22,7 +22,7 @@ async function fillAlbum(userId: string) {
       { onConflict: 'player_id,card_id' },
     )
   if (error) throw error
-  await setPlayer(userId, { cycle_opened: 1500, created_at: new Date(Date.now() - 15 * 86400000).toISOString() })
+  await setPlayer(userId, { cycle_opened: 1500 })
 }
 
 // Rebirth is staff-only for now, so ready players are moderators unless asked otherwise
@@ -48,13 +48,13 @@ async function cardOfRarity(r: string) {
 }
 
 describe('rebirth', () => {
-  it('status lists 7 rows and 3 checks; fresh player is not ready', async () => {
+  it('status lists 7 rows and 1 check; fresh player is not ready', async () => {
     const { client } = await newPlayer()
     const s = await status(client)
     expect(s.rows).toHaveLength(7)
     expect(s.rows.map((r) => r.key)).toContain('boosters')
-    expect(Object.keys(s.checks).sort()).toEqual(['discord', 'noSales', 'trusted'])
-    expect(s.total).toBe(10)
+    expect(Object.keys(s.checks).sort()).toEqual(['noSales'])
+    expect(s.total).toBe(8)
     expect(s.ready).toBe(false)
     expect(s.met).toBeLessThan(s.total)
   })
@@ -88,10 +88,10 @@ describe('rebirth', () => {
     expect(error?.message).toContain('rebirth_not_ready')
   })
 
-  it('refused for a young account and for a banned player', async () => {
+  it('a brand-new account can be reborn, a banned player cannot', async () => {
     const a = await readyPlayer()
-    await setPlayer(a.userId, { created_at: new Date(Date.now() - 5 * 86400000).toISOString() })
-    expect((await a.client.rpc('rebirth')).error?.message).toContain('rebirth_not_ready')
+    expect((await status(a.client)).ready).toBe(true)
+    expect((await a.client.rpc('rebirth')).error).toBeNull()
     const b = await readyPlayer()
     await setPlayer(b.userId, { banned_at: new Date().toISOString() })
     expect((await b.client.rpc('rebirth')).error?.message).toContain('rebirth_not_ready')
