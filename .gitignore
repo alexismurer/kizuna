@@ -33,3 +33,6 @@ scripts/import-mal/.cache/
 
 # phone layout check output
 .phone-check/
+
+# local progress notes
+PROGRESSLOG.md
