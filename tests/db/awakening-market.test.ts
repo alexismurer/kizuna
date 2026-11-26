@@ -52,8 +52,10 @@ describe('awakening market', () => {
     expect(c!.first_owner_id).toBe(seller.userId)
     expect(await currencyOf(buyer.userId)).toBe(600)
     expect(await currencyOf(seller.userId)).toBe(380)
-    const { data: led } = await admin.from('ledger').select('kind, currency_delta').eq('ref', String(listing)).in('kind', ['awakening_buy', 'awakening_sale'])
+    const { data: led } = await admin.from('ledger').select('kind, currency_delta, player_id').eq('ref', String(listing)).in('kind', ['awakening_buy', 'awakening_sale'])
     expect(led!.map((r) => r.kind).sort()).toEqual(['awakening_buy', 'awakening_sale'])
+    expect(led!.find((r) => r.kind === 'awakening_buy')).toMatchObject({ player_id: buyer.userId, currency_delta: -400 })
+    expect(led!.find((r) => r.kind === 'awakening_sale')).toMatchObject({ player_id: seller.userId, currency_delta: 380 })
 
     const mine = await buyer.client.rpc('my_awakenings')
     expect((mine.data as { copyId: number }[]).map((r) => r.copyId)).toContain(copy)
@@ -87,6 +89,41 @@ describe('awakening market', () => {
     const copy = await newCopy(seller.userId)
     const { data: listing } = await seller.client.rpc('list_awakening', { p_copy: copy, p_price: 100 })
     expect((await buyer.client.rpc('buy_awakening', { p_listing: listing })).error?.message).toContain('not_enough_currency')
+  })
+
+  it('allows relisting after a cancel', async () => {
+    const seller = await newPlayer()
+    const copy = await newCopy(seller.userId)
+    const { data: first } = await seller.client.rpc('list_awakening', { p_copy: copy, p_price: 50 })
+    await seller.client.rpc('cancel_awakening_listing', { p_listing: first })
+    const again = await seller.client.rpc('list_awakening', { p_copy: copy, p_price: 60 })
+    expect(again.error).toBeNull()
+    expect(again.data).not.toBe(first)
+  })
+
+  it('buy and cancel racing: exactly one wins, no deadlock', async () => {
+    for (let i = 0; i < 5; i++) {
+      const seller = await newPlayer()
+      const buyer = await newPlayer({ currency: 1000 })
+      const copy = await newCopy(seller.userId)
+      const { data: listing } = await seller.client.rpc('list_awakening', { p_copy: copy, p_price: 100 })
+      const [b, c] = await Promise.all([
+        buyer.client.rpc('buy_awakening', { p_listing: listing }),
+        seller.client.rpc('cancel_awakening_listing', { p_listing: listing }),
+      ])
+      for (const r of [b, c]) expect(r.error?.code).not.toBe('40P01')
+      expect([b.error, c.error].filter((e) => e === null).length).toBe(1)
+      const { data: l } = await admin.from('awakening_listings').select('status').eq('id', listing).single()
+      const { data: cp } = await admin.from('awakening_copies').select('owner_id').eq('id', copy).single()
+      if (b.error === null) {
+        expect(l!.status).toBe('sold')
+        expect(cp!.owner_id).toBe(buyer.userId)
+      } else {
+        expect(l!.status).toBe('cancelled')
+        expect(cp!.owner_id).toBe(seller.userId)
+        expect(await currencyOf(buyer.userId)).toBe(1000)
+      }
+    }
   })
 
   it('rebirth noSales is false while an awakening is listed', async () => {

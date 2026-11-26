@@ -52,16 +52,19 @@ language plpgsql security definer set search_path = public as $$
 declare
   v_uid uuid := auth.uid();
   v_l awakening_listings;
+  v_seller uuid;
   v_buyer players;
   v_copy awakening_copies;
   v_net int;
 begin
   if v_uid is null then raise exception 'not_a_player'; end if;
-  select * into v_l from awakening_listings where id = p_listing for update;
+  select seller_id into v_seller from awakening_listings where id = p_listing;
   if not found then raise exception 'listing_closed'; end if;
-  if v_l.seller_id = v_uid then raise exception 'own_listing'; end if;
+  if v_seller = v_uid then raise exception 'own_listing'; end if;
+  -- lock order: players (by id), then the listing; same as cancel_awakening_listing
+  perform 1 from players where id in (v_uid, v_seller) order by id for update;
+  select * into v_l from awakening_listings where id = p_listing for update;
   if v_l.status <> 'open' then raise exception 'listing_closed'; end if;
-  perform 1 from players where id in (v_uid, v_l.seller_id) order by id for update;
   select * into v_buyer from players where id = v_uid;
   if not found then raise exception 'not_a_player'; end if;
   if v_buyer.currency < v_l.price then raise exception 'not_enough_currency'; end if;

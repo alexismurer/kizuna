@@ -53,6 +53,33 @@ describe('leaderboard', () => {
     expect(me.data.rank).toBe(rows.find((r) => r.username === uh)!.rank)
   })
 
+  it('collection and mythics tabs rank by their own counters', async () => {
+    const hi = await newPlayer()
+    const lo = await newPlayer()
+    const base = 1_000_000 + Math.floor(Math.random() * 1000)
+    await setPlayer(hi.userId, { unique_cards: base + 5, unique_mythics: base + 5 })
+    await setPlayer(lo.userId, { unique_cards: base, unique_mythics: base })
+    const [uh, ul] = await Promise.all([usernameOf(hi.userId), usernameOf(lo.userId)])
+    for (const tab of ['collection', 'mythics']) {
+      const { data } = await hi.client.rpc('leaderboard', { p_tab: tab })
+      const rows = data.rows as Row[]
+      const rh = rows.find((r) => r.username === uh)!
+      expect(rh.value).toBe(base + 5)
+      expect(rh.rank).toBeLessThan(rows.find((r) => r.username === ul)!.rank)
+      const me = await hi.client.rpc('leaderboard_me', { p_tab: tab })
+      expect(me.data.rank).toBe(rh.rank)
+      expect(me.data.value).toBe(base + 5)
+    }
+  })
+
+  it('leaderboard_me has no rank for a banned player', async () => {
+    const p = await newPlayer()
+    await setPlayer(p.userId, { banned_at: new Date().toISOString() })
+    const me = await p.client.rpc('leaderboard_me', { p_tab: 'renown' })
+    expect(me.error).toBeNull()
+    expect(me.data.rank).toBeNull()
+  })
+
   it('p_tier filters the renown cohort', async () => {
     const p = await newPlayer()
     await setPlayer(p.userId, { rebirth_tier: 997 })
