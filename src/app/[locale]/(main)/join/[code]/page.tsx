@@ -50,12 +50,12 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/join/[co
   const t = await getTranslations({ locale, namespace: "join" });
   const title = t("invited", { name: preview.username });
   const description = t("cta", { boosters: REFERRAL_BOOSTERS });
-  const image = preview.cards.find((c) => c.imageUrl)?.imageUrl;
+  const image = { url: `/api/og?locale=${locale}&code=${encodeURIComponent(code)}`, width: 1200, height: 630 };
   return {
     title,
     description,
-    openGraph: { siteName: APP_NAME, title, description, ...(image && { images: [image] }) },
-    twitter: { card: image ? "summary_large_image" : "summary" },
+    openGraph: { siteName: APP_NAME, title, description, images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
 

@@ -41,7 +41,13 @@ export async function generateMetadata({
     metadataBase: host ? new URL(`https://${host}`) : undefined,
     title: t("name"),
     description: home("title"),
-    openGraph: { siteName: t("name"), title: t("name"), description: home("title"), images: ["/icon"] },
+    openGraph: {
+      siteName: t("name"),
+      title: t("name"),
+      description: home("title"),
+      images: [{ url: `/api/og?locale=${locale}`, width: 1200, height: 420 }],
+    },
+    twitter: { card: "summary_large_image" },
     // iPhones read these instead of the manifest when added to the home screen
     appleWebApp: { capable: true, title: t("name"), statusBarStyle: "black" },
   };
