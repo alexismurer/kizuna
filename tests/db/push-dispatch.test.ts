@@ -75,7 +75,9 @@ describe('_push_wanted', () => {
     const now = new Date().toISOString()
     await setPlayer(userId, { last_active_at: at(now, -1 * MIN) })
     expect(await wanted(await noteFor(userId), now)).toBe(false)
-    await setPlayer(userId, { last_active_at: at(now, -3 * MIN) })
+    await setPlayer(userId, { last_active_at: at(now, -2 * MIN) })
+    expect(await wanted(await noteFor(userId), now)).toBe(false)
+    await setPlayer(userId, { last_active_at: at(now, -4 * MIN) })
     expect(await wanted(await noteFor(userId), now)).toBe(true)
   })
 

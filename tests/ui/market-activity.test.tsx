@@ -39,7 +39,7 @@ const orders: MyOrder[] = [
 function wrap() {
   render(
     <NextIntlClientProvider locale="en" messages={messages}>
-      <ActivityTab listings={listings} auctions={auctions} bids={bids} orders={orders} />
+      <ActivityTab playerId="u1" listings={listings} auctions={auctions} bids={bids} orders={orders} />
     </NextIntlClientProvider>,
   );
 }

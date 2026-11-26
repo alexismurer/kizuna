@@ -189,7 +189,7 @@ async function Activity() {
   const supabase = await createServerClient();
   const { data } = await supabase.auth.getUser();
   const activity = await loadActivity(supabase, data.user?.id ?? "");
-  return <ActivityTab {...activity} />;
+  return <ActivityTab {...activity} playerId={data.user?.id ?? ""} />;
 }
 
 async function Chat() {
@@ -206,8 +206,11 @@ async function MarketContent({
   const sp = await searchParams;
   const filters = parseMarketParams(sp);
   const { tab } = filters;
-  // settle ended auctions before reading, in case the cron job is late
-  await (await createServerClient()).rpc("settle_market");
+  // settle ended auctions and trades before reading, in case the cron job is late; only
+  // on the tabs that show them (Buy and Sell, the busiest, have nothing that expires)
+  if (tab === "auctions" || tab === "activity" || tab === "trades") {
+    await (await createServerClient()).rpc("settle_market");
+  }
   const priced = tab === "buy" || tab === "auctions";
   return (
     <>

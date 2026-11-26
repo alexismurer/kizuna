@@ -86,6 +86,19 @@ describe('push prefs and presence', () => {
     expect(Math.abs(Date.parse(data!.last_active_at) - Date.now())).toBeLessThan(5000)
   })
 
+  it('touch_active writes at most once per 90 s (several tabs share one write)', async () => {
+    const { userId, client } = await newPlayer()
+    const minuteAgo = new Date(Date.now() - 60_000).toISOString()
+    await admin.from('players').update({ last_active_at: minuteAgo }).eq('id', userId)
+    await client.rpc('touch_active')
+    let { data } = await admin.from('players').select('last_active_at').eq('id', userId).single()
+    expect(Date.parse(data!.last_active_at)).toBe(Date.parse(minuteAgo))
+    await admin.from('players').update({ last_active_at: new Date(Date.now() - 120_000).toISOString() }).eq('id', userId)
+    await client.rpc('touch_active')
+    ;({ data } = await admin.from('players').select('last_active_at').eq('id', userId).single())
+    expect(Math.abs(Date.parse(data!.last_active_at) - Date.now())).toBeLessThan(5000)
+  })
+
   it('anon cannot call any of them', async () => {
     const anon = createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } })
     expect((await save(anon, endpoint())).error).not.toBeNull()

@@ -277,8 +277,9 @@ describe("auction lot modal", () => {
 });
 
 describe("useMarketLive", () => {
-  it("debounces change events into one refresh and cleans up", async () => {
+  it("throttles change events into one refresh and cleans up", async () => {
     vi.useFakeTimers();
+    const random = vi.spyOn(Math, "random").mockReturnValue(0); // no jitter
     const { unmount } = renderHook(() => useMarketLive(["listings", "auctions"]));
     await act(async () => {}); // the player's token reaches Realtime first
     expect(setAuth).toHaveBeenCalledTimes(1);
@@ -300,6 +301,7 @@ describe("useMarketLive", () => {
     act(() => vi.advanceTimersByTime(1000));
     expect(refresh).toHaveBeenCalledTimes(1);
     expect(removeChannel).toHaveBeenCalledWith(chan);
+    random.mockRestore();
   });
 
   it("refreshes once after a reconnect, not on the first join", async () => {
@@ -315,7 +317,7 @@ describe("useMarketLive", () => {
     act(() => {
       status("CHANNEL_ERROR");
       status("SUBSCRIBED");
-      vi.advanceTimersByTime(500);
+      vi.advanceTimersByTime(750); // 500 ms + up to half of it
     });
     expect(refresh).toHaveBeenCalledTimes(1);
   });

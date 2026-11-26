@@ -19,6 +19,10 @@ function query(table: string) {
         deleted.push(val);
         return { error: null };
       },
+      in: async (_c: string, vals: string[]) => {
+        deleted.push(...vals);
+        return { error: null };
+      },
     }),
     then: (res: (v: { data: Row[]; error: null }) => unknown) => res({ data: rows, error: null }),
   };

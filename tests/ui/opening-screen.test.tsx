@@ -288,9 +288,14 @@ describe("OpeningScreen", () => {
   });
 
   it("refreshes the status when the window regains focus or becomes visible", () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
     wrap();
     fireEvent(window, new Event("focus"));
     expect(refresh).toHaveBeenCalledTimes(1);
+    // the same tab switch also fires visibilitychange: no second refresh
+    fireEvent(document, new Event("visibilitychange"));
+    expect(refresh).toHaveBeenCalledTimes(1);
+    vi.setSystemTime(Date.now() + 6000);
     fireEvent(document, new Event("visibilitychange"));
     expect(refresh).toHaveBeenCalledTimes(2);
   });

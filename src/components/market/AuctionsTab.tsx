@@ -34,7 +34,7 @@ export function AuctionsTab({
   const te = useTranslations();
   const format = useFormatter();
   const router = useRouter();
-  useMarketLive(["auctions"]);
+  useMarketLive(["auctions"], {}, 3000);
   const [auctions, setAuctions] = useState(initial);
   const [more, setMore] = useState(initialMore);
   // a live refresh brings new server data: start over from it

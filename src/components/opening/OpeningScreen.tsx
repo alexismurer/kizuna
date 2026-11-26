@@ -149,10 +149,17 @@ export function OpeningScreen({
   const standard = pack.kind === "free" || pack.kind === "shop";
 
   // keep the shown price honest: stock may change in another tab or over time
+  // (focus and visibilitychange both fire on a tab switch: one refresh per 5 s)
   useEffect(() => {
-    const onFocus = () => router.refresh();
+    let last = 0;
+    const refresh = () => {
+      if (Date.now() - last < 5000) return;
+      last = Date.now();
+      router.refresh();
+    };
+    const onFocus = refresh;
     const onVisibility = () => {
-      if (!document.hidden) router.refresh();
+      if (!document.hidden) refresh();
     };
     window.addEventListener("focus", onFocus);
     document.addEventListener("visibilitychange", onVisibility);

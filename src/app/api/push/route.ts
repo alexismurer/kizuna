@@ -1,7 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { setVapidDetails } from "web-push";
 import { boosterPush, notificationPush } from "@/lib/push/payload";
-import { sendToPlayer } from "@/lib/push/send";
+import { sendToPlayer, sendToPlayers } from "@/lib/push/send";
+
+// a booster batch (up to 300 players, see 0082) sends in parallel, well within this
+export const maxDuration = 60;
 
 // Called by the database (0047_push_dispatch.sql) with either one new
 // notification or the players whose free boosters just filled up.
@@ -44,8 +47,9 @@ export async function POST(req: Request) {
       add(await sendToPlayer(admin, n.player_id, (locale) => notificationPush({ ...n, payload }, locale, card?.name ?? null)));
     }
   }
-  for (const id of Array.isArray(body.booster_players) ? body.booster_players : []) {
-    add(await sendToPlayer(admin, id, boosterPush));
-  }
+  const boosterIds = (Array.isArray(body.booster_players) ? body.booster_players : []).filter(
+    (id): id is string => typeof id === "string",
+  );
+  add(await sendToPlayers(admin, boosterIds, boosterPush));
   return Response.json(total);
 }

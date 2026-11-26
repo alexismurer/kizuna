@@ -28,7 +28,9 @@ export function ActivityTab({
   auctions,
   bids,
   orders,
+  playerId,
 }: {
+  playerId: string;
   listings: MyListing[];
   auctions: MyAuction[];
   bids: MyBid[];
@@ -38,7 +40,11 @@ export function ActivityTab({
   const format = useFormatter();
   const now = useNow({ updateInterval: 60_000 });
   const router = useRouter();
-  useMarketLive(["listings", "auctions", "buy_orders"]);
+  // own listings and orders only; auctions stay unfiltered for the player's bids (outbid, won)
+  useMarketLive(["listings", "auctions", "buy_orders"], {
+    listings: { filter: `seller_id=eq.${playerId}` },
+    buy_orders: { filter: `buyer_id=eq.${playerId}` },
+  }, 2000);
   const [toast, setToast] = useState<string | null>(null);
   const [error, setError] = useState<{ key: string; message: string } | null>(null);
   const busy = useRef(false);

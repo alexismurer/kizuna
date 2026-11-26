@@ -101,19 +101,22 @@ describe("StreakClaim", () => {
 });
 
 describe("NewDayRefresh", () => {
-  it("refreshes when the tab becomes visible or focused, at most once a minute", async () => {
+  it("refreshes when shown on a new Paris day, or at most every 10 minutes", async () => {
     vi.useFakeTimers({ toFake: ["Date"] });
-    vi.setSystemTime(new Date("2026-11-16T10:00:00Z"));
+    vi.setSystemTime(new Date("2026-11-16T22:50:00Z"));
     wrap(<NewDayRefresh />);
     await act(async () => {});
-    vi.setSystemTime(new Date("2026-11-16T10:05:00Z"));
+    vi.setSystemTime(new Date("2026-11-16T22:55:00Z"));
+    act(() => becomeVisible());
+    expect(refresh).not.toHaveBeenCalled(); // same day, 5 minutes
+    vi.setSystemTime(new Date("2026-11-16T23:00:01Z")); // midnight in Paris
     act(() => becomeVisible());
     expect(refresh).toHaveBeenCalledTimes(1);
     act(() => {
       window.dispatchEvent(new Event("focus"));
     });
     expect(refresh).toHaveBeenCalledTimes(1);
-    vi.setSystemTime(new Date("2026-11-16T10:06:01Z"));
+    vi.setSystemTime(new Date("2026-11-16T23:10:02Z"));
     act(() => {
       window.dispatchEvent(new Event("focus"));
     });

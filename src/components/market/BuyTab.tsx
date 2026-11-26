@@ -32,7 +32,7 @@ export function BuyTab({
   const te = useTranslations();
   const format = useFormatter();
   const router = useRouter();
-  useMarketLive(["listings"]);
+  useMarketLive(["listings"], {}, 4000);
   const [listings, setListings] = useState(initial);
   const [more, setMore] = useState(initialMore);
   // a live refresh brings new server data: start over from it

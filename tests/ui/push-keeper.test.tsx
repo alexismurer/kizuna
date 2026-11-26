@@ -55,14 +55,16 @@ describe("PushKeeper", () => {
     wrap(<PushKeeper />);
     act(() => void vi.advanceTimersByTime(30_000));
     fireEvent(document, new Event("visibilitychange"));
-    expect(touches()).toBe(1); // under a minute: skipped
+    expect(touches()).toBe(1); // under 2 minutes: skipped
     vi.setSystemTime(Date.now() + 3 * 60_000);
     fireEvent(document, new Event("visibilitychange"));
     expect(touches()).toBe(2);
   });
 
-  it("keeps marking every minute while visible, not while hidden", () => {
+  it("keeps marking every 2 minutes while visible, not while hidden", () => {
     wrap(<PushKeeper />);
+    act(() => void vi.advanceTimersByTime(60_000));
+    expect(touches()).toBe(1);
     act(() => void vi.advanceTimersByTime(60_000));
     expect(touches()).toBe(2);
     hidden = true;
