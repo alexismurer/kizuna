@@ -556,6 +556,10 @@
     "prize_mythic": {
       "name": "Mythic Seal",
       "tagline": "One Mythic guaranteed"
+    },
+    "seal": {
+      "name": "Seal booster",
+      "tagline": "One Mythic guaranteed"
     }
   },
   "collection": {

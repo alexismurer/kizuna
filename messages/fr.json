@@ -556,6 +556,10 @@
     "prize_mythic": {
       "name": "Sceau mythique",
       "tagline": "Une Mythique garantie"
+    },
+    "seal": {
+      "name": "Booster Sceau",
+      "tagline": "Une Mythique garantie"
     }
   },
   "collection": {

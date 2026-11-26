@@ -556,6 +556,10 @@
     "prize_mythic": {
       "name": "Мифическая печать",
       "tagline": "Одна Мифическая гарантирована"
+    },
+    "seal": {
+      "name": "Seal booster",
+      "tagline": "One Mythic guaranteed"
     }
   },
   "collection": {

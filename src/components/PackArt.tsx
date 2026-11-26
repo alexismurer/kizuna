@@ -13,6 +13,7 @@ import {
   Shuffle,
   Sparkles,
   Star,
+  Stamp,
   Swords,
   Ticket,
   Trophy,
@@ -40,6 +41,7 @@ export const EMBLEM: Record<string, LucideIcon> = {
   daily: CalendarDays,
   prize_legendary: Ticket,
   prize_mythic: Ticket,
+  seal: Stamp,
 };
 
 export const HUE: Record<string, number> = {
@@ -61,6 +63,7 @@ export const HUE: Record<string, number> = {
   daily: 55,
   prize_legendary: 42,
   prize_mythic: 5,
+  seal: 20,
 };
 
 // A tall foil booster: metallic gradient in the pack's hue, crimped seals,

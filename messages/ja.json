@@ -556,6 +556,10 @@
     "prize_mythic": {
       "name": "ミシックの封印",
       "tagline": "ミシック1枚確定"
+    },
+    "seal": {
+      "name": "Seal booster",
+      "tagline": "One Mythic guaranteed"
     }
   },
   "collection": {

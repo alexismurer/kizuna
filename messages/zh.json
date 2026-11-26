@@ -556,6 +556,10 @@
     "prize_mythic": {
       "name": "神话之印",
       "tagline": "必出一张神话"
+    },
+    "seal": {
+      "name": "Seal booster",
+      "tagline": "One Mythic guaranteed"
     }
   },
   "collection": {
