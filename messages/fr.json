@@ -2822,9 +2822,6 @@
       "title": "Éveils",
       "listed": "En vente",
       "replay": "Revoir l'éveil de {name}, exemplaire {serial} sur {total}"
-    },
-    "summary": {
-      "tag": "Éveil"
     }
   }
 }

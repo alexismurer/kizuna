@@ -745,7 +745,8 @@ main:not([style*="display: none"]):has(.page-loader) ~ footer {
   max-width: 100%; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow-wrap: break-word;
   font-family: var(--font-display); font-weight: 800; line-height: 1.02; letter-spacing: -0.01em;
   font-size: clamp(13px, 12cqi, 34px); color: white;
-  text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 80%, transparent), 0 2px 4px rgb(0 0 0 / 0.7);
+  /* a text-shadow would be cut to the clamped box (a dark rectangle); a filter draws outside it */
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 70%, transparent)) drop-shadow(0 1px 2px rgb(0 0 0 / 0.9));
 }
 .awk-form {
   max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

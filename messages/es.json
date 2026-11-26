@@ -2822,9 +2822,6 @@
       "title": "Awakenings",
       "listed": "Listed",
       "replay": "Replay the awakening of {name}, copy {serial} of {total}"
-    },
-    "summary": {
-      "tag": "Awakened"
     }
   }
 }
