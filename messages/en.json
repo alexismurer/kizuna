@@ -83,6 +83,16 @@
       "live": "Live",
       "empty": "No big pulls yet. Open a booster and be the first!",
       "justNow": "just now"
+    },
+    "boss": {
+      "eyebrow": "BOSS OF THE WEEK",
+      "title": "Top 3 damage win {name}",
+      "ranked": "You're #{rank} · {chance}% chance at the card. Keep hitting!",
+      "gap": "{n} more damage to break into the top 10",
+      "join": "Play games to hit it: {share} damage gets you in the race",
+      "claim": "It fell! Your reward is waiting.",
+      "cta": "Fight",
+      "claimCta": "Claim"
     }
   },
   "characters": {
@@ -2111,11 +2121,16 @@
       "defeatedStamp": "DEFEATED",
       "defeated": "Defeated! Well played, everyone.",
       "hp": "health points left of {max}",
-      "rule": "Every ticket the community earns takes one health point. If it falls before Monday, everyone who took {share} from it gets {reward} bonus tickets.",
-      "yours": "Your damage this week: {n} (your share from {share})",
-      "claim": "Claim {reward} tickets",
-      "claimed": "You got your {reward} bonus tickets.",
-      "claimError": "Couldn't claim the reward. Try again."
+      "rule": "Every ticket the community earns takes one health point. When it falls, the top 3 damage dealers get this card. From 4th to 10th the chance drops from 70% to 10%. Everyone else with {share}+ damage, and anyone who misses the card, gets {boosters} free boosters.",
+      "yours": "Your damage: {n}",
+      "claim": "Claim your reward",
+      "claimError": "Couldn't claim the reward. Try again.",
+      "rank": "#{rank} · {chance}% card chance",
+      "unranked": "deal {share} to join the ranking",
+      "gotCard": "{name} joined your collection!",
+      "gotBoosters": "No card this time, but {boosters} free boosters are waiting for you.",
+      "top": "TOP 10 DAMAGE",
+      "sure": "card"
     },
     "secret": {
       "eyebrow": "SECRET BOSS",

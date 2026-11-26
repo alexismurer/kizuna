@@ -154,29 +154,57 @@ describe('prize counter', () => {
 })
 
 describe('boss of the week', () => {
-  it('shows the boss, takes earned tickets as damage, and pays 40 to players with 30+ once it falls', async () => {
+  type WeeklyStatus = { boss: { name: string; mine: number; rank: number | null; chance: number; claimed: boolean; gotCard: boolean | null; top: { rank: number; me: boolean }[] } }
+  const weekly = async (p: P) => ((await p.client.rpc('game_room_status')).data as WeeklyStatus).boss
+
+  it('counts each player’s damage, ranks them, and gives the top 3 the boss card once it falls', async () => {
+    const { data: rows } = await admin.from('bosses').select('*').order('week_start', { ascending: false }).limit(1)
+    const week = rows![0].week_start
+    await admin.from('bosses').update({ hp: 10000000, defeated_at: null, secret_at: null }).eq('week_start', week)
+
     const p = await newPlayer()
-    const { data: status, error } = await p.client.rpc('game_room_status')
-    expect(error).toBeNull()
-    const boss = (status as { boss: { hp: number; defeated: boolean; name: string } }).boss
-    expect(boss.name).toBeTruthy()
-    expect((await p.client.rpc('boss_claim')).error?.message).toMatch(/boss_alive|not_enough_damage/)
-
-    // knock it down: earn 45 tickets, then mark the boss defeated as the community would
+    expect((await p.client.rpc('boss_claim')).error?.message).toContain('boss_alive')
     for (let i = 0; i < 3; i++) await finish(p, await played(p, 'friend'), 'win')
-    const { data: rows } = await admin.from('bosses').select('week_start').order('week_start', { ascending: false }).limit(1)
-    await admin.from('bosses').update({ defeated_at: new Date().toISOString() }).eq('week_start', rows![0].week_start)
+    expect((await weekly(p)).mine).toBe(45)
 
-    const before = await tickets(p)
-    expect((await p.client.rpc('boss_claim')).data).toBe(before + 40)
+    // push p to the top, then fell the boss
+    await admin.from('boss_hits').update({ damage: 9000000 }).eq('week_start', week).eq('player_id', p.userId)
+    const s = await weekly(p)
+    expect(s).toMatchObject({ rank: 1, chance: 100 })
+    expect(s.top[0]).toMatchObject({ rank: 1, me: true })
+    await admin.from('bosses').update({ defeated_at: new Date().toISOString() }).eq('week_start', week)
+
+    expect((await p.client.rpc('boss_claim')).data).toMatchObject({ rank: 1, card: true, boosters: 0 })
     expect((await p.client.rpc('boss_claim')).error?.message).toContain('already_claimed')
-    const after = (await p.client.rpc('game_room_status')).data as { boss: { claimed: boolean; defeated: boolean } }
-    expect(after.boss).toMatchObject({ claimed: true, defeated: true })
+    const { data: inv } = await admin.from('inventory').select('count').eq('player_id', p.userId).eq('card_id', rows![0].card_id).single()
+    expect(inv!.count).toBe(1)
+    expect(await weekly(p)).toMatchObject({ claimed: true, gotCard: true })
 
-    // a player with less than 30 damage gets nothing
+    // under 30 damage: no reward
     const q = await newPlayer()
     expect((await q.client.rpc('boss_claim')).error?.message).toContain('not_enough_damage')
-    await admin.from('bosses').update({ defeated_at: null }).eq('week_start', rows![0].week_start)
+    await admin.from('boss_hits').delete().eq('week_start', week).eq('player_id', p.userId)
+    await admin.from('bosses').update({ defeated_at: null }).eq('week_start', week)
+  })
+
+  it('gives 3 bonus boosters past the top 10', async () => {
+    const { data: rows } = await admin.from('bosses').select('*').order('week_start', { ascending: false }).limit(1)
+    const week = rows![0].week_start
+    const ahead = await Promise.all(Array.from({ length: 10 }, () => newPlayer()))
+    const q = await newPlayer()
+    await admin.from('boss_hits').upsert([
+      ...ahead.map((a, i) => ({ week_start: week, player_id: a.userId, damage: 8000000 - i })),
+      { week_start: week, player_id: q.userId, damage: 30 },
+    ])
+    expect(await weekly(q)).toMatchObject({ chance: 0 })
+    await admin.from('bosses').update({ defeated_at: new Date().toISOString() }).eq('week_start', week)
+    const r = (await q.client.rpc('boss_claim')).data as { rank: number; card: boolean; boosters: number }
+    expect(r.rank).toBeGreaterThan(10)
+    expect(r).toMatchObject({ card: false, boosters: 3 })
+    const { data: g } = await admin.from('granted_packs').select('count').eq('player_id', q.userId).eq('pack_type_id', 'mix').single()
+    expect(g!.count).toBe(3)
+    await admin.from('boss_hits').delete().eq('week_start', week).in('player_id', [...ahead.map((a) => a.userId), q.userId])
+    await admin.from('bosses').update({ defeated_at: null }).eq('week_start', week)
   })
 })
 

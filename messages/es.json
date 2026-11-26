@@ -83,6 +83,16 @@
       "live": "En directo",
       "empty": "Aún no hay grandes tiradas. ¡Abre un sobre y sé el primero!",
       "justNow": "ahora mismo"
+    },
+    "boss": {
+      "eyebrow": "JEFE DE LA SEMANA",
+      "title": "Top 3 en daño ganan a {name}",
+      "ranked": "Vas #{rank} · {chance} % de probabilidad de carta. ¡Sigue golpeando!",
+      "gap": "{n} de daño más para entrar en el top 10",
+      "join": "Juega para golpearlo: con {share} de daño entras en la carrera",
+      "claim": "¡Cayó! Tu recompensa te espera.",
+      "cta": "Luchar",
+      "claimCta": "Reclamar"
     }
   },
   "characters": {
@@ -2111,11 +2121,16 @@
       "defeatedStamp": "DERROTADO",
       "defeated": "¡Derrotado! Bien jugado, todos.",
       "hp": "puntos de vida restantes de {max}",
-      "rule": "Cada ticket que gane la comunidad le quita un punto de vida. Si cae antes del lunes, todos los que le quitaron {share} reciben {reward} tickets extra.",
-      "yours": "Tu daño esta semana: {n} (tu parte desde {share})",
-      "claim": "Reclamar {reward} tickets",
-      "claimed": "Recibiste tus {reward} tickets extra.",
-      "claimError": "No se pudo reclamar la recompensa. Inténtalo de nuevo."
+      "rule": "Cada ticket que gana la comunidad le quita un punto de vida. Cuando cae, los 3 que más daño hicieron ganan su carta. Del 4.º al 10.º puesto, la probabilidad baja del 70 % al 10 %. Todos los demás con {share}+ de daño, y quien no consiga la carta, reciben {boosters} sobres gratis.",
+      "yours": "Tu daño: {n}",
+      "claim": "Reclamar tu recompensa",
+      "claimError": "No se pudo reclamar la recompensa. Inténtalo de nuevo.",
+      "rank": "#{rank} · {chance} % de probabilidad de carta",
+      "unranked": "haz {share} de daño para entrar en el ranking",
+      "gotCard": "¡{name} se une a tu colección!",
+      "gotBoosters": "Esta vez no hay carta, pero te esperan {boosters} sobres gratis.",
+      "top": "TOP 10 DAÑO",
+      "sure": "carta"
     },
     "secret": {
       "eyebrow": "JEFE SECRETO",

@@ -83,6 +83,16 @@
       "live": "实时",
       "empty": "还没有人抽到大奖。打开一个卡包，成为第一人吧！",
       "justNow": "刚刚"
+    },
+    "boss": {
+      "eyebrow": "本周首领",
+      "title": "伤害前三名赢得{name}",
+      "ranked": "你排第{rank}名 · {chance}%得卡概率，继续输出！",
+      "gap": "再造成{n}伤害即可进入前10",
+      "join": "玩游戏攻击它：造成{share}伤害即可参与争夺",
+      "claim": "它倒下了！你的奖励在等你。",
+      "cta": "出战",
+      "claimCta": "领取"
     }
   },
   "characters": {
@@ -2111,11 +2121,16 @@
       "defeatedStamp": "已击败",
       "defeated": "已击败！大家打得漂亮。",
       "hp": "剩余生命值，总计 {max}",
-      "rule": "社区赚到的每一张票都会扣除它一点生命值。如果它在周一前倒下，所有对它造成 {share} 的玩家都能获得 {reward} 张奖励票。",
-      "yours": "你本周的伤害：{n}（占比起点 {share}）",
-      "claim": "领取 {reward} 张票",
-      "claimed": "你已获得 {reward} 张奖励票。",
-      "claimError": "无法领取奖励，请再试一次。"
+      "rule": "社区每获得一张票，它就失去一点生命。被击倒时，伤害前三名获得这张卡。第4到第10名的概率从70%降到10%。其他造成{share}以上伤害的玩家，以及没拿到卡的玩家，都能获得{boosters}个免费卡包。",
+      "yours": "你的伤害：{n}",
+      "claim": "领取奖励",
+      "claimError": "无法领取奖励，请再试一次。",
+      "rank": "第{rank}名 · {chance}%得卡概率",
+      "unranked": "造成{share}伤害即可上榜",
+      "gotCard": "{name}加入了你的收藏！",
+      "gotBoosters": "这次没拿到卡，但有{boosters}个免费卡包等着你。",
+      "top": "伤害前10名",
+      "sure": "必得"
     },
     "secret": {
       "eyebrow": "隐藏首领",

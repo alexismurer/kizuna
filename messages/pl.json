@@ -83,6 +83,16 @@
       "live": "Na żywo",
       "empty": "Brak wielkich dropów. Otwórz booster i bądź pierwszy!",
       "justNow": "przed chwilą"
+    },
+    "boss": {
+      "eyebrow": "BOSS TYGODNIA",
+      "title": "Top 3 w obrażeniach wygrywa {name}",
+      "ranked": "Jesteś #{rank} · {chance}% szansy na kartę. Bij dalej!",
+      "gap": "Jeszcze {n} obrażeń do top 10",
+      "join": "Graj, by go bić: {share} obrażeń i jesteś w wyścigu",
+      "claim": "Padł! Twoja nagroda czeka.",
+      "cta": "Walcz",
+      "claimCta": "Odbierz"
     }
   },
   "characters": {
@@ -2111,11 +2121,16 @@
       "defeatedStamp": "POKONANY",
       "defeated": "Pokonany! Dobra robota, wszyscy.",
       "hp": "punktów życia zostało z {max}",
-      "rule": "Każdy żeton zdobyty przez społeczność zabiera mu jeden punkt życia. Jeśli padnie przed poniedziałkiem, każdy, kto zabrał mu {share}, dostanie {reward} bonusowych żetonów.",
-      "yours": "Twoje obrażenia w tym tygodniu: {n} (twój udział od {share})",
-      "claim": "Odbierz {reward} żetonów",
-      "claimed": "Odebrano {reward} bonusowych żetonów.",
-      "claimError": "Nie udało się odebrać nagrody. Spróbuj ponownie."
+      "rule": "Każdy bilet zdobyty przez społeczność odbiera mu punkt życia. Gdy padnie, 3 graczy z największymi obrażeniami dostaje jego kartę. Od 4. do 10. miejsca szansa spada z 70% do 10%. Wszyscy pozostali z {share}+ obrażeniami i ci, którym karta nie wypadnie, dostają {boosters} darmowe boostery.",
+      "yours": "Twoje obrażenia: {n}",
+      "claim": "Odbierz nagrodę",
+      "claimError": "Nie udało się odebrać nagrody. Spróbuj ponownie.",
+      "rank": "#{rank} · {chance}% szansy na kartę",
+      "unranked": "zadaj {share} obrażeń, by wejść do rankingu",
+      "gotCard": "{name} dołącza do twojej kolekcji!",
+      "gotBoosters": "Tym razem bez karty, ale czekają na ciebie {boosters} darmowe boostery.",
+      "top": "TOP 10 OBRAŻEŃ",
+      "sure": "karta"
     },
     "secret": {
       "eyebrow": "SEKRETNY BOSS",

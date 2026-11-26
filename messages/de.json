@@ -83,6 +83,16 @@
       "live": "Live",
       "empty": "Noch keine großen Ziehungen. Öffne einen Booster und sei die erste Person!",
       "justNow": "gerade eben"
+    },
+    "boss": {
+      "eyebrow": "BOSS DER WOCHE",
+      "title": "Top 3 Schaden gewinnen {name}",
+      "ranked": "Du bist #{rank} · {chance} % Kartenchance. Weiter so!",
+      "gap": "Noch {n} Schaden bis in die Top 10",
+      "join": "Spiel, um ihn zu treffen: mit {share} Schaden bist du dabei",
+      "claim": "Er ist gefallen! Deine Belohnung wartet.",
+      "cta": "Kämpfen",
+      "claimCta": "Abholen"
     }
   },
   "characters": {
@@ -2111,11 +2121,16 @@
       "defeatedStamp": "BESIEGT",
       "defeated": "Besiegt! Gut gespielt, ihr alle.",
       "hp": "Lebenspunkte übrig von {max}",
-      "rule": "Jedes Ticket, das die Community verdient, nimmt ihm einen Lebenspunkt. Fällt er vor Montag, bekommt jeder, der {share} davon beigetragen hat, {reward} Bonus-Tickets.",
-      "yours": "Dein Schaden diese Woche: {n} (dein Anteil ab {share})",
-      "claim": "{reward} Tickets abholen",
-      "claimed": "Du hast deine {reward} Bonus-Tickets erhalten.",
-      "claimError": "Die Belohnung konnte nicht abgeholt werden. Versuch es noch einmal."
+      "rule": "Jedes Ticket, das die Community verdient, kostet ihn einen Lebenspunkt. Fällt er, bekommen die 3 Spieler mit dem meisten Schaden seine Karte. Von Platz 4 bis 10 sinkt die Chance von 70 % auf 10 %. Alle anderen mit {share}+ Schaden und wer die Karte verpasst, bekommen {boosters} Gratis-Booster.",
+      "yours": "Dein Schaden: {n}",
+      "claim": "Belohnung abholen",
+      "claimError": "Die Belohnung konnte nicht abgeholt werden. Versuch es noch einmal.",
+      "rank": "#{rank} · {chance} % Kartenchance",
+      "unranked": "mach {share} Schaden, um ins Ranking zu kommen",
+      "gotCard": "{name} ist jetzt in deiner Sammlung!",
+      "gotBoosters": "Diesmal keine Karte, aber {boosters} Gratis-Booster warten auf dich.",
+      "top": "TOP 10 SCHADEN",
+      "sure": "Karte"
     },
     "secret": {
       "eyebrow": "GEHEIMER BOSS",

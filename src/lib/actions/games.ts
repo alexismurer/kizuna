@@ -4,7 +4,7 @@ import { createServerClient } from "@/lib/supabase/server";
 
 export type GameResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
-export type Boss = {
+type BossBase = {
   name: string;
   imageUrl: string | null;
   rarity: string;
@@ -13,12 +13,22 @@ export type Boss = {
   damage: number;
   mine: number;
   share: number;
-  reward: number;
   defeated: boolean;
   claimed: boolean;
 };
+// Weekly boss: ranked rewards (top 3 get the card, 4th-10th a chance, the rest boosters).
+export type BossRow = { rank: number; name: string; damage: number; me: boolean };
+export type Boss = BossBase & {
+  rank: number | null;
+  chance: number;
+  boosters: number;
+  top: BossRow[];
+  gotCard: boolean | null;
+  claimedRank: number | null;
+};
+export type BossReward = { rank: number; card: boolean; boosters: number };
 // appears when the weekly boss falls; its reward is a golden booster
-export type SecretBoss = Omit<Boss, "reward">;
+export type SecretBoss = BossBase;
 export type GameRoomStatus = {
   tickets: number;
   today: number;
@@ -78,7 +88,7 @@ export async function equipCosmetic(kind: "title" | "frame" | "banner" | "name",
   return call<null>("equip_cosmetic", { p_kind: kind, p_id: id });
 }
 export async function bossClaim(kind: "weekly" | "secret" = "weekly") {
-  return call<number>("boss_claim", { p_kind: kind });
+  return call<BossReward>("boss_claim", { p_kind: kind });
 }
 
 // The card the wish card prize just added (the redeem call only returns tickets).

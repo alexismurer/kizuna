@@ -83,6 +83,16 @@
       "live": "Ao vivo",
       "empty": "Nenhuma grande puxada ainda. Abra um booster e seja o primeiro!",
       "justNow": "agora mesmo"
+    },
+    "boss": {
+      "eyebrow": "CHEFE DA SEMANA",
+      "title": "Top 3 em dano ganham {name}",
+      "ranked": "Você está em #{rank} · {chance}% de chance da carta. Continue!",
+      "gap": "Mais {n} de dano para entrar no top 10",
+      "join": "Jogue para atacá-lo: com {share} de dano você entra na disputa",
+      "claim": "Ele caiu! Sua recompensa está esperando.",
+      "cta": "Lutar",
+      "claimCta": "Pegar"
     }
   },
   "characters": {
@@ -2111,11 +2121,16 @@
       "defeatedStamp": "DERROTADO",
       "defeated": "Derrotado! Bom jogo, pessoal.",
       "hp": "pontos de vida restantes de {max}",
-      "rule": "Cada ticket que a comunidade ganha tira um ponto de vida dele. Se ele cair antes de segunda-feira, todos que tiraram {share} dele ganham {reward} tickets de bônus.",
-      "yours": "Seu dano esta semana: {n} (sua parte a partir de {share})",
-      "claim": "Resgatar {reward} tickets",
-      "claimed": "Você recebeu seus {reward} tickets de bônus.",
-      "claimError": "Não foi possível resgatar a recompensa. Tente novamente."
+      "rule": "Cada ticket que a comunidade ganha tira um ponto de vida. Quando ele cai, os 3 que causaram mais dano ganham a carta dele. Do 4.º ao 10.º lugar, a chance cai de 70% para 10%. Todos os outros com {share}+ de dano, e quem não levar a carta, recebem {boosters} boosters grátis.",
+      "yours": "Seu dano: {n}",
+      "claim": "Pegar sua recompensa",
+      "claimError": "Não foi possível resgatar a recompensa. Tente novamente.",
+      "rank": "#{rank} · {chance}% de chance da carta",
+      "unranked": "cause {share} de dano para entrar no ranking",
+      "gotCard": "{name} entrou na sua coleção!",
+      "gotBoosters": "Sem carta desta vez, mas {boosters} boosters grátis estão te esperando.",
+      "top": "TOP 10 DANO",
+      "sure": "carta"
     },
     "secret": {
       "eyebrow": "CHEFE SECRETO",

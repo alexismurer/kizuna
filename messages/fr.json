@@ -83,6 +83,16 @@
       "live": "En direct",
       "empty": "Aucun gros tirage pour l'instant. Ouvre un booster et sois le premier !",
       "justNow": "à l'instant"
+    },
+    "boss": {
+      "eyebrow": "BOSS DE LA SEMAINE",
+      "title": "Top 3 dégâts : gagne {name}",
+      "ranked": "Tu es #{rank} · {chance} % de chance d'avoir la carte. Continue !",
+      "gap": "Encore {n} dégâts pour entrer dans le top 10",
+      "join": "Joue pour le frapper : {share} dégâts et tu entres dans la course",
+      "claim": "Il est tombé ! Ta récompense t'attend.",
+      "cta": "Combattre",
+      "claimCta": "Récupérer"
     }
   },
   "characters": {
@@ -2111,11 +2121,16 @@
       "defeatedStamp": "VAINCU",
       "defeated": "Vaincu ! Bien joué, tout le monde.",
       "hp": "points de vie restants sur {max}",
-      "rule": "Chaque ticket gagné par la communauté lui retire un point de vie. S’il tombe avant lundi, tous ceux qui lui ont retiré {share} reçoivent {reward} tickets bonus.",
-      "yours": "Tes dégâts cette semaine : {n} (ta part à partir de {share})",
-      "claim": "Récupérer {reward} tickets",
-      "claimed": "Tu as reçu tes {reward} tickets bonus.",
-      "claimError": "Impossible de récupérer la récompense. Réessaie."
+      "rule": "Chaque ticket gagné par la communauté lui retire un point de vie. Quand il tombe, les 3 joueurs qui ont fait le plus de dégâts gagnent sa carte. De la 4e à la 10e place, la chance passe de 70 % à 10 %. Tous les autres avec {share}+ dégâts, et ceux qui ratent la carte, reçoivent {boosters} boosters gratuits.",
+      "yours": "Tes dégâts : {n}",
+      "claim": "Récupérer ta récompense",
+      "claimError": "Impossible de récupérer la récompense. Réessaie.",
+      "rank": "#{rank} · {chance} % de chance d'avoir la carte",
+      "unranked": "fais {share} dégâts pour entrer au classement",
+      "gotCard": "{name} rejoint ta collection !",
+      "gotBoosters": "Pas de carte cette fois, mais {boosters} boosters gratuits t'attendent.",
+      "top": "TOP 10 DÉGÂTS",
+      "sure": "carte"
     },
     "secret": {
       "eyebrow": "BOSS SECRET",
