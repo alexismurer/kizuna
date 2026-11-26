@@ -14,10 +14,10 @@ vi.mock("@/i18n/navigation", () => ({
 
 import { MoreMenu } from "@/components/MoreMenu";
 
-function setup() {
+function setup(isStaff = true) {
   render(
     <NextIntlClientProvider locale="en" messages={messages}>
-      <MoreMenu />
+      <MoreMenu isStaff={isStaff} />
     </NextIntlClientProvider>,
   );
   return screen.getByRole("button", { name: "More" });
@@ -26,7 +26,7 @@ function setup() {
 afterEach(cleanup);
 
 describe("MoreMenu", () => {
-  it("opens on click with Friends, Leaderboard, Rebirth and Wiki", () => {
+  it("opens on click with Friends, Leaderboard, Rebirth (staff) and Wiki", () => {
     const button = setup();
     expect(button).toHaveAttribute("aria-expanded", "false");
     expect(screen.queryByRole("link", { name: /Wiki/ })).toBeNull();
@@ -44,6 +44,14 @@ describe("MoreMenu", () => {
     expect(screen.getByRole("link", { name: /Friends/ })).toHaveAttribute("href", "/friends");
     expect(screen.getByRole("link", { name: /Leaderboard/ })).toHaveAttribute("href", "/leaderboard");
     expect(screen.getByRole("link", { name: /Rebirth/ })).toHaveAttribute("href", "/rebirth");
+  });
+
+  it("hides Rebirth from players", () => {
+    fireEvent.click(setup(false));
+    const rows = within(screen.getByTestId("more-menu")).getAllByRole("listitem");
+    expect(rows).toHaveLength(3);
+    expect(screen.queryByRole("link", { name: /Rebirth/ })).toBeNull();
+    expect(screen.getByRole("link", { name: /Leaderboard/ })).toBeInTheDocument();
   });
 
   it("closes on Escape and on a click outside", () => {

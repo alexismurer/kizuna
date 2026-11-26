@@ -1389,7 +1389,18 @@
       },
       "ownedKind": "所持：{kind}",
       "cosmeticsHint": "コスメをクリックすると付与・削除できます。装備できるのは所持しているものだけです。",
-      "readOnlyNote": "カード、開封数、獲得チケット、日付、招待はプレイヤーの履歴から計算されるため、編集できません。"
+      "readOnlyNote": "カード、開封数、獲得チケット、日付、招待はプレイヤーの履歴から計算されるため、編集できません。",
+      "rebirth": {
+        "title": "転生",
+        "tier": "転生レベル",
+        "cycleOpened": "今サイクルのブースター",
+        "renownBanked": "蓄積された名声",
+        "renown": "名声",
+        "renownSplit": "カード {cards} · 蓄積 {banked}",
+        "uniqueMythics": "ユニーク神話",
+        "awakeningCopies": "覚醒コピー",
+        "lastRebirth": "最後の転生"
+      }
     },
     "pools": {
       "title": "デイリーセレクション",

@@ -127,6 +127,19 @@ describe("More sheet", () => {
     expect(first).toHaveAttribute("href", "/invite-friends");
   });
 
+  it("shows Rebirth to staff only; Leaderboard to everyone", () => {
+    wrap(<BottomNav missionsClaimable={0} />);
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));
+    let sheet = screen.getByRole("dialog", { name: messages.nav.moreTitle });
+    expect(within(sheet).queryByRole("link", { name: messages.nav.rebirth })).toBeNull();
+    expect(within(sheet).getByRole("link", { name: messages.nav.leaderboard })).toHaveAttribute("href", "/leaderboard");
+    cleanup();
+    wrap(<BottomNav missionsClaimable={0} isStaff />);
+    fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));
+    sheet = screen.getByRole("dialog", { name: messages.nav.moreTitle });
+    expect(within(sheet).getByRole("link", { name: messages.nav.rebirth })).toHaveAttribute("href", "/rebirth");
+  });
+
   it("hides the dot when nothing is claimable", () => {
     wrap(<BottomNav missionsClaimable={0} />);
     fireEvent.click(screen.getByRole("button", { name: messages.nav.more }));

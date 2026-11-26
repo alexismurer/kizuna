@@ -44,6 +44,15 @@ export type AdminPlayer = {
   goldenLeft?: number;
   titleId?: string | null;
   frameId?: string | null;
+  // from migration 0080
+  rebirthTier?: number;
+  cycleOpened?: number;
+  renownBanked?: number;
+  cardPoints?: number;
+  renown?: number;
+  uniqueMythics?: number;
+  awakeningCopies?: number;
+  rebirthAt?: string | null;
 };
 export type AdminPlayers = {
   catalogSize: number;
@@ -89,6 +98,9 @@ export type AdminPlayerMore = {
   packs: Record<string, number>;
   cosmetics: string[];
   equipped: Record<CosmeticKind, string | null>;
+  rebirthTier: number;
+  cycleOpened: number;
+  renownBanked: number;
 };
 export async function adminPlayerExtras(id: string) {
   return call<AdminPlayerExtras>("admin_player_extras", { p_id: id });
@@ -106,6 +118,9 @@ export async function adminUpdatePlayerMore(id: string, v: AdminPlayerMore) {
     p_frame: v.equipped.frame,
     p_banner: v.equipped.banner,
     p_name: v.equipped.name,
+    p_rebirth_tier: v.rebirthTier,
+    p_cycle_opened: v.cycleOpened,
+    p_renown_banked: v.renownBanked,
   });
 }
 export async function adminSetRole(id: string, role: StaffRole) {

@@ -246,7 +246,11 @@ describe('admin players', () => {
     expect(row).toMatchObject({ currency: 1234, referredBy: inviterName, invited: 0, boostersOpened: 0 })
     expect(Object.keys(row).sort()).toEqual(
       ['avatarUrl', 'bannedAt', 'boostersOpened', 'currency', 'id', 'invited', 'invitedRewarded', 'joinedAt', 'lastSeenAt', 'logins', 'referredBy', 'role',
-        'streak', 'totalCards', 'uniqueCards', 'username'].sort(),
+        'streak', 'totalCards', 'uniqueCards', 'username',
+        // 0069
+        'bonusBoosters', 'tickets', 'ticketsToday', 'ticketsWeek', 'ticketsEarned', 'goldenNext', 'goldenLeft', 'titleId', 'frameId',
+        // 0080
+        'rebirthTier', 'cycleOpened', 'renownBanked', 'cardPoints', 'renown', 'uniqueMythics', 'awakeningCopies', 'rebirthAt'].sort(),
     )
     const inv = data.players.find((p: { username: string }) => p.username === inviterName)
     expect(inv).toMatchObject({ invited: 1, invitedRewarded: 0, referredBy: null })

@@ -1389,7 +1389,18 @@
       },
       "ownedKind": "已拥有：{kind}",
       "cosmeticsHint": "点击装饰即可赠送或收回。只能装备已拥有的装饰。",
-      "readOnlyNote": "卡牌、已开卡包、获得的票券、日期和邀请来自玩家的历史记录，无法编辑。"
+      "readOnlyNote": "卡牌、已开卡包、获得的票券、日期和邀请来自玩家的历史记录，无法编辑。",
+      "rebirth": {
+        "title": "转生",
+        "tier": "转生等级",
+        "cycleOpened": "本周期补充包",
+        "renownBanked": "已存名望",
+        "renown": "名望",
+        "renownSplit": "卡牌 {cards} · 已存 {banked}",
+        "uniqueMythics": "不同神话卡",
+        "awakeningCopies": "觉醒副本",
+        "lastRebirth": "上次转生"
+      }
     },
     "pools": {
       "title": "每日卡池",

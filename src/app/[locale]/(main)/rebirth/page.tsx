@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageLoader } from "@/components/PageLoader";
 import { AwakeningTeaser } from "@/components/rebirth/AwakeningTeaser";
@@ -10,9 +11,12 @@ import { RoadSection } from "@/components/rebirth/RoadSection";
 import { WhyReborn } from "@/components/rebirth/WhyReborn";
 import type { AwakeningCatalog, RebirthStatus } from "@/lib/rebirth/types";
 import { CARD_COLUMNS, type CardRow } from "@/lib/social/thread";
+import { loadIsStaff } from "@/lib/supabase/me";
 import { createServerClient } from "@/lib/supabase/server";
 
+// staff-only for now (admins and moderators); players get a 404
 async function RebirthContent() {
+  if (!(await loadIsStaff())) notFound();
   const supabase = await createServerClient();
   const [{ data: status }, { data: catalog }] = await Promise.all([
     supabase.rpc("rebirth_status"),

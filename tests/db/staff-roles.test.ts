@@ -109,6 +109,32 @@ describe('admin player management', () => {
       expect((await a.client.rpc('admin_player_extras', { p_id: p.userId })).data.cosmetics).toEqual(['frame_neon'])
     })
 
+    it('sets rebirth tier, cycle boosters and banked renown; the list shows them with the read-only renown stats', async () => {
+      const [a, m, p] = await Promise.all([withRole('admin'), withRole('moderator'), newPlayer()])
+      await admin.from('players').update({ cycle_opened: 40, renown_banked: 5 }).eq('id', p.userId)
+      const rebirth = { p_rebirth_tier: 3, p_cycle_opened: 120, p_renown_banked: 900 }
+      expect((await a.client.rpc('admin_update_player_more', { p_id: p.userId, ...base, ...rebirth })).error).toBeNull()
+      const { data: pl } = await admin.from('players').select('rebirth_tier, cycle_opened, renown_banked, card_points').eq('id', p.userId).single()
+      expect(pl).toMatchObject({ rebirth_tier: 3, cycle_opened: 120, renown_banked: 900 })
+
+      const row = (await rowOf(m, p.userId)) as unknown as Record<string, unknown>
+      expect(row).toMatchObject({
+        rebirthTier: 3, cycleOpened: 120, renownBanked: 900, cardPoints: pl!.card_points,
+        renown: pl!.card_points + 900, uniqueMythics: 0, awakeningCopies: 0, rebirthAt: null,
+      })
+
+      // leaving them out keeps the stored values
+      expect((await a.client.rpc('admin_update_player_more', { p_id: p.userId, ...base })).error).toBeNull()
+      const { data: kept } = await admin.from('players').select('rebirth_tier, cycle_opened, renown_banked').eq('id', p.userId).single()
+      expect(kept).toEqual({ rebirth_tier: 3, cycle_opened: 120, renown_banked: 900 })
+
+      const call = (c: P, args: Record<string, unknown>) => c.client.rpc('admin_update_player_more', { p_id: p.userId, ...base, ...args })
+      for (const bad of [{ p_rebirth_tier: -1 }, { p_rebirth_tier: 1000 }, { p_cycle_opened: -1 }, { p_cycle_opened: 1000001 }, { p_renown_banked: -1 }, { p_renown_banked: 100000001 }]) {
+        expect((await call(a, bad)).error?.message, JSON.stringify(bad)).toContain('invalid_value')
+      }
+      expect((await call(m, rebirth)).error?.message).toContain('not_admin')
+    })
+
     it('rejects bad values and unowned or wrong-kind equips; admins only', async () => {
       const [a, m, p] = await Promise.all([withRole('admin'), withRole('moderator'), newPlayer()])
       const call = (c: P, args: Record<string, unknown>) => c.client.rpc('admin_update_player_more', { p_id: p.userId, ...base, ...args })

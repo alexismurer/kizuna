@@ -25,9 +25,14 @@ async function fillAlbum(userId: string) {
   await setPlayer(userId, { cycle_opened: 1500, created_at: new Date(Date.now() - 15 * 86400000).toISOString() })
 }
 
-async function readyPlayer() {
+// Rebirth is staff-only for now, so ready players are moderators unless asked otherwise
+async function readyPlayer(staff = true) {
   const p = await newPlayer()
   await fillAlbum(p.userId)
+  if (staff) {
+    const { error } = await admin.from('admins').insert({ player_id: p.userId, role: 'moderator' })
+    if (error) throw error
+  }
   return p
 }
 
@@ -57,6 +62,12 @@ describe('rebirth', () => {
   it('ready player passes status', async () => {
     const { client } = await readyPlayer()
     expect((await status(client)).ready).toBe(true)
+  })
+
+  it('refused for a ready player who is not staff', async () => {
+    const { client } = await readyPlayer(false)
+    expect((await status(client)).ready).toBe(true)
+    expect((await client.rpc('rebirth')).error?.message).toContain('not_admin')
   })
 
   it('refused when one card is missing', async () => {

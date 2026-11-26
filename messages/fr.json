@@ -1389,7 +1389,18 @@
       },
       "ownedKind": "Possédés : {kind}",
       "cosmeticsHint": "Clique sur un cosmétique pour le donner ou le retirer. Seuls ceux possédés peuvent être équipés.",
-      "readOnlyNote": "Les cartes, boosters ouverts, tickets gagnés, dates et invitations viennent de l'historique du joueur et ne peuvent pas être modifiés."
+      "readOnlyNote": "Les cartes, boosters ouverts, tickets gagnés, dates et invitations viennent de l'historique du joueur et ne peuvent pas être modifiés.",
+      "rebirth": {
+        "title": "Renaissance",
+        "tier": "Niveau de Renaissance",
+        "cycleOpened": "Boosters ce cycle",
+        "renownBanked": "Renommée mise de côté",
+        "renown": "Renommée",
+        "renownSplit": "{cards} des cartes · {banked} de côté",
+        "uniqueMythics": "Mythiques uniques",
+        "awakeningCopies": "Copies d'Éveil",
+        "lastRebirth": "Dernière Renaissance"
+      }
     },
     "pools": {
       "title": "Sélections du jour",

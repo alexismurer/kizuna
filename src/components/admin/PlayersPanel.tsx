@@ -363,6 +363,27 @@ function PlayerDrawer({
                   )}
                 </dl>
               </section>
+              {player.rebirthTier !== undefined && (
+                <section className="flex flex-col gap-2">
+                  <p className={eyebrow}>{t("rebirth.title")}</p>
+                  <dl className="grid grid-cols-2 gap-2">
+                    <Tile label={t("rebirth.tier")} value={n(player.rebirthTier)} color="var(--color-mythic)" />
+                    <Tile label={t("rebirth.cycleOpened")} value={n(player.cycleOpened)} />
+                    <Tile
+                      label={t("rebirth.renown")}
+                      value={n(player.renown)}
+                      sub={t("rebirth.renownSplit", { cards: n(player.cardPoints), banked: n(player.renownBanked) })}
+                      color="var(--color-legendary)"
+                    />
+                    <Tile label={t("rebirth.uniqueMythics")} value={n(player.uniqueMythics)} />
+                    <Tile label={t("rebirth.awakeningCopies")} value={n(player.awakeningCopies)} />
+                    <Tile
+                      label={t("rebirth.lastRebirth")}
+                      value={<span className="text-base">{player.rebirthAt ? date(player.rebirthAt) : t("never")}</span>}
+                    />
+                  </dl>
+                </section>
+              )}
               <section className="flex flex-col gap-2">
                 <p className={eyebrow}>{t("cols.invited")}</p>
                 <dl className="grid grid-cols-2 gap-2">
@@ -401,6 +422,9 @@ function useMore(player: AdminPlayer) {
         packs: r.data.packs,
         cosmetics: r.data.cosmetics,
         equipped: { title: player.titleId ?? null, frame: player.frameId ?? null, banner: r.data.bannerId, name: r.data.nameId },
+        rebirthTier: player.rebirthTier ?? 0,
+        cycleOpened: player.cycleOpened ?? 0,
+        renownBanked: player.renownBanked ?? 0,
       });
     });
     return () => {
@@ -462,6 +486,10 @@ function EditPlayer({ player, onSaved }: { player: AdminPlayer; onSaved: (p: Adm
           bonusBoosters: Object.values(form.packs).reduce((a, b) => a + b, 0),
           titleId: form.equipped.title,
           frameId: form.equipped.frame,
+          rebirthTier: form.rebirthTier,
+          cycleOpened: form.cycleOpened,
+          renownBanked: form.renownBanked,
+          renown: next.cardPoints === undefined ? next.renown : next.cardPoints + form.renownBanked,
         };
       }
       if (role !== player.role) {
@@ -581,6 +609,24 @@ function EditPlayer({ player, onSaved }: { player: AdminPlayer; onSaved: (p: Adm
                     ))}
                 </select>
               )}
+            </section>
+
+            <section className="flex flex-col gap-2 border-t border-border pt-3">
+              <p className={eyebrow}>{t("players.rebirth.title")}</p>
+              <div className="grid grid-cols-2 gap-3">
+                <label className={label}>
+                  {t("players.rebirth.tier")}
+                  <input className={input} type="number" min={0} max={999} value={form.rebirthTier} onChange={(e) => set({ rebirthTier: int(e.target.value) })} />
+                </label>
+                <label className={label}>
+                  {t("players.rebirth.cycleOpened")}
+                  <input className={input} type="number" min={0} max={1000000} value={form.cycleOpened} onChange={(e) => set({ cycleOpened: int(e.target.value) })} />
+                </label>
+              </div>
+              <label className={label}>
+                {t("players.rebirth.renownBanked")}
+                <input className={input} type="number" min={0} max={100000000} value={form.renownBanked} onChange={(e) => set({ renownBanked: int(e.target.value) })} />
+              </label>
             </section>
 
             <section className="flex flex-col gap-2 border-t border-border pt-3">

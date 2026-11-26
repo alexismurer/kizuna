@@ -1389,7 +1389,18 @@
       },
       "ownedKind": "Posiadane: {kind}",
       "cosmeticsHint": "Kliknij kosmetyk, aby go dać lub zabrać. Założyć można tylko posiadane.",
-      "readOnlyNote": "Karty, otwarte boostery, zdobyte bilety, daty i zaproszenia pochodzą z historii gracza i nie można ich edytować."
+      "readOnlyNote": "Karty, otwarte boostery, zdobyte bilety, daty i zaproszenia pochodzą z historii gracza i nie można ich edytować.",
+      "rebirth": {
+        "title": "Odrodzenie",
+        "tier": "Poziom Odrodzenia",
+        "cycleOpened": "Boostery w tym cyklu",
+        "renownBanked": "Zachowana Sława",
+        "renown": "Sława",
+        "renownSplit": "{cards} z kart · {banked} zachowane",
+        "uniqueMythics": "Unikalne mityczne",
+        "awakeningCopies": "Kopie Przebudzenia",
+        "lastRebirth": "Ostatnie Odrodzenie"
+      }
     },
     "pools": {
       "title": "Pule dzienne",

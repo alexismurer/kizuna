@@ -1389,7 +1389,18 @@
       },
       "ownedKind": "Owned: {kind}",
       "cosmeticsHint": "Click a cosmetic to give it or take it away. Only owned ones can be equipped.",
-      "readOnlyNote": "Cards, boosters opened, tickets earned, dates and invites come from the player's history, so they can't be edited."
+      "readOnlyNote": "Cards, boosters opened, tickets earned, dates and invites come from the player's history, so they can't be edited.",
+      "rebirth": {
+        "title": "Rebirth",
+        "tier": "Rebirth level",
+        "cycleOpened": "Boosters this cycle",
+        "renownBanked": "Banked Renown",
+        "renown": "Renown",
+        "renownSplit": "{cards} from cards · {banked} banked",
+        "uniqueMythics": "Unique mythics",
+        "awakeningCopies": "Awakening copies",
+        "lastRebirth": "Last Rebirth"
+      }
     },
     "pools": {
       "title": "Daily pools",

@@ -1389,7 +1389,18 @@
       },
       "ownedKind": "Im Besitz: {kind}",
       "cosmeticsHint": "Klicke auf ein Kosmetikteil, um es zu geben oder wegzunehmen. Nur Teile im Besitz können ausgerüstet werden.",
-      "readOnlyNote": "Karten, geöffnete Booster, verdiente Tickets, Daten und Einladungen stammen aus dem Verlauf des Spielers und können nicht bearbeitet werden."
+      "readOnlyNote": "Karten, geöffnete Booster, verdiente Tickets, Daten und Einladungen stammen aus dem Verlauf des Spielers und können nicht bearbeitet werden.",
+      "rebirth": {
+        "title": "Wiedergeburt",
+        "tier": "Wiedergeburtsstufe",
+        "cycleOpened": "Booster in diesem Zyklus",
+        "renownBanked": "Gesicherter Ruhm",
+        "renown": "Ruhm",
+        "renownSplit": "{cards} aus Karten · {banked} gesichert",
+        "uniqueMythics": "Einzigartige Mythische",
+        "awakeningCopies": "Erwachen-Exemplare",
+        "lastRebirth": "Letzte Wiedergeburt"
+      }
     },
     "pools": {
       "title": "Tagespools",

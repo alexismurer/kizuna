@@ -27,9 +27,11 @@ const item = "flex flex-col items-center gap-0.5 px-1 py-2 text-[11px] font-medi
 export function BottomNav({
   missionsClaimable,
   social,
+  isStaff = false,
 }: {
   missionsClaimable: number;
   social?: { playerId: string; username: string; unread: number };
+  isStaff?: boolean;
 }) {
   const t = useTranslations("nav");
   const tb = useTranslations("topbar");
@@ -196,14 +198,16 @@ export function BottomNav({
               <Trophy className="h-5 w-5" aria-hidden />
               <span className="flex-1">{t("leaderboard")}</span>
             </Link>
-            <Link
-              href="/rebirth"
-              onClick={() => setSheet(null)}
-              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
-            >
-              <RefreshCcw className="h-5 w-5" aria-hidden />
-              <span className="flex-1">{t("rebirth")}</span>
-            </Link>
+            {isStaff && (
+              <Link
+                href="/rebirth"
+                onClick={() => setSheet(null)}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+              >
+                <RefreshCcw className="h-5 w-5" aria-hidden />
+                <span className="flex-1">{t("rebirth")}</span>
+              </Link>
+            )}
             <Link
               href="/wiki"
               onClick={() => setSheet(null)}

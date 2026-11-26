@@ -4,7 +4,7 @@ import { APP_NAME } from "@/config/app";
 import { Link } from "@/i18n/navigation";
 import { loadNotifications } from "@/lib/market/notifications";
 import { loadStatus } from "@/lib/supabase/boosters";
-import { loadMe, loadUnread } from "@/lib/supabase/me";
+import { loadIsStaff, loadMe, loadUnread } from "@/lib/supabase/me";
 import { createServerClient } from "@/lib/supabase/server";
 import { AccountMenu } from "./AccountMenu";
 import { MoreMenu } from "./MoreMenu";
@@ -19,15 +19,13 @@ export async function TopBar() {
   if (!status) return null;
   const { missionsClaimable } = status;
   const supabase = await createServerClient();
-  const [notifications, { data: claims }, unread, { data: role }, me] = await Promise.all([
+  const [notifications, { data: claims }, unread, staff, me] = await Promise.all([
     loadNotifications(supabase),
     supabase.auth.getClaims(),
     loadUnread(),
-    supabase.rpc("my_role"),
+    loadIsStaff(),
     loadMe(),
   ]);
-
-  const staff = role === "admin" || role === "moderator";
 
   return (
     <header className="flex items-center gap-3 border-b border-border bg-panel px-3 py-3 sm:gap-4 sm:px-6 lg:gap-6">
@@ -52,7 +50,7 @@ export async function TopBar() {
           {t("nav.market")}
         </Link>
         <PlayNavLink />
-        <MoreMenu />
+        <MoreMenu isStaff={staff} />
       </nav>
       <StockPopover status={status} />
       <Link

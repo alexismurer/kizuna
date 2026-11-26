@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import { createTranslator } from "use-intl/core";
 import { isValidElement, type ReactElement } from "react";
@@ -313,6 +313,17 @@ describe("PlayersPanel", () => {
     expect(screen.queryByRole("tab", { name: "Edit" })).not.toBeInTheDocument();
   });
 
+  it("shows the rebirth stats in the overview", () => {
+    const p = { ...data.players[0], rebirthTier: 3, cycleOpened: 120, renownBanked: 900, cardPoints: 340, renown: 1240, uniqueMythics: 2, awakeningCopies: 1, rebirthAt: null };
+    wrap(<PlayersPanel data={{ ...data, players: [p] }} />);
+    fireEvent.click(screen.getByRole("button", { name: "Open kenji" }));
+    const dialog = screen.getByRole("dialog");
+    for (const [label, value] of [["Rebirth level", "3"], ["Boosters this cycle", "120"], ["Renown", "1,240"], ["Unique mythics", "2"], ["Awakening copies", "1"]]) {
+      expect(within(dialog).getByText(label).parentElement).toHaveTextContent(value);
+    }
+    expect(within(dialog).getByText("340 from cards · 900 banked")).toBeInTheDocument();
+  });
+
   it("lets admins edit fields, change the role and ban in two steps", async () => {
     actions.adminUpdatePlayer.mockResolvedValue({ ok: true, data: null });
     actions.adminSetRole.mockResolvedValue({ ok: true, data: null });
@@ -343,6 +354,9 @@ describe("PlayersPanel", () => {
     // the other stored fields
     fireEvent.change(await screen.findByRole("spinbutton", { name: "Tickets" }), { target: { value: "75" } });
     fireEvent.change(screen.getByRole("spinbutton", { name: "Logins" }), { target: { value: "9" } });
+    fireEvent.change(screen.getByRole("spinbutton", { name: "Rebirth level" }), { target: { value: "2" } });
+    fireEvent.change(screen.getByRole("spinbutton", { name: "Boosters this cycle" }), { target: { value: "300" } });
+    fireEvent.change(screen.getByRole("spinbutton", { name: "Banked Renown" }), { target: { value: "1200" } });
     fireEvent.change(screen.getByRole("combobox", { name: "Add a booster type…" }), { target: { value: "chest" } });
     fireEvent.click(screen.getByRole("button", { name: /Golden ticket/ })); // give the gold frame
     fireEvent.change(screen.getByRole("combobox", { name: "Frame" }), { target: { value: "frame_gold" } });
@@ -357,6 +371,9 @@ describe("PlayersPanel", () => {
       packs: { mix: 2, chest: 1 },
       cosmetics: ["title_pillar", "frame_gold"],
       equipped: { title: null, frame: "frame_gold", banner: null, name: null },
+      rebirthTier: 2,
+      cycleOpened: 300,
+      renownBanked: 1200,
     });
     expect(actions.adminSetRole).toHaveBeenCalledWith("p1", "moderator");
 

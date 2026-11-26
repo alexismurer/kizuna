@@ -5,16 +5,16 @@ import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
-// href null = not built yet, shown greyed with "Soon"
+// href null = not built yet, shown greyed with "Soon"; staff rows are hidden from players
 const ROWS = [
   { kanji: "友", title: "moreMenu.friends", hint: "moreMenu.friendsHint", href: "/friends" },
   { kanji: "順", title: "leaderboard", hint: "moreMenu.leaderboardHint", href: "/leaderboard" },
-  { kanji: "転", title: "rebirth", hint: "moreMenu.rebirthHint", href: "/rebirth" },
+  { kanji: "転", title: "rebirth", hint: "moreMenu.rebirthHint", href: "/rebirth", staff: true },
   { kanji: "典", title: "wiki", hint: "moreMenu.wikiHint", href: "/wiki" },
 ] as const;
 
 // The top bar's "More" dropdown. Closes on a click outside, on Escape and after picking a row.
-export function MoreMenu() {
+export function MoreMenu({ isStaff = false }: { isStaff?: boolean }) {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -59,7 +59,7 @@ export function MoreMenu() {
           data-testid="more-menu"
           className="absolute left-1/2 top-full z-20 mt-3 flex w-64 -translate-x-1/2 flex-col gap-0.5 rounded-xl border border-border bg-panel p-1.5 shadow-xl shadow-black/40"
         >
-          {ROWS.map((r) => {
+          {ROWS.filter((r) => isStaff || !("staff" in r)).map((r) => {
             const body = (
               <>
                 <span

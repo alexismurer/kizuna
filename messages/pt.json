@@ -1389,7 +1389,18 @@
       },
       "ownedKind": "Possui: {kind}",
       "cosmeticsHint": "Clique num cosmético para dar ou tirar. Só os que ele possui podem ser equipados.",
-      "readOnlyNote": "Cartas, boosters abertos, tickets ganhos, datas e convites vêm do histórico do jogador e não podem ser editados."
+      "readOnlyNote": "Cartas, boosters abertos, tickets ganhos, datas e convites vêm do histórico do jogador e não podem ser editados.",
+      "rebirth": {
+        "title": "Renascimento",
+        "tier": "Nível de Renascimento",
+        "cycleOpened": "Boosters neste ciclo",
+        "renownBanked": "Renome guardado",
+        "renown": "Renome",
+        "renownSplit": "{cards} das cartas · {banked} guardado",
+        "uniqueMythics": "Míticas únicas",
+        "awakeningCopies": "Cópias de Despertar",
+        "lastRebirth": "Último Renascimento"
+      }
     },
     "pools": {
       "title": "Seleções diárias",

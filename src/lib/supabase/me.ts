@@ -19,3 +19,10 @@ export const loadUnread = cache(async () => {
   const { data } = await supabase.rpc("dm_unread_total");
   return typeof data === "number" ? data : 0;
 });
+
+// Admin or moderator, once per request (top bar, bottom nav, staff-only pages).
+export const loadIsStaff = cache(async () => {
+  const supabase = await createServerClient();
+  const { data } = await supabase.rpc("my_role");
+  return data === "admin" || data === "moderator";
+});

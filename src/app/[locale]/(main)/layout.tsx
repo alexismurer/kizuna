@@ -6,15 +6,15 @@ import { BottomNav } from "@/components/mobile/BottomNav";
 import { PushKeeper } from "@/components/push/PushKeeper";
 import { TopBar } from "@/components/TopBar";
 import { loadStatus } from "@/lib/supabase/boosters";
-import { loadMe, loadUnread } from "@/lib/supabase/me";
+import { loadIsStaff, loadMe, loadUnread } from "@/lib/supabase/me";
 
 // signed-in players only; the booster sheet loads its packs when opened
 async function MobileNav() {
   const status = await loadStatus();
   if (!status) return null;
-  const [me, unread] = await Promise.all([loadMe(), loadUnread()]);
+  const [me, unread, staff] = await Promise.all([loadMe(), loadUnread(), loadIsStaff()]);
   const social = me ? { playerId: me.id, username: me.username, unread } : undefined;
-  return <BottomNav missionsClaimable={status.missionsClaimable} social={social} />;
+  return <BottomNav missionsClaimable={status.missionsClaimable} social={social} isStaff={staff} />;
 }
 
 // players only: a tab left open overnight refreshes into the new day, and the
