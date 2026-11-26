@@ -124,7 +124,7 @@ describe('awakening market', () => {
         expect(await currencyOf(buyer.userId)).toBe(1000)
       }
     }
-  })
+  }, 60_000) // five rounds of two new players against the hosted test DB
 
   it('rebirth noSales is false while an awakening is listed', async () => {
     const seller = await newPlayer()
