@@ -60,6 +60,18 @@ describe('awakening studio', () => {
     }
   })
 
+  it('enforces title, form and total limits', async () => {
+    for (const over of [
+      { p_title: 'x'.repeat(41) },
+      { p_form: '' },
+      { p_form: 'x'.repeat(41) },
+      { p_total: 100001 },
+    ]) {
+      expect((await save(over)).error?.message, JSON.stringify(over).slice(0, 40)).toContain('invalid_awakening')
+    }
+    expect((await save({ p_title: 'x'.repeat(40) })).error).toBeNull()
+  })
+
   it('denies non-admins', async () => {
     for (const c of [m, plain]) {
       expect((await c.client.rpc('admin_awakenings')).error?.message).toContain('not_admin')

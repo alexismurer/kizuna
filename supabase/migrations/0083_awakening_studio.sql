@@ -8,7 +8,7 @@ declare v_name text;
 begin
   select conname into v_name from pg_constraint
    where conrelid = 'public.awakenings'::regclass and contype = 'c'
-     and pg_get_constraintdef(oid) like '%effect%';
+     and pg_get_constraintdef(oid) ~ 'effect.*(IN|ANY)';
   if v_name is not null then
     execute format('alter table awakenings drop constraint %I', v_name);
   end if;
@@ -63,11 +63,11 @@ declare
 begin
   if not is_admin() then raise exception 'not_admin'; end if;
   if p_id is null or p_id !~ '^[a-z0-9-]{3,48}$'
-     or v_title = '' or char_length(v_title) > 60
-     or char_length(v_form) > 60
+     or char_length(v_title) not between 1 and 40
+     or char_length(v_form) not between 1 and 40
      or p_effect is null or p_effect not in ('sun', 'lightning', 'flame', 'void', 'chains', 'petals', 'none')
      or p_accent is null or p_accent !~ '^#[0-9a-fA-F]{6}$'
-     or p_total is null or p_total <= 0
+     or p_total is null or p_total not between 1 and 100000
      or p_sort is null or p_active is null
      or (v_loop is not null and v_loop !~ '^https://')
      or (v_poster is not null and v_poster !~ '^https://')
