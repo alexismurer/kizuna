@@ -21,7 +21,7 @@ import { RewardBadge } from "@/components/RewardBadge";
 import { PackStage, type TearPhase } from "./PackStage";
 import { PaidConfirm } from "./PaidConfirm";
 import { QuantitySelect } from "./QuantitySelect";
-import { RevealFlow } from "./RevealFlow";
+import { RevealFlow, type AwakenDrop } from "./RevealFlow";
 import { Summary } from "./Summary";
 
 export type OpeningPack = Pick<PackType, "id" | "kind" | "price" | "slotFloors"> & {
@@ -36,6 +36,7 @@ export type OpenedCard = {
   slot: number;
   newSeries: boolean;
   seriesCover: string | null;
+  awakening?: AwakenDrop;
 };
 
 type OpenRow = {
@@ -49,7 +50,11 @@ type OpenRow = {
   divine?: boolean;
   // the player owned no card of this series before the batch
   new_series?: boolean;
+  // this slot awakened (its card is the awakening's base card); null otherwise
+  awakening_id?: string | null;
+  awakening_serial?: number | null;
 };
+type AwakeningRow = AwakenDrop["awakening"] & { id: string };
 type CardRow = {
   id: number;
   source_id: number;
@@ -208,6 +213,12 @@ export function OpeningScreen({
           setAdded(true);
           return;
         }
+        // the copy is already granted: without its details the slot just reveals as its base card
+        const awakeIds = [...new Set(rows.flatMap((r) => (r.awakening_id ? [r.awakening_id] : [])))];
+        const { data: awakeRows } = awakeIds.length
+          ? await supabase.from("awakenings").select("id, title, form, effect, accent, total").in("id", awakeIds)
+          : { data: [] };
+        const awakeById = new Map(((awakeRows ?? []) as AwakeningRow[]).map((a) => [a.id, a]));
         const fresh = newFlags(rows);
         const byId = new Map(
           (cardRows as unknown as CardRow[]).map((c) => [c.id, c]),
@@ -220,7 +231,11 @@ export function OpeningScreen({
           rows.map((r, i) => {
             const c = byId.get(r.card_id)!;
             const s = Array.isArray(c.series) ? c.series[0] : c.series;
+            const a = r.awakening_id ? awakeById.get(r.awakening_id) : undefined;
             return {
+              ...(a && r.awakening_serial != null
+                ? { awakening: { awakening: a, serial: r.awakening_serial, total: a.total } }
+                : {}),
               rarity: r.rarity,
               isNew: fresh[i],
               newSeries: r.new_series ?? false,

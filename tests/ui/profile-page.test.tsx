@@ -18,8 +18,10 @@ vi.mock("@/lib/supabase/server", () => ({
 }));
 vi.mock("@/components/social/ProfileHeader", () => ({ ProfileHeader: () => null }));
 vi.mock("@/components/social/Showcase", () => ({ ProfileTabs: () => null }));
+vi.mock("@/components/awakening/AwakeningShelf", () => ({ AwakeningShelf: () => null }));
 
 import ProfilePage from "@/app/[locale]/(main)/profile/[username]/page";
+import { AwakeningShelf } from "@/components/awakening/AwakeningShelf";
 
 // The page wraps an async server component in Suspense: dig it out and run it.
 async function runContent(username: string) {
@@ -77,5 +79,41 @@ describe("profile page", () => {
     });
     await runContent("sakura");
     expect(notFound).not.toHaveBeenCalled();
+  });
+
+  const shelfOf = (tree: unknown) =>
+    (tree as ReactElement<{ children: ReactElement[] }>).props.children.find(
+      (c) => isValidElement(c) && c.type === AwakeningShelf,
+    ) as ReactElement<{ copies: { serial: number; listed: boolean; card: { name: string } }[]; viewer: string | null }> | undefined;
+
+  it("shows the Awakenings shelf only for a player who owns copies", async () => {
+    const profile = { username: "sakura", isMe: false, catalogSize: 120, showcase: [], wishlist: [], recentPulls: [] };
+    rpc.mockImplementation(async (name: string) =>
+      name === "my_awakenings"
+        ? { data: [{ copyId: 1, awakeningId: "test-gojo", serial: 7, firstOwner: "sakura", drawnAt: "", listingId: 3 }], error: null }
+        : { data: profile, error: null },
+    );
+    inIds.mockResolvedValue({
+      data: [
+        {
+          id: "test-gojo", title: "The Strongest", form: "Domain", effect: "void", accent: "#7c5cff", total: 30,
+          cards: { id: 5, number: 5, name: "Gojo", native_name: null, image_url: null, rarity: "mythic", pow: 1, aura: 1, series: { title: "JJK" } },
+        },
+      ],
+      error: null,
+    });
+    const shelf = shelfOf(await runContent("sakura"));
+    expect(rpc).toHaveBeenCalledWith("my_awakenings", { p_username: "sakura" });
+    expect(shelf?.props.copies).toEqual([expect.objectContaining({ serial: 7, listed: true, card: expect.objectContaining({ name: "Gojo" }) })]);
+    expect(shelf?.props.viewer).toBeNull();
+  });
+
+  it("has no shelf without copies", async () => {
+    rpc.mockImplementation(async (name: string) =>
+      name === "my_awakenings"
+        ? { data: [], error: null }
+        : { data: { username: "sakura", isMe: false, showcase: [], wishlist: [], recentPulls: [] }, error: null },
+    );
+    expect(shelfOf(await runContent("sakura"))).toBeUndefined();
   });
 });

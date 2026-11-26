@@ -845,3 +845,34 @@ main:not([style*="display: none"]):has(.page-loader) ~ footer {
 }
 .fx-still .awk-petal { top: var(--py); }
 @media (prefers-reduced-motion: reduce) { .awk-petal { top: var(--py); } }
+
+/* ---------- Awakening reveal (AwakenReveal) ---------- */
+/* cracks of accent light, the rays behind the awakened card, the shards of the burst and the copy stamp */
+.ar-crack {
+  fill: none; stroke: color-mix(in srgb, var(--accent) 55%, white); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 3px var(--accent)) drop-shadow(0 0 8px var(--accent));
+}
+.ar-rays {
+  background:
+    radial-gradient(closest-side, color-mix(in srgb, var(--accent) 45%, transparent), transparent 70%),
+    repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--accent) 38%, transparent) 0 5deg, transparent 5deg 18deg);
+  -webkit-mask-image: radial-gradient(closest-side, black 25%, transparent 100%);
+  mask-image: radial-gradient(closest-side, black 25%, transparent 100%);
+  animation: awk-spin 24s linear infinite;
+}
+.ar-shard {
+  background: linear-gradient(160deg, white, var(--accent));
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+.ar-stamp {
+  color: white; background: rgb(10 8 16 / 0.86);
+  border: 2px solid color-mix(in srgb, var(--accent) 80%, white);
+  box-shadow: 0 0 0 4px rgb(10 8 16 / 0.86), 0 0 0 5px color-mix(in srgb, var(--accent) 60%, transparent), 0 10px 30px rgb(0 0 0 / 0.6), 0 0 26px color-mix(in srgb, var(--accent) 55%, transparent);
+  text-shadow: 0 0 14px var(--accent);
+}
+.fx-still .ar-rays { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ar-rays { animation: none; }
+}

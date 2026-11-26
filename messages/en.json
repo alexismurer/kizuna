@@ -2808,5 +2808,23 @@
       "open": "Open my Seal booster",
       "stay": "Stay here"
     }
+  },
+  "awakening": {
+    "reveal": {
+      "label": "{name} awakens: {form}",
+      "skip": "Skip",
+      "continue": "Continue",
+      "firstYou": "First drawn by you",
+      "firstBy": "First drawn by {name}",
+      "copy": "Copy {serial} of {total}"
+    },
+    "shelf": {
+      "title": "Awakenings",
+      "listed": "Listed",
+      "replay": "Replay the awakening of {name}, copy {serial} of {total}"
+    },
+    "summary": {
+      "tag": "Awakened"
+    }
   }
 }

@@ -2808,5 +2808,23 @@
       "open": "Ouvrir mon booster Sceau",
       "stay": "Rester ici"
     }
+  },
+  "awakening": {
+    "reveal": {
+      "label": "{name} s'éveille : {form}",
+      "skip": "Passer",
+      "continue": "Continuer",
+      "firstYou": "Tirée en premier par toi",
+      "firstBy": "Tirée en premier par {name}",
+      "copy": "Exemplaire {serial} sur {total}"
+    },
+    "shelf": {
+      "title": "Éveils",
+      "listed": "En vente",
+      "replay": "Revoir l'éveil de {name}, exemplaire {serial} sur {total}"
+    },
+    "summary": {
+      "tag": "Éveil"
+    }
   }
 }

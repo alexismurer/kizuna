@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { AwakenReveal } from "@/components/awakening/AwakenReveal";
 import { CardBack } from "@/components/card/CardBack";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
 import { playSfx, type Sfx } from "@/lib/fx/sound";
+import type { Awakening } from "@/lib/rebirth/types";
 import type { Rarity } from "@/lib/game/types";
 import { REVEAL_START, revealReducer, skipTarget, skipTier, type RevealAction } from "@/lib/opening/reveal";
 import { sceneCards } from "@/lib/opening/scene";
@@ -22,6 +24,14 @@ export type RevealCard = {
   // the player owned no card of this series before the batch
   newSeries?: boolean;
   seriesCover?: string | null;
+  // this slot awakened: the copy the player got along with the base card
+  awakening?: AwakenDrop;
+};
+
+export type AwakenDrop = {
+  awakening: Pick<Awakening, "title" | "form" | "effect" | "accent" | "total">;
+  serial: number;
+  total: number;
 };
 
 const HOLD_MS = 300; // Space held this long starts fast forward
@@ -29,6 +39,8 @@ const FAST_MS = 150;
 const SWIPE_PX = 40;
 const SHAKE_MS = 250;
 const TITLE_MS = 1200;
+// the awakened slot's base card shows this long before it transforms
+const AWAKEN_MS = 900;
 // 280×392 (CardView lg) when there is room; shrinks so a phone needs no scroll
 const CARD_HEIGHT = "min(392px, max(224px, calc(100dvh - 380px)))";
 
@@ -77,6 +89,34 @@ export function RevealFlow({
   const played = useRef(new Set<number>());
   const [scene, setScene] = useState<number | null>(null);
 
+  // the awakening played over a card; input waits while it is pending or showing
+  const [awaken, setAwaken] = useState<number | null>(null);
+  const awakened = useRef(new Set<number>());
+  const awakenBusy = useRef(false);
+  const awakenTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  // the deck is done: the overlay's end finishes it
+  const finishing = useRef(false);
+
+  function startAwaken(i: number, delay: number) {
+    awakened.current.add(i);
+    awakenBusy.current = true;
+    clearTimeout(awakenTimer.current);
+    if (delay > 0) awakenTimer.current = setTimeout(() => setAwaken(i), delay);
+    else setAwaken(i);
+  }
+
+  // the next awakened card not played yet, -1 for none
+  const unplayedAwaken = () => cards.findIndex((c, j) => c.awakening && !awakened.current.has(j));
+
+  function awakenDone() {
+    setAwaken(null);
+    awakenBusy.current = false;
+    if (!finishing.current) return;
+    const i = unplayedAwaken();
+    if (i >= 0) startAwaken(i, 0);
+    else onDone();
+  }
+
   const total = cards.length;
   const current = cards[state.index];
 
@@ -110,6 +150,7 @@ export function RevealFlow({
   }
 
   function move(action: RevealAction) {
+    if (awakenBusy.current) return;
     const prev = stateRef.current;
     // a manual flip of the first Epic+ card of a new series plays its scene first; the flip follows
     if (
@@ -129,11 +170,22 @@ export function RevealFlow({
     stateRef.current = next;
     setState(next);
     if (next.done) {
+      // an awakening skipped past (Reveal all, Skip to…) still plays before the summary
+      const i = unplayedAwaken();
+      if (i >= 0) {
+        finishing.current = true;
+        startAwaken(i, 0);
+        return;
+      }
       onDone();
       return;
     }
     if (next.flipped && (!prev.flipped || next.index !== prev.index)) {
-      flipped(cards[next.index], action.type === "fastForward");
+      const fast = action.type === "fastForward";
+      flipped(cards[next.index], fast);
+      if (cards[next.index].awakening && !awakened.current.has(next.index)) {
+        startAwaken(next.index, animations && !fast ? AWAKEN_MS : 0);
+      }
     }
   }
 
@@ -143,7 +195,13 @@ export function RevealFlow({
     latest.current = act;
   });
 
-  useEffect(() => () => clearTimeout(shakeTimer.current), []);
+  useEffect(
+    () => () => {
+      clearTimeout(shakeTimer.current);
+      clearTimeout(awakenTimer.current);
+    },
+    [],
+  );
 
   useEffect(() => {
     if (!title) return;
@@ -234,6 +292,7 @@ export function RevealFlow({
 
   if (!current) return null;
   const sceneCard = scene === null ? null : cards[scene];
+  const awakenCard = awaken === null ? null : cards[awaken];
   const { flipped: up, index } = state;
   const tint = up && current.rarity !== "common" ? COLOR[current.rarity] : null;
   const color = COLOR[current.rarity];
@@ -261,6 +320,16 @@ export function RevealFlow({
             setScene(null);
             move({ type: "tap" });
           }}
+        />
+      )}
+      {awakenCard?.awakening && (
+        <AwakenReveal
+          key={awaken}
+          awakening={awakenCard.awakening.awakening}
+          card={awakenCard.card}
+          serial={awakenCard.awakening.serial}
+          total={awakenCard.awakening.total}
+          onDone={awakenDone}
         />
       )}
       {golden && (

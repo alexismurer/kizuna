@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Download, Gift, Link2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { AwakeningCard } from "@/components/awakening/AwakeningCard";
 import { CardInspector } from "@/components/card/CardInspector";
 import { COLOR, CardView, type CardFace } from "@/components/card/CardView";
-import type { CardSize } from "@/components/card/CardBack";
+import { CARD_WIDTH, type CardSize } from "@/components/card/CardBack";
 import { Link } from "@/i18n/navigation";
 import { RARITIES } from "@/lib/game/types";
 import { bestCard, compareCards, dupeStats } from "@/lib/opening/best";
@@ -32,6 +33,17 @@ function useDesktop() {
 }
 
 type Slot = { c: RevealCard; best: boolean };
+
+// an awakened slot shows its awakened card, at the size its plain card would have
+function Face({ c, size, isNew }: { c: RevealCard; size: CardSize; isNew: boolean }) {
+  if (!c.awakening) return <CardView card={c.card} size={size} isNew={isNew} />;
+  const { awakening, serial, total } = c.awakening;
+  return (
+    <div data-testid="summary-awakened" className={`${CARD_WIDTH[size]} [&_.awk]:w-full`}>
+      <AwakeningCard awakening={awakening} card={{ name: c.card.name, image_url: c.card.imageUrl }} serial={serial} total={total} />
+    </div>
+  );
+}
 
 export function Summary({
   packName,
@@ -261,7 +273,7 @@ export function Summary({
                 className="relative"
                 style={fly(i)}
               >
-                {inspectable(s.c, <CardView card={s.c.card} size={desktop ? "md" : "sm"} isNew={s.c.isNew} />)}
+                {inspectable(s.c, <Face c={s.c} size={desktop ? "md" : "sm"} isNew={s.c.isNew} />)}
                 {s.best && <div className="mt-1.5 text-center">{label(s)}</div>}
               </li>
             ))}
@@ -289,7 +301,7 @@ export function Summary({
                   <div className="relative" style={fly(i)}>
                     {inspectable(
                       s.c,
-                      <CardView card={s.c.card} size={s.best ? centre : outer} isNew={s.c.isNew && !edgePill(p)} />,
+                      <Face c={s.c} size={s.best ? centre : outer} isNew={s.c.isNew && !edgePill(p)} />,
                     )}
                     {/* the phone arc overlaps so much that a centred pill would hide */}
                     {s.c.isNew && edgePill(p) && (

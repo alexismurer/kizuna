@@ -1,9 +1,12 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { AwakeningShelf, type ShelfCopy } from "@/components/awakening/AwakeningShelf";
 import { ProfileHeader } from "@/components/social/ProfileHeader";
 import { ProfileTabs } from "@/components/social/Showcase";
 import { RARITIES, type Rarity } from "@/lib/game/types";
+import type { Awakening, AwakeningCopy } from "@/lib/rebirth/types";
+import { CARD_COLUMNS, type CardRow } from "@/lib/social/thread";
 import type { ProfileCard, ProfileData } from "@/lib/social/types";
 import { fetchAll } from "@/lib/supabase/fetchAll";
 import { createServerClient } from "@/lib/supabase/server";
@@ -22,6 +25,8 @@ type InvRow = {
   };
 };
 
+type AwakeningRow = Pick<Awakening, "id" | "title" | "form" | "effect" | "accent" | "total"> & { cards: CardRow | null };
+
 // params hold the username (runtime data), so they are read inside the Suspense boundary
 async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile/[username]">["params"] }) {
   const { locale, username: raw } = await params;
@@ -34,7 +39,10 @@ async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile
     notFound();
   }
   const supabase = await createServerClient();
-  const { data, error } = await supabase.rpc("public_profile", { p_username: username });
+  const [{ data, error }, { data: copyData }] = await Promise.all([
+    supabase.rpc("public_profile", { p_username: username }),
+    supabase.rpc("my_awakenings", { p_username: username }),
+  ]);
   // an unknown username comes back as null
   if (error || !data) notFound();
   const profile = data as unknown as ProfileData;
@@ -78,9 +86,46 @@ async function ProfileContent({ params }: { params: PageProps<"/[locale]/profile
       .sort((a, b) => RARITIES.indexOf(b.rarity) - RARITIES.indexOf(a.rarity) || a.number - b.number);
   }
 
+  // the Awakenings shelf, only for a player who owns copies
+  let shelf: ShelfCopy[] = [];
+  const copies = Array.isArray(copyData) ? (copyData as AwakeningCopy[]) : [];
+  if (copies.length > 0) {
+    const { data: rows } = await supabase
+      .from("awakenings")
+      .select(`id, title, form, effect, accent, total, cards(${CARD_COLUMNS})`)
+      .in("id", [...new Set(copies.map((c) => c.awakeningId))]);
+    const byId = new Map(((rows ?? []) as unknown as AwakeningRow[]).map((a) => [a.id, a]));
+    shelf = copies.flatMap((c) => {
+      const a = byId.get(c.awakeningId);
+      if (!a?.cards) return [];
+      const { cards: base, ...awakening } = a;
+      return [
+        {
+          copyId: c.copyId,
+          serial: c.serial,
+          firstOwner: c.firstOwner,
+          listed: c.listingId != null,
+          awakening,
+          card: {
+            number: base.number,
+            total: profile.catalogSize,
+            name: base.name,
+            nativeName: base.native_name,
+            imageUrl: base.image_url,
+            seriesTitle: base.series?.title ?? "",
+            rarity: base.rarity,
+            pow: base.pow,
+            aura: base.aura,
+          },
+        },
+      ];
+    });
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <ProfileHeader profile={profile} owned={owned} cosmetics={cosmetics} />
+      {shelf.length > 0 && <AwakeningShelf copies={shelf} viewer={profile.isMe ? profile.username : null} />}
       <ProfileTabs profile={profile} />
     </div>
   );
