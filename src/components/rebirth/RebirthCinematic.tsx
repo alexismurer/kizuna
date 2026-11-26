@@ -78,6 +78,22 @@ export function RebirthCinematic({ fromTier, result, onClose }: { fromTier: numb
   useEffect(() => {
     latest.current = { done, onClose };
   });
+  // lock the page under the overlay; on close, focus goes back to the "Be reborn" button, or to the page
+  // title when that button is disabled now (the road starts over after a rebirth)
+  useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflow;
+      opener?.focus?.();
+      if (opener && document.activeElement === opener) return;
+      const title = document.querySelector<HTMLElement>("main h1");
+      if (!title) return;
+      title.tabIndex = -1;
+      title.focus();
+    };
+  }, []);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
@@ -156,7 +172,7 @@ export function RebirthCinematic({ fromTier, result, onClose }: { fromTier: numb
           </div>
         </div>
 
-        <div className={`rc-panel mt-4 flex w-full flex-col items-center text-center ${done ? "" : "pointer-events-none"}`}>
+        <div inert={!done} aria-hidden={!done} className="rc-panel mt-4 flex w-full flex-col items-center text-center">
           <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">{t("title", { tier: result.tier })}</h2>
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/70">
             {t("body", {
