@@ -5,7 +5,7 @@ import { AwakeningTeaser } from "@/components/rebirth/AwakeningTeaser";
 import { FadeUp } from "@/components/rebirth/FadeUp";
 import { InPlayGrid } from "@/components/rebirth/InPlayGrid";
 import { RebirthFaq } from "@/components/rebirth/RebirthFaq";
-import { RebirthHero } from "@/components/rebirth/RebirthHero";
+import { RebirthFlow } from "@/components/rebirth/RebirthFlow";
 import { RoadSection } from "@/components/rebirth/RoadSection";
 import { WhyReborn } from "@/components/rebirth/WhyReborn";
 import type { AwakeningCatalog, RebirthStatus } from "@/lib/rebirth/types";
@@ -41,7 +41,7 @@ async function RebirthContent() {
   return (
     <>
       <FadeUp index={0}>
-        <RebirthHero status={s} catalog={c} />
+        <RebirthFlow status={s} catalog={c} />
       </FadeUp>
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-8 sm:px-6 sm:py-10">
         <FadeUp index={1}>

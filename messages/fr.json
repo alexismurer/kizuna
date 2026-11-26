@@ -265,7 +265,8 @@
     "already_requested": "Tu as déjà envoyé une demande.",
     "no_request": "Cette demande n'existe plus.",
     "card_protected": "Cette carte est verrouillée. Déverrouille-la d'abord.",
-    "unknown": "Une erreur s'est produite. Réessaie."
+    "unknown": "Une erreur s'est produite. Réessaie.",
+    "rebirth_not_ready": "Toutes les conditions ne sont plus remplies. Recharge la page pour voir ce qui a changé."
   },
   "profile": {
     "eyebrow": "Joueur",
@@ -2782,6 +2783,30 @@
       "howFastBody": "Environ 12 par semaine pour tous les joueurs, 20 au maximum.",
       "afterTitle": "Une fois que tu en as une",
       "afterBody": "Rejoue sa transformation, affiche-la sur ton profil ou vends-la au marché Éveil. Le premier joueur à tirer chaque copie est inscrit dessus."
+    },
+    "confirm": {
+      "title": "Renaître au niveau {tier} ?",
+      "goes": "Ce qui part",
+      "copies": "{count, plural, one {# exemplaire} other {# exemplaires}} de tes Communes, Peu communes, Rares et Épiques",
+      "currency": "Recyclés en {amount} de monnaie",
+      "gains": "Ce que tu gagnes",
+      "level": "Niveau {tier}",
+      "seal": "Un booster Sceau avec une Mythique garantie",
+      "chance": "Chance d'Éveil ×{mult}",
+      "renown": "{amount} de Renommée mise de côté. Elle ne baisse jamais.",
+      "hold": "Maintiens pour renaître",
+      "holding": "Continue",
+      "busy": "Renaissance en cours…",
+      "hint": "Garde appuyé une seconde : clic, doigt, Espace ou Entrée.",
+      "cancel": "Annuler"
+    },
+    "cinematic": {
+      "label": "Renaissance terminée",
+      "skip": "Passer",
+      "title": "Niveau {tier}",
+      "body": "{cards, plural, one {# exemplaire recyclé} other {# exemplaires recyclés}} contre {currency} de monnaie, et {renown} de Renommée mise de côté pour de bon.",
+      "open": "Ouvrir mon booster Sceau",
+      "stay": "Rester ici"
     }
   }
 }

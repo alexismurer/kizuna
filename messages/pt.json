@@ -265,7 +265,8 @@
     "already_requested": "Você já enviou um pedido.",
     "no_request": "Esse pedido não existe mais.",
     "card_protected": "Esta carta está bloqueada. Desbloqueie-a primeiro.",
-    "unknown": "Algo deu errado. Tente de novo."
+    "unknown": "Algo deu errado. Tente de novo.",
+    "rebirth_not_ready": "Not every condition is met anymore. Refresh the page to see what changed."
   },
   "profile": {
     "eyebrow": "Jogador",
@@ -2782,6 +2783,30 @@
       "howFastBody": "About 12 a week across all players, 20 at most.",
       "afterTitle": "Once you have one",
       "afterBody": "Replay its transformation, show it on your profile or sell it on the Awakening market. The first player to draw each copy is written on it."
+    },
+    "confirm": {
+      "title": "Be reborn at Level {tier}?",
+      "goes": "What goes",
+      "copies": "{count, plural, one {# copy} other {# copies}} of your Commons, Uncommons, Rares and Epics",
+      "currency": "Recycled into {amount} currency",
+      "gains": "What you get",
+      "level": "Level {tier}",
+      "seal": "A Seal booster with a guaranteed Mythic",
+      "chance": "Awakening chance ×{mult}",
+      "renown": "{amount} Renown banked. It never drops.",
+      "hold": "Hold to be reborn",
+      "holding": "Keep holding",
+      "busy": "Being reborn…",
+      "hint": "Press and hold for a second, with a click, a finger, Space or Enter.",
+      "cancel": "Cancel"
+    },
+    "cinematic": {
+      "label": "Rebirth complete",
+      "skip": "Skip",
+      "title": "Level {tier}",
+      "body": "{cards, plural, one {# copy} other {# copies}} recycled for {currency} currency, and {renown} Renown banked for good.",
+      "open": "Open my Seal booster",
+      "stay": "Stay here"
     }
   }
 }

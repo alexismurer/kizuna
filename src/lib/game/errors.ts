@@ -42,6 +42,7 @@ const CODES = [
   "card_protected",
   "custom_not_set",
   "invalid_selection",
+  "rebirth_not_ready",
 ] as const;
 
 export function rpcErrorKey(message: string): string {
