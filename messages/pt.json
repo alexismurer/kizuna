@@ -2701,5 +2701,87 @@
       "nextComing": "Todos responderam: vem a próxima!",
       "waitOthers": "Esperando os outros responderem…"
     }
+  },
+  "rebirth": {
+    "title": "Rebirth",
+    "subtitle": "Start over, keep what matters, and raise your Awakening odds with every level.",
+    "level": "Level",
+    "cta": "Be reborn",
+    "notReady": "Not yet: you still need everything in red.",
+    "ready": "Everything is green. You can be reborn.",
+    "loadError": "Couldn't load your Rebirth status. Refresh the page to try again.",
+    "stats": {
+      "awakenings": "Awakenings this week",
+      "renown": "Renown",
+      "next": "Next",
+      "info": "How the weekly pace works",
+      "tooltip": "Awakenings are spread from Monday to Sunday: about 12 a week on average, never more than 20. A quiet week gets made up later, and your odds are the same every day.",
+      "nextAt": "Next Awakening possible at {time}, at this week's pace.",
+      "nextNone": "Awakenings haven't started yet.",
+      "afterFirst": "You can draw them after your first Rebirth.",
+      "afterTrusted": "You can draw them once your account is trusted.",
+      "canDraw": "You can draw them from your boosters."
+    },
+    "road": {
+      "title": "Your road to Rebirth {tier}",
+      "met": "{met} of {total} conditions met",
+      "common": "Commons",
+      "uncommon": "Uncommons",
+      "rare": "Rares",
+      "epic": "Epics",
+      "legendary": "Unique Legendaries",
+      "mythic": "Unique Mythics",
+      "boosters": "Boosters opened this cycle",
+      "noSales": "Nothing for sale or in a trade",
+      "discord": "Discord account linked",
+      "trusted": "Trusted account",
+      "trustedOn": "Trusted on {date}"
+    },
+    "why": {
+      "title": "Why be reborn",
+      "chanceTitle": "Your Awakening chance",
+      "chanceBody": "From your first Rebirth, any booster can hold an Awakening card. Each level multiplies that chance, up to ×5.",
+      "renownTitle": "Renown stays",
+      "renownBody": "The collection points you've earned stay yours through every Rebirth. Renown never goes down, and it sets your rank.",
+      "swapTitle": "What goes, what stays",
+      "goneLabel": "Back to zero",
+      "goneBody": "Commons, Uncommons, Rares and Epics, locked ones too. They're recycled at the usual rate.",
+      "keptLabel": "You keep",
+      "keptBody": "Legendaries, Mythics, Awakening cards, your currency, achievements and friends."
+    },
+    "teaser": {
+      "title": "Awakening cards",
+      "body": "Some cards have an awakened form. Nobody knows which ones: you find out when one transforms while you open a booster.",
+      "rule": "To draw one from your boosters you need at least one Rebirth, a linked Discord account and a trusted account.",
+      "mystery": "Unknown Awakening card"
+    },
+    "inPlay": {
+      "title": "In play",
+      "manage": "Sell or manage",
+      "note": "These cards can awaken in your boosters. You only see the awakened form by drawing one.",
+      "empty": "No Awakening cards are in play yet.",
+      "drawn": "{issued} of {total} drawn"
+    },
+    "faq": {
+      "summary": "Questions about Rebirth and Awakening cards",
+      "stepsTitle": "How a Rebirth works",
+      "step1Title": "Fill your road",
+      "step1Body": "Collect every card the road asks for and open enough boosters this cycle.",
+      "step2Title": "Be reborn",
+      "step2Body": "Your Commons, Uncommons, Rares and Epics are recycled into currency.",
+      "step3Title": "What you gain",
+      "step3Body": "Renown that never drops, a mythic Seal booster, one more level and a shot at Awakening cards.",
+      "step4Title": "Go again, higher",
+      "step4Body": "Each Rebirth asks a bit more than the last. Your level multiplies your Awakening odds, up to ×5.",
+      "awakeningTitle": "Awakening cards, plainly",
+      "whoTitle": "Who can draw one",
+      "whoBody": "Any player with at least one Rebirth, a linked Discord account and an account at least 14 days old.",
+      "howManyTitle": "How many",
+      "howManyBody": "Each Awakening card has a fixed, numbered stock. When it runs out, no more copies drop.",
+      "howFastTitle": "How fast",
+      "howFastBody": "About 12 a week across all players, 20 at most.",
+      "afterTitle": "Once you have one",
+      "afterBody": "Replay its transformation, show it on your profile or sell it on the Awakening market. The first player to draw each copy is written on it."
+    }
   }
 }

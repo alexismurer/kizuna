@@ -8,8 +8,8 @@ import { Link } from "@/i18n/navigation";
 // href null = not built yet, shown greyed with "Soon"
 const ROWS = [
   { kanji: "友", title: "moreMenu.friends", hint: "moreMenu.friendsHint", href: "/friends" },
-  { kanji: "順", title: "leaderboard", hint: "moreMenu.leaderboardHint", href: null },
-  { kanji: "転", title: "rebirth", hint: "moreMenu.rebirthHint", href: null },
+  { kanji: "順", title: "leaderboard", hint: "moreMenu.leaderboardHint", href: "/leaderboard" },
+  { kanji: "転", title: "rebirth", hint: "moreMenu.rebirthHint", href: "/rebirth" },
   { kanji: "典", title: "wiki", hint: "moreMenu.wikiHint", href: "/wiki" },
 ] as const;
 

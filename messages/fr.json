@@ -125,7 +125,7 @@
     "invite": "Inviter des amis",
     "wiki": "Wiki",
     "leaderboard": "Classement",
-    "rebirth": "Renaissance",
+    "rebirth": "Renouveau",
     "moreMenu": {
       "friends": "Amis",
       "friendsHint": "Vos amis et messages",
@@ -2700,6 +2700,88 @@
       "stillPlaying": "joue encore",
       "nextComing": "Tout le monde a répondu : la suite arrive !",
       "waitOthers": "En attente des réponses des autres…"
+    }
+  },
+  "rebirth": {
+    "title": "Renouveau",
+    "subtitle": "Repars de zéro, garde l'essentiel et augmente tes chances d'Éveil à chaque niveau.",
+    "level": "Niveau",
+    "cta": "Renaître",
+    "notReady": "Pas encore : il te manque tout ce qui est en rouge.",
+    "ready": "Tout est au vert. Tu peux renaître.",
+    "loadError": "Impossible de charger ton Renouveau. Recharge la page pour réessayer.",
+    "stats": {
+      "awakenings": "Éveils cette semaine",
+      "renown": "Renommée",
+      "next": "Suivante",
+      "info": "Comment marche le rythme de la semaine",
+      "tooltip": "Les Éveils sont répartis du lundi au dimanche : environ 12 par semaine en moyenne, jamais plus de 20. Une semaine calme est rattrapée ensuite, et tes chances sont les mêmes chaque jour.",
+      "nextAt": "Prochain Éveil possible à {time}, au rythme de la semaine.",
+      "nextNone": "Les Éveils n'ont pas encore commencé.",
+      "afterFirst": "Tu pourras en tirer après ton premier Renouveau.",
+      "afterTrusted": "Tu pourras en tirer dès que ton compte sera de confiance.",
+      "canDraw": "Tu peux en tirer dans tes boosters."
+    },
+    "road": {
+      "title": "Ta route vers le Renouveau {tier}",
+      "met": "{met} conditions remplies sur {total}",
+      "common": "Communes",
+      "uncommon": "Peu communes",
+      "rare": "Rares",
+      "epic": "Épiques",
+      "legendary": "Légendaires uniques",
+      "mythic": "Mythiques uniques",
+      "boosters": "Boosters ouverts ce cycle",
+      "noSales": "Rien en vente ni en échange",
+      "discord": "Compte Discord lié",
+      "trusted": "Compte de confiance",
+      "trustedOn": "De confiance le {date}"
+    },
+    "why": {
+      "title": "Pourquoi renaître",
+      "chanceTitle": "Ta chance d'Éveil",
+      "chanceBody": "Dès ton premier Renouveau, chaque booster peut contenir une carte Éveil. Chaque niveau multiplie cette chance, jusqu'à ×5.",
+      "renownTitle": "La Renommée reste",
+      "renownBody": "Les points de collection gagnés restent à toi à chaque Renouveau. La Renommée ne baisse jamais et fixe ton rang.",
+      "swapTitle": "Ce qui part, ce qui reste",
+      "goneLabel": "Remis à zéro",
+      "goneBody": "Communes, Peu communes, Rares et Épiques, verrouillées comprises. Elles sont recyclées au tarif habituel.",
+      "keptLabel": "Tu gardes",
+      "keptBody": "Légendaires, Mythiques, cartes Éveil, ta monnaie, tes succès et tes amis."
+    },
+    "teaser": {
+      "title": "Cartes Éveil",
+      "body": "Certaines cartes cachent une forme éveillée. Personne ne sait lesquelles : tu le découvres quand l'une se transforme à l'ouverture d'un booster.",
+      "rule": "Pour en tirer une dans tes boosters, il faut au moins un Renouveau, un compte Discord lié et un compte de confiance.",
+      "mystery": "Carte Éveil inconnue"
+    },
+    "inPlay": {
+      "title": "En jeu",
+      "manage": "Vendre ou gérer",
+      "note": "Ces cartes peuvent s'éveiller dans tes boosters. Leur forme éveillée ne se voit qu'en en tirant une.",
+      "empty": "Aucune carte Éveil n'est encore en jeu.",
+      "drawn": "{issued} tirées sur {total}"
+    },
+    "faq": {
+      "summary": "Questions sur le Renouveau et les cartes Éveil",
+      "stepsTitle": "Comment se passe un Renouveau",
+      "step1Title": "Remplis ta route",
+      "step1Body": "Collectionne toutes les cartes demandées et ouvre assez de boosters pendant ce cycle.",
+      "step2Title": "Renais",
+      "step2Body": "Tes Communes, Peu communes, Rares et Épiques sont recyclées en monnaie.",
+      "step3Title": "Ce que tu gagnes",
+      "step3Body": "De la Renommée qui ne baisse jamais, un booster Sceau mythique, un niveau de plus et une chance de tirer des cartes Éveil.",
+      "step4Title": "Recommence, plus haut",
+      "step4Body": "Chaque Renouveau demande un peu plus que le précédent. Ton niveau multiplie tes chances d'Éveil, jusqu'à ×5.",
+      "awakeningTitle": "Les cartes Éveil, simplement",
+      "whoTitle": "Qui peut en tirer",
+      "whoBody": "Tout joueur avec au moins un Renouveau, un compte Discord lié et un compte d'au moins 14 jours.",
+      "howManyTitle": "Combien",
+      "howManyBody": "Chaque carte Éveil a un stock fixe et numéroté. Une fois épuisé, plus aucune copie ne tombe.",
+      "howFastTitle": "À quel rythme",
+      "howFastBody": "Environ 12 par semaine pour tous les joueurs, 20 au maximum.",
+      "afterTitle": "Une fois que tu en as une",
+      "afterBody": "Rejoue sa transformation, affiche-la sur ton profil ou vends-la au marché Éveil. Le premier joueur à tirer chaque copie est inscrit dessus."
     }
   }
 }

@@ -42,8 +42,8 @@ describe("MoreMenu", () => {
     ]);
     expect(screen.getByRole("link", { name: /Wiki/ })).toHaveAttribute("href", "/wiki");
     expect(screen.getByRole("link", { name: /Friends/ })).toHaveAttribute("href", "/friends");
-    expect(screen.getByText("Leaderboard").closest("[aria-disabled]")).toHaveAttribute("aria-disabled", "true");
-    expect(screen.getByText("Rebirth").closest("[aria-disabled]")).toHaveAttribute("aria-disabled", "true");
+    expect(screen.getByRole("link", { name: /Leaderboard/ })).toHaveAttribute("href", "/leaderboard");
+    expect(screen.getByRole("link", { name: /Rebirth/ })).toHaveAttribute("href", "/rebirth");
   });
 
   it("closes on Escape and on a click outside", () => {

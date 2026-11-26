@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, BookOpen, Ellipsis, Gamepad2, Gift, House, Layers, ListChecks, MessageCircle, Package, Store, User } from "lucide-react";
+import { Bell, BookOpen, Ellipsis, Gamepad2, Gift, House, Layers, ListChecks, MessageCircle, Package, RefreshCcw, Store, Trophy, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SignOutButton } from "@/components/SignOutButton";
 import { InstallApp } from "@/components/InstallApp";
@@ -187,6 +187,22 @@ export function BottomNav({
                   <span className="sr-only">{tb("messagesUnread", { count: unread })}</span>
                 </>
               )}
+            </Link>
+            <Link
+              href="/leaderboard"
+              onClick={() => setSheet(null)}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+            >
+              <Trophy className="h-5 w-5" aria-hidden />
+              <span className="flex-1">{t("leaderboard")}</span>
+            </Link>
+            <Link
+              href="/rebirth"
+              onClick={() => setSheet(null)}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm hover:bg-bg"
+            >
+              <RefreshCcw className="h-5 w-5" aria-hidden />
+              <span className="flex-1">{t("rebirth")}</span>
             </Link>
             <Link
               href="/wiki"
