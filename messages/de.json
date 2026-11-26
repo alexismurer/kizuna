@@ -1242,6 +1242,7 @@
       "pools": "Tagespools",
       "seasonal": "Saisonal",
       "awakenings": "Erwachungen",
+      "bosses": "Bosse",
       "chat": "Chat",
       "art": "Kartenbilder"
     },
@@ -1283,7 +1284,10 @@
       "awakening_card": "Wähle eine Basiskarte.",
       "awakening_id": "Die ID braucht 3 bis 48 Zeichen: Kleinbuchstaben, Ziffern und Bindestriche.",
       "awakening_id_taken": "Diese ID wird schon von einem anderen Erwachen verwendet. Wähle eine andere.",
-      "invalid_link": "Links müssen mit https:// beginnen."
+      "invalid_link": "Links müssen mit https:// beginnen.",
+      "invalid_boss": "Der Wochenboss braucht eine Karte und Lebenspunkte.",
+      "invalid_boss_hp": "Leben muss zwischen 1 und 10.000.000 liegen.",
+      "invalid_boss_damage": "Schaden muss zwischen 0 und 10.000.000 liegen."
     },
     "invites": {
       "title": "Einladungscodes",
@@ -1580,6 +1584,36 @@
         "petals": "Blüten"
       },
       "confirmDelete": "Löschen bestätigen"
+    },
+    "bosses": {
+      "unavailable": "Die Bosse dieser Woche konnten nicht geladen werden.",
+      "weekly": {
+        "title": "Wochenboss",
+        "description": "Woche vom {week}. Jedes in Spielen verdiente Ticket trifft ihn.",
+        "autoHp": "Standard diese Woche: {hp}",
+        "reviveHint": "Holst du den Wochenboss zurück (Schaden unter Leben), verschwindet der geheime Boss. Abgeholte Belohnungen bleiben."
+      },
+      "secret": {
+        "title": "Geheimer Boss",
+        "description": "Erscheint, wenn der Wochenboss fällt (Woche vom {week}).",
+        "cardHint": "Leer lassen für eine zufällige Mythic-Karte.",
+        "autoHp": "Auto: {hp}",
+        "notYet": "Noch nicht da"
+      },
+      "status": {
+        "standing": "Steht",
+        "down": "Besiegt",
+        "hidden": "Noch nicht da"
+      },
+      "randomMythic": "Zufällige Mythic-Karte",
+      "progress": "{damage} / {hp} Schaden",
+      "claims": "{count, plural, =0 {Keine Belohnung abgeholt} one {# Belohnung abgeholt} other {# Belohnungen abgeholt}}",
+      "hp": "Leben",
+      "damage": "Schaden",
+      "knockOut": "K.o. setzen",
+      "resetDamage": "Zurücksetzen",
+      "save": "Boss speichern",
+      "saved": "Gespeichert."
     }
   },
   "pages": {

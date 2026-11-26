@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CalendarDays, Coins, Gift, Images, MessagesSquare, Sparkles, Ticket, Users, Wand2, type LucideIcon } from "lucide-react";
+import { CalendarDays, Coins, Gift, Images, MessagesSquare, Skull, Sparkles, Ticket, Users, Wand2, type LucideIcon } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
 const LOOK: Record<string, [Icon: LucideIcon, color: string]> = {
@@ -12,6 +12,7 @@ const LOOK: Record<string, [Icon: LucideIcon, color: string]> = {
   seasonal: [Sparkles, "var(--color-epic)"],
   pools: [CalendarDays, "var(--color-uncommon)"],
   awakenings: [Wand2, "var(--color-epic)"],
+  bosses: [Skull, "var(--color-mythic)"],
   chat: [MessagesSquare, "var(--color-accent)"],
 };
 

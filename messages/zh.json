@@ -1242,6 +1242,7 @@
       "pools": "每日卡池",
       "seasonal": "季节限定",
       "awakenings": "觉醒",
+      "bosses": "首领",
       "chat": "聊天",
       "art": "卡牌图片"
     },
@@ -1283,7 +1284,10 @@
       "awakening_card": "请选择基础卡牌。",
       "awakening_id": "ID 需要 3 到 48 个字符：小写字母、数字和连字符。",
       "awakening_id_taken": "该 ID 已被另一个觉醒使用，请换一个。",
-      "invalid_link": "链接必须以 https:// 开头。"
+      "invalid_link": "链接必须以 https:// 开头。",
+      "invalid_boss": "每周首领需要卡牌和生命值。",
+      "invalid_boss_hp": "生命值须在 1 到 10,000,000 之间。",
+      "invalid_boss_damage": "伤害须在 0 到 10,000,000 之间。"
     },
     "invites": {
       "title": "邀请码",
@@ -1580,6 +1584,36 @@
         "petals": "花瓣"
       },
       "confirmDelete": "确认删除"
+    },
+    "bosses": {
+      "unavailable": "无法加载本周首领。",
+      "weekly": {
+        "title": "每周首领",
+        "description": "{week} 这一周。游戏中赚到的每张票都会对它造成伤害。",
+        "autoHp": "本周默认：{hp}",
+        "reviveHint": "让每周首领复活（伤害低于生命值）会让隐藏首领离开。已领取的奖励保留。"
+      },
+      "secret": {
+        "title": "隐藏首领",
+        "description": "每周首领倒下后出现（{week} 这一周）。",
+        "cardHint": "留空则随机一张神话卡。",
+        "autoHp": "自动：{hp}",
+        "notYet": "尚未出现"
+      },
+      "status": {
+        "standing": "存活",
+        "down": "已击败",
+        "hidden": "尚未出现"
+      },
+      "randomMythic": "随机神话卡",
+      "progress": "{damage} / {hp} 伤害",
+      "claims": "{count, plural, =0 {暂无人领取奖励} other {已领取 # 份奖励}}",
+      "hp": "生命值",
+      "damage": "伤害",
+      "knockOut": "击败",
+      "resetDamage": "重置",
+      "save": "保存首领",
+      "saved": "已保存。"
     }
   },
   "pages": {

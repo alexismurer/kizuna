@@ -340,3 +340,20 @@ export async function adminSaveAwakening(v: AdminAwakeningInput) {
 export async function adminDeleteAwakening(id: string) {
   return call<null>("admin_delete_awakening", { p_id: id });
 }
+
+// This week's weekly and secret boss. A null secret card / health means "automatic"
+// (a random Mythic with 3x the weekly health when it appears).
+export type AdminBossSide = { card: AdminCardHit | null; hp: number | null; damage: number; defeatedAt: string | null; claims: number };
+export type AdminBoss = {
+  weekStart: string;
+  autoHp: number;
+  weekly: AdminBossSide & { card: AdminCardHit; hp: number };
+  secret: AdminBossSide & { appearedAt: string | null };
+};
+
+export async function adminBoss() {
+  return call<AdminBoss>("admin_boss");
+}
+export async function adminSaveBoss(kind: "weekly" | "secret", cardId: number | null, hp: number | null, damage: number) {
+  return call<AdminBoss>("admin_save_boss", { p_kind: kind, p_card_id: cardId, p_hp: hp, p_damage: damage });
+}

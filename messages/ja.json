@@ -1242,6 +1242,7 @@
       "pools": "デイリーセレクション",
       "seasonal": "シーズン",
       "awakenings": "覚醒",
+      "bosses": "ボス",
       "chat": "チャット",
       "art": "カードの画像"
     },
@@ -1283,7 +1284,10 @@
       "awakening_card": "ベースカードを選んでください。",
       "awakening_id": "IDは3～48文字で、小文字、数字、ハイフンが使えます。",
       "awakening_id_taken": "このIDはすでに別の覚醒で使われています。別のIDを選んでください。",
-      "invalid_link": "リンクは https:// で始めてください。"
+      "invalid_link": "リンクは https:// で始めてください。",
+      "invalid_boss": "週間ボスにはカードとHPが必要です。",
+      "invalid_boss_hp": "HPは1〜10,000,000にしてください。",
+      "invalid_boss_damage": "ダメージは0〜10,000,000にしてください。"
     },
     "invites": {
       "title": "招待コード",
@@ -1580,6 +1584,36 @@
         "petals": "花びら"
       },
       "confirmDelete": "削除を確定"
+    },
+    "bosses": {
+      "unavailable": "今週のボスを読み込めませんでした。",
+      "weekly": {
+        "title": "週間ボス",
+        "description": "{week}の週。ゲームで獲得したチケットがダメージになります。",
+        "autoHp": "今週のデフォルト：{hp}",
+        "reviveHint": "週間ボスを復活させる（ダメージをHP未満にする）と、シークレットボスは消えます。受け取り済みの報酬はそのままです。"
+      },
+      "secret": {
+        "title": "シークレットボス",
+        "description": "週間ボスが倒れると出現します（{week}の週）。",
+        "cardHint": "空欄ならランダムなミシック。",
+        "autoHp": "自動：{hp}",
+        "notYet": "未出現"
+      },
+      "status": {
+        "standing": "健在",
+        "down": "撃破",
+        "hidden": "未出現"
+      },
+      "randomMythic": "ランダムなミシック",
+      "progress": "{damage} / {hp} ダメージ",
+      "claims": "{count, plural, =0 {報酬の受け取りなし} other {報酬受け取り #件}}",
+      "hp": "HP",
+      "damage": "ダメージ",
+      "knockOut": "撃破する",
+      "resetDamage": "リセット",
+      "save": "ボスを保存",
+      "saved": "保存しました。"
     }
   },
   "pages": {

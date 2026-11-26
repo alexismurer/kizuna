@@ -1242,6 +1242,7 @@
       "pools": "Selecciones diarias",
       "seasonal": "De temporada",
       "awakenings": "Despertares",
+      "bosses": "Jefes",
       "chat": "Chat",
       "art": "Imágenes de cartas"
     },
@@ -1283,7 +1284,10 @@
       "awakening_card": "Elige una carta base.",
       "awakening_id": "El ID necesita de 3 a 48 caracteres: minúsculas, dígitos y guiones.",
       "awakening_id_taken": "Ese ID ya lo usa otro despertar. Elige uno distinto.",
-      "invalid_link": "Los enlaces deben empezar por https://."
+      "invalid_link": "Los enlaces deben empezar por https://.",
+      "invalid_boss": "El jefe semanal necesita una carta y vida.",
+      "invalid_boss_hp": "La vida debe estar entre 1 y 10.000.000.",
+      "invalid_boss_damage": "El daño debe estar entre 0 y 10.000.000."
     },
     "invites": {
       "title": "Códigos de invitación",
@@ -1580,6 +1584,36 @@
         "petals": "Pétalos"
       },
       "confirmDelete": "Confirmar borrado"
+    },
+    "bosses": {
+      "unavailable": "No se pudieron cargar los jefes de esta semana.",
+      "weekly": {
+        "title": "Jefe semanal",
+        "description": "Semana del {week}. Cada ticket ganado en los juegos lo golpea.",
+        "autoHp": "Por defecto esta semana: {hp}",
+        "reviveHint": "Si el jefe semanal vuelve (daño por debajo de la vida), el jefe secreto se va. Las recompensas ya reclamadas se mantienen."
+      },
+      "secret": {
+        "title": "Jefe secreto",
+        "description": "Aparece cuando cae el jefe semanal (semana del {week}).",
+        "cardHint": "Déjalo vacío para un Mítico al azar.",
+        "autoHp": "Auto: {hp}",
+        "notYet": "Aún no aparece"
+      },
+      "status": {
+        "standing": "En pie",
+        "down": "Derrotado",
+        "hidden": "Aún no aparece"
+      },
+      "randomMythic": "Mítico al azar",
+      "progress": "{damage} / {hp} de daño",
+      "claims": "{count, plural, =0 {Ninguna recompensa reclamada} one {# recompensa reclamada} other {# recompensas reclamadas}}",
+      "hp": "Vida",
+      "damage": "Daño",
+      "knockOut": "Derrotar",
+      "resetDamage": "Reiniciar",
+      "save": "Guardar jefe",
+      "saved": "Guardado."
     }
   },
   "pages": {

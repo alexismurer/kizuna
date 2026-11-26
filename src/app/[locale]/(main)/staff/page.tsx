@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AwakeningsPanel } from "@/components/admin/AwakeningsPanel";
+import { BossesPanel } from "@/components/admin/BossesPanel";
 import { ChatPanel } from "@/components/admin/ChatPanel";
 import { GrantCardPanel } from "@/components/admin/GrantCardPanel";
 import { GrantPanel } from "@/components/admin/GrantPanel";
@@ -12,14 +13,14 @@ import { PoolsPanel } from "@/components/admin/PoolsPanel";
 import { SeasonalPanel } from "@/components/admin/SeasonalPanel";
 import { StaffTabs } from "@/components/admin/StaffTabs";
 import { Link } from "@/i18n/navigation";
-import type { AdminAwakening, AdminChatMessage, AdminInvite, AdminPlayers, AdminPool, AdminSeasonal } from "@/lib/actions/admin";
+import type { AdminAwakening, AdminBoss, AdminChatMessage, AdminInvite, AdminPlayers, AdminPool, AdminSeasonal } from "@/lib/actions/admin";
 import { createServerClient } from "@/lib/supabase/server";
 
-type Section = "players" | "invites" | "currency" | "cards" | "pools" | "seasonal" | "awakenings" | "chat";
+type Section = "players" | "invites" | "currency" | "cards" | "pools" | "seasonal" | "awakenings" | "bosses" | "chat";
 // moderators see players, seasonals and pools (read-only) and chat; admins see everything
 const MODERATOR: Section[] = ["players", "seasonal", "pools", "chat"];
 
-const SECTIONS: Section[] = ["players", "invites", "currency", "cards", "seasonal", "pools", "awakenings", "chat"];
+const SECTIONS: Section[] = ["players", "invites", "currency", "cards", "seasonal", "pools", "awakenings", "bosses", "chat"];
 
 const liveCount = (rows: AdminSeasonal[]) => {
   const now = Date.now();
@@ -36,13 +37,14 @@ async function StaffContent({ params }: { params: Promise<{ locale: string }> })
   const shows = (id: Section) => isAdmin || MODERATOR.includes(id);
 
   const t = await getTranslations("admin");
-  const [invites, chat, pools, seasonals, players, awakenings] = await Promise.all([
+  const [invites, chat, pools, seasonals, players, awakenings, boss] = await Promise.all([
     isAdmin ? supabase.rpc("admin_invites") : Promise.resolve({ data: [] }),
     supabase.rpc("admin_chat_recent"),
     supabase.rpc("admin_pools"),
     supabase.rpc("admin_seasonals"),
     supabase.rpc("admin_players"),
     isAdmin ? supabase.rpc("admin_awakenings") : Promise.resolve({ data: [] }),
+    isAdmin ? supabase.rpc("admin_boss") : Promise.resolve({ data: null }),
   ]);
   const inviteRows = (invites.data as AdminInvite[] | null) ?? [];
   const chatRows = (chat.data as AdminChatMessage[] | null) ?? [];
@@ -116,7 +118,7 @@ async function StaffContent({ params }: { params: Promise<{ locale: string }> })
         tabs={SECTIONS.filter((id) => shows(id)).map((id) => ({ id, label: t(`nav.${id}`) }))}
         panels={{
           players: <PlayersPanel data={playerData} canEdit={isAdmin} />,
-          ...(isAdmin && { invites: <InvitesPanel initial={inviteRows} />, currency: <GrantPanel />, cards: <GrantCardPanel />, awakenings: <AwakeningsPanel initial={awakeningRows} /> }),
+          ...(isAdmin && { invites: <InvitesPanel initial={inviteRows} />, currency: <GrantPanel />, cards: <GrantCardPanel />, awakenings: <AwakeningsPanel initial={awakeningRows} />, bosses: <BossesPanel initial={boss.data as AdminBoss | null} /> }),
           seasonal: <SeasonalPanel initial={seasonalRows} seriesTitles={seriesTitles} readOnly={!isAdmin} />,
           pools: <PoolsPanel initial={poolRows} readOnly={!isAdmin} />,
           chat: <ChatPanel initial={chatRows} />,

@@ -271,17 +271,29 @@ describe("staff page", () => {
   });
 
   it("renders every section for admins", async () => {
-    rpc.mockImplementation(async (fn: string) => ({ data: fn === "my_role" ? "admin" : fn === "admin_players" ? null : [], error: null }));
+    const card = { id: 7, number: 7, name: "Boss Card", imageUrl: null, rarity: "legendary", seriesTitle: "S" };
+    const boss = {
+      weekStart: "2026-11-23",
+      autoHp: 1500,
+      weekly: { card, hp: 1500, damage: 200, defeatedAt: null, claims: 0 },
+      secret: { card: null, hp: null, damage: 0, appearedAt: null, defeatedAt: null, claims: 0 },
+    };
+    const data = (fn: string) => (fn === "my_role" ? "admin" : fn === "admin_players" ? null : fn === "admin_boss" ? boss : []);
+    rpc.mockImplementation(async (fn: string) => ({ data: data(fn), error: null }));
     wrap((await run()) as React.ReactNode);
     expect(notFound).not.toHaveBeenCalled();
     expect(rpc).toHaveBeenCalledWith("admin_invites");
     expect(screen.getByRole("heading", { name: "Grant currency", hidden: true })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Weekly boss", hidden: true })).toBeInTheDocument();
+    expect(screen.getByText("200 / 1500 damage")).toBeInTheDocument();
+    expect(screen.getByText("Random Mythic")).toBeInTheDocument();
   });
 
   it("gives moderators players, seasonals, pools and chat only, read-only", async () => {
     rpc.mockImplementation(async (fn: string) => ({ data: fn === "my_role" ? "moderator" : fn === "admin_players" ? null : [], error: null }));
     wrap((await run()) as React.ReactNode);
     expect(rpc).not.toHaveBeenCalledWith("admin_invites");
+    expect(rpc).not.toHaveBeenCalledWith("admin_boss");
     expect(screen.getAllByText("Moderator").length).toBeGreaterThan(0);
     for (const name of ["Invite codes", "Grant currency", "Give a card"]) {
       expect(screen.queryByRole("heading", { name, hidden: true })).not.toBeInTheDocument();
