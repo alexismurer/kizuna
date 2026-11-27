@@ -46,16 +46,12 @@ export function BossCard({ boss }: { boss: Boss | null }) {
           >
             {boss.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={boss.imageUrl} alt="" className={`h-full w-full object-cover ${boss.defeated && !gotCard ? "grayscale" : ""}`} />
+              <img src={boss.imageUrl} alt="" className={`h-full w-full object-cover ${boss.defeated ? "brightness-75 grayscale" : ""}`} />
             ) : (
               <Skull className="m-auto h-full w-10 text-common" aria-hidden />
             )}
           </motion.span>
-          {boss.defeated && !gotCard && (
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-12 rounded border-2 border-accent bg-bg/90 px-2 py-0.5 text-xs font-extrabold tracking-widest text-accent">
-              {t("defeatedStamp")}
-            </span>
-          )}
+          {boss.defeated && <DefeatedStamp />}
         </div>
         <div className="relative flex min-w-0 flex-1 flex-col gap-2">
           <p className="text-xs font-bold tracking-[0.25em] text-accent">{t("eyebrow")}</p>
@@ -167,11 +163,12 @@ export function SecretBossCard({ boss }: { boss: SecretBoss }) {
         <span className="card-sheen block aspect-[5/7] overflow-hidden rounded-xl border-2 border-transparent [background:linear-gradient(#1c1a23,#1c1a23)_padding-box,linear-gradient(135deg,var(--mythic-a),var(--mythic-b),var(--mythic-c))_border-box]">
           {boss.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={boss.imageUrl} alt="" className={`h-full w-full object-cover ${boss.defeated ? "grayscale" : ""}`} />
+            <img src={boss.imageUrl} alt="" className={`h-full w-full object-cover ${boss.defeated ? "brightness-75 grayscale" : ""}`} />
           ) : (
             <Sparkles className="m-auto h-full w-10 text-legendary" aria-hidden />
           )}
         </span>
+        {boss.defeated && <DefeatedStamp />}
       </div>
       <div className="relative flex min-w-0 flex-1 flex-col gap-2">
         <p className="flex items-center gap-1.5 text-xs font-bold tracking-[0.25em] text-legendary">
@@ -219,5 +216,22 @@ export function SecretBossCard({ boss }: { boss: SecretBoss }) {
         {error && <p className="text-sm text-accent">{t("claimError")}</p>}
       </div>
     </section>
+  );
+}
+
+// Red rubber stamp pressed across a fallen boss's card.
+function DefeatedStamp() {
+  const t = useTranslations("games.boss");
+  return (
+    <motion.span
+      initial={{ scale: 2.4, opacity: 0, rotate: -24 }}
+      animate={{ scale: 1, opacity: 1, rotate: -12 }}
+      transition={{ duration: 0.35, ease: [0.5, 0, 0.75, 0], delay: 0.2 }}
+      className="pointer-events-none absolute inset-x-0 top-1/2 z-10 -mt-4 flex justify-center"
+    >
+      <span className="rounded-md border-[3px] border-red-500 bg-black/35 px-2 py-0.5 font-display text-sm leading-tight font-black tracking-[0.15em] whitespace-nowrap text-red-500 uppercase shadow-[0_0_14px_rgb(239_68_68/0.45),inset_0_0_8px_rgb(239_68_68/0.35)] [text-shadow:0_0_6px_rgb(239_68_68/0.5)]">
+        {t("defeatedStamp")}
+      </span>
+    </motion.span>
   );
 }
