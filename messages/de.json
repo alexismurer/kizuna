@@ -93,6 +93,15 @@
       "claim": "Er ist gefallen! Deine Belohnung wartet.",
       "cta": "Kämpfen",
       "claimCta": "Abholen"
+    },
+    "secret": {
+      "eyebrow": "GEHEIMER BOSS",
+      "title": "{name} ist aufgetaucht",
+      "join": "Noch {n} Tickets bis Montag für deinen Anteil am goldenen Booster",
+      "in": "Du bist dabei! Sammle weiter Tickets, damit er vor Montag fällt",
+      "claim": "Er ist gefallen! Dein goldener Booster wartet.",
+      "cta": "Kämpfen",
+      "claimCta": "Abholen"
     }
   },
   "characters": {

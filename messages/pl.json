@@ -93,6 +93,15 @@
       "claim": "Padł! Twoja nagroda czeka.",
       "cta": "Walcz",
       "claimCta": "Odbierz"
+    },
+    "secret": {
+      "eyebrow": "SEKRETNY BOSS",
+      "title": "Pojawił się {name}",
+      "join": "Jeszcze {n} biletów przed poniedziałkiem, by dostać złoty booster",
+      "in": "Jesteś w grze! Zdobywaj dalej bilety, by pokonać go przed poniedziałkiem",
+      "claim": "Padł! Twój złoty booster czeka.",
+      "cta": "Walcz",
+      "claimCta": "Odbierz"
     }
   },
   "characters": {

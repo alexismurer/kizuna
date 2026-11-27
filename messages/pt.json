@@ -93,6 +93,15 @@
       "claim": "Ele caiu! Sua recompensa está esperando.",
       "cta": "Lutar",
       "claimCta": "Pegar"
+    },
+    "secret": {
+      "eyebrow": "CHEFE SECRETO",
+      "title": "{name} apareceu",
+      "join": "Mais {n} tickets antes de segunda para levar o booster dourado",
+      "in": "Você está dentro! Continue ganhando tickets para derrubá-lo antes de segunda",
+      "claim": "Caiu! Seu booster dourado está esperando.",
+      "cta": "Lutar",
+      "claimCta": "Pegar"
     }
   },
   "characters": {

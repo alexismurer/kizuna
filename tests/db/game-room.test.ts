@@ -246,6 +246,9 @@ describe('secret boss', () => {
     expect(s.secret!.hp).toBe(s.boss.hp * 3)
     expect(s.secret!.rarity).toBe('mythic')
     expect(s.secret!.mine).toBe(0)
+    // the home page teaser carries it too
+    const home = (await p.client.rpc('home_boss')).data as { secret: { hp: number; mine: number; defeated: boolean } | null }
+    expect(home.secret).toMatchObject({ hp: s.secret!.hp, mine: 0, defeated: false })
 
     // knock the secret boss down with tickets earned after it appeared
     await admin.from('bosses').update({ secret_hp: 20 }).eq('week_start', week)

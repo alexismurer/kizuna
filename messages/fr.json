@@ -93,6 +93,15 @@
       "claim": "Il est tombé ! Ta récompense t'attend.",
       "cta": "Combattre",
       "claimCta": "Récupérer"
+    },
+    "secret": {
+      "eyebrow": "BOSS SECRET",
+      "title": "{name} est apparu",
+      "join": "Encore {n} tickets avant lundi pour avoir ta part du booster doré",
+      "in": "Tu es dans la course ! Continue de gagner des tickets pour le battre avant lundi",
+      "claim": "Il est tombé ! Ton booster doré t’attend.",
+      "cta": "Combattre",
+      "claimCta": "Récupérer"
     }
   },
   "characters": {

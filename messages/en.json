@@ -93,6 +93,15 @@
       "claim": "It fell! Your reward is waiting.",
       "cta": "Fight",
       "claimCta": "Claim"
+    },
+    "secret": {
+      "eyebrow": "SECRET BOSS",
+      "title": "{name} showed up",
+      "join": "{n} more tickets before Monday to share the golden booster",
+      "in": "You're in! Keep earning tickets to bring it down before Monday",
+      "claim": "It fell! Your golden booster is waiting.",
+      "cta": "Fight",
+      "claimCta": "Claim"
     }
   },
   "characters": {

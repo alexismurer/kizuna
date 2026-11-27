@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { BigPulls } from "@/components/home/BigPulls";
 import { BoosterGrid, type HomePack } from "@/components/home/BoosterGrid";
+import { HomeBoss, type HomeBossData } from "@/components/home/HomeBoss";
 import { Hero, type HeroSlide } from "@/components/home/Hero";
 import { PackSidePanel } from "@/components/home/PackSidePanel";
 import { StatusTiles } from "@/components/home/StatusTiles";
@@ -510,5 +511,47 @@ describe("BigPulls", () => {
     rpc.mockResolvedValue({ data: [], error: null });
     wrap(<BigPulls />);
     expect(await screen.findByText(messages.home.bigPulls.empty)).toBeInTheDocument();
+  });
+});
+
+describe("HomeBoss", () => {
+  const weekly = (o: Partial<HomeBossData> = {}): HomeBossData => ({
+    name: "Weekly",
+    imageUrl: null,
+    rarity: "legendary",
+    hp: 1000,
+    damage: 200,
+    defeated: false,
+    mine: 0,
+    share: 30,
+    rank: null,
+    chance: 0,
+    tenth: null,
+    claimed: false,
+    secret: null,
+    ...o,
+  });
+  const secret = { name: "Hidden", imageUrl: null, rarity: "mythic", hp: 3000, damage: 0, defeated: false, mine: 10, share: 30, claimed: false };
+
+  it("shows the weekly boss while it stands, even if a secret one exists", () => {
+    wrap(<HomeBoss boss={weekly({ secret })} />);
+    expect(screen.getByTestId("home-boss")).toBeInTheDocument();
+    expect(screen.queryByTestId("home-secret-boss")).toBeNull();
+  });
+
+  it("hands over to the secret boss once the weekly one fell", () => {
+    wrap(<HomeBoss boss={weekly({ defeated: true, secret })} />);
+    const strip = screen.getByTestId("home-secret-boss");
+    expect(strip).toHaveAttribute("href", "/play");
+    expect(strip).toHaveTextContent("Hidden showed up");
+    expect(strip).toHaveTextContent("20 more tickets before Monday");
+  });
+
+  it("offers the golden booster when the secret boss fell, then hides", () => {
+    wrap(<HomeBoss boss={weekly({ defeated: true, secret: { ...secret, defeated: true, mine: 40 } })} />);
+    expect(screen.getByTestId("home-secret-boss")).toHaveTextContent(messages.home.secret.claim);
+    cleanup();
+    wrap(<HomeBoss boss={weekly({ defeated: true, secret: { ...secret, defeated: true, mine: 40, claimed: true } })} />);
+    expect(screen.queryByTestId("home-secret-boss")).toBeNull();
   });
 });

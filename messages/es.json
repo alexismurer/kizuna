@@ -93,6 +93,15 @@
       "claim": "¡Cayó! Tu recompensa te espera.",
       "cta": "Luchar",
       "claimCta": "Reclamar"
+    },
+    "secret": {
+      "eyebrow": "JEFE SECRETO",
+      "title": "Apareció {name}",
+      "join": "{n} tickets más antes del lunes para llevarte el sobre dorado",
+      "in": "¡Ya estás dentro! Sigue ganando tickets para tumbarlo antes del lunes",
+      "claim": "¡Cayó! Tu sobre dorado te espera.",
+      "cta": "Luchar",
+      "claimCta": "Reclamar"
     }
   },
   "characters": {
