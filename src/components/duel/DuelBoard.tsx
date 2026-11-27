@@ -364,32 +364,32 @@ function Hand({
     // the top padding leaves room for a lifted card, inside the box (no scrollbar)
     <div className="min-w-0 flex-1 pt-4" aria-label={label}>
       <div ref={ref} className="flex h-[84px] justify-center sm:h-[112px] lg:h-[118px]">
-        <AnimatePresence initial={false}>
-          {cards.map((c, i) => {
-            const lifted = selected === c.uid;
-            return (
-              <motion.div
-                key={c.uid}
-                layoutId={c.uid}
-                initial={{ opacity: 0, y: 40, rotate: 8 }}
-                animate={{ opacity: 1, y: lifted ? -14 : 0, rotate: 0, scale: lifted ? 1.04 : 1 }}
-                exit={{ opacity: 0, y: -20 }}
-                whileHover={{ y: lifted ? -14 : -10, scale: 1.08 }}
-                onHoverStart={() => setHover(c.uid)}
-                onHoverEnd={() => setHover((h) => (h === c.uid ? null : h))}
-                transition={{ type: "spring", stiffness: 420, damping: 30 }}
-                className="relative h-full"
-                style={{
-                  marginLeft: i ? step : 0,
-                  zIndex: hover === c.uid || lifted ? 20 : i,
-                  filter: active ? undefined : "saturate(0.7)",
-                }}
-              >
-                <DuelCardChip card={c} size="fan" selected={lifted} onClick={() => onTap(c)} />
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+        {/* no AnimatePresence here: a played card hands its layoutId to the board, and an exit
+            on top of that never finished, so the card stayed in the hand as a clickable ghost.
+            The board copy still flies in from the hand through the shared layoutId. */}
+        {cards.map((c, i) => {
+          const lifted = selected === c.uid;
+          return (
+            <motion.div
+              key={c.uid}
+              layoutId={c.uid}
+              initial={{ opacity: 0, y: 40, rotate: 8 }}
+              animate={{ opacity: 1, y: lifted ? -14 : 0, rotate: 0, scale: lifted ? 1.04 : 1 }}
+              whileHover={{ y: lifted ? -14 : -10, scale: 1.08 }}
+              onHoverStart={() => setHover(c.uid)}
+              onHoverEnd={() => setHover((h) => (h === c.uid ? null : h))}
+              transition={{ type: "spring", stiffness: 420, damping: 30 }}
+              className="relative h-full"
+              style={{
+                marginLeft: i ? step : 0,
+                zIndex: hover === c.uid || lifted ? 20 : i,
+                filter: active ? undefined : "saturate(0.7)",
+              }}
+            >
+              <DuelCardChip card={c} size="fan" selected={lifted} onClick={() => onTap(c)} />
+            </motion.div>
+          );
+        })}
         {!cards.length && <p className="self-center text-sm text-common">{empty}</p>}
       </div>
     </div>
