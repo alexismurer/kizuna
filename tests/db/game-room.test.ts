@@ -221,7 +221,7 @@ describe('boss of the week', () => {
 })
 
 describe('secret boss', () => {
-  it('appears when the weekly boss falls, takes new tickets, and pays a golden booster', async () => {
+  it('appears when the weekly boss falls, takes new tickets, and pays like the weekly boss', async () => {
     const p = await newPlayer()
     // this week's boss row, set so it is about to fall
     await p.client.rpc('game_room_status')
@@ -243,7 +243,7 @@ describe('secret boss', () => {
     }
     expect(s.boss.defeated).toBe(true)
     expect(s.secret).not.toBeNull()
-    expect(s.secret!.hp).toBe(s.boss.hp * 3)
+    expect(s.secret!.hp).toBe(s.boss.hp * 2)
     expect(s.secret!.rarity).toBe('mythic')
     expect(s.secret!.mine).toBe(0)
     // the home page teaser carries it too
@@ -259,11 +259,31 @@ describe('secret boss', () => {
     expect(s.secret!.defeated).toBe(true)
     expect(s.secret!.mine).toBe(30)
 
-    await admin.from('players').update({ golden_next: false }).eq('id', p.userId)
-    expect((await p.client.rpc('boss_claim', { p_kind: 'secret' })).error).toBeNull()
-    const { data: me } = await admin.from('players').select('golden_next').eq('id', p.userId).single()
-    expect(me!.golden_next).toBe(true)
+    // ranked like the weekly boss: push p to the top, the card is sure
+    await admin.from('boss_hits').update({ secret_damage: 9000000 }).eq('week_start', week).eq('player_id', p.userId)
+    s = (await p.client.rpc('game_room_status')).data as typeof s
+    expect(s.secret).toMatchObject({ rank: 1, chance: 100, boosters: 3 })
+    const mythicsBefore = (await admin.rpc('metric_value', { p_player: p.userId, p_metric: 'pulled_mythic', p_since: null })).data as number
+    expect((await p.client.rpc('boss_claim', { p_kind: 'secret' })).data).toMatchObject({ rank: 1, card: true, boosters: 0 })
+    const { data: card } = await admin.from('bosses').select('secret_card_id').eq('week_start', week).single()
+    const { data: inv } = await admin.from('inventory').select('count').eq('player_id', p.userId).eq('card_id', card!.secret_card_id).single()
+    expect(inv!.count).toBe(1)
     expect((await p.client.rpc('boss_claim', { p_kind: 'secret' })).error?.message).toContain('already_claimed')
+    s = (await p.client.rpc('game_room_status')).data as typeof s
+    expect(s.secret).toMatchObject({ claimed: true, gotCard: true, claimedRank: 1 })
+
+    // the won Mythic counts for the "pull a Mythic" missions
+    const mythicsAfter = (await admin.rpc('metric_value', { p_player: p.userId, p_metric: 'pulled_mythic', p_since: null })).data as number
+    expect(mythicsAfter).toBe(mythicsBefore + 1)
+    const missions = (await admin.rpc('_my_missions', { p_player: p.userId, p_now: new Date().toISOString() })).data as {
+      weekly: { key: string; progress: number }[]
+    }
+    expect(missions.weekly.find((m) => m.key === 'weekly_mythic')?.progress).toBe(1)
+
+    // under 30 damage: no reward
+    const q = await newPlayer()
+    expect((await q.client.rpc('boss_claim', { p_kind: 'secret' })).error?.message).toContain('not_enough_damage')
+    await admin.from('boss_hits').delete().eq('week_start', week).eq('player_id', p.userId)
 
     } finally {
     // put the week back as it was

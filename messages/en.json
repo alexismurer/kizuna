@@ -96,10 +96,11 @@
     },
     "secret": {
       "eyebrow": "SECRET BOSS",
-      "title": "{name} showed up",
-      "join": "{n} more tickets before Monday to share the golden booster",
-      "in": "You're in! Keep earning tickets to bring it down before Monday",
-      "claim": "It fell! Your golden booster is waiting.",
+      "title": "{name} showed up. Top 3 win it",
+      "join": "{n} more damage before Monday gets you in the race",
+      "ranked": "You're #{rank} · {chance}% chance at the card. Keep hitting!",
+      "gap": "{n} more damage to break into the top 10",
+      "claim": "It fell! Your reward is waiting.",
       "cta": "Fight",
       "claimCta": "Claim"
     }
@@ -2146,10 +2147,9 @@
       "appeared": "The weekly boss fell… a secret boss appeared!",
       "defeated": "The secret boss fell too! Incredible.",
       "hp": "health points left of {max}",
-      "rule": "Every ticket earned since it appeared takes one health point. If it falls before Monday, everyone who earned {share} tickets since it appeared gets a golden booster.",
-      "yours": "Your damage since it appeared: {n} (your share from {share})",
-      "claim": "Claim your golden booster",
-      "claimed": "Your next booster will be golden!",
+      "rule": "Every ticket earned since it appeared takes one health point. If it falls before Monday, the top 3 damage dealers get this card. From 4th to 10th the chance drops from 70% to 10%. Everyone else with {share}+ damage, and anyone who misses the card, gets {boosters} free boosters.",
+      "yours": "Your damage since it appeared: {n}",
+      "claim": "Claim your reward",
       "claimError": "Couldn't claim the reward. Try again."
     },
     "prizes": {

@@ -27,8 +27,8 @@ export type Boss = BossBase & {
   claimedRank: number | null;
 };
 export type BossReward = { rank: number; card: boolean; boosters: number };
-// appears when the weekly boss falls; its reward is a golden booster
-export type SecretBoss = BossBase;
+// appears when the weekly boss falls; same ranked rewards, with its own card
+export type SecretBoss = Boss;
 export type GameRoomStatus = {
   tickets: number;
   today: number;

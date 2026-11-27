@@ -96,10 +96,11 @@
     },
     "secret": {
       "eyebrow": "GEHEIMER BOSS",
-      "title": "{name} ist aufgetaucht",
-      "join": "Noch {n} Tickets bis Montag für deinen Anteil am goldenen Booster",
-      "in": "Du bist dabei! Sammle weiter Tickets, damit er vor Montag fällt",
-      "claim": "Er ist gefallen! Dein goldener Booster wartet.",
+      "title": "{name} ist aufgetaucht. Die Top 3 gewinnen ihn",
+      "join": "Noch {n} Schaden bis Montag, dann bist du im Rennen",
+      "ranked": "Du bist #{rank} · {chance} % Kartenchance. Weiter so!",
+      "gap": "Noch {n} Schaden bis in die Top 10",
+      "claim": "Er ist gefallen! Deine Belohnung wartet.",
       "cta": "Kämpfen",
       "claimCta": "Abholen"
     }
@@ -2146,10 +2147,9 @@
       "appeared": "Der Boss der Woche ist gefallen… ein geheimer Boss ist aufgetaucht!",
       "defeated": "Auch der geheime Boss ist gefallen! Unglaublich.",
       "hp": "Lebenspunkte übrig von {max}",
-      "rule": "Jedes Ticket, das seit seinem Auftauchen verdient wurde, nimmt ihm einen Lebenspunkt. Fällt er vor Montag, bekommt jeder, der seit seinem Auftauchen {share} Tickets verdient hat, einen goldenen Booster.",
-      "yours": "Dein Schaden seit seinem Auftauchen: {n} (dein Anteil ab {share})",
-      "claim": "Goldenen Booster abholen",
-      "claimed": "Dein nächster Booster wird golden!",
+      "rule": "Jedes Ticket, das seit seinem Auftauchen verdient wurde, nimmt ihm einen Lebenspunkt. Fällt er vor Montag, bekommen die 3 Spieler mit dem meisten Schaden seine Karte. Von Platz 4 bis 10 sinkt die Chance von 70 % auf 10 %. Alle anderen mit {share}+ Schaden und wer die Karte verpasst, bekommen {boosters} Gratis-Booster.",
+      "yours": "Dein Schaden seit seinem Auftauchen: {n}",
+      "claim": "Belohnung abholen",
       "claimError": "Die Belohnung konnte nicht abgeholt werden. Versuch es noch einmal."
     },
     "prizes": {

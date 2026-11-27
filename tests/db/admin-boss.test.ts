@@ -84,10 +84,10 @@ describe('admin bosses', () => {
     expect(s.secret).toMatchObject({ appearedAt: null, damage: 0, hp: 200 })
   })
 
-  it('falls back to a random Mythic with 3x health when nothing is set', async () => {
+  it('falls back to a random Mythic with 2x health when nothing is set', async () => {
     await save('secret', null, null, 0)
     const s = (await save('weekly', cardA, 300, 300)).data as Status
-    expect(s.secret.hp).toBe(900)
+    expect(s.secret.hp).toBe(600)
     expect(s.secret.card!.rarity).toBe('mythic')
   })
 })

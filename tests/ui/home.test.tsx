@@ -531,7 +531,7 @@ describe("HomeBoss", () => {
     secret: null,
     ...o,
   });
-  const secret = { name: "Hidden", imageUrl: null, rarity: "mythic", hp: 3000, damage: 0, defeated: false, mine: 10, share: 30, claimed: false };
+  const secret = { name: "Hidden", imageUrl: null, rarity: "mythic", hp: 3000, damage: 0, defeated: false, mine: 10, share: 30, rank: null, chance: 0, tenth: null, claimed: false };
 
   it("shows the weekly boss while it stands, even if a secret one exists", () => {
     wrap(<HomeBoss boss={weekly({ secret })} />);
@@ -544,14 +544,19 @@ describe("HomeBoss", () => {
     const strip = screen.getByTestId("home-secret-boss");
     expect(strip).toHaveAttribute("href", "/play");
     expect(strip).toHaveTextContent("Hidden showed up");
-    expect(strip).toHaveTextContent("20 more tickets before Monday");
+    expect(strip).toHaveTextContent("20 more damage before Monday");
   });
 
-  it("offers the golden booster when the secret boss fell, then hides", () => {
-    wrap(<HomeBoss boss={weekly({ defeated: true, secret: { ...secret, defeated: true, mine: 40 } })} />);
+  it("shows the player's rank on the secret boss", () => {
+    wrap(<HomeBoss boss={weekly({ defeated: true, secret: { ...secret, mine: 40, rank: 2, chance: 100 } })} />);
+    expect(screen.getByTestId("home-secret-boss")).toHaveTextContent("You're #2 · 100% chance at the card");
+  });
+
+  it("offers the reward to ranked players when the secret boss fell, then hides", () => {
+    wrap(<HomeBoss boss={weekly({ defeated: true, secret: { ...secret, defeated: true, mine: 40, rank: 5, chance: 60 } })} />);
     expect(screen.getByTestId("home-secret-boss")).toHaveTextContent(messages.home.secret.claim);
     cleanup();
-    wrap(<HomeBoss boss={weekly({ defeated: true, secret: { ...secret, defeated: true, mine: 40, claimed: true } })} />);
+    wrap(<HomeBoss boss={weekly({ defeated: true, secret: { ...secret, defeated: true, mine: 40, rank: 5, chance: 60, claimed: true } })} />);
     expect(screen.queryByTestId("home-secret-boss")).toBeNull();
   });
 });

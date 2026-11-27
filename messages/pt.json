@@ -96,10 +96,11 @@
     },
     "secret": {
       "eyebrow": "CHEFE SECRETO",
-      "title": "{name} apareceu",
-      "join": "Mais {n} tickets antes de segunda para levar o booster dourado",
-      "in": "Você está dentro! Continue ganhando tickets para derrubá-lo antes de segunda",
-      "claim": "Caiu! Seu booster dourado está esperando.",
+      "title": "{name} apareceu. O top 3 leva",
+      "join": "Mais {n} de dano antes de segunda e você entra na disputa",
+      "ranked": "Você está em #{rank} · {chance}% de chance da carta. Continue!",
+      "gap": "Mais {n} de dano para entrar no top 10",
+      "claim": "Ele caiu! Sua recompensa está esperando.",
       "cta": "Lutar",
       "claimCta": "Pegar"
     }
@@ -2146,10 +2147,9 @@
       "appeared": "O chefe da semana caiu… um chefe secreto apareceu!",
       "defeated": "O chefe secreto também caiu! Incrível.",
       "hp": "pontos de vida restantes de {max}",
-      "rule": "Cada ticket ganho desde que ele apareceu tira um ponto de vida dele. Se ele cair antes de segunda-feira, todos que ganharam {share} tickets desde que ele apareceu recebem um booster dourado.",
-      "yours": "Seu dano desde que ele apareceu: {n} (sua parte a partir de {share})",
-      "claim": "Resgatar seu booster dourado",
-      "claimed": "Seu próximo booster será dourado!",
+      "rule": "Cada ticket ganho desde que ele apareceu tira um ponto de vida dele. Se ele cair antes de segunda-feira, os 3 que causaram mais dano ganham a carta dele. Do 4.º ao 10.º lugar, a chance cai de 70% para 10%. Todos os outros com {share}+ de dano, e quem não levar a carta, recebem {boosters} boosters grátis.",
+      "yours": "Seu dano desde que ele apareceu: {n}",
+      "claim": "Pegar sua recompensa",
       "claimError": "Não foi possível resgatar a recompensa. Tente novamente."
     },
     "prizes": {

@@ -30,7 +30,7 @@ function BossForm({ kind, boss, onSaved }: { kind: Kind; boss: AdminBoss; onSave
   const secret = kind === "secret";
   const appeared = !secret || boss.secret.appearedAt !== null;
   // what health the secret boss gets when left automatic
-  const autoSecretHp = boss.weekly.hp * 3;
+  const autoSecretHp = boss.weekly.hp * 2;
 
   const [card, setCard] = useState<AdminCardHit | null>(side.card);
   const [hp, setHp] = useState(side.hp?.toString() ?? "");

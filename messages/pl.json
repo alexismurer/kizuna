@@ -96,10 +96,11 @@
     },
     "secret": {
       "eyebrow": "SEKRETNY BOSS",
-      "title": "Pojawił się {name}",
-      "join": "Jeszcze {n} biletów przed poniedziałkiem, by dostać złoty booster",
-      "in": "Jesteś w grze! Zdobywaj dalej bilety, by pokonać go przed poniedziałkiem",
-      "claim": "Padł! Twój złoty booster czeka.",
+      "title": "Pojawił się {name}. Top 3 go zdobywa",
+      "join": "Jeszcze {n} obrażeń przed poniedziałkiem i jesteś w wyścigu",
+      "ranked": "Jesteś #{rank} · {chance}% szansy na kartę. Bij dalej!",
+      "gap": "Jeszcze {n} obrażeń do top 10",
+      "claim": "Padł! Twoja nagroda czeka.",
       "cta": "Walcz",
       "claimCta": "Odbierz"
     }
@@ -2146,10 +2147,9 @@
       "appeared": "Boss tygodnia padł… pojawił się sekretny boss!",
       "defeated": "Sekretny boss też padł! Niesamowite.",
       "hp": "punktów życia zostało z {max}",
-      "rule": "Każdy żeton zdobyty od jego pojawienia się zabiera mu jeden punkt życia. Jeśli padnie przed poniedziałkiem, każdy, kto zdobył {share} żetonów od jego pojawienia się, dostanie złoty booster.",
-      "yours": "Twoje obrażenia od jego pojawienia się: {n} (twój udział od {share})",
-      "claim": "Odbierz złoty booster",
-      "claimed": "Twój następny booster będzie złoty!",
+      "rule": "Każdy bilet zdobyty od jego pojawienia się zabiera mu jeden punkt życia. Jeśli padnie przed poniedziałkiem, 3 graczy z największymi obrażeniami dostaje jego kartę. Od 4. do 10. miejsca szansa spada z 70% do 10%. Wszyscy pozostali z {share}+ obrażeniami i ci, którym karta nie wypadnie, dostają {boosters} darmowe boostery.",
+      "yours": "Twoje obrażenia od jego pojawienia się: {n}",
+      "claim": "Odbierz nagrodę",
       "claimError": "Nie udało się odebrać nagrody. Spróbuj ponownie."
     },
     "prizes": {

@@ -96,10 +96,11 @@
     },
     "secret": {
       "eyebrow": "JEFE SECRETO",
-      "title": "Apareció {name}",
-      "join": "{n} tickets más antes del lunes para llevarte el sobre dorado",
-      "in": "¡Ya estás dentro! Sigue ganando tickets para tumbarlo antes del lunes",
-      "claim": "¡Cayó! Tu sobre dorado te espera.",
+      "title": "Apareció {name}. El top 3 se lo lleva",
+      "join": "{n} de daño más antes del lunes y entras en la carrera",
+      "ranked": "Vas #{rank} · {chance} % de probabilidad de carta. ¡Sigue golpeando!",
+      "gap": "{n} de daño más para entrar en el top 10",
+      "claim": "¡Cayó! Tu recompensa te espera.",
       "cta": "Luchar",
       "claimCta": "Reclamar"
     }
@@ -2146,10 +2147,9 @@
       "appeared": "El jefe de la semana ha caído… ¡ha aparecido un jefe secreto!",
       "defeated": "¡El jefe secreto también ha caído! Increíble.",
       "hp": "puntos de vida restantes de {max}",
-      "rule": "Cada ticket ganado desde que apareció le quita un punto de vida. Si cae antes del lunes, todos los que hayan ganado {share} tickets desde que apareció reciben un sobre dorado.",
-      "yours": "Tu daño desde que apareció: {n} (tu parte desde {share})",
-      "claim": "Reclamar tu sobre dorado",
-      "claimed": "¡Tu próximo sobre será dorado!",
+      "rule": "Cada ticket ganado desde que apareció le quita un punto de vida. Si cae antes del lunes, los 3 que más daño hicieron ganan su carta. Del 4.º al 10.º puesto, la probabilidad baja del 70 % al 10 %. Todos los demás con {share}+ de daño, y quien no consiga la carta, reciben {boosters} sobres gratis.",
+      "yours": "Tu daño desde que apareció: {n}",
+      "claim": "Reclamar tu recompensa",
       "claimError": "No se pudo reclamar la recompensa. Inténtalo de nuevo."
     },
     "prizes": {

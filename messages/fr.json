@@ -96,10 +96,11 @@
     },
     "secret": {
       "eyebrow": "BOSS SECRET",
-      "title": "{name} est apparu",
-      "join": "Encore {n} tickets avant lundi pour avoir ta part du booster doré",
-      "in": "Tu es dans la course ! Continue de gagner des tickets pour le battre avant lundi",
-      "claim": "Il est tombé ! Ton booster doré t’attend.",
+      "title": "{name} est apparu. Le top 3 le gagne",
+      "join": "Encore {n} dégâts avant lundi pour entrer dans la course",
+      "ranked": "Tu es #{rank} · {chance} % de chance d'avoir la carte. Continue !",
+      "gap": "Encore {n} dégâts pour entrer dans le top 10",
+      "claim": "Il est tombé ! Ta récompense t'attend.",
       "cta": "Combattre",
       "claimCta": "Récupérer"
     }
@@ -2146,10 +2147,9 @@
       "appeared": "Le boss de la semaine est tombé… un boss secret est apparu !",
       "defeated": "Le boss secret est tombé lui aussi ! Incroyable.",
       "hp": "points de vie restants sur {max}",
-      "rule": "Chaque ticket gagné depuis son apparition lui retire un point de vie. S’il tombe avant lundi, tous ceux qui ont gagné {share} tickets depuis son apparition reçoivent un booster doré.",
-      "yours": "Tes dégâts depuis son apparition : {n} (ta part à partir de {share})",
-      "claim": "Récupérer ton booster doré",
-      "claimed": "Ton prochain booster sera doré !",
+      "rule": "Chaque ticket gagné depuis son apparition lui retire un point de vie. S’il tombe avant lundi, les 3 joueurs qui ont fait le plus de dégâts gagnent sa carte. De la 4e à la 10e place, la chance passe de 70 % à 10 %. Tous les autres avec {share}+ dégâts, et ceux qui ratent la carte, reçoivent {boosters} boosters gratuits.",
+      "yours": "Tes dégâts depuis son apparition : {n}",
+      "claim": "Récupérer ta récompense",
       "claimError": "Impossible de récupérer la récompense. Réessaie."
     },
     "prizes": {
