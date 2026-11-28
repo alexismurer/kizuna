@@ -1924,6 +1924,7 @@
     "rematch": "Rematch",
     "tickets": "+{n} tickets",
     "noTickets": "No tickets for this match: it was too short, or you reached today's cap.",
+    "bossHit": "You still hit the boss for {n} damage",
     "leave": "Leave",
     "close": "Close",
     "total": "Total {n}",
@@ -1933,6 +1934,8 @@
     "horn": "Row doubled",
     "hero": "Hero: weather, horns, boosts and burns don't touch it.",
     "lastMoves": "Last moves",
+    "burnWill": "Will burn: {cards}",
+    "burnNone": "Nothing to burn right now",
     "sound": "Sound",
     "row": {
       "0": "Front row",
@@ -1988,13 +1991,14 @@
       },
       "burn": {
         "name": "Burn",
-        "text": "Destroys the strongest unit(s) on the whole board, yours included."
+        "text": "Destroys the opponent's strongest unit (all of them on a tie). Heroes are safe, and your side is never touched."
       }
     },
     "log": {
       "play": "{who} played {card}",
       "pass": "{who} passed",
-      "destroy": "Destroyed: {cards}",
+      "destroy": "{who} burned {cards}",
+      "destroyNone": "{who}'s burn hit nothing",
       "revive": "{who} revived {card}",
       "muster": "{who} gathered {n} more",
       "draw": "{who} drew {n}",
@@ -2275,6 +2279,7 @@
     "copied": "Copied!",
     "earned": "+{n, number} tickets",
     "capReached": "Ticket cap reached, but the boss still took your damage.",
+    "bossHit": "You still hit the boss for {n} damage",
     "tooQuick": "No tickets: the game ended too quickly.",
     "newBest": "New best of the week!",
     "rankLine": "#{rank} of {players} this week",

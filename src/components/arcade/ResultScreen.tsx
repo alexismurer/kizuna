@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RotateCcw, Ticket, Trophy, type LucideIcon } from "lucide-react";
+import { RotateCcw, Skull, Ticket, Trophy, type LucideIcon } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import type { FinishResult } from "@/lib/actions/arcade";
 import { Stars } from "./Stars";
@@ -49,6 +49,13 @@ export function ResultScreen({
         <Ticket className="h-4 w-4" aria-hidden />
         {ticketLine}
       </p>
+      {/* at the ticket cap the boss still takes the hit: say how much */}
+      {result.earned === 0 && !!result.bossDamage && (
+        <p className="-mt-2 flex items-center gap-1.5 text-sm font-semibold text-legendary">
+          <Skull className="h-4 w-4" aria-hidden />
+          {t("bossHit", { n: result.bossDamage })}
+        </p>
+      )}
       {result.newBest && <p className="text-sm font-bold text-legendary">{t("newBest")}</p>}
       <p className="flex items-center gap-1.5 text-xs text-common">
         <Trophy className="h-3.5 w-3.5" aria-hidden />

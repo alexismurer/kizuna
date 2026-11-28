@@ -27,7 +27,8 @@ export type PlayerState = {
 export type LogEntry =
   | { kind: "play"; side: Side; card: string; row?: Row; tactic?: TacticCard["tactic"] }
   | { kind: "pass"; side: Side }
-  | { kind: "destroy"; cards: string[] }
+  // side: who burned; cards is empty when the burn found nothing to destroy
+  | { kind: "destroy"; side: Side; cards: string[] }
   | { kind: "revive"; side: Side; card: string }
   | { kind: "muster"; side: Side; count: number }
   | { kind: "draw"; side: Side; count: number }
@@ -205,7 +206,7 @@ function playUnit(state: GameState, side: Side, card: UnitCard, fromHand: boolea
   if (card.ability === "scorch") {
     // Finisher: hits the enemy's matching row when it totals 10 or more
     if (rowScore(state, other(side), card.row) >= 10) {
-      burn(state, [[other(side), card.row]]);
+      burn(state, side, [[other(side), card.row]]);
     }
   } else if (card.ability === "muster" && fromHand) {
     // every other card of the series in the deck or the hand joins (spies stay put)
@@ -245,17 +246,15 @@ function playTactic(state: GameState, side: Side, card: TacticCard, row?: Row) {
     case "horn":
       state.players[side].horns[row!] = true;
       break;
-    case "burn": {
-      const all: [Side, Row][] = [];
-      for (const s of [0, 1] as Side[]) for (const r of ROWS) all.push([s, r]);
-      burn(state, all);
+    case "burn":
+      // only the opponent's side burns
+      burn(state, side, ROWS.map((r): [Side, Row] => [other(side), r]));
       break;
-    }
   }
 }
 
-// Destroys the strongest non-hero unit(s) among the given rows (all ties go).
-function burn(state: GameState, where: [Side, Row][]) {
+// The strongest non-hero unit(s) among the given rows (all ties go).
+function burnTargets(state: GameState, where: [Side, Row][]): [Side, Row, UnitCard][] {
   let best = 0;
   const hits: [Side, Row, UnitCard][] = [];
   for (const [s, r] of where) {
@@ -269,7 +268,24 @@ function burn(state: GameState, where: [Side, Row][]) {
       if (v === best) hits.push([s, r, u]);
     }
   }
-  if (!hits.length) return;
+  return hits;
+}
+
+// The units `side` would destroy by playing this card now (Burn, or a Finisher unit).
+export function burnPreview(state: GameState, side: Side, card: DuelCard): UnitCard[] {
+  const foe = other(side);
+  if (card.kind === "tactic" && card.tactic === "burn") {
+    return burnTargets(state, ROWS.map((r): [Side, Row] => [foe, r])).map(([, , u]) => u);
+  }
+  if (card.kind === "unit" && card.ability === "scorch" && rowScore(state, foe, card.row) >= 10) {
+    return burnTargets(state, [[foe, card.row]]).map(([, , u]) => u);
+  }
+  return [];
+}
+
+// Destroys the strongest non-hero unit(s) among the given rows.
+function burn(state: GameState, side: Side, where: [Side, Row][]) {
+  const hits = burnTargets(state, where);
   for (const [s, r, u] of hits) {
     const rows = state.players[s].rows;
     rows[r] = rows[r].filter((x) => x !== u);
@@ -277,7 +293,7 @@ function burn(state: GameState, where: [Side, Row][]) {
     const owner = u.uid.startsWith("a") ? 0 : 1;
     state.players[owner].discard.push(u);
   }
-  state.log.push({ kind: "destroy", cards: hits.map(([, , u]) => u.name) });
+  state.log.push({ kind: "destroy", side, cards: hits.map(([, , u]) => u.name) });
 }
 
 function advance(state: GameState) {

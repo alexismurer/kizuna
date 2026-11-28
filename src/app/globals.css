@@ -568,6 +568,8 @@ main:not([style*="display: none"]):has(.page-loader) ~ footer {
 .duel-lane-storm { box-shadow: inset 0 0 0 1px rgb(129 140 248 / 0.55), inset 0 0 22px rgb(99 102 241 / 0.3); }
 /* the rows you can drop a horn on */
 .duel-lane-target { animation: duel-target 1.1s ease-in-out infinite; }
+.duel-doomed { box-shadow: 0 0 0 2px #ff6b3d, 0 0 14px #ff6b3d; animation: duel-doomed 0.9s ease-in-out infinite; }
+@keyframes duel-doomed { 50% { box-shadow: 0 0 0 2px #ffd23f, 0 0 24px #ff6b3d, inset 0 0 14px rgb(255 107 61 / 0.5); } }
 @keyframes duel-target { 50% { box-shadow: inset 0 0 28px rgb(255 210 63 / 0.35), 0 0 16px rgb(255 210 63 / 0.35); } }
 /* a card catches the light on hover */
 .duel-chip::after {
@@ -586,9 +588,9 @@ button.duel-chip:hover { box-shadow: 0 6px 18px rgb(0 0 0 / 0.5), 0 0 14px rgb(2
 }
 @keyframes duel-rain { to { background-position: -14px 60px, 0 0; } }
 @keyframes duel-flash { 0%, 92%, 95%, 100% { filter: none; } 93%, 96% { filter: brightness(2.2); } }
-.fx-still .duel-wx, .fx-still .duel-wx::before, .fx-still .duel-wx::after, .fx-still .duel-active::before, .fx-still .duel-lane-target { animation: none; }
+.fx-still .duel-wx, .fx-still .duel-wx::before, .fx-still .duel-wx::after, .fx-still .duel-active::before, .fx-still .duel-lane-target, .fx-still .duel-doomed { animation: none; }
 @media (prefers-reduced-motion: reduce) {
-  .duel-wx, .duel-wx::before, .duel-wx::after, .duel-active::before, .duel-lane-target { animation: none; }
+  .duel-wx, .duel-wx::before, .duel-wx::after, .duel-active::before, .duel-lane-target, .duel-doomed { animation: none; }
 }
 
 /* arcade: a timer bar draining from --from to 0 */

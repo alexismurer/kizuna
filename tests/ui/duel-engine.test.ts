@@ -3,7 +3,7 @@ import type { CardData } from "@/components/card/CardView";
 import { chooseAction } from "@/lib/duel/ai";
 import { abilityOf, strengthOf, toUnit, type DeckCard, type UnitCard } from "@/lib/duel/cards";
 import { autoList, toDeck } from "@/lib/duel/deck";
-import { apply, createGame, legalActions, score, unitStrength, type GameState, type Side } from "@/lib/duel/engine";
+import { apply, burnPreview, createGame, legalActions, score, unitStrength, type GameState, type Side } from "@/lib/duel/engine";
 import { viewFor } from "@/lib/duel/view";
 import type { Rarity } from "@/lib/game/types";
 
@@ -167,7 +167,7 @@ describe("engine", () => {
     expect(s.players[0].hand).toHaveLength(before - 1 + 2);
   });
 
-  it("burn destroys the strongest non-hero units on both sides", () => {
+  it("burn destroys only the opponent's strongest non-hero units", () => {
     let s = started(
       [unit(1, { base: 9 }), { kind: "tactic", tactic: "burn" }, unit(5, { base: 10, hero: true })],
       [unit(2, { base: 9 }), unit(3, { base: 2 }), unit(4)],
@@ -176,10 +176,23 @@ describe("engine", () => {
     s = apply(s, 1, { type: "play", uid: uid(1, 0) });
     s = apply(s, 0, { type: "play", uid: uid(0, 2) });
     s = apply(s, 1, { type: "play", uid: uid(1, 1) });
+    // the preview names what will burn before the card is played
+    expect(burnPreview(s, 0, s.players[0].hand.find((c) => c.uid === uid(0, 1))!).map((u) => u.name)).toEqual(["C2"]);
     s = apply(s, 0, { type: "play", uid: uid(0, 1) });
-    expect(s.players[0].rows[0].map((u) => u.name)).toEqual(["C5"]);
+    // A's own 9 survives even though it ties the burned card
+    expect(s.players[0].rows[0].map((u) => u.name)).toEqual(["C1", "C5"]);
     expect(s.players[1].rows[0].map((u) => u.name)).toEqual(["C3"]);
     expect(s.players[1].discard).toHaveLength(1);
+    expect(s.log.at(-1)).toEqual({ kind: "destroy", side: 0, cards: ["C2"] });
+  });
+
+  it("a burn with nothing to hit still says so in the log", () => {
+    let s = started([{ kind: "tactic", tactic: "burn" }, unit(1)], [unit(2, { hero: true }), unit(3)]);
+    s = apply(s, 0, { type: "play", uid: uid(0, 1) });
+    s = apply(s, 1, { type: "play", uid: uid(1, 0) });
+    s = apply(s, 0, { type: "play", uid: uid(0, 0) });
+    expect(s.players[1].rows[0].map((u) => u.name)).toEqual(["C2"]);
+    expect(s.log.at(-1)).toEqual({ kind: "destroy", side: 0, cards: [] });
   });
 
   it("muster pulls same-series cards from the deck; medic revives the strongest", () => {

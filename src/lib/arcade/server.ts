@@ -26,6 +26,8 @@ export type RunResult = {
   tickets: number;
   today: number;
   week: number;
+  // what the run hit the boss for (0 when no boss is alive)
+  bossDamage?: number;
   best: number;
   rank: number;
   players: number;

@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Flag, LogOut, Megaphone, Volume2, VolumeX, X } from "lucide-react";
+import { Flag, Flame, LogOut, Megaphone, Volume2, VolumeX, X } from "lucide-react";
 import { AnimatePresence, LayoutGroup, motion, MotionConfig } from "motion/react";
 import { useTranslations } from "next-intl";
-import { gameFinish, gameStart } from "@/lib/actions/games";
+import { gameFinish, gameStart, type Finish } from "@/lib/actions/games";
 import { primeAudio } from "@/lib/fx/sound";
 import { usePrefs } from "@/lib/fx/prefs";
 import { ROWS, WEATHER, type DuelCard, type Row, type UnitCard } from "@/lib/duel/cards";
-import { other, rowScore, unitStrength, type GameState, type LogEntry, type Side } from "@/lib/duel/engine";
+import { burnPreview, other, rowScore, unitStrength, type GameState, type LogEntry, type Side } from "@/lib/duel/engine";
 import { duelSfx } from "@/lib/duel/sfx";
 import { AbilityFx } from "./board/AbilityFx";
 import { BattleLog, useSay } from "./board/BattleLog";
@@ -105,7 +105,10 @@ export function DuelBoard({ session, onExit }: { session: DuelSession; onExit: (
       </>
     );
 
-  const laneProps = { state: view, exit, inspected: looked?.uid ?? null };
+  // what the picked card would burn if played now, marked on the board before you commit
+  const doomed = myTurn && card && card.kind !== "hidden" ? burnPreview(view, side, card) : [];
+  const burns = !!card && ((card.kind === "tactic" && card.tactic === "burn") || (card.kind === "unit" && card.ability === "scorch"));
+  const laneProps = { state: view, exit, inspected: looked?.uid ?? null, doomed: new Set(doomed.map((u) => u.uid)) };
   // the details panel floats over the half of the board you're not looking at
   const panelAtBottom = !!looked && inspect?.side !== side;
 
@@ -248,6 +251,14 @@ export function DuelBoard({ session, onExit }: { session: DuelSession; onExit: (
                           <DuelCardChip card={card} size="hand" />
                           <div className="min-w-0 flex-1 text-xs sm:text-sm">
                             <CardText card={card} />
+                            {myTurn && burns && (
+                              <p className="mt-1 flex items-center gap-1 font-semibold text-[#ff6b3d]">
+                                <Flame className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                                <span className="truncate">
+                                  {doomed.length ? t("burnWill", { cards: doomed.map((u) => u.name).join(", ") }) : t("burnNone")}
+                                </span>
+                              </p>
+                            )}
                           </div>
                           {myTurn &&
                             (hornPick ? (
@@ -411,10 +422,10 @@ function ThinkingDots() {
   );
 }
 
-// Registers each match when play begins and reports the result at the end; returns the tickets earned.
-function useMatchReward(view: GameState | null, side: Side, mode: "ai" | "friend"): number | null {
+// Registers each match when play begins and reports the result at the end; returns what it paid.
+function useMatchReward(view: GameState | null, side: Side, mode: "ai" | "friend"): Finish | null {
   const match = useRef<Promise<string | null> | null>(null);
-  const [reward, setReward] = useState<number | null>(null);
+  const [reward, setReward] = useState<Finish | null>(null);
   const phase = view?.phase;
   const winner = view?.winner;
   useEffect(() => {
@@ -435,7 +446,7 @@ function useMatchReward(view: GameState | null, side: Side, mode: "ai" | "friend
       void pending.then(async (id) => {
         if (!id) return;
         const r = await gameFinish(id, result).catch(() => null);
-        if (r?.ok) setReward(r.data.earned);
+        if (r?.ok) setReward(r.data);
       });
     }
   }, [phase, winner, side, mode]);
@@ -443,7 +454,7 @@ function useMatchReward(view: GameState | null, side: Side, mode: "ai" | "friend
 }
 
 // clears the last reward outside the effect's synchronous body
-function setRewardLater(set: (v: number | null) => void, v: number | null) {
+function setRewardLater(set: (v: Finish | null) => void, v: Finish | null) {
   queueMicrotask(() => set(v));
 }
 
@@ -545,6 +556,7 @@ function Lane({
   row,
   exit,
   inspected,
+  doomed,
   foe = false,
   target,
   onUnit,
@@ -554,6 +566,7 @@ function Lane({
   row: Row;
   exit: "burn" | "sweep";
   inspected: string | null;
+  doomed: Set<string>;
   foe?: boolean;
   target?: () => void;
   onUnit: (u: UnitCard, side: Side, row: Row) => void;
@@ -638,6 +651,20 @@ function Lane({
                 selected={inspected === u.uid}
                 onClick={target ? undefined : () => onUnit(u, side, row)}
               />
+              {/* the card the picked Burn / Finisher would destroy */}
+              <AnimatePresence>
+                {doomed.has(u.uid) && (
+                  <motion.span
+                    aria-hidden
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.6 }}
+                    className="duel-doomed pointer-events-none absolute inset-0 z-20 flex items-start justify-center rounded-md"
+                  >
+                    <Flame className="mt-0.5 h-4 w-4 fill-[#ff6b3d] text-[#ffd23f] drop-shadow-[0_0_6px_#ff6b3d]" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </motion.span>
           ))}
         </AnimatePresence>

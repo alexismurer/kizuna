@@ -1924,6 +1924,7 @@
     "rematch": "Revanche",
     "tickets": "+{n} tickets",
     "noTickets": "Sem tickets nesta partida: ela foi curta demais ou você atingiu o limite de hoje.",
+    "bossHit": "Mesmo assim, você causou {n} de dano ao chefe",
     "leave": "Sair",
     "close": "Fechar",
     "total": "Total {n}",
@@ -1933,6 +1934,8 @@
     "horn": "Fileira dobrada",
     "hero": "Herói: clima, cornetas, bônus e Queimar não o afetam.",
     "lastMoves": "Últimas jogadas",
+    "burnWill": "Vai queimar: {cards}",
+    "burnNone": "Nada para queimar agora",
     "sound": "Som",
     "row": {
       "0": "Fileira da frente",
@@ -1988,13 +1991,14 @@
       },
       "burn": {
         "name": "Queimar",
-        "text": "Destrói a(s) unidade(s) mais forte(s) de todo o tabuleiro, inclusive as suas."
+        "text": "Destrói a unidade mais forte do adversário (todas, se empatarem). Heróis ficam a salvo e o seu lado nunca é atingido."
       }
     },
     "log": {
       "play": "{who} jogou {card}",
       "pass": "{who} passou",
-      "destroy": "Destruídas: {cards}",
+      "destroy": "{who} queimou {cards}",
+      "destroyNone": "A queima de {who} não atingiu nada",
       "revive": "{who} reviveu {card}",
       "muster": "{who} reuniu mais {n}",
       "draw": "{who} comprou {n}",
@@ -2275,6 +2279,7 @@
     "copied": "Copiado!",
     "earned": "+{n, number} tickets",
     "capReached": "Limite de tickets atingido, mas o chefe levou o teu dano mesmo assim.",
+    "bossHit": "Mesmo assim, você causou {n} de dano ao chefe",
     "tooQuick": "Sem tickets: o jogo acabou rápido demais.",
     "newBest": "Novo recorde da semana!",
     "rankLine": "#{rank} de {players} esta semana",

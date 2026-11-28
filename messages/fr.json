@@ -1924,6 +1924,7 @@
     "rematch": "Revanche",
     "tickets": "+{n} tickets",
     "noTickets": "Pas de tickets pour ce match : il était trop court, ou tu as atteint le plafond du jour.",
+    "bossHit": "Tu as quand même infligé {n} dégâts au boss",
     "leave": "Quitter",
     "close": "Fermer",
     "total": "Total {n}",
@@ -1933,6 +1934,8 @@
     "horn": "Rangée doublée",
     "hero": "Héros : la météo, les cors, les bonus et Brûlure ne l’affectent pas.",
     "lastMoves": "Derniers coups",
+    "burnWill": "Va brûler : {cards}",
+    "burnNone": "Rien à brûler pour l'instant",
     "sound": "Son",
     "row": {
       "0": "Rangée avant",
@@ -1988,13 +1991,14 @@
       },
       "burn": {
         "name": "Brûlure",
-        "text": "Détruit la ou les unités les plus fortes de tout le plateau, y compris les tiennes."
+        "text": "Détruit l'unité la plus forte de l'adversaire (toutes en cas d'égalité). Les héros sont épargnés et ton camp n'est jamais touché."
       }
     },
     "log": {
       "play": "{who} a joué {card}",
       "pass": "{who} a passé",
-      "destroy": "Détruites : {cards}",
+      "destroy": "{who} a brûlé {cards}",
+      "destroyNone": "La Brûlure de {who} n'a rien touché",
       "revive": "{who} a ranimé {card}",
       "muster": "{who} en a rassemblé {n} de plus",
       "draw": "{who} a pioché {n}",
@@ -2275,6 +2279,7 @@
     "copied": "Copié !",
     "earned": "+{n, number} tickets",
     "capReached": "Plafond de tickets atteint, mais le boss a quand même pris tes dégâts.",
+    "bossHit": "Tu as quand même infligé {n} dégâts au boss",
     "tooQuick": "Pas de tickets : la partie a été trop courte.",
     "newBest": "Nouveau record de la semaine !",
     "rankLine": "{rank}e sur {players} cette semaine",

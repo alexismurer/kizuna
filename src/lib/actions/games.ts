@@ -66,7 +66,8 @@ export type PrizeCounterData = {
   nameId: string | null;
   prizes: PrizeItem[];
 };
-export type Finish = { earned: number; tickets: number; today: number; week: number };
+// bossDamage: what the game hit the boss for (it is not capped like tickets; 0 when no boss is alive)
+export type Finish = { earned: number; tickets: number; today: number; week: number; bossDamage?: number };
 
 async function call<T>(fn: string, args?: Record<string, unknown>): Promise<GameResult<T>> {
   const supabase = await createServerClient();

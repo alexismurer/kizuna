@@ -1924,6 +1924,7 @@
     "rematch": "Revancha",
     "tickets": "+{n} tickets",
     "noTickets": "Sin tickets en esta partida: fue demasiado corta o alcanzaste el límite de hoy.",
+    "bossHit": "Aun así le hiciste {n} de daño al jefe",
     "leave": "Salir",
     "close": "Cerrar",
     "total": "Total {n}",
@@ -1933,6 +1934,8 @@
     "horn": "Fila duplicada",
     "hero": "Héroe: el clima, los cuernos, las mejoras y Quemar no le afectan.",
     "lastMoves": "Últimas jugadas",
+    "burnWill": "Quemará: {cards}",
+    "burnNone": "Ahora no hay nada que quemar",
     "sound": "Sonido",
     "row": {
       "0": "Fila delantera",
@@ -1988,13 +1991,14 @@
       },
       "burn": {
         "name": "Quemar",
-        "text": "Destruye la(s) unidad(es) más fuerte(s) de todo el tablero, incluidas las tuyas."
+        "text": "Destruye la unidad más fuerte del rival (todas si hay empate). Los héroes están a salvo y tu lado nunca se toca."
       }
     },
     "log": {
       "play": "{who} jugó {card}",
       "pass": "{who} pasó",
-      "destroy": "Destruidas: {cards}",
+      "destroy": "{who} quemó {cards}",
+      "destroyNone": "La quema de {who} no alcanzó nada",
       "revive": "{who} revivió a {card}",
       "muster": "{who} reunió {n} más",
       "draw": "{who} robó {n}",
@@ -2275,6 +2279,7 @@
     "copied": "¡Copiado!",
     "earned": "+{n, number} tickets",
     "capReached": "Límite de tickets alcanzado, pero el jefe recibió tu daño igualmente.",
+    "bossHit": "Aun así le hiciste {n} de daño al jefe",
     "tooQuick": "Sin tickets: la partida terminó demasiado rápido.",
     "newBest": "¡Nuevo récord de la semana!",
     "rankLine": "#{rank} de {players} esta semana",

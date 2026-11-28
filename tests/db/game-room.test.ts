@@ -192,7 +192,9 @@ describe('boss of the week', () => {
     const saved = rows![0]
     await admin.from('bosses').update({ hp: 10000000, defeated_at: null, secret_at: null }).eq('week_start', saved.week_start)
     const p = await newPlayer()
-    for (let i = 0; i < 5; i++) await finish(p, await played(p, 'friend'), 'win')
+    for (let i = 0; i < 4; i++) await finish(p, await played(p, 'friend'), 'win')
+    // the capped match still tells the player what it hit the boss for
+    expect((await finish(p, await played(p, 'friend'), 'win')).data).toMatchObject({ earned: 0, bossDamage: 15 })
     expect(await tickets(p)).toBe(60)
     expect((await weekly(p)).mine).toBe(75)
     await admin.from('boss_hits').delete().eq('week_start', saved.week_start).eq('player_id', p.userId)

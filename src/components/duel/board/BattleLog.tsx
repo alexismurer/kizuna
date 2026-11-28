@@ -17,7 +17,7 @@ export function useSay(names: string[], side: Side) {
       case "pass":
         return t("log.pass", { who: who(e.side) });
       case "destroy":
-        return t("log.destroy", { cards: e.cards.join(", ") });
+        return e.cards.length ? t("log.destroy", { who: who(e.side), cards: e.cards.join(", ") }) : t("log.destroyNone", { who: who(e.side) });
       case "revive":
         return t("log.revive", { who: who(e.side), card: e.card });
       case "muster":

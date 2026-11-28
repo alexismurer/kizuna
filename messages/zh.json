@@ -1924,6 +1924,7 @@
     "rematch": "再来一局",
     "tickets": "+{n} 张票券",
     "noTickets": "本场比赛没有票券：比赛太短，或你已达到今日上限。",
+    "bossHit": "你仍对首领造成了 {n} 点伤害",
     "leave": "离开",
     "close": "关闭",
     "total": "总计 {n}",
@@ -1933,6 +1934,8 @@
     "horn": "该排翻倍",
     "hero": "英雄：不受天气、号角、增益和焚烧影响。",
     "lastMoves": "最近的出牌",
+    "burnWill": "将焚烧：{cards}",
+    "burnNone": "现在没有可焚烧的目标",
     "sound": "声音",
     "row": {
       "0": "前排",
@@ -1988,13 +1991,14 @@
       },
       "burn": {
         "name": "焚烧",
-        "text": "摧毁全场最强的单位，包括你自己的。"
+        "text": "摧毁对手最强的单位（并列时全部摧毁）。英雄不受影响，你这边永远不会被波及。"
       }
     },
     "log": {
       "play": "{who}打出了{card}",
       "pass": "{who}跳过了",
-      "destroy": "已摧毁：{cards}",
+      "destroy": "{who}焚烧了{cards}",
+      "destroyNone": "{who}的焚烧没有命中目标",
       "revive": "{who}复活了{card}",
       "muster": "{who}又集结了{n}张",
       "draw": "{who}抽了{n}张",
@@ -2275,6 +2279,7 @@
     "copied": "已复制！",
     "earned": "+{n, number} 奖券",
     "capReached": "奖券已达上限，但你对首领的伤害照样计入。",
+    "bossHit": "你仍对首领造成了 {n} 点伤害",
     "tooQuick": "没有奖券：这局结束得太快了。",
     "newBest": "本周新纪录！",
     "rankLine": "本周 {players} 人中第 {rank} 名",

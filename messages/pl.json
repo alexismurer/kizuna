@@ -1924,6 +1924,7 @@
     "rematch": "Rewanż",
     "tickets": "+{n} żetonów",
     "noTickets": "Brak żetonów za ten mecz: był zbyt krótki albo osiągnięto dzisiejszy limit.",
+    "bossHit": "Mimo to zadałeś(-aś) bossowi {n} obrażeń",
     "leave": "Wyjdź",
     "close": "Zamknij",
     "total": "Razem {n}",
@@ -1933,6 +1934,8 @@
     "horn": "Rząd podwojony",
     "hero": "Bohater: pogoda, rogi, wzmocnienia i Podpalenie go nie dotyczą.",
     "lastMoves": "Ostatnie ruchy",
+    "burnWill": "Spłonie: {cards}",
+    "burnNone": "Teraz nie ma czego spalić",
     "sound": "Dźwięk",
     "row": {
       "0": "Pierwszy rząd",
@@ -1988,13 +1991,14 @@
       },
       "burn": {
         "name": "Podpalenie",
-        "text": "Niszczy najsilniejsze jednostki na całej planszy, także twoje."
+        "text": "Niszczy najsilniejszą jednostkę przeciwnika (przy remisie wszystkie). Bohaterowie są bezpieczni, a twoja strona nigdy nie obrywa."
       }
     },
     "log": {
       "play": "{who} zagrał(a) {card}",
       "pass": "{who} spasował(a)",
-      "destroy": "Zniszczone: {cards}",
+      "destroy": "{who} spalił(a) {cards}",
+      "destroyNone": "Podpalenie gracza {who} nic nie trafiło",
       "revive": "{who} wskrzesił(a) {card}",
       "muster": "{who} zebrał(a) jeszcze {n}",
       "draw": "{who} dobrał(a) {n}",
@@ -2275,6 +2279,7 @@
     "copied": "Skopiowano!",
     "earned": "+{n, number} biletów",
     "capReached": "Limit biletów osiągnięty, ale boss i tak oberwał od ciebie.",
+    "bossHit": "Mimo to zadałeś(-aś) bossowi {n} obrażeń",
     "tooQuick": "Brak biletów: gra skończyła się za szybko.",
     "newBest": "Nowy rekord tygodnia!",
     "rankLine": "#{rank} z {players} w tym tygodniu",

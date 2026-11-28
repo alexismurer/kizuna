@@ -1924,6 +1924,7 @@
     "rematch": "Revanche",
     "tickets": "+{n} Tickets",
     "noTickets": "Keine Tickets für dieses Match: Es war zu kurz, oder du hast das heutige Limit erreicht.",
+    "bossHit": "Du hast dem Boss trotzdem {n} Schaden zugefügt",
     "leave": "Verlassen",
     "close": "Schließen",
     "total": "Gesamt {n}",
@@ -1933,6 +1934,8 @@
     "horn": "Reihe verdoppelt",
     "hero": "Held: Wetter, Hörner, Boni und Brand wirken nicht auf ihn.",
     "lastMoves": "Letzte Züge",
+    "burnWill": "Verbrennt: {cards}",
+    "burnNone": "Gerade nichts zu verbrennen",
     "sound": "Ton",
     "row": {
       "0": "Vorderreihe",
@@ -1988,13 +1991,14 @@
       },
       "burn": {
         "name": "Brand",
-        "text": "Zerstört die stärkste(n) Einheit(en) auf dem ganzen Feld, auch deine eigenen."
+        "text": "Zerstört die stärkste Einheit des Gegners (bei Gleichstand alle). Helden sind sicher, deine Seite bleibt unberührt."
       }
     },
     "log": {
       "play": "{who} hat {card} gespielt",
       "pass": "{who} hat gepasst",
-      "destroy": "Zerstört: {cards}",
+      "destroy": "{who} hat {cards} verbrannt",
+      "destroyNone": "Der Brand von {who} hat nichts getroffen",
       "revive": "{who} hat {card} wiederbelebt",
       "muster": "{who} hat {n} weitere gesammelt",
       "draw": "{who} hat {n} gezogen",
@@ -2275,6 +2279,7 @@
     "copied": "Kopiert!",
     "earned": "+{n, number} Tickets",
     "capReached": "Ticket-Limit erreicht, aber der Boss hat deinen Schaden trotzdem abbekommen.",
+    "bossHit": "Du hast dem Boss trotzdem {n} Schaden zugefügt",
     "tooQuick": "Keine Tickets: Das Spiel war zu schnell vorbei.",
     "newBest": "Neuer Wochenrekord!",
     "rankLine": "Platz {rank} von {players} diese Woche",
